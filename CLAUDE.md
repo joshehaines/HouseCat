@@ -131,6 +131,7 @@ Where the spec is silent, these are set in `Tuning.swift` and HouseCatCore (tune
 - Closed rooms preview what they become: each room type's window and a few of its own catalogue pieces under the veil (`roomStyles` in `assets/rooms/houses.json`). Tap a closed room to see what opening it takes, and open it with Beans when the level is reached (`RoomRules.availability`, `roomOpened`).
 - Care is in: Feed (top bar) sends the cat to its bowl with the `feed.*` line; a tap on the cat is a pet (a heart and a purr; six in a row and every cat but Velcro walks off, `pet.*` lines from `CareLines`). Settled for 25 s, the cat picks its next activity from the behaviour table and goes (activities are not saved: they are not game state).
 - Sound (App/Audio, AAC from assets/audio by `tools/app-assets/build_app_audio.sh`): the door, the greeting's meow from its line pack, the purr at the rub, crickets after dusk, birds at dawn, the fire, placing furniture. Ambient session: it mixes with music and respects the silent switch.
+- Debug builds can try another home from the scheme's environment: `HOUSECAT_HOME=cottage` (any `HouseStyle`) and `HOUSECAT_BIOME=coast` (any `Biome`); only the London terrace's city exteriors are bundled, so others go straight to the house view.
 - Command-line screenshot runs: launch with `SIMCTL_CHILD_HOUSECAT_SKIP_STORE=1` (no StoreKit, so no sandbox sign-in prompt) and, in Debug builds, `SIMCTL_CHILD_HOUSECAT_SCREEN=decorate|upstairs|feed|pet`.
 
 ## Known gaps after milestone 1

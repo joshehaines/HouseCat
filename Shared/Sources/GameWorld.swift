@@ -15,8 +15,25 @@ enum GameWorld {
 
     /// The player's home until onboarding records one: the London terrace in the city, London time, seasons on Auto.
     enum DemoHome {
-        static let house = HouseStyle.londonTerrace
-        static let biome = Biome.city
+        /// Debug builds can try another home: HOUSECAT_HOME=cottage, HOUSECAT_BIOME=coast (scheme environment).
+        static let house: HouseStyle = {
+            #if DEBUG
+                if let name = ProcessInfo.processInfo.environment["HOUSECAT_HOME"], let style = HouseStyle(rawValue: name) {
+                    return style
+                }
+            #endif
+            return .londonTerrace
+        }()
+
+        static let biome: Biome = {
+            #if DEBUG
+                if let name = ProcessInfo.processInfo.environment["HOUSECAT_BIOME"], let biome = Biome(rawValue: name) {
+                    return biome
+                }
+            #endif
+            return .city
+        }()
+
         static let timeZone = TimeZone(identifier: "Europe/London") ?? .current
         static let southernHemisphere = false
         static let season = SeasonSetting.auto

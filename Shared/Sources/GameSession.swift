@@ -17,12 +17,13 @@ final class GameSession {
     private let store: EventStore?
     private(set) var log: SaveLog
 
-    private init() {
+    /// - Parameter store: the save; nil uses the App Group store when the app is entitled to it (the widget
+    ///   reads the same save), else the app's container. Tests pass an in-memory store.
+    init(store: EventStore? = nil) {
         content = GameWorld.content
         rules = (try? content?.rulesContext()) ?? RulesContext()
-        // In the App Group when the app is entitled to it (the widget reads the same save), else in the app's container.
-        store = (try? EventStore()) ?? (try? EventStore(inMemory: true))
-        log = (try? store?.load()) ?? SaveLog()
+        self.store = store ?? (try? EventStore()) ?? (try? EventStore(inMemory: true))
+        log = (try? self.store?.load()) ?? SaveLog()
         if log.events.isEmpty, log.snapshot == nil {
             seedDemoHousehold()
         }

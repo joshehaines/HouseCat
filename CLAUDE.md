@@ -24,6 +24,7 @@ A painterly 2D pet game. Every visit starts outside the player's home in real we
 - Build/run/screenshot: XcodeBuildMCP tools in the iPhone and iPad simulators (Josh tests in the simulators, no physical device yet; widgets, Live Activities and the Watch app all run in simulators too)
 - Core tests: `cd Packages/HouseCatCore && swift test` (every package under `Packages/` has its own `swift test`)
 - StoreKit tests: `xcodebuild test -project HouseCat.xcodeproj -scheme HouseCat -destination 'platform=iOS Simulator,name=iPhone 18 Pro' -derivedDataPath ~/Library/Developer/Xcode/DerivedData/HouseCat-CLI -collect-test-diagnostics never` (the app skips StoreKit at launch when it hosts tests, so `SKTestSession` can load the configuration first)
+- If a StoreKit test hangs (usually the outfit purchase) the simulator is holding a stale sandbox sign-in prompt from a command-line launch: `xcrun simctl shutdown <udid> && xcrun simctl boot <udid>` and run again.
 - Regenerate the StoreKit configuration after changing outfits, sets or seasons: `python3 -I tools/store/build_storekit.py`
 - Format and lint: `swiftformat .` then `swiftlint`
 - App art after changing what the game draws (SETS in the script) or any master it uses: `python3 -I tools/app-assets/build_app_art.py` (standard library and `sips`)

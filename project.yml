@@ -111,6 +111,8 @@ targets:
       - target: HouseCat
       - package: HouseCatCore
       - package: HouseCatStore
+      - package: HouseCatGame
+      - package: HouseCatModels
       - sdk: StoreKitTest.framework
     settings:
       base:

@@ -100,6 +100,18 @@ final class GameSession {
         return Arrival(greeting: greeting, choice: BehaviourTable.choose(context, rng: &brain), mood: mood)
     }
 
+    // MARK: Decorating
+
+    /// Records a change made in decorate mode (the scene already checked it with PlacementRules).
+    func record(_ change: RoomScene.DecorateChange, in room: RoomID = .living) {
+        switch change {
+        case let .moved(placementID, x, y, facing):
+            append(.itemMoved(placementID: placementID, room: room, x: x, y: y, facing: facing), at: now())
+        case let .stored(placementID):
+            append(.itemStored(placementID: placementID), at: now())
+        }
+    }
+
     // MARK: The demo household
 
     /// Until onboarding exists: a household with Midnight, the free living-room furniture of the demo

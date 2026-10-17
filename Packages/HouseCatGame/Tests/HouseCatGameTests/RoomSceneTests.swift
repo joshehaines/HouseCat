@@ -123,8 +123,8 @@ private func run(_ director: CatDirector, seconds: Double, step: Double = 1.0 / 
     let world = try World()
     let room = world.room()
     #expect(Set(room.furniture.keys) == Set(world.model.items.map(\.id)))
-    #expect(room.world.childNode(withName: "window") != nil)
-    #expect(room.world.childNode(withName: "door") != nil)
+    #expect(room.world.childNode(withName: "//window") != nil)
+    #expect(room.world.childNode(withName: "//door") != nil)
     #expect(room.furniture["living_fireplace"]?.children.contains { $0.name == "fx.fire" } == true)
 }
 

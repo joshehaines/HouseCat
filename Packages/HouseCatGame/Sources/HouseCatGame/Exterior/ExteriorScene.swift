@@ -38,7 +38,7 @@ public final class ExteriorScene: SKScene {
         self.model = model
         super.init(size: size)
         scaleMode = .resizeFill
-        backgroundColor = Self.color(Tuning.Sky.bottom[model.sky])
+        backgroundColor = Sky.color(Tuning.Sky.bottom[model.sky])
         camera = cameraNode
         addChild(cameraNode)
         build()
@@ -54,7 +54,7 @@ public final class ExteriorScene: SKScene {
 
     private func build() {
         // The sky hangs off the camera, so the push moves past it.
-        skyNode.texture = Self.gradient(top: Tuning.Sky.top[model.sky], bottom: Tuning.Sky.bottom[model.sky])
+        skyNode.texture = Sky.texture(model.sky)
         skyNode.zPosition = -100
         cameraNode.addChild(skyNode)
 
@@ -113,55 +113,31 @@ public final class ExteriorScene: SKScene {
         return shader
     }
 
-    private static func color(_ rgb: [Double]?) -> SKColor {
-        let c = rgb ?? [1, 1, 1]
-        return SKColor(red: c[0], green: c[1], blue: c[2], alpha: 1)
-    }
-
-    /// A vertical two-colour gradient as a small texture, stretched over the view.
-    private static func gradient(top: [Double]?, bottom: [Double]?) -> SKTexture {
-        let space = CGColorSpaceCreateDeviceRGB(), height = 256
-        guard let ctx = CGContext(
-            data: nil,
-            width: 2,
-            height: height,
-            bitsPerComponent: 8,
-            bytesPerRow: 0,
-            space: space,
-            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
-        ),
-            let gradient = CGGradient(colorsSpace: space, colors: [color(bottom).cgColor, color(top).cgColor] as CFArray, locations: [0, 1])
-        else { return SKTexture() }
-        ctx.drawLinearGradient(gradient, start: .zero, end: CGPoint(x: 0, y: height), options: [])
-        guard let image = ctx.makeImage() else { return SKTexture() }
-        return SKTexture(cgImage: image)
-    }
-
     // MARK: Framing
 
     override public func didChangeSize(_: CGSize) {
         layout()
     }
 
-    /// In portrait the house fills the width and the code sky runs above the painting; in landscape the
-    /// painting fills the width, shown from a little below its top (Tuning.Exterior).
+    /// Covers the view with the painting, but never so far that the house's band (the middle of the painting,
+    /// Tuning.Exterior.focusWidth × focusHeight) is cropped; where the painting then falls short, the code sky
+    /// shows above it. Works for the square and the wide paintings in any orientation.
     private func layout() {
         guard size.width > 0, size.height > 0, !entering else { return }
         cameraNode.position = CGPoint(x: size.width / 2, y: size.height / 2)
         cameraNode.setScale(1)
         skyNode.size = size
         let painted = art.paintedSize(model.scene + ".jpg")
-        guard painted.width > 0 else { return }
-        let scale: CGFloat, bottom: CGFloat
-        if size.height >= size.width {
-            scale = size.width / (painted.width * CGFloat(Tuning.Exterior.portraitWidthShare))
-            bottom = 0
-        } else {
-            scale = size.width / painted.width
-            bottom = min(0, size.height - (1 - CGFloat(Tuning.Exterior.landscapeTopCrop)) * painted.height * scale)
-        }
+        guard painted.width > 0, painted.height > 0 else { return }
+        let focusWidth = CGFloat(Tuning.Exterior.focusWidth), focusHeight = CGFloat(Tuning.Exterior.focusHeight)
+        var scale = max(size.width / painted.width, size.height / painted.height)
+        scale = min(scale, size.width / (painted.width * focusWidth), size.height / (painted.height * focusHeight))
+        let width = painted.width * scale, height = painted.height * scale
+        // Centred on the house; when taller than the view, kept covering it top and bottom; when shorter, on the ground.
+        var bottom = (size.height - height) / 2
+        bottom = height >= size.height ? min(0, max(size.height - height, bottom)) : 0
         for node in [painting, doorOpen] {
-            node.size = CGSize(width: painted.width * scale, height: painted.height * scale)
+            node.size = CGSize(width: width, height: height)
             node.position = CGPoint(x: size.width / 2, y: bottom)
             for case let glass as SKSpriteNode in node.children {
                 glass.size = node.size

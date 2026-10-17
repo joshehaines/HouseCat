@@ -14,6 +14,9 @@ final class Visit {
     private(set) var scene: SKScene
     /// The cat's greeting, shown for a few seconds once the room is on screen.
     private(set) var greeting: String?
+    /// Decorate mode, and the piece picked up in it.
+    private(set) var decorating = false
+    private(set) var selected: UUID?
     @ObservationIgnored private var arrival: GameSession.Arrival?
     @ObservationIgnored private let size: CGSize
     @ObservationIgnored private var room: SKScene?
@@ -55,6 +58,22 @@ final class Visit {
         }
     }
 
+    /// Decorate mode on or off (the room must be on screen).
+    func toggleDecorating() {
+        guard let house = scene as? RoomScene else { return }
+        decorating.toggle()
+        greeting = nil
+        house.setDecorating(decorating)
+    }
+
+    func turnSelection() {
+        (scene as? RoomScene)?.turnSelection()
+    }
+
+    func storeSelection() {
+        (scene as? RoomScene)?.storeSelection()
+    }
+
     /// Tap to dismiss the greeting early.
     func dismissGreeting() {
         greeting = nil
@@ -67,7 +86,11 @@ final class Visit {
         // The arrival is recorded when the room is built: that is when the save learns you came home.
         let arrival = GameSession.shared.arrive()
         self.arrival = arrival
-        let built = GameWorld.roomScene(size: size, arrival: arrival)
+        let built = GameWorld.roomScene(size: size, state: GameSession.shared.state(at: GameSession.shared.now()), arrival: arrival)
+        if let house = built as? RoomScene {
+            house.onDecorate = { GameSession.shared.record($0) }
+            house.onSelect = { [weak self] in self?.selected = $0 }
+        }
         room = built
         return built
     }

@@ -1,0 +1,335 @@
+{
+ "note": "Where each home's six rooms sit for the house view: storey 0 is the ground floor, `at` is the room's back corner on the house grid in cells (u along the right wall, v along the left), `outdoor` marks the garden, balcony or terrace. Rooms of one storey that touch share a cut-down partition. `grounds` is the surface the house stands on in each biome. `stairs` is the staircase up: the room it stands in, its corner cell and the wall it runs along (R or L).",
+ "houses": {
+  "london_terrace": {
+   "rooms": [
+    {
+     "room": "living",
+     "storey": 0,
+     "at": [0, 0]
+    },
+    {
+     "room": "kitchen",
+     "storey": 0,
+     "at": [10, 0]
+    },
+    {
+     "room": "garden",
+     "storey": 0,
+     "at": [0, 10],
+     "outdoor": true
+    },
+    {
+     "room": "bedroom",
+     "storey": 1,
+     "at": [0, 0]
+    },
+    {
+     "room": "study",
+     "storey": 1,
+     "at": [10, 0]
+    },
+    {
+     "room": "attic",
+     "storey": 2,
+     "at": [0, 0]
+    }
+   ],
+   "stairs": {
+    "room": "kitchen",
+    "at": [6, 0],
+    "facing": "R"
+   }
+  },
+  "georgian_townhouse": {
+   "rooms": [
+    {
+     "room": "living",
+     "storey": 0,
+     "at": [0, 0]
+    },
+    {
+     "room": "kitchen",
+     "storey": 0,
+     "at": [0, 10]
+    },
+    {
+     "room": "garden",
+     "storey": 0,
+     "at": [10, 0],
+     "outdoor": true
+    },
+    {
+     "room": "bedroom",
+     "storey": 1,
+     "at": [0, 0]
+    },
+    {
+     "room": "study",
+     "storey": 1,
+     "at": [0, 10]
+    },
+    {
+     "room": "attic",
+     "storey": 2,
+     "at": [0, 0]
+    }
+   ],
+   "stairs": {
+    "room": "kitchen",
+    "at": [0, 6],
+    "facing": "L"
+   }
+  },
+  "cottage": {
+   "rooms": [
+    {
+     "room": "living",
+     "storey": 0,
+     "at": [0, 0]
+    },
+    {
+     "room": "kitchen",
+     "storey": 0,
+     "at": [10, 0]
+    },
+    {
+     "room": "bedroom",
+     "storey": 0,
+     "at": [0, 10]
+    },
+    {
+     "room": "garden",
+     "storey": 0,
+     "at": [10, 10],
+     "outdoor": true
+    },
+    {
+     "room": "study",
+     "storey": 1,
+     "at": [10, 0]
+    },
+    {
+     "room": "attic",
+     "storey": 1,
+     "at": [0, 0]
+    }
+   ],
+   "stairs": {
+    "room": "kitchen",
+    "at": [6, 0],
+    "facing": "R"
+   }
+  },
+  "mansion_flat": {
+   "rooms": [
+    {
+     "room": "living",
+     "storey": 0,
+     "at": [0, 0]
+    },
+    {
+     "room": "kitchen",
+     "storey": 0,
+     "at": [10, 0]
+    },
+    {
+     "room": "bedroom",
+     "storey": 0,
+     "at": [0, 10]
+    },
+    {
+     "room": "study",
+     "storey": 0,
+     "at": [10, 10]
+    },
+    {
+     "room": "garden",
+     "storey": 0,
+     "at": [20, 0],
+     "outdoor": true
+    },
+    {
+     "room": "attic",
+     "storey": 1,
+     "at": [0, 0]
+    }
+   ],
+   "stairs": {
+    "room": "study",
+    "at": [6, 0],
+    "facing": "R"
+   }
+  },
+  "newbuild_balcony": {
+   "rooms": [
+    {
+     "room": "living",
+     "storey": 0,
+     "at": [0, 0]
+    },
+    {
+     "room": "kitchen",
+     "storey": 0,
+     "at": [0, 10]
+    },
+    {
+     "room": "bedroom",
+     "storey": 0,
+     "at": [10, 0]
+    },
+    {
+     "room": "study",
+     "storey": 0,
+     "at": [10, 10]
+    },
+    {
+     "room": "garden",
+     "storey": 0,
+     "at": [0, 20],
+     "outdoor": true
+    },
+    {
+     "room": "attic",
+     "storey": 1,
+     "at": [0, 0]
+    }
+   ],
+   "stairs": {
+    "room": "bedroom",
+    "at": [6, 0],
+    "facing": "R"
+   }
+  },
+  "houseboat": {
+   "rooms": [
+    {
+     "room": "living",
+     "storey": 0,
+     "at": [0, 0]
+    },
+    {
+     "room": "kitchen",
+     "storey": 0,
+     "at": [10, 0]
+    },
+    {
+     "room": "bedroom",
+     "storey": 0,
+     "at": [20, 0]
+    },
+    {
+     "room": "garden",
+     "storey": 0,
+     "at": [0, 10],
+     "outdoor": true
+    },
+    {
+     "room": "study",
+     "storey": 1,
+     "at": [0, 0]
+    },
+    {
+     "room": "attic",
+     "storey": 1,
+     "at": [10, 0]
+    }
+   ],
+   "stairs": {
+    "room": "kitchen",
+    "at": [6, 0],
+    "facing": "R"
+   }
+  },
+  "mediterranean_rooftop": {
+   "rooms": [
+    {
+     "room": "living",
+     "storey": 0,
+     "at": [0, 0]
+    },
+    {
+     "room": "kitchen",
+     "storey": 0,
+     "at": [10, 0]
+    },
+    {
+     "room": "bedroom",
+     "storey": 0,
+     "at": [0, 10]
+    },
+    {
+     "room": "study",
+     "storey": 1,
+     "at": [0, 0]
+    },
+    {
+     "room": "garden",
+     "storey": 1,
+     "at": [10, 0],
+     "outdoor": true
+    },
+    {
+     "room": "attic",
+     "storey": 2,
+     "at": [0, 0]
+    }
+   ],
+   "stairs": {
+    "room": "kitchen",
+    "at": [6, 0],
+    "facing": "R"
+   }
+  },
+  "woodland_cabin": {
+   "rooms": [
+    {
+     "room": "living",
+     "storey": 0,
+     "at": [0, 0]
+    },
+    {
+     "room": "kitchen",
+     "storey": 0,
+     "at": [0, 10]
+    },
+    {
+     "room": "bedroom",
+     "storey": 0,
+     "at": [10, 0]
+    },
+    {
+     "room": "garden",
+     "storey": 0,
+     "at": [10, 10],
+     "outdoor": true
+    },
+    {
+     "room": "study",
+     "storey": 1,
+     "at": [0, 0]
+    },
+    {
+     "room": "attic",
+     "storey": 1,
+     "at": [10, 0]
+    }
+   ],
+   "stairs": {
+    "room": "bedroom",
+    "at": [6, 0],
+    "facing": "R"
+   }
+  }
+ },
+ "grounds": {
+  "city": "floor_garden_brick_paving",
+  "coast": "floor_garden_gravel",
+  "countryside": "floor_garden_lawn",
+  "mountain": "floor_garden_lawn",
+  "forest": "floor_garden_lawn",
+  "desert": "floor_garden_gravel",
+  "tropical": "floor_garden_lawn",
+  "snow": "floor_garden_flagstones"
+ }
+}

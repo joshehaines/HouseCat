@@ -22,21 +22,24 @@ public struct RoomModel: Decodable, Sendable {
         public var v: Double
         public var facing: String
         public var up: Double?
+        /// The save's placement this is (PlacedItem), so decorating can move it; nil in hand-made layouts.
+        public var placementID: UUID?
 
-        public init(id: String, u: Double, v: Double, facing: String, up: Double? = nil) {
+        public init(id: String, u: Double, v: Double, facing: String, up: Double? = nil, placementID: UUID? = nil) {
             self.id = id
             self.u = u
             self.v = v
             self.facing = facing
             self.up = up
+            self.placementID = placementID
         }
     }
 
     /// Wallpaper and floor surface ids (Content/catalogue.json surfaces).
     public var wall: String
     public var floor: String
-    public var window: Opening
-    public var door: Opening
+    public var window: Opening?
+    public var door: Opening?
     /// Painted scale of furniture by the reference room it was painted in.
     public var refScale: [String: Double]
     /// Per-item scale tweaks, set by eye.

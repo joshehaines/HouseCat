@@ -32,24 +32,23 @@ private func painting(_ scene: ExteriorScene) throws -> SKSpriteNode {
 }
 
 @MainActor
-@Test func inPortraitTheHouseFillsTheWidthAndTheSkyRunsAbove() throws {
-    let scene = try exterior(CGSize(width: 393, height: 852))
+@Test(arguments: [CGSize(width: 852, height: 393), CGSize(width: 1366, height: 1024), CGSize(width: 1024, height: 1366)])
+func theHouseIsNeverCroppedAndTheGroundReachesTheBottom(size: CGSize) throws {
+    let scene = try exterior(size)
     let node = try painting(scene)
-    #expect(abs(node.size.width - 393 / Tuning.Exterior.portraitWidthShare) < 0.5)
-    #expect(node.position.y == 0)
-    #expect(node.size.height < 852)
-}
-
-@MainActor
-@Test func inLandscapeThePaintingFillsTheWidthCroppedFromTheTop() throws {
-    let scene = try exterior(CGSize(width: 1366, height: 1024))
-    let node = try painting(scene)
-    #expect(node.size.width == 1366)
-    // The painting reaches the bottom of the view and hides only its top band.
-    #expect(node.position.y <= 0)
-    #expect(node.position.y + node.size.height >= 1024)
-    let hiddenTop = node.position.y + node.size.height - 1024
-    #expect(hiddenTop <= node.size.height * Tuning.Exterior.landscapeTopCrop + 0.5)
+    let band = CGRect(
+        x: node.position.x - node.size.width * Tuning.Exterior.focusWidth / 2,
+        y: node.position.y + node.size.height * (1 - Tuning.Exterior.focusHeight) / 2,
+        width: node.size.width * Tuning.Exterior.focusWidth,
+        height: node.size.height * Tuning.Exterior.focusHeight
+    )
+    #expect(band.minX >= -0.5 && band.maxX <= size.width + 0.5, "house band fits across at \(size)")
+    #expect(band.minY >= -0.5 && band.maxY <= size.height + 0.5, "house band fits up and down at \(size)")
+    #expect(node.position.y <= 0.5, "the painting reaches the bottom of the view")
+    // As big as it can be: one of the limits binds.
+    let coversWidth = node.size.width >= size.width - 0.5
+    let bandBinds = abs(band.width - size.width) < 1 || abs(band.height - size.height) < 1
+    #expect(coversWidth || bandBinds)
 }
 
 @MainActor

@@ -564,6 +564,22 @@
    "ref": "grey",
    "scale": 0.6
   },
+  "furniture/living/furn_living_stairs_L.png": {
+   "master": [
+    430,
+    880
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_stairs_R.png": {
+   "master": [
+    430,
+    880
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
   "furniture/living/furn_living_windowseat_L.png": {
    "master": [
     756,
@@ -650,6 +666,146 @@
    ],
    "scale": 0.4
   },
+  "rooms/floors/floor_attic_chalk_blue.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_attic_dusty_boards.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_attic_rough_pine.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_attic_sisal.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_attic_whitewash.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_bedroom_chevron.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_bedroom_cream_carpet.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_bedroom_pale_oak.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_bedroom_rose_carpet.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_bedroom_white_boards.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_garden_brick_paving.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_garden_decking.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_garden_flagstones.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_garden_gravel.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_garden_lawn.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_kitchen_checker.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_kitchen_encaustic.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_kitchen_mint_lino.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_kitchen_quarry.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_kitchen_slate.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
   "rooms/floors/floor_living_herringbone.png": {
    "master": [
     2048,
@@ -679,6 +835,62 @@
    "scale": 0.25
   },
   "rooms/floors/floor_living_walnut_boards.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_pass_firstlight_green_tiles.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_pass_housewarming_birch.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_pass_midwinter_cherry.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_study_cork.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_study_dark_parquet.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_study_green_carpet.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_study_grey_boards.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_study_worn_oak.png": {
    "master": [
     2048,
     2048
@@ -790,6 +1002,146 @@
    ],
    "scale": 1.0
   },
+  "rooms/walls/wall_attic_bluegrey_shiplap.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/walls/wall_attic_faded_rose.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/walls/wall_attic_pine_planks.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/walls/wall_attic_rough_plaster.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/walls/wall_attic_whitewashed_brick.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/walls/wall_bedroom_blush_floral.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/walls/wall_bedroom_lavender_stripe.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/walls/wall_bedroom_oat_linen.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/walls/wall_bedroom_starry_dusk.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/walls/wall_bedroom_toile_blue.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/walls/wall_garden_drystone.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/walls/wall_garden_ivy_trellis.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/walls/wall_garden_old_brick.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/walls/wall_garden_picket_sky.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/walls/wall_garden_privet_hedge.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/walls/wall_kitchen_cream_beadboard.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/walls/wall_kitchen_lemon_print.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/walls/wall_kitchen_metro_tiles.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/walls/wall_kitchen_mint_gingham.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/walls/wall_kitchen_terracotta_tiles.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
   "rooms/walls/wall_living_cream_wash.png": {
    "master": [
     2048,
@@ -825,6 +1177,62 @@
    ],
    "scale": 0.25
   },
+  "rooms/walls/wall_pass_firstlight_primrose_daffodil.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/walls/wall_pass_housewarming_apricot_houses.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/walls/wall_pass_midwinter_tartan.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/walls/wall_study_antique_map.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/walls/wall_study_forest_green.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/walls/wall_study_navy_pinstripe.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/walls/wall_study_oak_panel.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/walls/wall_study_ochre_linen.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
   "rooms/windows/window_sash.png": {
    "master": [
     1436,
@@ -841,169 +1249,169 @@
   },
   "world/scenes/london_terrace_city_autumn.jpg": {
    "master": [
-    2048,
-    2048
+    2688,
+    1520
    ],
    "scale": 0.75
   },
   "world/scenes/london_terrace_city_autumn_dooropen.jpg": {
    "master": [
-    2048,
-    2048
+    2688,
+    1520
    ],
    "scale": 0.75
   },
   "world/scenes/london_terrace_city_autumn_dooropen_glass.png": {
    "master": [
-    2048,
-    2048
+    2688,
+    1520
    ],
    "scale": 0.75
   },
   "world/scenes/london_terrace_city_autumn_dooropen_land.png": {
    "master": [
-    2048,
-    2048
+    2688,
+    1520
    ],
    "scale": 0.75
   },
   "world/scenes/london_terrace_city_autumn_glass.png": {
    "master": [
-    2048,
-    2048
+    2688,
+    1520
    ],
    "scale": 0.75
   },
   "world/scenes/london_terrace_city_autumn_land.png": {
    "master": [
-    2048,
-    2048
+    2688,
+    1520
    ],
    "scale": 0.75
   },
   "world/scenes/london_terrace_city_spring.jpg": {
    "master": [
-    2048,
-    2048
+    2688,
+    1520
    ],
    "scale": 0.75
   },
   "world/scenes/london_terrace_city_spring_dooropen.jpg": {
    "master": [
-    2048,
-    2048
+    2688,
+    1520
    ],
    "scale": 0.75
   },
   "world/scenes/london_terrace_city_spring_dooropen_glass.png": {
    "master": [
-    2048,
-    2048
+    2688,
+    1520
    ],
    "scale": 0.75
   },
   "world/scenes/london_terrace_city_spring_dooropen_land.png": {
    "master": [
-    2048,
-    2048
+    2688,
+    1520
    ],
    "scale": 0.75
   },
   "world/scenes/london_terrace_city_spring_glass.png": {
    "master": [
-    2048,
-    2048
+    2688,
+    1520
    ],
    "scale": 0.75
   },
   "world/scenes/london_terrace_city_spring_land.png": {
    "master": [
-    2048,
-    2048
+    2688,
+    1520
    ],
    "scale": 0.75
   },
   "world/scenes/london_terrace_city_summer.jpg": {
    "master": [
-    2048,
-    2048
+    2688,
+    1520
    ],
    "scale": 0.75
   },
   "world/scenes/london_terrace_city_summer_dooropen.jpg": {
    "master": [
-    2048,
-    2048
+    2688,
+    1520
    ],
    "scale": 0.75
   },
   "world/scenes/london_terrace_city_summer_dooropen_glass.png": {
    "master": [
-    2048,
-    2048
+    2688,
+    1520
    ],
    "scale": 0.75
   },
   "world/scenes/london_terrace_city_summer_dooropen_land.png": {
    "master": [
-    2048,
-    2048
+    2688,
+    1520
    ],
    "scale": 0.75
   },
   "world/scenes/london_terrace_city_summer_glass.png": {
    "master": [
-    2048,
-    2048
+    2688,
+    1520
    ],
    "scale": 0.75
   },
   "world/scenes/london_terrace_city_summer_land.png": {
    "master": [
-    2048,
-    2048
+    2688,
+    1520
    ],
    "scale": 0.75
   },
   "world/scenes/london_terrace_city_winter.jpg": {
    "master": [
-    2048,
-    2048
+    2688,
+    1520
    ],
    "scale": 0.75
   },
   "world/scenes/london_terrace_city_winter_dooropen.jpg": {
    "master": [
-    2048,
-    2048
+    2688,
+    1520
    ],
    "scale": 0.75
   },
   "world/scenes/london_terrace_city_winter_dooropen_glass.png": {
    "master": [
-    2048,
-    2048
+    2688,
+    1520
    ],
    "scale": 0.75
   },
   "world/scenes/london_terrace_city_winter_dooropen_land.png": {
    "master": [
-    2048,
-    2048
+    2688,
+    1520
    ],
    "scale": 0.75
   },
   "world/scenes/london_terrace_city_winter_glass.png": {
    "master": [
-    2048,
-    2048
+    2688,
+    1520
    ],
    "scale": 0.75
   },
   "world/scenes/london_terrace_city_winter_land.png": {
    "master": [
-    2048,
-    2048
+    2688,
+    1520
    ],
    "scale": 0.75
   },

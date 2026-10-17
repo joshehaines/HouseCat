@@ -289,13 +289,11 @@ public enum Tuning {
         public static let glassLit = [1.0, 0.8, 0.5]
     }
 
-    /// How the exterior painting is framed: in portrait the house fills the width and the code sky
-    /// runs above it; in landscape the painting fills the width, cropped from the top.
+    /// How the exterior painting is framed: it covers the view, except that the house's band in the
+    /// middle of the painting (this share of its width and height) is never cropped.
     public enum Exterior {
-        /// In portrait, this share of the painting's width fills the screen.
-        public static let portraitWidthShare = 0.7
-        /// In landscape, the painting is shown from this far down (the top is sky and distance).
-        public static let landscapeTopCrop = 0.15
+        public static let focusWidth = 0.42
+        public static let focusHeight = 0.8
         /// How far the camera pushes into the door, and when the room starts to fade in.
         public static let pushScale = 3.2
         public static let roomFadeAt = 0.65
@@ -305,11 +303,51 @@ public enum Tuning {
         public static let roomBuildDelay = 0.4
     }
 
+    /// The house view: the room you are in with the rest of the home around it (room units unless noted).
+    public enum House {
+        /// Upper storeys are lifted clear of the one below (a room is 1080 units tall on screen).
+        public static let storeyLift = 1300.0
+        /// Draw-order bands: per storey, and per room's distance from the back within a storey.
+        public static let storeyBand = 200_000.0
+        public static let roomBand = 5000.0
+        /// Cut-down partitions, in cells, with a darker top so they read as walls seen from above.
+        public static let stubHeight = 0.35
+        public static let capWidth = 10.0
+        public static let capColor = [0.42, 0.36, 0.33]
+        /// Garden walls (hedge, fence, brick) stand this many cells high.
+        public static let gardenWallHeight = 1.6
+        /// A closed room's veil and its price label.
+        public static let veilColor = [0.12, 0.12, 0.2]
+        public static let veilAlpha = 0.55
+        public static let lockFontSize = 64.0
+        /// The staircase runs this many cells along its wall.
+        public static let stairsLength = 3.0
+        /// The ground runs this many cells out from the house, past any view's edge, a little darker than a room floor.
+        public static let groundReach = 40.0
+        public static let groundShade = 0.82
+        /// How far the view may pan past the house, and how long a drag stops it following the cat.
+        public static let margin = 200.0
+        public static let panHoldSeconds = 4.0
+    }
+
+    /// Decorating: picking up, dragging and dropping furniture.
+    public enum Decorate {
+        public static let liftScale = 1.06
+        public static let liftSeconds = 0.12
+        /// A piece being dragged draws over its neighbours.
+        public static let liftZ = 50.0
+        public static let fitColor = [0.35, 0.8, 0.45]
+        public static let blockedColor = [0.92, 0.32, 0.3]
+        public static let footprintAlpha = 0.4
+        public static let gridAlpha = 0.35
+        public static let flashSeconds = 0.6
+    }
+
     /// How a room is framed on screen.
     public enum Stage {
         /// The share of the view the room may fill.
         public static let fitWidth = 0.96
-        public static let fitHeight = 0.9
+        public static let fitHeight = 0.8
         /// Wall items without a height hang this many cells up.
         public static let wallItemHeight = 2.5
         /// On a tall screen the room is zoomed in past its width and the view follows the cat.

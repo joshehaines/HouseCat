@@ -23,7 +23,11 @@ public extension RoomScene {
     @discardableResult
     func addCat(rig: PuppetRig, at u: CGFloat, _ v: CGFloat, pose: CatPose) -> CatDirector {
         let cat = CatNode(art: art, rig: rig, height: CGFloat(model.catHeight))
-        world.addChild(cat)
+        if let room = activeRoom {
+            room.addChild(cat)
+        } else {
+            world.addChild(cat)
+        }
         let director = CatDirector(cat: cat, grid: grid)
         director.place(at: grid.floor(u, v))
         cat.settle(into: pose, duration: 0)

@@ -302,3 +302,11 @@ public struct MinigamesFile: Codable, Sendable {
     public var passPointsPerPlay: Int
     public var games: [Game]
 }
+
+public extension CatalogueFile {
+    /// A room's starting wallpaper or floor until the player picks one: its first free surface by id
+    /// (SPEC: five per room, three of each free).
+    func defaultSurface(_ kind: Surface.Kind, in room: RoomID) -> Surface? {
+        surfaces.filter { $0.room == room.rawValue && $0.kind == kind && $0.pool == .free }.min { $0.id < $1.id }
+    }
+}

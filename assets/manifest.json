@@ -21,7 +21,8 @@
   "cat/poses": "cat_<set>_<pose>.png per coat (plain, tuxedo, locket, socks): whole-cat paintings for the resting poses the puppet cannot make well: sit (side, tqfront, front, back), loaf (side, tqfront), sleep_curl, stretch_side. sit_back is the widget pose (the cat looking out of the window). Use the puppet for moving, these for resting; cross-fade between them.",
   "cat/custom/base": "The cat builder art, painted WHITE: parts/cat_<body>_<view>_<part>.png (8 bodies: short_slim, short_chunky, long_slim, long_chunky, persian, siamese, mainecoon, sphynx; parts as cat/base), poses/cat_<body>_<pose>[__<ears>|__bobtail|__<ears>_bobtail].png, expr/head_<stdnoear|persian|siamese|mainecoon|sphynx|std>_<view>_<expression>.png (stdnoear = the standard bodies, ears come from the parts), ears/ear_<rounded|folded|tufted|oriental>_<view>_<far|near>.png, tails/bobtail_<view>_<up|curl|low>.png, whole/cat_<breed>_<view>_whole.png (assembly reference for the breeds). Tint in code with the coat recipe; catbuilder.json has the data and presets.",
   "cat/custom/mask": "masks/<mask>/<same path as the base sprite>: 8-bit greyscale, same size as the sprite. tabby_mackerel, tabby_classic, spotted, tortie, colourpoint: 255 = pattern colour. white_mitts, white_tuxedo, white_bicolour, white_van: 255 = the fur stays white. features (RGB): R = iris of the eye on the image left (the only eye in a side view), G = the other iris, B = nose leather. A missing mask = 0 everywhere.",
-  "fx": "Animated effects. Loops: fire, candle, steam, smoke, water_trickle, water_ripple, butterfly (fx_<name>_NN.png frames in one cell size + a _strip.png). Sprites: robin poses, reaction icons. fx/fx.json has frame counts, cell sizes and anchors; fx/anchors.json (also copied into each furniture entry as motion_fx) says where flames and steam attach on the moving furniture."
+  "fx": "Animated effects. Loops: fire, candle, steam, smoke, water_trickle, water_ripple, butterfly (fx_<name>_NN.png frames in one cell size + a _strip.png). Sprites: robin poses, reaction icons. fx/fx.json has frame counts, cell sizes and anchors; fx/anchors.json (also copied into each furniture entry as motion_fx) says where flames and steam attach on the moving furniture.",
+  "fixture": "Parts of the house drawn by the house view, not catalogue items (the staircase); placed by assets/rooms/houses.json."
  },
  "files": {
   "furniture/attic/furn_attic_boxes_L.png": {
@@ -95187,6 +95188,32 @@
    "license": "CC0",
    "note": "real cat recording, trimmed and levelled",
    "class": "audio"
+  },
+  "furniture/living/furn_living_stairs_R.png": {
+   "class": "fixture",
+   "room": "living",
+   "item": "stairs",
+   "facing": "R",
+   "job_id": "eb723191-1b94-47e4-9760-5135d0aa829e",
+   "ref_room": "grey",
+   "px": [
+    430,
+    880
+   ],
+   "note": "Fixed staircase drawn by the house view (assets/rooms/houses.json `stairs`), not a catalogue item."
+  },
+  "furniture/living/furn_living_stairs_L.png": {
+   "class": "fixture",
+   "room": "living",
+   "item": "stairs",
+   "facing": "L",
+   "job_id": "eb723191-1b94-47e4-9760-5135d0aa829e",
+   "ref_room": "grey",
+   "px": [
+    430,
+    880
+   ],
+   "note": "Fixed staircase drawn by the house view (assets/rooms/houses.json `stairs`), not a catalogue item. Mirrored from the R painting (the L painting's runner was lost in the cut-out)."
   }
  }
 }

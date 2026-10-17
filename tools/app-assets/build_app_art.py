@@ -23,9 +23,10 @@ SETS = [
     ('cat/base/short_slim/cat_short_slim_front_*.png', 0.5),
     # The painted resting poses the puppet hands over to.
     ('cat/poses/plain/cat_short_slim_*.png', 0.6),
-    # The living room: every wallpaper and floor, the light maps, a window and a door.
-    ('rooms/walls/wall_living_*.png', 0.25),
-    ('rooms/floors/floor_living_*.png', 0.25),
+    # The light maps, a window and a door.
+    # Every room's wallpapers and floors: the house view shows the rooms around the one you are in.
+    ('rooms/walls/wall_*.png', 0.25),
+    ('rooms/floors/floor_*.png', 0.25),
     ('rooms/lightmaps/lm_*.png', 1.0),
     ('rooms/windows/window_sash*.png', 0.4),
     ('rooms/doors/door_panelled_cream*.png', 0.4),
@@ -37,7 +38,7 @@ SETS = [
     ('world/scenes/london_terrace_city_*', 0.75),
     ('world/terrain/terr_city_*.png', 0.4),
 ]
-DATA = ['cat/rig.json', 'rooms/layout_living_demo.json', 'fx/anchors.json', 'fx/fx.json', 'world/scenes/scenes.json']
+DATA = ['cat/rig.json', 'rooms/layout_living_demo.json', 'rooms/houses.json', 'fx/anchors.json', 'fx/fx.json', 'world/scenes/scenes.json']
 
 
 def size(path):

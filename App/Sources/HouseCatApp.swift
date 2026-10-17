@@ -1,4 +1,5 @@
 import HouseCatCore
+import HouseCatGame
 import HouseCatStore
 import HouseCatUI
 import SpriteKit
@@ -15,16 +16,29 @@ struct HouseCatApp: App {
         WindowGroup {
             RoomView(scene: visit.scene)
                 .ignoresSafeArea()
-                .overlay(alignment: .bottom) {
+                .overlay(alignment: .top) {
+                    // At the top in landscape: the cat runs to the bottom edge to rub.
                     if let line = visit.greeting {
                         GreetingBubble(line)
-                            .padding(.horizontal, 20)
-                            .padding(.bottom, 28)
-                            .transition(.move(edge: .bottom).combined(with: .opacity))
+                            .padding(.horizontal, 90)
+                            .padding(.top, 16)
+                            .transition(.move(edge: .top).combined(with: .opacity))
                             .onTapGesture { visit.dismissGreeting() }
                     }
                 }
                 .animation(.easeOut(duration: 0.3), value: visit.greeting)
+                .overlay(alignment: .topLeading) {
+                    if visit.scene is RoomScene {
+                        DecorateBar(
+                            decorating: visit.decorating,
+                            hasSelection: visit.selected != nil,
+                            toggle: { visit.toggleDecorating() },
+                            turn: { visit.turnSelection() },
+                            store: { visit.storeSelection() }
+                        )
+                        .padding(20)
+                    }
+                }
                 .overlay(alignment: .topTrailing) {
                     Button {
                         showShop = true
@@ -61,7 +75,9 @@ struct HouseCatApp: App {
     private static func makeStore() -> (any EntitlementService)? {
         // When the app hosts the StoreKit tests, StoreKit must not start before the
         // test session loads Store/HouseCat.storekit, or every request goes to the sandbox.
-        guard ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil, let folder = Bundle.main.url(
+        // HOUSECAT_SKIP_STORE: launches from the command line for screenshots, where StoreKit would ask for a sandbox sign-in.
+        let environment = ProcessInfo.processInfo.environment
+        guard environment["XCTestConfigurationFilePath"] == nil, environment["HOUSECAT_SKIP_STORE"] == nil, let folder = Bundle.main.url(
             forResource: "Content",
             withExtension: nil
         ),

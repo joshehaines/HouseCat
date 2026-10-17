@@ -1,9 +1,10 @@
 """Build the review page: housecat_art_book.html (thumbnails embedded as WebP data URIs, sounds as MP3)."""
-import base64, io, json, os, glob, subprocess, html
+import base64, io, json, os, glob, subprocess, html, shutil, tempfile
 from PIL import Image
 
 D = 'deliver/assets'
-OUT = '/tmp/claude-0/-home-claude/674a40b2-d13e-5b2d-967e-aed88158a1f9/scratchpad/housecat_art_book.html'
+# Run from a folder holding deliver/assets and cat/ (both the repo's assets), previews/ and gallery.css.
+OUT = os.environ.get('HOUSECAT_ART_BOOK', 'housecat_art_book.html')
 TOTAL = [0]
 
 def uri(path, max_px=200, q=78, crop=True, jpg=False):
@@ -102,7 +103,7 @@ from tint import render as _render, load_masks as _lm, COLOURS as _C, EYES as _E
 def tint_uri(rel, look, pattern=None, white=None, max_px=190):
     base = Image.open(f'{D}/cat/custom/base/{rel}')
     im = _render(base, look, _lm(f'{D}/cat/custom', rel, pattern, white))
-    tmp = '/tmp/claude-0/-home-claude/674a40b2-d13e-5b2d-967e-aed88158a1f9/scratchpad/_t.png'; im.save(tmp)
+    tmp = os.path.join(tempfile.gettempdir(), '_housecat_tint.png'); im.save(tmp)
     return uri(tmp, max_px)
 def L(coat, eyes='amber', nose='pink', pc=None, eyes2=None):
     return {'coat': _C[coat], 'pattern_colour': _C[pc] if pc else (0, 0, 0), 'eye_left': _E[eyes],
@@ -174,12 +175,18 @@ man = json.load(open(f'{D}/manifest.json'))['files']
 rows = []
 for f in sorted(glob.glob(f'{D}/audio/*.wav')):
     k = os.path.basename(f)[:-4]
-    mp3 = subprocess.run(['ffmpeg', '-v', 'error', '-i', f, '-ac', '1', '-b:a', '56k', '-f', 'mp3', '-'], capture_output=True).stdout
+    if shutil.which('ffmpeg'):
+        mp3 = subprocess.run(['ffmpeg', '-v', 'error', '-i', f, '-ac', '1', '-b:a', '56k', '-f', 'mp3', '-'], capture_output=True).stdout
+        mime = 'audio/mpeg'
+    else:  # macOS without ffmpeg: AAC from the built-in afconvert
+        out = os.path.join(tempfile.gettempdir(), '_housecat_audio.m4a')
+        subprocess.run(['afconvert', '-f', 'm4af', '-d', 'aac', '-c', '1', '-b', '56000', f, out], check=True)
+        mp3, mime = open(out, 'rb').read(), 'audio/mp4'
     TOTAL[0] += len(mp3)
     meta = man.get(f'audio/{k}.wav', {})
     tag = ('<span class="pill rec">recording</span>' if 'recording' in meta.get('source', '') else '') + ('<span class="pill">loop</span>' if meta.get('loop') else '')
     rows.append(f'<li><div class="an"><span class="mono">{k}</span>{tag}<small>{html.escape(meta.get("note", ""))}</small></div>'
-                f'<audio controls preload="none" src="data:audio/mpeg;base64,{base64.b64encode(mp3).decode()}"></audio></li>')
+                f'<audio controls preload="none" src="data:{mime};base64,{base64.b64encode(mp3).decode()}"></audio></li>')
 S.append(section('audio', 'Sound', 'The cat voices and purr are real recordings (public domain and CC0, credited in the files). Interface sounds and ambience are made in code.', '<ul class="audio">' + ''.join(rows) + '</ul>')); nav.append(('audio', 'Sound'))
 
 EYE = [

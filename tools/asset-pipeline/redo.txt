@@ -1,0 +1,6 @@
+study:desklamp_L  light pool on floor
+attic:cobweb_R/L  too thin/white: make standalone on black, luminance as alpha
+garden:sunpatch, attic:skylightpatch  convert to additive glow sprites in post
+wall:study_navy_pinstripe  uneven stripe colour across the tile - regenerate
+garden boundary strips (fence/hedge/wall with sky above, horizontal tiling) - generate on magenta
+light:midday, light:evening  rate-limited, resubmit

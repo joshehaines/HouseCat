@@ -1,0 +1,32 @@
+# Art log — accepted generations
+
+All generated in Higgsfield (model gpt_image_2_5, quality high, 2k) unless noted. Job IDs are the Higgsfield generation IDs; raw PNGs download from the gallery.
+
+| Date | Asset | Job / Element ID | Notes |
+|---|---|---|---|
+| 2026-10-16 | Style direction (room palette) — test E, Mediterranean pastel | 146f85a0-4e76-48fa-8f66-22ca29bbbc5e | Master palette direction: high-key, saturated, violet-blue shadows |
+| 2026-10-16 | Alt palettes kept for reference — D (cobalt/terracotta terrace), F (jewel-tone dusk) | efb7acaf-1796-4aea-b678-db982de8cd51, dcff2847-ac31-45e6-8e85-3eb79745eb59 | D = terrace palette; F = dusk/night states |
+| 2026-10-16 | Mascot approved (in-room, slim body, round head) | 9e4615cc-5e47-4b77-b869-9fcded637dfd | Approved by Josh; the floppy ear in this image is dropped |
+| 2026-10-16 | **Mascot master plate** (side view, both ears up, cream background) | 3553b9b6-f365-401a-bae2-690ec15397a8 | THE reference for every cat asset |
+| 2026-10-16 | Reference Element "soot-mascot-master" | a6c6a6a8-dd4b-49e1-8edd-67a42497d9f1 | Use `<<<a6c6a6a8-dd4b-49e1-8edd-67a42497d9f1>>>` in prompts for nano_banana_pro / seedream / kling3_0; use `image_references` with the master job for gpt_image_2_5 |
+| 2026-10-16 | Turnaround sheet — front, 3/4, side, back | 80aec50a-eb9f-4a5a-a35e-db3a41a6c6ad | Source for the three puppet views |
+| 2026-10-16 | Expression sheet — neutral, slow-blink, sulky, surprised, sleepy, judging | 8bcc4b97-bc01-43ad-b472-e68be1bc7e25 | Maps 1:1 to the six eye states and the widget moods |
+| 2026-10-17 | Grey reference room (2:1 isometric corner, 10 × 10, walls 5 high) | media d8ab3b05-db3b-4ef7-b3c5-5a0cf5d17e07 | Every furniture item is painted into this room, then cut out |
+| 2026-10-17 | Light paintings → light maps: morning, midday, evening, overcast, night | 6d9499ee-88e6-4487-8407-f93c3d55ea91, 08219ee0-672a-40be-8bcc-1d5ecc55bd79, af47bdbe-c92e-4e2f-b3df-c29ce857a5fe, ae24e820-527d-4c63-b378-01a53bae878d, f0053034-ced8-42a2-a2f9-67078a0f3739 | Sampled per plane into `rooms/lightmaps` |
+| 2026-10-17 | Turnarounds per body set: short slim, short chunky, long slim, long chunky | 438f4f24-1e9c-47bb-96b3-0c2f3ed77603, 679f6b4c-d14a-4a83-8d42-853a0ac72abc, 0e6ff9e9-38e2-434c-9ab8-761bb243c9e2, 8d0fb7fa-da04-4c25-bcea-e24241b666d5 | Reference for every parts sheet of that set |
+| 2026-10-17 | Marking references: tuxedo, locket, socks | 436f2183-27b1-486c-9802-9ab8013f3d56, 5187da2d-c665-4a8c-8bba-a55e97cceca4, 7f62ac62-fdab-4c4b-b467-c315f8932c4d | Second reference for the 48 marked parts sheets |
+| 2026-10-17 | Map textures (sea, land), weather sheet, cobweb | 11f1f8a3-2cdb-437a-9549-f57e532f5a8c, d5e551b7-44b8-4b2c-aae4-780e778a8704, b6574a80-28a6-4a62-bb47-8d6b525f3642, 5e200880-d216-46c2-8f2a-1352befefc36 | |
+| 2026-10-17 | Full production run (≈480 generations): 113 furniture items × R/L, 31 wallpapers, 32 floors, 8 windows, 8 doors, 5 garden strips, 8 houses + variants, 32 terrains, 16 cat parts sheets, 48 marked parts sheets, expressions, ears, whiskers, 23 outfits, 60 gifts, 30 icons, 16 widget frames | every job ID and result URL: `tools/asset-pipeline/pipeline_state.json` | Delivered to `assets/`; inventory in docs/ASSETS.md |
+| 2026-10-17 | Audio, 28 sounds | procedural (`tools/asset-pipeline/synth.py`) | Not Higgsfield: its audio tool is speech-only. Cat vocals are placeholders |
+| 2026-10-17 | App icon concepts (sill peek chosen; house window, round window, roof as alternates) | 740eab15-c9d6-45e3-a07d-e724016d4a54 (chosen), 8a3c9924-aa95-482c-bd75-cc9ac77ea228, 6fd27e39-ce72-4f11-98ec-faa92aa964ff, 79e90b44-3b91-4625-b59c-cc7f795293c6 | Background layer plate 917f2667-d8cd-4644-869a-a0f8218d543e |
+| 2026-10-17 | Logo lockups, horizontal and stacked (light), and their dark versions | cdcb145c-3b22-4c3d-a550-ad067897415a, 8f3616e4-83d0-4391-9921-ab80f2d4c87e, 6d14643c-771a-45c8-9d31-4c40340e9bf3, 02d4e9c7-064a-4f6f-b82e-b4648faf1316 | Name not yet trademark-checked |
+| 2026-10-17 | Pose sheets, 4 body sets × 4 coats (8 poses each) | `tools/asset-pipeline/pipeline_state.json` (pose:*) | Cut to `cat/poses` |
+| 2026-10-17 | Motion effects: fire, candle, steam, water, smoke, robin, butterfly, reactions | `pipeline_state.json` (fx:*) | Cut to `fx/` |
+| 2026-10-17 | Cat sound recordings (Wikimedia Commons, PD/CC0) | sources and authors in `assets/audio/CREDITS_cat_sounds.json` | Replace the synthesised stand-ins |
+| 2026-10-17 | **Cat builder** (Josh: full customisation): white bases for the 4 body sets, 4 breed bodies (Persian, Siamese, Maine Coon, Sphynx) with turnarounds, parts, poses and expressions, 4 swap ear shapes, bobtails; 9 pattern / white-marking overlays per sheet; ear and bobtail variants of the standard pose sheets; ear-less standard expression heads | `pipeline_state.json` (cust:*), 88 white sheets + 520 overlays | Cut to `cat/custom` (872 sprites, 7,988 masks); tinted in code with the coat recipe (SPEC.md); 16 ear+bobtail pose sheets are composites (`combos.py`) |
+
+## Rules
+- Cat-builder sheets are edits of the black sheet they replace, painted white (STYLE.md); pattern overlays are edits of the white sheet with the pattern in dark charcoal.
+- Every new cat asset references the master plate (job 3553b9b6) or its set's turnaround and repeats the identity line: slim graceful body, long slim legs, long curling tail, round head a touch large for the body, big round amber eyes with a white catchlight, small simplified nose, subtle mouth line, both ears upright, dark navy-brown fur with a warm lit edge.
+- Every environment asset references the style test E (job 146f85a0) for palette and brushwork; furniture is painted in the grey reference room (media d8ab3b05).
+- Accept only what passes STYLE.md on first glance; log the ID here on acceptance.

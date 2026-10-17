@@ -1,0 +1,7687 @@
+{
+ "w_parts_short_slim_front": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.92,
+    "coverage": 0.537
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.907,
+    "coverage": 0.278
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.9,
+    "coverage": 0.486
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.908,
+    "coverage": 0.303
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.881,
+    "coverage": 0.296
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.946,
+    "coverage": 0.448
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.955,
+    "coverage": 0.25
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.95,
+    "coverage": 0.194
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.958,
+    "coverage": 0.65
+   }
+  }
+ },
+ "w_parts_short_slim_side": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.937,
+    "coverage": 0.561
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.929,
+    "coverage": 0.285
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.936,
+    "coverage": 0.417
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.891,
+    "coverage": 0.397
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.882,
+    "coverage": 0.307
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.973,
+    "coverage": 0.497
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.954,
+    "coverage": 0.211
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.942,
+    "coverage": 0.147
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.978,
+    "coverage": 0.646
+   }
+  }
+ },
+ "w_parts_short_slim_tqback": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.955,
+    "coverage": 0.511
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.921,
+    "coverage": 0.291
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.93,
+    "coverage": 0.374
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.902,
+    "coverage": 0.361
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.899,
+    "coverage": 0.301
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.961,
+    "coverage": 0.43
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.964,
+    "coverage": 0.207
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.954,
+    "coverage": 0.135
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.956,
+    "coverage": 0.652
+   }
+  }
+ },
+ "w_parts_short_slim_tqfront": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.955,
+    "coverage": 0.564
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.927,
+    "coverage": 0.275
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.907,
+    "coverage": 0.438
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.894,
+    "coverage": 0.348
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.879,
+    "coverage": 0.324
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.96,
+    "coverage": 0.367
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.97,
+    "coverage": 0.234
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.956,
+    "coverage": 0.179
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.968,
+    "coverage": 0.646
+   }
+  }
+ },
+ "w_pose_short_slim": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.953,
+    "coverage": 0.323
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.916,
+    "coverage": 0.238
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.92,
+    "coverage": 0.396
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.902,
+    "coverage": 0.215
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.878,
+    "coverage": 0.346
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.954,
+    "coverage": 0.322
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.941,
+    "coverage": 0.171
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.968,
+    "coverage": 0.184
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.961,
+    "coverage": 0.801
+   }
+  }
+ },
+ "w_expr_tqfront": {
+  "kind": "expr",
+  "pieces": 6,
+  "expected": 6,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.944,
+    "coverage": 0.464
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.952,
+    "coverage": 0.12
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.945,
+    "coverage": 0.213
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.95,
+    "coverage": 0.144
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.928,
+    "coverage": 0.168
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.968,
+    "coverage": 0.586
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.912,
+    "coverage": 0.312
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.972,
+    "coverage": 0.357
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.973,
+    "coverage": 0.8
+   }
+  }
+ },
+ "w_bobtail": {
+  "kind": "bobtail",
+  "pieces": 12,
+  "expected": 12,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.913,
+    "coverage": 0.435
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.869,
+    "coverage": 0.369
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.879,
+    "coverage": 0.592
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.863,
+    "coverage": 0.48
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.858,
+    "coverage": 0.361
+   }
+  }
+ },
+ "w_ears_folded": {
+  "kind": "ears",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.889,
+    "coverage": 0.638
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.902,
+    "coverage": 0.256
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.875,
+    "coverage": 0.401
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.855,
+    "coverage": 0.36
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.92,
+    "coverage": 0.765
+   }
+  }
+ },
+ "w_ears_oriental": {
+  "kind": "ears",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.91,
+    "coverage": 0.563
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.92,
+    "coverage": 0.197
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.907,
+    "coverage": 0.379
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.904,
+    "coverage": 0.27
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.931,
+    "coverage": 0.462
+   }
+  }
+ },
+ "w_ears_rounded": {
+  "kind": "ears",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.89,
+    "coverage": 0.544
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.923,
+    "coverage": 0.243
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.878,
+    "coverage": 0.52
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.908,
+    "coverage": 0.325
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.895,
+    "coverage": 0.612
+   }
+  }
+ },
+ "w_ears_tufted": {
+  "kind": "ears",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.885,
+    "coverage": 0.476
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.86,
+    "coverage": 0.327
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.857,
+    "coverage": 0.388
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.847,
+    "coverage": 0.267
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.869,
+    "coverage": 0.258
+   }
+  }
+ },
+ "w_expr_front": {
+  "kind": "expr",
+  "pieces": 6,
+  "expected": 6,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.913,
+    "coverage": 0.475
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.941,
+    "coverage": 0.141
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.941,
+    "coverage": 0.239
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.905,
+    "coverage": 0.174
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.916,
+    "coverage": 0.212
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.935,
+    "coverage": 0.586
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.706,
+    "coverage": 0.294
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.924,
+    "coverage": 0.335
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.924,
+    "coverage": 0.909
+   }
+  }
+ },
+ "w_expr_mainecoon_front": {
+  "kind": "expr",
+  "pieces": 6,
+  "expected": 6,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.911,
+    "coverage": 0.411
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.933,
+    "coverage": 0.156
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.935,
+    "coverage": 0.27
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.93,
+    "coverage": 0.2
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.885,
+    "coverage": 0.345
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.935,
+    "coverage": 0.584
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.87,
+    "coverage": 0.292
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.935,
+    "coverage": 0.261
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.95,
+    "coverage": 0.801
+   }
+  }
+ },
+ "w_expr_mainecoon_side": {
+  "kind": "expr",
+  "pieces": 6,
+  "expected": 6,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.949,
+    "coverage": 0.331
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.936,
+    "coverage": 0.169
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.932,
+    "coverage": 0.288
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.926,
+    "coverage": 0.234
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.914,
+    "coverage": 0.297
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.96,
+    "coverage": 0.529
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.944,
+    "coverage": 0.245
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.948,
+    "coverage": 0.182
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.958,
+    "coverage": 0.857
+   }
+  }
+ },
+ "w_expr_mainecoon_tqfront": {
+  "kind": "expr",
+  "pieces": 6,
+  "expected": 6,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.909,
+    "coverage": 0.435
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.942,
+    "coverage": 0.139
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.938,
+    "coverage": 0.261
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.927,
+    "coverage": 0.206
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.918,
+    "coverage": 0.199
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.924,
+    "coverage": 0.569
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.919,
+    "coverage": 0.227
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.945,
+    "coverage": 0.299
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.963,
+    "coverage": 0.865
+   }
+  }
+ },
+ "w_expr_persian_front": {
+  "kind": "expr",
+  "pieces": 6,
+  "expected": 6,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.929,
+    "coverage": 0.345
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.945,
+    "coverage": 0.159
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.934,
+    "coverage": 0.3
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.934,
+    "coverage": 0.189
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.915,
+    "coverage": 0.257
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.942,
+    "coverage": 0.504
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.954,
+    "coverage": 0.281
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.859,
+    "coverage": 0.316
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.96,
+    "coverage": 0.844
+   }
+  }
+ },
+ "w_expr_persian_side": {
+  "kind": "expr",
+  "pieces": 6,
+  "expected": 6,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.926,
+    "coverage": 0.48
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.931,
+    "coverage": 0.203
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.927,
+    "coverage": 0.328
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.923,
+    "coverage": 0.249
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.902,
+    "coverage": 0.278
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.954,
+    "coverage": 0.516
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.933,
+    "coverage": 0.26
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.94,
+    "coverage": 0.269
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.97,
+    "coverage": 0.877
+   }
+  }
+ },
+ "w_expr_persian_tqfront": {
+  "kind": "expr",
+  "pieces": 6,
+  "expected": 6,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.914,
+    "coverage": 0.371
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.934,
+    "coverage": 0.197
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.931,
+    "coverage": 0.319
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.939,
+    "coverage": 0.213
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.919,
+    "coverage": 0.221
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.964,
+    "coverage": 0.528
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.808,
+    "coverage": 0.224
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.913,
+    "coverage": 0.323
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.965,
+    "coverage": 0.878
+   }
+  }
+ },
+ "w_expr_siamese_front": {
+  "kind": "expr",
+  "pieces": 6,
+  "expected": 6,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.941,
+    "coverage": 0.534
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.949,
+    "coverage": 0.132
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.947,
+    "coverage": 0.161
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.946,
+    "coverage": 0.15
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.912,
+    "coverage": 0.247
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.939,
+    "coverage": 0.62
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.945,
+    "coverage": 0.467
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.84,
+    "coverage": 0.466
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.954,
+    "coverage": 0.852
+   }
+  }
+ },
+ "w_expr_siamese_side": {
+  "kind": "expr",
+  "pieces": 6,
+  "expected": 6,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.938,
+    "coverage": 0.563
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.949,
+    "coverage": 0.153
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.919,
+    "coverage": 0.318
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.939,
+    "coverage": 0.162
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.889,
+    "coverage": 0.394
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.967,
+    "coverage": 0.484
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.915,
+    "coverage": 0.39
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.966,
+    "coverage": 0.283
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.973,
+    "coverage": 0.832
+   }
+  }
+ },
+ "w_expr_siamese_tqfront": {
+  "kind": "expr",
+  "pieces": 6,
+  "expected": 6,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.929,
+    "coverage": 0.618
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.961,
+    "coverage": 0.119
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.955,
+    "coverage": 0.15
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.936,
+    "coverage": 0.208
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.905,
+    "coverage": 0.246
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.956,
+    "coverage": 0.648
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.915,
+    "coverage": 0.433
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.935,
+    "coverage": 0.385
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.96,
+    "coverage": 0.806
+   }
+  }
+ },
+ "w_expr_side": {
+  "kind": "expr",
+  "pieces": 6,
+  "expected": 6,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.945,
+    "coverage": 0.428
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.946,
+    "coverage": 0.21
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.914,
+    "coverage": 0.312
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.949,
+    "coverage": 0.212
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.867,
+    "coverage": 0.569
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.958,
+    "coverage": 0.436
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.972,
+    "coverage": 0.243
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.759,
+    "coverage": 0.227
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.974,
+    "coverage": 0.81
+   }
+  }
+ },
+ "w_expr_sphynx_front": {
+  "kind": "expr",
+  "pieces": 6,
+  "expected": 6,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.91,
+    "coverage": 0.588
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.968,
+    "coverage": 0.106
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.925,
+    "coverage": 0.171
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.952,
+    "coverage": 0.13
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.939,
+    "coverage": 0.15
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.972,
+    "coverage": 0.653
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.95,
+    "coverage": 0.564
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.866,
+    "coverage": 0.443
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.97,
+    "coverage": 0.839
+   }
+  }
+ },
+ "w_expr_sphynx_tqfront": {
+  "kind": "expr",
+  "pieces": 6,
+  "expected": 6,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.95,
+    "coverage": 0.511
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.966,
+    "coverage": 0.12
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.963,
+    "coverage": 0.17
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.958,
+    "coverage": 0.151
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.939,
+    "coverage": 0.184
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.966,
+    "coverage": 0.663
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.968,
+    "coverage": 0.431
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.971,
+    "coverage": 0.249
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.965,
+    "coverage": 0.827
+   }
+  }
+ },
+ "w_parts_long_chunky_front": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.923,
+    "coverage": 0.461
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.913,
+    "coverage": 0.25
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.918,
+    "coverage": 0.367
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.891,
+    "coverage": 0.297
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.885,
+    "coverage": 0.311
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.947,
+    "coverage": 0.371
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.956,
+    "coverage": 0.211
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.963,
+    "coverage": 0.219
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.962,
+    "coverage": 0.822
+   }
+  }
+ },
+ "w_parts_long_chunky_side": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.961,
+    "coverage": 0.502
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.903,
+    "coverage": 0.309
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.914,
+    "coverage": 0.428
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.904,
+    "coverage": 0.316
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.878,
+    "coverage": 0.353
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.958,
+    "coverage": 0.402
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.963,
+    "coverage": 0.166
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.965,
+    "coverage": 0.138
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.965,
+    "coverage": 0.631
+   }
+  }
+ },
+ "w_parts_long_chunky_tqback": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.934,
+    "coverage": 0.568
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.916,
+    "coverage": 0.269
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.896,
+    "coverage": 0.437
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.905,
+    "coverage": 0.324
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.89,
+    "coverage": 0.353
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.964,
+    "coverage": 0.35
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.972,
+    "coverage": 0.166
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.969,
+    "coverage": 0.12
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.964,
+    "coverage": 0.647
+   }
+  }
+ },
+ "w_parts_long_chunky_tqfront": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.953,
+    "coverage": 0.525
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.924,
+    "coverage": 0.247
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.939,
+    "coverage": 0.387
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.903,
+    "coverage": 0.315
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.89,
+    "coverage": 0.255
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.939,
+    "coverage": 0.453
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.963,
+    "coverage": 0.196
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.946,
+    "coverage": 0.141
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.97,
+    "coverage": 0.62
+   }
+  }
+ },
+ "w_parts_long_slim_front": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.928,
+    "coverage": 0.519
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.914,
+    "coverage": 0.271
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.914,
+    "coverage": 0.385
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.899,
+    "coverage": 0.27
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.895,
+    "coverage": 0.3
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.961,
+    "coverage": 0.32
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.953,
+    "coverage": 0.183
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.96,
+    "coverage": 0.154
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.968,
+    "coverage": 0.655
+   }
+  }
+ },
+ "w_parts_long_slim_side": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.953,
+    "coverage": 0.549
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.924,
+    "coverage": 0.254
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.928,
+    "coverage": 0.422
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.906,
+    "coverage": 0.301
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.889,
+    "coverage": 0.313
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.962,
+    "coverage": 0.377
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.967,
+    "coverage": 0.242
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.969,
+    "coverage": 0.167
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.972,
+    "coverage": 0.647
+   }
+  }
+ },
+ "w_parts_long_slim_tqback": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.949,
+    "coverage": 0.567
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.909,
+    "coverage": 0.267
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.931,
+    "coverage": 0.417
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.894,
+    "coverage": 0.29
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.9,
+    "coverage": 0.283
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.948,
+    "coverage": 0.468
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.953,
+    "coverage": 0.221
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.963,
+    "coverage": 0.148
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.961,
+    "coverage": 0.677
+   }
+  }
+ },
+ "w_parts_long_slim_tqfront": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.938,
+    "coverage": 0.569
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.918,
+    "coverage": 0.249
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.916,
+    "coverage": 0.374
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.874,
+    "coverage": 0.355
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.886,
+    "coverage": 0.304
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.96,
+    "coverage": 0.438
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.966,
+    "coverage": 0.237
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.963,
+    "coverage": 0.211
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.961,
+    "coverage": 0.663
+   }
+  }
+ },
+ "w_parts_mainecoon_front": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.946,
+    "coverage": 0.466
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.909,
+    "coverage": 0.269
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.886,
+    "coverage": 0.39
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.907,
+    "coverage": 0.293
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.888,
+    "coverage": 0.288
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.951,
+    "coverage": 0.32
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.92,
+    "coverage": 0.206
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.937,
+    "coverage": 0.145
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.952,
+    "coverage": 0.664
+   }
+  }
+ },
+ "w_parts_mainecoon_side": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.957,
+    "coverage": 0.512
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.914,
+    "coverage": 0.265
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.922,
+    "coverage": 0.366
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.907,
+    "coverage": 0.288
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.894,
+    "coverage": 0.277
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.951,
+    "coverage": 0.399
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.957,
+    "coverage": 0.167
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.962,
+    "coverage": 0.124
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.956,
+    "coverage": 0.653
+   }
+  }
+ },
+ "w_parts_mainecoon_tqback": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.931,
+    "coverage": 0.553
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.92,
+    "coverage": 0.281
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.902,
+    "coverage": 0.383
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.901,
+    "coverage": 0.284
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.876,
+    "coverage": 0.291
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.939,
+    "coverage": 0.317
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.943,
+    "coverage": 0.151
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.959,
+    "coverage": 0.121
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.961,
+    "coverage": 0.634
+   }
+  }
+ },
+ "w_parts_mainecoon_tqfront": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.945,
+    "coverage": 0.51
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.912,
+    "coverage": 0.276
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.911,
+    "coverage": 0.379
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.919,
+    "coverage": 0.262
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.888,
+    "coverage": 0.294
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.956,
+    "coverage": 0.393
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.96,
+    "coverage": 0.179
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.963,
+    "coverage": 0.115
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.96,
+    "coverage": 0.658
+   }
+  }
+ },
+ "w_parts_persian_front": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.946,
+    "coverage": 0.521
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.92,
+    "coverage": 0.316
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.901,
+    "coverage": 0.427
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.913,
+    "coverage": 0.305
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.898,
+    "coverage": 0.377
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.912,
+    "coverage": 0.373
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.943,
+    "coverage": 0.144
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.939,
+    "coverage": 0.171
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.965,
+    "coverage": 0.64
+   }
+  }
+ },
+ "w_parts_persian_side": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.943,
+    "coverage": 0.535
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.925,
+    "coverage": 0.355
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.919,
+    "coverage": 0.391
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.905,
+    "coverage": 0.319
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.908,
+    "coverage": 0.268
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.96,
+    "coverage": 0.371
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.963,
+    "coverage": 0.149
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.957,
+    "coverage": 0.131
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.975,
+    "coverage": 0.665
+   }
+  }
+ },
+ "w_parts_persian_tqback": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.956,
+    "coverage": 0.537
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.92,
+    "coverage": 0.273
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.916,
+    "coverage": 0.417
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.898,
+    "coverage": 0.349
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.901,
+    "coverage": 0.262
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.954,
+    "coverage": 0.35
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.953,
+    "coverage": 0.131
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.959,
+    "coverage": 0.093
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.968,
+    "coverage": 0.554
+   }
+  }
+ },
+ "w_parts_persian_tqfront": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.942,
+    "coverage": 0.493
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.923,
+    "coverage": 0.259
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.913,
+    "coverage": 0.399
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.906,
+    "coverage": 0.314
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.89,
+    "coverage": 0.566
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.954,
+    "coverage": 0.389
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.947,
+    "coverage": 0.153
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.96,
+    "coverage": 0.129
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.96,
+    "coverage": 0.651
+   }
+  }
+ },
+ "w_parts_short_chunky_front": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.933,
+    "coverage": 0.516
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.926,
+    "coverage": 0.28
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.924,
+    "coverage": 0.368
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.919,
+    "coverage": 0.299
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.873,
+    "coverage": 0.344
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.953,
+    "coverage": 0.35
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.975,
+    "coverage": 0.275
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.96,
+    "coverage": 0.172
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.976,
+    "coverage": 0.676
+   }
+  }
+ },
+ "w_parts_short_chunky_side": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.954,
+    "coverage": 0.575
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.925,
+    "coverage": 0.316
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.933,
+    "coverage": 0.423
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.895,
+    "coverage": 0.329
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.879,
+    "coverage": 0.325
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.966,
+    "coverage": 0.362
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.975,
+    "coverage": 0.19
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.97,
+    "coverage": 0.149
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.978,
+    "coverage": 0.633
+   }
+  }
+ },
+ "w_parts_short_chunky_tqback": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.949,
+    "coverage": 0.561
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.895,
+    "coverage": 0.296
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.906,
+    "coverage": 0.407
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.877,
+    "coverage": 0.327
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.888,
+    "coverage": 0.303
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.963,
+    "coverage": 0.34
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.967,
+    "coverage": 0.232
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.968,
+    "coverage": 0.16
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.97,
+    "coverage": 0.651
+   }
+  }
+ },
+ "w_parts_short_chunky_tqfront": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.945,
+    "coverage": 0.596
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.929,
+    "coverage": 0.247
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.906,
+    "coverage": 0.388
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.888,
+    "coverage": 0.319
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.879,
+    "coverage": 0.349
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.963,
+    "coverage": 0.359
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.968,
+    "coverage": 0.196
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.968,
+    "coverage": 0.169
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.971,
+    "coverage": 0.672
+   }
+  }
+ },
+ "w_parts_siamese_front": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.903,
+    "coverage": 0.627
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.886,
+    "coverage": 0.276
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.89,
+    "coverage": 0.445
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.871,
+    "coverage": 0.369
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.852,
+    "coverage": 0.496
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.946,
+    "coverage": 0.466
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.897,
+    "coverage": 0.228
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.946,
+    "coverage": 0.193
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.953,
+    "coverage": 0.642
+   }
+  }
+ },
+ "w_parts_siamese_side": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.948,
+    "coverage": 0.577
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.916,
+    "coverage": 0.312
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.917,
+    "coverage": 0.399
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.909,
+    "coverage": 0.321
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.87,
+    "coverage": 0.398
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.96,
+    "coverage": 0.552
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.952,
+    "coverage": 0.232
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.955,
+    "coverage": 0.183
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.972,
+    "coverage": 0.679
+   }
+  }
+ },
+ "w_parts_siamese_tqback": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.937,
+    "coverage": 0.579
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.904,
+    "coverage": 0.298
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.888,
+    "coverage": 0.398
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.887,
+    "coverage": 0.366
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.851,
+    "coverage": 0.36
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.941,
+    "coverage": 0.437
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.954,
+    "coverage": 0.216
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.96,
+    "coverage": 0.202
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.962,
+    "coverage": 0.659
+   }
+  }
+ },
+ "w_parts_siamese_tqfront": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.946,
+    "coverage": 0.583
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.906,
+    "coverage": 0.278
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.928,
+    "coverage": 0.43
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.877,
+    "coverage": 0.356
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.849,
+    "coverage": 0.515
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.95,
+    "coverage": 0.492
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.948,
+    "coverage": 0.228
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.959,
+    "coverage": 0.156
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.967,
+    "coverage": 0.66
+   }
+  }
+ },
+ "w_parts_sphynx_front": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.926,
+    "coverage": 0.642
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.908,
+    "coverage": 0.303
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.884,
+    "coverage": 0.503
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.882,
+    "coverage": 0.326
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.877,
+    "coverage": 0.385
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.931,
+    "coverage": 0.481
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.919,
+    "coverage": 0.277
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.929,
+    "coverage": 0.286
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.975,
+    "coverage": 0.674
+   }
+  }
+ },
+ "w_parts_sphynx_side": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.966,
+    "coverage": 0.549
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.937,
+    "coverage": 0.287
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.925,
+    "coverage": 0.458
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.916,
+    "coverage": 0.289
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.881,
+    "coverage": 0.35
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.967,
+    "coverage": 0.397
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.959,
+    "coverage": 0.303
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.958,
+    "coverage": 0.24
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.974,
+    "coverage": 0.652
+   }
+  }
+ },
+ "w_parts_sphynx_tqback": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.951,
+    "coverage": 0.571
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.92,
+    "coverage": 0.31
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.918,
+    "coverage": 0.429
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.888,
+    "coverage": 0.35
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.871,
+    "coverage": 0.308
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.961,
+    "coverage": 0.392
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.96,
+    "coverage": 0.212
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.954,
+    "coverage": 0.189
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.96,
+    "coverage": 0.652
+   }
+  }
+ },
+ "w_parts_sphynx_tqfront": {
+  "kind": "parts",
+  "pieces": 11,
+  "expected": 11,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.945,
+    "coverage": 0.595
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.909,
+    "coverage": 0.306
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.912,
+    "coverage": 0.434
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.902,
+    "coverage": 0.348
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.889,
+    "coverage": 0.321
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.943,
+    "coverage": 0.391
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.958,
+    "coverage": 0.241
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.963,
+    "coverage": 0.222
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.979,
+    "coverage": 0.674
+   }
+  }
+ },
+ "w_pose_long_chunky": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.947,
+    "coverage": 0.322
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.915,
+    "coverage": 0.252
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.92,
+    "coverage": 0.387
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.887,
+    "coverage": 0.361
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.891,
+    "coverage": 0.338
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.965,
+    "coverage": 0.329
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.952,
+    "coverage": 0.167
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.972,
+    "coverage": 0.146
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.968,
+    "coverage": 0.789
+   }
+  }
+ },
+ "w_pose_long_slim": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.945,
+    "coverage": 0.349
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.922,
+    "coverage": 0.235
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.92,
+    "coverage": 0.374
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.905,
+    "coverage": 0.312
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.873,
+    "coverage": 0.369
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.931,
+    "coverage": 0.329
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.909,
+    "coverage": 0.158
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.93,
+    "coverage": 0.13
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.954,
+    "coverage": 0.745
+   }
+  }
+ },
+ "w_pose_mainecoon": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.946,
+    "coverage": 0.33
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.907,
+    "coverage": 0.239
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.919,
+    "coverage": 0.402
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.889,
+    "coverage": 0.297
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.871,
+    "coverage": 0.352
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.935,
+    "coverage": 0.298
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.94,
+    "coverage": 0.14
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.925,
+    "coverage": 0.125
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.955,
+    "coverage": 0.792
+   }
+  }
+ },
+ "w_pose_persian": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.954,
+    "coverage": 0.311
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.923,
+    "coverage": 0.243
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.927,
+    "coverage": 0.403
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.895,
+    "coverage": 0.31
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.918,
+    "coverage": 0.761
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.956,
+    "coverage": 0.358
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.962,
+    "coverage": 0.202
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.961,
+    "coverage": 0.146
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.967,
+    "coverage": 0.741
+   }
+  }
+ },
+ "w_pose_short_chunky": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.947,
+    "coverage": 0.319
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.904,
+    "coverage": 0.337
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.923,
+    "coverage": 0.415
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.906,
+    "coverage": 0.31
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.895,
+    "coverage": 0.404
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.964,
+    "coverage": 0.373
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.967,
+    "coverage": 0.177
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.971,
+    "coverage": 0.176
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.966,
+    "coverage": 0.811
+   }
+  }
+ },
+ "w_pose_siamese": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.933,
+    "coverage": 0.344
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.909,
+    "coverage": 0.243
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.899,
+    "coverage": 0.371
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.866,
+    "coverage": 0.343
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.868,
+    "coverage": 0.369
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.924,
+    "coverage": 0.392
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.924,
+    "coverage": 0.208
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.925,
+    "coverage": 0.166
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.948,
+    "coverage": 0.805
+   }
+  }
+ },
+ "w_pose_sphynx": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.937,
+    "coverage": 0.345
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.904,
+    "coverage": 0.226
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.929,
+    "coverage": 0.392
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.888,
+    "coverage": 0.27
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.884,
+    "coverage": 0.293
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.938,
+    "coverage": 0.398
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.898,
+    "coverage": 0.234
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.945,
+    "coverage": 0.209
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.96,
+    "coverage": 0.846
+   }
+  }
+ },
+ "w_turn_mainecoon": {
+  "kind": "turn",
+  "pieces": 4,
+  "expected": 4,
+  "overlays": {}
+ },
+ "w_turn_persian": {
+  "kind": "turn",
+  "pieces": 4,
+  "expected": 4,
+  "overlays": {}
+ },
+ "w_turn_siamese": {
+  "kind": "turn",
+  "pieces": 4,
+  "expected": 4,
+  "overlays": {}
+ },
+ "w_turn_sphynx": {
+  "kind": "turn",
+  "pieces": 4,
+  "expected": 4,
+  "overlays": {}
+ },
+ "w_expr_sphynx_side": {
+  "kind": "expr",
+  "pieces": 6,
+  "expected": 6,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.943,
+    "coverage": 0.535
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.959,
+    "coverage": 0.13
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.954,
+    "coverage": 0.255
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.942,
+    "coverage": 0.223
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.929,
+    "coverage": 0.213
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.976,
+    "coverage": 0.624
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.978,
+    "coverage": 0.442
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.976,
+    "coverage": 0.381
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.975,
+    "coverage": 0.817
+   }
+  }
+ },
+ "w_expr_noear_front": {
+  "kind": "expr",
+  "pieces": 6,
+  "expected": 6,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.821,
+    "coverage": 0.448
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.845,
+    "coverage": 0.176
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.847,
+    "coverage": 0.27
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.815,
+    "coverage": 0.215
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.818,
+    "coverage": 0.251
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.849,
+    "coverage": 0.559
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.697,
+    "coverage": 0.282
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.836,
+    "coverage": 0.31
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.839,
+    "coverage": 0.882
+   }
+  }
+ },
+ "w_expr_noear_side": {
+  "kind": "expr",
+  "pieces": 6,
+  "expected": 6,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.94,
+    "coverage": 0.44
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.941,
+    "coverage": 0.239
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.912,
+    "coverage": 0.336
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.944,
+    "coverage": 0.242
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.863,
+    "coverage": 0.596
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.954,
+    "coverage": 0.424
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.97,
+    "coverage": 0.233
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.756,
+    "coverage": 0.217
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.968,
+    "coverage": 0.798
+   }
+  }
+ },
+ "w_expr_noear_tqfront": {
+  "kind": "expr",
+  "pieces": 6,
+  "expected": 6,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.715,
+    "coverage": 0.516
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.719,
+    "coverage": 0.274
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.721,
+    "coverage": 0.349
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.726,
+    "coverage": 0.287
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.701,
+    "coverage": 0.321
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.736,
+    "coverage": 0.413
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.697,
+    "coverage": 0.198
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.742,
+    "coverage": 0.246
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.74,
+    "coverage": 0.586
+   }
+  }
+ },
+ "w_pose_long_chunky__bobtail": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.912,
+    "coverage": 0.315
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.881,
+    "coverage": 0.254
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.889,
+    "coverage": 0.384
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.855,
+    "coverage": 0.367
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.858,
+    "coverage": 0.348
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.931,
+    "coverage": 0.327
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.918,
+    "coverage": 0.161
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.936,
+    "coverage": 0.143
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.93,
+    "coverage": 0.79
+   }
+  }
+ },
+ "w_pose_long_chunky__folded": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.924,
+    "coverage": 0.321
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.891,
+    "coverage": 0.272
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.9,
+    "coverage": 0.404
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.866,
+    "coverage": 0.379
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.867,
+    "coverage": 0.357
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.944,
+    "coverage": 0.316
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.929,
+    "coverage": 0.147
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.948,
+    "coverage": 0.132
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.945,
+    "coverage": 0.784
+   }
+  }
+ },
+ "w_pose_long_chunky__folded_bobtail": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.889,
+    "coverage": 0.311
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.857,
+    "coverage": 0.266
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.866,
+    "coverage": 0.398
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.831,
+    "coverage": 0.375
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.834,
+    "coverage": 0.359
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.908,
+    "coverage": 0.314
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.897,
+    "coverage": 0.144
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.913,
+    "coverage": 0.13
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.908,
+    "coverage": 0.785
+   }
+  }
+ },
+ "w_pose_long_chunky__oriental": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.905,
+    "coverage": 0.309
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.874,
+    "coverage": 0.257
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.882,
+    "coverage": 0.384
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.849,
+    "coverage": 0.361
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.851,
+    "coverage": 0.338
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.924,
+    "coverage": 0.315
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.909,
+    "coverage": 0.157
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.929,
+    "coverage": 0.138
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.925,
+    "coverage": 0.762
+   }
+  }
+ },
+ "w_pose_long_chunky__oriental_bobtail": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.872,
+    "coverage": 0.299
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.842,
+    "coverage": 0.251
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.85,
+    "coverage": 0.378
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.817,
+    "coverage": 0.357
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.82,
+    "coverage": 0.341
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.89,
+    "coverage": 0.312
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.879,
+    "coverage": 0.153
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.896,
+    "coverage": 0.135
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.891,
+    "coverage": 0.763
+   }
+  }
+ },
+ "w_pose_long_chunky__rounded": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.938,
+    "coverage": 0.325
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.906,
+    "coverage": 0.266
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.914,
+    "coverage": 0.397
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.88,
+    "coverage": 0.376
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.882,
+    "coverage": 0.351
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.958,
+    "coverage": 0.322
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.943,
+    "coverage": 0.156
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.963,
+    "coverage": 0.139
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.959,
+    "coverage": 0.787
+   }
+  }
+ },
+ "w_pose_long_chunky__rounded_bobtail": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.903,
+    "coverage": 0.315
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.871,
+    "coverage": 0.259
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.88,
+    "coverage": 0.39
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.845,
+    "coverage": 0.37
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.848,
+    "coverage": 0.353
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.921,
+    "coverage": 0.32
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.91,
+    "coverage": 0.153
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.927,
+    "coverage": 0.137
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.922,
+    "coverage": 0.788
+   }
+  }
+ },
+ "w_pose_long_chunky__tufted": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.922,
+    "coverage": 0.32
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.89,
+    "coverage": 0.264
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.9,
+    "coverage": 0.391
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.867,
+    "coverage": 0.368
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.867,
+    "coverage": 0.346
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.942,
+    "coverage": 0.316
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.925,
+    "coverage": 0.155
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.945,
+    "coverage": 0.137
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.942,
+    "coverage": 0.763
+   }
+  }
+ },
+ "w_pose_long_chunky__tufted_bobtail": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.888,
+    "coverage": 0.31
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.857,
+    "coverage": 0.257
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.866,
+    "coverage": 0.384
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.833,
+    "coverage": 0.363
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.835,
+    "coverage": 0.348
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.906,
+    "coverage": 0.314
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.893,
+    "coverage": 0.152
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.91,
+    "coverage": 0.134
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.906,
+    "coverage": 0.765
+   }
+  }
+ },
+ "w_pose_long_slim__bobtail": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.909,
+    "coverage": 0.327
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.89,
+    "coverage": 0.23
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.887,
+    "coverage": 0.369
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.873,
+    "coverage": 0.309
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.839,
+    "coverage": 0.371
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.896,
+    "coverage": 0.334
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.877,
+    "coverage": 0.159
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.895,
+    "coverage": 0.131
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.923,
+    "coverage": 0.761
+   }
+  }
+ },
+ "w_pose_long_slim__folded": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.916,
+    "coverage": 0.346
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.895,
+    "coverage": 0.251
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.892,
+    "coverage": 0.393
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.877,
+    "coverage": 0.334
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.843,
+    "coverage": 0.39
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.903,
+    "coverage": 0.318
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.885,
+    "coverage": 0.141
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.905,
+    "coverage": 0.12
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.928,
+    "coverage": 0.744
+   }
+  }
+ },
+ "w_pose_long_slim__folded_bobtail": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.878,
+    "coverage": 0.328
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.859,
+    "coverage": 0.248
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.856,
+    "coverage": 0.39
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.842,
+    "coverage": 0.33
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.809,
+    "coverage": 0.39
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.868,
+    "coverage": 0.32
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.854,
+    "coverage": 0.143
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.871,
+    "coverage": 0.122
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.896,
+    "coverage": 0.756
+   }
+  }
+ },
+ "w_pose_long_slim__oriental": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.898,
+    "coverage": 0.334
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.877,
+    "coverage": 0.235
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.874,
+    "coverage": 0.374
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.861,
+    "coverage": 0.314
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.827,
+    "coverage": 0.373
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.883,
+    "coverage": 0.313
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.867,
+    "coverage": 0.148
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.888,
+    "coverage": 0.123
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.906,
+    "coverage": 0.719
+   }
+  }
+ },
+ "w_pose_long_slim__oriental_bobtail": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.861,
+    "coverage": 0.317
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.842,
+    "coverage": 0.233
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.84,
+    "coverage": 0.371
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.827,
+    "coverage": 0.31
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.794,
+    "coverage": 0.372
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.849,
+    "coverage": 0.314
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.837,
+    "coverage": 0.149
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.855,
+    "coverage": 0.125
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.876,
+    "coverage": 0.731
+   }
+  }
+ },
+ "w_pose_long_slim__rounded": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.932,
+    "coverage": 0.351
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.91,
+    "coverage": 0.249
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.907,
+    "coverage": 0.389
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.893,
+    "coverage": 0.332
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.858,
+    "coverage": 0.389
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.917,
+    "coverage": 0.325
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.896,
+    "coverage": 0.148
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.918,
+    "coverage": 0.126
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.941,
+    "coverage": 0.744
+   }
+  }
+ },
+ "w_pose_long_slim__rounded_bobtail": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.894,
+    "coverage": 0.333
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.874,
+    "coverage": 0.245
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.872,
+    "coverage": 0.384
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.858,
+    "coverage": 0.327
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.824,
+    "coverage": 0.387
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.882,
+    "coverage": 0.327
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.865,
+    "coverage": 0.151
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.884,
+    "coverage": 0.128
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.909,
+    "coverage": 0.757
+   }
+  }
+ },
+ "w_pose_long_slim__tufted": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.921,
+    "coverage": 0.343
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.901,
+    "coverage": 0.237
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.898,
+    "coverage": 0.372
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.884,
+    "coverage": 0.314
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.851,
+    "coverage": 0.37
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.906,
+    "coverage": 0.319
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.884,
+    "coverage": 0.149
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.905,
+    "coverage": 0.123
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.929,
+    "coverage": 0.724
+   }
+  }
+ },
+ "w_pose_long_slim__tufted_bobtail": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.884,
+    "coverage": 0.326
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.866,
+    "coverage": 0.234
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.864,
+    "coverage": 0.369
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.85,
+    "coverage": 0.31
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.817,
+    "coverage": 0.369
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.873,
+    "coverage": 0.321
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.853,
+    "coverage": 0.151
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.872,
+    "coverage": 0.124
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.898,
+    "coverage": 0.736
+   }
+  }
+ },
+ "w_pose_short_chunky__bobtail": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.92,
+    "coverage": 0.315
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.885,
+    "coverage": 0.345
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.901,
+    "coverage": 0.417
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.885,
+    "coverage": 0.317
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.872,
+    "coverage": 0.412
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.94,
+    "coverage": 0.369
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.942,
+    "coverage": 0.175
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.946,
+    "coverage": 0.175
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.939,
+    "coverage": 0.802
+   }
+  }
+ },
+ "w_pose_short_chunky__folded": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.924,
+    "coverage": 0.316
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.886,
+    "coverage": 0.348
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.901,
+    "coverage": 0.432
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.886,
+    "coverage": 0.322
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.873,
+    "coverage": 0.418
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.943,
+    "coverage": 0.359
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.944,
+    "coverage": 0.159
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.95,
+    "coverage": 0.163
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.945,
+    "coverage": 0.808
+   }
+  }
+ },
+ "w_pose_short_chunky__folded_bobtail": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.898,
+    "coverage": 0.305
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.862,
+    "coverage": 0.342
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.877,
+    "coverage": 0.425
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.861,
+    "coverage": 0.317
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.849,
+    "coverage": 0.413
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.917,
+    "coverage": 0.357
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.919,
+    "coverage": 0.159
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.923,
+    "coverage": 0.162
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.918,
+    "coverage": 0.802
+   }
+  }
+ },
+ "w_pose_short_chunky__oriental": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.904,
+    "coverage": 0.306
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.868,
+    "coverage": 0.335
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.887,
+    "coverage": 0.409
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.869,
+    "coverage": 0.312
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.856,
+    "coverage": 0.403
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.925,
+    "coverage": 0.361
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.927,
+    "coverage": 0.17
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.931,
+    "coverage": 0.171
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.925,
+    "coverage": 0.792
+   }
+  }
+ },
+ "w_pose_short_chunky__oriental_bobtail": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.879,
+    "coverage": 0.295
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.845,
+    "coverage": 0.329
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.863,
+    "coverage": 0.403
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.845,
+    "coverage": 0.307
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.832,
+    "coverage": 0.398
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.899,
+    "coverage": 0.358
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.903,
+    "coverage": 0.17
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.906,
+    "coverage": 0.17
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.899,
+    "coverage": 0.787
+   }
+  }
+ },
+ "w_pose_short_chunky__rounded": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.94,
+    "coverage": 0.317
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.903,
+    "coverage": 0.338
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.918,
+    "coverage": 0.42
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.904,
+    "coverage": 0.31
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.89,
+    "coverage": 0.407
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.96,
+    "coverage": 0.369
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.961,
+    "coverage": 0.171
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.966,
+    "coverage": 0.173
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.961,
+    "coverage": 0.812
+   }
+  }
+ },
+ "w_pose_short_chunky__rounded_bobtail": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.913,
+    "coverage": 0.306
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.878,
+    "coverage": 0.332
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.894,
+    "coverage": 0.412
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.878,
+    "coverage": 0.305
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.865,
+    "coverage": 0.402
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.933,
+    "coverage": 0.366
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.935,
+    "coverage": 0.171
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.94,
+    "coverage": 0.173
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.934,
+    "coverage": 0.805
+   }
+  }
+ },
+ "w_pose_short_chunky__tufted": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.909,
+    "coverage": 0.312
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.874,
+    "coverage": 0.328
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.889,
+    "coverage": 0.407
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.875,
+    "coverage": 0.304
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.861,
+    "coverage": 0.394
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.928,
+    "coverage": 0.354
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.93,
+    "coverage": 0.166
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.934,
+    "coverage": 0.167
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.928,
+    "coverage": 0.774
+   }
+  }
+ },
+ "w_pose_short_chunky__tufted_bobtail": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.885,
+    "coverage": 0.302
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.852,
+    "coverage": 0.323
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.867,
+    "coverage": 0.401
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.852,
+    "coverage": 0.3
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.838,
+    "coverage": 0.39
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.904,
+    "coverage": 0.352
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.906,
+    "coverage": 0.166
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.91,
+    "coverage": 0.167
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.903,
+    "coverage": 0.77
+   }
+  }
+ },
+ "w_pose_short_slim__bobtail": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.933,
+    "coverage": 0.317
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.899,
+    "coverage": 0.24
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.902,
+    "coverage": 0.403
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.884,
+    "coverage": 0.212
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.86,
+    "coverage": 0.343
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.934,
+    "coverage": 0.314
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.918,
+    "coverage": 0.163
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.943,
+    "coverage": 0.177
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.941,
+    "coverage": 0.791
+   }
+  }
+ },
+ "w_pose_short_slim__folded": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.92,
+    "coverage": 0.318
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.884,
+    "coverage": 0.256
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.886,
+    "coverage": 0.426
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.869,
+    "coverage": 0.228
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.847,
+    "coverage": 0.361
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.921,
+    "coverage": 0.305
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.908,
+    "coverage": 0.151
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.932,
+    "coverage": 0.166
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.931,
+    "coverage": 0.813
+   }
+  }
+ },
+ "w_pose_short_slim__folded_bobtail": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.896,
+    "coverage": 0.312
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.861,
+    "coverage": 0.252
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.865,
+    "coverage": 0.418
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.846,
+    "coverage": 0.227
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.824,
+    "coverage": 0.356
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.897,
+    "coverage": 0.298
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.885,
+    "coverage": 0.147
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.908,
+    "coverage": 0.162
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.907,
+    "coverage": 0.798
+   }
+  }
+ },
+ "w_pose_short_slim__oriental": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.886,
+    "coverage": 0.3
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.852,
+    "coverage": 0.238
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.856,
+    "coverage": 0.396
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.839,
+    "coverage": 0.212
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.817,
+    "coverage": 0.334
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.888,
+    "coverage": 0.307
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.876,
+    "coverage": 0.162
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.899,
+    "coverage": 0.172
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.899,
+    "coverage": 0.783
+   }
+  }
+ },
+ "w_pose_short_slim__oriental_bobtail": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.864,
+    "coverage": 0.294
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.831,
+    "coverage": 0.235
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.836,
+    "coverage": 0.388
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.818,
+    "coverage": 0.211
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.796,
+    "coverage": 0.329
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.867,
+    "coverage": 0.301
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.856,
+    "coverage": 0.158
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.877,
+    "coverage": 0.168
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.877,
+    "coverage": 0.77
+   }
+  }
+ },
+ "w_pose_short_slim__rounded": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.943,
+    "coverage": 0.322
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.907,
+    "coverage": 0.248
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.909,
+    "coverage": 0.415
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.893,
+    "coverage": 0.219
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.869,
+    "coverage": 0.352
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.944,
+    "coverage": 0.313
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.929,
+    "coverage": 0.161
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.955,
+    "coverage": 0.176
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.953,
+    "coverage": 0.808
+   }
+  }
+ },
+ "w_pose_short_slim__rounded_bobtail": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.918,
+    "coverage": 0.316
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.883,
+    "coverage": 0.245
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.886,
+    "coverage": 0.408
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.869,
+    "coverage": 0.218
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.845,
+    "coverage": 0.348
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.919,
+    "coverage": 0.307
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.906,
+    "coverage": 0.157
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.93,
+    "coverage": 0.171
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.929,
+    "coverage": 0.794
+   }
+  }
+ },
+ "w_pose_short_slim__tufted": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.911,
+    "coverage": 0.318
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.876,
+    "coverage": 0.244
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.879,
+    "coverage": 0.4
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.864,
+    "coverage": 0.215
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.84,
+    "coverage": 0.341
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.912,
+    "coverage": 0.299
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.895,
+    "coverage": 0.156
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.922,
+    "coverage": 0.17
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.918,
+    "coverage": 0.759
+   }
+  }
+ },
+ "w_pose_short_slim__tufted_bobtail": {
+  "kind": "pose",
+  "pieces": 8,
+  "expected": 8,
+  "overlays": {
+   "colourpoint": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.888,
+    "coverage": 0.312
+   },
+   "spotted": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.854,
+    "coverage": 0.241
+   },
+   "tabby_classic": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.858,
+    "coverage": 0.394
+   },
+   "tabby_mackerel": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.841,
+    "coverage": 0.214
+   },
+   "tortie": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.818,
+    "coverage": 0.337
+   },
+   "white_bicolour": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.889,
+    "coverage": 0.293
+   },
+   "white_mitts": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.873,
+    "coverage": 0.152
+   },
+   "white_tuxedo": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.899,
+    "coverage": 0.165
+   },
+   "white_van": {
+    "shift": [
+     0,
+     0
+    ],
+    "iou": 0.896,
+    "coverage": 0.747
+   }
+  }
+ }
+}

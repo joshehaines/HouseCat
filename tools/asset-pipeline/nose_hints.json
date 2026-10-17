@@ -1,0 +1,75 @@
+{
+ "poses/cat_long_chunky_sleep_curl.png": [
+  0.44,
+  0.725
+ ],
+ "poses/cat_long_chunky_stretch_side.png": [
+  0.14,
+  0.71
+ ],
+ "poses/cat_long_slim_sit_side.png": [
+  0.095,
+  0.303
+ ],
+ "poses/cat_long_slim_sleep_curl.png": [
+  0.46,
+  0.655
+ ],
+ "poses/cat_long_slim_stretch_side.png": [
+  0.19,
+  0.7
+ ],
+ "poses/cat_mainecoon_sleep_curl.png": [
+  0.43,
+  0.705
+ ],
+ "poses/cat_mainecoon_stretch_side.png": [
+  0.14,
+  0.74
+ ],
+ "poses/cat_persian_sleep_curl.png": [
+  0.43,
+  0.66
+ ],
+ "poses/cat_persian_stretch_side.png": [
+  0.17,
+  0.73
+ ],
+ "poses/cat_short_chunky_sleep_curl.png": [
+  0.475,
+  0.745
+ ],
+ "poses/cat_short_chunky_stretch_side.png": [
+  0.17,
+  0.705
+ ],
+ "poses/cat_short_slim_sleep_curl.png": [
+  0.53,
+  0.76
+ ],
+ "poses/cat_short_slim_stretch_side.png": [
+  0.21,
+  0.705
+ ],
+ "poses/cat_siamese_loaf_tqfront.png": [
+  0.21,
+  0.515
+ ],
+ "poses/cat_siamese_sleep_curl.png": [
+  0.52,
+  0.765
+ ],
+ "poses/cat_siamese_stretch_side.png": [
+  0.255,
+  0.7
+ ],
+ "poses/cat_sphynx_sleep_curl.png": [
+  0.51,
+  0.755
+ ],
+ "poses/cat_sphynx_stretch_side.png": [
+  0.215,
+  0.74,
+  0.018
+ ]
+}

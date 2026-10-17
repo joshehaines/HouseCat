@@ -1,0 +1,1477 @@
+{
+ "version": 1,
+ "about": "HouseCat cat builder. Every sprite under base/ is painted WHITE; the coat, pattern, white markings, eyes and nose are applied in code with the coat recipe (docs/SPEC.md 'Coat recipe'; reference implementation tools/asset-pipeline/tint.py). Masks are 8-bit greyscale PNGs the same size as their sprite; a missing mask means 0 everywhere. The black cat (preset 'midnight') is the mascot and the default.",
+ "root": "assets/cat/custom",
+ "views": [
+  "side",
+  "tqfront",
+  "front",
+  "tqback"
+ ],
+ "paths": {
+  "parts": "base/parts/cat_{body}_{view}_{part}.png",
+  "part_names": [
+   "head",
+   "ear_far",
+   "ear_near",
+   "torso",
+   "leg_front_far",
+   "leg_front_near",
+   "leg_back_far",
+   "leg_back_near",
+   "tail_up",
+   "tail_curl",
+   "tail_low"
+  ],
+  "swap_ears": "base/ears/ear_{ears}_{view}_{side}.png",
+  "bobtail": "base/tails/bobtail_{view}_{pose}.png",
+  "expression_heads": "base/expr/head_{heads}_{view}_{expr}.png",
+  "expression_views": [
+   "tqfront",
+   "front",
+   "side"
+  ],
+  "expressions": [
+   "calm",
+   "slowblink",
+   "content",
+   "surprised",
+   "sleepy",
+   "squint"
+  ],
+  "poses": "base/poses/cat_{body}_{pose}{variant}.png",
+  "pose_names": [
+   "sit_side",
+   "sit_tqfront",
+   "sit_front",
+   "sit_back",
+   "loaf_side",
+   "loaf_tqfront",
+   "sleep_curl",
+   "stretch_side"
+  ],
+  "pose_variant": "'' for the body's own ears and tail; '__<ears>' (rounded, folded, tufted, oriental) or '__bobtail' for the four standard bodies",
+  "whole_reference": "base/whole/cat_{body}_{view}_whole.png (breeds; the standard sets use cat/base/<set>/)",
+  "pattern_mask": "masks/{pattern}/{same path as the sprite, without base/}",
+  "white_mask": "masks/{white}/{same path as the sprite, without base/}",
+  "features_mask": "masks/features/{same path as the sprite, without base/}"
+ },
+ "bodies": {
+  "short_slim": {
+   "label": "Shorthair, slim",
+   "fur": "short",
+   "build": "slim",
+   "scale": 1.0,
+   "own_ears": "pointed",
+   "own_tail": "long",
+   "ear_swaps": true,
+   "tail_swaps": true,
+   "expression_heads": "stdnoear",
+   "weight_pair": "short_chunky",
+   "rare": false
+  },
+  "short_chunky": {
+   "label": "Shorthair, chunky",
+   "fur": "short",
+   "build": "chunky",
+   "scale": 1.0,
+   "own_ears": "pointed",
+   "own_tail": "long",
+   "ear_swaps": true,
+   "tail_swaps": true,
+   "expression_heads": "stdnoear",
+   "weight_pair": "short_slim",
+   "rare": false
+  },
+  "long_slim": {
+   "label": "Longhair, slim",
+   "fur": "long",
+   "build": "slim",
+   "scale": 1.0,
+   "own_ears": "pointed",
+   "own_tail": "long",
+   "ear_swaps": true,
+   "tail_swaps": true,
+   "expression_heads": "stdnoear",
+   "weight_pair": "long_chunky",
+   "rare": false
+  },
+  "long_chunky": {
+   "label": "Longhair, chunky",
+   "fur": "long",
+   "build": "chunky",
+   "scale": 1.0,
+   "own_ears": "pointed",
+   "own_tail": "long",
+   "ear_swaps": true,
+   "tail_swaps": true,
+   "expression_heads": "stdnoear",
+   "weight_pair": "long_slim",
+   "rare": false
+  },
+  "persian": {
+   "label": "Persian",
+   "fur": "long",
+   "build": "chunky",
+   "scale": 1.0,
+   "own_ears": "small rounded",
+   "own_tail": "plume",
+   "ear_swaps": false,
+   "tail_swaps": false,
+   "expression_heads": "persian",
+   "weight_pair": null,
+   "rare": false
+  },
+  "siamese": {
+   "label": "Siamese / Oriental",
+   "fur": "short",
+   "build": "slim",
+   "scale": 1.0,
+   "own_ears": "large",
+   "own_tail": "whip",
+   "ear_swaps": false,
+   "tail_swaps": false,
+   "expression_heads": "siamese",
+   "weight_pair": null,
+   "rare": false
+  },
+  "mainecoon": {
+   "label": "Maine Coon",
+   "fur": "long",
+   "build": "chunky",
+   "scale": 1.15,
+   "own_ears": "tufted",
+   "own_tail": "bushy",
+   "ear_swaps": false,
+   "tail_swaps": false,
+   "expression_heads": "mainecoon",
+   "weight_pair": null,
+   "rare": false
+  },
+  "sphynx": {
+   "label": "Sphynx",
+   "fur": "none",
+   "build": "slim",
+   "scale": 1.0,
+   "own_ears": "large",
+   "own_tail": "whip",
+   "ear_swaps": false,
+   "tail_swaps": false,
+   "expression_heads": "sphynx",
+   "weight_pair": null,
+   "rare": false,
+   "note": "hairless: the coat colour is the skin colour"
+  }
+ },
+ "ears": {
+  "own": {
+   "label": "The body's own ears",
+   "rare": false
+  },
+  "rounded": {
+   "label": "Rounded",
+   "rare": false
+  },
+  "folded": {
+   "label": "Folded (Scottish Fold)",
+   "rare": false
+  },
+  "tufted": {
+   "label": "Tufted (lynx tips)",
+   "rare": false
+  },
+  "oriental": {
+   "label": "Oriental (very large)",
+   "rare": false
+  }
+ },
+ "tails": {
+  "own": {
+   "label": "The body's own tail",
+   "rare": false
+  },
+  "bobtail": {
+   "label": "Bobtail",
+   "rare": false
+  }
+ },
+ "patterns": {
+  "none": {
+   "label": "Solid"
+  },
+  "tabby_mackerel": {
+   "label": "Mackerel tabby",
+   "rare": false
+  },
+  "tabby_classic": {
+   "label": "Classic tabby",
+   "rare": false
+  },
+  "spotted": {
+   "label": "Spotted",
+   "rare": false
+  },
+  "tortie": {
+   "label": "Tortoiseshell / patched",
+   "rare": false
+  },
+  "colourpoint": {
+   "label": "Colourpoint",
+   "rare": false
+  }
+ },
+ "white_markings": {
+  "none": {
+   "label": "None"
+  },
+  "white_mitts": {
+   "label": "Mitts and boots",
+   "rare": false
+  },
+  "white_tuxedo": {
+   "label": "Tuxedo (bib, paws, chin)",
+   "rare": false
+  },
+  "white_bicolour": {
+   "label": "Bicolour (white underside and face)",
+   "rare": false
+  },
+  "white_van": {
+   "label": "Van (white with coloured head patches and tail)",
+   "rare": false
+  }
+ },
+ "swap_mask_rule": "Swap ears and the bobtail carry the colour-pattern masks but never white markings; the expression heads carry both. Breed bodies keep their own ears and tail.",
+ "palettes": {
+  "coat": {
+   "black": {
+    "label": "Black",
+    "rgb": [
+     58,
+     50,
+     62
+    ],
+    "hex": "#3a323e"
+   },
+   "smoke": {
+    "label": "Smoke",
+    "rgb": [
+     96,
+     96,
+     108
+    ],
+    "hex": "#60606c"
+   },
+   "blue": {
+    "label": "Blue (grey)",
+    "rgb": [
+     138,
+     148,
+     168
+    ],
+    "hex": "#8a94a8"
+   },
+   "lilac": {
+    "label": "Lilac",
+    "rgb": [
+     196,
+     184,
+     196
+    ],
+    "hex": "#c4b8c4"
+   },
+   "chocolate": {
+    "label": "Chocolate",
+    "rgb": [
+     120,
+     78,
+     54
+    ],
+    "hex": "#784e36"
+   },
+   "cinnamon": {
+    "label": "Cinnamon",
+    "rgb": [
+     176,
+     112,
+     70
+    ],
+    "hex": "#b07046"
+   },
+   "fawn": {
+    "label": "Fawn",
+    "rgb": [
+     214,
+     184,
+     160
+    ],
+    "hex": "#d6b8a0"
+   },
+   "brown": {
+    "label": "Brown",
+    "rgb": [
+     150,
+     108,
+     72
+    ],
+    "hex": "#966c48"
+   },
+   "red": {
+    "label": "Red",
+    "rgb": [
+     214,
+     104,
+     46
+    ],
+    "hex": "#d6682e"
+   },
+   "ginger": {
+    "label": "Ginger",
+    "rgb": [
+     236,
+     140,
+     62
+    ],
+    "hex": "#ec8c3e"
+   },
+   "cream": {
+    "label": "Cream",
+    "rgb": [
+     246,
+     222,
+     180
+    ],
+    "hex": "#f6deb4"
+   },
+   "white": {
+    "label": "White",
+    "rgb": [
+     250,
+     248,
+     244
+    ],
+    "hex": "#faf8f4"
+   },
+   "silver": {
+    "label": "Silver",
+    "rgb": [
+     214,
+     216,
+     222
+    ],
+    "hex": "#d6d8de"
+   },
+   "seal": {
+    "label": "Seal",
+    "rgb": [
+     70,
+     52,
+     44
+    ],
+    "hex": "#46342c"
+   },
+   "golden": {
+    "label": "Golden",
+    "rgb": [
+     222,
+     170,
+     96
+    ],
+    "hex": "#deaa60"
+   },
+   "rose": {
+    "label": "Rose (bare skin)",
+    "rgb": [
+     236,
+     194,
+     180
+    ],
+    "hex": "#ecc2b4"
+   }
+  },
+  "eyes": {
+   "amber": {
+    "label": "Amber",
+    "rgb": [
+     236,
+     168,
+     40
+    ],
+    "hex": "#eca828",
+    "rare": false
+   },
+   "gold": {
+    "label": "Gold",
+    "rgb": [
+     240,
+     200,
+     60
+    ],
+    "hex": "#f0c83c",
+    "rare": false
+   },
+   "copper": {
+    "label": "Copper",
+    "rgb": [
+     214,
+     110,
+     40
+    ],
+    "hex": "#d66e28",
+    "rare": false
+   },
+   "green": {
+    "label": "Green",
+    "rgb": [
+     110,
+     190,
+     80
+    ],
+    "hex": "#6ebe50",
+    "rare": false
+   },
+   "hazel": {
+    "label": "Hazel",
+    "rgb": [
+     170,
+     160,
+     70
+    ],
+    "hex": "#aaa046",
+    "rare": false
+   },
+   "blue": {
+    "label": "Blue",
+    "rgb": [
+     90,
+     160,
+     236
+    ],
+    "hex": "#5aa0ec",
+    "rare": false
+   },
+   "aqua": {
+    "label": "Aqua",
+    "rgb": [
+     90,
+     200,
+     200
+    ],
+    "hex": "#5ac8c8",
+    "rare": false
+   },
+   "lilac": {
+    "label": "Lilac",
+    "rgb": [
+     176,
+     150,
+     220
+    ],
+    "hex": "#b096dc",
+    "rare": false
+   }
+  },
+  "nose": {
+   "pink": {
+    "label": "Pink",
+    "rgb": [
+     232,
+     150,
+     160
+    ],
+    "hex": "#e896a0"
+   },
+   "brick": {
+    "label": "Brick",
+    "rgb": [
+     196,
+     96,
+     80
+    ],
+    "hex": "#c46050"
+   },
+   "black": {
+    "label": "Black",
+    "rgb": [
+     52,
+     44,
+     48
+    ],
+    "hex": "#342c30"
+   },
+   "grey": {
+    "label": "Grey",
+    "rgb": [
+     120,
+     120,
+     132
+    ],
+    "hex": "#787884"
+   },
+   "chocolate": {
+    "label": "Chocolate",
+    "rgb": [
+     110,
+     70,
+     56
+    ],
+    "hex": "#6e4638"
+   }
+  },
+  "free_picker": "Coat and pattern colours may also come from a free colour picker; clamp the luminance of a picked coat to 40-250 so the painted shading still reads."
+ },
+ "odd_eyed": {
+  "rare": false,
+  "note": "eye_left / eye_right are the eyes on the left / right of the IMAGE. A side view shows one eye: it is in the left (red) channel of the features mask and takes eye_left."
+ },
+ "rare_note": "Every builder option is free at launch (Josh, 17 Oct 2026); extra cats are the paid item (housecat.cat.slot<n>). The 'rare' flags are all off and stay as the switch if paid looks (housecat.look.<name>) are ever added: flip a flag, no new art.",
+ "naming": {
+  "required": true,
+  "max_length": 20,
+  "editable_later": true,
+  "profanity_filter": true,
+  "note": "The player always types their cat's own name (groups show it, so it goes through the profanity filter). Preset names name the look, never the cat. Offer three suggestions and a shuffle button.",
+  "suggestions": [
+   "Pip",
+   "Miso",
+   "Olive",
+   "Biscuit",
+   "Juniper",
+   "Pepper",
+   "Bramble",
+   "Tofu",
+   "Mochi",
+   "Hazel",
+   "Willow",
+   "Nutmeg",
+   "Basil",
+   "Clementine",
+   "Pudding",
+   "Marmalade",
+   "Sage",
+   "Fig",
+   "Dumpling",
+   "Moss",
+   "Inky",
+   "Teddy",
+   "Maple",
+   "Pickle"
+  ]
+ },
+ "presets": [
+  {
+   "id": "midnight",
+   "name": "Midnight",
+   "body": "short_slim",
+   "ears": "own",
+   "tail": "own",
+   "coat": "black",
+   "pattern": null,
+   "pattern_colour": null,
+   "white": null,
+   "eye_left": "amber",
+   "eye_right": "amber",
+   "nose": "black",
+   "note": "the HouseCat mascot and the default cat"
+  },
+  {
+   "id": "bombay",
+   "name": "Bombay",
+   "body": "short_chunky",
+   "ears": "own",
+   "tail": "own",
+   "coat": "black",
+   "pattern": null,
+   "pattern_colour": null,
+   "white": null,
+   "eye_left": "copper",
+   "eye_right": "copper",
+   "nose": "black"
+  },
+  {
+   "id": "tuxedo",
+   "name": "Tuxedo",
+   "body": "short_slim",
+   "ears": "own",
+   "tail": "own",
+   "coat": "black",
+   "pattern": null,
+   "pattern_colour": null,
+   "white": "white_tuxedo",
+   "eye_left": "green",
+   "eye_right": "green",
+   "nose": "black"
+  },
+  {
+   "id": "ginger_tabby",
+   "name": "Ginger Tabby",
+   "body": "short_chunky",
+   "ears": "own",
+   "tail": "own",
+   "coat": "ginger",
+   "pattern": "tabby_mackerel",
+   "pattern_colour": "red",
+   "white": null,
+   "eye_left": "gold",
+   "eye_right": "gold",
+   "nose": "brick"
+  },
+  {
+   "id": "silver_tabby",
+   "name": "Silver Tabby",
+   "body": "short_slim",
+   "ears": "own",
+   "tail": "own",
+   "coat": "silver",
+   "pattern": "tabby_classic",
+   "pattern_colour": "black",
+   "white": null,
+   "eye_left": "green",
+   "eye_right": "green",
+   "nose": "brick"
+  },
+  {
+   "id": "brown_tabby",
+   "name": "Brown Tabby",
+   "body": "short_slim",
+   "ears": "own",
+   "tail": "own",
+   "coat": "cinnamon",
+   "pattern": "tabby_mackerel",
+   "pattern_colour": "seal",
+   "white": null,
+   "eye_left": "hazel",
+   "eye_right": "hazel",
+   "nose": "brick"
+  },
+  {
+   "id": "tortoiseshell",
+   "name": "Tortoiseshell",
+   "body": "short_slim",
+   "ears": "own",
+   "tail": "own",
+   "coat": "black",
+   "pattern": "tortie",
+   "pattern_colour": "ginger",
+   "white": null,
+   "eye_left": "copper",
+   "eye_right": "copper",
+   "nose": "black"
+  },
+  {
+   "id": "calico",
+   "name": "Calico",
+   "body": "short_chunky",
+   "ears": "own",
+   "tail": "own",
+   "coat": "ginger",
+   "pattern": "tortie",
+   "pattern_colour": "black",
+   "white": "white_bicolour",
+   "eye_left": "amber",
+   "eye_right": "amber",
+   "nose": "pink"
+  },
+  {
+   "id": "british_blue",
+   "name": "British Blue",
+   "body": "short_chunky",
+   "ears": "rounded",
+   "tail": "own",
+   "coat": "blue",
+   "pattern": null,
+   "pattern_colour": null,
+   "white": null,
+   "eye_left": "copper",
+   "eye_right": "copper",
+   "nose": "grey"
+  },
+  {
+   "id": "russian_blue",
+   "name": "Russian Blue",
+   "body": "short_slim",
+   "ears": "own",
+   "tail": "own",
+   "coat": "blue",
+   "pattern": null,
+   "pattern_colour": null,
+   "white": null,
+   "eye_left": "green",
+   "eye_right": "green",
+   "nose": "grey"
+  },
+  {
+   "id": "scottish_fold",
+   "name": "Scottish Fold",
+   "body": "short_chunky",
+   "ears": "folded",
+   "tail": "own",
+   "coat": "cream",
+   "pattern": "tabby_mackerel",
+   "pattern_colour": "cinnamon",
+   "white": null,
+   "eye_left": "gold",
+   "eye_right": "gold",
+   "nose": "pink"
+  },
+  {
+   "id": "bengal",
+   "name": "Bengal",
+   "body": "short_slim",
+   "ears": "own",
+   "tail": "own",
+   "coat": "golden",
+   "pattern": "spotted",
+   "pattern_colour": "seal",
+   "white": null,
+   "eye_left": "green",
+   "eye_right": "green",
+   "nose": "brick"
+  },
+  {
+   "id": "oriental",
+   "name": "Oriental Havana",
+   "body": "siamese",
+   "ears": "own",
+   "tail": "own",
+   "coat": "chocolate",
+   "pattern": null,
+   "pattern_colour": null,
+   "white": null,
+   "eye_left": "green",
+   "eye_right": "green",
+   "nose": "chocolate"
+  },
+  {
+   "id": "seal_point",
+   "name": "Seal Point Siamese",
+   "body": "siamese",
+   "ears": "own",
+   "tail": "own",
+   "coat": "fawn",
+   "pattern": "colourpoint",
+   "pattern_colour": "seal",
+   "white": null,
+   "eye_left": "blue",
+   "eye_right": "blue",
+   "nose": "chocolate"
+  },
+  {
+   "id": "himalayan",
+   "name": "Himalayan",
+   "body": "persian",
+   "ears": "own",
+   "tail": "own",
+   "coat": "cream",
+   "pattern": "colourpoint",
+   "pattern_colour": "seal",
+   "white": null,
+   "eye_left": "blue",
+   "eye_right": "blue",
+   "nose": "chocolate"
+  },
+  {
+   "id": "white_persian",
+   "name": "White Persian",
+   "body": "persian",
+   "ears": "own",
+   "tail": "own",
+   "coat": "white",
+   "pattern": null,
+   "pattern_colour": null,
+   "white": null,
+   "eye_left": "blue",
+   "eye_right": "copper",
+   "nose": "pink",
+   "note": "odd-eyed"
+  },
+  {
+   "id": "maine_coon",
+   "name": "Maine Coon",
+   "body": "mainecoon",
+   "ears": "own",
+   "tail": "own",
+   "coat": "brown",
+   "pattern": "tabby_classic",
+   "pattern_colour": "seal",
+   "white": null,
+   "eye_left": "gold",
+   "eye_right": "gold",
+   "nose": "brick"
+  },
+  {
+   "id": "ragdoll",
+   "name": "Ragdoll",
+   "body": "long_chunky",
+   "ears": "own",
+   "tail": "own",
+   "coat": "cream",
+   "pattern": "colourpoint",
+   "pattern_colour": "seal",
+   "white": "white_mitts",
+   "eye_left": "blue",
+   "eye_right": "blue",
+   "nose": "pink"
+  },
+  {
+   "id": "turkish_van",
+   "name": "Turkish Van",
+   "body": "long_slim",
+   "ears": "own",
+   "tail": "own",
+   "coat": "red",
+   "pattern": null,
+   "pattern_colour": null,
+   "white": "white_van",
+   "eye_left": "blue",
+   "eye_right": "amber",
+   "nose": "pink",
+   "note": "odd-eyed"
+  },
+  {
+   "id": "smoke_longhair",
+   "name": "Smoke Longhair",
+   "body": "long_slim",
+   "ears": "own",
+   "tail": "own",
+   "coat": "smoke",
+   "pattern": null,
+   "pattern_colour": null,
+   "white": null,
+   "eye_left": "copper",
+   "eye_right": "copper",
+   "nose": "grey"
+  },
+  {
+   "id": "japanese_bobtail",
+   "name": "Japanese Bobtail",
+   "body": "short_slim",
+   "ears": "own",
+   "tail": "bobtail",
+   "coat": "black",
+   "pattern": "tortie",
+   "pattern_colour": "ginger",
+   "white": "white_van",
+   "eye_left": "gold",
+   "eye_right": "blue",
+   "nose": "pink",
+   "note": "mi-ke (tricolour), odd-eyed"
+  },
+  {
+   "id": "sphynx",
+   "name": "Sphynx",
+   "body": "sphynx",
+   "ears": "own",
+   "tail": "own",
+   "coat": "rose",
+   "pattern": null,
+   "pattern_colour": null,
+   "white": null,
+   "eye_left": "aqua",
+   "eye_right": "aqua",
+   "nose": "pink"
+  },
+  {
+   "id": "lilac_sphynx",
+   "name": "Lilac Sphynx",
+   "body": "sphynx",
+   "ears": "own",
+   "tail": "own",
+   "coat": "lilac",
+   "pattern": "colourpoint",
+   "pattern_colour": "smoke",
+   "white": null,
+   "eye_left": "gold",
+   "eye_right": "gold",
+   "nose": "pink"
+  }
+ ],
+ "outfits": {
+  "note": "Outfits (assets/outfits, 23 x 4 views) are layered over any look; nothing is painted per cat. Head items anchor between the ears on the head part, neck items at the neck, body items over the torso. 'fit' holds a per-body, per-view, per-slot nudge [dx, dy, scale] in the part's own pixels; all start neutral and are set once by eye in a debug screen. Head items sit 'tall_ears_lift' of the ear height higher on the tall ears listed, so a hat never cuts through them.",
+  "tall_ears": [
+   "siamese",
+   "sphynx",
+   "mainecoon",
+   "oriental",
+   "tufted"
+  ],
+  "tall_ears_lift": 0.35,
+  "fit": {
+   "short_slim": {
+    "side": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    },
+    "tqfront": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    },
+    "front": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    },
+    "tqback": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    }
+   },
+   "short_chunky": {
+    "side": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    },
+    "tqfront": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    },
+    "front": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    },
+    "tqback": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    }
+   },
+   "long_slim": {
+    "side": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    },
+    "tqfront": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    },
+    "front": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    },
+    "tqback": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    }
+   },
+   "long_chunky": {
+    "side": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    },
+    "tqfront": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    },
+    "front": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    },
+    "tqback": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    }
+   },
+   "persian": {
+    "side": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    },
+    "tqfront": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    },
+    "front": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    },
+    "tqback": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    }
+   },
+   "siamese": {
+    "side": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    },
+    "tqfront": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    },
+    "front": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    },
+    "tqback": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    }
+   },
+   "mainecoon": {
+    "side": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    },
+    "tqfront": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    },
+    "front": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    },
+    "tqback": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    }
+   },
+   "sphynx": {
+    "side": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    },
+    "tqfront": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    },
+    "front": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    },
+    "tqback": {
+     "head": [
+      0,
+      0,
+      1.0
+     ],
+     "neck": [
+      0,
+      0,
+      1.0
+     ],
+     "body": [
+      0,
+      0,
+      1.0
+     ]
+    }
+   }
+  }
+ },
+ "look_fields": [
+  "body",
+  "ears",
+  "tail",
+  "coat",
+  "pattern",
+  "pattern_colour",
+  "white",
+  "eye_left",
+  "eye_right",
+  "nose",
+  "eye_size",
+  "whisker_length",
+  "age"
+ ]
+}

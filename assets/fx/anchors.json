@@ -1,0 +1,126 @@
+{
+ "furniture/living/furn_living_fireplace_R.png": {
+  "fx": "fire",
+  "anchor": [
+   199,
+   317
+  ],
+  "fx_width_px": 46,
+  "note": "bottom-centre of the painted flame; draw fx/fire frames about 1.3 x fx_width_px wide, additive blend, ~10 fps"
+ },
+ "furniture/living/furn_living_fireplace_L.png": {
+  "fx": "fire",
+  "anchor": [
+   149,
+   302
+  ],
+  "fx_width_px": 49,
+  "note": "bottom-centre of the painted flame; draw fx/fire frames about 1.3 x fx_width_px wide, additive blend, ~10 fps"
+ },
+ "furniture/housewarming_pack/furn_housewarming_pack_grandfireplace_R.png": {
+  "fx": "fire",
+  "anchor": [
+   227,
+   376
+  ],
+  "fx_width_px": 68,
+  "note": "bottom-centre of the painted flame; draw fx/fire frames about 1.3 x fx_width_px wide, additive blend, ~10 fps"
+ },
+ "furniture/housewarming_pack/furn_housewarming_pack_grandfireplace_L.png": {
+  "fx": "fire",
+  "anchor": [
+   173,
+   321
+  ],
+  "fx_width_px": 89,
+  "note": "bottom-centre of the painted flame; draw fx/fire frames about 1.3 x fx_width_px wide, additive blend, ~10 fps"
+ },
+ "furniture/pass_housewarming/furn_pass_housewarming_candle_R.png": {
+  "fx": "candle",
+  "anchor": [
+   86,
+   91
+  ],
+  "fx_width_px": 55,
+  "note": "bottom-centre of the painted flame; draw fx/candle frames about 0.6 x fx_width_px wide, additive blend, ~10 fps"
+ },
+ "furniture/pass_housewarming/furn_pass_housewarming_candle_L.png": {
+  "fx": "candle",
+  "anchor": [
+   93,
+   110
+  ],
+  "fx_width_px": 55,
+  "note": "bottom-centre of the painted flame; draw fx/candle frames about 0.6 x fx_width_px wide, additive blend, ~10 fps"
+ },
+ "furniture/attic/furn_attic_oillamp_R.png": {
+  "fx": "candle",
+  "anchor": [
+   131,
+   155
+  ],
+  "fx_width_px": 55,
+  "note": "bottom-centre of the painted flame; draw fx/candle frames about 0.6 x fx_width_px wide, additive blend, ~10 fps"
+ },
+ "furniture/attic/furn_attic_oillamp_L.png": {
+  "fx": "candle",
+  "anchor": [
+   117,
+   144
+  ],
+  "fx_width_px": 35,
+  "note": "bottom-centre of the painted flame; draw fx/candle frames about 0.6 x fx_width_px wide, additive blend, ~10 fps"
+ },
+ "furniture/kitchen/furn_kitchen_kettle_R.png": {
+  "fx": "steam",
+  "anchor": [
+   163,
+   0
+  ],
+  "note": "steam: top-centre of the sprite, nudge to the spout by eye"
+ },
+ "furniture/kitchen/furn_kitchen_kettle_L.png": {
+  "fx": "steam",
+  "anchor": [
+   120,
+   0
+  ],
+  "note": "steam: top-centre of the sprite, nudge to the spout by eye"
+ },
+ "furniture/pass_midwinter/furn_pass_midwinter_mulledwine_R.png": {
+  "fx": "steam",
+  "anchor": [
+   221,
+   0
+  ],
+  "note": "steam: top-centre of the sprite, nudge to the spout by eye"
+ },
+ "furniture/pass_midwinter/furn_pass_midwinter_mulledwine_L.png": {
+  "fx": "steam",
+  "anchor": [
+   215,
+   0
+  ],
+  "note": "steam: top-centre of the sprite, nudge to the spout by eye"
+ },
+ "furniture/kitchen/furn_kitchen_fountain_R.png": {
+  "fx": "water",
+  "anchor": null,
+  "note": "water: ripple/trickle placed by eye on the water surface"
+ },
+ "furniture/kitchen/furn_kitchen_fountain_L.png": {
+  "fx": "water",
+  "anchor": null,
+  "note": "water: ripple/trickle placed by eye on the water surface"
+ },
+ "furniture/garden/furn_garden_pond_R.png": {
+  "fx": "water",
+  "anchor": null,
+  "note": "water: ripple/trickle placed by eye on the water surface"
+ },
+ "furniture/garden/furn_garden_pond_L.png": {
+  "fx": "water",
+  "anchor": null,
+  "note": "water: ripple/trickle placed by eye on the water surface"
+ }
+}

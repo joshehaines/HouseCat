@@ -1,6 +1,6 @@
 """Exterior scenes: every house painted into every terrain and season as one picture (decided 17 Oct:
 the isometric façades composited on eye-level terrain never sat on the ground). Raised three-quarter
-view, square, the house centred in a safe area that survives a phone-portrait and an iPad-landscape crop.
+view, 16:9 since the game went landscape, the house centred in the band the app never crops.
 Sky flat magenta (keyed to alpha, the sky is drawn in code), glass flat cyan (keyed to a mask, lit in code).
 
   python3 scenes.py batch <house|all> [start n]   request JSON for generate_image_batch (and batch_scenes_*.json for run.py-style bookkeeping)
@@ -26,6 +26,14 @@ SCENE_T = ("Refs: 1 = {house}, the house; 2 = its setting, {biome}, {season}; 3 
            "high-key Mediterranean-pastel palette, violet-blue shadows. No people, cat, cars or text.")
 
 
+# Per-house corrections learned in production (17 Oct): the houseboat drifted onto dry land, and the
+# new-build's balcony glass came out as flat key cyan.
+NOTES = {
+    'houseboat': "The houseboat floats on calm water that suits the setting (a canal, river, lake or sheltered sea edge), moored beside a towpath or jetty, never on dry land. ",
+    'newbuild_balcony': "The balcony balustrades are pale frosted green glass, not cyan; only window and door panes are cyan. ",
+}
+
+
 def state():
     return json.load(open(STATE)) if os.path.exists(STATE) else {}
 
@@ -35,10 +43,10 @@ def request(house, biome, season, st):
     desc = dict(HOUSES)[house].split(',')[0]
     house_job = st.get(f'house:{house}_snow' if season == 'winter' else f'house:{house}', {}).get('job_id')
     terrain_job = st[f'terrain:{biome}_{season}']['job_id']
-    weather = "Snow on the roof, sills and ground. " if season == 'winter' else ""
+    weather = NOTES.get(house, "") + ("Snow on the roof, sills and ground. " if season == 'winter' else "")
     prompt = SCENE_T.format(house=desc, biome=BIOMES[biome].split(':')[0], season=SEASON[season].split(':')[0], weather=weather)
     medias = [{"role": "image_references", "value": v} for v in (house_job, terrain_job, STYLE_E)]
-    return {"model": "gpt_image_2_5", "quality": "high", "resolution": "2k", "aspect_ratio": "1:1",
+    return {"model": "gpt_image_2_5", "quality": "high", "resolution": "2k", "aspect_ratio": "16:9",
             "prompt": prompt, "medias": medias}
 
 
@@ -88,6 +96,12 @@ def key(raw, out_dir, name):
 
     magenta = key(np.abs(r - 1) + g + np.abs(b - 1))
     cyan = key(r + np.abs(g - 1) + np.abs(b - 1))
+    # Only the sky that reaches the top of the picture is sky: magenta specks in water or snow stay painting.
+    labels, count = ndimage.label(magenta > 0)
+    if count:
+        sky_labels = set(np.unique(labels[0])) - {0}
+        stray = (labels > 0) & ~np.isin(labels, list(sky_labels))
+        magenta = np.where(stray, 0, magenta)
     sky = Image.fromarray((magenta * 255).astype(np.uint8)).filter(ImageFilter.MaxFilter(3)).filter(ImageFilter.GaussianBlur(1))
     land = 1 - np.asarray(sky).astype(np.float32) / 255
     # Un-blend the magenta from edge pixels, then fill the sky with the land colour pulled outwards.

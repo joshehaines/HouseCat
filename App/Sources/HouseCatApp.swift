@@ -21,7 +21,8 @@ struct HouseCatApp: App {
                     if let line = visit.greeting {
                         GreetingBubble(line)
                             .padding(.horizontal, 90)
-                            .padding(.top, 16)
+                            // Below the room controls and the status along the top.
+                            .padding(.top, 76)
                             .transition(.move(edge: .top).combined(with: .opacity))
                             .onTapGesture { visit.dismissGreeting() }
                     }
@@ -44,15 +45,20 @@ struct HouseCatApp: App {
                     }
                 }
                 .overlay(alignment: .topTrailing) {
-                    Button {
-                        showShop = true
-                    } label: {
-                        Image(systemName: "bag")
-                            .font(.title2)
-                            .padding(12)
-                            .background(.thinMaterial, in: Circle())
+                    HStack(spacing: 10) {
+                        if visit.scene is RoomScene {
+                            StatusPill(level: visit.stats.level, beans: visit.stats.beans, streak: visit.stats.streak)
+                        }
+                        Button {
+                            showShop = true
+                        } label: {
+                            Image(systemName: "bag")
+                                .font(.title2)
+                                .padding(12)
+                                .background(.thinMaterial, in: Circle())
+                        }
+                        .accessibilityLabel("Shop")
                     }
-                    .accessibilityLabel("Shop")
                     .padding()
                 }
                 .alert(item: $visit.roomOffer) { offer in

@@ -17,6 +17,21 @@ final class Visit {
     /// Decorate mode, and the piece picked up in it.
     private(set) var decorating = false
     private(set) var selected: UUID?
+    /// What the save says now, for the status readout.
+    struct Stats: Equatable {
+        var level = 1
+        var beans = 0
+        var streak = 0
+    }
+
+    private(set) var stats = Stats()
+
+    /// Reads the level, Beans and streak again after anything that changes them.
+    func refreshStats() {
+        let state = GameSession.shared.state(at: GameSession.shared.now())
+        stats = Stats(level: state.level, beans: state.beans, streak: state.streak.current)
+    }
+
     /// A closed room the player tapped, with what opening it takes (Core's `RoomRules.availability`).
     struct RoomOffer: Identifiable {
         var room: RoomID
@@ -143,6 +158,7 @@ final class Visit {
         if let house = scene as? RoomScene, let model = GameWorld.house(at: session.now(), state: session.state(at: session.now())) {
             house.update(house: model)
         }
+        refreshStats()
     }
 
     /// Feed: the cat goes to its bowl and says its line.
@@ -152,6 +168,7 @@ final class Visit {
         house.send(BehaviourChoice(activity: .bowlNag))
         house.react("notes")
         say(line)
+        refreshStats()
     }
 
     @ObservationIgnored private var petTaps = 0
@@ -172,6 +189,7 @@ final class Visit {
             GameWorld.purr()
         }
         say(line)
+        refreshStats()
     }
 
     /// Shows a line in the bubble for a few seconds.
@@ -233,6 +251,7 @@ final class Visit {
             house.onCatTapped = { [weak self] in self?.petCat() }
         }
         room = built
+        refreshStats()
         return built
     }
 

@@ -120,10 +120,12 @@ enum GameWorld {
         return scene
     }
 
-    /// The rub along the bottom edge: a soft haptic (the purr sound joins with the audio step).
+    /// The rub along the bottom edge: a soft haptic and the purr.
     static func purr() {
         #if canImport(UIKit) && !os(watchOS)
             UIImpactFeedbackGenerator(style: .soft).impactOccurred()
         #endif
+        Sound.loop("cat_purr_loop", volume: Tuning.Sound.purr)
+        Sound.stop("cat_purr_loop", after: Tuning.Sound.purrSeconds)
     }
 }

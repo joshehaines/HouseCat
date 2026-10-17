@@ -52,6 +52,9 @@ targets:
       - path: App/Art
         type: folder
         buildPhase: resources
+      - path: App/Audio
+        type: folder
+        buildPhase: resources
     dependencies:
       - package: HouseCatCore
       - package: HouseCatModels
@@ -178,6 +181,9 @@ targets:
         type: folder
         buildPhase: resources
       - path: App/Art
+        type: folder
+        buildPhase: resources
+      - path: App/Audio
         type: folder
         buildPhase: resources
     dependencies:

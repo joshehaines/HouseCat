@@ -71,6 +71,8 @@ final class GameSession {
     /// then the cat's next activity from the behaviour table with the mood that follows.
     struct Arrival {
         var greeting: String?
+        /// The meow that goes with the greeting (its line pack's `meow`).
+        var meow: LinesFile.Line.Meow?
         var choice: BehaviourChoice
         var mood: Mood
     }
@@ -97,7 +99,9 @@ final class GameSession {
         var brain = DaySeed(household: after.seed, day: day, purpose: "brain", salt: "arrival\(visits)-\(log.events.count)")
         var words = DaySeed(household: after.seed, day: day, purpose: "greeting", salt: greetingContext)
         let greeting = cat.flatMap { cat in content.flatMap { Greeting.line(greetingContext, cat: cat, lines: $0.lines, rng: &words) } }
-        return Arrival(greeting: greeting, choice: BehaviourTable.choose(context, rng: &brain), mood: mood)
+        let meow = cat
+            .flatMap { cat in content?.lines.lines.first { $0.context == greetingContext && $0.personality == cat.personality }?.meow }
+        return Arrival(greeting: greeting, meow: meow, choice: BehaviourTable.choose(context, rng: &brain), mood: mood)
     }
 
     // MARK: Decorating
@@ -106,6 +110,7 @@ final class GameSession {
     func record(_ change: RoomScene.DecorateChange, in room: RoomID = .living) {
         switch change {
         case let .moved(placementID, x, y, facing):
+            Sound.play("ui_place_item", volume: Tuning.Sound.place)
             append(.itemMoved(placementID: placementID, room: room, x: x, y: y, facing: facing), at: now())
         case let .stored(placementID):
             append(.itemStored(placementID: placementID), at: now())

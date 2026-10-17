@@ -343,6 +343,18 @@ public enum Tuning {
         public static let flashSeconds = 0.6
     }
 
+    /// Sound: volumes 0–1 and how long the rub's purr lasts.
+    public enum Sound {
+        public static let door = 0.7
+        public static let meow = 0.8
+        public static let purr = 0.6
+        public static let purrSeconds = 3.0
+        public static let ambience = 0.25
+        public static let fire = 0.3
+        public static let place = 0.6
+        public static let fadeSeconds = 0.8
+    }
+
     /// How a room is framed on screen.
     public enum Stage {
         /// The share of the view the room may fill.

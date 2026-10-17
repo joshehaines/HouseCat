@@ -41,6 +41,7 @@ final class Visit {
         self.size = size
         if ArrivalRules.showsExterior(lastActive: lastActive, now: now), let exterior = GameWorld.exteriorScene(size: size, at: now) {
             scene = exterior
+            exterior.onDoorOpens = { Sound.play("door_open", volume: Tuning.Sound.door) }
             exterior.onEnter = { [weak self, weak exterior] in
                 guard let self else { return }
                 let room = preparedRoom()
@@ -91,9 +92,16 @@ final class Visit {
 
     /// Shows the greeting while the cat notices you, then lets it go (SPEC: three seconds at most).
     private func greet() {
+        if let house = scene as? RoomScene {
+            Sound.ambience(for: house.house.sky, fire: house.furniture.values.contains { $0.childNode(withName: "fx.fire") != nil })
+        }
         guard let line = arrival?.greeting else { return }
+        let meow = Sound.meow(arrival?.meow)
         Task { @MainActor [weak self] in
             try? await Task.sleep(for: .seconds(Tuning.Arrival.noticeDelay))
+            if let meow {
+                Sound.play(meow, volume: Tuning.Sound.meow)
+            }
             self?.greeting = line
             try? await Task.sleep(for: .seconds(Tuning.Arrival.greetingMaxSeconds))
             if self?.greeting == line {

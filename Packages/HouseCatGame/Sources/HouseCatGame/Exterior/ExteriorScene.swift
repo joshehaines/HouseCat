@@ -26,6 +26,8 @@ public final class ExteriorScene: SKScene {
     public let model: Model
     /// Called once the push is far enough in for the room to take over.
     public var onEnter: (@MainActor () -> Void)?
+    /// Called as the door starts to open (the app plays its sound).
+    public var onDoorOpens: (@MainActor () -> Void)?
     private let art: ArtLibrary
     private let cameraNode = SKCameraNode()
     private let skyNode = SKSpriteNode()
@@ -179,6 +181,7 @@ public final class ExteriorScene: SKScene {
         removeAction(forKey: "autoAdvance")
         let target = doorPoint
         entering = true
+        onDoorOpens?()
         if doorOpen.texture != nil {
             doorOpen.run(.fadeIn(withDuration: Tuning.Exterior.doorOpenSeconds))
         }

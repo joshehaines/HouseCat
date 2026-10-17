@@ -1,0 +1,11 @@
+#!/bin/zsh
+# Builds App/Audio: the sounds the app plays, from assets/audio, as AAC (.m4a) with afconvert.
+# The masters are never edited. Run from the repo root: tools/app-assets/build_app_audio.sh
+set -e
+OUT=App/Audio
+rm -rf $OUT && mkdir -p $OUT
+for name in door_open cat_meow_short cat_meow_long cat_chirp cat_trill cat_grumble cat_purr_loop \
+            fire_crackle_loop night_crickets_loop dawn_birds_loop ui_place_item ui_tap; do
+  afconvert -f m4af -d aac -b 96000 assets/audio/$name.wav $OUT/$name.m4a
+done
+du -sh $OUT

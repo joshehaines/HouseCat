@@ -6,8 +6,8 @@ Spec: @docs/SPEC.md (every number is a locked decision). Art inventory: @docs/AS
 A painterly 2D pet game. Every visit starts outside the player's home in real weather; they tap the door, the cat (with a chosen personality) greets them; they feed, pet, play, collect gifts and furnish rooms the cat uses. Adults 25–40 first; rated 4+, not Kids Category. No ads. Full scope in v1: cat builder, world map with search and seasons, 8 houses, 6 rooms, 80 furniture, widgets with the visit streak (including the home-model widget), 3 mini-games, season pass (free + paid tracks), groups, co-owning and cat-sitting via CloudKit sharing, gifting, the stray, HealthKit layer, Siri/Shortcuts, Watch complication, iPad dollhouse view, Mac menu-bar cat, wallpaper and share-card exports. There is no timeline: work runs as ordered steps, each with an exit test (SPEC.md "Build phases"); nothing is staged out.
 
 ## Targets and layout
-- `App/` SwiftUI shell + SpriteKit scenes (`ExteriorScene`, `RoomScene`, `CatNode`, `FurnitureNode`). Minimum OS: iOS/iPadOS 26, watchOS 26, macOS 26 (decided 17 Oct 2026; build with Xcode 26). Bundle id `com.lostlambs.housecat`.
-- `Widgets/` WidgetKit extension: small/medium/large (home model)/Lock Screen/StandBy widgets, App Intents (Feed, Pet, Visit), Live Activity (Nap timer). App Group `group.com.lostlambs.housecat`.
+- `App/` SwiftUI shell + SpriteKit scenes (`ExteriorScene`, `RoomScene`, `CatNode`, `FurnitureNode`). Minimum OS: iOS/iPadOS 26, watchOS 26, macOS 26 (decided 17 Oct 2026; build with Xcode 26). Bundle id `com.housecatgame.housecat`.
+- `Widgets/` WidgetKit extension: small/medium/large (home model)/Lock Screen/StandBy widgets, App Intents (Feed, Pet, Visit), Live Activity (Nap timer). App Group `group.com.housecatgame.housecat`.
 - `Watch/`, `Mac/` (menu-bar app), iPad layouts inside `App/`: added as their own steps; all read HouseCatCore through the shared CloudKit save.
 - `Packages/HouseCatCore/` pure Swift package: models, `Tuning.swift`, cat brain, economy, levels, `DaySeed`, widget state. Owns every rule. Never imports UIKit or SpriteKit. 100% of rules have unit tests.
 - `Content/` `personalities.json`, `lines.json`, `catalogue.json`, `gifts.json`, `events.json` (data, not code).
@@ -16,7 +16,7 @@ A painterly 2D pet game. Every visit starts outside the player's home in real we
 
 ## Commands
 - Generate project: `xcodegen generate`
-- Build/run/screenshot: XcodeBuildMCP tools (simulator for UI, the connected iPhone for widgets and Live Activities)
+- Build/run/screenshot: XcodeBuildMCP tools in the iPhone and iPad simulators (Josh tests in the simulators, no physical device yet; widgets, Live Activities and the Watch app all run in simulators too)
 - Core tests: `cd Packages/HouseCatCore && swift test`
 - Lint: `swiftlint`
 

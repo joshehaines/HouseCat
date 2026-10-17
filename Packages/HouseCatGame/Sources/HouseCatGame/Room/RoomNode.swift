@@ -306,6 +306,12 @@ final class RoomNode: SKNode {
         furniture[placement.id] = placements[id]
     }
 
+    /// Puts a new placement in the room (from the inventory).
+    func add(_ placement: RoomModel.Placement) {
+        model.items.append(placement)
+        placeFurniture(placement)
+    }
+
     /// Takes a placement out of the room (stored in the inventory).
     func remove(_ placementID: UUID) {
         model.items.removeAll { $0.placementID == placementID }

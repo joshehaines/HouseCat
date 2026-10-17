@@ -61,6 +61,14 @@ struct HouseCatApp: App {
                     }
                     .padding()
                 }
+                .overlay(alignment: .bottom) {
+                    if visit.decorating {
+                        DecorateTray(entries: visit.inventory.map(trayEntry)) { visit.placeFromInventory($0) }
+                            .padding(.bottom, 12)
+                            .transition(.move(edge: .bottom).combined(with: .opacity))
+                    }
+                }
+                .animation(.easeOut(duration: 0.25), value: visit.decorating)
                 .alert(item: $visit.roomOffer) { offer in
                     roomAlert(offer)
                 }
@@ -81,6 +89,13 @@ struct HouseCatApp: App {
                     }
                 }
         }
+    }
+
+    /// A tray entry with the piece's picture from the app art.
+    private func trayEntry(_ entry: GameSession.InventoryEntry) -> DecorateTray.Entry {
+        let url = Bundle.main.url(forResource: "Art/" + entry.sprite, withExtension: nil)
+        let image = url.flatMap { UIImage(contentsOfFile: $0.path) }.map { Image(uiImage: $0) }
+        return DecorateTray.Entry(id: entry.id, name: entry.name, count: entry.count, image: image)
     }
 
     /// Opening a room (SPEC "Home and furniture": every room needs a level and Beans).

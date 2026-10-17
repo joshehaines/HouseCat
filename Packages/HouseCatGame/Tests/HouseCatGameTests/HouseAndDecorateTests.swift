@@ -258,3 +258,16 @@ private func touchPoint(of id: String, in scene: RoomScene) throws -> CGPoint {
     scene.send(BehaviourChoice(activity: .bowlNag))
     #expect(!director.isIdle)
 }
+
+@MainActor
+@Test func aPieceFromTheInventoryLandsWhereItFitsPickedUp() throws {
+    let fixture = try Fixture()
+    let scene = try fixture.scene()
+    scene.setDecorating(true)
+    let armchair = try #require(fixture.content.catalogue.items.first { $0.id == "living_armchair" })
+    let spot = try #require(PlacementRules.firstFit(PlacementRules.Piece(armchair, x: 0, y: 0, facing: .right), among: scene.pieces()))
+    let id = UUID()
+    scene.place(RoomModel.Placement(id: armchair.id, u: Double(spot.x), v: Double(spot.y), facing: spot.facing.rawValue, placementID: id))
+    #expect(scene.activeRoom?.model.items.contains { $0.placementID == id } == true)
+    #expect(scene.selectedPlacement == id)
+}

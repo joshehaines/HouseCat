@@ -135,6 +135,20 @@ final class Visit {
         decorating.toggle()
         greeting = nil
         house.setDecorating(decorating)
+        inventory = decorating ? GameSession.shared.inventory() : []
+    }
+
+    /// Pieces owned but not placed, shown in a tray while decorating.
+    private(set) var inventory: [GameSession.InventoryEntry] = []
+
+    /// Puts a piece from the tray into the room, picked up and ready to drag.
+    func placeFromInventory(_ itemID: String) {
+        guard let house = scene as? RoomScene, decorating,
+              let placement = GameSession.shared.placeFromInventory(itemID, among: house.pieces())
+        else { return }
+        house.place(placement)
+        inventory = GameSession.shared.inventory()
+        refreshStats()
     }
 
     private func offer(_ room: RoomID) {
@@ -226,6 +240,7 @@ final class Visit {
 
     func storeSelection() {
         (scene as? RoomScene)?.storeSelection()
+        inventory = GameSession.shared.inventory()
     }
 
     /// Tap to dismiss the greeting early.

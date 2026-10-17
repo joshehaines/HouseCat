@@ -103,4 +103,46 @@ public enum PlacementRules {
         }
         return snapped
     }
+
+    /// The first spot a piece fits, searching outwards from the middle of the room (a new piece from
+    /// the inventory lands where the player can see it), facing as given, else turned.
+    public static func firstFit(_ piece: Piece, among others: [Piece], roomCells: Int = Tuning.Room.gridWidth) -> Piece? {
+        let centre = Double(roomCells) / 2
+        func distance(_ cell: (x: Int, y: Int)) -> Double {
+            hypot(Double(cell.x) - centre, Double(cell.y) - centre)
+        }
+        var cells: [(x: Int, y: Int)] = []
+        for x in 0 ..< roomCells {
+            for y in 0 ..< roomCells {
+                cells.append((x, y))
+            }
+        }
+        cells.sort { distance($0) < distance($1) }
+        for candidate in [piece, piece.turned()] {
+            for (x, y) in cells {
+                var placed = candidate
+                placed.x = x
+                placed.y = y
+                if fits(placed, among: others, roomCells: roomCells) {
+                    return placed
+                }
+            }
+        }
+        return nil
+    }
+}
+
+public extension HouseholdState {
+    /// Pieces owned but not placed anywhere (stored, or never put out), by item id. Paid items count
+    /// one each when the player's entitlements include them (RulesContext.paidItems).
+    func unplaced(paidItems: Set<String> = []) -> [String: Int] {
+        var counts = owned
+        for item in paidItems where counts[item, default: 0] == 0 {
+            counts[item] = 1
+        }
+        for item in placed {
+            counts[item.itemID, default: 0] -= 1
+        }
+        return counts.filter { $0.value > 0 }
+    }
 }

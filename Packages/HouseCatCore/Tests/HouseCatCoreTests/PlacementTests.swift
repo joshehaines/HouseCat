@@ -80,3 +80,27 @@ private func piece(
         }
     }
 }
+
+@Test func aNewPieceLandsNearTheMiddleWhereItFits() throws {
+    let sofa = piece(0, 0, 3, 1, id: nil)
+    let first = try #require(PlacementRules.firstFit(sofa, among: []))
+    #expect(abs(first.x - 4) <= 1 && abs(first.y - 5) <= 1)
+    // With the middle taken, it still finds a free spot.
+    let blocker = piece(2, 2, 6, 6)
+    let around = try #require(PlacementRules.firstFit(sofa, among: [blocker]))
+    #expect(PlacementRules.fits(around, among: [blocker]))
+    // A wall item goes on its wall.
+    let picture = try #require(PlacementRules.firstFit(piece(0, 0, wall: true, id: nil), among: []))
+    #expect(picture.y == 0)
+}
+
+@Test func unplacedCountsWhatIsOwnedButNotOut() {
+    var fixture = Fixture()
+    fixture.add(.itemGranted(itemID: "living_sofa"), day: 0, hour: 8)
+    fixture.add(.itemGranted(itemID: "living_box"), day: 0, hour: 8)
+    fixture.add(.itemGranted(itemID: "living_box"), day: 0, hour: 8)
+    let placed = fixture.add(.itemPlaced(itemID: "living_box", room: .living, x: 1, y: 1, facing: .right), day: 0, hour: 9)
+    #expect(fixture.state.unplaced() == ["living_sofa": 1, "living_box": 1])
+    fixture.add(.itemStored(placementID: placed.id), day: 0, hour: 10)
+    #expect(fixture.state.unplaced() == ["living_sofa": 1, "living_box": 2])
+}

@@ -156,6 +156,38 @@ final class GameSession {
         return Greeting.line(context, cat: cat, lines: content.lines, rng: &rng)
     }
 
+    // MARK: Inventory
+
+    /// A piece the player owns but has not placed.
+    struct InventoryEntry: Identifiable, Equatable {
+        var id: String
+        var name: String
+        var count: Int
+        var sprite: String
+    }
+
+    func inventory() -> [InventoryEntry] {
+        guard let content else { return [] }
+        let items = Dictionary(uniqueKeysWithValues: content.catalogue.items.map { ($0.id, $0) })
+        // Paid pieces join the inventory from the player's entitlements once the store is wired to the save;
+        // `rules.paidItems` is every paid piece in the catalogue, not what this player bought.
+        return state(at: now()).unplaced().compactMap { id, count in
+            guard let item = items[id], let sprite = item.sprites["R"] ?? item.sprites.values.first else { return nil }
+            return InventoryEntry(id: id, name: item.name, count: count, sprite: sprite)
+        }.sorted { $0.name < $1.name }
+    }
+
+    /// Places a piece from the inventory where it first fits among the room's pieces; returns the placement (with
+    /// the event's id) for the scene, or nil if the room is full.
+    func placeFromInventory(_ itemID: String, among pieces: [PlacementRules.Piece], room: RoomID = .living) -> RoomModel.Placement? {
+        guard let item = content?.catalogue.items.first(where: { $0.id == itemID }) else { return nil }
+        let fresh = PlacementRules.Piece(item, x: 0, y: 0, facing: .right)
+        guard let spot = PlacementRules.firstFit(fresh, among: pieces) else { return nil }
+        let event = append(.itemPlaced(itemID: itemID, room: room, x: spot.x, y: spot.y, facing: spot.facing), at: now())
+        Sound.play("ui_place_item", volume: Tuning.Sound.place)
+        return RoomModel.Placement(id: itemID, u: Double(spot.x), v: Double(spot.y), facing: spot.facing.rawValue, placementID: event.id)
+    }
+
     // MARK: Decorating
 
     /// Records a change made in decorate mode (the scene already checked it with PlacementRules).
@@ -172,7 +204,7 @@ final class GameSession {
     // MARK: The demo household
 
     /// Until onboarding exists: a household with Midnight, the free living-room furniture of the demo
-    /// layout granted and placed (cells rounded from the layout's hand-tuned positions).
+    /// layout granted and placed (cells rounded from the layout's hand-tuned positions), and two more in the inventory.
     private func seedDemoHousehold() {
         let date = Date()
         append(.householdCreated(seed: UInt64.random(in: 1 ... UInt64.max), clock: DayClock()), at: date)
@@ -185,6 +217,10 @@ final class GameSession {
                 .itemPlaced(itemID: item.id, room: .living, x: Int(item.u.rounded()), y: Int(item.v.rounded()), facing: facing),
                 at: date
             )
+        }
+        // Two pieces in the inventory, so Decorate has something to put out.
+        for spare in ["living_armchair", "living_coffee"] {
+            append(.itemGranted(itemID: spare), at: date)
         }
     }
 }

@@ -46,6 +46,32 @@ public extension RoomScene {
         commit(piece, for: selection, in: room)
     }
 
+    /// Every piece in the active room as the placement rules see them (for finding room for a new one).
+    func pieces() -> [PlacementRules.Piece] {
+        guard let room = activeRoom else { return [] }
+        return room.model.items.compactMap { placement in
+            guard let item = items[placement.id] else { return nil }
+            return PlacementRules.Piece(
+                item,
+                placementID: placement.placementID,
+                x: Int(placement.u.rounded()),
+                y: Int(placement.v.rounded()),
+                facing: placement.facing == "L" ? .left : .right
+            )
+        }
+    }
+
+    /// Puts a piece from the inventory into the active room and picks it up, ready to drag.
+    func place(_ placement: RoomModel.Placement) {
+        guard let room = activeRoom else { return }
+        room.add(placement)
+        guard decorating, let sprite = room.placements[placement.placementID ?? UUID()] else { return }
+        let point = convert(CGPoint(x: sprite.position.x, y: sprite.position.y + sprite.size.height * 0.3), from: room)
+        if beginDecorating(point) {
+            dragging = false
+        }
+    }
+
     /// Puts the picked-up piece away in the inventory.
     func storeSelection() {
         guard let selection, let room = activeRoom else { return }

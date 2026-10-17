@@ -1063,6 +1063,62 @@
    ],
    "scale": 0.5
   },
+  "fx/reactions/fx_reactions_exclaim.png": {
+   "master": [
+    185,
+    456
+   ],
+   "scale": 0.5
+  },
+  "fx/reactions/fx_reactions_heart.png": {
+   "master": [
+    431,
+    362
+   ],
+   "scale": 0.5
+  },
+  "fx/reactions/fx_reactions_note.png": {
+   "master": [
+    348,
+    404
+   ],
+   "scale": 0.5
+  },
+  "fx/reactions/fx_reactions_notes.png": {
+   "master": [
+    492,
+    414
+   ],
+   "scale": 0.5
+  },
+  "fx/reactions/fx_reactions_paw.png": {
+   "master": [
+    415,
+    376
+   ],
+   "scale": 0.5
+  },
+  "fx/reactions/fx_reactions_question.png": {
+   "master": [
+    319,
+    444
+   ],
+   "scale": 0.5
+  },
+  "fx/reactions/fx_reactions_sparkle.png": {
+   "master": [
+    420,
+    448
+   ],
+   "scale": 0.5
+  },
+  "fx/reactions/fx_reactions_zzz.png": {
+   "master": [
+    412,
+    449
+   ],
+   "scale": 0.5
+  },
   "rooms/doors/door_panelled_cream.png": {
    "master": [
     1108,

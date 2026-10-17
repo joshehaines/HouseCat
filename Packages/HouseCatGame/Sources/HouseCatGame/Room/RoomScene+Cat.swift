@@ -105,4 +105,43 @@ public extension RoomScene {
             .move(to: spot.point, run: false, view: .side, scale: 1, lift: 0, speed: Pace.walk * CGFloat(Tuning.Arrival.walkOffPace)),
         ] + Array(steps(to: spot).dropFirst(2)) + [.call(onDone)])
     }
+
+    /// Sends the cat off to an activity now (fed: to the bowl; petted too much: away).
+    func send(_ choice: BehaviourChoice) {
+        guard let director else { return }
+        director.run(steps(to: spot(for: choice)))
+    }
+
+    /// A reaction icon (assets/fx/reactions: heart, zzz, notes, sparkle, question, exclaim, paw) floats up over the cat.
+    func react(_ icon: String) {
+        guard let cat = director?.cat, let room = cat.parent else { return }
+        let path = "fx/reactions/fx_reactions_\(icon).png"
+        guard art.has(path) else { return }
+        let painted = art.paintedSize(path)
+        let width = CGFloat(Tuning.Puppet.reactionWidth)
+        let node = SKSpriteNode(
+            texture: art.texture(path),
+            size: CGSize(width: width, height: width * painted.height / max(painted.width, 1))
+        )
+        node.position = CGPoint(x: cat.position.x, y: cat.position.y + cat.calculateAccumulatedFrame().height + 10)
+        node.zPosition = Layer.atCamera + 1
+        node.alpha = 0
+        room.addChild(node)
+        let seconds = Tuning.Puppet.reactionSeconds
+        node.run(.sequence([
+            .group([.fadeIn(withDuration: seconds * 0.2), .moveBy(x: 0, y: CGFloat(Tuning.Puppet.reactionRise), duration: seconds)]),
+            .fadeOut(withDuration: seconds * 0.3),
+            .removeFromParent(),
+        ]))
+    }
+
+    /// Whether a scene point is on the cat.
+    func isOnCat(_ point: CGPoint) -> Bool {
+        guard let cat = director?.cat, let room = cat.parent else { return false }
+        let frame = cat.calculateAccumulatedFrame().offsetBy(dx: 0, dy: 0)
+        return frame.insetBy(dx: -CGFloat(Tuning.Puppet.tapPadding), dy: -CGFloat(Tuning.Puppet.tapPadding)).contains(convert(
+            point,
+            to: room
+        ))
+    }
 }

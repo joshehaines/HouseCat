@@ -37,7 +37,8 @@ struct HouseCatApp: App {
                             toggle: { visit.toggleDecorating() },
                             turn: { visit.turnSelection() },
                             store: { visit.storeSelection() },
-                            changeStorey: { visit.changeStorey() }
+                            changeStorey: { visit.changeStorey() },
+                            feed: { visit.feed() }
                         )
                         .padding(20)
                     }

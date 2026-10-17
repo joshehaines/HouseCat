@@ -128,6 +128,34 @@ final class GameSession {
         return BehaviourTable.choose(context, rng: &rng)
     }
 
+    // MARK: Care
+
+    /// Feed (once a day; again gets "full"): the line from the state before, then the `fed` event.
+    func feed() -> String? {
+        let date = now()
+        let before = state(at: date)
+        let context = CareLines.feed(before: before, catID: Self.catID)
+        append(.fed(catID: Self.catID), at: date)
+        return line(context, before: before, date: date)
+    }
+
+    /// A pet; `taps` counts pets in a row. Returns the line (if any) and whether the cat walks off.
+    func pet(taps: Int) -> (line: String?, walksOff: Bool) {
+        let date = now()
+        let before = state(at: date)
+        let context = CareLines.pet(before: before, catID: Self.catID, taps: taps)
+        append(.petted(catID: Self.catID), at: date)
+        // Only the first pet of the day and the last straw get a line; the rest are purrs.
+        let speaks = context != "pet.repeat"
+        return (speaks ? line(context, before: before, date: date) : nil, context == "pet.too_many")
+    }
+
+    private func line(_ context: String, before state: HouseholdState, date: Date) -> String? {
+        guard let cat = state.cat(Self.catID), let content else { return nil }
+        var rng = DaySeed(household: state.seed, day: state.clock.day(of: date), purpose: "line", salt: "\(context)\(log.events.count)")
+        return Greeting.line(context, cat: cat, lines: content.lines, rng: &rng)
+    }
+
     // MARK: Decorating
 
     /// Records a change made in decorate mode (the scene already checked it with PlacementRules).

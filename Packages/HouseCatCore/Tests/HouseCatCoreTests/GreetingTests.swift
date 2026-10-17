@@ -66,3 +66,21 @@ import Testing
     let line = try #require(Greeting.line("arrival.first_of_day", cat: cat, lines: content.lines, rng: &rng))
     #expect(!line.contains("{cat}"))
 }
+
+@Test func feedLinesKnowWhetherTheBowlIsAlreadyFull() {
+    var fixture = Fixture()
+    fixture.add(.arrived, day: 1, hour: 8)
+    #expect(CareLines.feed(before: fixture.state(through: 1), catID: fixture.cat) == "feed.fed")
+    fixture.add(.fed(catID: fixture.cat), day: 1, hour: 8, minute: 5)
+    #expect(CareLines.feed(before: fixture.state(through: 1), catID: fixture.cat) == "feed.already_fed")
+}
+
+@Test func petLinesCountTheDayAndTheTapsInARow() {
+    var fixture = Fixture()
+    fixture.add(.arrived, day: 1, hour: 8)
+    #expect(CareLines.pet(before: fixture.state(through: 1), catID: fixture.cat, taps: 1) == "pet.first")
+    fixture.add(.petted(catID: fixture.cat), day: 1, hour: 8, minute: 1)
+    #expect(CareLines.pet(before: fixture.state(through: 1), catID: fixture.cat, taps: 2) == "pet.repeat")
+    // The fixture's cat is Aloof: six in a row and it walks off.
+    #expect(CareLines.pet(before: fixture.state(through: 1), catID: fixture.cat, taps: Tuning.Care.overPetTaps) == "pet.too_many")
+}

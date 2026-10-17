@@ -242,3 +242,19 @@ private func touchPoint(of id: String, in scene: RoomScene) throws -> CGPoint {
     #expect(director.cat.pose == .sitFront)
     #expect(director.floorPoint == scene.spot(for: BehaviourChoice(activity: .bowlNag)).point)
 }
+
+@MainActor
+@Test func feedingSendsTheCatToItsBowlAndPettingShowsAHeart() throws {
+    let fixture = try Fixture()
+    let scene = try fixture.scene()
+    let director = try scene.addCat(rig: fixture.art.data("cat/rig.json", as: PuppetRig.self), at: 5, 5, pose: .sitSide)
+    let room = try #require(scene.activeRoom)
+    let onCat = scene.convert(CGPoint(x: director.cat.position.x, y: director.cat.position.y + 40), from: room)
+    #expect(scene.isOnCat(onCat))
+    #expect(!scene.isOnCat(scene.convert(room.grid.floor(9, 1), from: room)))
+    let before = room.children.count
+    scene.react("heart")
+    #expect(room.children.count == before + 1)
+    scene.send(BehaviourChoice(activity: .bowlNag))
+    #expect(!director.isIdle)
+}

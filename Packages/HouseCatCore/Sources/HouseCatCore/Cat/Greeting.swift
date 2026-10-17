@@ -45,3 +45,19 @@ public enum Greeting {
         return variants[Int(rng.next() % UInt64(variants.count))].replacingOccurrences(of: "{cat}", with: cat.name)
     }
 }
+
+/// The lines for Feed and Pet (Content/lines.json `feed.*`, `pet.*`), read from the state before the event.
+public enum CareLines {
+    public static func feed(before state: HouseholdState, catID: String) -> String {
+        state.isFedToday(catID) ? "feed.already_fed" : "feed.fed"
+    }
+
+    /// `taps` counts pets in a row, this one included (six in a row and most cats walk off).
+    public static func pet(before state: HouseholdState, catID: String, taps: Int) -> String {
+        guard let cat = state.cat(catID) else { return "pet.repeat" }
+        if cat.personality.walksOff(afterConsecutivePets: taps) {
+            return "pet.too_many"
+        }
+        return (state.today?.pets ?? 0) == 0 ? "pet.first" : "pet.repeat"
+    }
+}

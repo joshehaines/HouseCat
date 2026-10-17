@@ -168,6 +168,10 @@ public enum Tuning {
     public enum Care {
         /// Taps in a row before the cat walks off (never a Velcro cat).
         public static let overPetTaps = 6
+        /// Pets closer together than this count as in a row.
+        public static let petRowSeconds = 3.0
+        /// How long a care line stays up.
+        public static let lineSeconds = 3.0
         public static let napMinutes = 20
     }
 
@@ -255,6 +259,11 @@ public enum Tuning {
         public static let minMoveSeconds = 0.25
         public static let hopSeconds = 0.3
         public static let hopHeight = 18.0
+        /// Reaction icons over the cat (room units, seconds), and how far round the cat a tap still counts.
+        public static let reactionWidth = 60.0
+        public static let reactionRise = 70.0
+        public static let reactionSeconds = 1.4
+        public static let tapPadding = 20.0
         /// Settled this long, the cat picks its next activity from the behaviour table.
         public static let idleSeconds = 25.0
         /// Where the cat sits on furniture, as a fraction of the sprite's height.

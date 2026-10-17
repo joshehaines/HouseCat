@@ -321,8 +321,13 @@ public final class RoomScene: SKScene {
             guard let touch = touches.first else { return }
             if dragging {
                 endDecorating(at: touch.location(in: self))
-            } else if !decorating, touchTravel < CGFloat(Tuning.House.tapSlop), let room = closedRoom(at: touch.location(in: self)) {
-                onClosedRoomTapped?(room)
+            } else if !decorating, touchTravel < CGFloat(Tuning.House.tapSlop) {
+                let point = touch.location(in: self)
+                if isOnCat(point) {
+                    onCatTapped?()
+                } else if let room = closedRoom(at: point) {
+                    onClosedRoomTapped?(room)
+                }
             }
             lastTouch = nil
         }
@@ -375,4 +380,6 @@ public final class RoomScene: SKScene {
     public var onSelect: ((UUID?) -> Void)?
     /// A closed room was tapped: the app offers to open it.
     public var onClosedRoomTapped: ((RoomID) -> Void)?
+    /// The cat was tapped: a pet.
+    public var onCatTapped: (() -> Void)?
 }

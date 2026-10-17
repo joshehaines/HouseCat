@@ -84,6 +84,10 @@ final class Visit {
                 house.selectForScreenshot("living_sofa")
             case "upstairs":
                 changeStorey()
+            case "feed":
+                feed()
+            case "pet":
+                petCat()
             default:
                 break
             }
@@ -141,6 +145,47 @@ final class Visit {
         }
     }
 
+    /// Feed: the cat goes to its bowl and says its line.
+    func feed() {
+        guard let house = scene as? RoomScene, !decorating else { return }
+        let line = GameSession.shared.feed()
+        house.send(BehaviourChoice(activity: .bowlNag))
+        house.react("notes")
+        say(line)
+    }
+
+    @ObservationIgnored private var petTaps = 0
+    @ObservationIgnored private var lastPet = Date.distantPast
+
+    /// A tap on the cat: a heart and a purr; too many in a row and most cats walk off.
+    func petCat() {
+        guard let house = scene as? RoomScene else { return }
+        let now = Date()
+        petTaps = now.timeIntervalSince(lastPet) < Tuning.Care.petRowSeconds ? petTaps + 1 : 1
+        lastPet = now
+        let (line, walksOff) = GameSession.shared.pet(taps: petTaps)
+        house.react(walksOff ? "exclaim" : "heart")
+        if walksOff {
+            petTaps = 0
+            house.send(GameSession.shared.nextActivity() ?? BehaviourChoice(activity: .hide))
+        } else {
+            GameWorld.purr()
+        }
+        say(line)
+    }
+
+    /// Shows a line in the bubble for a few seconds.
+    private func say(_ line: String?) {
+        guard let line else { return }
+        greeting = line
+        Task { @MainActor [weak self] in
+            try? await Task.sleep(for: .seconds(Tuning.Care.lineSeconds))
+            if self?.greeting == line {
+                self?.greeting = nil
+            }
+        }
+    }
+
     /// Up the stairs to the next storey, or back down to the ground floor from the top.
     func changeStorey() {
         guard let house = scene as? RoomScene, storeys.count > 1 else { return }
@@ -185,6 +230,7 @@ final class Visit {
             house.onSelect = { [weak self] in self?.selected = $0 }
             house.onClosedRoomTapped = { [weak self] in self?.offer($0) }
             house.nextActivity = { GameSession.shared.nextActivity() }
+            house.onCatTapped = { [weak self] in self?.petCat() }
         }
         room = built
         return built

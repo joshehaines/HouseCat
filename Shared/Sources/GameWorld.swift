@@ -81,14 +81,9 @@ enum GameWorld {
             var model = layout
             model.sky = sky
             model.light = sky.lightMap(weather: .sun)
-            // The save keeps one surface per room (the last changed); the other falls back to the room's first free one.
-            let picked = state.surfaces[spot.room].flatMap { chosen[$0] }
-            model.wall = picked?.kind == .wall ? picked?.id ?? "" : catalogue.defaultSurface(.wall, in: spot.room)?.id ?? layout.wall
-            model.floor = picked?.kind == .floor ? picked?.id ?? "" : catalogue.defaultSurface(.floor, in: spot.room)?.id ?? layout.floor
-            if spot.room == .living {
-                model.wall = picked?.kind == .wall ? model.wall : layout.wall
-                model.floor = picked?.kind == .floor ? model.floor : layout.floor
-            } else {
+            model.wall = state.surface(.wall, in: spot.room, catalogue: catalogue) ?? layout.wall
+            model.floor = state.surface(.floor, in: spot.room, catalogue: catalogue) ?? layout.floor
+            if spot.room != .living {
                 // Each room type's own window; doors between rooms are open partitions.
                 model.window = plans.roomStyles[spot.room.rawValue]?.window
                 model.door = nil

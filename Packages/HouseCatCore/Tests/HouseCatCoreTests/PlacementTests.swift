@@ -104,3 +104,23 @@ private func piece(
     fixture.add(.itemStored(placementID: placed.id), day: 0, hour: 10)
     #expect(fixture.state.unplaced() == ["living_sofa": 1, "living_box": 2])
 }
+
+@Test func aFloorNeverReplacesTheWallpaper() throws {
+    let content = try ContentBundle.load(from: ContentValidationTests.repo.appendingPathComponent("Content"))
+    var fixture = Fixture()
+    #expect(fixture.state.surface(.wall, in: .living, catalogue: content.catalogue) == content.catalogue.defaultSurface(.wall, in: .living)?
+        .id)
+    fixture.add(.surfaceChanged(room: .living, surfaceID: "wall_living_sage_limewash"), day: 0, hour: 9)
+    fixture.add(.surfaceChanged(room: .living, surfaceID: "floor_living_sage_carpet"), day: 0, hour: 9)
+    #expect(fixture.state.surface(.wall, in: .living, catalogue: content.catalogue) == "wall_living_sage_limewash")
+    #expect(fixture.state.surface(.floor, in: .living, catalogue: content.catalogue) == "floor_living_sage_carpet")
+    let walls = fixture.state.availableSurfaces(.wall, in: .living, catalogue: content.catalogue)
+    #expect(walls.count == 3 && walls.allSatisfy { $0.pool == .free })
+}
+
+@Test func surfaceIdsNameTheirKind() throws {
+    let content = try ContentBundle.load(from: ContentValidationTests.repo.appendingPathComponent("Content"))
+    for surface in content.catalogue.surfaces {
+        #expect(surface.id.hasPrefix(surface.kind == .floor ? "floor_" : "wall_"), "\(surface.id)")
+    }
+}

@@ -63,9 +63,20 @@ struct HouseCatApp: App {
                 }
                 .overlay(alignment: .bottom) {
                     if visit.decorating {
-                        DecorateTray(entries: visit.inventory.map(trayEntry)) { visit.placeFromInventory($0) }
-                            .padding(.bottom, 12)
-                            .transition(.move(edge: .bottom).combined(with: .opacity))
+                        DecorateTray(
+                            entries: visit.trayMode == .furniture ? visit.inventory.map(trayEntry) : surfaceEntries(),
+                            modes: Visit.TrayMode.allCases.map(\.title),
+                            mode: visit.trayMode.rawValue,
+                            selectMode: { visit.trayMode = Visit.TrayMode(rawValue: $0) ?? .furniture }
+                        ) { id in
+                            if visit.trayMode == .furniture {
+                                visit.placeFromInventory(id)
+                            } else {
+                                visit.chooseSurface(id)
+                            }
+                        }
+                        .padding(.bottom, 12)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
                     }
                 }
                 .animation(.easeOut(duration: 0.25), value: visit.decorating)
@@ -88,6 +99,16 @@ struct HouseCatApp: App {
                         Visit.lastActive = Date()
                     }
                 }
+        }
+    }
+
+    /// The room's wallpapers or floors as tray entries, the one up now marked.
+    private func surfaceEntries() -> [DecorateTray.Entry] {
+        let (options, current) = visit.surfaceOptions
+        return options.map { surface in
+            let url = Bundle.main.url(forResource: "Art/" + surface.sprite, withExtension: nil)
+            let image = url.flatMap { UIImage(contentsOfFile: $0.path) }.map { Image(uiImage: $0) }
+            return DecorateTray.Entry(id: surface.id, name: surface.name, count: 1, image: image, selected: surface.id == current)
         }
     }
 

@@ -189,6 +189,18 @@ final class GameSession {
         return RoomModel.Placement(id: itemID, u: Double(spot.x), v: Double(spot.y), facing: spot.facing.rawValue, placementID: event.id)
     }
 
+    /// The wallpapers or floors the player can put up in a room, with the one up now.
+    func surfaces(_ kind: CatalogueFile.Surface.Kind, in room: RoomID = .living) -> (options: [CatalogueFile.Surface], current: String?) {
+        guard let catalogue = content?.catalogue else { return ([], nil) }
+        let state = state(at: now())
+        return (state.availableSurfaces(kind, in: room, catalogue: catalogue), state.surface(kind, in: room, catalogue: catalogue))
+    }
+
+    func changeSurface(_ surfaceID: String, in room: RoomID = .living) {
+        append(.surfaceChanged(room: room, surfaceID: surfaceID), at: now())
+        Sound.play("ui_place_item", volume: Tuning.Sound.place)
+    }
+
     // MARK: Decorating
 
     /// Records a change made in decorate mode (the scene already checked it with PlacementRules).

@@ -99,6 +99,9 @@ final class Visit {
                 house.selectForScreenshot("living_sofa")
             case "upstairs":
                 changeStorey()
+            case "walls":
+                toggleDecorating()
+                trayMode = .walls
             case "feed":
                 feed()
             case "pet":
@@ -140,6 +143,44 @@ final class Visit {
 
     /// Pieces owned but not placed, shown in a tray while decorating.
     private(set) var inventory: [GameSession.InventoryEntry] = []
+
+    /// What the decorate tray shows: furniture to put out, or the room's wallpapers or floors.
+    enum TrayMode: Int, CaseIterable {
+        case furniture
+        case walls
+        case floors
+
+        var title: String {
+            switch self {
+            case .furniture: "Furniture"
+            case .walls: "Walls"
+            case .floors: "Floors"
+            }
+        }
+    }
+
+    var trayMode = TrayMode.furniture
+
+    /// The surfaces for the tray's walls or floors mode, with the one up now.
+    var surfaceOptions: (options: [CatalogueFile.Surface], current: String?) {
+        switch trayMode {
+        case .furniture: ([], nil)
+        case .walls: GameSession.shared.surfaces(.wall)
+        case .floors: GameSession.shared.surfaces(.floor)
+        }
+    }
+
+    /// Puts up a wallpaper or floor and rebuilds the house, staying in decorate mode.
+    func chooseSurface(_ surfaceID: String) {
+        guard let house = scene as? RoomScene, decorating else { return }
+        let session = GameSession.shared
+        session.changeSurface(surfaceID)
+        if let model = GameWorld.house(at: session.now(), state: session.state(at: session.now())) {
+            house.update(house: model)
+            house.setDecorating(true)
+        }
+        selected = nil
+    }
 
     /// Puts a piece from the tray into the room, picked up and ready to drag.
     func placeFromInventory(_ itemID: String) {

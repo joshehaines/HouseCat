@@ -178,7 +178,9 @@ public struct HouseholdState: Codable, Equatable, Sendable {
     public internal(set) var ownedOutfits: Set<String> = []
     public internal(set) var ownedSurfaces: Set<String> = []
     public internal(set) var placed: [PlacedItem] = []
-    public internal(set) var surfaces: [RoomID: String] = [:]
+    /// Each room's chosen wallpaper and floor (surface ids); a room without one uses its first free surface.
+    public internal(set) var wallpapers: [RoomID: String] = [:]
+    public internal(set) var floors: [RoomID: String] = [:]
     public internal(set) var homeMovesUsed = 0
 
     public internal(set) var giftsCollected: [String: Int] = [:]

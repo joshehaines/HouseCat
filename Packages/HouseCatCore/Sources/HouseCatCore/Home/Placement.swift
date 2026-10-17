@@ -146,3 +146,17 @@ public extension HouseholdState {
         return counts.filter { $0.value > 0 }
     }
 }
+
+public extension HouseholdState {
+    /// The wallpaper or floor a room shows: the player's choice, else the room's first free surface.
+    func surface(_ kind: CatalogueFile.Surface.Kind, in room: RoomID, catalogue: CatalogueFile) -> String? {
+        (kind == .floor ? floors[room] : wallpapers[room]) ?? catalogue.defaultSurface(kind, in: room)?.id
+    }
+
+    /// The surfaces a player can put up in a room: the free ones and any they own.
+    func availableSurfaces(_ kind: CatalogueFile.Surface.Kind, in room: RoomID, catalogue: CatalogueFile) -> [CatalogueFile.Surface] {
+        catalogue.surfaces
+            .filter { $0.room == room.rawValue && $0.kind == kind && ($0.pool == .free || ownedSurfaces.contains($0.id)) }
+            .sorted { $0.id < $1.id }
+    }
+}

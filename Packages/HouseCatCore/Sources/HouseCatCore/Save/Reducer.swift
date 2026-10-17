@@ -198,7 +198,12 @@ extension HouseholdState {
                 lifetime.roomsVisited.insert(room)
             }
         case let .surfaceChanged(room, surfaceID):
-            surfaces[room] = surfaceID
+            // Surface ids name their kind (Content: wall_… and floor_…), so a floor never replaces a wallpaper.
+            if Self.isFloor(surfaceID) {
+                floors[room] = surfaceID
+            } else {
+                wallpapers[room] = surfaceID
+            }
             lifetime.surfacesChanged += 1
             bump(.changeSurface, context: context)
         case let .outfitWorn(catID, outfitID):
@@ -379,6 +384,10 @@ extension HouseholdState {
     }
 
     // MARK: Home
+
+    static func isFloor(_ surfaceID: String) -> Bool {
+        surfaceID.hasPrefix("floor_")
+    }
 
     static func inBounds(_ x: Int, _ y: Int) -> Bool {
         (0 ..< Tuning.Room.gridWidth).contains(x) && (0 ..< Tuning.Room.gridDepth).contains(y)

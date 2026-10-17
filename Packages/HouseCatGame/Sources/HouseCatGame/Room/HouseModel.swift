@@ -87,7 +87,14 @@ public struct HousePlans: Decodable, Sendable {
         public var stairs: Stairs?
     }
 
+    /// A room type's window, and the furniture shown under its veil while it is closed.
+    public struct RoomStyle: Decodable, Sendable {
+        public var window: RoomModel.Opening?
+        public var preview: [RoomModel.Placement]?
+    }
+
     public var houses: [String: Plan]
     /// The surface each biome's houses stand on.
     public var grounds: [String: String]
+    public var roomStyles: [String: RoomStyle]
 }

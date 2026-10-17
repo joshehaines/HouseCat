@@ -72,8 +72,8 @@ enum GameWorld {
                 model.wall = picked?.kind == .wall ? model.wall : layout.wall
                 model.floor = picked?.kind == .floor ? model.floor : layout.floor
             } else {
-                // Windows and doors are drawn in the living room only for now.
-                model.window = nil
+                // Each room type's own window; doors between rooms are open partitions.
+                model.window = plans.roomStyles[spot.room.rawValue]?.window
                 model.door = nil
             }
             model.items = state.placed.filter { $0.room == spot.room }.map {
@@ -86,6 +86,10 @@ enum GameWorld {
                 )
             }
             let open = state.openedRooms.contains(spot.room)
+            if !open {
+                // A closed room shows what it could be, under its veil.
+                model.items = plans.roomStyles[spot.room.rawValue]?.preview ?? []
+            }
             let label = "Level \(spot.room.requiredLevel) · \(RoomRules.cost(of: spot.room, clubActive: false)) Beans"
             return HouseModel.Room(
                 id: spot.room,

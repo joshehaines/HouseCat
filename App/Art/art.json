@@ -308,6 +308,241 @@
    ],
    "scale": 0.6
   },
+  "furniture/attic/furn_attic_boxes_L.png": {
+   "master": [
+    266,
+    491
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/attic/furn_attic_boxes_R.png": {
+   "master": [
+    241,
+    454
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/attic/furn_attic_dustyarmchair_L.png": {
+   "master": [
+    460,
+    546
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/attic/furn_attic_dustyarmchair_R.png": {
+   "master": [
+    381,
+    488
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/attic/furn_attic_rockinghorse_L.png": {
+   "master": [
+    516,
+    478
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/attic/furn_attic_rockinghorse_R.png": {
+   "master": [
+    616,
+    536
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/attic/furn_attic_telescope_L.png": {
+   "master": [
+    482,
+    636
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/attic/furn_attic_telescope_R.png": {
+   "master": [
+    462,
+    632
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/attic/furn_attic_trunk_L.png": {
+   "master": [
+    380,
+    404
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/attic/furn_attic_trunk_R.png": {
+   "master": [
+    391,
+    410
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/bedroom/furn_bedroom_bed_L.png": {
+   "master": [
+    809,
+    689
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/bedroom/furn_bedroom_bed_R.png": {
+   "master": [
+    780,
+    633
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/bedroom/furn_bedroom_bedrug_L.png": {
+   "master": [
+    1120,
+    608
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/bedroom/furn_bedroom_bedrug_R.png": {
+   "master": [
+    1088,
+    586
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/bedroom/furn_bedroom_bedside_L.png": {
+   "master": [
+    227,
+    359
+   ],
+   "scale": 0.6
+  },
+  "furniture/bedroom/furn_bedroom_bedside_R.png": {
+   "master": [
+    201,
+    339
+   ],
+   "scale": 0.6
+  },
+  "furniture/bedroom/furn_bedroom_catbed_L.png": {
+   "master": [
+    426,
+    312
+   ],
+   "scale": 0.6
+  },
+  "furniture/bedroom/furn_bedroom_catbed_R.png": {
+   "master": [
+    483,
+    344
+   ],
+   "scale": 0.6
+  },
+  "furniture/bedroom/furn_bedroom_wardrobe_L.png": {
+   "master": [
+    341,
+    655
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/bedroom/furn_bedroom_wardrobe_R.png": {
+   "master": [
+    335,
+    618
+   ],
+   "scale": 0.6
+  },
+  "furniture/garden/furn_garden_bench_L.png": {
+   "master": [
+    453,
+    449
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/garden/furn_garden_bench_R.png": {
+   "master": [
+    467,
+    473
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/garden/furn_garden_birdfeeder_L.png": {
+   "master": [
+    400,
+    669
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/garden/furn_garden_birdfeeder_R.png": {
+   "master": [
+    323,
+    681
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/garden/furn_garden_flowerpots_L.png": {
+   "master": [
+    520,
+    544
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/garden/furn_garden_flowerpots_R.png": {
+   "master": [
+    533,
+    461
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/garden/furn_garden_pond_L.png": {
+   "master": [
+    555,
+    367
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/garden/furn_garden_pond_R.png": {
+   "master": [
+    593,
+    367
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/garden/furn_garden_shed_L.png": {
+   "master": [
+    464,
+    574
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/garden/furn_garden_shed_R.png": {
+   "master": [
+    407,
+    532
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
   "furniture/kitchen/furn_kitchen_bowl_L.png": {
    "master": [
     401,
@@ -320,6 +555,102 @@
    "master": [
     420,
     240
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/kitchen/furn_kitchen_chair_L.png": {
+   "master": [
+    317,
+    538
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/kitchen/furn_kitchen_chair_R.png": {
+   "master": [
+    318,
+    481
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/kitchen/furn_kitchen_cooker_L.png": {
+   "master": [
+    385,
+    491
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/kitchen/furn_kitchen_cooker_R.png": {
+   "master": [
+    351,
+    459
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/kitchen/furn_kitchen_doormat_L.png": {
+   "master": [
+    544,
+    322
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/kitchen/furn_kitchen_doormat_R.png": {
+   "master": [
+    560,
+    316
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/kitchen/furn_kitchen_fridge_L.png": {
+   "master": [
+    267,
+    489
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/kitchen/furn_kitchen_fridge_R.png": {
+   "master": [
+    291,
+    515
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/kitchen/furn_kitchen_sink_L.png": {
+   "master": [
+    277,
+    408
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/kitchen/furn_kitchen_sink_R.png": {
+   "master": [
+    257,
+    405
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/kitchen/furn_kitchen_table_L.png": {
+   "master": [
+    491,
+    482
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/kitchen/furn_kitchen_table_R.png": {
+   "master": [
+    457,
+    437
    ],
    "ref": "grey",
    "scale": 0.6
@@ -592,6 +923,86 @@
    "master": [
     713,
     608
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/study/furn_study_bookshelf_L.png": {
+   "master": [
+    440,
+    633
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/study/furn_study_bookshelf_R.png": {
+   "master": [
+    477,
+    673
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/study/furn_study_desk_L.png": {
+   "master": [
+    464,
+    449
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/study/furn_study_desk_R.png": {
+   "master": [
+    442,
+    446
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/study/furn_study_filing_L.png": {
+   "master": [
+    277,
+    445
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/study/furn_study_filing_R.png": {
+   "master": [
+    288,
+    406
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/study/furn_study_globe_L.png": {
+   "master": [
+    303,
+    452
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/study/furn_study_globe_R.png": {
+   "master": [
+    293,
+    466
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/study/furn_study_officechair_L.png": {
+   "master": [
+    412,
+    568
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/study/furn_study_officechair_R.png": {
+   "master": [
+    392,
+    545
    ],
    "ref": "grey",
    "scale": 0.6
@@ -1232,6 +1643,48 @@
     2048
    ],
    "scale": 0.25
+  },
+  "rooms/windows/window_arched.png": {
+   "master": [
+    1251,
+    2260
+   ],
+   "scale": 0.4
+  },
+  "rooms/windows/window_arched_opening.png": {
+   "master": [
+    1251,
+    2260
+   ],
+   "scale": 0.4
+  },
+  "rooms/windows/window_casement.png": {
+   "master": [
+    1666,
+    2026
+   ],
+   "scale": 0.4
+  },
+  "rooms/windows/window_casement_opening.png": {
+   "master": [
+    1666,
+    2026
+   ],
+   "scale": 0.4
+  },
+  "rooms/windows/window_dormer.png": {
+   "master": [
+    1594,
+    1822
+   ],
+   "scale": 0.4
+  },
+  "rooms/windows/window_dormer_opening.png": {
+   "master": [
+    1594,
+    1822
+   ],
+   "scale": 0.4
   },
   "rooms/windows/window_sash.png": {
    "master": [

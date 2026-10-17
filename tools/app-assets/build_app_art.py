@@ -29,6 +29,9 @@ SETS = [
     ('rooms/floors/floor_*.png', 0.25),
     ('rooms/lightmaps/lm_*.png', 1.0),
     ('rooms/windows/window_sash*.png', 0.4),
+    ('rooms/windows/window_casement*.png', 0.4),
+    ('rooms/windows/window_arched*.png', 0.4),
+    ('rooms/windows/window_dormer*.png', 0.4),
     ('rooms/doors/door_panelled_cream*.png', 0.4),
     ('furniture/living/furn_living_*.png', 0.6),
     ('furniture/kitchen/furn_kitchen_bowl_*.png', 0.6),
@@ -47,12 +50,19 @@ def size(path):
     return vals[0], vals[1]
 
 
+def preview_sets():
+    """The furniture shown in closed rooms (assets/rooms/houses.json roomStyles), both facings."""
+    styles = json.load(open(os.path.join(ASSETS, 'rooms', 'houses.json'))).get('roomStyles', {})
+    ids = sorted({item['id'] for style in styles.values() for item in style.get('preview', [])})
+    return [(f'furniture/{i.split("_", 1)[0]}/furn_{i}_*.png', 0.6) for i in ids if not i.startswith('living_')]
+
+
 def main():
     if os.path.isdir(OUT):
         shutil.rmtree(OUT)
     manifest = json.load(open(os.path.join(ASSETS, 'manifest.json')))['files']
     index = {}
-    for pattern, factor in SETS:
+    for pattern, factor in SETS + preview_sets():
         files = sorted(f for f in glob.glob(os.path.join(ASSETS, pattern))
                        if not f.endswith('_painted.png') and f.endswith(('.png', '.jpg')))
         assert files, pattern

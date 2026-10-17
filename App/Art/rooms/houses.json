@@ -1,5 +1,5 @@
 {
- "note": "Where each home's six rooms sit for the house view: storey 0 is the ground floor, `at` is the room's back corner on the house grid in cells (u along the right wall, v along the left), `outdoor` marks the garden, balcony or terrace. Rooms of one storey that touch share a cut-down partition. `grounds` is the surface the house stands on in each biome. `stairs` is the staircase up: the room it stands in, its corner cell and the wall it runs along (R or L).",
+ "note": "Where each home's six rooms sit for the house view: storey 0 is the ground floor, `at` is the room's back corner on the house grid in cells (u along the right wall, v along the left), `outdoor` marks the garden, balcony or terrace. Rooms of one storey that touch share a cut-down partition. `grounds` is the surface the house stands on in each biome. `stairs` is the staircase up: the room it stands in, its corner cell and the wall it runs along (R or L). `roomStyles` gives each room type its window and the furniture shown under the veil while it is closed (a preview of what it becomes).",
  "houses": {
   "london_terrace": {
    "rooms": [
@@ -331,5 +331,215 @@
   "desert": "floor_garden_gravel",
   "tropical": "floor_garden_lawn",
   "snow": "floor_garden_flagstones"
+ },
+ "roomStyles": {
+  "kitchen": {
+   "window": {
+    "id": "window_casement",
+    "wall": "R",
+    "start": 1.2,
+    "along": 2.2,
+    "height": 2.4,
+    "up": 1.6
+   },
+   "preview": [
+    {
+     "id": "kitchen_fridge",
+     "u": 0,
+     "v": 0,
+     "facing": "R"
+    },
+    {
+     "id": "kitchen_sink",
+     "u": 1,
+     "v": 0,
+     "facing": "R"
+    },
+    {
+     "id": "kitchen_cooker",
+     "u": 3,
+     "v": 0,
+     "facing": "R"
+    },
+    {
+     "id": "kitchen_table",
+     "u": 3,
+     "v": 4,
+     "facing": "R"
+    },
+    {
+     "id": "kitchen_chair",
+     "u": 5,
+     "v": 4,
+     "facing": "R"
+    },
+    {
+     "id": "kitchen_doormat",
+     "u": 4,
+     "v": 8,
+     "facing": "R"
+    }
+   ]
+  },
+  "bedroom": {
+   "window": {
+    "id": "window_sash",
+    "wall": "R",
+    "start": 5.6,
+    "along": 2.4,
+    "height": 2.6,
+    "up": 1.3
+   },
+   "preview": [
+    {
+     "id": "bedroom_bed",
+     "u": 0,
+     "v": 2,
+     "facing": "L"
+    },
+    {
+     "id": "bedroom_bedside",
+     "u": 0,
+     "v": 5,
+     "facing": "L"
+    },
+    {
+     "id": "bedroom_wardrobe",
+     "u": 2,
+     "v": 0,
+     "facing": "R"
+    },
+    {
+     "id": "bedroom_bedrug",
+     "u": 4,
+     "v": 3,
+     "facing": "R"
+    },
+    {
+     "id": "bedroom_catbed",
+     "u": 7,
+     "v": 6,
+     "facing": "R"
+    }
+   ]
+  },
+  "study": {
+   "window": {
+    "id": "window_arched",
+    "wall": "R",
+    "start": 5.5,
+    "along": 2.2,
+    "height": 2.8,
+    "up": 1.2
+   },
+   "preview": [
+    {
+     "id": "study_desk",
+     "u": 2,
+     "v": 0,
+     "facing": "R"
+    },
+    {
+     "id": "study_officechair",
+     "u": 2,
+     "v": 1,
+     "facing": "R"
+    },
+    {
+     "id": "study_bookshelf",
+     "u": 0,
+     "v": 3,
+     "facing": "L"
+    },
+    {
+     "id": "study_filing",
+     "u": 4,
+     "v": 0,
+     "facing": "R"
+    },
+    {
+     "id": "study_globe",
+     "u": 6,
+     "v": 5,
+     "facing": "R"
+    }
+   ]
+  },
+  "garden": {
+   "preview": [
+    {
+     "id": "garden_bench",
+     "u": 2,
+     "v": 0,
+     "facing": "R"
+    },
+    {
+     "id": "garden_flowerpots",
+     "u": 0,
+     "v": 0,
+     "facing": "R"
+    },
+    {
+     "id": "garden_pond",
+     "u": 5,
+     "v": 5,
+     "facing": "R"
+    },
+    {
+     "id": "garden_birdfeeder",
+     "u": 7,
+     "v": 2,
+     "facing": "R"
+    },
+    {
+     "id": "garden_shed",
+     "u": 0,
+     "v": 6,
+     "facing": "L"
+    }
+   ]
+  },
+  "attic": {
+   "window": {
+    "id": "window_dormer",
+    "wall": "R",
+    "start": 4.0,
+    "along": 2.2,
+    "height": 2.4,
+    "up": 1.5
+   },
+   "preview": [
+    {
+     "id": "attic_boxes",
+     "u": 0,
+     "v": 0,
+     "facing": "R"
+    },
+    {
+     "id": "attic_trunk",
+     "u": 2,
+     "v": 0,
+     "facing": "R"
+    },
+    {
+     "id": "attic_rockinghorse",
+     "u": 5,
+     "v": 4,
+     "facing": "R"
+    },
+    {
+     "id": "attic_telescope",
+     "u": 7,
+     "v": 2,
+     "facing": "R"
+    },
+    {
+     "id": "attic_dustyarmchair",
+     "u": 3,
+     "v": 5,
+     "facing": "R"
+    }
+   ]
+  }
  }
 }

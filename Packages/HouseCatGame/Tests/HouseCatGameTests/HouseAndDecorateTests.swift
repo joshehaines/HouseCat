@@ -72,6 +72,32 @@ private struct Fixture {
 }
 
 @MainActor
+@Test func everyRoomTypeHasAStyleWhosePreviewIsPaintedAndFits() throws {
+    let fixture = try Fixture()
+    let plans = try fixture.art.data("rooms/houses.json", as: HousePlans.self)
+    let items = Dictionary(uniqueKeysWithValues: fixture.content.catalogue.items.map { ($0.id, $0) })
+    for room in RoomID.allCases where room != .living {
+        let style = try #require(plans.roomStyles[room.rawValue], "\(room)")
+        var pieces: [PlacementRules.Piece] = []
+        for placement in style.preview ?? [] {
+            let item = try #require(items[placement.id], "\(placement.id) is in the catalogue")
+            #expect(fixture.art.has(item.sprites[placement.facing] ?? ""), "\(placement.id) is in the app art")
+            let piece = PlacementRules.Piece(
+                item,
+                x: Int(placement.u),
+                y: Int(placement.v),
+                facing: placement.facing == "L" ? .left : .right
+            )
+            #expect(PlacementRules.fits(piece, among: pieces), "\(placement.id) fits in the \(room) preview")
+            pieces.append(piece)
+        }
+        if let window = style.window {
+            #expect(fixture.art.has("rooms/windows/\(window.id).png"), "\(window.id)")
+        }
+    }
+}
+
+@MainActor
 @Test func partitionsAreCutDownAndTheBackWallsStand() throws {
     let house = try Fixture().house()
     func walls(_ id: RoomID) throws -> (left: RoomNode.Wall, right: RoomNode.Wall) {

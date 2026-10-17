@@ -4981,6 +4981,24 @@
     2048
    ]
   },
+  "rooms/walls/wall_living_cream_wash.png": {
+   "class": "rooms/walls",
+   "tile": true,
+   "mask": false,
+   "px": [
+    2048,
+    2048
+   ]
+  },
+  "rooms/walls/wall_living_mint_stripe.png": {
+   "class": "rooms/walls",
+   "tile": true,
+   "mask": false,
+   "px": [
+    2048,
+    2048
+   ]
+  },
   "rooms/walls/wall_pass_firstlight_primrose_daffodil.png": {
    "class": "rooms/walls",
    "tile": true,
@@ -5261,6 +5279,15 @@
    ]
   },
   "rooms/floors/floor_living_walnut_boards.png": {
+   "class": "rooms/floors",
+   "tile": true,
+   "mask": false,
+   "px": [
+    2048,
+    2048
+   ]
+  },
+  "rooms/floors/floor_living_honey_boards.png": {
    "class": "rooms/floors",
    "tile": true,
    "mask": false,

@@ -10,6 +10,8 @@ WALLS = [
  ('living', 'terracotta_damask', "a dusty terracotta wallpaper with a subtle tone-on-tone damask pattern"),
  ('living', 'powder_lemon', "a pale powder-blue wallpaper with small scattered hand-painted lemon sprigs"),
  ('living', 'sage_limewash', "warm sage-green limewash plaster with soft mottled brush texture"),
+ ('living', 'cream_wash', "warm buttermilk-cream painted plaster with soft, visible, mottled brush texture"),   # 17 Oct, job b3a85b13
+ ('living', 'mint_stripe', "a soft mint-green and cream wide vertical regency stripe wallpaper, the stripes running perfectly straight up and down"),   # 17 Oct, job cbf37f16
  ('bedroom', 'blush_floral', "a blush-pink wallpaper with tiny scattered cream flowers"),
  ('bedroom', 'lavender_stripe', "pale lavender and cream vertical pinstripes"),
  ('bedroom', 'toile_blue', "a cream toile wallpaper with simple pastoral trees and cottages in soft blue line work"),
@@ -44,6 +46,7 @@ FLOORS = [
  ('living', 'terracotta', "large square terracotta floor tiles with cream grout"),
  ('living', 'sage_carpet', "a soft sage-green wool carpet"),
  ('living', 'walnut_boards', "dark walnut floorboards running straight up and down"),
+ ('living', 'honey_boards', "warm honey-oak floorboards running straight up and down"),   # 17 Oct, job 91c53eab
  ('bedroom', 'pale_oak', "pale whitewashed oak floorboards running straight up and down"),
  ('bedroom', 'cream_carpet', "a thick cream wool carpet"),
  ('bedroom', 'white_boards', "white painted floorboards running straight up and down"),

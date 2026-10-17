@@ -8686,5 +8686,23 @@
   "status": "downloaded",
   "ref": "surface",
   "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261017_163406_c7aea98a-0f1a-4632-bc5e-a398a1f7ba86.png"
+ },
+ "wall:living_cream_wash": {
+  "job_id": "b3a85b13-85d6-4996-8cd9-c1748f60fef0",
+  "status": "downloaded",
+  "ref": "surface",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261017_194732_b3a85b13-85d6-4996-8cd9-c1748f60fef0.png"
+ },
+ "wall:living_mint_stripe": {
+  "job_id": "cbf37f16-d3fe-4d0c-a6fe-ca35a5714dfd",
+  "status": "downloaded",
+  "ref": "surface",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261017_194735_cbf37f16-d3fe-4d0c-a6fe-ca35a5714dfd.png"
+ },
+ "floor:living_honey_boards": {
+  "job_id": "91c53eab-4af8-491c-ab6d-cb55a0ecc5f4",
+  "status": "downloaded",
+  "ref": "surface",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261017_194739_91c53eab-4af8-491c-ab6d-cb55a0ecc5f4.png"
  }
 }

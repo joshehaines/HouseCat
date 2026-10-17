@@ -1,6 +1,6 @@
 # HouseCat — asset manifest (as built, 17 Oct 2026)
 
-Decision (Josh, 17 Oct): every asset class is generated in Higgsfield and finished before the code build starts, so the code builds against real art. The masters are in `housecat/assets/` (10,520 files, 2.26 GB after the cat-builder delivery of 17 Oct, checksums verified on the Mac); `assets/manifest.json` lists every file with its class, orientation, source job and placement data, plus a `conventions` block that says how each class is used. `tools/asset-pipeline/` holds the Python that made them and `pipeline_state.json` (every Higgsfield job ID and result URL), so any item can be re-cut or regenerated. STYLE.md is the look; this file is the inventory.
+Decision (Josh, 17 Oct): every asset class is generated in Higgsfield and finished before the code build starts, so the code builds against real art. The masters are in `housecat/assets/` (10,523 files, 2.26 GB after the cat-builder delivery of 17 Oct, checksums verified on the Mac); `assets/manifest.json` lists every file with its class, orientation, source job and placement data, plus a `conventions` block that says how each class is used. `tools/asset-pipeline/` holds the Python that made them and `pipeline_state.json` (every Higgsfield job ID and result URL), so any item can be re-cut or regenerated. STYLE.md is the look; this file is the inventory.
 
 ## 1. Specs that changed during production (all decided by Josh on 17 Oct)
 
@@ -15,7 +15,7 @@ Decision (Josh, 17 Oct): every asset class is generated in Higgsfield and finish
 | Folder | Contents | Files |
 |---|---|---|
 | `furniture/<room>/` | Living 16 items, bedroom 14, kitchen 14, garden 12, study 12, attic 12 (the sunbeam and skylight spots are glow sprites, with the painted versions kept as `_painted`), season passes Housewarming 8, Midwinter 8, First Light 8, Housewarming pack 6, founders' plaque 3 finishes (blank, number drawn in code); each R and L | 230 |
-| `rooms/walls`, `rooms/floors` | 31 wallpapers and 32 floors (5+ per room, plus pass and pack finishes), 2048 px seamless tiles | 63 |
+| `rooms/walls`, `rooms/floors` | 33 wallpapers and 33 floors (5+ per room, plus pass and pack finishes; the living room's fourth and fifth wallpapers and fifth floor added 17 Oct), 2048 px seamless tiles | 66 |
 | `rooms/windows`, `rooms/doors` | 8 window and 8 door frames, each with an `_opening` mask | 32 |
 | `rooms/garden_strips` | 5 garden boundaries (picket fence, brick, drystone, hedge, trellis), horizontally tiling | 5 |
 | `rooms/lightmaps` | light maps for morning, midday, evening, overcast, night × left wall, right wall, floor (.npy float + .png preview), and the grey reference room | 31 |

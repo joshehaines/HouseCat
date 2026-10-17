@@ -133,7 +133,8 @@ public final class RoomScene: SKScene {
 
     /// The ground the house stands on, out past the edges of the view (a builder game's base on its field).
     private func buildGround() {
-        guard let tile = house.ground else { return }
+        // Upper storeys hang in the sky: the street is downstairs.
+        guard let tile = house.ground, storey == 0 else { return }
         let reach = CGFloat(Tuning.House.groundReach), cells = CGFloat(Tuning.Room.gridWidth)
         let maxU = house.rooms.map { CGFloat($0.u) }.max() ?? 0, maxV = house.rooms.map { CGFloat($0.v) }.max() ?? 0
         let low = -reach, highU = maxU + cells + reach, highV = maxV + cells + reach

@@ -54,6 +54,15 @@ public extension RoomScene {
         onDecorate?(.stored(placementID: selection.placementID))
     }
 
+    /// Picks up a piece by item id without a touch (screenshots and previews).
+    func selectForScreenshot(_ itemID: String) {
+        guard decorating, let room = activeRoom, let sprite = room.furniture[itemID] else { return }
+        let point = convert(CGPoint(x: sprite.position.x, y: sprite.position.y + sprite.size.height * 0.3), from: room)
+        if beginDecorating(point) {
+            dragging = false
+        }
+    }
+
     // MARK: Touches
 
     /// Picks up the piece under a touch (scene coordinates). Returns false when there is none, so the touch pans.

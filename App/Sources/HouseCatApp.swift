@@ -33,6 +33,7 @@ struct HouseCatApp: App {
                             decorating: visit.decorating,
                             hasSelection: visit.selected != nil,
                             storeyTitle: visit.storeyTitle,
+                            canDecorate: visit.storey == 0,
                             toggle: { visit.toggleDecorating() },
                             turn: { visit.turnSelection() },
                             store: { visit.storeSelection() },

@@ -48,6 +48,12 @@ final class Visit {
                 exterior?.view?.presentScene(room, transition: .crossFade(withDuration: Tuning.Exterior.roomFadeSeconds))
                 scene = room
                 greet()
+                #if DEBUG
+                    Task { @MainActor [weak self] in
+                        try? await Task.sleep(for: .seconds(8))
+                        self?.applyScreenshotState()
+                    }
+                #endif
             }
             // Build the room once the exterior is on screen, behind its first seconds.
             Task { @MainActor [weak self] in
@@ -58,8 +64,30 @@ final class Visit {
             scene = SKScene(size: size)
             scene = preparedRoom()
             greet()
+            #if DEBUG
+                Task { @MainActor [weak self] in
+                    try? await Task.sleep(for: .seconds(8))
+                    self?.applyScreenshotState()
+                }
+            #endif
         }
     }
+
+    #if DEBUG
+        /// Screenshot runs from the command line (HOUSECAT_SCREEN=decorate or upstairs): opens that state once the room is up.
+        func applyScreenshotState() {
+            guard let wanted = ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"], let house = scene as? RoomScene else { return }
+            switch wanted {
+            case "decorate":
+                toggleDecorating()
+                house.selectForScreenshot("living_sofa")
+            case "upstairs":
+                changeStorey()
+            default:
+                break
+            }
+        }
+    #endif
 
     /// Shows the greeting while the cat notices you, then lets it go (SPEC: three seconds at most).
     private func greet() {

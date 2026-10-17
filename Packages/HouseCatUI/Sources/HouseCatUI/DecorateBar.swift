@@ -6,6 +6,7 @@ public struct DecorateBar: View {
     private let decorating: Bool
     private let hasSelection: Bool
     private let storeyTitle: String?
+    private let canDecorate: Bool
     private let toggle: () -> Void
     private let turn: () -> Void
     private let store: () -> Void
@@ -15,6 +16,7 @@ public struct DecorateBar: View {
         decorating: Bool,
         hasSelection: Bool,
         storeyTitle: String? = nil,
+        canDecorate: Bool = true,
         toggle: @escaping () -> Void,
         turn: @escaping () -> Void,
         store: @escaping () -> Void,
@@ -23,6 +25,7 @@ public struct DecorateBar: View {
         self.decorating = decorating
         self.hasSelection = hasSelection
         self.storeyTitle = storeyTitle
+        self.canDecorate = canDecorate
         self.toggle = toggle
         self.turn = turn
         self.store = store
@@ -38,7 +41,7 @@ public struct DecorateBar: View {
             if !decorating, let storeyTitle {
                 button(storeyTitle, systemImage: storeyTitle == "Upstairs" ? "arrow.up.square" : "arrow.down.square", action: changeStorey)
             }
-            if storeyTitle != "Downstairs" || decorating {
+            if canDecorate || decorating {
                 button(decorating ? "Done" : "Decorate", systemImage: decorating ? "checkmark" : "hammer", action: toggle)
             }
         }

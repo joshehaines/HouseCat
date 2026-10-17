@@ -1,8 +1,137 @@
 {
- "note": "Door points of the painted exterior scenes as fractions of the painting (x right, y down), measured from the door-open edits by tools/asset-pipeline/scenes.py; scenes without one use defaultDoor.",
  "defaultDoor": [
   0.39,
   0.62
  ],
- "doors": {}
+ "doors": {
+  "london_terrace_city_autumn": [
+   0.3965,
+   0.582
+  ],
+  "london_terrace_city_spring": [
+   0.3789,
+   0.6094
+  ],
+  "london_terrace_city_summer": [
+   0.3711,
+   0.5059
+  ],
+  "london_terrace_city_winter": [
+   0.373,
+   0.6406
+  ],
+  "london_terrace_coast_autumn": [
+   0.3633,
+   0.5234
+  ],
+  "london_terrace_coast_spring": [
+   0.377,
+   0.6133
+  ],
+  "london_terrace_coast_summer": [
+   0.3594,
+   0.6543
+  ],
+  "london_terrace_coast_winter": [
+   0.3789,
+   0.5879
+  ],
+  "london_terrace_countryside_autumn": [
+   0.3828,
+   0.6367
+  ],
+  "london_terrace_countryside_spring": [
+   0.3633,
+   0.5605
+  ],
+  "london_terrace_countryside_summer": [
+   0.3555,
+   0.5293
+  ],
+  "london_terrace_countryside_winter": [
+   0.377,
+   0.582
+  ],
+  "london_terrace_desert_autumn": [
+   0.3457,
+   0.6465
+  ],
+  "london_terrace_desert_spring": [
+   0.3496,
+   0.5879
+  ],
+  "london_terrace_desert_summer": [
+   0.3828,
+   0.5371
+  ],
+  "london_terrace_desert_winter": [
+   0.377,
+   0.5723
+  ],
+  "london_terrace_forest_autumn": [
+   0.375,
+   0.6172
+  ],
+  "london_terrace_forest_spring": [
+   0.3477,
+   0.6211
+  ],
+  "london_terrace_forest_summer": [
+   0.3691,
+   0.6211
+  ],
+  "london_terrace_forest_winter": [
+   0.373,
+   0.5586
+  ],
+  "london_terrace_mountain_autumn": [
+   0.375,
+   0.6289
+  ],
+  "london_terrace_mountain_spring": [
+   0.3535,
+   0.5527
+  ],
+  "london_terrace_mountain_summer": [
+   0.3555,
+   0.6074
+  ],
+  "london_terrace_mountain_winter": [
+   0.3633,
+   0.6191
+  ],
+  "london_terrace_snow_autumn": [
+   0.3652,
+   0.5898
+  ],
+  "london_terrace_snow_spring": [
+   0.3555,
+   0.5547
+  ],
+  "london_terrace_snow_summer": [
+   0.3535,
+   0.6094
+  ],
+  "london_terrace_snow_winter": [
+   0.3633,
+   0.5508
+  ],
+  "london_terrace_tropical_autumn": [
+   0.375,
+   0.6348
+  ],
+  "london_terrace_tropical_spring": [
+   0.3691,
+   0.541
+  ],
+  "london_terrace_tropical_summer": [
+   0.3691,
+   0.5684
+  ],
+  "london_terrace_tropical_winter": [
+   0.3496,
+   0.5586
+  ]
+ },
+ "note": "Door points of the painted exterior scenes as fractions of the painting (x right, y down), measured from the door-open edits by tools/asset-pipeline/scenes.py; scenes without one use defaultDoor."
 }

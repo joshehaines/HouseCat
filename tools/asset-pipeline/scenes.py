@@ -6,6 +6,7 @@ Sky flat magenta (keyed to alpha, the sky is drawn in code), glass flat cyan (ke
   python3 scenes.py batch <house|all> [start n]   request JSON for generate_image_batch (and batch_scenes_*.json for run.py-style bookkeeping)
   python3 scenes.py record <batchfile> < jobs.json  store job ids in pipeline_state.json under scene:<house>_<biome>_<season>
   python3 scenes.py key <raw.png> <out_dir> <name>   key a downloaded scene into <name>.jpg, <name>_land.png and <name>_glass.png
+  python3 scenes.py doors <raw_dir> <scenes.json>    measure each door from its door-open edit into scenes.json
 """
 import json
 import os
@@ -97,6 +98,33 @@ def key(raw, out_dir, name):
     return float((land < 0.5).mean()), float((np.asarray(glass) > 128).mean())
 
 
+def door(closed, opened):
+    """The door's centre as a fraction of the painting (x right, y down): the door-open edit repaints the
+    same picture, so the strongest coherent difference between the two is the doorway."""
+    import numpy as np
+    from PIL import Image
+    from scipy import ndimage
+    size = 512
+    a = np.asarray(Image.open(closed).convert('L').resize((size, size))).astype(np.float32)
+    b = np.asarray(Image.open(opened).convert('L').resize((size, size))).astype(np.float32)
+    diff = ndimage.gaussian_filter(np.abs(a - b), 6)
+    y, x = np.unravel_index(np.argmax(diff), diff.shape)
+    return round(float(x) / size, 4), round(float(y) / size, 4)
+
+
+def doors(raw_dir, scenes_json):
+    """Measures every scene that has a door-open edit and writes the points into scenes.json."""
+    import glob
+    index = json.load(open(scenes_json))
+    for opened in sorted(glob.glob(os.path.join(raw_dir, '*_dooropen.png'))):
+        name = os.path.basename(opened)[:-len('_dooropen.png')]
+        closed = os.path.join(raw_dir, name + '.png')
+        if os.path.exists(closed):
+            index['doors'][name] = list(door(closed, opened))
+    json.dump(index, open(scenes_json, 'w'), indent=1, sort_keys=True)
+    print(len(index['doors']), 'doors')
+
+
 if __name__ == '__main__':
     cmd = sys.argv[1]
     if cmd == 'batch':
@@ -105,3 +133,5 @@ if __name__ == '__main__':
         record(sys.argv[2], json.load(sys.stdin))
     elif cmd == 'key':
         print(key(sys.argv[2], sys.argv[3], sys.argv[4]))
+    elif cmd == 'doors':
+        doors(sys.argv[2], sys.argv[3])

@@ -846,6 +846,27 @@
    ],
    "scale": 0.75
   },
+  "world/scenes/london_terrace_city_autumn_dooropen.jpg": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_city_autumn_dooropen_glass.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_city_autumn_dooropen_land.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.75
+  },
   "world/scenes/london_terrace_city_autumn_glass.png": {
    "master": [
     2048,
@@ -861,6 +882,27 @@
    "scale": 0.75
   },
   "world/scenes/london_terrace_city_spring.jpg": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_city_spring_dooropen.jpg": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_city_spring_dooropen_glass.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_city_spring_dooropen_land.png": {
    "master": [
     2048,
     2048
@@ -888,6 +930,27 @@
    ],
    "scale": 0.75
   },
+  "world/scenes/london_terrace_city_summer_dooropen.jpg": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_city_summer_dooropen_glass.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_city_summer_dooropen_land.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.75
+  },
   "world/scenes/london_terrace_city_summer_glass.png": {
    "master": [
     2048,
@@ -903,6 +966,27 @@
    "scale": 0.75
   },
   "world/scenes/london_terrace_city_winter.jpg": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_city_winter_dooropen.jpg": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_city_winter_dooropen_glass.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_city_winter_dooropen_land.png": {
    "master": [
     2048,
     2048

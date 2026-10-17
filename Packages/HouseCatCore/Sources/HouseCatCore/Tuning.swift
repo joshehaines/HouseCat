@@ -211,6 +211,65 @@ public enum Tuning {
         public static let greetingMaxSeconds = 3.0
         /// From this trust tier the cat is visible in the window.
         public static let catInWindowFromTier = 3
+        /// The room choreography (ASSETS.md "Arrival in the room view"), in seconds and room units.
+        public static let noticeDelay = 0.7
+        public static let noticeHold = 0.35
+        /// How much bigger the cat is at the camera than across the room.
+        public static let nearScale = 2.3
+        /// The rub runs left to right just above the room's front corner.
+        public static let rubStartX = -150.0
+        public static let rubEndX = 210.0
+        public static let rubStartDrop = 20.0
+        public static let rubEndDrop = 30.0
+        /// Walking off after the rub is a little brisker than an ordinary walk.
+        public static let walkOffPace = 1.4
+    }
+
+    /// The cat puppet and how it moves (STYLE.md, ASSETS.md §7). Speeds in room units a second.
+    public enum Puppet {
+        public static let walkSpeed = 170.0
+        public static let runSpeed = 330.0
+        public static let rubSpeed = 150.0
+        /// Strides a second.
+        public static let walkHz = 1.6
+        public static let runHz = 3.2
+        /// A run swings the legs wider than a walk.
+        public static let runSwing = 1.4
+        /// Body bob as a fraction of the cat's height.
+        public static let walkBob = 0.015
+        public static let runBob = 0.03
+        /// In the front view legs lift instead of swinging, by this fraction of a leg.
+        public static let frontLegLift = 0.08
+        /// Cross-fades: into a painted pose, back to the puppet, and between views.
+        public static let settleSeconds = 0.35
+        public static let riseSeconds = 0.25
+        public static let turnSeconds = 0.18
+        /// How much of a cross-fade each side takes: the incoming picture fades in first and
+        /// the outgoing one fades out under it after, so the cat is never see-through halfway.
+        public static let fadeOverlap = 0.6
+        public static let minMoveSeconds = 0.25
+        public static let hopSeconds = 0.3
+        public static let hopHeight = 18.0
+        /// Where the cat sits on furniture, as a fraction of the sprite's height.
+        public static let seatHeight = 0.32
+        public static let perchHeight = 0.9
+        /// Where the cat waits beside furniture it uses from the floor, in cells past its footprint.
+        public static let besideGap = 0.4
+        public static let besideForward = 0.3
+        /// Scaled past this, the cat is at the camera and draws over everything.
+        public static let nearCameraScale = 1.2
+    }
+
+    /// How a room is framed on screen.
+    public enum Stage {
+        /// The share of the view the room may fill.
+        public static let fitWidth = 0.96
+        public static let fitHeight = 0.9
+        /// Wall items without a height hang this many cells up.
+        public static let wallItemHeight = 2.5
+        /// Fire drawn a little wider than the opening it sits in, ten frames a second.
+        public static let fireWidth = 1.3
+        public static let fxFrameSeconds = 0.1
     }
 
     /// Widgets (SPEC "Widgets, the Duolingo layer").

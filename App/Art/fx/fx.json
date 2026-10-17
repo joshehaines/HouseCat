@@ -1,0 +1,107 @@
+{
+ "fire": {
+  "frames": 8,
+  "cell": [
+   297,
+   505
+  ],
+  "anchor": "bottom",
+  "blend": "add (or normal with this alpha)",
+  "note": "luminance alpha; loop the frames at ~10 fps"
+ },
+ "steam": {
+  "frames": 7,
+  "cell": [
+   246,
+   822
+  ],
+  "anchor": "bottom",
+  "blend": "add (or normal with this alpha)",
+  "note": "luminance alpha; loop the frames at ~10 fps"
+ },
+ "robin": {
+  "sprites": [
+   "perched",
+   "pecking",
+   "head_tilt",
+   "hop",
+   "takeoff",
+   "fly_up",
+   "fly_down",
+   "fluffed"
+  ],
+  "found": 8
+ },
+ "candle": {
+  "frames": 8,
+  "cell": [
+   251,
+   421
+  ],
+  "anchor": "bottom",
+  "blend": "add (or normal with this alpha)",
+  "note": "luminance alpha; loop the frames at ~10 fps"
+ },
+ "smoke": {
+  "frames": 8,
+  "cell": [
+   335,
+   515
+  ],
+  "anchor": "bottom",
+  "blend": "add (or normal with this alpha)",
+  "note": "luminance alpha; loop the frames at ~10 fps"
+ },
+ "butterfly": {
+  "frames": 8,
+  "cell": [
+   366,
+   266
+  ],
+  "anchor": "center"
+ },
+ "reactions": {
+  "sprites": [
+   "heart",
+   "zzz",
+   "note",
+   "notes",
+   "sparkle",
+   "question",
+   "exclaim",
+   "paw"
+  ],
+  "found": 8
+ },
+ "water_trickle": {
+  "frames": 4,
+  "cell": [
+   240,
+   389
+  ],
+  "anchor": "center",
+  "blend": "add (or normal with this alpha)",
+  "note": "luminance alpha; loop ~8 fps"
+ },
+ "water_ripple": {
+  "frames": 4,
+  "cell": [
+   373,
+   254
+  ],
+  "anchor": "center",
+  "blend": "add (or normal with this alpha)",
+  "note": "luminance alpha; loop ~8 fps"
+ },
+ "_notes": {
+  "fire": "hearth flames for fireplaces",
+  "candle": "candle and oil-lamp flames",
+  "steam": "kettle, mugs, mulled wine",
+  "smoke": "house chimneys",
+  "water_trickle": "pet fountain",
+  "water_ripple": "pond, bowls",
+  "robin": "garden bird for the feeder and window watching",
+  "butterfly": "garden and the First Light butterfly jar",
+  "reactions": "floating icons over the cat: heart (petting), zzz (sleep), notes (radio, purring), sparkle (gift), question, exclaim, paw"
+ }
+}

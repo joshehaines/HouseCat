@@ -8,7 +8,7 @@ struct HouseCatMacApp: App {
     var body: some Scene {
         MenuBarExtra("HouseCat", systemImage: "cat.fill") {
             VStack(spacing: 0) {
-                RoomView()
+                RoomView(scene: GameWorld.roomScene(size: CGSize(width: 420, height: 315)))
                     .frame(width: 420, height: 315)
                 Divider()
                 HStack {

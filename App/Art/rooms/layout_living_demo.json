@@ -1,0 +1,94 @@
+{
+ "note": "Demo layout of the living room for the milestone 1 arrival, and the scale and anchor settings tuned by eye with tools/asset-pipeline/living_room.py. u runs along the right wall from the back corner, v along the left wall; cells 0-10.",
+ "wall": "wall_living_powder_lemon",
+ "floor": "floor_living_herringbone",
+ "window": {
+  "id": "window_sash",
+  "wall": "R",
+  "start": 5.6,
+  "along": 2.4,
+  "height": 2.6,
+  "up": 1.3
+ },
+ "door": {
+  "id": "door_panelled_cream",
+  "wall": "L",
+  "start": 6.6,
+  "along": 1.5,
+  "height": 3.5
+ },
+ "fitOverhang": 1.05,
+ "refScale": {
+  "cream": 0.4,
+  "grey": 0.46
+ },
+ "scale": {},
+ "catHeight": 150,
+ "cat": [
+  4.6,
+  4.8
+ ],
+ "spots": {
+  "nearPlayer": [7.6, 7.6],
+  "sunbeam": [6.5, 1.8],
+  "sulk": [3.0, 6.5],
+  "middle": [5.0, 5.0]
+ },
+ "items": [
+  {
+   "id": "living_rug",
+   "u": 3.5,
+   "v": 3.5,
+   "facing": "R"
+  },
+  {
+   "id": "living_sofa",
+   "u": 0.3,
+   "v": 2.2,
+   "facing": "L"
+  },
+  {
+   "id": "living_lamp",
+   "u": 0.2,
+   "v": 0.2,
+   "facing": "R"
+  },
+  {
+   "id": "living_box",
+   "u": 8.6,
+   "v": 3.2,
+   "facing": "R"
+  },
+  {
+   "id": "living_scratch",
+   "u": 0.3,
+   "v": 6.0,
+   "facing": "L"
+  },
+  {
+   "id": "living_plant",
+   "u": 4.6,
+   "v": 0.2,
+   "facing": "R"
+  },
+  {
+   "id": "living_picture",
+   "u": 0,
+   "v": 3.0,
+   "facing": "L",
+   "up": 2.4
+  },
+  {
+   "id": "living_fireplace",
+   "u": 1.4,
+   "v": 0.1,
+   "facing": "R"
+  },
+  {
+   "id": "kitchen_bowl",
+   "u": 7.2,
+   "v": 7.6,
+   "facing": "R"
+  }
+ ]
+}

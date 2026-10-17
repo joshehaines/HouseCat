@@ -1,21 +1,18 @@
-import HouseCatGame
 import SpriteKit
 import SwiftUI
 
-/// Hosts the room scene in SwiftUI. Shared by the iPhone and iPad app and the
-/// Mac menu-bar window.
+/// Hosts a game scene (the exterior or a room) in SwiftUI. Shared by the iPhone
+/// and iPad app and the Mac menu-bar window.
 public struct RoomView: View {
-    @State private var scene = RoomScene(size: CGSize(width: 1024, height: 768))
+    private let scene: SKScene
 
-    public init() {}
+    public init(scene: SKScene) {
+        self.scene = scene
+    }
 
     public var body: some View {
-        SpriteView(scene: scene, options: [.allowsTransparency])
+        SpriteView(scene: scene, preferredFramesPerSecond: 60, options: [.ignoresSiblingOrder])
             .accessibilityElement()
-            .accessibilityLabel("Living room. Your cat is on the floor.")
+            .accessibilityLabel("Living room. Your cat is here.")
     }
-}
-
-#Preview {
-    RoomView()
 }

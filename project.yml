@@ -41,11 +41,15 @@ targets:
     platform: iOS
     sources:
       - App/Sources
+      - Shared/Sources
       - App/Resources
       - path: Shared/AppIcon.icon
         type: file
         buildPhase: resources
       - path: Content
+        type: folder
+        buildPhase: resources
+      - path: App/Art
         type: folder
         buildPhase: resources
     dependencies:
@@ -164,8 +168,15 @@ targets:
     platform: macOS
     sources:
       - Mac/Sources
+      - Shared/Sources
       - path: Shared/AppIcon.icon
         type: file
+        buildPhase: resources
+      - path: Content
+        type: folder
+        buildPhase: resources
+      - path: App/Art
+        type: folder
         buildPhase: resources
     dependencies:
       - package: HouseCatCore

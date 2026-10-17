@@ -162,6 +162,11 @@ public struct BehaviourChoice: Equatable, Sendable {
     /// A line context to show with it (from Content/lines.json), if any.
     public var lineContext: String?
 
+    public init(activity: Activity, lineContext: String? = nil) {
+        self.activity = activity
+        self.lineContext = lineContext
+    }
+
     public var affordance: Affordance? {
         activity.affordance
     }

@@ -1,16 +1,18 @@
 import HouseCatCore
 import HouseCatStore
 import HouseCatUI
+import SpriteKit
 import SwiftUI
 
 @main
 struct HouseCatApp: App {
     @State private var store = Self.makeStore()
     @State private var showShop = false
+    @State private var scene = GameWorld.roomScene(size: CGSize(width: 1024, height: 768))
 
     var body: some Scene {
         WindowGroup {
-            RoomView()
+            RoomView(scene: scene)
                 .ignoresSafeArea()
                 .overlay(alignment: .topTrailing) {
                     Button {

@@ -1,0 +1,886 @@
+{
+ "files": {
+  "cat/base/short_slim/cat_short_slim_front_ear_far.png": {
+   "master": [
+    196,
+    259
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_front_ear_near.png": {
+   "master": [
+    200,
+    257
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_front_head.png": {
+   "master": [
+    504,
+    361
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_front_leg_back_far.png": {
+   "master": [
+    227,
+    620
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_front_leg_back_near.png": {
+   "master": [
+    188,
+    622
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_front_leg_front_far.png": {
+   "master": [
+    172,
+    625
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_front_leg_front_near.png": {
+   "master": [
+    195,
+    623
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_front_tail_curl.png": {
+   "master": [
+    331,
+    400
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_front_tail_low.png": {
+   "master": [
+    634,
+    238
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_front_tail_up.png": {
+   "master": [
+    266,
+    559
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_front_torso.png": {
+   "master": [
+    435,
+    655
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_front_whole.png": {
+   "master": [
+    584,
+    983
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_side_ear_far.png": {
+   "master": [
+    167,
+    224
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_side_ear_near.png": {
+   "master": [
+    168,
+    227
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_side_head.png": {
+   "master": [
+    441,
+    343
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_side_leg_back_far.png": {
+   "master": [
+    262,
+    582
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_side_leg_back_near.png": {
+   "master": [
+    263,
+    589
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_side_leg_front_far.png": {
+   "master": [
+    223,
+    594
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_side_leg_front_near.png": {
+   "master": [
+    220,
+    603
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_side_tail_curl.png": {
+   "master": [
+    379,
+    378
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_side_tail_low.png": {
+   "master": [
+    541,
+    260
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_side_tail_up.png": {
+   "master": [
+    303,
+    513
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_side_torso.png": {
+   "master": [
+    944,
+    494
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_side_whole.png": {
+   "master": [
+    660,
+    990
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_tqfront_ear_far.png": {
+   "master": [
+    215,
+    308
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_tqfront_ear_near.png": {
+   "master": [
+    217,
+    301
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_tqfront_head.png": {
+   "master": [
+    553,
+    412
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_tqfront_leg_back_far.png": {
+   "master": [
+    327,
+    671
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_tqfront_leg_back_near.png": {
+   "master": [
+    276,
+    673
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_tqfront_leg_front_far.png": {
+   "master": [
+    185,
+    665
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_tqfront_leg_front_near.png": {
+   "master": [
+    227,
+    672
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_tqfront_tail_curl.png": {
+   "master": [
+    354,
+    345
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_tqfront_tail_low.png": {
+   "master": [
+    527,
+    230
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_tqfront_tail_up.png": {
+   "master": [
+    387,
+    456
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_tqfront_torso.png": {
+   "master": [
+    913,
+    447
+   ],
+   "scale": 0.5
+  },
+  "cat/base/short_slim/cat_short_slim_tqfront_whole.png": {
+   "master": [
+    703,
+    976
+   ],
+   "scale": 0.5
+  },
+  "cat/poses/plain/cat_short_slim_loaf_side.png": {
+   "master": [
+    577,
+    414
+   ],
+   "scale": 0.6
+  },
+  "cat/poses/plain/cat_short_slim_loaf_tqfront.png": {
+   "master": [
+    452,
+    400
+   ],
+   "scale": 0.6
+  },
+  "cat/poses/plain/cat_short_slim_sit_back.png": {
+   "master": [
+    322,
+    714
+   ],
+   "scale": 0.6
+  },
+  "cat/poses/plain/cat_short_slim_sit_front.png": {
+   "master": [
+    323,
+    707
+   ],
+   "scale": 0.6
+  },
+  "cat/poses/plain/cat_short_slim_sit_side.png": {
+   "master": [
+    376,
+    730
+   ],
+   "scale": 0.6
+  },
+  "cat/poses/plain/cat_short_slim_sit_tqfront.png": {
+   "master": [
+    423,
+    701
+   ],
+   "scale": 0.6
+  },
+  "cat/poses/plain/cat_short_slim_sleep_curl.png": {
+   "master": [
+    425,
+    393
+   ],
+   "scale": 0.6
+  },
+  "cat/poses/plain/cat_short_slim_stretch_side.png": {
+   "master": [
+    745,
+    528
+   ],
+   "scale": 0.6
+  },
+  "furniture/kitchen/furn_kitchen_bowl_L.png": {
+   "master": [
+    401,
+    232
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/kitchen/furn_kitchen_bowl_R.png": {
+   "master": [
+    420,
+    240
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_armchair_L.png": {
+   "master": [
+    403,
+    456
+   ],
+   "ref": "cream",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_armchair_R.png": {
+   "master": [
+    361,
+    413
+   ],
+   "ref": "cream",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_bookcase_L.png": {
+   "master": [
+    220,
+    580
+   ],
+   "ref": "cream",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_bookcase_R.png": {
+   "master": [
+    239,
+    562
+   ],
+   "ref": "cream",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_box_L.png": {
+   "master": [
+    390,
+    309
+   ],
+   "ref": "cream",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_box_R.png": {
+   "master": [
+    369,
+    356
+   ],
+   "ref": "cream",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_cattree_L.png": {
+   "master": [
+    271,
+    469
+   ],
+   "ref": "cream",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_cattree_R.png": {
+   "master": [
+    203,
+    411
+   ],
+   "ref": "cream",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_clock_L.png": {
+   "master": [
+    125,
+    161
+   ],
+   "ref": "cream",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_clock_R.png": {
+   "master": [
+    119,
+    162
+   ],
+   "ref": "cream",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_coffee_L.png": {
+   "master": [
+    564,
+    402
+   ],
+   "ref": "cream",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_coffee_R.png": {
+   "master": [
+    411,
+    302
+   ],
+   "ref": "cream",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_fireplace_L.png": {
+   "master": [
+    347,
+    461
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_fireplace_R.png": {
+   "master": [
+    347,
+    467
+   ],
+   "ref": "cream",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_lamp_L.png": {
+   "master": [
+    142,
+    447
+   ],
+   "ref": "cream",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_lamp_R.png": {
+   "master": [
+    149,
+    470
+   ],
+   "ref": "cream",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_picture_L.png": {
+   "master": [
+    194,
+    338
+   ],
+   "ref": "cream",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_picture_R.png": {
+   "master": [
+    195,
+    354
+   ],
+   "ref": "cream",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_plant_L.png": {
+   "master": [
+    511,
+    598
+   ],
+   "ref": "cream",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_plant_R.png": {
+   "master": [
+    546,
+    583
+   ],
+   "ref": "cream",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_radiator_L.png": {
+   "master": [
+    261,
+    354
+   ],
+   "ref": "cream",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_radiator_R.png": {
+   "master": [
+    229,
+    326
+   ],
+   "ref": "cream",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_record_L.png": {
+   "master": [
+    437,
+    397
+   ],
+   "ref": "cream",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_record_R.png": {
+   "master": [
+    494,
+    417
+   ],
+   "ref": "cream",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_rug_L.png": {
+   "master": [
+    775,
+    369
+   ],
+   "ref": "cream",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_rug_R.png": {
+   "master": [
+    766,
+    398
+   ],
+   "ref": "cream",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_scratch_L.png": {
+   "master": [
+    210,
+    451
+   ],
+   "ref": "cream",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_scratch_R.png": {
+   "master": [
+    248,
+    436
+   ],
+   "ref": "cream",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_sofa_L.png": {
+   "master": [
+    923,
+    656
+   ],
+   "ref": "cream",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_sofa_R.png": {
+   "master": [
+    758,
+    615
+   ],
+   "ref": "cream",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_windowseat_L.png": {
+   "master": [
+    494,
+    410
+   ],
+   "ref": "cream",
+   "scale": 0.6
+  },
+  "furniture/living/furn_living_windowseat_R.png": {
+   "master": [
+    571,
+    481
+   ],
+   "ref": "cream",
+   "scale": 0.6
+  },
+  "fx/fire/fx_fire_00.png": {
+   "master": [
+    297,
+    505
+   ],
+   "scale": 0.5
+  },
+  "fx/fire/fx_fire_01.png": {
+   "master": [
+    297,
+    505
+   ],
+   "scale": 0.5
+  },
+  "fx/fire/fx_fire_02.png": {
+   "master": [
+    297,
+    505
+   ],
+   "scale": 0.5
+  },
+  "fx/fire/fx_fire_03.png": {
+   "master": [
+    297,
+    505
+   ],
+   "scale": 0.5
+  },
+  "fx/fire/fx_fire_04.png": {
+   "master": [
+    297,
+    505
+   ],
+   "scale": 0.5
+  },
+  "fx/fire/fx_fire_05.png": {
+   "master": [
+    297,
+    505
+   ],
+   "scale": 0.5
+  },
+  "fx/fire/fx_fire_06.png": {
+   "master": [
+    297,
+    505
+   ],
+   "scale": 0.5
+  },
+  "fx/fire/fx_fire_07.png": {
+   "master": [
+    297,
+    505
+   ],
+   "scale": 0.5
+  },
+  "rooms/doors/door_panelled_cream.png": {
+   "master": [
+    1108,
+    2256
+   ],
+   "scale": 0.4
+  },
+  "rooms/doors/door_panelled_cream_opening.png": {
+   "master": [
+    1108,
+    2256
+   ],
+   "scale": 0.4
+  },
+  "rooms/floors/floor_living_herringbone.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_living_honey_boards.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_living_sage_carpet.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_living_terracotta.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_living_walnut_boards.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/lightmaps/lm_evening_floor.png": {
+   "master": [
+    512,
+    512
+   ],
+   "scale": 1.0
+  },
+  "rooms/lightmaps/lm_evening_left.png": {
+   "master": [
+    512,
+    512
+   ],
+   "scale": 1.0
+  },
+  "rooms/lightmaps/lm_evening_right.png": {
+   "master": [
+    512,
+    512
+   ],
+   "scale": 1.0
+  },
+  "rooms/lightmaps/lm_midday_floor.png": {
+   "master": [
+    512,
+    512
+   ],
+   "scale": 1.0
+  },
+  "rooms/lightmaps/lm_midday_left.png": {
+   "master": [
+    512,
+    512
+   ],
+   "scale": 1.0
+  },
+  "rooms/lightmaps/lm_midday_right.png": {
+   "master": [
+    512,
+    512
+   ],
+   "scale": 1.0
+  },
+  "rooms/lightmaps/lm_morning_floor.png": {
+   "master": [
+    512,
+    512
+   ],
+   "scale": 1.0
+  },
+  "rooms/lightmaps/lm_morning_left.png": {
+   "master": [
+    512,
+    512
+   ],
+   "scale": 1.0
+  },
+  "rooms/lightmaps/lm_morning_right.png": {
+   "master": [
+    512,
+    512
+   ],
+   "scale": 1.0
+  },
+  "rooms/lightmaps/lm_night_floor.png": {
+   "master": [
+    512,
+    512
+   ],
+   "scale": 1.0
+  },
+  "rooms/lightmaps/lm_night_left.png": {
+   "master": [
+    512,
+    512
+   ],
+   "scale": 1.0
+  },
+  "rooms/lightmaps/lm_night_right.png": {
+   "master": [
+    512,
+    512
+   ],
+   "scale": 1.0
+  },
+  "rooms/lightmaps/lm_overcast_floor.png": {
+   "master": [
+    512,
+    512
+   ],
+   "scale": 1.0
+  },
+  "rooms/lightmaps/lm_overcast_left.png": {
+   "master": [
+    512,
+    512
+   ],
+   "scale": 1.0
+  },
+  "rooms/lightmaps/lm_overcast_right.png": {
+   "master": [
+    512,
+    512
+   ],
+   "scale": 1.0
+  },
+  "rooms/walls/wall_living_cream_wash.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/walls/wall_living_mint_stripe.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/walls/wall_living_powder_lemon.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/walls/wall_living_sage_limewash.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/walls/wall_living_terracotta_damask.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/windows/window_sash.png": {
+   "master": [
+    1436,
+    2228
+   ],
+   "scale": 0.4
+  },
+  "rooms/windows/window_sash_opening.png": {
+   "master": [
+    1436,
+    2228
+   ],
+   "scale": 0.4
+  },
+  "world/houses/ext_london_terrace.png": {
+   "master": [
+    1412,
+    1945
+   ],
+   "scale": 0.5
+  },
+  "world/houses/ext_london_terrace_dooropen.png": {
+   "master": [
+    1412,
+    1944
+   ],
+   "scale": 0.5
+  },
+  "world/terrain/terr_city_autumn.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.4
+  },
+  "world/terrain/terr_city_spring.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.4
+  },
+  "world/terrain/terr_city_summer.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.4
+  },
+  "world/terrain/terr_city_winter.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.4
+  }
+ },
+ "note": "Generated by tools/app-assets/build_app_art.py; master = the master's size in pixels, scale = this copy's downscale, ref = the reference room furniture was painted in."
+}

@@ -1,0 +1,720 @@
+{
+  "identifier": "8C1A7E52",
+  "nonRenewingSubscriptions": [
+    {
+      "displayPrice": "4.99",
+      "familyShareable": false,
+      "internalID": "6771897224",
+      "localizations": [
+        {
+          "description": "The Housewarming paid track, 2026-12-07 to 2027-01-04. Everything earned is kept.",
+          "displayName": "Housewarming Pass",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.pass.housewarming",
+      "referenceName": "Housewarming Pass",
+      "type": "NonRenewingSubscription"
+    },
+    {
+      "displayPrice": "4.99",
+      "familyShareable": false,
+      "internalID": "6724101253",
+      "localizations": [
+        {
+          "description": "The Midwinter paid track, 2027-01-04 to 2027-02-01. Everything earned is kept.",
+          "displayName": "Midwinter Pass",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.pass.midwinter",
+      "referenceName": "Midwinter Pass",
+      "type": "NonRenewingSubscription"
+    },
+    {
+      "displayPrice": "4.99",
+      "familyShareable": false,
+      "internalID": "6756275568",
+      "localizations": [
+        {
+          "description": "The First Light paid track, 2027-02-01 to 2027-03-01. Everything earned is kept.",
+          "displayName": "First Light Pass",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.pass.firstlight",
+      "referenceName": "First Light Pass",
+      "type": "NonRenewingSubscription"
+    }
+  ],
+  "products": [
+    {
+      "displayPrice": "0.99",
+      "familyShareable": false,
+      "internalID": "6727743603",
+      "localizations": [
+        {
+          "description": "The beanie, for any cat, kept forever.",
+          "displayName": "Beanie",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.outfit.beanie",
+      "referenceName": "Beanie",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "0.99",
+      "familyShareable": false,
+      "internalID": "6752717287",
+      "localizations": [
+        {
+          "description": "The flat cap, for any cat, kept forever.",
+          "displayName": "Flat cap",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.outfit.flatcap",
+      "referenceName": "Flat cap",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "0.99",
+      "familyShareable": false,
+      "internalID": "6778318023",
+      "localizations": [
+        {
+          "description": "The round glasses, for any cat, kept forever.",
+          "displayName": "Round glasses",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.outfit.roundglasses",
+      "referenceName": "Round glasses",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "0.99",
+      "familyShareable": false,
+      "internalID": "6728037656",
+      "localizations": [
+        {
+          "description": "The sunglasses, for any cat, kept forever.",
+          "displayName": "Sunglasses",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.outfit.sunglasses",
+      "referenceName": "Sunglasses",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "0.99",
+      "familyShareable": false,
+      "internalID": "6795392202",
+      "localizations": [
+        {
+          "description": "The pumpkin hat, for any cat, kept forever.",
+          "displayName": "Pumpkin hat",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.outfit.pumpkinhat",
+      "referenceName": "Pumpkin hat",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "0.99",
+      "familyShareable": false,
+      "internalID": "6733906290",
+      "localizations": [
+        {
+          "description": "The raincoat, for any cat, kept forever.",
+          "displayName": "Raincoat",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.outfit.raincoat",
+      "referenceName": "Raincoat",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "0.99",
+      "familyShareable": false,
+      "internalID": "6760808163",
+      "localizations": [
+        {
+          "description": "The christmas jumper, for any cat, kept forever.",
+          "displayName": "Christmas jumper",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.outfit.xmasjumper",
+      "referenceName": "Christmas jumper",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "0.99",
+      "familyShareable": false,
+      "internalID": "6723205909",
+      "localizations": [
+        {
+          "description": "The pyjamas, for any cat, kept forever.",
+          "displayName": "Pyjamas",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.outfit.pyjamas",
+      "referenceName": "Pyjamas",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "0.99",
+      "familyShareable": false,
+      "internalID": "6779859337",
+      "localizations": [
+        {
+          "description": "The cardigan, for any cat, kept forever.",
+          "displayName": "Cardigan",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.outfit.cardigan",
+      "referenceName": "Cardigan",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "0.99",
+      "familyShareable": false,
+      "internalID": "6749150525",
+      "localizations": [
+        {
+          "description": "The hawaiian shirt, for any cat, kept forever.",
+          "displayName": "Hawaiian shirt",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.outfit.hawaiian",
+      "referenceName": "Hawaiian shirt",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "0.99",
+      "familyShareable": false,
+      "internalID": "6709485474",
+      "localizations": [
+        {
+          "description": "The life jacket, for any cat, kept forever.",
+          "displayName": "Life jacket",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.outfit.lifevest",
+      "referenceName": "Life jacket",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "0.99",
+      "familyShareable": false,
+      "internalID": "6754173990",
+      "localizations": [
+        {
+          "description": "The skeleton onesie, for any cat, kept forever.",
+          "displayName": "Skeleton onesie",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.outfit.skeleton",
+      "referenceName": "Skeleton onesie",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "2.99",
+      "familyShareable": false,
+      "internalID": "6735538725",
+      "localizations": [
+        {
+          "description": "The Rainy London set: seven pieces, a wallpaper and a floor.",
+          "displayName": "Rainy London",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.set.rainy_london",
+      "referenceName": "Rainy London",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "4.99",
+      "familyShareable": false,
+      "internalID": "6718604132",
+      "localizations": [
+        {
+          "description": "The Rainy London set, its outfit and 300 Beans.",
+          "displayName": "Rainy London Bundle",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.bundle.rainy_london",
+      "referenceName": "Rainy London Bundle",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "2.99",
+      "familyShareable": false,
+      "internalID": "6751263060",
+      "localizations": [
+        {
+          "description": "The Cottagecore set: seven pieces, a wallpaper and a floor.",
+          "displayName": "Cottagecore",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.set.cottagecore",
+      "referenceName": "Cottagecore",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "4.99",
+      "familyShareable": false,
+      "internalID": "6718019235",
+      "localizations": [
+        {
+          "description": "The Cottagecore set, its outfit and 300 Beans.",
+          "displayName": "Cottagecore Bundle",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.bundle.cottagecore",
+      "referenceName": "Cottagecore Bundle",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "2.99",
+      "familyShareable": false,
+      "internalID": "6724785574",
+      "localizations": [
+        {
+          "description": "The Midnight set: seven pieces, a wallpaper and a floor.",
+          "displayName": "Midnight",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.set.midnight",
+      "referenceName": "Midnight",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "4.99",
+      "familyShareable": false,
+      "internalID": "6718096728",
+      "localizations": [
+        {
+          "description": "The Midnight set, its outfit and 300 Beans.",
+          "displayName": "Midnight Bundle",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.bundle.midnight",
+      "referenceName": "Midnight Bundle",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "2.99",
+      "familyShareable": false,
+      "internalID": "6781199997",
+      "localizations": [
+        {
+          "description": "The Cosy Study set: seven pieces, a wallpaper and a floor.",
+          "displayName": "Cosy Study",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.set.cosy_study",
+      "referenceName": "Cosy Study",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "4.99",
+      "familyShareable": false,
+      "internalID": "6711817149",
+      "localizations": [
+        {
+          "description": "The Cosy Study set, its outfit and 300 Beans.",
+          "displayName": "Cosy Study Bundle",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.bundle.cosy_study",
+      "referenceName": "Cosy Study Bundle",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "2.99",
+      "familyShareable": false,
+      "internalID": "6732846424",
+      "localizations": [
+        {
+          "description": "The Riviera set: seven pieces, a wallpaper and a floor.",
+          "displayName": "Riviera",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.set.riviera",
+      "referenceName": "Riviera",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "4.99",
+      "familyShareable": false,
+      "internalID": "6703784419",
+      "localizations": [
+        {
+          "description": "The Riviera set, its outfit and 300 Beans.",
+          "displayName": "Riviera Bundle",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.bundle.riviera",
+      "referenceName": "Riviera Bundle",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "2.99",
+      "familyShareable": false,
+      "internalID": "6726656558",
+      "localizations": [
+        {
+          "description": "The Cabin set: seven pieces, a wallpaper and a floor.",
+          "displayName": "Cabin",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.set.cabin",
+      "referenceName": "Cabin",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "4.99",
+      "familyShareable": false,
+      "internalID": "6751872017",
+      "localizations": [
+        {
+          "description": "The Cabin set, its outfit and 300 Beans.",
+          "displayName": "Cabin Bundle",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.bundle.cabin",
+      "referenceName": "Cabin Bundle",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "4.99",
+      "familyShareable": false,
+      "internalID": "6765439075",
+      "localizations": [
+        {
+          "description": "Another cat for the house, built your way, with its own personality.",
+          "displayName": "Adopt a Cat",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.cat.slot2",
+      "referenceName": "Adopt a Cat",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "4.99",
+      "familyShareable": false,
+      "internalID": "6743302385",
+      "localizations": [
+        {
+          "description": "Another cat for the house, built your way, with its own personality.",
+          "displayName": "Adopt a Cat",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.cat.slot3",
+      "referenceName": "Adopt a Cat",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "4.99",
+      "familyShareable": false,
+      "internalID": "6738609791",
+      "localizations": [
+        {
+          "description": "Another cat for the house, built your way, with its own personality.",
+          "displayName": "Adopt a Cat",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.cat.slot4",
+      "referenceName": "Adopt a Cat",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "1.99",
+      "familyShareable": false,
+      "internalID": "6747351974",
+      "localizations": [
+        {
+          "description": "An outfit, a furniture set and 500 Beans. Once only.",
+          "displayName": "Starter Pack",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.starter",
+      "referenceName": "Starter Pack",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "4.99",
+      "familyShareable": false,
+      "internalID": "6712297041",
+      "localizations": [
+        {
+          "description": "A grand fireplace, a hi-fi, string lights, a welcome mat and more, with 300 Beans.",
+          "displayName": "Housewarming Pack",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.season.housewarming",
+      "referenceName": "Housewarming Pack",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "39.99",
+      "familyShareable": false,
+      "internalID": "6721325930",
+      "localizations": [
+        {
+          "description": "Everything in Cat Club, forever.",
+          "displayName": "Forever Home",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.lifetime",
+      "referenceName": "Forever Home",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "29.99",
+      "familyShareable": false,
+      "internalID": "6710354104",
+      "localizations": [
+        {
+          "description": "A numbered plaque for the house, an exclusive outfit and Cat Club forever.",
+          "displayName": "Founders' Pack",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.founders",
+      "referenceName": "Founders' Pack",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "19.99",
+      "familyShareable": false,
+      "internalID": "6719136057",
+      "localizations": [
+        {
+          "description": "A year of Cat Club for a friend.",
+          "displayName": "Gift: Cat Club Yearly",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.gift.club.yearly",
+      "referenceName": "Gift: Cat Club Yearly",
+      "type": "Consumable"
+    },
+    {
+      "displayPrice": "4.99",
+      "familyShareable": false,
+      "internalID": "6797564895",
+      "localizations": [
+        {
+          "description": "Another cat for a friend's house.",
+          "displayName": "Gift: Adopt a Cat",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.gift.cat",
+      "referenceName": "Gift: Adopt a Cat",
+      "type": "Consumable"
+    },
+    {
+      "displayPrice": "2.99",
+      "familyShareable": false,
+      "internalID": "6726409446",
+      "localizations": [
+        {
+          "description": "The Rainy London set for a friend.",
+          "displayName": "Gift: Rainy London",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.gift.set.rainy_london",
+      "referenceName": "Gift: Rainy London",
+      "type": "Consumable"
+    },
+    {
+      "displayPrice": "2.99",
+      "familyShareable": false,
+      "internalID": "6727348202",
+      "localizations": [
+        {
+          "description": "The Cottagecore set for a friend.",
+          "displayName": "Gift: Cottagecore",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.gift.set.cottagecore",
+      "referenceName": "Gift: Cottagecore",
+      "type": "Consumable"
+    },
+    {
+      "displayPrice": "2.99",
+      "familyShareable": false,
+      "internalID": "6790472057",
+      "localizations": [
+        {
+          "description": "The Midnight set for a friend.",
+          "displayName": "Gift: Midnight",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.gift.set.midnight",
+      "referenceName": "Gift: Midnight",
+      "type": "Consumable"
+    },
+    {
+      "displayPrice": "2.99",
+      "familyShareable": false,
+      "internalID": "6722809065",
+      "localizations": [
+        {
+          "description": "The Cosy Study set for a friend.",
+          "displayName": "Gift: Cosy Study",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.gift.set.cosy_study",
+      "referenceName": "Gift: Cosy Study",
+      "type": "Consumable"
+    },
+    {
+      "displayPrice": "2.99",
+      "familyShareable": false,
+      "internalID": "6797770092",
+      "localizations": [
+        {
+          "description": "The Riviera set for a friend.",
+          "displayName": "Gift: Riviera",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.gift.set.riviera",
+      "referenceName": "Gift: Riviera",
+      "type": "Consumable"
+    },
+    {
+      "displayPrice": "2.99",
+      "familyShareable": false,
+      "internalID": "6782460678",
+      "localizations": [
+        {
+          "description": "The Cabin set for a friend.",
+          "displayName": "Gift: Cabin",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.gift.set.cabin",
+      "referenceName": "Gift: Cabin",
+      "type": "Consumable"
+    },
+    {
+      "displayPrice": "4.99",
+      "familyShareable": false,
+      "internalID": "6776452914",
+      "localizations": [
+        {
+          "description": "This season's paid track for a friend.",
+          "displayName": "Gift: Season Pass",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.gift.pass",
+      "referenceName": "Gift: Season Pass",
+      "type": "Consumable"
+    }
+  ],
+  "settings": {
+    "_failTransactionsEnabled": false,
+    "_locale": "en_GB",
+    "_storeKitErrors": [],
+    "_storefront": "GBR"
+  },
+  "subscriptionGroups": [
+    {
+      "id": "6780014577",
+      "localizations": [],
+      "name": "Cat Club",
+      "subscriptions": [
+        {
+          "adHocOffers": [],
+          "codeOffers": [],
+          "displayPrice": "2.99",
+          "familyShareable": true,
+          "groupNumber": 1,
+          "internalID": "6760329686",
+          "introductoryOffer": null,
+          "localizations": [
+            {
+              "description": "Monthly outfit, an extra cat, +20% Beans, rooms at half the Beans and every season pass.",
+              "displayName": "Cat Club Monthly",
+              "locale": "en_GB"
+            }
+          ],
+          "productID": "housecat.club.monthly",
+          "recurringSubscriptionPeriod": "P1M",
+          "referenceName": "Cat Club Monthly",
+          "subscriptionGroupID": "6780014577",
+          "type": "RecurringSubscription",
+          "winbackOffers": []
+        },
+        {
+          "adHocOffers": [],
+          "codeOffers": [],
+          "displayPrice": "19.99",
+          "familyShareable": true,
+          "groupNumber": 1,
+          "internalID": "6785246806",
+          "introductoryOffer": {
+            "internalID": "6738468113",
+            "numberOfPeriods": 1,
+            "paymentMode": "free",
+            "subscriptionPeriod": "P1W"
+          },
+          "localizations": [
+            {
+              "description": "Monthly outfit, an extra cat, +20% Beans, rooms at half the Beans and every season pass.",
+              "displayName": "Cat Club Yearly",
+              "locale": "en_GB"
+            }
+          ],
+          "productID": "housecat.club.yearly",
+          "recurringSubscriptionPeriod": "P1Y",
+          "referenceName": "Cat Club Yearly",
+          "subscriptionGroupID": "6780014577",
+          "type": "RecurringSubscription",
+          "winbackOffers": []
+        }
+      ]
+    }
+  ],
+  "version": {
+    "major": 4,
+    "minor": 0
+  }
+}

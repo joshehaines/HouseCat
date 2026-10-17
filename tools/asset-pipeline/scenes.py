@@ -20,8 +20,9 @@ SEASONS = list(SEASON)
 SCENE_T = ("Refs: 1 = {house}, the house; 2 = its setting, {biome}, {season}; 3 = palette and brushwork. Paint one game "
            "exterior: this exact house standing in this setting, raised three-quarter view from the front-left (from an upstairs "
            "window across the street, about 25 degrees down): its front and side, a little roof, doorstep, path and the ground in "
-           "front; the setting spreads to either side and behind, horizon in the upper fifth. {weather}House exactly centred, "
-           "inside the middle 45% of the width and 70% of the height, front door visible. Window and door glass flat pure cyan "
+           "front; the setting spreads to either side and behind, horizon in the upper fifth. {weather}A wide landscape view: "
+           "the house exactly centred, inside the middle 40% of the width and 75% of the height, front door visible, the "
+           "setting filling both sides. Window and door glass flat pure cyan "
            "#00FFFF. Sky flat pure magenta #FF00FF, no clouds or sun. Noon light from the upper left. Painterly brushwork, "
            "high-key Mediterranean-pastel palette, violet-blue shadows. No people, cat, cars or text.")
 

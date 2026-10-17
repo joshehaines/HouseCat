@@ -1,6 +1,6 @@
 # HouseCat — architecture
 
-Kept current by Claude Code. Last updated 17 Oct 2026 (milestone 0). CLAUDE.md holds the rules; this file explains how the pieces fit.
+Kept current by Claude Code. Last updated 17 Oct 2026 (milestone 1). CLAUDE.md holds the rules; this file explains how the pieces fit.
 
 ## 1. Targets and packages
 
@@ -22,7 +22,7 @@ Kept current by Claude Code. Last updated 17 Oct 2026 (milestone 0). CLAUDE.md h
 | `HouseCatMac` (Mac/) | Native macOS 26 menu-bar app (`MenuBarExtra`, `LSUIElement`, App Sandbox on). Same bundle id as the iPhone app for the universal purchase. Feed and Pet there count as the visit. | computes a rule |
 | `HouseCatCore` | Every rule, pure Swift on Foundation: `Tuning`, the event log and its fold, `DaySeed`, trusted time, levels, trust, streak, Beans, rooms, gifts, the season pass, objectives, the behaviour table, widget state, content decoding. 100% of rules tested. | imports UIKit, SwiftUI, SpriteKit or SwiftData |
 | `HouseCatModels` | SwiftData persistence of the save (`StoredEvent`, `StoredSnapshot`, `EventStore`), in the App Group, CloudKit private-database mirroring. | holds a rule |
-| `HouseCatGame` | SpriteKit: `RoomScene` (placeholder in milestone 0), later `ExteriorScene`, `CatNode` puppet, `FurnitureNode`. | computes a rule |
+| `HouseCatGame` | SpriteKit: `ExteriorScene` (the painted home, code sky and grade, door push), `RoomScene` (tiles × light maps, window and door, furniture by footprint, the cat among them), `CatNode` (cut-out puppet and painted poses), `CatDirector` (moves the cat step by step), `ArtLibrary` (the app art in `App/Art`). | computes a rule |
 | `HouseCatUI` | Shared SwiftUI views (`RoomView` hosts the scene). | computes a rule |
 | `HouseCatStore` | `EntitlementService` and its StoreKit 2 and RevenueCat implementations, the product table, the Keychain mirror. | writes entitlements to the synced save |
 
@@ -72,6 +72,22 @@ Only the household owner's devices write these (see §6).
 - **Widgets.** The widget reads the same SwiftData store from the App Group, derives the state and builds its timeline with `WidgetRules.timeline`: 48 entries 30 minutes apart, each with the streak and the visited-today pose. App Intents (Feed, Pet) append an event and reload the timeline. Widgets never fetch: weather comes from the app's cached forecast and the cat poses are pre-rendered PNGs in the App Group (the widget cannot run the coat shader).
 - **Watch and Mac.** Both append events to the same iCloud save and derive the same state; neither has rules of its own.
 
+### The visit (milestone 1)
+
+```
+ launch / back after an hour ──► Visit ──► ArrivalRules.showsExterior? ──► ExteriorScene (sky phase, season, door point)
+                                   │                                              │ tap or 2.5 s: door opens, camera pushes in
+                                   │   0.4 s later, behind the exterior:         ▼
+                                   └──► GameSession.arrive() ──► greeting context (Greeting) from the state before
+                                              │                  `arrived` appended, state derived again
+                                              │                  mood × weather × personality × placed affordances
+                                              ▼                  → BehaviourTable.choose
+                                        RoomScene + CatNode ──► CatDirector plays the arrival: notice, run to the camera,
+                                                                rub (haptic), walk to the chosen furniture, settle in a pose
+```
+
+`Shared/Sources` holds the app-side glue: `GameSession` (the save: load, append with trusted time, derive), `Visit` (which scene is on screen, the greeting bubble) and `GameWorld` (builds scenes from the art and the state). Scenes receive finished values (`RoomModel`, `ExteriorScene.Model`, a `BehaviourChoice`) and decide nothing.
+
 ## 5. Persistence
 
 `EventStore` (HouseCatModels) keeps `StoredEvent` (the event as JSON, with its id, time and day index for queries) and `StoredSnapshot`. Every attribute has a default and nothing is unique, as CloudKit mirroring requires. The store lives in the App Group container so the widget reads it; mirroring uses the CloudKit private database `iCloud.com.housecatgame.housecat` once the iCloud capability is on the App ID (needs the developer account). No accounts, no login, no backend.
@@ -105,6 +121,6 @@ Every group shows Leave, Remove member (the owner removes the participant from t
 
 ## 8. Testing
 
-- `swift test` in every package: HouseCatCore (rules, content validation), HouseCatModels (SwiftData store), HouseCatGame, HouseCatUI, HouseCatStore (entitlement mapping, product table, `.storekit` agreement).
+- `swift test` in every package: HouseCatCore (rules, content validation), HouseCatModels (SwiftData store), HouseCatGame (grid maths, rig integrity, puppet build and hand-over, room build and draw order, cat spots, a full simulated arrival, exterior framing), HouseCatUI, HouseCatStore (entitlement mapping, product table, `.storekit` agreement). HouseCatGame's tests read the real `App/Art`.
 - `HouseCatTests` (Xcode, hosted in the app, iPhone simulator): StoreKit with `SKTestSession` against `Store/HouseCat.storekit`, covering product types, the yearly trial, an outfit purchase that survives a relaunch, Cat Club, the season pass, gifts and refunds. The app does not start StoreKit when it is hosting tests (`XCTestConfigurationFilePath` is set), otherwise StoreKit binds to the sandbox before the test session loads the configuration.
 - Build and run: XcodeBuildMCP in a session opened in the repo, or `xcodebuild` (commands in CLAUDE.md).

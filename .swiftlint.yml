@@ -11,7 +11,11 @@ line_length:
   warning: 140
   error: 200
 identifier_name:
-  excluded: [x, y, i, j, w, d, dx, dy, id, r1, g1, b1, a1, r2, g2, b2, a2, x0, y0, x1, y1]
+  excluded: [x, y, z, i, j, w, d, f, a, b, c, h, m, n, dx, dy, id, at, xp, mp, doy, doe, yoe, era, r1, g1, b1, a1, r2, g2, b2, a2, x0, y0, x1, y1]
+type_name:
+  excluded: [XP]
+large_tuple:
+  warning: 3
 type_body_length:
   warning: 400
 file_length:
@@ -21,3 +25,5 @@ function_body_length:
 disabled_rules:
   - trailing_comma
   - opening_brace
+cyclomatic_complexity:
+  ignores_case_statements: true

@@ -85,6 +85,21 @@ A painterly 2D pet game. Every visit starts outside the player's home in real we
 - Rooms are 2:1 isometric corner rooms (10 × 10 floor, walls 5 high, a door to the next room), built in code from flat wall/floor tiles projected onto the two walls and floor, multiplied by a painted light map (morning, midday, evening, overcast, night). Furniture sprites come in R and L orientations. The cat is a cut-out puppet (4 views × 11 parts) posed and animated in code.
 - Never: red bow/collar, white-sclera almond eyes, crescent forehead mark, witch hat, Ghibli greens-and-cream palette. Never name a cat Jiji, Luna, Salem, Binx, Figaro, Felix.
 
+## Decisions during milestone 0 (17 Oct 2026)
+Josh's answers where the spec contradicted itself:
+- Mini-game stars pay 2 / 4 / 6 Beans (CONTENT.md), not 10–20 a play.
+- Gift odds: each trust tier moves 3 points from common, +2 to rare and +1 to legendary (Soulmate: 42 / 28 / 22 / 8).
+- The 80 room items: 8 free starters + 30 Bean items (level 1 ×8, 3 ×8, 6 ×8, 9 ×6) + 42 in six paid sets of 7.
+- The paid pass track's tier 20 is the season's outfit (no paid cat looks exist at launch).
+
+Where the spec is silent, these are set in `Tuning.swift` and HouseCatCore (tune in beta, tell Josh if one changes):
+- Season pass: 50 points a tier (tier 20 at 1,000, about day 23). SPEC's "play 5" and "mini-game 5" are one action (5 a play). Placing furniture pays pass points once a day. Objective pass points sit on top of the 60-a-day cap.
+- Pets give 5, 2, 1 XP, then nothing that day. Streak milestones pay their Beans once per lifetime. Below 3 care days a cat is trust tier 0 ("newcomer"; the named tiers start at Wary).
+- No gift the day after a missed day (CONTENT.md "no gift today (missed yesterday)"). Mood after a miss: sulky on the first return visit, thawing on the second, fine from the third.
+- A pause started after the day's visit covers the days from tomorrow. Default bedtime 23:00. The widget shows "content" for an hour after the first visit.
+- Cat Club's +20% Beans and paid-track claims are recorded per day by a `clubDayRecorded` event, written while a verified entitlement is live. It grants nothing on its own, so the rule that entitlements never sit in the synced store still holds (see docs/ARCHITECTURE.md).
+- New events get a timestamp strictly after the newest event (`SaveLog.timestamp(for:)`), so events appended while game time is paused keep their order.
+
 ## Working with Josh
 - He is the product owner and art director, not a Swift developer. Explain Xcode/signing steps click by click when he must act.
 - End every milestone with: what is placeholder vs real, test status, and the three riskiest items for the next milestone.

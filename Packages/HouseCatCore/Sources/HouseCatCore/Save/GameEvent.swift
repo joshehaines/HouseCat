@@ -88,6 +88,10 @@ public struct GameEvent: Codable, Hashable, Sendable, Identifiable {
         case pauseStarted(days: Int)
         case pauseEnded
 
+        /// Beans that come with a purchase (bundles, the starter pack, the Housewarming pack).
+        /// Counted once per store transaction, however many devices record it.
+        case purchaseBeansGranted(transactionID: String, beans: Int)
+
         // Season pass and Cat Club
         case passPurchased(seasonID: String)
         case passTierClaimed(seasonID: String, track: PassTrack, tier: Int)

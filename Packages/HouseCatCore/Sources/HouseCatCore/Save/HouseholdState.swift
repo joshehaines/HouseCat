@@ -8,19 +8,25 @@ public struct RulesContext: Sendable {
     public var weeklyObjectives: [ObjectiveDefinition]
     public var achievements: [ObjectiveDefinition]
     public var seasons: [SeasonDefinition]
+    /// Items sold for money (sets, packs, founders). Ownership comes from the
+    /// player's entitlements, never the save, so the rules let one of each be
+    /// placed and the scenes hide any the player no longer owns.
+    public var paidItems: Set<String>
 
     public init(
         gifts: [GiftDefinition] = [],
         dailyObjectives: [ObjectiveDefinition] = [],
         weeklyObjectives: [ObjectiveDefinition] = [],
         achievements: [ObjectiveDefinition] = [],
-        seasons: [SeasonDefinition] = []
+        seasons: [SeasonDefinition] = [],
+        paidItems: Set<String> = []
     ) {
         self.gifts = gifts
         self.dailyObjectives = dailyObjectives
         self.weeklyObjectives = weeklyObjectives
         self.achievements = achievements
         self.seasons = seasons
+        self.paidItems = paidItems
     }
 
     public static let empty = RulesContext()
@@ -178,6 +184,8 @@ public struct HouseholdState: Codable, Equatable, Sendable {
     public internal(set) var passes: [String: SeasonProgress] = [:]
     public internal(set) var completedAchievements: Set<String> = []
     public internal(set) var lifetime = Lifetime()
+    /// Store transactions whose Beans have been granted.
+    public internal(set) var grantedTransactions: Set<String> = []
 
     public init() {}
 

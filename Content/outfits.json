@@ -1,0 +1,498 @@
+{
+  "version": 1,
+  "outfits": [
+    {
+      "id": "beanie",
+      "name": "Beanie",
+      "slot": "head",
+      "views": [
+        "front",
+        "side",
+        "tqback",
+        "tqfront"
+      ],
+      "pool": "paid",
+      "sku": "housecat.outfit.beanie",
+      "earnedBy": null,
+      "months": [],
+      "sprites": {
+        "front": "outfits/outfit_beanie_front.png",
+        "side": "outfits/outfit_beanie_side.png",
+        "tqback": "outfits/outfit_beanie_tqback.png",
+        "tqfront": "outfits/outfit_beanie_tqfront.png"
+      }
+    },
+    {
+      "id": "flatcap",
+      "name": "Flat cap",
+      "slot": "head",
+      "views": [
+        "front",
+        "side",
+        "tqback",
+        "tqfront"
+      ],
+      "pool": "paid",
+      "sku": "housecat.outfit.flatcap",
+      "earnedBy": null,
+      "months": [],
+      "sprites": {
+        "front": "outfits/outfit_flatcap_front.png",
+        "side": "outfits/outfit_flatcap_side.png",
+        "tqback": "outfits/outfit_flatcap_tqback.png",
+        "tqfront": "outfits/outfit_flatcap_tqfront.png"
+      }
+    },
+    {
+      "id": "buckethat",
+      "name": "Bucket hat",
+      "slot": "head",
+      "views": [
+        "front",
+        "side",
+        "tqback",
+        "tqfront"
+      ],
+      "pool": "earned",
+      "sku": null,
+      "earnedBy": "referral",
+      "months": [],
+      "sprites": {
+        "front": "outfits/outfit_buckethat_front.png",
+        "side": "outfits/outfit_buckethat_side.png",
+        "tqback": "outfits/outfit_buckethat_tqback.png",
+        "tqfront": "outfits/outfit_buckethat_tqfront.png"
+      }
+    },
+    {
+      "id": "partyhat",
+      "name": "Party hat",
+      "slot": "head",
+      "views": [
+        "front",
+        "side",
+        "tqback",
+        "tqfront"
+      ],
+      "pool": "earned",
+      "sku": null,
+      "earnedBy": "launch_event",
+      "months": [],
+      "sprites": {
+        "front": "outfits/outfit_partyhat_front.png",
+        "side": "outfits/outfit_partyhat_side.png",
+        "tqback": "outfits/outfit_partyhat_tqback.png",
+        "tqfront": "outfits/outfit_partyhat_tqfront.png"
+      }
+    },
+    {
+      "id": "bandana",
+      "name": "Blue bandana",
+      "slot": "neck",
+      "views": [
+        "front",
+        "side",
+        "tqback",
+        "tqfront"
+      ],
+      "pool": "pass-free",
+      "sku": null,
+      "earnedBy": null,
+      "months": [],
+      "sprites": {
+        "front": "outfits/outfit_bandana_front.png",
+        "side": "outfits/outfit_bandana_side.png",
+        "tqback": "outfits/outfit_bandana_tqback.png",
+        "tqfront": "outfits/outfit_bandana_tqfront.png"
+      }
+    },
+    {
+      "id": "scarf",
+      "name": "Mustard scarf",
+      "slot": "neck",
+      "views": [
+        "front",
+        "side",
+        "tqback",
+        "tqfront"
+      ],
+      "pool": "pass-free",
+      "sku": null,
+      "earnedBy": null,
+      "months": [],
+      "sprites": {
+        "front": "outfits/outfit_scarf_front.png",
+        "side": "outfits/outfit_scarf_side.png",
+        "tqback": "outfits/outfit_scarf_tqback.png",
+        "tqfront": "outfits/outfit_scarf_tqfront.png"
+      }
+    },
+    {
+      "id": "bowtie",
+      "name": "Green bow tie",
+      "slot": "neck",
+      "views": [
+        "front",
+        "side",
+        "tqback",
+        "tqfront"
+      ],
+      "pool": "earned",
+      "sku": null,
+      "earnedBy": "streak_100",
+      "months": [],
+      "sprites": {
+        "front": "outfits/outfit_bowtie_front.png",
+        "side": "outfits/outfit_bowtie_side.png",
+        "tqback": "outfits/outfit_bowtie_tqback.png",
+        "tqfront": "outfits/outfit_bowtie_tqfront.png"
+      }
+    },
+    {
+      "id": "roundglasses",
+      "name": "Round glasses",
+      "slot": "head",
+      "views": [
+        "front",
+        "side",
+        "tqback",
+        "tqfront"
+      ],
+      "pool": "paid",
+      "sku": "housecat.outfit.roundglasses",
+      "earnedBy": null,
+      "months": [],
+      "sprites": {
+        "front": "outfits/outfit_roundglasses_front.png",
+        "side": "outfits/outfit_roundglasses_side.png",
+        "tqback": "outfits/outfit_roundglasses_tqback.png",
+        "tqfront": "outfits/outfit_roundglasses_tqfront.png"
+      }
+    },
+    {
+      "id": "sunglasses",
+      "name": "Sunglasses",
+      "slot": "head",
+      "views": [
+        "front",
+        "side",
+        "tqback",
+        "tqfront"
+      ],
+      "pool": "paid",
+      "sku": "housecat.outfit.sunglasses",
+      "earnedBy": null,
+      "months": [],
+      "sprites": {
+        "front": "outfits/outfit_sunglasses_front.png",
+        "side": "outfits/outfit_sunglasses_side.png",
+        "tqback": "outfits/outfit_sunglasses_tqback.png",
+        "tqfront": "outfits/outfit_sunglasses_tqfront.png"
+      }
+    },
+    {
+      "id": "flowercrown",
+      "name": "Flower crown",
+      "slot": "head",
+      "views": [
+        "front",
+        "side",
+        "tqback",
+        "tqfront"
+      ],
+      "pool": "pass-paid",
+      "sku": null,
+      "earnedBy": null,
+      "months": [],
+      "sprites": {
+        "front": "outfits/outfit_flowercrown_front.png",
+        "side": "outfits/outfit_flowercrown_side.png",
+        "tqback": "outfits/outfit_flowercrown_tqback.png",
+        "tqfront": "outfits/outfit_flowercrown_tqfront.png"
+      }
+    },
+    {
+      "id": "pumpkinhat",
+      "name": "Pumpkin hat",
+      "slot": "head",
+      "views": [
+        "front",
+        "side",
+        "tqback",
+        "tqfront"
+      ],
+      "pool": "paid",
+      "sku": "housecat.outfit.pumpkinhat",
+      "earnedBy": null,
+      "months": [
+        10
+      ],
+      "sprites": {
+        "front": "outfits/outfit_pumpkinhat_front.png",
+        "side": "outfits/outfit_pumpkinhat_side.png",
+        "tqback": "outfits/outfit_pumpkinhat_tqback.png",
+        "tqfront": "outfits/outfit_pumpkinhat_tqfront.png"
+      }
+    },
+    {
+      "id": "santahat",
+      "name": "Santa hat",
+      "slot": "head",
+      "views": [
+        "front",
+        "side",
+        "tqback",
+        "tqfront"
+      ],
+      "pool": "pass-paid",
+      "sku": null,
+      "earnedBy": null,
+      "months": [
+        12
+      ],
+      "sprites": {
+        "front": "outfits/outfit_santahat_front.png",
+        "side": "outfits/outfit_santahat_side.png",
+        "tqback": "outfits/outfit_santahat_tqback.png",
+        "tqfront": "outfits/outfit_santahat_tqfront.png"
+      }
+    },
+    {
+      "id": "antlers",
+      "name": "Antlers",
+      "slot": "head",
+      "views": [
+        "front",
+        "side",
+        "tqback",
+        "tqfront"
+      ],
+      "pool": "pass-free",
+      "sku": null,
+      "earnedBy": null,
+      "months": [
+        12
+      ],
+      "sprites": {
+        "front": "outfits/outfit_antlers_front.png",
+        "side": "outfits/outfit_antlers_side.png",
+        "tqback": "outfits/outfit_antlers_tqback.png",
+        "tqfront": "outfits/outfit_antlers_tqfront.png"
+      }
+    },
+    {
+      "id": "crown",
+      "name": "Small crown",
+      "slot": "head",
+      "views": [
+        "front",
+        "side",
+        "tqback",
+        "tqfront"
+      ],
+      "pool": "founders",
+      "sku": "housecat.founders",
+      "earnedBy": null,
+      "months": [],
+      "sprites": {
+        "front": "outfits/outfit_crown_front.png",
+        "side": "outfits/outfit_crown_side.png",
+        "tqback": "outfits/outfit_crown_tqback.png",
+        "tqfront": "outfits/outfit_crown_tqfront.png"
+      }
+    },
+    {
+      "id": "fisherman",
+      "name": "Fisherman's jumper",
+      "slot": "body",
+      "views": [
+        "front",
+        "side",
+        "tqback",
+        "tqfront"
+      ],
+      "pool": "pass-paid",
+      "sku": null,
+      "earnedBy": null,
+      "months": [],
+      "sprites": {
+        "front": "outfits/outfit_fisherman_front.png",
+        "side": "outfits/outfit_fisherman_side.png",
+        "tqback": "outfits/outfit_fisherman_tqback.png",
+        "tqfront": "outfits/outfit_fisherman_tqfront.png"
+      }
+    },
+    {
+      "id": "raincoat",
+      "name": "Raincoat",
+      "slot": "body",
+      "views": [
+        "front",
+        "side",
+        "tqback",
+        "tqfront"
+      ],
+      "pool": "paid",
+      "sku": "housecat.outfit.raincoat",
+      "earnedBy": null,
+      "months": [],
+      "sprites": {
+        "front": "outfits/outfit_raincoat_front.png",
+        "side": "outfits/outfit_raincoat_side.png",
+        "tqback": "outfits/outfit_raincoat_tqback.png",
+        "tqfront": "outfits/outfit_raincoat_tqfront.png"
+      }
+    },
+    {
+      "id": "hoodie",
+      "name": "Hoodie",
+      "slot": "body",
+      "views": [
+        "front",
+        "side",
+        "tqback",
+        "tqfront"
+      ],
+      "pool": "earned",
+      "sku": null,
+      "earnedBy": "streak_30",
+      "months": [],
+      "sprites": {
+        "front": "outfits/outfit_hoodie_front.png",
+        "side": "outfits/outfit_hoodie_side.png",
+        "tqback": "outfits/outfit_hoodie_tqback.png",
+        "tqfront": "outfits/outfit_hoodie_tqfront.png"
+      }
+    },
+    {
+      "id": "xmasjumper",
+      "name": "Christmas jumper",
+      "slot": "body",
+      "views": [
+        "front",
+        "side",
+        "tqback",
+        "tqfront"
+      ],
+      "pool": "paid",
+      "sku": "housecat.outfit.xmasjumper",
+      "earnedBy": null,
+      "months": [
+        12
+      ],
+      "sprites": {
+        "front": "outfits/outfit_xmasjumper_front.png",
+        "side": "outfits/outfit_xmasjumper_side.png",
+        "tqback": "outfits/outfit_xmasjumper_tqback.png",
+        "tqfront": "outfits/outfit_xmasjumper_tqfront.png"
+      }
+    },
+    {
+      "id": "pyjamas",
+      "name": "Pyjamas",
+      "slot": "body",
+      "views": [
+        "front",
+        "side",
+        "tqback",
+        "tqfront"
+      ],
+      "pool": "paid",
+      "sku": "housecat.outfit.pyjamas",
+      "earnedBy": null,
+      "months": [],
+      "sprites": {
+        "front": "outfits/outfit_pyjamas_front.png",
+        "side": "outfits/outfit_pyjamas_side.png",
+        "tqback": "outfits/outfit_pyjamas_tqback.png",
+        "tqfront": "outfits/outfit_pyjamas_tqfront.png"
+      }
+    },
+    {
+      "id": "cardigan",
+      "name": "Cardigan",
+      "slot": "body",
+      "views": [
+        "front",
+        "side",
+        "tqback",
+        "tqfront"
+      ],
+      "pool": "paid",
+      "sku": "housecat.outfit.cardigan",
+      "earnedBy": null,
+      "months": [],
+      "sprites": {
+        "front": "outfits/outfit_cardigan_front.png",
+        "side": "outfits/outfit_cardigan_side.png",
+        "tqback": "outfits/outfit_cardigan_tqback.png",
+        "tqfront": "outfits/outfit_cardigan_tqfront.png"
+      }
+    },
+    {
+      "id": "hawaiian",
+      "name": "Hawaiian shirt",
+      "slot": "body",
+      "views": [
+        "front",
+        "side",
+        "tqback",
+        "tqfront"
+      ],
+      "pool": "paid",
+      "sku": "housecat.outfit.hawaiian",
+      "earnedBy": null,
+      "months": [],
+      "sprites": {
+        "front": "outfits/outfit_hawaiian_front.png",
+        "side": "outfits/outfit_hawaiian_side.png",
+        "tqback": "outfits/outfit_hawaiian_tqback.png",
+        "tqfront": "outfits/outfit_hawaiian_tqfront.png"
+      }
+    },
+    {
+      "id": "lifevest",
+      "name": "Life jacket",
+      "slot": "body",
+      "views": [
+        "front",
+        "side",
+        "tqback",
+        "tqfront"
+      ],
+      "pool": "paid",
+      "sku": "housecat.outfit.lifevest",
+      "earnedBy": null,
+      "months": [],
+      "sprites": {
+        "front": "outfits/outfit_lifevest_front.png",
+        "side": "outfits/outfit_lifevest_side.png",
+        "tqback": "outfits/outfit_lifevest_tqback.png",
+        "tqfront": "outfits/outfit_lifevest_tqfront.png"
+      }
+    },
+    {
+      "id": "skeleton",
+      "name": "Skeleton onesie",
+      "slot": "body",
+      "views": [
+        "front",
+        "side",
+        "tqback",
+        "tqfront"
+      ],
+      "pool": "paid",
+      "sku": "housecat.outfit.skeleton",
+      "earnedBy": null,
+      "months": [
+        10
+      ],
+      "sprites": {
+        "front": "outfits/outfit_skeleton_front.png",
+        "side": "outfits/outfit_skeleton_side.png",
+        "tqback": "outfits/outfit_skeleton_tqback.png",
+        "tqfront": "outfits/outfit_skeleton_tqfront.png"
+      }
+    }
+  ]
+}

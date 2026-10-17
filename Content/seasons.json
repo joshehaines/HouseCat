@@ -1,0 +1,766 @@
+{
+  "version": 1,
+  "seasonLengthDays": 28,
+  "tiers": 20,
+  "seasons": [
+    {
+      "id": "housewarming",
+      "name": "Housewarming",
+      "theme": "Moving in: boxes, tea chests and the first night in a new home.",
+      "startAt": "2026-12-07",
+      "endAt": "2027-01-04",
+      "provisional": true,
+      "sku": "housecat.pass.housewarming",
+      "freeTrack": [
+        {
+          "tier": 1,
+          "kind": "beans",
+          "id": null,
+          "amount": 20
+        },
+        {
+          "tier": 2,
+          "kind": "beans",
+          "id": null,
+          "amount": 20
+        },
+        {
+          "tier": 3,
+          "kind": "beans",
+          "id": null,
+          "amount": 25
+        },
+        {
+          "tier": 4,
+          "kind": "beans",
+          "id": null,
+          "amount": 25
+        },
+        {
+          "tier": 5,
+          "kind": "item",
+          "id": "pass_housewarming_movingboxes",
+          "amount": null
+        },
+        {
+          "tier": 6,
+          "kind": "beans",
+          "id": null,
+          "amount": 30
+        },
+        {
+          "tier": 7,
+          "kind": "beans",
+          "id": null,
+          "amount": 30
+        },
+        {
+          "tier": 8,
+          "kind": "beans",
+          "id": null,
+          "amount": 30
+        },
+        {
+          "tier": 9,
+          "kind": "beans",
+          "id": null,
+          "amount": 35
+        },
+        {
+          "tier": 10,
+          "kind": "item",
+          "id": "pass_housewarming_painttins",
+          "amount": null
+        },
+        {
+          "tier": 11,
+          "kind": "beans",
+          "id": null,
+          "amount": 35
+        },
+        {
+          "tier": 12,
+          "kind": "beans",
+          "id": null,
+          "amount": 40
+        },
+        {
+          "tier": 13,
+          "kind": "beans",
+          "id": null,
+          "amount": 40
+        },
+        {
+          "tier": 14,
+          "kind": "beans",
+          "id": null,
+          "amount": 40
+        },
+        {
+          "tier": 15,
+          "kind": "item",
+          "id": "pass_housewarming_takeaway",
+          "amount": null
+        },
+        {
+          "tier": 16,
+          "kind": "beans",
+          "id": null,
+          "amount": 45
+        },
+        {
+          "tier": 17,
+          "kind": "beans",
+          "id": null,
+          "amount": 45
+        },
+        {
+          "tier": 18,
+          "kind": "beans",
+          "id": null,
+          "amount": 50
+        },
+        {
+          "tier": 19,
+          "kind": "beans",
+          "id": null,
+          "amount": 50
+        },
+        {
+          "tier": 20,
+          "kind": "outfit",
+          "id": "antlers",
+          "amount": null
+        }
+      ],
+      "paidTrack": [
+        {
+          "tier": 1,
+          "kind": "item",
+          "id": "pass_housewarming_fairylights",
+          "amount": null
+        },
+        {
+          "tier": 2,
+          "kind": "beans",
+          "id": null,
+          "amount": 40
+        },
+        {
+          "tier": 3,
+          "kind": "surface",
+          "id": "wall_pass_housewarming_apricot_houses",
+          "amount": null
+        },
+        {
+          "tier": 4,
+          "kind": "beans",
+          "id": null,
+          "amount": 40
+        },
+        {
+          "tier": 5,
+          "kind": "beans",
+          "id": null,
+          "amount": 50
+        },
+        {
+          "tier": 6,
+          "kind": "item",
+          "id": "pass_housewarming_teachest",
+          "amount": null
+        },
+        {
+          "tier": 7,
+          "kind": "beans",
+          "id": null,
+          "amount": 50
+        },
+        {
+          "tier": 8,
+          "kind": "beans",
+          "id": null,
+          "amount": 60
+        },
+        {
+          "tier": 9,
+          "kind": "surface",
+          "id": "floor_pass_housewarming_birch",
+          "amount": null
+        },
+        {
+          "tier": 10,
+          "kind": "beans",
+          "id": null,
+          "amount": 60
+        },
+        {
+          "tier": 11,
+          "kind": "beans",
+          "id": null,
+          "amount": 70
+        },
+        {
+          "tier": 12,
+          "kind": "item",
+          "id": "pass_housewarming_picnicblanket",
+          "amount": null
+        },
+        {
+          "tier": 13,
+          "kind": "beans",
+          "id": null,
+          "amount": 70
+        },
+        {
+          "tier": 14,
+          "kind": "beans",
+          "id": null,
+          "amount": 80
+        },
+        {
+          "tier": 15,
+          "kind": "item",
+          "id": "pass_housewarming_stepladder",
+          "amount": null
+        },
+        {
+          "tier": 16,
+          "kind": "beans",
+          "id": null,
+          "amount": 80
+        },
+        {
+          "tier": 17,
+          "kind": "beans",
+          "id": null,
+          "amount": 90
+        },
+        {
+          "tier": 18,
+          "kind": "item",
+          "id": "pass_housewarming_candle",
+          "amount": null
+        },
+        {
+          "tier": 19,
+          "kind": "beans",
+          "id": null,
+          "amount": 100
+        },
+        {
+          "tier": 20,
+          "kind": "outfit",
+          "id": "santahat",
+          "amount": null
+        }
+      ]
+    },
+    {
+      "id": "midwinter",
+      "name": "Midwinter",
+      "theme": "Deep winter indoors: knitted blankets, log baskets and long evenings.",
+      "startAt": "2027-01-04",
+      "endAt": "2027-02-01",
+      "provisional": true,
+      "sku": "housecat.pass.midwinter",
+      "freeTrack": [
+        {
+          "tier": 1,
+          "kind": "beans",
+          "id": null,
+          "amount": 20
+        },
+        {
+          "tier": 2,
+          "kind": "beans",
+          "id": null,
+          "amount": 20
+        },
+        {
+          "tier": 3,
+          "kind": "beans",
+          "id": null,
+          "amount": 25
+        },
+        {
+          "tier": 4,
+          "kind": "beans",
+          "id": null,
+          "amount": 25
+        },
+        {
+          "tier": 5,
+          "kind": "item",
+          "id": "pass_midwinter_logbasket",
+          "amount": null
+        },
+        {
+          "tier": 6,
+          "kind": "beans",
+          "id": null,
+          "amount": 30
+        },
+        {
+          "tier": 7,
+          "kind": "beans",
+          "id": null,
+          "amount": 30
+        },
+        {
+          "tier": 8,
+          "kind": "beans",
+          "id": null,
+          "amount": 30
+        },
+        {
+          "tier": 9,
+          "kind": "beans",
+          "id": null,
+          "amount": 35
+        },
+        {
+          "tier": 10,
+          "kind": "item",
+          "id": "pass_midwinter_hotwaterbottle",
+          "amount": null
+        },
+        {
+          "tier": 11,
+          "kind": "beans",
+          "id": null,
+          "amount": 35
+        },
+        {
+          "tier": 12,
+          "kind": "beans",
+          "id": null,
+          "amount": 40
+        },
+        {
+          "tier": 13,
+          "kind": "beans",
+          "id": null,
+          "amount": 40
+        },
+        {
+          "tier": 14,
+          "kind": "beans",
+          "id": null,
+          "amount": 40
+        },
+        {
+          "tier": 15,
+          "kind": "item",
+          "id": "pass_midwinter_wreath",
+          "amount": null
+        },
+        {
+          "tier": 16,
+          "kind": "beans",
+          "id": null,
+          "amount": 45
+        },
+        {
+          "tier": 17,
+          "kind": "beans",
+          "id": null,
+          "amount": 45
+        },
+        {
+          "tier": 18,
+          "kind": "beans",
+          "id": null,
+          "amount": 50
+        },
+        {
+          "tier": 19,
+          "kind": "beans",
+          "id": null,
+          "amount": 50
+        },
+        {
+          "tier": 20,
+          "kind": "outfit",
+          "id": "scarf",
+          "amount": null
+        }
+      ],
+      "paidTrack": [
+        {
+          "tier": 1,
+          "kind": "item",
+          "id": "pass_midwinter_knitblanket",
+          "amount": null
+        },
+        {
+          "tier": 2,
+          "kind": "beans",
+          "id": null,
+          "amount": 40
+        },
+        {
+          "tier": 3,
+          "kind": "surface",
+          "id": "wall_pass_midwinter_tartan",
+          "amount": null
+        },
+        {
+          "tier": 4,
+          "kind": "beans",
+          "id": null,
+          "amount": 40
+        },
+        {
+          "tier": 5,
+          "kind": "beans",
+          "id": null,
+          "amount": 50
+        },
+        {
+          "tier": 6,
+          "kind": "item",
+          "id": "pass_midwinter_sledge",
+          "amount": null
+        },
+        {
+          "tier": 7,
+          "kind": "beans",
+          "id": null,
+          "amount": 50
+        },
+        {
+          "tier": 8,
+          "kind": "beans",
+          "id": null,
+          "amount": 60
+        },
+        {
+          "tier": 9,
+          "kind": "surface",
+          "id": "floor_pass_midwinter_cherry",
+          "amount": null
+        },
+        {
+          "tier": 10,
+          "kind": "beans",
+          "id": null,
+          "amount": 60
+        },
+        {
+          "tier": 11,
+          "kind": "beans",
+          "id": null,
+          "amount": 70
+        },
+        {
+          "tier": 12,
+          "kind": "item",
+          "id": "pass_midwinter_snowglobe",
+          "amount": null
+        },
+        {
+          "tier": 13,
+          "kind": "beans",
+          "id": null,
+          "amount": 70
+        },
+        {
+          "tier": 14,
+          "kind": "beans",
+          "id": null,
+          "amount": 80
+        },
+        {
+          "tier": 15,
+          "kind": "item",
+          "id": "pass_midwinter_mulledwine",
+          "amount": null
+        },
+        {
+          "tier": 16,
+          "kind": "beans",
+          "id": null,
+          "amount": 80
+        },
+        {
+          "tier": 17,
+          "kind": "beans",
+          "id": null,
+          "amount": 90
+        },
+        {
+          "tier": 18,
+          "kind": "item",
+          "id": "pass_midwinter_firtree",
+          "amount": null
+        },
+        {
+          "tier": 19,
+          "kind": "beans",
+          "id": null,
+          "amount": 100
+        },
+        {
+          "tier": 20,
+          "kind": "outfit",
+          "id": "fisherman",
+          "amount": null
+        }
+      ]
+    },
+    {
+      "id": "firstlight",
+      "name": "First Light",
+      "theme": "The first spring mornings: seedlings, wellies and the birds coming back.",
+      "startAt": "2027-02-01",
+      "endAt": "2027-03-01",
+      "provisional": true,
+      "sku": "housecat.pass.firstlight",
+      "freeTrack": [
+        {
+          "tier": 1,
+          "kind": "beans",
+          "id": null,
+          "amount": 20
+        },
+        {
+          "tier": 2,
+          "kind": "beans",
+          "id": null,
+          "amount": 20
+        },
+        {
+          "tier": 3,
+          "kind": "beans",
+          "id": null,
+          "amount": 25
+        },
+        {
+          "tier": 4,
+          "kind": "beans",
+          "id": null,
+          "amount": 25
+        },
+        {
+          "tier": 5,
+          "kind": "item",
+          "id": "pass_firstlight_seedtrays",
+          "amount": null
+        },
+        {
+          "tier": 6,
+          "kind": "beans",
+          "id": null,
+          "amount": 30
+        },
+        {
+          "tier": 7,
+          "kind": "beans",
+          "id": null,
+          "amount": 30
+        },
+        {
+          "tier": 8,
+          "kind": "beans",
+          "id": null,
+          "amount": 30
+        },
+        {
+          "tier": 9,
+          "kind": "beans",
+          "id": null,
+          "amount": 35
+        },
+        {
+          "tier": 10,
+          "kind": "item",
+          "id": "pass_firstlight_wellies",
+          "amount": null
+        },
+        {
+          "tier": 11,
+          "kind": "beans",
+          "id": null,
+          "amount": 35
+        },
+        {
+          "tier": 12,
+          "kind": "beans",
+          "id": null,
+          "amount": 40
+        },
+        {
+          "tier": 13,
+          "kind": "beans",
+          "id": null,
+          "amount": 40
+        },
+        {
+          "tier": 14,
+          "kind": "beans",
+          "id": null,
+          "amount": 40
+        },
+        {
+          "tier": 15,
+          "kind": "item",
+          "id": "pass_firstlight_pegbag",
+          "amount": null
+        },
+        {
+          "tier": 16,
+          "kind": "beans",
+          "id": null,
+          "amount": 45
+        },
+        {
+          "tier": 17,
+          "kind": "beans",
+          "id": null,
+          "amount": 45
+        },
+        {
+          "tier": 18,
+          "kind": "beans",
+          "id": null,
+          "amount": 50
+        },
+        {
+          "tier": 19,
+          "kind": "beans",
+          "id": null,
+          "amount": 50
+        },
+        {
+          "tier": 20,
+          "kind": "outfit",
+          "id": "bandana",
+          "amount": null
+        }
+      ],
+      "paidTrack": [
+        {
+          "tier": 1,
+          "kind": "item",
+          "id": "pass_firstlight_tulips",
+          "amount": null
+        },
+        {
+          "tier": 2,
+          "kind": "beans",
+          "id": null,
+          "amount": 40
+        },
+        {
+          "tier": 3,
+          "kind": "surface",
+          "id": "wall_pass_firstlight_primrose_daffodil",
+          "amount": null
+        },
+        {
+          "tier": 4,
+          "kind": "beans",
+          "id": null,
+          "amount": 40
+        },
+        {
+          "tier": 5,
+          "kind": "beans",
+          "id": null,
+          "amount": 50
+        },
+        {
+          "tier": 6,
+          "kind": "item",
+          "id": "pass_firstlight_birdbox",
+          "amount": null
+        },
+        {
+          "tier": 7,
+          "kind": "beans",
+          "id": null,
+          "amount": 50
+        },
+        {
+          "tier": 8,
+          "kind": "beans",
+          "id": null,
+          "amount": 60
+        },
+        {
+          "tier": 9,
+          "kind": "surface",
+          "id": "floor_pass_firstlight_green_tiles",
+          "amount": null
+        },
+        {
+          "tier": 10,
+          "kind": "beans",
+          "id": null,
+          "amount": 60
+        },
+        {
+          "tier": 11,
+          "kind": "beans",
+          "id": null,
+          "amount": 70
+        },
+        {
+          "tier": 12,
+          "kind": "item",
+          "id": "pass_firstlight_hamper",
+          "amount": null
+        },
+        {
+          "tier": 13,
+          "kind": "beans",
+          "id": null,
+          "amount": 70
+        },
+        {
+          "tier": 14,
+          "kind": "beans",
+          "id": null,
+          "amount": 80
+        },
+        {
+          "tier": 15,
+          "kind": "item",
+          "id": "pass_firstlight_daffodils",
+          "amount": null
+        },
+        {
+          "tier": 16,
+          "kind": "beans",
+          "id": null,
+          "amount": 80
+        },
+        {
+          "tier": 17,
+          "kind": "beans",
+          "id": null,
+          "amount": 90
+        },
+        {
+          "tier": 18,
+          "kind": "item",
+          "id": "pass_firstlight_butterflyjar",
+          "amount": null
+        },
+        {
+          "tier": 19,
+          "kind": "beans",
+          "id": null,
+          "amount": 100
+        },
+        {
+          "tier": 20,
+          "kind": "outfit",
+          "id": "flowercrown",
+          "amount": null
+        }
+      ]
+    }
+  ]
+}

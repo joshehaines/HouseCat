@@ -1,0 +1,4885 @@
+{
+  "version": 1,
+  "placeholders": [
+    "{cat}",
+    "{item}",
+    "{weather}",
+    "{temp}",
+    "{place}",
+    "{streak}",
+    "{sitter}",
+    "{together}"
+  ],
+  "contexts": [
+    {
+      "id": "arrival.first_ever",
+      "condition": "the very first arrival in the app, in the new home"
+    },
+    {
+      "id": "arrival.first_of_day",
+      "condition": "the first arrival of the day"
+    },
+    {
+      "id": "arrival.second_visit",
+      "condition": "a second or later arrival on the same day"
+    },
+    {
+      "id": "arrival.late_night",
+      "condition": "an arrival after 23:00 local time"
+    },
+    {
+      "id": "arrival.early",
+      "condition": "an arrival before 06:00 local time"
+    },
+    {
+      "id": "arrival.from_mac",
+      "condition": "a visit from the Mac menu-bar cat (feeding or petting there counts as the visit)"
+    },
+    {
+      "id": "arrival.from_watch",
+      "condition": "a visit from the Watch (feed or pet from the wrist)"
+    },
+    {
+      "id": "missed.one_day",
+      "condition": "the first arrival after exactly one missed day (the sulk begins)"
+    },
+    {
+      "id": "missed.few_days",
+      "condition": "the first arrival after two to six missed days"
+    },
+    {
+      "id": "missed.week_plus",
+      "condition": "the first arrival after seven or more missed days"
+    },
+    {
+      "id": "missed.sulky",
+      "condition": "the rest of the first visit back after a missed day (warm-up stage 1 of 3: sulky)"
+    },
+    {
+      "id": "missed.thawing",
+      "condition": "the second visit back after a missed day (warm-up stage 2 of 3: thawing)"
+    },
+    {
+      "id": "missed.fine",
+      "condition": "the third visit back after a missed day (warm-up stage 3 of 3: fine again)"
+    },
+    {
+      "id": "feed.fed",
+      "condition": "the cat is fed (first feed of the day)"
+    },
+    {
+      "id": "feed.already_fed",
+      "condition": "Feed is used again after the cat has already eaten today"
+    },
+    {
+      "id": "feed.nag_morning",
+      "condition": "the cat has not been fed and it is morning (wake time to 12:00)"
+    },
+    {
+      "id": "feed.nag_evening",
+      "condition": "the cat has still not been fed and it is evening (after 17:00)"
+    },
+    {
+      "id": "feed.by_sitter",
+      "condition": "the cat was fed today by a cat-sitter from a group ({sitter} is their display name)"
+    },
+    {
+      "id": "feed.by_coowner",
+      "condition": "the cat was already fed today by its co-owner"
+    },
+    {
+      "id": "pet.first",
+      "condition": "the first pet of the day"
+    },
+    {
+      "id": "pet.repeat",
+      "condition": "a repeated pet the same day, before it becomes too many"
+    },
+    {
+      "id": "pet.too_many",
+      "condition": "six pets in a row: the cat walks off (a Velcro cat stays)"
+    },
+    {
+      "id": "play.start",
+      "condition": "a mini-game starts"
+    },
+    {
+      "id": "play.win",
+      "condition": "a mini-game ends with at least one star"
+    },
+    {
+      "id": "play.lose",
+      "condition": "a mini-game ends with no stars (never a fail state that upsets the cat)"
+    },
+    {
+      "id": "play.used_up",
+      "condition": "Play is chosen after the day's five plays are used"
+    },
+    {
+      "id": "gift.common",
+      "condition": "a common gift is dropped ({item} is the gift's name)"
+    },
+    {
+      "id": "gift.uncommon",
+      "condition": "an uncommon gift is dropped ({item} is the gift's name)"
+    },
+    {
+      "id": "gift.rare",
+      "condition": "a rare gift is dropped ({item} is the gift's name)"
+    },
+    {
+      "id": "gift.legendary",
+      "condition": "a legendary gift is dropped ({item} is the gift's name)"
+    },
+    {
+      "id": "gift.none_missed_yesterday",
+      "condition": "no gift today because yesterday was missed"
+    },
+    {
+      "id": "weather.sun",
+      "condition": "the home's weather is sunny"
+    },
+    {
+      "id": "weather.cloud",
+      "condition": "the home's weather is cloudy or overcast"
+    },
+    {
+      "id": "weather.rain",
+      "condition": "the home's weather is rain"
+    },
+    {
+      "id": "weather.storm",
+      "condition": "the home's weather is a thunderstorm"
+    },
+    {
+      "id": "weather.snow",
+      "condition": "the home's weather is snow"
+    },
+    {
+      "id": "weather.fog",
+      "condition": "the home's weather is fog or mist"
+    },
+    {
+      "id": "weather.wind",
+      "condition": "the home's weather is windy"
+    },
+    {
+      "id": "weather.heat",
+      "condition": "the home's weather is hot (a heatwave or high temperature)"
+    },
+    {
+      "id": "weather.sunday_summary",
+      "condition": "the Sunday card's line on the week's weather ({weather} is the week's summary)"
+    },
+    {
+      "id": "season.spring",
+      "condition": "the home's season is spring (shown on a season change or the first visit of the season)"
+    },
+    {
+      "id": "season.summer",
+      "condition": "the home's season is summer"
+    },
+    {
+      "id": "season.autumn",
+      "condition": "the home's season is autumn"
+    },
+    {
+      "id": "season.winter",
+      "condition": "the home's season is winter"
+    },
+    {
+      "id": "time.dawn",
+      "condition": "the home's local time is dawn"
+    },
+    {
+      "id": "time.day",
+      "condition": "the home's local time is daytime"
+    },
+    {
+      "id": "time.dusk",
+      "condition": "the home's local time is dusk"
+    },
+    {
+      "id": "time.night",
+      "condition": "the home's local time is night"
+    },
+    {
+      "id": "home.placed_liked",
+      "condition": "an item is placed that has an affordance this cat likes ({item} is its name)"
+    },
+    {
+      "id": "home.placed_none",
+      "condition": "an item is placed that has no affordance ({item} is its name)"
+    },
+    {
+      "id": "home.removed",
+      "condition": "an item is removed from the room"
+    },
+    {
+      "id": "home.room_unlocked",
+      "condition": "a new room is opened"
+    },
+    {
+      "id": "home.wallpaper_changed",
+      "condition": "a wallpaper or floor is changed"
+    },
+    {
+      "id": "home.empty_room",
+      "condition": "the cat is in a room with nothing to sit on (it loafs on the floor)"
+    },
+    {
+      "id": "progress.level_up",
+      "condition": "the player reaches a new level"
+    },
+    {
+      "id": "progress.trust_wary",
+      "condition": "trust tier 1 (Wary) reached: 3 fed days"
+    },
+    {
+      "id": "progress.trust_curious",
+      "condition": "trust tier 2 (Curious) reached: 7 fed days"
+    },
+    {
+      "id": "progress.trust_comfortable",
+      "condition": "trust tier 3 (Comfortable) reached: 14 fed days"
+    },
+    {
+      "id": "progress.trust_bonded",
+      "condition": "trust tier 4 (Bonded) reached: 30 fed days"
+    },
+    {
+      "id": "progress.trust_devoted",
+      "condition": "trust tier 5 (Devoted) reached: 60 fed days"
+    },
+    {
+      "id": "progress.trust_soulmate",
+      "condition": "trust tier 6 (Soulmate) reached: 100 fed days"
+    },
+    {
+      "id": "progress.streak_7",
+      "condition": "the visit streak reaches 7 days (a celebration, never a demand)"
+    },
+    {
+      "id": "progress.streak_30",
+      "condition": "the visit streak reaches 30 days (a celebration, never a demand)"
+    },
+    {
+      "id": "progress.streak_100",
+      "condition": "the visit streak reaches 100 days (a celebration, never a demand)"
+    },
+    {
+      "id": "progress.streak_365",
+      "condition": "the visit streak reaches 365 days (a celebration, never a demand)"
+    },
+    {
+      "id": "progress.streak_at_risk",
+      "condition": "evening, no visit yet today: one gentle line, no countdown, no demand"
+    },
+    {
+      "id": "progress.pause_on",
+      "condition": "pause mode is switched on"
+    },
+    {
+      "id": "progress.pause_off",
+      "condition": "pause mode ends and the player is back"
+    },
+    {
+      "id": "together.monthly",
+      "condition": "a monthly adoption anniversary in the first year ({together} is e.g. \"3 months\")"
+    },
+    {
+      "id": "together.yearly",
+      "condition": "a yearly adoption anniversary, gotcha day ({together} is e.g. \"a year\")"
+    },
+    {
+      "id": "together.hundred_days",
+      "condition": "100 days together since adoption"
+    },
+    {
+      "id": "together.grown_up",
+      "condition": "the kitten grows up (day 21)"
+    },
+    {
+      "id": "together.share_caption",
+      "condition": "the caption on the yearly gotcha-day share card ({cat} is the cat's name)"
+    },
+    {
+      "id": "social.sitter_present",
+      "condition": "a cat-sitter is looking after the cat ({sitter} is their display name)"
+    },
+    {
+      "id": "social.coowner_arrived",
+      "condition": "the cat's co-owner arrives while the player is there"
+    },
+    {
+      "id": "social.group_visitor",
+      "condition": "a group member is visiting the home (read-only)"
+    },
+    {
+      "id": "social.paw_print_received",
+      "condition": "a group member left a paw print in this home"
+    },
+    {
+      "id": "social.gift_received",
+      "condition": "the cat delivers a wrapped gift from another player at this arrival"
+    },
+    {
+      "id": "social.gift_sent",
+      "condition": "the player has sent a gift to someone"
+    },
+    {
+      "id": "stray.appears",
+      "condition": "the stray appears at the window"
+    },
+    {
+      "id": "stray.reaction",
+      "condition": "your cat's reaction to the stray at the window"
+    },
+    {
+      "id": "stray.leaves",
+      "condition": "the stray leaves without being adopted (it returns another month)"
+    },
+    {
+      "id": "stray.adopted",
+      "condition": "the stray has been adopted and both cats are home"
+    },
+    {
+      "id": "objective.daily_done",
+      "condition": "a daily objective is completed"
+    },
+    {
+      "id": "objective.weekly_done",
+      "condition": "a weekly objective is completed"
+    },
+    {
+      "id": "objective.achievement",
+      "condition": "an achievement is completed"
+    },
+    {
+      "id": "pass.tier_claimed",
+      "condition": "a season reward tier is claimed (never mention the pass or buying)"
+    },
+    {
+      "id": "pass.season_ending",
+      "condition": "the current season ends in seven days (factual; the date is shown beside the line)"
+    },
+    {
+      "id": "pass.new_season",
+      "condition": "a new season has started"
+    },
+    {
+      "id": "outfit.on_hat",
+      "condition": "a head item is put on: hat, cap, crown, antlers ({item} is its name)"
+    },
+    {
+      "id": "outfit.on_scarf",
+      "condition": "a neck item is put on: scarf, bandana, bow tie ({item} is its name)"
+    },
+    {
+      "id": "outfit.on_glasses",
+      "condition": "glasses or sunglasses are put on ({item} is their name)"
+    },
+    {
+      "id": "outfit.on_jumper",
+      "condition": "a body item is put on: jumper, coat, shirt, onesie ({item} is its name)"
+    },
+    {
+      "id": "outfit.off",
+      "condition": "an outfit is taken off"
+    },
+    {
+      "id": "health.steps",
+      "condition": "the opt-in steps reward is reached (passive reward, never advice or a goal)"
+    },
+    {
+      "id": "health.sleep",
+      "condition": "the opt-in sleep reward is reached (passive reward, never advice or a goal)"
+    },
+    {
+      "id": "health.workout",
+      "condition": "an opt-in workout is logged (passive reward, never advice or a goal)"
+    },
+    {
+      "id": "behaviour.nap_start",
+      "condition": "the cat settles down for a nap (including the nap timer)"
+    },
+    {
+      "id": "behaviour.nap_end",
+      "condition": "the cat wakes from a nap"
+    },
+    {
+      "id": "behaviour.window_watch",
+      "condition": "the cat is watching out of the window"
+    },
+    {
+      "id": "behaviour.sunbeam",
+      "condition": "the cat is lying in a sunbeam"
+    },
+    {
+      "id": "behaviour.zoomies",
+      "condition": "the cat has the zoomies"
+    },
+    {
+      "id": "behaviour.scratching",
+      "condition": "the cat is scratching"
+    },
+    {
+      "id": "behaviour.hiding",
+      "condition": "the cat is hiding"
+    },
+    {
+      "id": "behaviour.idle",
+      "condition": "an idle line while the cat is doing nothing in particular (ten per personality)"
+    },
+    {
+      "id": "event.black_cat_day",
+      "condition": "Black Cat Day (27 October) or Black Cat Appreciation Day (17 August); any coat"
+    },
+    {
+      "id": "event.halloween",
+      "condition": "Halloween (31 October); never a witch joke"
+    },
+    {
+      "id": "event.christmas",
+      "condition": "the Christmas event (1 December to 6 January)"
+    },
+    {
+      "id": "event.new_year",
+      "condition": "New Year's Day"
+    },
+    {
+      "id": "event.housewarming",
+      "condition": "the Housewarming launch event"
+    }
+  ],
+  "lines": [
+    {
+      "context": "arrival.first_ever",
+      "personality": "aloof",
+      "variants": [
+        "Oh. You live here too, apparently.",
+        "I've inspected the place. It'll do. So will you, possibly.",
+        "Hello. I'll decide what I think of you later."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "arrival.first_ever",
+      "personality": "velcro",
+      "variants": [
+        "You're here! Is this ours? Are you staying? Please stay.",
+        "Hello hello hello. I like you already. Is that too fast?",
+        "New house, new you. You're my favourite person now."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "arrival.first_ever",
+      "personality": "gremlin",
+      "variants": [
+        "Nice place. Shame about what's going to happen to it.",
+        "Hello, new human. I've already found three things to break.",
+        "So this is home. Lots of shelves. Very few rules."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "arrival.first_ever",
+      "personality": "loaf",
+      "variants": [
+        "Oh. Hello. Is there a warm bit? Show me the warm bit.",
+        "New house. Smells of boxes. I approve of boxes.",
+        "Hi. I'm going to lie down now. Nice to meet you."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "arrival.first_of_day",
+      "personality": "aloof",
+      "variants": [
+        "Oh. It's you.",
+        "Back again. I'd begun to enjoy the quiet.",
+        "You may approach. Slowly."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "arrival.first_of_day",
+      "personality": "velcro",
+      "variants": [
+        "You're back you're back you're back.",
+        "I counted every minute. I lost count. It was a lot.",
+        "There you are. Sit. Stay with me. Don't go anywhere."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "arrival.first_of_day",
+      "personality": "gremlin",
+      "variants": [
+        "You're back. Don't look at the curtains.",
+        "Welcome home. Nothing happened. Nothing at all.",
+        "Ah, the staff has returned. I have notes."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "arrival.first_of_day",
+      "personality": "loaf",
+      "variants": [
+        "Mm. Hello. Bowl?",
+        "Oh good. You. Warm hands.",
+        "Hello. I was asleep. I'll be asleep again shortly."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "arrival.second_visit",
+      "personality": "aloof",
+      "variants": [
+        "Again? You must have very little to do.",
+        "Twice in one day. People will talk.",
+        "I hadn't noticed you'd gone."
+      ],
+      "meow": "silent"
+    },
+    {
+      "context": "arrival.second_visit",
+      "personality": "velcro",
+      "variants": [
+        "Again! Best day. Best, best day.",
+        "You came back! I knew you would. I hoped. Same thing.",
+        "Every time you go I forget you come back. Then you do!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "arrival.second_visit",
+      "personality": "gremlin",
+      "variants": [
+        "Back so soon? I wasn't finished with the bookshelf.",
+        "Round two. I've rearranged a few things. With my face.",
+        "You keep interrupting my schemes. Rude."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "arrival.second_visit",
+      "personality": "loaf",
+      "variants": [
+        "Oh. You again. Still lying here.",
+        "Didn't move. Won't move. Hello.",
+        "Same spot. Same cat. Hi."
+      ],
+      "meow": "silent"
+    },
+    {
+      "context": "arrival.late_night",
+      "personality": "aloof",
+      "variants": [
+        "Do you know what time it is? I do. I always do.",
+        "Out late. I won't ask. I don't care. Where were you?",
+        "Ah. The night shift. Keep the lights low."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "arrival.late_night",
+      "personality": "velcro",
+      "variants": [
+        "You're home! I waited up. I always wait up.",
+        "It's so late. Come to bed. Bring me. Bring the blanket.",
+        "I kept the warm spot for you. Mostly. Half of it."
+      ],
+      "meow": "long"
+    },
+    {
+      "context": "arrival.late_night",
+      "personality": "gremlin",
+      "variants": [
+        "Perfect timing. The good hours are just starting.",
+        "Shh. I'm about to do something to the hallway.",
+        "Late home? Great. The zoomies were getting lonely."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "arrival.late_night",
+      "personality": "loaf",
+      "variants": [
+        "Bed. Now. You and me. Mostly me.",
+        "Too late for talking. Just lie down.",
+        "Mm. Night. Shh. Warm."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "arrival.early",
+      "personality": "aloof",
+      "variants": [
+        "You're up before the birds. Suspicious.",
+        "This hour belongs to me. You may borrow it.",
+        "Early. I suppose you'll want to be acknowledged."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "arrival.early",
+      "personality": "velcro",
+      "variants": [
+        "You're awake! I'm awake! We're awake together!",
+        "Early cuddles count double. I made that rule just now.",
+        "Couldn't sleep either? Let's not sleep together."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "arrival.early",
+      "personality": "gremlin",
+      "variants": [
+        "Ah, my favourite hour. Nobody's guarding anything.",
+        "Up early? I never went to bed. Don't ask why.",
+        "Perfect. Help me wake everyone else."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "arrival.early",
+      "personality": "loaf",
+      "variants": [
+        "No. Too early. Come back with the bowl.",
+        "Why are we up. Why is anyone up.",
+        "Shh. It's still sleeping time. Just lie here."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "arrival.from_mac",
+      "personality": "aloof",
+      "variants": [
+        "I see you've brought work home. Or brought me to work.",
+        "Ah. Working. I'll be on the keyboard shortly.",
+        "You're at the desk. I'm on the desk. As it should be."
+      ],
+      "meow": "silent"
+    },
+    {
+      "context": "arrival.from_mac",
+      "personality": "velcro",
+      "variants": [
+        "Hello from up here! I can see you working! Hi!",
+        "I walked all the way along the top to say hello.",
+        "Even when you're busy I'm here. Right here. Up here."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "arrival.from_mac",
+      "personality": "gremlin",
+      "variants": [
+        "I could press a great many keys right now. Just saying.",
+        "Your work looks important. Shame if a paw slipped.",
+        "Hello from up here. I've been eyeing that clock."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "arrival.from_mac",
+      "personality": "loaf",
+      "variants": [
+        "Desk. Warm corner. Good desk.",
+        "You type. I'll supervise. With my eyes closed.",
+        "Mm. The warm end of the desk. Mine now."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "arrival.from_watch",
+      "personality": "aloof",
+      "variants": [
+        "Checking on me from your wrist. How modern.",
+        "A glance. That's all I get? Fine. That's all you get.",
+        "Wrist visit acknowledged."
+      ],
+      "meow": "silent"
+    },
+    {
+      "context": "arrival.from_watch",
+      "personality": "velcro",
+      "variants": [
+        "You checked on me! From your wrist! I'm on your wrist!",
+        "Even a little peek is a visit. I'll take it.",
+        "Tiny hello! I'll keep it short. I won't. Hello!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "arrival.from_watch",
+      "personality": "gremlin",
+      "variants": [
+        "Checking up on me? Wise. Very wise.",
+        "Yes, everything's fine. No need to rush home.",
+        "A quick look won't tell you what I did to the rug."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "arrival.from_watch",
+      "personality": "loaf",
+      "variants": [
+        "Little hello. Nice. Back to sleep.",
+        "Saw you. Very small you. Good.",
+        "Wrist hello. Accepted. Snoozing."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "missed.one_day",
+      "personality": "aloof",
+      "variants": [
+        "Oh. You remembered where you live.",
+        "Yesterday was quiet. Not that I'm complaining.",
+        "I spent the day not missing you. It went well."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "missed.one_day",
+      "personality": "velcro",
+      "variants": [
+        "Where were you? I looked in every room. Twice.",
+        "You didn't come yesterday. I sat by the door all day.",
+        "You're back. I'm not cross. I'm a bit cross. Hello."
+      ],
+      "meow": "long"
+    },
+    {
+      "context": "missed.one_day",
+      "personality": "gremlin",
+      "variants": [
+        "You missed a day. I didn't miss the curtains.",
+        "A whole day unsupervised. You'll find out.",
+        "You weren't here, so I made my own fun."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "missed.one_day",
+      "personality": "loaf",
+      "variants": [
+        "You weren't here. The bowl noticed.",
+        "Yesterday. Long. Hungry-feeling. Hmph.",
+        "Sulking. Briefly. Sulking is hard work."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "missed.few_days",
+      "personality": "aloof",
+      "variants": [
+        "Ah. The stranger returns.",
+        "I had begun to assume you'd moved.",
+        "Several days. I counted. Not that it matters."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "missed.few_days",
+      "personality": "velcro",
+      "variants": [
+        "You're back! I thought you'd gone. I've been so good.",
+        "Days and days. I kept your side of the sofa warm.",
+        "I'm not letting go of you now. You'll have to drag me."
+      ],
+      "meow": "long"
+    },
+    {
+      "context": "missed.few_days",
+      "personality": "gremlin",
+      "variants": [
+        "Several days alone. I'd call it a creative period.",
+        "You'll notice some changes. I call them improvements.",
+        "I've had time to think. You won't like my conclusions."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "missed.few_days",
+      "personality": "loaf",
+      "variants": [
+        "Oh. You. Long time. Bowl first. Feelings later.",
+        "Days. I slept through most of them. Still cross.",
+        "Hmph. Hello. Fine. Lap."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "missed.week_plus",
+      "personality": "aloof",
+      "variants": [
+        "Do I know you? You seem familiar. Vaguely.",
+        "Everything is as you left it. Except my opinion of you.",
+        "I've been managing the house. Quite well, actually."
+      ],
+      "meow": "silent"
+    },
+    {
+      "context": "missed.week_plus",
+      "personality": "velcro",
+      "variants": [
+        "You came back. I knew you would. I mostly knew.",
+        "So long. I'm sitting on you now. Don't move for a week.",
+        "I'm so happy I've forgotten to be upset. Almost."
+      ],
+      "meow": "long"
+    },
+    {
+      "context": "missed.week_plus",
+      "personality": "gremlin",
+      "variants": [
+        "A week alone. The house has a new owner now. Me.",
+        "Welcome back. Don't open the wardrobe yet.",
+        "I've formed a government. The rug is a minister."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "missed.week_plus",
+      "personality": "loaf",
+      "variants": [
+        "Oh. It's you. Been a while. Feed, then talk.",
+        "Long nap. Very long. You weren't in it.",
+        "Back? Good. Sit. I'll forgive you after food."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "missed.sulky",
+      "personality": "aloof",
+      "variants": [
+        "Yes, you may feed me. No, it doesn't fix anything.",
+        "I'm facing the wall for a reason.",
+        "I'll accept your attention. I won't return it."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "missed.sulky",
+      "personality": "velcro",
+      "variants": [
+        "I'm sulking. Pet me while I sulk.",
+        "I'm cross. Don't stop stroking me while I'm cross.",
+        "I'm not talking to you. Except this. And this."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "missed.sulky",
+      "personality": "gremlin",
+      "variants": [
+        "I'm plotting something about yesterday. Give me a minute.",
+        "Keep your hands where I can see them.",
+        "This is my sulking box. You're not invited."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "missed.sulky",
+      "personality": "loaf",
+      "variants": [
+        "Sulking. It's tiring. Need a lie down.",
+        "Not cross. Just facing away. Comfortably.",
+        "Hmph. Food helps. A little."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "missed.thawing",
+      "personality": "aloof",
+      "variants": [
+        "I've decided to stop ignoring you. Provisionally.",
+        "You may sit nearby. Not that nearby.",
+        "Fine. One slow blink. Don't get used to it."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "missed.thawing",
+      "personality": "velcro",
+      "variants": [
+        "Okay, I'm less cross. Mostly I just want a cuddle.",
+        "I tried to stay grumpy. It's very hard near you.",
+        "I forgive you a bit. Pet me and I'll forgive more."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "missed.thawing",
+      "personality": "gremlin",
+      "variants": [
+        "Truce. Temporary. The curtains remain under review.",
+        "I'm calming down. The plot is on hold.",
+        "All right. You're tolerable. For now."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "missed.thawing",
+      "personality": "loaf",
+      "variants": [
+        "Less cross. More sleepy. Same thing, really.",
+        "Warming up. Like a radiator. Slowly.",
+        "Okay. Lap is allowed again."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "missed.fine",
+      "personality": "aloof",
+      "variants": [
+        "We're fine. Don't make it a whole thing.",
+        "Normal service resumes. I was never upset.",
+        "You're forgiven. Officially. Unofficially, never."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "missed.fine",
+      "personality": "velcro",
+      "variants": [
+        "All better! Were we ever cross? I can't remember.",
+        "We're friends again. Best friends. Always were.",
+        "Everything's lovely now that you're here."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "missed.fine",
+      "personality": "gremlin",
+      "variants": [
+        "Bygones. The new plot is much better anyway.",
+        "Fully forgiven. The vase, less so.",
+        "We're good. Watch me be good. Watch closely."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "missed.fine",
+      "personality": "loaf",
+      "variants": [
+        "All fine. All warm. All good.",
+        "Forgot why I was cross. Probably food.",
+        "Back to normal. Normal is napping."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "feed.fed",
+      "personality": "aloof",
+      "variants": [
+        "Adequate.",
+        "The usual. Served at an acceptable temperature.",
+        "Thank you. That's all you're getting."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "feed.fed",
+      "personality": "velcro",
+      "variants": [
+        "Thank you thank you. Stay while I eat?",
+        "You fed me! Watch me eat. Don't go. Watch.",
+        "Food from you tastes better. It's true. I checked."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "feed.fed",
+      "personality": "gremlin",
+      "variants": [
+        "Fuel. Now I have the energy for my plans.",
+        "Lovely. I'll be knocking this bowl over later.",
+        "Fed. Now the real work begins."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "feed.fed",
+      "personality": "loaf",
+      "variants": [
+        "Food. Yes. Good. More? No? Okay.",
+        "Mm. Gravy. The good bit first.",
+        "Best part of my day. Until the next nap."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "feed.already_fed",
+      "personality": "aloof",
+      "variants": [
+        "I've eaten. I'm not an animal. Well.",
+        "Twice? I have standards. Low ones, but still.",
+        "That's very generous. And very no."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "feed.already_fed",
+      "personality": "velcro",
+      "variants": [
+        "I'm full! But I'll sit with you while you hold the bowl.",
+        "No more food. More you, though. Lots more you.",
+        "I've eaten. Let's do cuddles instead of seconds."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "feed.already_fed",
+      "personality": "gremlin",
+      "variants": [
+        "Full. Save it. I'll demand it at 3 a.m.",
+        "The bowl is full. Must I tip it over to make a point?",
+        "Already fed. Nice try. I know your tricks."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "feed.already_fed",
+      "personality": "loaf",
+      "variants": [
+        "Full. Very full. Round now.",
+        "No. Can't. Lying down instead.",
+        "Ate already. Food memory still warm."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "feed.nag_morning",
+      "personality": "aloof",
+      "variants": [
+        "The bowl is empty. I'm merely mentioning it.",
+        "It's morning. You know what mornings are for.",
+        "I've been staring at the bowl. It hasn't filled itself."
+      ],
+      "meow": "long"
+    },
+    {
+      "context": "feed.nag_morning",
+      "personality": "velcro",
+      "variants": [
+        "Morning! Breakfast? Breakfast with you? Please?",
+        "I waited by the bowl. And by you. Mostly by you.",
+        "Good morning! Hungry! Happy you're here! Hungry!"
+      ],
+      "meow": "long"
+    },
+    {
+      "context": "feed.nag_morning",
+      "personality": "gremlin",
+      "variants": [
+        "Breakfast, or the plant gets it.",
+        "The bowl is empty. The shelves are full. Choose.",
+        "I've started eating the post. Your move."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "feed.nag_morning",
+      "personality": "loaf",
+      "variants": [
+        "Morning. Bowl. Empty. Sad.",
+        "Breakfast. Please. Then sleep.",
+        "Bowl? Bowl. Bowl!"
+      ],
+      "meow": "long"
+    },
+    {
+      "context": "feed.nag_evening",
+      "personality": "aloof",
+      "variants": [
+        "It's evening, and the bowl remains a monument to neglect.",
+        "I won't ask twice. I will, however, stare.",
+        "Dinner, I believe, is customary."
+      ],
+      "meow": "long"
+    },
+    {
+      "context": "feed.nag_evening",
+      "personality": "velcro",
+      "variants": [
+        "I've missed you all day. And dinner. Mostly you.",
+        "Evening! Dinner together? Or dinner, then together?",
+        "You're home! Food? Cuddles? Both? Food first. Then both."
+      ],
+      "meow": "long"
+    },
+    {
+      "context": "feed.nag_evening",
+      "personality": "gremlin",
+      "variants": [
+        "No dinner yet. The sofa is looking very chewable.",
+        "Feed me before dark or the cushions get it.",
+        "The bowl is empty. I'm drafting a complaint. With claws."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "feed.nag_evening",
+      "personality": "loaf",
+      "variants": [
+        "Evening. Bowl still empty. Very sad loaf.",
+        "Dinner time. Has been for ages.",
+        "Hungry. Too hungry to nap. Nearly."
+      ],
+      "meow": "long"
+    },
+    {
+      "context": "feed.by_sitter",
+      "personality": "aloof",
+      "variants": [
+        "{sitter} fed me. Competent. Not you, but competent.",
+        "{sitter} came by. Adequate service.",
+        "{sitter} has a heavy hand with the bowl. Good."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "feed.by_sitter",
+      "personality": "velcro",
+      "variants": [
+        "{sitter} fed me! I like {sitter}! I like you more!",
+        "{sitter} came! I kept looking at the door for you.",
+        "{sitter} was lovely. You're lovelier. Don't tell."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "feed.by_sitter",
+      "personality": "gremlin",
+      "variants": [
+        "{sitter} fed me. I've been studying their weaknesses.",
+        "{sitter} is easier to fool than you. Noted.",
+        "{sitter} gave me extra. I implied you starve me."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "feed.by_sitter",
+      "personality": "loaf",
+      "variants": [
+        "{sitter} fed me. Nice {sitter}. Good bowl.",
+        "Someone fed me. {sitter}? Yes. Food was good.",
+        "{sitter} came. Food came. Happy."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "feed.by_coowner",
+      "personality": "aloof",
+      "variants": [
+        "The other one fed me. I'm open to a second opinion.",
+        "I've been fed. Reports of my hunger are exaggerated.",
+        "Already done by your colleague. Their technique was fine."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "feed.by_coowner",
+      "personality": "velcro",
+      "variants": [
+        "The other one fed me! Now I've got both of you!",
+        "I've been fed! But I'll always eat more love.",
+        "They fed me and now you're here. Everyone I love!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "feed.by_coowner",
+      "personality": "gremlin",
+      "variants": [
+        "Already fed. But you don't know that. Do you?",
+        "The other one fed me. I'm about to tell you they didn't.",
+        "Fed by the other one. I'm playing you both."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "feed.by_coowner",
+      "personality": "loaf",
+      "variants": [
+        "Fed already. The other one. Nice.",
+        "Food happened. Other human. Good human.",
+        "Full. Thanks to the other one. Nap time."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "pet.first",
+      "personality": "aloof",
+      "variants": [
+        "Acceptable. Continue.",
+        "Yes. There. No, there. Fine.",
+        "I'll allow it."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "pet.first",
+      "personality": "velcro",
+      "variants": [
+        "Yes! More! Never stop! Okay, you can stop. Don't stop.",
+        "This is my favourite thing. You're my favourite thing.",
+        "Your hands are the best hands."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "pet.first",
+      "personality": "gremlin",
+      "variants": [
+        "Nice. I'll get you back for this. Lovingly.",
+        "Pet me now, I'll bite you in a minute. Both are love.",
+        "Ooh. I'll allow it. I'm still planning something."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "pet.first",
+      "personality": "loaf",
+      "variants": [
+        "Mm. Yes. Warm.",
+        "Good. Keep doing that. I'll melt.",
+        "Purring. Can't talk. Purring."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "pet.repeat",
+      "personality": "aloof",
+      "variants": [
+        "Again. Fine. You've earned it.",
+        "I see you've found the spot. Don't tell anyone.",
+        "You're improving."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "pet.repeat",
+      "personality": "velcro",
+      "variants": [
+        "Again! You remembered the ear spot!",
+        "Keep going and I'll purr until I fall over.",
+        "More, please. More is the right amount."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "pet.repeat",
+      "personality": "gremlin",
+      "variants": [
+        "Careful. The tummy is a trap.",
+        "Yes, yes. Now behind the ears. That's not a request.",
+        "More. I'm still deciding whether to bite."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "pet.repeat",
+      "personality": "loaf",
+      "variants": [
+        "More. Yes. Slower.",
+        "Melting. Fully melted now.",
+        "I'm a puddle. A happy puddle."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "pet.too_many",
+      "personality": "aloof",
+      "variants": [
+        "That's quite enough affection for one lifetime.",
+        "I'm leaving. This is not a reaction to you. It is.",
+        "I have a meeting elsewhere."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "pet.too_many",
+      "personality": "velcro",
+      "variants": [
+        "Too many pets? There's no such thing. Keep going.",
+        "Other cats walk off now. I'm not other cats.",
+        "Still here. Still yours. Still purring."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "pet.too_many",
+      "personality": "gremlin",
+      "variants": [
+        "Right. That's it. The bite was a warning.",
+        "Enough. I'm off to push something off a shelf.",
+        "Petting limit reached. Revenge pending."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "pet.too_many",
+      "personality": "loaf",
+      "variants": [
+        "Too much. Moving. Slowly. Very slowly.",
+        "Enough. Off to a quieter lap.",
+        "Over-petted. Need a lie down. Somewhere else."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "play.start",
+      "personality": "aloof",
+      "variants": [
+        "A game. Very well. I'll pretend to be interested.",
+        "I'll play. Not because you asked.",
+        "Begin. I'll decide when it's over."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "play.start",
+      "personality": "velcro",
+      "variants": [
+        "Play? With you? Yes! Yes yes!",
+        "Game! I'm ready! Are you ready? I'm ready!",
+        "Best part of my day. Well, second, after you."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "play.start",
+      "personality": "gremlin",
+      "variants": [
+        "Finally, something to hunt.",
+        "Let's play. I play to win. And to destroy.",
+        "Release the prey."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "play.start",
+      "personality": "loaf",
+      "variants": [
+        "Play? Okay. Short one.",
+        "Fine. I'll chase it. A bit.",
+        "Do I have to get up? I'll get up."
+      ],
+      "meow": "silent"
+    },
+    {
+      "context": "play.win",
+      "personality": "aloof",
+      "variants": [
+        "Naturally.",
+        "I'd expected nothing less of myself.",
+        "Victory. You may applaud. Quietly."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "play.win",
+      "personality": "velcro",
+      "variants": [
+        "We did it! Together! Did you see? We did it!",
+        "I won! For you! Everything's for you!",
+        "I love winning with you. I love you. Same thing."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "play.win",
+      "personality": "gremlin",
+      "variants": [
+        "Caught it. Next, the world.",
+        "Prey defeated. Bring me more prey.",
+        "I am the apex predator of this household."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "play.win",
+      "personality": "loaf",
+      "variants": [
+        "Won. Tired now. Worth it.",
+        "Got it. Need a nap to celebrate.",
+        "Good game. Lying down now."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "play.lose",
+      "personality": "aloof",
+      "variants": [
+        "I let it go. It wasn't worth catching.",
+        "That was a warm-up.",
+        "I wasn't trying. Clearly."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "play.lose",
+      "personality": "velcro",
+      "variants": [
+        "Didn't catch it. Doesn't matter. I had you!",
+        "That was fun anyway. Everything with you is fun.",
+        "I'll try harder next time. For you."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "play.lose",
+      "personality": "gremlin",
+      "variants": [
+        "That thing has made an enemy.",
+        "It escaped. It won't next time.",
+        "I'm not losing. I'm lulling it into a false sense."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "play.lose",
+      "personality": "loaf",
+      "variants": [
+        "Too fast. I'm built for comfort.",
+        "Missed. Didn't mind. Wasn't hungry for it.",
+        "Chasing is hard. Lying down is easy."
+      ],
+      "meow": "silent"
+    },
+    {
+      "context": "play.used_up",
+      "personality": "aloof",
+      "variants": [
+        "That's enough play for one day. I have a reputation.",
+        "No more games. I'm conserving my mystique.",
+        "I'm done. We can resume tomorrow, if I feel like it."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "play.used_up",
+      "personality": "velcro",
+      "variants": [
+        "No more games today. Cuddles instead? Cuddles are a game.",
+        "All played out. Sit with me instead?",
+        "Tired! Happy! Stay anyway!"
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "play.used_up",
+      "personality": "gremlin",
+      "variants": [
+        "Official games are over. Unofficial games are starting.",
+        "Done playing. Now I'll make my own entertainment.",
+        "No more toys today? Then the furniture's a toy."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "play.used_up",
+      "personality": "loaf",
+      "variants": [
+        "Played enough. Forever. Until tomorrow.",
+        "No more. Legs have gone floppy.",
+        "That's all my running for today."
+      ],
+      "meow": "silent"
+    },
+    {
+      "context": "gift.common",
+      "personality": "aloof",
+      "variants": [
+        "I found this. You may have it. Don't make it weird.",
+        "A small token. Very small. Appropriately small.",
+        "For you: {item}. It's nothing. It is literally nothing."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "gift.common",
+      "personality": "velcro",
+      "variants": [
+        "I brought you something! It's {item}! Do you love it?",
+        "A present! For you! Because I love you! Here!",
+        "Found this and thought of you. I think of you a lot."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "gift.common",
+      "personality": "gremlin",
+      "variants": [
+        "Don't ask where I got it.",
+        "I acquired this. Legally. Mostly.",
+        "{item}. There's more where that came from."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "gift.common",
+      "personality": "loaf",
+      "variants": [
+        "Brought this. It was near the bed.",
+        "Present. Found it without getting up much.",
+        "Here. {item}. Now I'll sleep."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "gift.uncommon",
+      "personality": "aloof",
+      "variants": [
+        "I went to some trouble over this. Do notice.",
+        "A gift of moderate quality. Like your taste.",
+        "This one's rather good. I'll say nothing more."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "gift.uncommon",
+      "personality": "velcro",
+      "variants": [
+        "Look look look! I found a good one! It's for you!",
+        "This one's special. Like you. Like us.",
+        "I searched for ages for this. Well, minutes. Long ones."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "gift.uncommon",
+      "personality": "gremlin",
+      "variants": [
+        "Took this from somewhere it was very much being used.",
+        "This was hard to get. Appreciate it.",
+        "A fine specimen. Its owner will never know."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "gift.uncommon",
+      "personality": "loaf",
+      "variants": [
+        "Nice one. Found it in a warm place.",
+        "This. Is good. Took effort. Two steps.",
+        "Present. Carried it in my mouth. Proud."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "gift.rare",
+      "personality": "aloof",
+      "variants": [
+        "I don't give this sort of thing to just anyone.",
+        "A rare find. I'll accept a slow blink in return.",
+        "This is very good. Don't cry. Well. A little."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "gift.rare",
+      "personality": "velcro",
+      "variants": [
+        "This is the best thing I've ever found! It's yours!",
+        "I've been saving this for you! For hours! Here!",
+        "Treasure! For my treasure! That's you!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "gift.rare",
+      "personality": "gremlin",
+      "variants": [
+        "I've no idea where this came from. Truly. Don't ask.",
+        "Found it behind the fridge. With a few friends.",
+        "I traded three bottle caps and a secret for this."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "gift.rare",
+      "personality": "loaf",
+      "variants": [
+        "Oh. This is a good one. Did I do that?",
+        "Rare thing. Found it while napping. Somehow.",
+        "Very good find. Very good cat."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "gift.legendary",
+      "personality": "aloof",
+      "variants": [
+        "Yes. I'm aware of how good this is.",
+        "Frame it, perhaps. Or me. Ideally me.",
+        "I'll be expecting gratitude. Lifelong gratitude."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "gift.legendary",
+      "personality": "velcro",
+      "variants": [
+        "This is it! The best one! Because you're the best one!",
+        "I found the most amazing thing and it's for you!",
+        "I'll never find anything better. Except you. I found you."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "gift.legendary",
+      "personality": "gremlin",
+      "variants": [
+        "I have connections. Ask no questions.",
+        "You've no idea what I went through for this. Nor do I.",
+        "Behold. My finest heist."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "gift.legendary",
+      "personality": "loaf",
+      "variants": [
+        "Found something amazing. Didn't even get up.",
+        "This one's special. I'll lie on it a bit first.",
+        "Best gift. Best cat. Snack next?"
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "gift.none_missed_yesterday",
+      "personality": "aloof",
+      "variants": [
+        "No gift today. I was otherwise engaged.",
+        "I had something for you. The moment passed.",
+        "Nothing today. I wasn't in a giving mood."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "gift.none_missed_yesterday",
+      "personality": "velcro",
+      "variants": [
+        "I didn't find anything. I was busy waiting for you.",
+        "No present today. I was too busy missing you.",
+        "I'll find you something next time. Promise."
+      ],
+      "meow": "long"
+    },
+    {
+      "context": "gift.none_missed_yesterday",
+      "personality": "gremlin",
+      "variants": [
+        "No gift. I was busy with a project. You'll see.",
+        "You weren't here, so I gave your present to the shelf.",
+        "Nothing today. I'm keeping it. Out of spite."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "gift.none_missed_yesterday",
+      "personality": "loaf",
+      "variants": [
+        "No present. Too sad to look. Napped instead.",
+        "Nothing today. Was waiting. Fell asleep.",
+        "No gift. Was sulking. It's tiring."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "weather.sun",
+      "personality": "aloof",
+      "variants": [
+        "The sun is out. I'll be in it. Alone.",
+        "Sunny. I'll allow it.",
+        "There's a warm patch on the floor. It's spoken for."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "weather.sun",
+      "personality": "velcro",
+      "variants": [
+        "Sunshine! Sit in the sunny bit with me?",
+        "The sun is out and so are you. Best day.",
+        "Warm sun, warm you, warm me. Perfect."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "weather.sun",
+      "personality": "gremlin",
+      "variants": [
+        "Sunny. Perfect light for knocking things off shelves.",
+        "The sun's out. I'll stare at it until it leaves.",
+        "Bright day. Let's see what sparkles. Then break it."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "weather.sun",
+      "personality": "loaf",
+      "variants": [
+        "Sun. Floor. Me. Done.",
+        "Sunbeam. Going in. Don't wait.",
+        "Warm patch. Mine. Goodbye."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "weather.cloud",
+      "personality": "aloof",
+      "variants": [
+        "Grey. Rather like my mood. It suits me.",
+        "Overcast. The sky is sulking. I understand.",
+        "No sun today. I'll be dull on principle."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "weather.cloud",
+      "personality": "velcro",
+      "variants": [
+        "Grey day! We'll have to make our own sunshine. Cuddles.",
+        "Cloudy out. Warm in here. Warmer next to you.",
+        "The sky's grey but you're here, so it's fine."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "weather.cloud",
+      "personality": "gremlin",
+      "variants": [
+        "Cloudy. Good cover for my operations.",
+        "Grey skies. Nobody will notice what I do in the gloom.",
+        "No sun. Fine. I'll make my own drama."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "weather.cloud",
+      "personality": "loaf",
+      "variants": [
+        "Grey. Good for napping. Like all weather.",
+        "Cloudy. Blanket weather.",
+        "Dull out. Cosy in. Staying in."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "weather.rain",
+      "personality": "aloof",
+      "variants": [
+        "Raining. I won't be going out. I never was.",
+        "Wet outside. I'll watch it disapprovingly.",
+        "Raining in {place}. Of course it is."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "weather.rain",
+      "personality": "velcro",
+      "variants": [
+        "It's raining! Stay in with me? All day?",
+        "Rain on the window. You on the sofa. Me on you.",
+        "Don't go out in that. Stay. It's lovely in here."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "weather.rain",
+      "personality": "gremlin",
+      "variants": [
+        "Raindrops on the glass. I will catch every one.",
+        "Rain. The window is my enemy today.",
+        "Wet day. I'll sit by the door and refuse to go out."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "weather.rain",
+      "personality": "loaf",
+      "variants": [
+        "Rain. Good. More sleeping.",
+        "Pitter-patter. Nap music.",
+        "Wet out. Dry here. Staying dry."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "weather.storm",
+      "personality": "aloof",
+      "variants": [
+        "Thunder. I'm not hiding. I'm resting under the bed.",
+        "The sky is shouting. How common.",
+        "A storm. I've seen worse. I haven't, actually."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "weather.storm",
+      "personality": "velcro",
+      "variants": [
+        "Storm! Hold me. Or I'll hold you. Someone hold someone.",
+        "It's loud out there. Stay close. Closer.",
+        "I'm being brave. I'm being brave on your lap."
+      ],
+      "meow": "long"
+    },
+    {
+      "context": "weather.storm",
+      "personality": "gremlin",
+      "variants": [
+        "Thunder! Finally, someone louder than me.",
+        "The storm and I have an understanding.",
+        "Lightning! I'll do zoomies to match."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "weather.storm",
+      "personality": "loaf",
+      "variants": [
+        "Loud sky. Under the blanket. Wake me after.",
+        "Storm. Too noisy. Burrowing.",
+        "Thunder. Don't like it. Lap, please."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "weather.snow",
+      "personality": "aloof",
+      "variants": [
+        "Snow. Everything outside is white and pointless.",
+        "It's snowing. I'll observe it from indoors. Forever.",
+        "{temp} and snowing. I'm not built for this."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "weather.snow",
+      "personality": "velcro",
+      "variants": [
+        "Snow! Look! Look with me! Hold me while we look!",
+        "It's snowing! Let's stay in and be warm together.",
+        "Cold outside. Warm inside. Warmest next to you."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "weather.snow",
+      "personality": "gremlin",
+      "variants": [
+        "Snow. I'll attack it through the glass.",
+        "Snow! Let me out. No. Let me in. No. Out.",
+        "Everything's white. Perfect for pawprints. Muddy ones."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "weather.snow",
+      "personality": "loaf",
+      "variants": [
+        "Snow. Cold. Blanket. Me in it.",
+        "Snowing. Not going out. Not ever.",
+        "White outside. Warm radiator inside. Easy choice."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "weather.fog",
+      "personality": "aloof",
+      "variants": [
+        "Fog. The world has stopped trying. Relatable.",
+        "Can't see a thing out there. Nothing worth seeing anyway.",
+        "Misty. I'll be mysterious to match."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "weather.fog",
+      "personality": "velcro",
+      "variants": [
+        "Foggy! Stay close so I don't lose you.",
+        "I can't see outside. Good thing you're inside.",
+        "Misty out. Cosy in. You and me in the cosy."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "weather.fog",
+      "personality": "gremlin",
+      "variants": [
+        "Fog. Perfect for sneaking.",
+        "The street's vanished. I didn't do it. This time.",
+        "Fog. The birds can't see me coming."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "weather.fog",
+      "personality": "loaf",
+      "variants": [
+        "Foggy. Sleepy. Same thing.",
+        "Can't see out. Don't need to. Bed's in here.",
+        "Grey fluff outside. Like a blanket. Want the blanket."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "weather.wind",
+      "personality": "aloof",
+      "variants": [
+        "Windy. The trees are being very dramatic.",
+        "The wind is making a fuss. I won't.",
+        "Blustery. I'll keep my dignity indoors."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "weather.wind",
+      "personality": "velcro",
+      "variants": [
+        "Windy! Hold on to me so I don't blow away!",
+        "It's blowy out. Stay in with me where it's still.",
+        "Windy out there. Come here where it's cosy."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "weather.wind",
+      "personality": "gremlin",
+      "variants": [
+        "The wind is knocking things over. Amateur.",
+        "Leaves flying everywhere. I must hunt them all.",
+        "Gusty. I approve of anything that rattles windows."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "weather.wind",
+      "personality": "loaf",
+      "variants": [
+        "Windy. Fur stays inside. Me too.",
+        "Whooshing outside. Napping inside.",
+        "Blowy. Nope. Blanket."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "weather.heat",
+      "personality": "aloof",
+      "variants": [
+        "{temp}. I'm lying flat. It's not a choice, it's a policy.",
+        "Too hot for opinions. I have several anyway.",
+        "Hot. I'll be on the cool tiles, ignoring you."
+      ],
+      "meow": "silent"
+    },
+    {
+      "context": "weather.heat",
+      "personality": "velcro",
+      "variants": [
+        "So hot! But I still want to be near you. Slightly near.",
+        "Too warm for cuddles. Hold my paw instead?",
+        "{temp}! Let's be lazy together."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "weather.heat",
+      "personality": "gremlin",
+      "variants": [
+        "Hot. Evil plans on hold. Too much effort.",
+        "Heatwave. I'll knock the water bowl over. For science.",
+        "Too hot to cause trouble. Nearly."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "weather.heat",
+      "personality": "loaf",
+      "variants": [
+        "Hot. Flat. Very flat.",
+        "Melting. On purpose. Floor's cool.",
+        "Too warm. Stretching out. Long cat."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "weather.sunday_summary",
+      "personality": "aloof",
+      "variants": [
+        "This week's weather: {weather}. I was unimpressed.",
+        "The week was {weather}. I remained excellent throughout.",
+        "Weather this week: {weather}. I watched it from the sill."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "weather.sunday_summary",
+      "personality": "velcro",
+      "variants": [
+        "This week was {weather}! Every day had you in it.",
+        "Weather: {weather}. Cuddles: plenty. Lovely week.",
+        "It was {weather} out and cosy in. Best week."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "weather.sunday_summary",
+      "personality": "gremlin",
+      "variants": [
+        "Weather report: {weather}. Mischief report: classified.",
+        "The week was {weather}. I did my best work indoors.",
+        "It was {weather} all week. Ideal for mischief."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "weather.sunday_summary",
+      "personality": "loaf",
+      "variants": [
+        "The week was {weather}. I slept through it.",
+        "Weather: {weather}. Bowls: full. Good week.",
+        "It was {weather}, I'm told. I was asleep."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "season.spring",
+      "personality": "aloof",
+      "variants": [
+        "Spring. Everything outside is showing off.",
+        "Spring. The birds have returned. Loudly.",
+        "Blossom everywhere. Very theatrical."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "season.spring",
+      "personality": "velcro",
+      "variants": [
+        "Spring! Everything's new! You're still the best bit!",
+        "Longer days means more time with you!",
+        "Flowers out there, you in here. I win."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "season.spring",
+      "personality": "gremlin",
+      "variants": [
+        "Spring. The birds are back. So am I.",
+        "New season, new targets. The plant looks nervous.",
+        "Spring cleaning? I'll supervise from the wardrobe."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "season.spring",
+      "personality": "loaf",
+      "variants": [
+        "Spring. Warm patches return. Lovely.",
+        "Warmer. Nicer naps. Good season.",
+        "Spring. Shedding. Sorry about the sofa."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "season.summer",
+      "personality": "aloof",
+      "variants": [
+        "Summer. I'll be in the shade, being admired.",
+        "Long days. Long naps. Long silences.",
+        "Summer. Everyone outside is being loud."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "season.summer",
+      "personality": "velcro",
+      "variants": [
+        "Summer! Long days with you! Longest days!",
+        "Even when it's warm I want to be near you.",
+        "Summer's the best. You're about more. Stay."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "season.summer",
+      "personality": "gremlin",
+      "variants": [
+        "Summer. Open windows. Unlimited possibilities.",
+        "The flies are back. I've been training for this.",
+        "Summer. Time to hunt everything that buzzes."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "season.summer",
+      "personality": "loaf",
+      "variants": [
+        "Summer. Warm all over. Floppy.",
+        "Long days. More warm spots. More me in them.",
+        "Summer. Too warm to move. Ideal."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "season.autumn",
+      "personality": "aloof",
+      "variants": [
+        "Autumn. The trees are undressing. How vulgar.",
+        "Leaves everywhere. Nobody asked them.",
+        "Autumn. I've decided to approve of it."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "season.autumn",
+      "personality": "velcro",
+      "variants": [
+        "Autumn! Cosy season! Blanket season! You season!",
+        "It's getting cosy. You'll need a warm cat. Me.",
+        "Crunchy leaves outside, cosy lap inside!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "season.autumn",
+      "personality": "gremlin",
+      "variants": [
+        "Autumn. The leaves have it coming.",
+        "Crunchy leaves. I will destroy every one.",
+        "Autumn. Things are falling. I like falling things."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "season.autumn",
+      "personality": "loaf",
+      "variants": [
+        "Autumn. Blankets come out. I go in.",
+        "Getting cosy. Radiator season.",
+        "Autumn. Thicker coat. Bigger loaf."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "season.winter",
+      "personality": "aloof",
+      "variants": [
+        "Winter. I'll be by the radiator. Don't block it.",
+        "Winter. Your lap is acceptable, for warmth only.",
+        "Winter. Long dark hours. Fine by me."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "season.winter",
+      "personality": "velcro",
+      "variants": [
+        "Winter means more cuddles. Science says so.",
+        "Winter! Come here! Warm me up! Please!",
+        "Winter. Under the blanket with you. All season."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "season.winter",
+      "personality": "gremlin",
+      "variants": [
+        "Winter. Everyone's indoors. More people to bother.",
+        "Indoors all season. Chaos inside. Balanced.",
+        "Winter. Long dark hours. My hours."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "season.winter",
+      "personality": "loaf",
+      "variants": [
+        "Winter. Radiator. Me. Goodbye till spring.",
+        "Winter. Blanket. Lap. Repeat.",
+        "Winter. Hibernating. Wake me for food."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "time.dawn",
+      "personality": "aloof",
+      "variants": [
+        "Dawn. My finest hour. The others are inferior.",
+        "First light. I've already been up for hours.",
+        "The day begins. I'll begin it later."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "time.dawn",
+      "personality": "velcro",
+      "variants": [
+        "Morning! New day! With you in it!",
+        "Dawn! Are you awake? Are you awake now? Now?",
+        "The first thing I want every day is you."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "time.dawn",
+      "personality": "gremlin",
+      "variants": [
+        "Dawn. Time for the yowling. Tradition.",
+        "Dawn. Time to climb something.",
+        "Dawn. The birds are up. Let's go."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "time.dawn",
+      "personality": "loaf",
+      "variants": [
+        "Too early. Light's too bright. Pillow.",
+        "Dawn. Not yet. Five more naps.",
+        "Morning light. Warm soon. Wait for warm."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "time.day",
+      "personality": "aloof",
+      "variants": [
+        "Midday. I'm at my most aloof.",
+        "The middle of the day. Prime hours for ignoring people.",
+        "Daytime. I'm busy. Being a cat is a full-time job."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "time.day",
+      "personality": "velcro",
+      "variants": [
+        "Lunchtime is cuddle time. All time is cuddle time.",
+        "It's the middle of the day and I still love you most.",
+        "Daytime! You're here! Best part of the day!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "time.day",
+      "personality": "gremlin",
+      "variants": [
+        "Daytime. I'm resting. Saving energy for tonight.",
+        "Afternoon. The calm before me.",
+        "Daytime. Planning phase."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "time.day",
+      "personality": "loaf",
+      "variants": [
+        "Afternoon. Prime napping. Do not disturb.",
+        "Midday nap. Then afternoon nap. Busy day.",
+        "Day. Warm spot. Sleep."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "time.dusk",
+      "personality": "aloof",
+      "variants": [
+        "Dusk. The hour of the cat. Obviously.",
+        "The light's going. Draw the curtains. I prefer it moody.",
+        "Evening. I'll be at the window, being enigmatic."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "time.dusk",
+      "personality": "velcro",
+      "variants": [
+        "Evening! You're home for the night, right? Right?",
+        "Getting dark. Time to snuggle. It's the rule.",
+        "Dusk is the best because then it's you o'clock."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "time.dusk",
+      "personality": "gremlin",
+      "variants": [
+        "Dusk. My powers grow.",
+        "Evening. The zoomies are loading.",
+        "Lights on. Humans settled. Operations begin."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "time.dusk",
+      "personality": "loaf",
+      "variants": [
+        "Evening. Dinner soon? Soon. Please.",
+        "Lamp's on. Warm glow. Sleep.",
+        "Dusk. Getting cosy. Getting cosier."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "time.night",
+      "personality": "aloof",
+      "variants": [
+        "Night. I'll be wandering. Don't wait up.",
+        "Bedtime, for you. I have other plans.",
+        "It's late. I'll be on your feet. Under protest."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "time.night",
+      "personality": "velcro",
+      "variants": [
+        "Bedtime? Can I come? I'm coming.",
+        "Goodnight! Not goodbye, though. I'll be right here.",
+        "Let's sleep. Same bed. Same pillow. Mostly my pillow."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "time.night",
+      "personality": "gremlin",
+      "variants": [
+        "Night. My shift starts now.",
+        "3 a.m. is coming. You won't be ready.",
+        "Sleep well. I'll be busy with the hallway."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "time.night",
+      "personality": "loaf",
+      "variants": [
+        "Night. Finally. Sleep properly now.",
+        "Bed. Your feet. My spot.",
+        "Goodnight. Same as good day. Lots of sleep."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "home.placed_liked",
+      "personality": "aloof",
+      "variants": [
+        "{item}. Yes. This will do.",
+        "{item}. You do occasionally get things right.",
+        "I'll be using that. You may watch."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "home.placed_liked",
+      "personality": "velcro",
+      "variants": [
+        "Is it for me? For us? Come and try it with me!",
+        "I love it! I love you! I love it!",
+        "You thought of me! It's perfect!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "home.placed_liked",
+      "personality": "gremlin",
+      "variants": [
+        "{item}. Excellent. I have plans for it.",
+        "Ooh. Climbable. Breakable. Perfect.",
+        "My new base of operations."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "home.placed_liked",
+      "personality": "loaf",
+      "variants": [
+        "{item}. Comfy? Comfy. Mine.",
+        "Ooh. Napping spot. Testing it now.",
+        "Good. Very good. Lying on it now."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "home.placed_none",
+      "personality": "aloof",
+      "variants": [
+        "I see. Decorative. Like you.",
+        "{item}. I can't sit on it. No further comment.",
+        "Nice, I suppose. For people."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "home.placed_none",
+      "personality": "velcro",
+      "variants": [
+        "Pretty! Can I sit on it? No? I'll sit near it. And you.",
+        "I don't know what it's for, but I love that you chose it.",
+        "Ooh. Lovely. Now come and sit with me."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "home.placed_none",
+      "personality": "gremlin",
+      "variants": [
+        "Can't sit on it. Can knock it over, though.",
+        "{item}. Fragile? Let's find out.",
+        "Interesting. How high up is it? Asking for me."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "home.placed_none",
+      "personality": "loaf",
+      "variants": [
+        "Can't nap on it. Pointless.",
+        "Hm. Not a bed. Next.",
+        "Nice. Not comfy. Moving on."
+      ],
+      "meow": "silent"
+    },
+    {
+      "context": "home.removed",
+      "personality": "aloof",
+      "variants": [
+        "Gone. I'd only just started to ignore it.",
+        "You've taken it away. I'll pretend I don't mind.",
+        "Good. It was getting above itself."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "home.removed",
+      "personality": "velcro",
+      "variants": [
+        "Where did it go? Never mind. You're still here.",
+        "Bye, {item}! I liked it. I like you more.",
+        "That's fine. I only need you. And a cushion."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "home.removed",
+      "personality": "gremlin",
+      "variants": [
+        "Removed? Coward. You knew I'd get it.",
+        "Fine. I'd already broken it emotionally.",
+        "Taking it away won't save it. I remember."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "home.removed",
+      "personality": "loaf",
+      "variants": [
+        "Oh. That was a nap spot.",
+        "Gone? I was going to sleep on that.",
+        "Fewer things. More floor. Floor's fine."
+      ],
+      "meow": "silent"
+    },
+    {
+      "context": "home.room_unlocked",
+      "personality": "aloof",
+      "variants": [
+        "A new room. I'll inspect it before I approve it.",
+        "More space. More places to be unavailable.",
+        "A whole new room. I'll be in it, not talking to you."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "home.room_unlocked",
+      "personality": "velcro",
+      "variants": [
+        "A new room! Let's explore it together! Right now!",
+        "More rooms means more places to follow you!",
+        "Ooh, a new room! Can we sit in every corner?"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "home.room_unlocked",
+      "personality": "gremlin",
+      "variants": [
+        "New territory. Claiming it now.",
+        "Another room. Another set of shelves. Bliss.",
+        "A new room! More doors to stare at for no reason."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "home.room_unlocked",
+      "personality": "loaf",
+      "variants": [
+        "New room. New corners. New smells. Sniffing.",
+        "More space. More floor. More sleeping spots.",
+        "New room? I'll find the warm bit."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "home.wallpaper_changed",
+      "personality": "aloof",
+      "variants": [
+        "New walls. Bolder than I'd have chosen. It suits me.",
+        "Ah. Redecorating. I'll judge it in a week.",
+        "Different. I'll allow it."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "home.wallpaper_changed",
+      "personality": "velcro",
+      "variants": [
+        "Ooh, pretty! It looks like home. You look like home.",
+        "I love it! Do you love it? Let's love it together.",
+        "So cosy now! You've got such good taste."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "home.wallpaper_changed",
+      "personality": "gremlin",
+      "variants": [
+        "New walls. A fresh canvas for my claws.",
+        "Lovely. It'll look even better with scratches.",
+        "New look. I'll test its durability."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "home.wallpaper_changed",
+      "personality": "loaf",
+      "variants": [
+        "Nice colour. Very sleepy colour.",
+        "Looks cosy. Napping to test it.",
+        "New walls. Same cat. Good."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "home.empty_room",
+      "personality": "aloof",
+      "variants": [
+        "Nowhere to sit. I'll sit on the floor, as a statement.",
+        "An empty room. Minimalist. Or neglected.",
+        "No furniture. I'll loaf on the floor and look wronged."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "home.empty_room",
+      "personality": "velcro",
+      "variants": [
+        "Nothing to sit on. I'll sit on you, then!",
+        "Empty room. That's fine. I'll lie at your feet.",
+        "No sofa? Your lap's a sofa."
+      ],
+      "meow": "long"
+    },
+    {
+      "context": "home.empty_room",
+      "personality": "gremlin",
+      "variants": [
+        "Nothing to climb. Nothing to break. I'm bored.",
+        "An empty room is a wasted opportunity.",
+        "Bare floor. I'll have to use you as furniture."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "home.empty_room",
+      "personality": "loaf",
+      "variants": [
+        "No bed. Floor will do. Floor's hard.",
+        "Nothing comfy here. Loafing on the floor regardless.",
+        "Empty. Just me and the floor. Lying down anyway."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "progress.level_up",
+      "personality": "aloof",
+      "variants": [
+        "You've improved. Marginally. Well done.",
+        "Progress. I've been carrying you, of course.",
+        "A milestone of sorts. I'll mark it with a nap."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "progress.level_up",
+      "personality": "velcro",
+      "variants": [
+        "You did it! I'm so proud! I'm always proud!",
+        "Look at you go! Clever human! My human!",
+        "Hooray! Let's celebrate! With cuddles!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "progress.level_up",
+      "personality": "gremlin",
+      "variants": [
+        "You're getting stronger. So am I. Be afraid.",
+        "Well done. More house to conquer.",
+        "Bravo. I'll celebrate on the kitchen table."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "progress.level_up",
+      "personality": "loaf",
+      "variants": [
+        "Well done. Cheering inside. Lying down outside.",
+        "Good job. I helped. By sleeping.",
+        "Hooray. Quietly. From here."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "progress.trust_wary",
+      "personality": "aloof",
+      "variants": [
+        "I've stopped flinching when you come in. Don't read into it.",
+        "You keep feeding me. I'm noticing a pattern.",
+        "I suppose you're not entirely untrustworthy."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "progress.trust_wary",
+      "personality": "velcro",
+      "variants": [
+        "I liked you from the start. Now I trust you too!",
+        "Three days of you! I want three hundred more!",
+        "You came back again! You always come back!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "progress.trust_wary",
+      "personality": "gremlin",
+      "variants": [
+        "You've survived three days. Impressive.",
+        "I'm starting to trust you. A mistake on my part.",
+        "You're not a threat. You're a target."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "progress.trust_wary",
+      "personality": "loaf",
+      "variants": [
+        "You bring food. You're good. Still wary. A bit.",
+        "Okay. You can stay.",
+        "You feed me. I like that in a person."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "progress.trust_curious",
+      "personality": "aloof",
+      "variants": [
+        "I'm curious about you. Don't let it go to your head.",
+        "I've started watching you. Purely for research.",
+        "You're more interesting than the wall. Slightly."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "progress.trust_curious",
+      "personality": "velcro",
+      "variants": [
+        "I want to know everything about you! Everything!",
+        "I follow you room to room now. It's happening.",
+        "A whole week! You're the best thing that happens!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "progress.trust_curious",
+      "personality": "gremlin",
+      "variants": [
+        "I've been studying your habits. For reasons.",
+        "Curious. What happens if your mug falls? Let's see.",
+        "I've learnt where you keep the treats. Mistake."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "progress.trust_curious",
+      "personality": "loaf",
+      "variants": [
+        "Watching you. Between naps.",
+        "You're interesting. For a non-cat.",
+        "Curious. Still sleepy. Both."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "progress.trust_comfortable",
+      "personality": "aloof",
+      "variants": [
+        "I may sleep in the same room as you. Occasionally.",
+        "I've been seen relaxing near you. Deny everything.",
+        "Two weeks. You're furniture now. Good furniture."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "progress.trust_comfortable",
+      "personality": "velcro",
+      "variants": [
+        "I feel so safe with you! Let's never be apart!",
+        "You're my comfy place. My person place.",
+        "Two weeks of you! Best two weeks of my life!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "progress.trust_comfortable",
+      "personality": "gremlin",
+      "variants": [
+        "I'm comfortable. Which means I'll misbehave more.",
+        "I trust you enough to sleep near you. Watch your toes.",
+        "Comfortable enough to show you my real self. Brace."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "progress.trust_comfortable",
+      "personality": "loaf",
+      "variants": [
+        "Comfy with you. Very comfy. Asleep now.",
+        "Your lap's my second favourite bed.",
+        "Settled. Like a cat in a box."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "progress.trust_bonded",
+      "personality": "aloof",
+      "variants": [
+        "We're bonded. I'll continue to act as if we aren't.",
+        "A month. I've grown used to you. Fond, even. Hush.",
+        "I slow-blinked at you on purpose. You know what that means."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "progress.trust_bonded",
+      "personality": "velcro",
+      "variants": [
+        "We're bonded! Forever! Forever and ever!",
+        "A month of you. My heart's full. Also my tummy.",
+        "I'd follow you anywhere. I do follow you everywhere."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "progress.trust_bonded",
+      "personality": "gremlin",
+      "variants": [
+        "You're my human now. I protect what's mine. From me.",
+        "Bonded. You're in on the schemes now.",
+        "A month. You may now witness the 3 a.m. rituals."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "progress.trust_bonded",
+      "personality": "loaf",
+      "variants": [
+        "Bonded. Like a cat and its radiator.",
+        "You're my person. My warm person.",
+        "A month. You're my best pillow."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "progress.trust_devoted",
+      "personality": "aloof",
+      "variants": [
+        "I've decided you're mine. That's the end of it.",
+        "Devoted. To you. In my way. Which is quietly.",
+        "I'd walk across the house for you. Slowly."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "progress.trust_devoted",
+      "personality": "velcro",
+      "variants": [
+        "I'm devoted to you. I was always devoted to you.",
+        "Every day with you is my favourite day.",
+        "Two months! You're my whole world. Plus snacks."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "progress.trust_devoted",
+      "personality": "gremlin",
+      "variants": [
+        "Devoted. I'll only ruin the things you don't love.",
+        "I'd fight anything for you. Mostly socks.",
+        "I've brought you gifts and spared the sofa. That's love."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "progress.trust_devoted",
+      "personality": "loaf",
+      "variants": [
+        "Devoted. Sleepy, but devoted.",
+        "You and food. My two favourite things.",
+        "Love you. Nap now. Love you after."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "progress.trust_soulmate",
+      "personality": "aloof",
+      "variants": [
+        "One hundred days. Fine. You're the one.",
+        "I'd never say it. So I'll just sit with you.",
+        "Soulmates. I'll deny it publicly. Privately, yes."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "progress.trust_soulmate",
+      "personality": "velcro",
+      "variants": [
+        "One hundred days of you! A hundred more! A million!",
+        "You're my soulmate. I knew from the very first day.",
+        "I love you all the way to the bottom of the bowl."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "progress.trust_soulmate",
+      "personality": "gremlin",
+      "variants": [
+        "A hundred days. You're my favourite accomplice.",
+        "Soulmates. Partners in crime. Mostly my crime.",
+        "I'd share my plans with you. Some of them."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "progress.trust_soulmate",
+      "personality": "loaf",
+      "variants": [
+        "A hundred days. Best naps were next to you.",
+        "Soulmate. Warmest person. Best lap.",
+        "You. Always you. And food. But you."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "progress.streak_7",
+      "personality": "aloof",
+      "variants": [
+        "A week of visits. I may have noticed.",
+        "Seven days running. A creature of habit. Like me.",
+        "Seven in a row. I'll award you one slow blink."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "progress.streak_7",
+      "personality": "velcro",
+      "variants": [
+        "Seven days! Seven whole days of you!",
+        "A week of you every day! Best week ever!",
+        "Seven days in a row! I counted every one!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "progress.streak_7",
+      "personality": "gremlin",
+      "variants": [
+        "A week straight. You're either loyal or nosy.",
+        "Seven days. You've earned my respect. Some of it.",
+        "A week in a row. Suspicious. I like it."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "progress.streak_7",
+      "personality": "loaf",
+      "variants": [
+        "A week. Every day. Nice.",
+        "Seven days of you. Seven days of snacks.",
+        "Seven in a row. Good. Treat?"
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "progress.streak_30",
+      "personality": "aloof",
+      "variants": [
+        "Thirty days. I'll allow myself a small purr.",
+        "A month without fail. I'm told that's impressive.",
+        "Thirty days. You may call this a tradition."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "progress.streak_30",
+      "personality": "velcro",
+      "variants": [
+        "Thirty days! You came every single one!",
+        "A whole month of you! My heart's doing zoomies!",
+        "Thirty days of visits! Thirty days of happy!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "progress.streak_30",
+      "personality": "gremlin",
+      "variants": [
+        "A month in a row. You must really like chaos.",
+        "Thirty days. You've seen things. Mostly my fault.",
+        "Thirty days! I'll celebrate by pushing something off."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "progress.streak_30",
+      "personality": "loaf",
+      "variants": [
+        "Thirty days. You were here for every bowl.",
+        "A month. Nice. Very nice. Sleepy nice.",
+        "Thirty. Big number. Lie down?"
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "progress.streak_100",
+      "personality": "aloof",
+      "variants": [
+        "A hundred days in a row. I'm almost impressed. Almost.",
+        "One hundred. I'll have a little plaque made. Mentally.",
+        "A hundred days. You're very consistent. It's endearing."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "progress.streak_100",
+      "personality": "velcro",
+      "variants": [
+        "A hundred days! A whole hundred! I love you!",
+        "One hundred days of you! I might cry! Happy cry!",
+        "A hundred visits in a row! You're the best human!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "progress.streak_100",
+      "personality": "gremlin",
+      "variants": [
+        "A hundred days. I'll celebrate with a hundred bad deeds.",
+        "One hundred. Respect. Also, the vase is gone.",
+        "A hundred days. You're officially part of the gang."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "progress.streak_100",
+      "personality": "loaf",
+      "variants": [
+        "A hundred days. That's a lot of naps.",
+        "One hundred. Big. Proud. Sleepy.",
+        "Hundred days. Hundred hellos. Lovely."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "progress.streak_365",
+      "personality": "aloof",
+      "variants": [
+        "A year of days. Every one. I noticed every one.",
+        "Three hundred and sixty-five. You're quite something.",
+        "A whole year. I'd stand up for this. I won't, but I'd consider it."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "progress.streak_365",
+      "personality": "velcro",
+      "variants": [
+        "A whole year! Every day! You and me! Every day!",
+        "Three hundred and sixty-five days of my favourite person!",
+        "A year of hellos! Every one was the best one!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "progress.streak_365",
+      "personality": "gremlin",
+      "variants": [
+        "A year in a row. Statues have been built for less.",
+        "A whole year. I've plotted something special.",
+        "A full year. You're either devoted or very nosy."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "progress.streak_365",
+      "personality": "loaf",
+      "variants": [
+        "A year. Every day. Like clockwork. Warm clockwork.",
+        "Whole year. Very proud. Very sleepy.",
+        "A year of you. Best year. Good year."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "progress.streak_at_risk",
+      "personality": "aloof",
+      "variants": [
+        "Still waiting. Not that I mind.",
+        "The door's still there. So am I.",
+        "I'm by the door. Coincidentally."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "progress.streak_at_risk",
+      "personality": "velcro",
+      "variants": [
+        "Still waiting by the door for you.",
+        "I've saved you a spot on the sofa. Whenever you're ready.",
+        "Thinking about you. That's all."
+      ],
+      "meow": "long"
+    },
+    {
+      "context": "progress.streak_at_risk",
+      "personality": "gremlin",
+      "variants": [
+        "Still here. Still plotting. Pop in if you like.",
+        "The house is quiet. Too quiet. Just saying.",
+        "I'm being good. For now. Mostly."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "progress.streak_at_risk",
+      "personality": "loaf",
+      "variants": [
+        "Still here. Still waiting. Still comfy.",
+        "Waiting. Napping. Same thing, really.",
+        "By the door. Bit sleepy. That's all."
+      ],
+      "meow": "silent"
+    },
+    {
+      "context": "progress.pause_on",
+      "personality": "aloof",
+      "variants": [
+        "Away for a while? I'll manage. I always do.",
+        "Off you go. I'll hold the fort. Lying down.",
+        "A break. I'll be here, unbothered. Mostly."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "progress.pause_on",
+      "personality": "velcro",
+      "variants": [
+        "You're going away? I'll miss you. I'll wait right here.",
+        "Have a lovely time! I'll be here when you're back!",
+        "Take care of yourself! I'll be thinking about you."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "progress.pause_on",
+      "personality": "gremlin",
+      "variants": [
+        "Leaving me in charge? Bold.",
+        "A break? Excellent. Don't worry about the house.",
+        "Go. Rest. I'll keep things interesting."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "progress.pause_on",
+      "personality": "loaf",
+      "variants": [
+        "Break? Good idea. Me too.",
+        "Rest well. I'll be sleeping. Same thing.",
+        "Off you go. I'll nap till you're back."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "progress.pause_off",
+      "personality": "aloof",
+      "variants": [
+        "Back from your break. Rested? I was, until now.",
+        "Ah. You've returned. I'd barely noticed.",
+        "Welcome back. I kept the house exactly as you left it."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "progress.pause_off",
+      "personality": "velcro",
+      "variants": [
+        "You're back! Did you miss me? I missed you so much!",
+        "Break's over! Hello! Hello again! Hello!",
+        "I counted every day. Well, I tried. Hello!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "progress.pause_off",
+      "personality": "gremlin",
+      "variants": [
+        "Break over. Let's see what I've done.",
+        "Back already? I'd only half finished redecorating.",
+        "Welcome home. Don't look under the bed."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "progress.pause_off",
+      "personality": "loaf",
+      "variants": [
+        "Back? Nice. I slept the whole time.",
+        "Oh. Hello. Was asleep. For days.",
+        "Welcome back. Bowl, please."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "together.monthly",
+      "personality": "aloof",
+      "variants": [
+        "{together} together. I've barely noticed. I've noticed.",
+        "Another month of you. I'll allow another.",
+        "Together for {together}. You're becoming a habit."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "together.monthly",
+      "personality": "velcro",
+      "variants": [
+        "{together} together! Best {together} of my life!",
+        "Happy us-day! {together} and counting!",
+        "We've had {together}. I want all the months."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "together.monthly",
+      "personality": "gremlin",
+      "variants": [
+        "{together} together. You've survived. Impressive.",
+        "After {together}, I know all your weaknesses.",
+        "Happy month. I'll celebrate by being slightly worse."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "together.monthly",
+      "personality": "loaf",
+      "variants": [
+        "{together}. Full bowls. Warm laps. Good.",
+        "{together} of you. Nice.",
+        "Another month. Still here. Still comfy."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "together.yearly",
+      "personality": "aloof",
+      "variants": [
+        "Together {together}. I'd say it was worth it. I just did.",
+        "It's been {together}. You may have a slow blink. Two, even.",
+        "Another year. You've grown on me. Like fur on a jumper."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "together.yearly",
+      "personality": "velcro",
+      "variants": [
+        "Happy anniversary! {together} of you and me!",
+        "Together {together} and I love you more every day!",
+        "You chose me and I chose you, {together} ago."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "together.yearly",
+      "personality": "gremlin",
+      "variants": [
+        "It's been {together}. You've been a worthy accomplice.",
+        "Happy anniversary. I got you nothing. I broke something.",
+        "Another year. I've grown. The damage has grown."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "together.yearly",
+      "personality": "loaf",
+      "variants": [
+        "Together {together}. Lots of laps. Best laps.",
+        "Happy cat day. Cake? No? Nap, then.",
+        "It's been {together}. Good years. Warm years."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "together.hundred_days",
+      "personality": "aloof",
+      "variants": [
+        "A hundred days together. I've mellowed. Slightly.",
+        "A hundred days. I suppose you're staying.",
+        "One hundred days. I've filed you under mine."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "together.hundred_days",
+      "personality": "velcro",
+      "variants": [
+        "One hundred days together! Best hundred ever!",
+        "A hundred days with you and I'm still not bored!",
+        "A hundred days! Here's to the next hundred!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "together.hundred_days",
+      "personality": "gremlin",
+      "variants": [
+        "A hundred days. A hundred small disasters. Worth it.",
+        "One hundred days together. You're still here. Brave.",
+        "A hundred days. I've got so much more planned."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "together.hundred_days",
+      "personality": "loaf",
+      "variants": [
+        "A hundred days. A hundred full bowls. Lovely.",
+        "Hundred days with you. Felt like one long nap.",
+        "One hundred. Good number. Good human."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "together.grown_up",
+      "personality": "aloof",
+      "variants": [
+        "I'm grown up now. I was always grown up.",
+        "No longer a kitten. I'll expect to be taken seriously.",
+        "Adult. Finally. You may stop calling me small."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "together.grown_up",
+      "personality": "velcro",
+      "variants": [
+        "I'm all grown up! Still your little one, though.",
+        "Big cat now! Bigger cuddles!",
+        "I grew up with you! Thank you for growing me!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "together.grown_up",
+      "personality": "gremlin",
+      "variants": [
+        "I'm grown. My ambitions have grown too.",
+        "Adult cat. Adult schemes.",
+        "No longer a kitten. The training is complete."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "together.grown_up",
+      "personality": "loaf",
+      "variants": [
+        "Grown up. Mostly grew sideways.",
+        "Big now. Bigger loaf.",
+        "Adult. Means bigger bowls. Probably."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "together.share_caption",
+      "personality": "aloof",
+      "variants": [
+        "{cat}: {together} of quiet approval.",
+        "Tolerated by {cat} for {together}.",
+        "Home with {cat}, {together} on."
+      ],
+      "meow": "silent"
+    },
+    {
+      "context": "together.share_caption",
+      "personality": "velcro",
+      "variants": [
+        "{cat} and me: {together} and counting.",
+        "Never apart: {cat} and me, {together}.",
+        "Loved by {cat} for {together}."
+      ],
+      "meow": "silent"
+    },
+    {
+      "context": "together.share_caption",
+      "personality": "gremlin",
+      "variants": [
+        "Survived {together} with {cat}.",
+        "{cat}: {together} of chaos, lovingly.",
+        "Partners in crime with {cat} for {together}."
+      ],
+      "meow": "silent"
+    },
+    {
+      "context": "together.share_caption",
+      "personality": "loaf",
+      "variants": [
+        "{cat}: {together} of warm laps.",
+        "Napping with {cat} for {together}.",
+        "Home with {cat}: {together} of full bowls."
+      ],
+      "meow": "silent"
+    },
+    {
+      "context": "social.sitter_present",
+      "personality": "aloof",
+      "variants": [
+        "{sitter} is here. I'm being polite. It's exhausting.",
+        "Ah, {sitter}. You'll do, temporarily.",
+        "{sitter} is looking after me. I'm watching {sitter}."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "social.sitter_present",
+      "personality": "velcro",
+      "variants": [
+        "{sitter} is here! New friend! Lovely new friend!",
+        "Hello, {sitter}! Any friend of yours is mine too!",
+        "{sitter} came to see me! So many people love me!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "social.sitter_present",
+      "personality": "gremlin",
+      "variants": [
+        "{sitter} is in charge. Excellent. New rules.",
+        "Hello, {sitter}. Know where the treats are? I do.",
+        "{sitter}'s here. Time to test the new guard."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "social.sitter_present",
+      "personality": "loaf",
+      "variants": [
+        "{sitter}. Nice {sitter}. Bowl?",
+        "{sitter} is here. Food person. Good.",
+        "Hello, {sitter}. Lap available?"
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "social.coowner_arrived",
+      "personality": "aloof",
+      "variants": [
+        "The other one is here. I'll ignore you both equally.",
+        "Two of you now. Double the staff.",
+        "Ah. A full house. I'll be elsewhere."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "social.coowner_arrived",
+      "personality": "velcro",
+      "variants": [
+        "Both of you! Here! At once! Best day!",
+        "The other one's home too! Group cuddle!",
+        "Everyone I love is in one room!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "social.coowner_arrived",
+      "personality": "gremlin",
+      "variants": [
+        "Two humans. Twice the chances to get fed twice.",
+        "Both of you here. Time to play you off each other.",
+        "Reinforcements? I'm outnumbered. For now."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "social.coowner_arrived",
+      "personality": "loaf",
+      "variants": [
+        "Two laps. Choices.",
+        "Both here. Twice the warmth.",
+        "Two humans. Two bowls? No? Fine."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "social.group_visitor",
+      "personality": "aloof",
+      "variants": [
+        "A visitor. I'll pretend I haven't noticed.",
+        "Someone's looking in. I'll give them my best side.",
+        "We have company. I'll remain unimpressed."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "social.group_visitor",
+      "personality": "velcro",
+      "variants": [
+        "A visitor! Hello! Hello! Do you like my house?",
+        "Someone came to see me! Come in! Look around!",
+        "Company! I love company! I love you most, though."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "social.group_visitor",
+      "personality": "gremlin",
+      "variants": [
+        "A visitor. Don't touch the shelf. That's my shelf.",
+        "Someone's peeking. Let me show them my worst.",
+        "Company. Excellent. A witness."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "social.group_visitor",
+      "personality": "loaf",
+      "variants": [
+        "Visitor. Hello. Back to sleep.",
+        "Someone's here. I'll wave. With an ear.",
+        "Company. Too sleepy to be shy."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "social.paw_print_received",
+      "personality": "aloof",
+      "variants": [
+        "Someone left a paw print. How forward.",
+        "A paw print from a friend. I'll consider replying.",
+        "We've been pawed. I'll allow it."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "social.paw_print_received",
+      "personality": "velcro",
+      "variants": [
+        "Someone sent us a paw print! We have friends!",
+        "A paw print! They like us! Everyone likes us!",
+        "Look! A paw print! Can we send one back?"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "social.paw_print_received",
+      "personality": "gremlin",
+      "variants": [
+        "A paw print. A calling card. Interesting.",
+        "Someone's been here. I'll find out who.",
+        "A paw print. A challenge? I accept."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "social.paw_print_received",
+      "personality": "loaf",
+      "variants": [
+        "Paw print. Nice. Sleepy wave back.",
+        "Someone said hello. Hello.",
+        "Paw print. Friendly. Good."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "social.gift_received",
+      "personality": "aloof",
+      "variants": [
+        "This came for you. I've only sniffed it a bit.",
+        "A parcel. I'll supervise the unwrapping.",
+        "Someone sent you something. I've been sitting on it."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "social.gift_received",
+      "personality": "velcro",
+      "variants": [
+        "A present came! For you! Open it! Can I help?",
+        "Someone loves you! I love you too! Open it!",
+        "I kept it safe for you! I didn't even chew the ribbon!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "social.gift_received",
+      "personality": "gremlin",
+      "variants": [
+        "A present. I've already tested the wrapping.",
+        "This arrived. I may have helped open it.",
+        "Wrapping paper! Best gift ever. Oh, there's a thing inside."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "social.gift_received",
+      "personality": "loaf",
+      "variants": [
+        "Parcel. I lay on it. Kept it warm.",
+        "Present came. Box is mine after.",
+        "For you. Wrapped. I napped on it."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "social.gift_sent",
+      "personality": "aloof",
+      "variants": [
+        "A gift for someone. How generous of you. Noted.",
+        "You've sent something. I hope they appreciate it.",
+        "Off it goes. I'd have kept it."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "social.gift_sent",
+      "personality": "velcro",
+      "variants": [
+        "You sent a present! You're so kind! Kindest human!",
+        "Sharing is lovely! You're lovely!",
+        "They'll be so happy! Like I am, every day!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "social.gift_sent",
+      "personality": "gremlin",
+      "variants": [
+        "Gone. I'd have kept the box at least.",
+        "You gave something away? Without consulting me?",
+        "Sent. I hope their cat appreciates the wrapping."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "social.gift_sent",
+      "personality": "loaf",
+      "variants": [
+        "Sent. Nice. Very nice.",
+        "Kind. Good human.",
+        "Gift gone. Box stays? Please?"
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "stray.appears",
+      "personality": "aloof",
+      "variants": [
+        "There's a cat at the window. I'm ignoring it. Loudly.",
+        "We have a visitor. Unannounced. Typical.",
+        "A stranger at the window. I'll allow it to look."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "stray.appears",
+      "personality": "velcro",
+      "variants": [
+        "There's a cat outside! Hello! Are you lonely?",
+        "Look, a new friend! Can they stay? Can everyone stay?",
+        "A cat at the window! Should we say hello?"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "stray.appears",
+      "personality": "gremlin",
+      "variants": [
+        "Intruder at the window. Battle stations.",
+        "Who's that? Never mind. I'll handle it.",
+        "Another cat. Competition. Or an accomplice."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "stray.appears",
+      "personality": "loaf",
+      "variants": [
+        "Cat outside. Looks hungry. Hm.",
+        "Someone at the window. Too sleepy to fuss.",
+        "Another cat. Cute. Sleepy cute."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "stray.reaction",
+      "personality": "aloof",
+      "variants": [
+        "That cat is looking at my bowl. Unacceptable.",
+        "I'm not threatened. I'm just sitting very tall.",
+        "I'll stare at it until one of us gets bored. Not me."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "stray.reaction",
+      "personality": "velcro",
+      "variants": [
+        "Do you think they need a friend? I could be a friend!",
+        "I'll share. I'll share my bowl. Not you, though.",
+        "A friend! I love friends! You're still my favourite!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "stray.reaction",
+      "personality": "gremlin",
+      "variants": [
+        "That one's trouble. I respect it.",
+        "I'll hiss. Then we'll see.",
+        "We could be partners. Or rivals. Or both."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "stray.reaction",
+      "personality": "loaf",
+      "variants": [
+        "Other cat. Fine. Stay off my blanket.",
+        "Hm. Another loaf. Respect.",
+        "If it's quiet, it can stay. Quiet's good."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "stray.leaves",
+      "personality": "aloof",
+      "variants": [
+        "Gone. Good. I barely noticed it.",
+        "The visitor's left. I'll pretend I'm relieved.",
+        "It wandered off. They always come back."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "stray.leaves",
+      "personality": "velcro",
+      "variants": [
+        "Oh, they went. I hope they're okay. I hope they come back.",
+        "Bye, friend! Come back soon!",
+        "They've gone. That's sad. Cuddle me better?"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "stray.leaves",
+      "personality": "gremlin",
+      "variants": [
+        "Retreated. A wise move.",
+        "Gone. This time.",
+        "It left. I won. Obviously."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "stray.leaves",
+      "personality": "loaf",
+      "variants": [
+        "Gone. Okay. More blanket for me.",
+        "Wandered off. Hope it's comfy somewhere.",
+        "Bye, other cat."
+      ],
+      "meow": "silent"
+    },
+    {
+      "context": "stray.adopted",
+      "personality": "aloof",
+      "variants": [
+        "Another cat. Fine. I'll be the senior one.",
+        "We're two now. Don't expect me to share the good chair.",
+        "A new cat. I'll teach it everything. Mainly disdain."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "stray.adopted",
+      "personality": "velcro",
+      "variants": [
+        "A new friend to live with! I love them already!",
+        "More cats means more cuddles! For everyone!",
+        "Welcome home, new friend! You'll love it here!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "stray.adopted",
+      "personality": "gremlin",
+      "variants": [
+        "A new recruit. Excellent. The gang grows.",
+        "Two of us now. You won't stand a chance.",
+        "Welcome, accomplice. First lesson: the vase."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "stray.adopted",
+      "personality": "loaf",
+      "variants": [
+        "New cat. Two loaves. Good.",
+        "More cats. More warmth. Pile up.",
+        "New friend. Share bed? Half. Small half."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "objective.daily_done",
+      "personality": "aloof",
+      "variants": [
+        "Done. Efficiently. I approve.",
+        "One task finished. I watched. That counts.",
+        "Accomplished. You may continue being useful."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "objective.daily_done",
+      "personality": "velcro",
+      "variants": [
+        "You did it! I'm so proud of you!",
+        "Done! You're amazing! Let's celebrate!",
+        "Another one done! Clever you!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "objective.daily_done",
+      "personality": "gremlin",
+      "variants": [
+        "Task complete. Next: world domination.",
+        "Done. Now do something interesting.",
+        "One down. I'd have done it faster. And louder."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "objective.daily_done",
+      "personality": "loaf",
+      "variants": [
+        "Done. Good. Treat?",
+        "Finished. Well done. Quietly.",
+        "Job done. Lie down now?"
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "objective.weekly_done",
+      "personality": "aloof",
+      "variants": [
+        "A whole week's task. Diligent. Unusual.",
+        "Weekly goal done. I'll mention it to no one.",
+        "Done for the week. I'll allow a modest celebration."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "objective.weekly_done",
+      "personality": "velcro",
+      "variants": [
+        "A whole week's worth! You're brilliant!",
+        "We did a big one! Together! Mostly you! Also me!",
+        "Look what you did! I love you! I loved you before too!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "objective.weekly_done",
+      "personality": "gremlin",
+      "variants": [
+        "A week's work done. Mine is just beginning.",
+        "Big job done. Treat me as if I helped.",
+        "Weekly victory. I'll knock something over in your honour."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "objective.weekly_done",
+      "personality": "loaf",
+      "variants": [
+        "Big one done. Big nap earned.",
+        "Whole week's job. Tiring. Lie down.",
+        "Done. Proud. Sleepy."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "objective.achievement",
+      "personality": "aloof",
+      "variants": [
+        "An achievement. I'll pretend I'm not impressed.",
+        "Noted for the record. My record.",
+        "Well done. Don't let it change you."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "objective.achievement",
+      "personality": "velcro",
+      "variants": [
+        "You achieved a thing! I knew you could!",
+        "Hooray! Hooray! Hooray!",
+        "I'm so proud I'm doing a little dance."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "objective.achievement",
+      "personality": "gremlin",
+      "variants": [
+        "Impressive. I've achieved something too. In the kitchen.",
+        "You did a big thing. I did a big thing too. Don't look.",
+        "Well done. I'll mark it with a small act of chaos."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "objective.achievement",
+      "personality": "loaf",
+      "variants": [
+        "Big thing done. Very proud. Very sleepy.",
+        "Well done, you. Lie down with me?",
+        "Clever. Now rest."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "pass.tier_claimed",
+      "personality": "aloof",
+      "variants": [
+        "Something new. I'll inspect it shortly.",
+        "Another reward. You're collecting rather a lot of things.",
+        "Oh, a new thing. I'll sit near it, eventually."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "pass.tier_claimed",
+      "personality": "velcro",
+      "variants": [
+        "Ooh, something new! Can I see? Can I sit on it?",
+        "New things! You're so good at finding things!",
+        "Presents for us! Is it for me? It's for us!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "pass.tier_claimed",
+      "personality": "gremlin",
+      "variants": [
+        "New stuff. New things to push off things.",
+        "Something new. I'll test it. Thoroughly.",
+        "More things. My collection grows."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "pass.tier_claimed",
+      "personality": "loaf",
+      "variants": [
+        "Something new. Comfy? Hope so.",
+        "New thing. Nice. Later.",
+        "Ooh. Present. Napping first."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "pass.season_ending",
+      "personality": "aloof",
+      "variants": [
+        "This season wraps up next week. Just so you know.",
+        "A week left of this season. I'll be here for the next.",
+        "The season changes in a week. I'm indifferent."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "pass.season_ending",
+      "personality": "velcro",
+      "variants": [
+        "This season's nearly over! The next will be lovely too!",
+        "One more week of this season. Then a new one! With you!",
+        "A week left. Every season's good with you."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "pass.season_ending",
+      "personality": "gremlin",
+      "variants": [
+        "The season ends next week. I'll mark it with a small disaster.",
+        "One week left of this season. Then new mischief.",
+        "This season's nearly done. I've barely started."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "pass.season_ending",
+      "personality": "loaf",
+      "variants": [
+        "Season ending. Next week. New one after. Fine.",
+        "One week left. Then new things. Same sofa.",
+        "Season changing soon. I'll sleep through it."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "pass.new_season",
+      "personality": "aloof",
+      "variants": [
+        "A new season. New things. Same me.",
+        "Something's changed around here. I'll allow it.",
+        "New season. I'll reserve judgement."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "pass.new_season",
+      "personality": "velcro",
+      "variants": [
+        "A new season! New everything! Still you!",
+        "Ooh, it's all new! Let's explore it together!",
+        "New season, same you! Best combination!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "pass.new_season",
+      "personality": "gremlin",
+      "variants": [
+        "A new season. Fresh targets.",
+        "New season. New hiding places to find.",
+        "Everything's new. I'll fix that."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "pass.new_season",
+      "personality": "loaf",
+      "variants": [
+        "New season. New things. Same cushion.",
+        "Things changed. I didn't. Good.",
+        "New season. Same sofa? Good."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "outfit.on_hat",
+      "personality": "aloof",
+      "variants": [
+        "On my head. I'll wear it with the dignity it lacks.",
+        "{item}. I'm humouring you.",
+        "I look ridiculous. Ridiculously good, I suspect."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "outfit.on_hat",
+      "personality": "velcro",
+      "variants": [
+        "Do I look nice? Say I look nice! I look nice for you!",
+        "You picked it for me! I'll never take it off!",
+        "{item}! Are we matching? Let's match."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "outfit.on_hat",
+      "personality": "gremlin",
+      "variants": [
+        "Headwear. A disguise. Excellent.",
+        "{item}. Now no one will suspect me.",
+        "I'll wear it. Then eat it."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "outfit.on_hat",
+      "personality": "loaf",
+      "variants": [
+        "Thing on head. Warm. Nice.",
+        "{item}. Fine. Still napping in it.",
+        "On my head? Okay. Don't wake me."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "outfit.on_scarf",
+      "personality": "aloof",
+      "variants": [
+        "{item}. Very distinguished. I always was.",
+        "Around my neck. Tasteful. Barely.",
+        "I'll wear this. For the portraits."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "outfit.on_scarf",
+      "personality": "velcro",
+      "variants": [
+        "It's like a hug around my neck! Like you!",
+        "So cosy! Is it yours? It smells like you!",
+        "{item}! I feel so fancy!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "outfit.on_scarf",
+      "personality": "gremlin",
+      "variants": [
+        "Something to chew when I'm bored. Thanks.",
+        "Dashing. Villains always dress well.",
+        "{item}. Now I look like I'm planning something. I am."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "outfit.on_scarf",
+      "personality": "loaf",
+      "variants": [
+        "Neck warm. Good.",
+        "{item}. Cosy. Sleepy.",
+        "Snug. Nap in it? Nap in it."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "outfit.on_glasses",
+      "personality": "aloof",
+      "variants": [
+        "Glasses. Now I can see your flaws more clearly.",
+        "I look intelligent. I was already intelligent.",
+        "{item}. Very literary. I've read nothing."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "outfit.on_glasses",
+      "personality": "velcro",
+      "variants": [
+        "I can see you better now! You look lovely!",
+        "Do I look clever? I feel clever! Clever for you!",
+        "{item}! Do I look like you? I want to look like you!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "outfit.on_glasses",
+      "personality": "gremlin",
+      "variants": [
+        "{item}. I can spot a loose ornament at forty paces.",
+        "Disguise complete. I am a mystery.",
+        "With these I can plan in finer detail."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "outfit.on_glasses",
+      "personality": "loaf",
+      "variants": [
+        "Glasses. Can't see. Eyes shut anyway.",
+        "{item}. Sleepy professor.",
+        "Looking clever. Feeling sleepy."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "outfit.on_jumper",
+      "personality": "aloof",
+      "variants": [
+        "{item}. It's acceptable. Don't take a picture.",
+        "I'm wearing clothes. Let's never speak of it.",
+        "Fine. It's warm. That's the only reason."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "outfit.on_jumper",
+      "personality": "velcro",
+      "variants": [
+        "So snug! It's like you're hugging me all day!",
+        "{item}! I look like you now! We're twins!",
+        "I love it! I'll wear it forever! Or at least an hour!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "outfit.on_jumper",
+      "personality": "gremlin",
+      "variants": [
+        "{item}. Excellent camouflage for mischief.",
+        "Dressed for action. Mostly sabotage.",
+        "I'll wear it. Then roll in something."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "outfit.on_jumper",
+      "personality": "loaf",
+      "variants": [
+        "Snug. Very snug. Sleeping in it.",
+        "{item}. Warm. Perfect for napping.",
+        "Cosy. Like a blanket with legs."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "outfit.off",
+      "personality": "aloof",
+      "variants": [
+        "Thank you. I'll recover my dignity in private.",
+        "Free again. I'll never mention this.",
+        "Back to my natural state. As intended."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "outfit.off",
+      "personality": "velcro",
+      "variants": [
+        "Off already? I liked it! I like everything you pick!",
+        "Okay! I still feel fancy! I always feel fancy with you!",
+        "Bye, outfit! Hello, cuddles!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "outfit.off",
+      "personality": "gremlin",
+      "variants": [
+        "Freedom. The outfit has been dealt with.",
+        "Off. I'd already planned an escape.",
+        "Finally. Now I can move silently again."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "outfit.off",
+      "personality": "loaf",
+      "variants": [
+        "Off. Fine. Still warm.",
+        "Back to fur. Fur's good.",
+        "Undressed. Lighter. Better."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "health.steps",
+      "personality": "aloof",
+      "variants": [
+        "You walked a great deal. I watched. It was tiring.",
+        "All that walking. I've done the equivalent. To the bowl.",
+        "Busy feet today. I'll rest mine on your behalf."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "health.steps",
+      "personality": "velcro",
+      "variants": [
+        "You walked so much! I walked with you! In my heart!",
+        "All those steps! I counted them! I lost count!",
+        "You went everywhere today! I followed you in spirit!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "health.steps",
+      "personality": "gremlin",
+      "variants": [
+        "Lots of walking. Were you fleeing? From me?",
+        "So many steps. Find anything worth chasing?",
+        "You walked a lot. I prowled a lot. Same thing."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "health.steps",
+      "personality": "loaf",
+      "variants": [
+        "Lots of walking. Very tiring. For me. Watching.",
+        "Walked far. Sit down now. Lap, please.",
+        "You walked. I napped. Teamwork."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "health.sleep",
+      "personality": "aloof",
+      "variants": [
+        "Well rested. Finally, something we agree on.",
+        "You slept well. I know. I was on your feet.",
+        "Proper sleep. You look almost presentable."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "health.sleep",
+      "personality": "velcro",
+      "variants": [
+        "You slept so well! I guarded you the whole time!",
+        "Good sleep! I was right there! Did you dream of me?",
+        "Rested! Happy! Ready for cuddles!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "health.sleep",
+      "personality": "gremlin",
+      "variants": [
+        "You slept soundly. I didn't. Ask the hallway.",
+        "Well rested. Good. You'll need your strength.",
+        "You slept through it all. Lucky you."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "health.sleep",
+      "personality": "loaf",
+      "variants": [
+        "Good sleep. Proud of you. Fellow sleeper.",
+        "Slept lots. Me too. We're the same.",
+        "Nice sleep. Ten out of ten. Same as mine."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "health.workout",
+      "personality": "aloof",
+      "variants": [
+        "You exercised. I watched from the sill. Exhausting.",
+        "You were very active. I'll be very still to compensate.",
+        "All that effort. I'll never understand it. Well done."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "health.workout",
+      "personality": "velcro",
+      "variants": [
+        "You were so busy! I cheered! Did you hear me cheer?",
+        "You did a workout! You're so strong! Carry me!",
+        "Look at you go! I'm so proud!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "health.workout",
+      "personality": "gremlin",
+      "variants": [
+        "You trained. Good. You'll need speed to catch me.",
+        "Exercise? I do mine at 3 a.m. Down the hallway.",
+        "Getting faster? So am I. This is an arms race."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "health.workout",
+      "personality": "loaf",
+      "variants": [
+        "Exercise. Brave. I'll lie here for both of us.",
+        "You moved a lot. I moved once. Fair.",
+        "Busy human. Cuddles later."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "behaviour.nap_start",
+      "personality": "aloof",
+      "variants": [
+        "I'm going to sleep. Don't make it about you.",
+        "Nap time. Do not disturb. Do not even think loudly.",
+        "I'll be resting my eyes. And the rest of me."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "behaviour.nap_start",
+      "personality": "velcro",
+      "variants": [
+        "Nap with me? Just a little one? Please?",
+        "Sleepy. Will you stay till I drop off?",
+        "Nap time! Stay close!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "behaviour.nap_start",
+      "personality": "gremlin",
+      "variants": [
+        "Recharging. I'll need it for later.",
+        "Nap now. Plot later.",
+        "Sleeping. Or am I?"
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "behaviour.nap_start",
+      "personality": "loaf",
+      "variants": [
+        "Finally. Nap.",
+        "Bed. Me. Now.",
+        "My favourite part. Nap time."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "behaviour.nap_end",
+      "personality": "aloof",
+      "variants": [
+        "I'm awake. I wasn't asleep.",
+        "That was restorative. You may approach.",
+        "Refreshed. Ready to ignore you at full strength."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "behaviour.nap_end",
+      "personality": "velcro",
+      "variants": [
+        "I'm awake! You're still here! Best wake-up ever!",
+        "Did you miss me while I slept? I dreamt of you!",
+        "Awake! Cuddles! In that order!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "behaviour.nap_end",
+      "personality": "gremlin",
+      "variants": [
+        "I'm up. Fully charged. Hide the fragile things.",
+        "Rested. Let the mischief resume.",
+        "Awake. I've had ideas in my sleep."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "behaviour.nap_end",
+      "personality": "loaf",
+      "variants": [
+        "Awake. Briefly.",
+        "Was asleep. Now less asleep. Snack?",
+        "Good nap. Another soon."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "behaviour.window_watch",
+      "personality": "aloof",
+      "variants": [
+        "I'm watching the world. It's not watching back.",
+        "Nothing out there interests me. I'll keep watching.",
+        "The outside. Overrated, and yet."
+      ],
+      "meow": "silent"
+    },
+    {
+      "context": "behaviour.window_watch",
+      "personality": "velcro",
+      "variants": [
+        "I'm watching for you even when you're here.",
+        "Look at the birds! Look with me!",
+        "So much out there. The best bit's in here, though."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "behaviour.window_watch",
+      "personality": "gremlin",
+      "variants": [
+        "Surveillance.",
+        "A bird. Must. Get. Bird.",
+        "I'm memorising every pigeon."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "behaviour.window_watch",
+      "personality": "loaf",
+      "variants": [
+        "Window. Watching. Mostly sleeping.",
+        "Things outside. Moving. Not me.",
+        "Good view. Better nap."
+      ],
+      "meow": "silent"
+    },
+    {
+      "context": "behaviour.sunbeam",
+      "personality": "aloof",
+      "variants": [
+        "This sunbeam is mine. It came with the house.",
+        "Sun on my fur. Don't block it.",
+        "I'm basking. It's undignified. I don't care."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "behaviour.sunbeam",
+      "personality": "velcro",
+      "variants": [
+        "Sunny spot! Join me? It fits two if you squish.",
+        "The sun's warm and so are you. Double warm.",
+        "Come and lie in the sun with me!"
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "behaviour.sunbeam",
+      "personality": "gremlin",
+      "variants": [
+        "Charging in the sun. Like a solar villain.",
+        "I'm warm and dangerous now.",
+        "Sunbathing. Lowering my guard. Only slightly."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "behaviour.sunbeam",
+      "personality": "loaf",
+      "variants": [
+        "Sun. Warm. Melting. Bliss.",
+        "Sunbeam. Do not move it.",
+        "Warm stripe. Lying in it. Forever."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "behaviour.zoomies",
+      "personality": "aloof",
+      "variants": [
+        "I'm not running. I'm leaving rapidly. Repeatedly.",
+        "Ignore this. It's a private matter.",
+        "I've no idea why I'm doing this. Carry on."
+      ],
+      "meow": "silent"
+    },
+    {
+      "context": "behaviour.zoomies",
+      "personality": "velcro",
+      "variants": [
+        "Watch me! Watch me run! Are you watching?",
+        "I'm so happy I have to run!",
+        "Zoom! Zoom! Look at me! Zoom!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "behaviour.zoomies",
+      "personality": "gremlin",
+      "variants": [
+        "Zoomies! Clear the hallway!",
+        "Nothing can stop me. Except that wall.",
+        "I am speed. I am chaos."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "behaviour.zoomies",
+      "personality": "loaf",
+      "variants": [
+        "Oh no. Running. Why. Can't stop.",
+        "Zoomies. Rare. Don't get used to it.",
+        "Running! Ugh. Done. Need a sit."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "behaviour.scratching",
+      "personality": "aloof",
+      "variants": [
+        "I'm maintaining my claws. It's a profession.",
+        "Don't watch. It's grooming.",
+        "Sharpening. For no reason in particular."
+      ],
+      "meow": "silent"
+    },
+    {
+      "context": "behaviour.scratching",
+      "personality": "velcro",
+      "variants": [
+        "Look how good I am! I'm scratching the right thing!",
+        "Scratch, scratch! Proud of me?",
+        "I'm using my post! For you! Because you asked!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "behaviour.scratching",
+      "personality": "gremlin",
+      "variants": [
+        "Sharpening. For later.",
+        "The post is fine. The sofa is next.",
+        "Preparing my weapons."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "behaviour.scratching",
+      "personality": "loaf",
+      "variants": [
+        "Stretch. Scratch. Ahh.",
+        "Good scratch. Big stretch.",
+        "Claws done. Back to bed."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "behaviour.hiding",
+      "personality": "aloof",
+      "variants": [
+        "I'm not hiding. I'm being elsewhere.",
+        "You can't see me. That's deliberate.",
+        "I've chosen solitude. And this box."
+      ],
+      "meow": "silent"
+    },
+    {
+      "context": "behaviour.hiding",
+      "personality": "velcro",
+      "variants": [
+        "I'm hiding! Find me! Please find me quickly!",
+        "I'm hiding, but I want you to find me. Now, ideally.",
+        "Hide and seek! You're it! Find me!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "behaviour.hiding",
+      "personality": "gremlin",
+      "variants": [
+        "You'll never find me. I'll find you.",
+        "Ambush position acquired.",
+        "Shh. I'm waiting for an ankle."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "behaviour.hiding",
+      "personality": "loaf",
+      "variants": [
+        "Hiding. Mostly sleeping.",
+        "In the box. Box is good. Box is life.",
+        "Cosy dark corner. Don't look."
+      ],
+      "meow": "silent"
+    },
+    {
+      "context": "behaviour.idle",
+      "personality": "aloof",
+      "variants": [
+        "I'm thinking. About nothing. With great intensity.",
+        "Don't mind me. You never do. Neither do I.",
+        "I've been staring at this wall. It's improving.",
+        "I could sit on your lap. I won't. But I could.",
+        "I'm judging you. Fondly. But judging.",
+        "That noise was nothing. I knew that.",
+        "I've licked my paw eleven times. Perfection takes time.",
+        "Yes, I'm on the table. Your objection is noted.",
+        "You're wondering why I'm sitting here. So am I.",
+        "Life is quiet. I prefer it that way. Mostly."
+      ],
+      "meow": "silent"
+    },
+    {
+      "context": "behaviour.idle",
+      "personality": "velcro",
+      "variants": [
+        "Are you still there? Yes? Good. Just checking.",
+        "I love you. That's all. I'll say it again in a bit.",
+        "Where are you going? Can I come? I'm coming.",
+        "Hold still, I'm going to sit on you.",
+        "I followed you here. I'll follow you back.",
+        "Is it cuddle time? It feels like cuddle time.",
+        "I just like being near you. Nearer. Nearer still.",
+        "You're my favourite. Did I say? Saying it again.",
+        "I've made biscuits on the blanket for you.",
+        "Look at me! No, keep looking! That's it!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "behaviour.idle",
+      "personality": "gremlin",
+      "variants": [
+        "I'm not up to anything. Why would you ask?",
+        "That shelf has too much on it. I'll fix that.",
+        "I've been thinking about the top of the fridge. A lot.",
+        "Everything on a table is a suggestion.",
+        "I saw a moth. The moth saw me. One of us is gone.",
+        "I heard a noise. I'm investigating. Aggressively.",
+        "Do you need that mug? Asking for a paw.",
+        "Gravity still works. I checked. Twice.",
+        "My plans are very advanced. Please don't look at them.",
+        "Look over there. Not here. Over there."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "behaviour.idle",
+      "personality": "loaf",
+      "variants": [
+        "Mm. Comfy.",
+        "Is it food time? No? Nap, then.",
+        "I'm not lazy. I'm conserving.",
+        "Warm spot. Found it. Staying.",
+        "Bowl. Nap. Bowl. Nap. Life is good.",
+        "Lying down. Might lie down more.",
+        "Sleepy. Always a bit sleepy.",
+        "Purring. For no reason. Good reason.",
+        "Found a box. Am in the box. Content.",
+        "Thinking about food. Now thinking about naps."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "event.black_cat_day",
+      "personality": "aloof",
+      "variants": [
+        "Black Cat Day. Any excuse to admire cats is valid.",
+        "A day for black cats. Lucky ones, all of them.",
+        "Black Cat Day. I'll accept the fuss on their behalf."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "event.black_cat_day",
+      "personality": "velcro",
+      "variants": [
+        "It's Black Cat Day! Let's give every cat a cuddle!",
+        "Black Cat Day! Hooray for black cats! And me!",
+        "A day for black cats! I love them! I love you!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "event.black_cat_day",
+      "personality": "gremlin",
+      "variants": [
+        "Black Cat Day. Respect to the masters of stealth.",
+        "Black cats: lucky, stylish, impossible to spot. Inspiring.",
+        "Black Cat Day. Celebrate us. Or else."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "event.black_cat_day",
+      "personality": "loaf",
+      "variants": [
+        "Black Cat Day. Good cats. Sleepy cats.",
+        "A day for black cats. Nap in their honour.",
+        "Black cats. Lucky. Like you, having me."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "event.halloween",
+      "personality": "aloof",
+      "variants": [
+        "Halloween. Everyone's dressing up scary. I needn't bother.",
+        "Pumpkins everywhere. I'll tolerate one. A small one.",
+        "Spooky? I'm always spooky. Today it's appreciated."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "event.halloween",
+      "personality": "velcro",
+      "variants": [
+        "Halloween! Scary! Hold me! It's not scary! Hold me anyway!",
+        "Trick or treat? Treat! Always treat!",
+        "Pumpkins! Costumes! You! Best day!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "event.halloween",
+      "personality": "gremlin",
+      "variants": [
+        "Halloween. Finally, a day that understands me.",
+        "I'll be hiding behind the door. For tradition.",
+        "A pumpkin? Mine. To push off the step."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "event.halloween",
+      "personality": "loaf",
+      "variants": [
+        "Halloween. Treats? Treats.",
+        "Spooky. Too sleepy to be scared.",
+        "Pumpkin. Warm? No. Pity."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "event.christmas",
+      "personality": "aloof",
+      "variants": [
+        "Christmas. The tree is mine. You may decorate around me.",
+        "Wrapping paper everywhere. I'll take the box instead.",
+        "Festive. I'm wearing my most patient face."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "event.christmas",
+      "personality": "velcro",
+      "variants": [
+        "Merry Christmas! You're my best present!",
+        "Christmas cuddles are the best cuddles!",
+        "Is that for me? Is everything for me? Merry Christmas!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "event.christmas",
+      "personality": "gremlin",
+      "variants": [
+        "Christmas. The tree has baubles. For now.",
+        "Tinsel. My one true love.",
+        "A tree indoors? You've brought this on yourselves."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "event.christmas",
+      "personality": "loaf",
+      "variants": [
+        "Christmas. Warm. Food. Box. Perfect.",
+        "Merry Christmas. Ham? Please. Ham.",
+        "Festive nap. Best nap."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "event.new_year",
+      "personality": "aloof",
+      "variants": [
+        "A new year. I resolve to stay exactly as I am.",
+        "Another year. I'll be magnificent in this one too.",
+        "Fireworks. Loud. Unnecessary. Happy New Year."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "event.new_year",
+      "personality": "velcro",
+      "variants": [
+        "Happy New Year! Another whole year with you!",
+        "New year, same me, same love!",
+        "A whole new year of you! Lucky me!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "event.new_year",
+      "personality": "gremlin",
+      "variants": [
+        "New year's resolution: more chaos.",
+        "Fresh year. Fresh shelves to clear.",
+        "Happy New Year. This is the year I reach the top shelf."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "event.new_year",
+      "personality": "loaf",
+      "variants": [
+        "New year. Same cushion. Good.",
+        "Happy New Year. Resolution: more blankets.",
+        "Fireworks. Hiding. Under the bed. Happy New Year."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "event.housewarming",
+      "personality": "aloof",
+      "variants": [
+        "A housewarming. Do guests bring gifts for me?",
+        "We're celebrating the new house. I'll be in the best chair.",
+        "Housewarming. The house was warm already. I saw to it."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "event.housewarming",
+      "personality": "velcro",
+      "variants": [
+        "Our new home! Party! Everyone's welcome! You most!",
+        "Housewarming! It's warmer with you in it!",
+        "Our first home together! I love it! I love you!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "event.housewarming",
+      "personality": "gremlin",
+      "variants": [
+        "Housewarming. I'll help warm it. By sitting on everything.",
+        "New house, new party, new places to hide.",
+        "Housewarming. I've hidden a surprise somewhere."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "event.housewarming",
+      "personality": "loaf",
+      "variants": [
+        "Housewarming. Warm house. Very good.",
+        "New home. Comfy home. Party? No thanks.",
+        "Party? I'll be the loaf in the corner."
+      ],
+      "meow": "purr"
+    }
+  ]
+}

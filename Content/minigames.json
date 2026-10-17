@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "playsPerDay": 5,
+  "xpPerPlay": 5,
+  "starBeans": [
+    2,
+    4,
+    6
+  ],
+  "passPointsPerPlay": 5,
+  "games": [
+    {
+      "id": "laser_pointer",
+      "name": "Laser Pointer",
+      "durationSeconds": 30,
+      "score": "seconds the cat stays within one cell of the dot",
+      "stars": [
+        10,
+        18,
+        25
+      ],
+      "rules": "Drag the dot around the room and the cat chases it. Each second it stays within one cell of the dot scores. Personality changes chase speed and lines only."
+    },
+    {
+      "id": "knock_it_off",
+      "name": "Knock It Off",
+      "durationSeconds": 20,
+      "score": "objects knocked off the shelf",
+      "stars": [
+        3,
+        4,
+        5
+      ],
+      "rules": "A shelf holds five objects. Tap when the cat's paw is over one to knock it off; consecutive hits chain. Personality changes paw speed and lines only."
+    },
+    {
+      "id": "string_chase",
+      "name": "String Chase",
+      "durationSeconds": 30,
+      "score": "sparkles collected along the string",
+      "stars": [
+        3,
+        4,
+        5
+      ],
+      "rules": "Draw a path with one finger; the cat follows the string and collects the five sparkles along it. Personality changes chase speed and lines only."
+    }
+  ]
+}

@@ -23,7 +23,8 @@ extension HouseholdState {
             applyHousehold(event, day: day)
         case .arrived, .fed, .petted, .miniGamePlayed, .giftCollected, .giftSold, .napCompleted, .healthGoalMet, .windowTapped:
             applyCare(event, context: context)
-        case .itemBought, .itemGranted, .itemPlaced, .itemMoved, .itemStored, .catUsedNewItem, .roomOpened, .roomVisited,
+        case .itemBought, .itemGranted, .purchaseBeansGranted, .itemPlaced, .itemMoved, .itemStored, .catUsedNewItem, .roomOpened,
+             .roomVisited,
              .surfaceChanged, .outfitWorn, .homeMoved, .seasonModeChanged:
             applyHome(event, context: context)
         case .pauseStarted, .pauseEnded, .passPurchased, .passTierClaimed, .clubDayRecorded:
@@ -161,6 +162,10 @@ extension HouseholdState {
             bump(.buyItemBeans, context: context)
         case let .itemGranted(itemID):
             owned[itemID, default: 0] += 1
+        case let .purchaseBeansGranted(transactionID, amount):
+            guard amount > 0, !grantedTransactions.contains(transactionID) else { break }
+            grantedTransactions.insert(transactionID)
+            beansGranted += amount
         case let .itemPlaced(itemID, room, x, y, facing):
             placeItem(itemID, room: room, x: x, y: y, facing: facing, event: event, context: context)
         case let .itemMoved(placementID, room, x, y, facing):
@@ -386,7 +391,8 @@ extension HouseholdState {
         event: GameEvent,
         context: RulesContext
     ) {
-        guard openedRooms.contains(room), Self.inBounds(x, y), owned[itemID, default: 0] > placedCount(of: itemID) else { return }
+        let available = owned[itemID, default: 0] + (context.paidItems.contains(itemID) ? 1 : 0)
+        guard openedRooms.contains(room), Self.inBounds(x, y), available > placedCount(of: itemID) else { return }
         placed.append(PlacedItem(placementID: event.id, itemID: itemID, room: room, x: x, y: y, facing: facing))
         let headroom = Tuning.XP.furniturePlacedMaxPerDay - (today?.furnitureXP ?? 0)
         let gain = min(Tuning.XP.furniturePlaced, headroom)

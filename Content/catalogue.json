@@ -1,0 +1,4482 @@
+{
+  "version": 1,
+  "sets": [
+    {
+      "id": "rainy_london",
+      "name": "Rainy London",
+      "sku": "housecat.set.rainy_london",
+      "bundleSku": "housecat.bundle.rainy_london",
+      "bundleBeans": 300,
+      "outfit": "raincoat",
+      "wallpaper": "wall_study_navy_pinstripe",
+      "floor": "floor_kitchen_slate"
+    },
+    {
+      "id": "cottagecore",
+      "name": "Cottagecore",
+      "sku": "housecat.set.cottagecore",
+      "bundleSku": "housecat.bundle.cottagecore",
+      "bundleBeans": 300,
+      "outfit": "cardigan",
+      "wallpaper": "wall_bedroom_toile_blue",
+      "floor": "floor_bedroom_rose_carpet"
+    },
+    {
+      "id": "midnight",
+      "name": "Midnight",
+      "sku": "housecat.set.midnight",
+      "bundleSku": "housecat.bundle.midnight",
+      "bundleBeans": 300,
+      "outfit": "pyjamas",
+      "wallpaper": "wall_bedroom_starry_dusk",
+      "floor": "floor_study_dark_parquet"
+    },
+    {
+      "id": "cosy_study",
+      "name": "Cosy Study",
+      "sku": "housecat.set.cosy_study",
+      "bundleSku": "housecat.bundle.cosy_study",
+      "bundleBeans": 300,
+      "outfit": "roundglasses",
+      "wallpaper": "wall_study_antique_map",
+      "floor": "floor_study_green_carpet"
+    },
+    {
+      "id": "riviera",
+      "name": "Riviera",
+      "sku": "housecat.set.riviera",
+      "bundleSku": "housecat.bundle.riviera",
+      "bundleBeans": 300,
+      "outfit": "sunglasses",
+      "wallpaper": "wall_kitchen_lemon_print",
+      "floor": "floor_living_terracotta"
+    },
+    {
+      "id": "cabin",
+      "name": "Cabin",
+      "sku": "housecat.set.cabin",
+      "bundleSku": "housecat.bundle.cabin",
+      "bundleBeans": 300,
+      "outfit": "beanie",
+      "wallpaper": "wall_attic_pine_planks",
+      "floor": "floor_attic_rough_pine"
+    }
+  ],
+  "items": [
+    {
+      "id": "living_sofa",
+      "name": "Sagging sofa",
+      "set": null,
+      "room": "living",
+      "footprint": {
+        "w": 3,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sit",
+        "sleep"
+      ],
+      "capacity": 2,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Sags in the middle, which is exactly where the cat sleeps.",
+      "catPose": "loaf_side",
+      "sprites": {
+        "R": "furniture/living/furn_living_sofa_R.png",
+        "L": "furniture/living/furn_living_sofa_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "living_armchair",
+      "name": "Armchair",
+      "set": null,
+      "room": "living",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sit"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "beans",
+      "level": 1,
+      "beans": 50,
+      "sku": null,
+      "description": "Your chair, in theory.",
+      "catPose": "loaf_tqfront",
+      "sprites": {
+        "R": "furniture/living/furn_living_armchair_R.png",
+        "L": "furniture/living/furn_living_armchair_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "living_rug",
+      "name": "Wool rug",
+      "set": null,
+      "room": "living",
+      "footprint": {
+        "w": 3,
+        "d": 2
+      },
+      "layer": "floor",
+      "decal": true,
+      "affordances": [
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Thick wool. The cat regards it as a mattress with ambitions.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/living/furn_living_rug_R.png",
+        "L": "furniture/living/furn_living_rug_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "living_lamp",
+      "name": "Floor lamp",
+      "set": null,
+      "room": "living",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "glow",
+        "pivot": [
+          0.5,
+          0.15
+        ],
+        "period": 6.0
+      },
+      "pool": "free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A tall lamp that makes the whole room look kinder.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/living/furn_living_lamp_R.png",
+        "L": "furniture/living/furn_living_lamp_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "living_bookcase",
+      "name": "Bookshelf",
+      "set": null,
+      "room": "living",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "perch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "beans",
+      "level": 1,
+      "beans": 45,
+      "sku": null,
+      "description": "Holds books until the cat decides otherwise.",
+      "catPose": "loaf_side",
+      "sprites": {
+        "R": "furniture/living/furn_living_bookcase_R.png",
+        "L": "furniture/living/furn_living_bookcase_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "living_coffee",
+      "name": "Coffee table",
+      "set": null,
+      "room": "living",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "perch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "beans",
+      "level": 1,
+      "beans": 35,
+      "sku": null,
+      "description": "Low table for mugs, magazines and a cat lying across both.",
+      "catPose": "loaf_tqfront",
+      "sprites": {
+        "R": "furniture/living/furn_living_coffee_R.png",
+        "L": "furniture/living/furn_living_coffee_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "living_box",
+      "name": "Cardboard box",
+      "set": null,
+      "room": "living",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "hide"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "The most popular piece of furniture in the house. It is a box.",
+      "catPose": "loaf_tqfront",
+      "sprites": {
+        "R": "furniture/living/furn_living_box_R.png",
+        "L": "furniture/living/furn_living_box_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "living_scratch",
+      "name": "Scratching post",
+      "set": null,
+      "room": "living",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "scratch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Sisal-wrapped and sacrificial. The sofa is grateful.",
+      "catPose": "stretch_side",
+      "sprites": {
+        "R": "furniture/living/furn_living_scratch_R.png",
+        "L": "furniture/living/furn_living_scratch_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "living_windowseat",
+      "name": "Window-seat cushion",
+      "set": null,
+      "room": "living",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sit",
+        "watch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "beans",
+      "level": 1,
+      "beans": 40,
+      "sku": null,
+      "description": "A long mustard cushion by the glass, for watching the street.",
+      "catPose": "sit_back",
+      "sprites": {
+        "R": "furniture/living/furn_living_windowseat_R.png",
+        "L": "furniture/living/furn_living_windowseat_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "living_radiator",
+      "name": "Radiator seat",
+      "set": "rainy_london",
+      "room": "living",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "glow",
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "period": 8.0
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.rainy_london",
+      "description": "Old cast iron, painted cream, permanently occupied.",
+      "catPose": "loaf_side",
+      "sprites": {
+        "R": "furniture/living/furn_living_radiator_R.png",
+        "L": "furniture/living/furn_living_radiator_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "living_record",
+      "name": "Record player",
+      "set": "midnight",
+      "room": "living",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "spin",
+        "pivot": [
+          0.45,
+          0.3
+        ],
+        "period": 1.8
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.midnight",
+      "description": "Turns at a steady pace. The cat watches every rotation.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/living/furn_living_record_R.png",
+        "L": "furniture/living/furn_living_record_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "living_plant",
+      "name": "Houseplant",
+      "set": null,
+      "room": "living",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "bat"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "sway",
+        "pivot": [
+          0.5,
+          0.9
+        ],
+        "period": 5.0
+      },
+      "pool": "free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A large leafy plant with one leaf already missing.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/living/furn_living_plant_R.png",
+        "L": "furniture/living/furn_living_plant_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "living_fireplace",
+      "name": "Fireplace",
+      "set": "cabin",
+      "room": "living",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "frames",
+        "fx": "fire",
+        "frames": 8,
+        "period": 0.8
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.cabin",
+      "description": "A small tiled hearth. Whatever sits in front of it becomes a bed.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/living/furn_living_fireplace_R.png",
+        "L": "furniture/living/furn_living_fireplace_L.png"
+      },
+      "suggestedScale": null,
+      "fx": {
+        "fx": "fire",
+        "anchor": [
+          202,
+          318
+        ],
+        "anchorL": [
+          149,
+          302
+        ]
+      }
+    },
+    {
+      "id": "living_cattree",
+      "name": "Cat tree",
+      "set": null,
+      "room": "living",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "perch",
+        "sleep"
+      ],
+      "capacity": 2,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "beans",
+      "level": 1,
+      "beans": 60,
+      "sku": null,
+      "description": "Carpeted platforms at several heights, for looking down on you.",
+      "catPose": "sit_tqfront",
+      "sprites": {
+        "R": "furniture/living/furn_living_cattree_R.png",
+        "L": "furniture/living/furn_living_cattree_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "living_clock",
+      "name": "Wall clock",
+      "set": null,
+      "room": "living",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "wall",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "spin",
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "period": 60.0
+      },
+      "pool": "beans",
+      "level": 1,
+      "beans": 30,
+      "sku": null,
+      "description": "Tells the time. The cat prefers to tell you itself.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/living/furn_living_clock_R.png",
+        "L": "furniture/living/furn_living_clock_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "living_picture",
+      "name": "Picture frame",
+      "set": null,
+      "room": "living",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "wall",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A framed print. The cat has no opinion. Yet.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/living/furn_living_picture_R.png",
+        "L": "furniture/living/furn_living_picture_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "bedroom_bed",
+      "name": "Double bed",
+      "set": null,
+      "room": "bedroom",
+      "footprint": {
+        "w": 2,
+        "d": 3
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sleep"
+      ],
+      "capacity": 2,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "beans",
+      "level": 1,
+      "beans": 60,
+      "sku": null,
+      "description": "A double bed. You are allotted a third of it.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/bedroom/furn_bedroom_bed_R.png",
+        "L": "furniture/bedroom/furn_bedroom_bed_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "bedroom_bedside",
+      "name": "Bedside table",
+      "set": null,
+      "room": "bedroom",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "perch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "beans",
+      "level": 3,
+      "beans": 80,
+      "sku": null,
+      "description": "Holds a lamp, a glass of water and, briefly, a cat.",
+      "catPose": "sit_side",
+      "sprites": {
+        "R": "furniture/bedroom/furn_bedroom_bedside_R.png",
+        "L": "furniture/bedroom/furn_bedroom_bedside_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "bedroom_wardrobe",
+      "name": "Wardrobe",
+      "set": null,
+      "room": "bedroom",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "hide"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "beans",
+      "level": 3,
+      "beans": 150,
+      "sku": null,
+      "description": "Two doors, one always slightly open. You know why.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/bedroom/furn_bedroom_wardrobe_R.png",
+        "L": "furniture/bedroom/furn_bedroom_wardrobe_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "bedroom_laundry",
+      "name": "Laundry basket",
+      "set": "rainy_london",
+      "room": "bedroom",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "hide"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.rainy_london",
+      "description": "A wicker basket of clean washing. Was clean.",
+      "catPose": "loaf_tqfront",
+      "sprites": {
+        "R": "furniture/bedroom/furn_bedroom_laundry_R.png",
+        "L": "furniture/bedroom/furn_bedroom_laundry_L.png"
+      },
+      "suggestedScale": 0.65,
+      "fx": null
+    },
+    {
+      "id": "bedroom_readinglamp",
+      "name": "Reading lamp",
+      "set": "midnight",
+      "room": "bedroom",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "glow",
+        "pivot": [
+          0.5,
+          0.2
+        ],
+        "period": 6.0
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.midnight",
+      "description": "Brass and green glass. Good light to read by, or nap under.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/bedroom/furn_bedroom_readinglamp_R.png",
+        "L": "furniture/bedroom/furn_bedroom_readinglamp_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "bedroom_curtains",
+      "name": "Curtains",
+      "set": "rainy_london",
+      "room": "bedroom",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "wall",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "sway",
+        "pivot": [
+          0.5,
+          0.0
+        ],
+        "period": 6.0
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.rainy_london",
+      "description": "Long sage curtains on a brass pole. Climbable, in theory.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/bedroom/furn_bedroom_curtains_R.png",
+        "L": "furniture/bedroom/furn_bedroom_curtains_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "bedroom_drawers",
+      "name": "Chest of drawers",
+      "set": null,
+      "room": "bedroom",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "perch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "beans",
+      "level": 3,
+      "beans": 120,
+      "sku": null,
+      "description": "Three drawers of jumpers and a top made for sitting on.",
+      "catPose": "loaf_side",
+      "sprites": {
+        "R": "furniture/bedroom/furn_bedroom_drawers_R.png",
+        "L": "furniture/bedroom/furn_bedroom_drawers_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "bedroom_catbed",
+      "name": "Cat bed",
+      "set": null,
+      "room": "bedroom",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "beans",
+      "level": 1,
+      "beans": 40,
+      "sku": null,
+      "description": "A round plush bed made for the cat, who prefers yours.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/bedroom/furn_bedroom_catbed_R.png",
+        "L": "furniture/bedroom/furn_bedroom_catbed_L.png"
+      },
+      "suggestedScale": 0.6,
+      "fx": null
+    },
+    {
+      "id": "bedroom_slippers",
+      "name": "Slippers",
+      "set": "cabin",
+      "room": "bedroom",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "bat"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.cabin",
+      "description": "Fluffy pink slippers. One of them will go missing.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/bedroom/furn_bedroom_slippers_R.png",
+        "L": "furniture/bedroom/furn_bedroom_slippers_L.png"
+      },
+      "suggestedScale": 0.4,
+      "fx": null
+    },
+    {
+      "id": "bedroom_mirror",
+      "name": "Oval mirror",
+      "set": "midnight",
+      "room": "bedroom",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "wall",
+      "decal": false,
+      "affordances": [
+        "watch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.midnight",
+      "description": "A tall oval mirror. The cat finds the other cat suspicious.",
+      "catPose": "sit_back",
+      "sprites": {
+        "R": "furniture/bedroom/furn_bedroom_mirror_R.png",
+        "L": "furniture/bedroom/furn_bedroom_mirror_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "bedroom_gownhook",
+      "name": "Dressing-gown hook",
+      "set": "rainy_london",
+      "room": "bedroom",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "wall",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.rainy_london",
+      "description": "A dressing gown on a brass hook. Smells reassuringly of you.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/bedroom/furn_bedroom_gownhook_R.png",
+        "L": "furniture/bedroom/furn_bedroom_gownhook_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "bedroom_hammock",
+      "name": "Cat hammock",
+      "set": "midnight",
+      "room": "bedroom",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "sway",
+        "pivot": [
+          0.5,
+          0.1
+        ],
+        "period": 4.0
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.midnight",
+      "description": "A teal canvas sling for a cat who likes to be held up.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/bedroom/furn_bedroom_hammock_R.png",
+        "L": "furniture/bedroom/furn_bedroom_hammock_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "bedroom_alarmclock",
+      "name": "Alarm clock",
+      "set": "midnight",
+      "room": "bedroom",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "bat"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.midnight",
+      "description": "Twin bells and a loud tick. Due to be knocked off something.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/bedroom/furn_bedroom_alarmclock_R.png",
+        "L": "furniture/bedroom/furn_bedroom_alarmclock_L.png"
+      },
+      "suggestedScale": 0.3,
+      "fx": null
+    },
+    {
+      "id": "bedroom_bedrug",
+      "name": "Bedroom rug",
+      "set": "cottagecore",
+      "room": "bedroom",
+      "footprint": {
+        "w": 3,
+        "d": 2
+      },
+      "layer": "floor",
+      "decal": true,
+      "affordances": [
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.cottagecore",
+      "description": "A soft sage rug by the bed. The cat lands on it by gravity.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/bedroom/furn_bedroom_bedrug_R.png",
+        "L": "furniture/bedroom/furn_bedroom_bedrug_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "kitchen_bowl",
+      "name": "Food bowl",
+      "set": null,
+      "room": "kitchen",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "eat"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "The cat's bowl. The most important object in the house.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/kitchen/furn_kitchen_bowl_R.png",
+        "L": "furniture/kitchen/furn_kitchen_bowl_L.png"
+      },
+      "suggestedScale": 0.35,
+      "fx": null
+    },
+    {
+      "id": "kitchen_fountain",
+      "name": "Water fountain",
+      "set": "riviera",
+      "room": "kitchen",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "eat"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "frames",
+        "fx": "water_trickle",
+        "frames": 4,
+        "period": 0.5
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.riviera",
+      "description": "A trickling fountain, because still water is beneath them.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/kitchen/furn_kitchen_fountain_R.png",
+        "L": "furniture/kitchen/furn_kitchen_fountain_L.png"
+      },
+      "suggestedScale": 0.4,
+      "fx": {
+        "fx": "water_trickle",
+        "anchor": [
+          145,
+          140
+        ],
+        "anchorL": [
+          151,
+          126
+        ]
+      }
+    },
+    {
+      "id": "kitchen_table",
+      "name": "Kitchen table",
+      "set": null,
+      "room": "kitchen",
+      "footprint": {
+        "w": 2,
+        "d": 2
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "perch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "beans",
+      "level": 3,
+      "beans": 120,
+      "sku": null,
+      "description": "A square pine table. Strictly off limits, according to you.",
+      "catPose": "sit_tqfront",
+      "sprites": {
+        "R": "furniture/kitchen/furn_kitchen_table_R.png",
+        "L": "furniture/kitchen/furn_kitchen_table_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "kitchen_chair",
+      "name": "Kitchen chair",
+      "set": null,
+      "room": "kitchen",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sit"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "beans",
+      "level": 3,
+      "beans": 80,
+      "sku": null,
+      "description": "Spindle-backed pine. Warm if you've just got up.",
+      "catPose": "sit_side",
+      "sprites": {
+        "R": "furniture/kitchen/furn_kitchen_chair_R.png",
+        "L": "furniture/kitchen/furn_kitchen_chair_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "kitchen_fridge",
+      "name": "Fridge",
+      "set": null,
+      "room": "kitchen",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "glow",
+        "pivot": [
+          0.5,
+          0.4
+        ],
+        "period": 3.0
+      },
+      "pool": "beans",
+      "level": 6,
+      "beans": 300,
+      "sku": null,
+      "description": "Rounded, cream and full of things the cat has opinions about.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/kitchen/furn_kitchen_fridge_R.png",
+        "L": "furniture/kitchen/furn_kitchen_fridge_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "kitchen_kettle",
+      "name": "Kettle",
+      "set": "rainy_london",
+      "room": "kitchen",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "frames",
+        "fx": "steam",
+        "frames": 7,
+        "period": 0.7
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.rainy_london",
+      "description": "A mint stove-top kettle. Whistles, steams, gets stared at.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/kitchen/furn_kitchen_kettle_R.png",
+        "L": "furniture/kitchen/furn_kitchen_kettle_L.png"
+      },
+      "suggestedScale": 0.3,
+      "fx": {
+        "fx": "steam",
+        "anchor": [
+          163,
+          0
+        ],
+        "anchorL": [
+          120,
+          0
+        ]
+      }
+    },
+    {
+      "id": "kitchen_herbshelf",
+      "name": "Herb shelf",
+      "set": "cottagecore",
+      "room": "kitchen",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "wall",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "sway",
+        "pivot": [
+          0.5,
+          0.8
+        ],
+        "period": 5.0
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.cottagecore",
+      "description": "Three pots of herbs on a little shelf. One has been nibbled.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/kitchen/furn_kitchen_herbshelf_R.png",
+        "L": "furniture/kitchen/furn_kitchen_herbshelf_L.png"
+      },
+      "suggestedScale": 0.7,
+      "fx": null
+    },
+    {
+      "id": "kitchen_breadbin",
+      "name": "Bread bin",
+      "set": "cottagecore",
+      "room": "kitchen",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "hide"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.cottagecore",
+      "description": "Cream enamel with a wooden lid. Fits a loaf. Fits a cat.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/kitchen/furn_kitchen_breadbin_R.png",
+        "L": "furniture/kitchen/furn_kitchen_breadbin_L.png"
+      },
+      "suggestedScale": 0.4,
+      "fx": null
+    },
+    {
+      "id": "kitchen_fruitbowl",
+      "name": "Fruit bowl",
+      "set": "riviera",
+      "room": "kitchen",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "bat"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.riviera",
+      "description": "Lemons and oranges, ideal for rolling off things.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/kitchen/furn_kitchen_fruitbowl_R.png",
+        "L": "furniture/kitchen/furn_kitchen_fruitbowl_L.png"
+      },
+      "suggestedScale": 0.3,
+      "fx": null
+    },
+    {
+      "id": "kitchen_cooker",
+      "name": "Cooker",
+      "set": null,
+      "room": "kitchen",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "beans",
+      "level": 3,
+      "beans": 180,
+      "sku": null,
+      "description": "Four rings and a chrome rail. Off limits, always.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/kitchen/furn_kitchen_cooker_R.png",
+        "L": "furniture/kitchen/furn_kitchen_cooker_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "kitchen_catflap",
+      "name": "Cat flap",
+      "set": null,
+      "room": "kitchen",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "wall",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "beans",
+      "level": 6,
+      "beans": 150,
+      "sku": null,
+      "description": "A door within a door. Used entirely at the cat's discretion.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/kitchen/furn_kitchen_catflap_R.png",
+        "L": "furniture/kitchen/furn_kitchen_catflap_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "kitchen_radio",
+      "name": "Radio",
+      "set": null,
+      "room": "kitchen",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "beans",
+      "level": 3,
+      "beans": 90,
+      "sku": null,
+      "description": "A little cream and mint radio. Plays music, scatters notes.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/kitchen/furn_kitchen_radio_R.png",
+        "L": "furniture/kitchen/furn_kitchen_radio_L.png"
+      },
+      "suggestedScale": 0.35,
+      "fx": null
+    },
+    {
+      "id": "kitchen_doormat",
+      "name": "Door mat",
+      "set": "rainy_london",
+      "room": "kitchen",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": true,
+      "affordances": [
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.rainy_london",
+      "description": "Coir, scratchy and inexplicably popular for naps.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/kitchen/furn_kitchen_doormat_R.png",
+        "L": "furniture/kitchen/furn_kitchen_doormat_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "kitchen_sink",
+      "name": "Sink",
+      "set": null,
+      "room": "kitchen",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "perch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "beans",
+      "level": 3,
+      "beans": 150,
+      "sku": null,
+      "description": "A white sink in a pine unit. Apparently also a bed.",
+      "catPose": "loaf_tqfront",
+      "sprites": {
+        "R": "furniture/kitchen/furn_kitchen_sink_R.png",
+        "L": "furniture/kitchen/furn_kitchen_sink_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "garden_bench",
+      "name": "Garden bench",
+      "set": null,
+      "room": "garden",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sit"
+      ],
+      "capacity": 2,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "beans",
+      "level": 6,
+      "beans": 200,
+      "sku": null,
+      "description": "Weathered oak with room for two. Mostly used by one.",
+      "catPose": "loaf_side",
+      "sprites": {
+        "R": "furniture/garden/furn_garden_bench_R.png",
+        "L": "furniture/garden/furn_garden_bench_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "garden_sunpatch",
+      "name": "Sunbeam spot",
+      "set": null,
+      "room": "garden",
+      "footprint": {
+        "w": 2,
+        "d": 2
+      },
+      "layer": "floor",
+      "decal": true,
+      "affordances": [
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "glow",
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "period": 8.0
+      },
+      "pool": "beans",
+      "level": 6,
+      "beans": 250,
+      "sku": null,
+      "description": "A warm patch of sunlight. Turns up only when the sun does.",
+      "catPose": "stretch_side",
+      "sprites": {
+        "R": "furniture/garden/furn_garden_sunpatch_R.png",
+        "L": "furniture/garden/furn_garden_sunpatch_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "garden_birdfeeder",
+      "name": "Bird feeder",
+      "set": null,
+      "room": "garden",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "watch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "frames",
+        "fx": "robin",
+        "frames": 8,
+        "period": 6.0
+      },
+      "pool": "beans",
+      "level": 6,
+      "beans": 180,
+      "sku": null,
+      "description": "Seed on a tall post. Popular with birds and their audience.",
+      "catPose": "sit_back",
+      "sprites": {
+        "R": "furniture/garden/furn_garden_birdfeeder_R.png",
+        "L": "furniture/garden/furn_garden_birdfeeder_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "garden_flowerpots",
+      "name": "Flower pots",
+      "set": "cottagecore",
+      "room": "garden",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "sway",
+        "pivot": [
+          0.5,
+          0.9
+        ],
+        "period": 5.0
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.cottagecore",
+      "description": "Three terracotta pots of geraniums, nodding along.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/garden/furn_garden_flowerpots_R.png",
+        "L": "furniture/garden/furn_garden_flowerpots_L.png"
+      },
+      "suggestedScale": 0.7,
+      "fx": null
+    },
+    {
+      "id": "garden_wateringcan",
+      "name": "Watering can",
+      "set": null,
+      "room": "garden",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "beans",
+      "level": 6,
+      "beans": 120,
+      "sku": null,
+      "description": "A green metal watering can. Mostly decorative.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/garden/furn_garden_wateringcan_R.png",
+        "L": "furniture/garden/furn_garden_wateringcan_L.png"
+      },
+      "suggestedScale": 0.4,
+      "fx": null
+    },
+    {
+      "id": "garden_deckchair",
+      "name": "Deck chair",
+      "set": "riviera",
+      "room": "garden",
+      "footprint": {
+        "w": 1,
+        "d": 2
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sit"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.riviera",
+      "description": "Striped canvas in teal and cream. You'll be lucky to get it.",
+      "catPose": "loaf_tqfront",
+      "sprites": {
+        "R": "furniture/garden/furn_garden_deckchair_R.png",
+        "L": "furniture/garden/furn_garden_deckchair_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "garden_shed",
+      "name": "Garden shed",
+      "set": null,
+      "room": "garden",
+      "footprint": {
+        "w": 2,
+        "d": 2
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "hide"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "beans",
+      "level": 6,
+      "beans": 350,
+      "sku": null,
+      "description": "A little sage-green shed with a window and many hiding places.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/garden/furn_garden_shed_R.png",
+        "L": "furniture/garden/furn_garden_shed_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "garden_fence",
+      "name": "Picket fence",
+      "set": null,
+      "room": "garden",
+      "footprint": {
+        "w": 3,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "perch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "beans",
+      "level": 6,
+      "beans": 150,
+      "sku": null,
+      "description": "A run of white pickets, for walking along smugly.",
+      "catPose": "sit_side",
+      "sprites": {
+        "R": "furniture/garden/furn_garden_fence_R.png",
+        "L": "furniture/garden/furn_garden_fence_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "garden_pond",
+      "name": "Pond",
+      "set": "riviera",
+      "room": "garden",
+      "footprint": {
+        "w": 2,
+        "d": 2
+      },
+      "layer": "floor",
+      "decal": true,
+      "affordances": [
+        "watch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "frames",
+        "fx": "water_ripple",
+        "frames": 4,
+        "period": 0.5
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.riviera",
+      "description": "Two water lilies and a great many things worth staring at.",
+      "catPose": "sit_side",
+      "sprites": {
+        "R": "furniture/garden/furn_garden_pond_R.png",
+        "L": "furniture/garden/furn_garden_pond_L.png"
+      },
+      "suggestedScale": null,
+      "fx": {
+        "fx": "water_ripple",
+        "anchor": [
+          296,
+          183
+        ],
+        "anchorL": [
+          277,
+          183
+        ]
+      }
+    },
+    {
+      "id": "garden_festoon",
+      "name": "Festoon lights",
+      "set": "riviera",
+      "room": "garden",
+      "footprint": {
+        "w": 3,
+        "d": 1
+      },
+      "layer": "wall",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "glow",
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "period": 5.0
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.riviera",
+      "description": "Round warm bulbs strung in a lazy curve along the wall.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/garden/furn_garden_festoon_R.png",
+        "L": "furniture/garden/furn_garden_festoon_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "garden_gardenhammock",
+      "name": "Rope hammock",
+      "set": "riviera",
+      "room": "garden",
+      "footprint": {
+        "w": 3,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "sway",
+        "pivot": [
+          0.5,
+          0.2
+        ],
+        "period": 4.0
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.riviera",
+      "description": "Strung between two posts. Sways gently under a sleeping cat.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/garden/furn_garden_gardenhammock_R.png",
+        "L": "furniture/garden/furn_garden_gardenhammock_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "garden_washingline",
+      "name": "Washing line",
+      "set": "cottagecore",
+      "room": "garden",
+      "footprint": {
+        "w": 3,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "sway",
+        "pivot": [
+          0.5,
+          0.2
+        ],
+        "period": 4.0
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.cottagecore",
+      "description": "Clothes pegged out to dry. One sock is at risk.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/garden/furn_garden_washingline_R.png",
+        "L": "furniture/garden/furn_garden_washingline_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "study_desk",
+      "name": "Writing desk",
+      "set": null,
+      "room": "study",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "perch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "beans",
+      "level": 9,
+      "beans": 400,
+      "sku": null,
+      "description": "Pale oak with one drawer. The cat sits wherever you type.",
+      "catPose": "loaf_side",
+      "sprites": {
+        "R": "furniture/study/furn_study_desk_R.png",
+        "L": "furniture/study/furn_study_desk_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "study_officechair",
+      "name": "Office chair",
+      "set": null,
+      "room": "study",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sit"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "spin",
+        "pivot": [
+          0.5,
+          0.6
+        ],
+        "period": 8.0
+      },
+      "pool": "beans",
+      "level": 9,
+      "beans": 300,
+      "sku": null,
+      "description": "A mustard swivel chair. Turns when nobody is looking.",
+      "catPose": "sit_tqfront",
+      "sprites": {
+        "R": "furniture/study/furn_study_officechair_R.png",
+        "L": "furniture/study/furn_study_officechair_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "study_laptop",
+      "name": "Laptop",
+      "set": "cosy_study",
+      "room": "study",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "perch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "glow",
+        "pivot": [
+          0.5,
+          0.3
+        ],
+        "period": 4.0
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.cosy_study",
+      "description": "Warm, glowing and the ideal place for a cat to help.",
+      "catPose": "loaf_tqfront",
+      "sprites": {
+        "R": "furniture/study/furn_study_laptop_R.png",
+        "L": "furniture/study/furn_study_laptop_L.png"
+      },
+      "suggestedScale": 0.4,
+      "fx": null
+    },
+    {
+      "id": "study_bookshelf",
+      "name": "Tall bookshelf",
+      "set": null,
+      "room": "study",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "perch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "beans",
+      "level": 9,
+      "beans": 500,
+      "sku": null,
+      "description": "Floor-to-ceiling walnut with a small globe on top.",
+      "catPose": "loaf_side",
+      "sprites": {
+        "R": "furniture/study/furn_study_bookshelf_R.png",
+        "L": "furniture/study/furn_study_bookshelf_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "study_papertray",
+      "name": "Paper tray",
+      "set": "cosy_study",
+      "room": "study",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.cosy_study",
+      "description": "An in-tray, mostly full of cat.",
+      "catPose": "loaf_side",
+      "sprites": {
+        "R": "furniture/study/furn_study_papertray_R.png",
+        "L": "furniture/study/furn_study_papertray_L.png"
+      },
+      "suggestedScale": 0.3,
+      "fx": null
+    },
+    {
+      "id": "study_desklamp",
+      "name": "Desk lamp",
+      "set": "cosy_study",
+      "room": "study",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "glow",
+        "pivot": [
+          0.5,
+          0.25
+        ],
+        "period": 6.0
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.cosy_study",
+      "description": "Green glass and brass. A soft glow over the paperwork.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/study/furn_study_desklamp_R.png",
+        "L": "furniture/study/furn_study_desklamp_L.png"
+      },
+      "suggestedScale": 0.4,
+      "fx": null
+    },
+    {
+      "id": "study_globe",
+      "name": "Globe",
+      "set": "cosy_study",
+      "room": "study",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "spin",
+        "pivot": [
+          0.5,
+          0.4
+        ],
+        "period": 20.0
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.cosy_study",
+      "description": "A vintage globe on a brass stand. Turns with one nudge.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/study/furn_study_globe_R.png",
+        "L": "furniture/study/furn_study_globe_L.png"
+      },
+      "suggestedScale": 0.45,
+      "fx": null
+    },
+    {
+      "id": "study_filing",
+      "name": "Filing cabinet",
+      "set": null,
+      "room": "study",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "hide"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "beans",
+      "level": 9,
+      "beans": 350,
+      "sku": null,
+      "description": "Two drawers of paperwork and one very good hiding place.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/study/furn_study_filing_R.png",
+        "L": "furniture/study/furn_study_filing_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "study_printer",
+      "name": "Printer",
+      "set": "cosy_study",
+      "room": "study",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "perch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.cosy_study",
+      "description": "Prints occasionally, warm always. The cat approves of warm.",
+      "catPose": "loaf_side",
+      "sprites": {
+        "R": "furniture/study/furn_study_printer_R.png",
+        "L": "furniture/study/furn_study_printer_L.png"
+      },
+      "suggestedScale": 0.5,
+      "fx": null
+    },
+    {
+      "id": "study_noticeboard",
+      "name": "Noticeboard",
+      "set": "cosy_study",
+      "room": "study",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "wall",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.cosy_study",
+      "description": "Cork, pinned with notes and a postcard. Pins are not toys.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/study/furn_study_noticeboard_R.png",
+        "L": "furniture/study/furn_study_noticeboard_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "study_mug",
+      "name": "Mug of tea",
+      "set": "cosy_study",
+      "room": "study",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "bat"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "frames",
+        "fx": "steam",
+        "frames": 7,
+        "period": 0.7
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.cosy_study",
+      "description": "A large mug of tea, left far too close to the edge.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/study/furn_study_mug_R.png",
+        "L": "furniture/study/furn_study_mug_L.png"
+      },
+      "suggestedScale": 0.15,
+      "fx": {
+        "fx": "steam",
+        "anchor": [
+          232,
+          0
+        ],
+        "anchorL": [
+          227,
+          0
+        ]
+      }
+    },
+    {
+      "id": "study_blind",
+      "name": "Roller blind",
+      "set": "rainy_london",
+      "room": "study",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "wall",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "sway",
+        "pivot": [
+          0.5,
+          0.0
+        ],
+        "period": 6.0
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.rainy_london",
+      "description": "A cream roller blind, half drawn and gently swinging.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/study/furn_study_blind_R.png",
+        "L": "furniture/study/furn_study_blind_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "attic_trunk",
+      "name": "Old trunk",
+      "set": null,
+      "room": "attic",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "hide"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "beans",
+      "level": 9,
+      "beans": 600,
+      "sku": null,
+      "description": "Leather, brass corners, faded stickers, lid ajar.",
+      "catPose": "loaf_tqfront",
+      "sprites": {
+        "R": "furniture/attic/furn_attic_trunk_R.png",
+        "L": "furniture/attic/furn_attic_trunk_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "attic_dustyarmchair",
+      "name": "Dusty armchair",
+      "set": "cabin",
+      "room": "attic",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sit"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.cabin",
+      "description": "Faded rose velvet under a half-pulled dust sheet.",
+      "catPose": "loaf_tqfront",
+      "sprites": {
+        "R": "furniture/attic/furn_attic_dustyarmchair_R.png",
+        "L": "furniture/attic/furn_attic_dustyarmchair_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "attic_skylightpatch",
+      "name": "Skylight beam",
+      "set": "cabin",
+      "room": "attic",
+      "footprint": {
+        "w": 2,
+        "d": 2
+      },
+      "layer": "floor",
+      "decal": true,
+      "affordances": [
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "glow",
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "period": 8.0
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.cabin",
+      "description": "A square of sunlight under the skylight. Sunny days only.",
+      "catPose": "stretch_side",
+      "sprites": {
+        "R": "furniture/attic/furn_attic_skylightpatch_R.png",
+        "L": "furniture/attic/furn_attic_skylightpatch_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "attic_boxes",
+      "name": "Stacked boxes",
+      "set": null,
+      "room": "attic",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "perch",
+        "hide"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "beans",
+      "level": 9,
+      "beans": 350,
+      "sku": null,
+      "description": "Three old boxes, the top one open. A lookout and a den.",
+      "catPose": "sit_tqfront",
+      "sprites": {
+        "R": "furniture/attic/furn_attic_boxes_R.png",
+        "L": "furniture/attic/furn_attic_boxes_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "attic_rockinghorse",
+      "name": "Rocking horse",
+      "set": "cottagecore",
+      "room": "attic",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "sway",
+        "pivot": [
+          0.5,
+          1.0
+        ],
+        "period": 3.0
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.cottagecore",
+      "description": "A painted wooden horse that rocks when brushed against.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/attic/furn_attic_rockinghorse_R.png",
+        "L": "furniture/attic/furn_attic_rockinghorse_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "attic_dummy",
+      "name": "Dressmaker's dummy",
+      "set": "cottagecore",
+      "room": "attic",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.cottagecore",
+      "description": "A dressmaker's dummy. The cat has never trusted it.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/attic/furn_attic_dummy_R.png",
+        "L": "furniture/attic/furn_attic_dummy_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "attic_telescope",
+      "name": "Telescope",
+      "set": "midnight",
+      "room": "attic",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "watch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.midnight",
+      "description": "Brass, on a wooden tripod. Excellent for watching birds.",
+      "catPose": "sit_back",
+      "sprites": {
+        "R": "furniture/attic/furn_attic_telescope_R.png",
+        "L": "furniture/attic/furn_attic_telescope_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "attic_rolledrug",
+      "name": "Rolled rug",
+      "set": "cabin",
+      "room": "attic",
+      "footprint": {
+        "w": 3,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.cabin",
+      "description": "Rolled up and tied with string. Better than unrolled.",
+      "catPose": "loaf_side",
+      "sprites": {
+        "R": "furniture/attic/furn_attic_rolledrug_R.png",
+        "L": "furniture/attic/furn_attic_rolledrug_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "attic_oillamp",
+      "name": "Oil lamp",
+      "set": "cabin",
+      "room": "attic",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "frames",
+        "fx": "candle",
+        "frames": 8,
+        "period": 0.8
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.cabin",
+      "description": "An antique oil lamp, lit, on a little round table.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/attic/furn_attic_oillamp_R.png",
+        "L": "furniture/attic/furn_attic_oillamp_L.png"
+      },
+      "suggestedScale": 0.4,
+      "fx": {
+        "fx": "candle",
+        "anchor": [
+          131,
+          155
+        ],
+        "anchorL": [
+          117,
+          144
+        ]
+      }
+    },
+    {
+      "id": "attic_cobweb",
+      "name": "Cobweb corner",
+      "set": "midnight",
+      "room": "attic",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "wall",
+      "decal": false,
+      "affordances": [
+        "bat"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "sway",
+        "pivot": [
+          0.5,
+          0.0
+        ],
+        "period": 7.0
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.midnight",
+      "description": "A silvery cobweb high in the corner. Someone's favourite.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/attic/furn_attic_cobweb_R.png",
+        "L": "furniture/attic/furn_attic_cobweb_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "attic_suitcase",
+      "name": "Suitcase",
+      "set": "riviera",
+      "room": "attic",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "hide"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.riviera",
+      "description": "An old leather suitcase. Open it and the cat moves in.",
+      "catPose": "loaf_tqfront",
+      "sprites": {
+        "R": "furniture/attic/furn_attic_suitcase_R.png",
+        "L": "furniture/attic/furn_attic_suitcase_L.png"
+      },
+      "suggestedScale": 0.8,
+      "fx": null
+    },
+    {
+      "id": "attic_wireless",
+      "name": "Old wireless",
+      "set": "cabin",
+      "room": "attic",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "set",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.set.cabin",
+      "description": "A big wooden wireless that hums as it warms up.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/attic/furn_attic_wireless_R.png",
+        "L": "furniture/attic/furn_attic_wireless_L.png"
+      },
+      "suggestedScale": 0.5,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_movingboxes",
+      "name": "Moving boxes",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "hide",
+        "perch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Two sealed moving boxes. Not sealed for long.",
+      "catPose": "sit_tqfront",
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_movingboxes_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_movingboxes_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_teachest",
+      "name": "Tea chest",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "hide",
+        "perch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A wooden tea chest with stencilled letters. Smells faintly of tea.",
+      "catPose": "sit_side",
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_teachest_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_teachest_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_painttins",
+      "name": "Paint tins",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "bat"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Sage, mustard and cream. One lid is off. Paws clear, please.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_painttins_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_painttins_L.png"
+      },
+      "suggestedScale": 0.45,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_stepladder",
+      "name": "Step ladder",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "perch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A wooden step ladder, for pictures, shelves and surveillance.",
+      "catPose": "sit_side",
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_stepladder_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_stepladder_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_fairylights",
+      "name": "Fairy lights",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 3,
+        "d": 1
+      },
+      "layer": "wall",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "glow",
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "period": 5.0
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Tiny warm lights draped in two swags along the wall.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_fairylights_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_fairylights_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_picnicblanket",
+      "name": "Picnic blanket",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 3,
+        "d": 2
+      },
+      "layer": "floor",
+      "decal": true,
+      "affordances": [
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A checked blanket on the floor of a house with no table yet.",
+      "catPose": "stretch_side",
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_picnicblanket_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_picnicblanket_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_takeaway",
+      "name": "Takeaway bag",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "hide"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "First-night takeaway. The paper bag is the real prize.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_takeaway_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_takeaway_L.png"
+      },
+      "suggestedScale": 0.3,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_candle",
+      "name": "Scented candle",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "frames",
+        "fx": "candle",
+        "frames": 8,
+        "period": 0.8
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A scented candle in amber glass. Smells like a new home.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_candle_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_candle_L.png"
+      },
+      "suggestedScale": 0.25,
+      "fx": {
+        "fx": "candle",
+        "anchor": [
+          86,
+          91
+        ],
+        "anchorL": [
+          93,
+          110
+        ]
+      }
+    },
+    {
+      "id": "pass_midwinter_knitblanket",
+      "name": "Knitted blanket",
+      "set": "pass_midwinter",
+      "room": "pass_midwinter",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A chunky cream knit, folded once. It won't stay folded.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/pass_midwinter/furn_pass_midwinter_knitblanket_R.png",
+        "L": "furniture/pass_midwinter/furn_pass_midwinter_knitblanket_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "pass_midwinter_logbasket",
+      "name": "Log basket",
+      "set": "pass_midwinter",
+      "room": "pass_midwinter",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "perch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A wicker basket of split logs, ready for the fire.",
+      "catPose": "loaf_side",
+      "sprites": {
+        "R": "furniture/pass_midwinter/furn_pass_midwinter_logbasket_R.png",
+        "L": "furniture/pass_midwinter/furn_pass_midwinter_logbasket_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "pass_midwinter_wreath",
+      "name": "Wreath",
+      "set": "pass_midwinter",
+      "room": "pass_midwinter",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "wall",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Fir, berries and a tartan bow, hung at a batting height.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_midwinter/furn_pass_midwinter_wreath_R.png",
+        "L": "furniture/pass_midwinter/furn_pass_midwinter_wreath_L.png"
+      },
+      "suggestedScale": 0.6,
+      "fx": null
+    },
+    {
+      "id": "pass_midwinter_mulledwine",
+      "name": "Spiced mugs",
+      "set": "pass_midwinter",
+      "room": "pass_midwinter",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "frames",
+        "fx": "steam",
+        "frames": 7,
+        "period": 0.7
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Two steaming mugs with orange slices. Not for cats.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_midwinter/furn_pass_midwinter_mulledwine_R.png",
+        "L": "furniture/pass_midwinter/furn_pass_midwinter_mulledwine_L.png"
+      },
+      "suggestedScale": 0.25,
+      "fx": {
+        "fx": "steam",
+        "anchor": [
+          221,
+          0
+        ],
+        "anchorL": [
+          215,
+          0
+        ]
+      }
+    },
+    {
+      "id": "pass_midwinter_snowglobe",
+      "name": "Snow globe",
+      "set": "pass_midwinter",
+      "room": "pass_midwinter",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "bat"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A tiny cottage under glass. Shake it and it snows indoors.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_midwinter/furn_pass_midwinter_snowglobe_R.png",
+        "L": "furniture/pass_midwinter/furn_pass_midwinter_snowglobe_L.png"
+      },
+      "suggestedScale": 0.2,
+      "fx": null
+    },
+    {
+      "id": "pass_midwinter_firtree",
+      "name": "Fir tree",
+      "set": "pass_midwinter",
+      "room": "pass_midwinter",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "hide",
+        "bat"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "glow",
+        "pivot": [
+          0.5,
+          0.45
+        ],
+        "period": 4.0
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A small potted fir with warm lights and very tempting baubles.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_midwinter/furn_pass_midwinter_firtree_R.png",
+        "L": "furniture/pass_midwinter/furn_pass_midwinter_firtree_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "pass_midwinter_sledge",
+      "name": "Sledge",
+      "set": "pass_midwinter",
+      "room": "pass_midwinter",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A wooden sledge leaning on the wall, waiting for its moment.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_midwinter/furn_pass_midwinter_sledge_R.png",
+        "L": "furniture/pass_midwinter/furn_pass_midwinter_sledge_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "pass_midwinter_hotwaterbottle",
+      "name": "Hot-water bottle",
+      "set": "pass_midwinter",
+      "room": "pass_midwinter",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "In a knitted cover. The cat will claim it before you do.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/pass_midwinter/furn_pass_midwinter_hotwaterbottle_R.png",
+        "L": "furniture/pass_midwinter/furn_pass_midwinter_hotwaterbottle_L.png"
+      },
+      "suggestedScale": 0.3,
+      "fx": null
+    },
+    {
+      "id": "pass_firstlight_seedtrays",
+      "name": "Seed trays",
+      "set": "pass_firstlight",
+      "room": "pass_firstlight",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Seedlings in little pots. Not, despite appearances, a litter tray.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_firstlight/furn_pass_firstlight_seedtrays_R.png",
+        "L": "furniture/pass_firstlight/furn_pass_firstlight_seedtrays_L.png"
+      },
+      "suggestedScale": 0.5,
+      "fx": null
+    },
+    {
+      "id": "pass_firstlight_birdbox",
+      "name": "Bird box",
+      "set": "pass_firstlight",
+      "room": "pass_firstlight",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "wall",
+      "decal": false,
+      "affordances": [
+        "watch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A small wooden bird box. The cat has applied to be a tenant.",
+      "catPose": "sit_back",
+      "sprites": {
+        "R": "furniture/pass_firstlight/furn_pass_firstlight_birdbox_R.png",
+        "L": "furniture/pass_firstlight/furn_pass_firstlight_birdbox_L.png"
+      },
+      "suggestedScale": 0.6,
+      "fx": null
+    },
+    {
+      "id": "pass_firstlight_tulips",
+      "name": "Tulip pot",
+      "set": "pass_firstlight",
+      "room": "pass_firstlight",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "sway",
+        "pivot": [
+          0.5,
+          0.9
+        ],
+        "period": 5.0
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Red and yellow tulips in terracotta. For looking at, not nibbling.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_firstlight/furn_pass_firstlight_tulips_R.png",
+        "L": "furniture/pass_firstlight/furn_pass_firstlight_tulips_L.png"
+      },
+      "suggestedScale": 0.45,
+      "fx": null
+    },
+    {
+      "id": "pass_firstlight_pegbag",
+      "name": "Peg bag",
+      "set": "pass_firstlight",
+      "room": "pass_firstlight",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "wall",
+      "decal": false,
+      "affordances": [
+        "bat"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "sway",
+        "pivot": [
+          0.5,
+          0.0
+        ],
+        "period": 5.0
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A floral peg bag on a hook, full of pegs worth batting about.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_firstlight/furn_pass_firstlight_pegbag_R.png",
+        "L": "furniture/pass_firstlight/furn_pass_firstlight_pegbag_L.png"
+      },
+      "suggestedScale": 0.6,
+      "fx": null
+    },
+    {
+      "id": "pass_firstlight_hamper",
+      "name": "Picnic hamper",
+      "set": "pass_firstlight",
+      "room": "pass_firstlight",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "hide"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A wicker hamper, lid open, contents under review.",
+      "catPose": "loaf_tqfront",
+      "sprites": {
+        "R": "furniture/pass_firstlight/furn_pass_firstlight_hamper_R.png",
+        "L": "furniture/pass_firstlight/furn_pass_firstlight_hamper_L.png"
+      },
+      "suggestedScale": 0.55,
+      "fx": null
+    },
+    {
+      "id": "pass_firstlight_butterflyjar",
+      "name": "Butterfly jar",
+      "set": "pass_firstlight",
+      "room": "pass_firstlight",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "watch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "frames",
+        "fx": "butterfly",
+        "frames": 8,
+        "period": 0.8
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A glass jar with a blue butterfly resting on the rim.",
+      "catPose": "sit_side",
+      "sprites": {
+        "R": "furniture/pass_firstlight/furn_pass_firstlight_butterflyjar_R.png",
+        "L": "furniture/pass_firstlight/furn_pass_firstlight_butterflyjar_L.png"
+      },
+      "suggestedScale": 0.25,
+      "fx": null
+    },
+    {
+      "id": "pass_firstlight_wellies",
+      "name": "Wellies",
+      "set": "pass_firstlight",
+      "room": "pass_firstlight",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "bat"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Yellow wellington boots. One of them has a cat in it.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_firstlight/furn_pass_firstlight_wellies_R.png",
+        "L": "furniture/pass_firstlight/furn_pass_firstlight_wellies_L.png"
+      },
+      "suggestedScale": 0.4,
+      "fx": null
+    },
+    {
+      "id": "pass_firstlight_daffodils",
+      "name": "Daffodil jug",
+      "set": "pass_firstlight",
+      "room": "pass_firstlight",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "sway",
+        "pivot": [
+          0.5,
+          0.9
+        ],
+        "period": 5.0
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A blue enamel jug of daffodils. Cheerful, and best admired.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_firstlight/furn_pass_firstlight_daffodils_R.png",
+        "L": "furniture/pass_firstlight/furn_pass_firstlight_daffodils_L.png"
+      },
+      "suggestedScale": 0.35,
+      "fx": null
+    },
+    {
+      "id": "housewarming_pack_grandfireplace",
+      "name": "Grand fireplace",
+      "set": "housewarming_pack",
+      "room": "housewarming_pack",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "frames",
+        "fx": "fire",
+        "frames": 8,
+        "period": 0.8
+      },
+      "pool": "housewarming",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.season.housewarming",
+      "description": "Marble, a mantel clock and a proper fire. The grandest bed going.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/housewarming_pack/furn_housewarming_pack_grandfireplace_R.png",
+        "L": "furniture/housewarming_pack/furn_housewarming_pack_grandfireplace_L.png"
+      },
+      "suggestedScale": null,
+      "fx": {
+        "fx": "fire",
+        "anchor": [
+          227,
+          376
+        ],
+        "anchorL": [
+          173,
+          321
+        ]
+      }
+    },
+    {
+      "id": "housewarming_pack_hifi",
+      "name": "Hi-fi console",
+      "set": "housewarming_pack",
+      "room": "housewarming_pack",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "perch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "spin",
+        "pivot": [
+          0.4,
+          0.3
+        ],
+        "period": 1.8
+      },
+      "pool": "housewarming",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.season.housewarming",
+      "description": "Walnut, with a turntable and two speakers. Warm on top.",
+      "catPose": "loaf_side",
+      "sprites": {
+        "R": "furniture/housewarming_pack/furn_housewarming_pack_hifi_R.png",
+        "L": "furniture/housewarming_pack/furn_housewarming_pack_hifi_L.png"
+      },
+      "suggestedScale": 0.8,
+      "fx": null
+    },
+    {
+      "id": "housewarming_pack_bulbstring",
+      "name": "String of bulbs",
+      "set": "housewarming_pack",
+      "room": "housewarming_pack",
+      "footprint": {
+        "w": 3,
+        "d": 1
+      },
+      "layer": "wall",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "glow",
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "period": 5.0
+      },
+      "pool": "housewarming",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.season.housewarming",
+      "description": "Big round warm bulbs strung along the wall.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/housewarming_pack/furn_housewarming_pack_bulbstring_R.png",
+        "L": "furniture/housewarming_pack/furn_housewarming_pack_bulbstring_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "housewarming_pack_welcomemat",
+      "name": "Welcome mat",
+      "set": "housewarming_pack",
+      "room": "housewarming_pack",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": true,
+      "affordances": [
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "housewarming",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.season.housewarming",
+      "description": "Coir, and it says WELCOME. The cat agrees, selectively.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/housewarming_pack/furn_housewarming_pack_welcomemat_R.png",
+        "L": "furniture/housewarming_pack/furn_housewarming_pack_welcomemat_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "housewarming_pack_champagne",
+      "name": "Ice bucket",
+      "set": "housewarming_pack",
+      "room": "housewarming_pack",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "housewarming",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.season.housewarming",
+      "description": "Brass ice bucket on a stand with two glasses. To the new house.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/housewarming_pack/furn_housewarming_pack_champagne_R.png",
+        "L": "furniture/housewarming_pack/furn_housewarming_pack_champagne_L.png"
+      },
+      "suggestedScale": 0.35,
+      "fx": null
+    },
+    {
+      "id": "housewarming_pack_houseportrait",
+      "name": "House portrait",
+      "set": "housewarming_pack",
+      "room": "housewarming_pack",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "wall",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "housewarming",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.season.housewarming",
+      "description": "A little terraced house in a gilt frame. Home, framed.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/housewarming_pack/furn_housewarming_pack_houseportrait_R.png",
+        "L": "furniture/housewarming_pack/furn_housewarming_pack_houseportrait_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "founders_plaque_brass",
+      "name": "Founders' plaque, brass",
+      "set": "founders",
+      "room": "founders",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "wall",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "founders",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.founders",
+      "description": "Polished brass with a cat silhouette and your founder's number.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/founders/furn_founders_plaque_brass_R.png",
+        "L": "furniture/founders/furn_founders_plaque_brass_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "founders_plaque_slate",
+      "name": "Founders' plaque, slate",
+      "set": "founders",
+      "room": "founders",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "wall",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "founders",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.founders",
+      "description": "Blue-grey slate, brass screws, and your founder's number.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/founders/furn_founders_plaque_slate_R.png",
+        "L": "furniture/founders/furn_founders_plaque_slate_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "founders_plaque_oak",
+      "name": "Founders' plaque, oak",
+      "set": "founders",
+      "room": "founders",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "wall",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "founders",
+      "level": 1,
+      "beans": null,
+      "sku": "housecat.founders",
+      "description": "Carved honey oak with a cat silhouette and your founder's number.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/founders/furn_founders_plaque_oak_R.png",
+        "L": "furniture/founders/furn_founders_plaque_oak_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    }
+  ],
+  "surfaces": [
+    {
+      "id": "floor_attic_chalk_blue",
+      "kind": "floor",
+      "room": "attic",
+      "name": "Chalk blue",
+      "pool": "beans",
+      "beans": 250,
+      "set": null,
+      "sprite": "rooms/floors/floor_attic_chalk_blue.png"
+    },
+    {
+      "id": "floor_attic_dusty_boards",
+      "kind": "floor",
+      "room": "attic",
+      "name": "Dusty boards",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/floors/floor_attic_dusty_boards.png"
+    },
+    {
+      "id": "floor_attic_rough_pine",
+      "kind": "floor",
+      "room": "attic",
+      "name": "Rough pine boards",
+      "pool": "set",
+      "beans": null,
+      "set": "cabin",
+      "sprite": "rooms/floors/floor_attic_rough_pine.png"
+    },
+    {
+      "id": "floor_attic_sisal",
+      "kind": "floor",
+      "room": "attic",
+      "name": "Sisal matting",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/floors/floor_attic_sisal.png"
+    },
+    {
+      "id": "floor_attic_whitewash",
+      "kind": "floor",
+      "room": "attic",
+      "name": "Whitewashed boards",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/floors/floor_attic_whitewash.png"
+    },
+    {
+      "id": "floor_bedroom_chevron",
+      "kind": "floor",
+      "room": "bedroom",
+      "name": "Chevron parquet",
+      "pool": "beans",
+      "beans": 150,
+      "set": null,
+      "sprite": "rooms/floors/floor_bedroom_chevron.png"
+    },
+    {
+      "id": "floor_bedroom_cream_carpet",
+      "kind": "floor",
+      "room": "bedroom",
+      "name": "Cream carpet",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/floors/floor_bedroom_cream_carpet.png"
+    },
+    {
+      "id": "floor_bedroom_pale_oak",
+      "kind": "floor",
+      "room": "bedroom",
+      "name": "Pale oak boards",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/floors/floor_bedroom_pale_oak.png"
+    },
+    {
+      "id": "floor_bedroom_rose_carpet",
+      "kind": "floor",
+      "room": "bedroom",
+      "name": "Rose carpet",
+      "pool": "set",
+      "beans": null,
+      "set": "cottagecore",
+      "sprite": "rooms/floors/floor_bedroom_rose_carpet.png"
+    },
+    {
+      "id": "floor_bedroom_white_boards",
+      "kind": "floor",
+      "room": "bedroom",
+      "name": "White boards",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/floors/floor_bedroom_white_boards.png"
+    },
+    {
+      "id": "floor_garden_brick_paving",
+      "kind": "floor",
+      "room": "garden",
+      "name": "Brick paving",
+      "pool": "beans",
+      "beans": 200,
+      "set": null,
+      "sprite": "rooms/floors/floor_garden_brick_paving.png"
+    },
+    {
+      "id": "floor_garden_decking",
+      "kind": "floor",
+      "room": "garden",
+      "name": "Decking",
+      "pool": "beans",
+      "beans": 200,
+      "set": null,
+      "sprite": "rooms/floors/floor_garden_decking.png"
+    },
+    {
+      "id": "floor_garden_flagstones",
+      "kind": "floor",
+      "room": "garden",
+      "name": "Flagstones",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/floors/floor_garden_flagstones.png"
+    },
+    {
+      "id": "floor_garden_gravel",
+      "kind": "floor",
+      "room": "garden",
+      "name": "Gravel",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/floors/floor_garden_gravel.png"
+    },
+    {
+      "id": "floor_garden_lawn",
+      "kind": "floor",
+      "room": "garden",
+      "name": "Lawn",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/floors/floor_garden_lawn.png"
+    },
+    {
+      "id": "floor_kitchen_checker",
+      "kind": "floor",
+      "room": "kitchen",
+      "name": "Chequerboard",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/floors/floor_kitchen_checker.png"
+    },
+    {
+      "id": "floor_kitchen_encaustic",
+      "kind": "floor",
+      "room": "kitchen",
+      "name": "Encaustic tiles",
+      "pool": "beans",
+      "beans": 150,
+      "set": null,
+      "sprite": "rooms/floors/floor_kitchen_encaustic.png"
+    },
+    {
+      "id": "floor_kitchen_mint_lino",
+      "kind": "floor",
+      "room": "kitchen",
+      "name": "Mint lino",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/floors/floor_kitchen_mint_lino.png"
+    },
+    {
+      "id": "floor_kitchen_quarry",
+      "kind": "floor",
+      "room": "kitchen",
+      "name": "Quarry tiles",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/floors/floor_kitchen_quarry.png"
+    },
+    {
+      "id": "floor_kitchen_slate",
+      "kind": "floor",
+      "room": "kitchen",
+      "name": "Slate tiles",
+      "pool": "set",
+      "beans": null,
+      "set": "rainy_london",
+      "sprite": "rooms/floors/floor_kitchen_slate.png"
+    },
+    {
+      "id": "floor_living_herringbone",
+      "kind": "floor",
+      "room": "living",
+      "name": "Herringbone",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/floors/floor_living_herringbone.png"
+    },
+    {
+      "id": "floor_living_sage_carpet",
+      "kind": "floor",
+      "room": "living",
+      "name": "Sage carpet",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/floors/floor_living_sage_carpet.png"
+    },
+    {
+      "id": "floor_living_terracotta",
+      "kind": "floor",
+      "room": "living",
+      "name": "Terracotta tiles",
+      "pool": "set",
+      "beans": null,
+      "set": "riviera",
+      "sprite": "rooms/floors/floor_living_terracotta.png"
+    },
+    {
+      "id": "floor_living_walnut_boards",
+      "kind": "floor",
+      "room": "living",
+      "name": "Walnut boards",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/floors/floor_living_walnut_boards.png"
+    },
+    {
+      "id": "floor_pass_firstlight_green_tiles",
+      "kind": "floor",
+      "room": "pass_firstlight",
+      "name": "Green tiles",
+      "pool": "pass-paid",
+      "beans": null,
+      "set": "pass_firstlight",
+      "sprite": "rooms/floors/floor_pass_firstlight_green_tiles.png"
+    },
+    {
+      "id": "floor_pass_housewarming_birch",
+      "kind": "floor",
+      "room": "pass_housewarming",
+      "name": "Birch boards",
+      "pool": "pass-paid",
+      "beans": null,
+      "set": "pass_housewarming",
+      "sprite": "rooms/floors/floor_pass_housewarming_birch.png"
+    },
+    {
+      "id": "floor_pass_midwinter_cherry",
+      "kind": "floor",
+      "room": "pass_midwinter",
+      "name": "Cherry boards",
+      "pool": "pass-paid",
+      "beans": null,
+      "set": "pass_midwinter",
+      "sprite": "rooms/floors/floor_pass_midwinter_cherry.png"
+    },
+    {
+      "id": "floor_study_cork",
+      "kind": "floor",
+      "room": "study",
+      "name": "Cork tiles",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/floors/floor_study_cork.png"
+    },
+    {
+      "id": "floor_study_dark_parquet",
+      "kind": "floor",
+      "room": "study",
+      "name": "Dark parquet",
+      "pool": "set",
+      "beans": null,
+      "set": "midnight",
+      "sprite": "rooms/floors/floor_study_dark_parquet.png"
+    },
+    {
+      "id": "floor_study_green_carpet",
+      "kind": "floor",
+      "room": "study",
+      "name": "Green carpet",
+      "pool": "set",
+      "beans": null,
+      "set": "cosy_study",
+      "sprite": "rooms/floors/floor_study_green_carpet.png"
+    },
+    {
+      "id": "floor_study_grey_boards",
+      "kind": "floor",
+      "room": "study",
+      "name": "Grey boards",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/floors/floor_study_grey_boards.png"
+    },
+    {
+      "id": "floor_study_worn_oak",
+      "kind": "floor",
+      "room": "study",
+      "name": "Worn oak boards",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/floors/floor_study_worn_oak.png"
+    },
+    {
+      "id": "wall_attic_bluegrey_shiplap",
+      "kind": "wall",
+      "room": "attic",
+      "name": "Blue-grey shiplap",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/walls/wall_attic_bluegrey_shiplap.png"
+    },
+    {
+      "id": "wall_attic_faded_rose",
+      "kind": "wall",
+      "room": "attic",
+      "name": "Faded rose",
+      "pool": "beans",
+      "beans": 250,
+      "set": null,
+      "sprite": "rooms/walls/wall_attic_faded_rose.png"
+    },
+    {
+      "id": "wall_attic_pine_planks",
+      "kind": "wall",
+      "room": "attic",
+      "name": "Pine planks",
+      "pool": "set",
+      "beans": null,
+      "set": "cabin",
+      "sprite": "rooms/walls/wall_attic_pine_planks.png"
+    },
+    {
+      "id": "wall_attic_rough_plaster",
+      "kind": "wall",
+      "room": "attic",
+      "name": "Rough plaster",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/walls/wall_attic_rough_plaster.png"
+    },
+    {
+      "id": "wall_attic_whitewashed_brick",
+      "kind": "wall",
+      "room": "attic",
+      "name": "Whitewashed brick",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/walls/wall_attic_whitewashed_brick.png"
+    },
+    {
+      "id": "wall_bedroom_blush_floral",
+      "kind": "wall",
+      "room": "bedroom",
+      "name": "Blush floral",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/walls/wall_bedroom_blush_floral.png"
+    },
+    {
+      "id": "wall_bedroom_lavender_stripe",
+      "kind": "wall",
+      "room": "bedroom",
+      "name": "Lavender stripe",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/walls/wall_bedroom_lavender_stripe.png"
+    },
+    {
+      "id": "wall_bedroom_oat_linen",
+      "kind": "wall",
+      "room": "bedroom",
+      "name": "Oat linen",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/walls/wall_bedroom_oat_linen.png"
+    },
+    {
+      "id": "wall_bedroom_starry_dusk",
+      "kind": "wall",
+      "room": "bedroom",
+      "name": "Starry dusk",
+      "pool": "set",
+      "beans": null,
+      "set": "midnight",
+      "sprite": "rooms/walls/wall_bedroom_starry_dusk.png"
+    },
+    {
+      "id": "wall_bedroom_toile_blue",
+      "kind": "wall",
+      "room": "bedroom",
+      "name": "Blue toile",
+      "pool": "set",
+      "beans": null,
+      "set": "cottagecore",
+      "sprite": "rooms/walls/wall_bedroom_toile_blue.png"
+    },
+    {
+      "id": "wall_garden_drystone",
+      "kind": "wall",
+      "room": "garden",
+      "name": "Drystone",
+      "pool": "beans",
+      "beans": 200,
+      "set": null,
+      "sprite": "rooms/walls/wall_garden_drystone.png"
+    },
+    {
+      "id": "wall_garden_ivy_trellis",
+      "kind": "wall",
+      "room": "garden",
+      "name": "Ivy trellis",
+      "pool": "beans",
+      "beans": 200,
+      "set": null,
+      "sprite": "rooms/walls/wall_garden_ivy_trellis.png"
+    },
+    {
+      "id": "wall_garden_old_brick",
+      "kind": "wall",
+      "room": "garden",
+      "name": "Old brick",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/walls/wall_garden_old_brick.png"
+    },
+    {
+      "id": "wall_garden_picket_sky",
+      "kind": "wall",
+      "room": "garden",
+      "name": "Picket and sky",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/walls/wall_garden_picket_sky.png"
+    },
+    {
+      "id": "wall_garden_privet_hedge",
+      "kind": "wall",
+      "room": "garden",
+      "name": "Privet hedge",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/walls/wall_garden_privet_hedge.png"
+    },
+    {
+      "id": "wall_kitchen_cream_beadboard",
+      "kind": "wall",
+      "room": "kitchen",
+      "name": "Cream beadboard",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/walls/wall_kitchen_cream_beadboard.png"
+    },
+    {
+      "id": "wall_kitchen_lemon_print",
+      "kind": "wall",
+      "room": "kitchen",
+      "name": "Lemon print",
+      "pool": "set",
+      "beans": null,
+      "set": "riviera",
+      "sprite": "rooms/walls/wall_kitchen_lemon_print.png"
+    },
+    {
+      "id": "wall_kitchen_metro_tiles",
+      "kind": "wall",
+      "room": "kitchen",
+      "name": "Metro tiles",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/walls/wall_kitchen_metro_tiles.png"
+    },
+    {
+      "id": "wall_kitchen_mint_gingham",
+      "kind": "wall",
+      "room": "kitchen",
+      "name": "Mint gingham",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/walls/wall_kitchen_mint_gingham.png"
+    },
+    {
+      "id": "wall_kitchen_terracotta_tiles",
+      "kind": "wall",
+      "room": "kitchen",
+      "name": "Terracotta tiles",
+      "pool": "beans",
+      "beans": 150,
+      "set": null,
+      "sprite": "rooms/walls/wall_kitchen_terracotta_tiles.png"
+    },
+    {
+      "id": "wall_living_powder_lemon",
+      "kind": "wall",
+      "room": "living",
+      "name": "Powder lemon",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/walls/wall_living_powder_lemon.png"
+    },
+    {
+      "id": "wall_living_sage_limewash",
+      "kind": "wall",
+      "room": "living",
+      "name": "Sage limewash",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/walls/wall_living_sage_limewash.png"
+    },
+    {
+      "id": "wall_living_terracotta_damask",
+      "kind": "wall",
+      "room": "living",
+      "name": "Terracotta damask",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/walls/wall_living_terracotta_damask.png"
+    },
+    {
+      "id": "wall_pass_firstlight_primrose_daffodil",
+      "kind": "wall",
+      "room": "pass_firstlight",
+      "name": "Primrose and daffodil",
+      "pool": "pass-paid",
+      "beans": null,
+      "set": "pass_firstlight",
+      "sprite": "rooms/walls/wall_pass_firstlight_primrose_daffodil.png"
+    },
+    {
+      "id": "wall_pass_housewarming_apricot_houses",
+      "kind": "wall",
+      "room": "pass_housewarming",
+      "name": "Apricot houses",
+      "pool": "pass-paid",
+      "beans": null,
+      "set": "pass_housewarming",
+      "sprite": "rooms/walls/wall_pass_housewarming_apricot_houses.png"
+    },
+    {
+      "id": "wall_pass_midwinter_tartan",
+      "kind": "wall",
+      "room": "pass_midwinter",
+      "name": "Tartan",
+      "pool": "pass-paid",
+      "beans": null,
+      "set": "pass_midwinter",
+      "sprite": "rooms/walls/wall_pass_midwinter_tartan.png"
+    },
+    {
+      "id": "wall_study_antique_map",
+      "kind": "wall",
+      "room": "study",
+      "name": "Antique map",
+      "pool": "set",
+      "beans": null,
+      "set": "cosy_study",
+      "sprite": "rooms/walls/wall_study_antique_map.png"
+    },
+    {
+      "id": "wall_study_forest_green",
+      "kind": "wall",
+      "room": "study",
+      "name": "Forest green",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/walls/wall_study_forest_green.png"
+    },
+    {
+      "id": "wall_study_navy_pinstripe",
+      "kind": "wall",
+      "room": "study",
+      "name": "Navy pinstripe",
+      "pool": "set",
+      "beans": null,
+      "set": "rainy_london",
+      "sprite": "rooms/walls/wall_study_navy_pinstripe.png"
+    },
+    {
+      "id": "wall_study_oak_panel",
+      "kind": "wall",
+      "room": "study",
+      "name": "Oak panelling",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/walls/wall_study_oak_panel.png"
+    },
+    {
+      "id": "wall_study_ochre_linen",
+      "kind": "wall",
+      "room": "study",
+      "name": "Ochre linen",
+      "pool": "free",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/walls/wall_study_ochre_linen.png"
+    }
+  ]
+}

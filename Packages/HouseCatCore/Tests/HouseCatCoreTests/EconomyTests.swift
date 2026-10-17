@@ -346,3 +346,22 @@ struct GiftTests {
         #expect(collected.count == 40)
     }
 }
+
+@Suite("Purchases in the save")
+struct PurchaseRulesTests {
+    @Test func purchaseBeansCountOncePerTransactionAndGetNoClubBonus() {
+        var f = Fixture()
+        f.add(.clubDayRecorded, day: 0, hour: 8)
+        f.add(.purchaseBeansGranted(transactionID: "2000000123", beans: 300), day: 0, hour: 9)
+        f.add(.purchaseBeansGranted(transactionID: "2000000123", beans: 300), day: 0, hour: 9, source: .mac) // another device
+        #expect(f.state(through: 1).beans == 150 + 300)
+    }
+
+    @Test func paidSetItemsCanBePlacedOnceWithoutABeanPurchase() {
+        var f = Fixture(context: RulesContext(paidItems: ["living_fireplace"]))
+        f.add(.itemPlaced(itemID: "living_fireplace", room: .living, x: 0, y: 0, facing: .right), day: 0)
+        f.add(.itemPlaced(itemID: "living_fireplace", room: .living, x: 4, y: 0, facing: .right), day: 0)
+        f.add(.itemPlaced(itemID: "living_sofa", room: .living, x: 6, y: 0, facing: .right), day: 0) // not owned, not paid
+        #expect(f.state.placed.map(\.itemID) == ["living_fireplace"])
+    }
+}

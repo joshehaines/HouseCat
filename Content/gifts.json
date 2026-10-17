@@ -1,0 +1,577 @@
+{
+  "version": 1,
+  "gifts": [
+    {
+      "id": "keepsakes_acorn",
+      "name": "Acorn",
+      "category": "keepsakes",
+      "rarity": "common",
+      "description": "Rolls in a perfect circle. I have tested this extensively.",
+      "months": [],
+      "sprite": "gifts/gift_keepsakes_acorn.png"
+    },
+    {
+      "id": "keepsakes_blue_bird_feather",
+      "name": "Blue feather",
+      "category": "keepsakes",
+      "rarity": "uncommon",
+      "description": "A blue feather. The bird is fine. Probably.",
+      "months": [],
+      "sprite": "gifts/gift_keepsakes_blue_bird_feather.png"
+    },
+    {
+      "id": "keepsakes_brass_key",
+      "name": "Brass key",
+      "category": "keepsakes",
+      "rarity": "legendary",
+      "description": "It opens something. I'm not telling you what.",
+      "months": [],
+      "sprite": "gifts/gift_keepsakes_brass_key.png"
+    },
+    {
+      "id": "keepsakes_heart_shaped_pebble",
+      "name": "Heart-shaped pebble",
+      "category": "keepsakes",
+      "rarity": "uncommon",
+      "description": "I chose it for the shape. Read into that what you like.",
+      "months": [],
+      "sprite": "gifts/gift_keepsakes_heart_shaped_pebble.png"
+    },
+    {
+      "id": "keepsakes_little_ceramic_fish",
+      "name": "Ceramic fish",
+      "category": "keepsakes",
+      "rarity": "rare",
+      "description": "The only fish I've ever caught that stayed still.",
+      "months": [],
+      "sprite": "gifts/gift_keepsakes_little_ceramic_fish.png"
+    },
+    {
+      "id": "keepsakes_marble",
+      "name": "Marble",
+      "category": "keepsakes",
+      "rarity": "uncommon",
+      "description": "Perfectly round. Rolls under everything. A real treasure.",
+      "months": [],
+      "sprite": "gifts/gift_keepsakes_marble.png"
+    },
+    {
+      "id": "keepsakes_old_coin_with_no_lettering",
+      "name": "Old coin",
+      "category": "keepsakes",
+      "rarity": "rare",
+      "description": "Worn smooth and heavy for its size. Found it, kept it, gave it.",
+      "months": [],
+      "sprite": "gifts/gift_keepsakes_old_coin_with_no_lettering.png"
+    },
+    {
+      "id": "keepsakes_pearl_earring",
+      "name": "Pearl earring",
+      "category": "keepsakes",
+      "rarity": "legendary",
+      "description": "Only the one. The other is somewhere you'll never find it.",
+      "months": [],
+      "sprite": "gifts/gift_keepsakes_pearl_earring.png"
+    },
+    {
+      "id": "keepsakes_pressed_flower",
+      "name": "Pressed flower",
+      "category": "keepsakes",
+      "rarity": "uncommon",
+      "description": "Flattened by me, personally, over one long nap.",
+      "months": [],
+      "sprite": "gifts/gift_keepsakes_pressed_flower.png"
+    },
+    {
+      "id": "keepsakes_sea_glass",
+      "name": "Sea glass",
+      "category": "keepsakes",
+      "rarity": "rare",
+      "description": "Smoothed by the sea, carried in by me. Equal effort.",
+      "months": [],
+      "sprite": "gifts/gift_keepsakes_sea_glass.png"
+    },
+    {
+      "id": "keepsakes_small_seashell",
+      "name": "Small seashell",
+      "category": "keepsakes",
+      "rarity": "uncommon",
+      "description": "Hold it to your ear. It sounds like me purring.",
+      "months": [],
+      "sprite": "gifts/gift_keepsakes_small_seashell.png"
+    },
+    {
+      "id": "keepsakes_tiny_silver_bell",
+      "name": "Tiny silver bell",
+      "category": "keepsakes",
+      "rarity": "rare",
+      "description": "It rang whenever I moved. I've removed it from my life.",
+      "months": [],
+      "sprite": "gifts/gift_keepsakes_tiny_silver_bell.png"
+    },
+    {
+      "id": "oddities_a_single_shoelace",
+      "name": "Single shoelace",
+      "category": "oddities",
+      "rarity": "common",
+      "description": "Just the lace. The shoe was too heavy.",
+      "months": [],
+      "sprite": "gifts/gift_oddities_a_single_shoelace.png"
+    },
+    {
+      "id": "oddities_autumn_leaf",
+      "name": "Crunchy leaf",
+      "category": "oddities",
+      "rarity": "common",
+      "description": "Crunched it twice to be sure. Still good.",
+      "months": [],
+      "sprite": "gifts/gift_oddities_autumn_leaf.png"
+    },
+    {
+      "id": "oddities_bottle_cap",
+      "name": "Bottle cap",
+      "category": "oddities",
+      "rarity": "common",
+      "description": "Slides beautifully on a hard floor. Try it.",
+      "months": [],
+      "sprite": "gifts/gift_oddities_bottle_cap.png"
+    },
+    {
+      "id": "oddities_button",
+      "name": "Button",
+      "category": "oddities",
+      "rarity": "common",
+      "description": "It was on your coat. Now it's on the floor. Progress.",
+      "months": [],
+      "sprite": "gifts/gift_oddities_button.png"
+    },
+    {
+      "id": "oddities_crumpled_receipt_with_no_writing",
+      "name": "Crumpled paper",
+      "category": "oddities",
+      "rarity": "common",
+      "description": "Crumpled to perfection. The crinkle is the whole point.",
+      "months": [],
+      "sprite": "gifts/gift_oddities_crumpled_receipt_with_no_writing.png"
+    },
+    {
+      "id": "oddities_hair_bobble",
+      "name": "Hair bobble",
+      "category": "oddities",
+      "rarity": "uncommon",
+      "description": "Yours. I'm keeping it in circulation.",
+      "months": [],
+      "sprite": "gifts/gift_oddities_hair_bobble.png"
+    },
+    {
+      "id": "oddities_odd_stripy_sock",
+      "name": "Odd stripy sock",
+      "category": "oddities",
+      "rarity": "uncommon",
+      "description": "I've kept the other one. You get half.",
+      "months": [],
+      "sprite": "gifts/gift_oddities_odd_stripy_sock.png"
+    },
+    {
+      "id": "oddities_paper_clip",
+      "name": "Paper clip",
+      "category": "oddities",
+      "rarity": "common",
+      "description": "Bent slightly. My work.",
+      "months": [],
+      "sprite": "gifts/gift_oddities_paper_clip.png"
+    },
+    {
+      "id": "oddities_pebble",
+      "name": "Pebble",
+      "category": "oddities",
+      "rarity": "common",
+      "description": "It's grey, it's round and it's yours.",
+      "months": [],
+      "sprite": "gifts/gift_oddities_pebble.png"
+    },
+    {
+      "id": "oddities_pen_lid",
+      "name": "Pen lid",
+      "category": "oddities",
+      "rarity": "common",
+      "description": "You were looking for this. I was hiding it. We're even.",
+      "months": [],
+      "sprite": "gifts/gift_oddities_pen_lid.png"
+    },
+    {
+      "id": "oddities_twig",
+      "name": "Twig",
+      "category": "oddities",
+      "rarity": "common",
+      "description": "A stick of great importance. Do not throw it away.",
+      "months": [],
+      "sprite": "gifts/gift_oddities_twig.png"
+    },
+    {
+      "id": "oddities_very_flat_old_toy_mouse",
+      "name": "Very flat toy mouse",
+      "category": "oddities",
+      "rarity": "legendary",
+      "description": "My oldest friend. Loved flat. Handle with respect.",
+      "months": [],
+      "sprite": "gifts/gift_oddities_very_flat_old_toy_mouse.png"
+    },
+    {
+      "id": "seasonal_candy_cane",
+      "name": "Candy cane",
+      "category": "seasonal",
+      "rarity": "uncommon",
+      "description": "Stripy and hooked. It was on the tree until recently.",
+      "months": [
+        12
+      ],
+      "sprite": "gifts/gift_seasonal_candy_cane.png"
+    },
+    {
+      "id": "seasonal_cherry_blossom_twig",
+      "name": "Blossom twig",
+      "category": "seasonal",
+      "rarity": "uncommon",
+      "description": "Pink petals on a twig. I only shook off half of them.",
+      "months": [
+        4,
+        5
+      ],
+      "sprite": "gifts/gift_seasonal_cherry_blossom_twig.png"
+    },
+    {
+      "id": "seasonal_chocolate_coin_in_gold_foil_with_no_lettering",
+      "name": "Chocolate coin",
+      "category": "seasonal",
+      "rarity": "rare",
+      "description": "Gold foil, chocolate inside. Not for cats. For you.",
+      "months": [
+        12
+      ],
+      "sprite": "gifts/gift_seasonal_chocolate_coin_in_gold_foil_with_no_lettering.png"
+    },
+    {
+      "id": "seasonal_conker",
+      "name": "Conker",
+      "category": "seasonal",
+      "rarity": "common",
+      "description": "Shiny, brown and bats beautifully across the floor.",
+      "months": [
+        9,
+        10
+      ],
+      "sprite": "gifts/gift_seasonal_conker.png"
+    },
+    {
+      "id": "seasonal_daffodil_head",
+      "name": "Daffodil head",
+      "category": "seasonal",
+      "rarity": "common",
+      "description": "Just the flower part. I've edited it for you.",
+      "months": [
+        2,
+        3
+      ],
+      "sprite": "gifts/gift_seasonal_daffodil_head.png"
+    },
+    {
+      "id": "seasonal_easter_egg",
+      "name": "Easter egg",
+      "category": "seasonal",
+      "rarity": "uncommon",
+      "description": "Rolled it all the way here. Didn't eat it. Wasn't allowed.",
+      "months": [
+        3,
+        4
+      ],
+      "sprite": "gifts/gift_seasonal_easter_egg.png"
+    },
+    {
+      "id": "seasonal_holly_sprig",
+      "name": "Holly sprig",
+      "category": "seasonal",
+      "rarity": "common",
+      "description": "Prickly, festive and mine for about a minute.",
+      "months": [
+        12
+      ],
+      "sprite": "gifts/gift_seasonal_holly_sprig.png"
+    },
+    {
+      "id": "seasonal_mini_pumpkin",
+      "name": "Mini pumpkin",
+      "category": "seasonal",
+      "rarity": "common",
+      "description": "Small, orange and heavy. I pushed it all the way.",
+      "months": [
+        10
+      ],
+      "sprite": "gifts/gift_seasonal_mini_pumpkin.png"
+    },
+    {
+      "id": "seasonal_pine_cone",
+      "name": "Pine cone",
+      "category": "seasonal",
+      "rarity": "common",
+      "description": "Scaly, crunchy, excellent for batting under furniture.",
+      "months": [
+        11,
+        12
+      ],
+      "sprite": "gifts/gift_seasonal_pine_cone.png"
+    },
+    {
+      "id": "seasonal_snowflake_ornament",
+      "name": "Snowflake ornament",
+      "category": "seasonal",
+      "rarity": "rare",
+      "description": "Came off the tree with a little help. It sparkles.",
+      "months": [
+        1,
+        2
+      ],
+      "sprite": "gifts/gift_seasonal_snowflake_ornament.png"
+    },
+    {
+      "id": "seasonal_sparkler",
+      "name": "Sparkler",
+      "category": "seasonal",
+      "rarity": "common",
+      "description": "Unlit, obviously. I just like the look of it.",
+      "months": [
+        11
+      ],
+      "sprite": "gifts/gift_seasonal_sparkler.png"
+    },
+    {
+      "id": "seasonal_tiny_paper_lantern",
+      "name": "Paper lantern",
+      "category": "seasonal",
+      "rarity": "common",
+      "description": "Light as a whisker. Swings when I bat it.",
+      "months": [
+        6,
+        7,
+        8
+      ],
+      "sprite": "gifts/gift_seasonal_tiny_paper_lantern.png"
+    },
+    {
+      "id": "toys_ball_of_wool",
+      "name": "Ball of wool",
+      "category": "toys",
+      "rarity": "common",
+      "description": "Was a ball. Is now a long line through the house.",
+      "months": [],
+      "sprite": "gifts/gift_toys_ball_of_wool.png"
+    },
+    {
+      "id": "toys_bottle_cap_spinner",
+      "name": "Bottle-cap spinner",
+      "category": "toys",
+      "rarity": "common",
+      "description": "Spins, wobbles, falls over. Like me after zoomies.",
+      "months": [],
+      "sprite": "gifts/gift_toys_bottle_cap_spinner.png"
+    },
+    {
+      "id": "toys_catnip_fish",
+      "name": "Catnip fish",
+      "category": "toys",
+      "rarity": "rare",
+      "description": "Smells incredible. I've only licked it a few hundred times.",
+      "months": [],
+      "sprite": "gifts/gift_toys_catnip_fish.png"
+    },
+    {
+      "id": "toys_cork",
+      "name": "Cork",
+      "category": "toys",
+      "rarity": "common",
+      "description": "Bounces wrong in the best possible way.",
+      "months": [],
+      "sprite": "gifts/gift_toys_cork.png"
+    },
+    {
+      "id": "toys_crinkle_ball",
+      "name": "Crinkle ball",
+      "category": "toys",
+      "rarity": "common",
+      "description": "Makes a noise every time I touch it. Perfect.",
+      "months": [],
+      "sprite": "gifts/gift_toys_crinkle_ball.png"
+    },
+    {
+      "id": "toys_feather_wand_tip",
+      "name": "Feather wand tip",
+      "category": "toys",
+      "rarity": "uncommon",
+      "description": "I caught it. The wand is still out there.",
+      "months": [],
+      "sprite": "gifts/gift_toys_feather_wand_tip.png"
+    },
+    {
+      "id": "toys_jingle_ball",
+      "name": "Jingle ball",
+      "category": "toys",
+      "rarity": "uncommon",
+      "description": "Jingles loudly, usually at three in the morning.",
+      "months": [],
+      "sprite": "gifts/gift_toys_jingle_ball.png"
+    },
+    {
+      "id": "toys_little_knitted_bird",
+      "name": "Knitted bird",
+      "category": "toys",
+      "rarity": "legendary",
+      "description": "Someone made this with love. I've added my own.",
+      "months": [],
+      "sprite": "gifts/gift_toys_little_knitted_bird.png"
+    },
+    {
+      "id": "toys_ping_pong_ball",
+      "name": "Ping-pong ball",
+      "category": "toys",
+      "rarity": "common",
+      "description": "The fastest thing in the house, after me.",
+      "months": [],
+      "sprite": "gifts/gift_toys_ping_pong_ball.png"
+    },
+    {
+      "id": "toys_ribbon_bow",
+      "name": "Ribbon bow",
+      "category": "toys",
+      "rarity": "uncommon",
+      "description": "Off a present. The present can manage without it.",
+      "months": [],
+      "sprite": "gifts/gift_toys_ribbon_bow.png"
+    },
+    {
+      "id": "toys_spring_coil",
+      "name": "Spring coil",
+      "category": "toys",
+      "rarity": "common",
+      "description": "Boings, then hides under the sofa. A worthy opponent.",
+      "months": [],
+      "sprite": "gifts/gift_toys_spring_coil.png"
+    },
+    {
+      "id": "toys_toy_mouse_in_grey_felt",
+      "name": "Grey felt mouse",
+      "category": "toys",
+      "rarity": "uncommon",
+      "description": "Caught it fair and square. It never stood a chance.",
+      "months": [],
+      "sprite": "gifts/gift_toys_toy_mouse_in_grey_felt.png"
+    },
+    {
+      "id": "treats_butter_curl",
+      "name": "Butter curl",
+      "category": "treats",
+      "rarity": "common",
+      "description": "Borrowed from the dish. I only licked the edge.",
+      "months": [],
+      "sprite": "gifts/gift_treats_butter_curl.png"
+    },
+    {
+      "id": "treats_cat_treat_pouch",
+      "name": "Treat pouch",
+      "category": "treats",
+      "rarity": "common",
+      "description": "My treats, for you to open. For me. Now, ideally.",
+      "months": [],
+      "sprite": "gifts/gift_treats_cat_treat_pouch.png"
+    },
+    {
+      "id": "treats_chicken_nugget",
+      "name": "Chicken nugget",
+      "category": "treats",
+      "rarity": "common",
+      "description": "A nugget of chicken, rescued from the floor.",
+      "months": [],
+      "sprite": "gifts/gift_treats_chicken_nugget.png"
+    },
+    {
+      "id": "treats_dollop_of_cream_on_a_saucer",
+      "name": "Saucer of cream",
+      "category": "treats",
+      "rarity": "rare",
+      "description": "Carried a whole saucer without spilling. Mostly.",
+      "months": [],
+      "sprite": "gifts/gift_treats_dollop_of_cream_on_a_saucer.png"
+    },
+    {
+      "id": "treats_fish_shaped_biscuit",
+      "name": "Fish biscuit",
+      "category": "treats",
+      "rarity": "common",
+      "description": "A biscuit shaped like a fish. Two of my favourite things.",
+      "months": [],
+      "sprite": "gifts/gift_treats_fish_shaped_biscuit.png"
+    },
+    {
+      "id": "treats_prawn",
+      "name": "Prawn",
+      "category": "treats",
+      "rarity": "rare",
+      "description": "A whole prawn. I resisted for very nearly a second.",
+      "months": [],
+      "sprite": "gifts/gift_treats_prawn.png"
+    },
+    {
+      "id": "treats_salmon_flake",
+      "name": "Salmon flake",
+      "category": "treats",
+      "rarity": "uncommon",
+      "description": "Sharing this is the hardest thing I've ever done.",
+      "months": [],
+      "sprite": "gifts/gift_treats_salmon_flake.png"
+    },
+    {
+      "id": "treats_sardine",
+      "name": "Sardine",
+      "category": "treats",
+      "rarity": "uncommon",
+      "description": "One sardine, slightly licked. A big gesture.",
+      "months": [],
+      "sprite": "gifts/gift_treats_sardine.png"
+    },
+    {
+      "id": "treats_single_cornflake",
+      "name": "Single cornflake",
+      "category": "treats",
+      "rarity": "common",
+      "description": "One cornflake. Crunchy. Thoughtful.",
+      "months": [],
+      "sprite": "gifts/gift_treats_single_cornflake.png"
+    },
+    {
+      "id": "treats_slice_of_ham",
+      "name": "Slice of ham",
+      "category": "treats",
+      "rarity": "uncommon",
+      "description": "Ham. For you. This is what love looks like.",
+      "months": [],
+      "sprite": "gifts/gift_treats_slice_of_ham.png"
+    },
+    {
+      "id": "treats_small_cube_of_cheese",
+      "name": "Cube of cheese",
+      "category": "treats",
+      "rarity": "common",
+      "description": "Cheese. I don't know where it came from either.",
+      "months": [],
+      "sprite": "gifts/gift_treats_small_cube_of_cheese.png"
+    },
+    {
+      "id": "treats_tuna_tin_lid",
+      "name": "Tuna tin lid",
+      "category": "treats",
+      "rarity": "common",
+      "description": "Smells of tuna, licked clean. Mind the edge.",
+      "months": [],
+      "sprite": "gifts/gift_treats_tuna_tin_lid.png"
+    }
+  ]
+}

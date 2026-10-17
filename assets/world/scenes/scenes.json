@@ -515,6 +515,134 @@
   "mansion_flat_tropical_winter": [
    0.3652,
    0.668
+  ],
+  "newbuild_balcony_city_autumn": [
+   0.3672,
+   0.6562
+  ],
+  "newbuild_balcony_city_spring": [
+   0.3672,
+   0.6191
+  ],
+  "newbuild_balcony_city_summer": [
+   0.3711,
+   0.6504
+  ],
+  "newbuild_balcony_city_winter": [
+   0.3535,
+   0.6797
+  ],
+  "newbuild_balcony_coast_autumn": [
+   0.3555,
+   0.6875
+  ],
+  "newbuild_balcony_coast_spring": [
+   0.3633,
+   0.6289
+  ],
+  "newbuild_balcony_coast_summer": [
+   0.3594,
+   0.6719
+  ],
+  "newbuild_balcony_coast_winter": [
+   0.3574,
+   0.6602
+  ],
+  "newbuild_balcony_countryside_autumn": [
+   0.3652,
+   0.6309
+  ],
+  "newbuild_balcony_countryside_spring": [
+   0.3613,
+   0.6699
+  ],
+  "newbuild_balcony_countryside_summer": [
+   0.3672,
+   0.6641
+  ],
+  "newbuild_balcony_countryside_winter": [
+   0.4141,
+   0.7188
+  ],
+  "newbuild_balcony_desert_autumn": [
+   0.3633,
+   0.6777
+  ],
+  "newbuild_balcony_desert_spring": [
+   0.3633,
+   0.6738
+  ],
+  "newbuild_balcony_desert_summer": [
+   0.373,
+   0.6816
+  ],
+  "newbuild_balcony_desert_winter": [
+   0.3691,
+   0.6582
+  ],
+  "newbuild_balcony_forest_autumn": [
+   0.3594,
+   0.6367
+  ],
+  "newbuild_balcony_forest_spring": [
+   0.3516,
+   0.6855
+  ],
+  "newbuild_balcony_forest_summer": [
+   0.3691,
+   0.6562
+  ],
+  "newbuild_balcony_forest_winter": [
+   0.3691,
+   0.6738
+  ],
+  "newbuild_balcony_mountain_autumn": [
+   0.3438,
+   0.6562
+  ],
+  "newbuild_balcony_mountain_spring": [
+   0.3652,
+   0.7148
+  ],
+  "newbuild_balcony_mountain_summer": [
+   0.3555,
+   0.7012
+  ],
+  "newbuild_balcony_mountain_winter": [
+   0.3516,
+   0.7285
+  ],
+  "newbuild_balcony_snow_autumn": [
+   0.3691,
+   0.6738
+  ],
+  "newbuild_balcony_snow_spring": [
+   0.3652,
+   0.6816
+  ],
+  "newbuild_balcony_snow_summer": [
+   0.3613,
+   0.6973
+  ],
+  "newbuild_balcony_snow_winter": [
+   0.3594,
+   0.7012
+  ],
+  "newbuild_balcony_tropical_autumn": [
+   0.3652,
+   0.6523
+  ],
+  "newbuild_balcony_tropical_spring": [
+   0.3633,
+   0.6504
+  ],
+  "newbuild_balcony_tropical_summer": [
+   0.3594,
+   0.7168
+  ],
+  "newbuild_balcony_tropical_winter": [
+   0.3633,
+   0.7031
   ]
  },
  "note": "Door points of the painted exterior scenes as fractions of the painting (x right, y down), measured from the door-open edits by tools/asset-pipeline/scenes.py; scenes without one use defaultDoor."

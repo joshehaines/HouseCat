@@ -314,6 +314,8 @@ public enum Tuning {
         public static let wallItemHeight = 2.5
         /// On a tall screen the room is zoomed in past its width and the view follows the cat.
         public static let portraitZoom = 1.8
+        /// Only screens taller than this (height over width) zoom: phones, not an iPad in portrait.
+        public static let portraitZoomAspect = 1.6
         /// How quickly the view catches up with the cat (per second).
         public static let followRate = 2.5
         /// Behind the room, graded with the sky.

@@ -2621,240 +2621,252 @@
    "room": "living",
    "item": "armchair",
    "facing": "L",
-   "job_id": null,
-   "ref_room": "cream",
+   "job_id": "e1ae0b90-58e4-4ee6-b741-7d282f8d3f8c",
+   "ref_room": "grey",
    "pos_in_ref": [
-    403,
-    456
+    916,
+    681
    ],
    "size_in_ref": [
-    578,
-    517
+    527,
+    586
    ],
    "px": [
-    403,
-    456
-   ]
+    527,
+    586
+   ],
+   "repainted": "2026-10-17: repainted in the grey reference room (the cream-room originals were not true 2:1 isometric)"
   },
   "furniture/living/furn_living_armchair_R.png": {
    "class": "furniture",
    "room": "living",
    "item": "armchair",
    "facing": "R",
-   "job_id": null,
-   "ref_room": "cream",
+   "job_id": "29c6570d-d9b1-4904-ba8d-13487508dc53",
+   "ref_room": "grey",
    "pos_in_ref": [
-    361,
-    413
+    862,
+    620
    ],
    "size_in_ref": [
-    1329,
-    537
+    589,
+    673
    ],
    "px": [
-    361,
-    413
-   ]
+    589,
+    673
+   ],
+   "repainted": "2026-10-17: repainted in the grey reference room (the cream-room originals were not true 2:1 isometric)"
   },
   "furniture/living/furn_living_bookcase_L.png": {
    "class": "furniture",
    "room": "living",
    "item": "bookcase",
    "facing": "L",
-   "job_id": null,
-   "ref_room": "cream",
+   "job_id": "ffd6e041-3b50-4763-a261-f72f99a08e23",
+   "ref_room": "grey",
    "pos_in_ref": [
-    220,
-    580
+    594,
+    281
    ],
    "size_in_ref": [
-    650,
-    326
+    373,
+    755
    ],
    "px": [
-    220,
-    580
-   ]
+    373,
+    755
+   ],
+   "repainted": "2026-10-17: repainted in the grey reference room (the cream-room originals were not true 2:1 isometric)"
   },
   "furniture/living/furn_living_bookcase_R.png": {
    "class": "furniture",
    "room": "living",
    "item": "bookcase",
    "facing": "R",
-   "job_id": null,
-   "ref_room": "cream",
+   "job_id": "2351f3ad-62a7-40e7-b288-3d6dd3c0aa16",
+   "ref_room": "grey",
    "pos_in_ref": [
-    239,
-    562
+    1393,
+    359
    ],
    "size_in_ref": [
-    1439,
-    316
+    342,
+    694
    ],
    "px": [
-    239,
-    562
-   ]
+    342,
+    694
+   ],
+   "repainted": "2026-10-17: repainted in the grey reference room (the cream-room originals were not true 2:1 isometric)"
   },
   "furniture/living/furn_living_box_L.png": {
    "class": "furniture",
    "room": "living",
    "item": "box",
    "facing": "L",
-   "job_id": null,
-   "ref_room": "cream",
+   "job_id": "af8b00a5-4dfe-4a94-8bc2-fced482f2680",
+   "ref_room": "grey",
    "pos_in_ref": [
-    390,
-    312
+    870,
+    669
    ],
    "size_in_ref": [
-    865,
-    846
+    579,
+    554
    ],
    "px": [
-    390,
-    309
-   ]
+    579,
+    554
+   ],
+   "repainted": "2026-10-17: repainted in the grey reference room (the cream-room originals were not true 2:1 isometric)"
   },
   "furniture/living/furn_living_box_R.png": {
    "class": "furniture",
    "room": "living",
    "item": "box",
    "facing": "R",
-   "job_id": null,
-   "ref_room": "cream",
+   "job_id": "bd65efdb-c390-46c6-b226-6f10f6f80f62",
+   "ref_room": "grey",
    "pos_in_ref": [
-    372,
-    356
+    891,
+    703
    ],
    "size_in_ref": [
-    958,
-    806
+    512,
+    507
    ],
    "px": [
-    369,
-    356
-   ]
+    512,
+    507
+   ],
+   "repainted": "2026-10-17: repainted in the grey reference room (the cream-room originals were not true 2:1 isometric)"
   },
   "furniture/living/furn_living_cattree_L.png": {
    "class": "furniture",
    "room": "living",
    "item": "cattree",
    "facing": "L",
-   "job_id": null,
-   "ref_room": "cream",
+   "job_id": "55043004-520c-4d3a-a620-ca86a99befa2",
+   "ref_room": "grey",
    "pos_in_ref": [
-    271,
-    469
+    988,
+    540
    ],
    "size_in_ref": [
-    520,
-    516
+    333,
+    634
    ],
    "px": [
-    271,
-    469
-   ]
+    333,
+    634
+   ],
+   "repainted": "2026-10-17: repainted in the grey reference room (the cream-room originals were not true 2:1 isometric)"
   },
   "furniture/living/furn_living_cattree_R.png": {
    "class": "furniture",
    "room": "living",
    "item": "cattree",
    "facing": "R",
-   "job_id": null,
-   "ref_room": "cream",
+   "job_id": "9edcce2e-2645-4ca8-9e5d-ca7de43aec39",
+   "ref_room": "grey",
    "pos_in_ref": [
-    203,
-    411
+    997,
+    564
    ],
    "size_in_ref": [
-    1487,
-    505
+    316,
+    609
    ],
    "px": [
-    203,
-    411
-   ]
+    316,
+    609
+   ],
+   "repainted": "2026-10-17: repainted in the grey reference room (the cream-room originals were not true 2:1 isometric)"
   },
   "furniture/living/furn_living_clock_L.png": {
    "class": "furniture",
    "room": "living",
    "item": "clock",
    "facing": "L",
-   "job_id": null,
-   "ref_room": "cream",
+   "job_id": "50e52230-9c84-440d-86ac-d52771bcc49a",
+   "ref_room": "grey",
    "pos_in_ref": [
-    125,
-    161
+    589,
+    439
    ],
    "size_in_ref": [
-    638,
-    419
+    155,
+    204
    ],
    "px": [
-    125,
-    161
-   ]
+    155,
+    204
+   ],
+   "repainted": "2026-10-17: repainted in the grey reference room (the cream-room originals were not true 2:1 isometric)"
   },
   "furniture/living/furn_living_clock_R.png": {
    "class": "furniture",
    "room": "living",
    "item": "clock",
    "facing": "R",
-   "job_id": null,
-   "ref_room": "cream",
+   "job_id": "220ae73d-63fc-45ea-9ea6-d9c049aa0895",
+   "ref_room": "grey",
    "pos_in_ref": [
-    119,
-    162
+    1492,
+    370
    ],
    "size_in_ref": [
-    1594,
-    444
+    169,
+    225
    ],
    "px": [
-    119,
-    162
-   ]
+    169,
+    225
+   ],
+   "repainted": "2026-10-17: repainted in the grey reference room (the cream-room originals were not true 2:1 isometric)"
   },
   "furniture/living/furn_living_coffee_L.png": {
    "class": "furniture",
    "room": "living",
    "item": "coffee",
    "facing": "L",
-   "job_id": null,
-   "ref_room": "cream",
+   "job_id": "059901b6-bbfe-4ed5-87fc-8e5877a53637",
+   "ref_room": "grey",
    "pos_in_ref": [
-    564,
-    402
+    850,
+    832
    ],
    "size_in_ref": [
-    811,
-    818
+    578,
+    447
    ],
    "px": [
-    564,
-    402
-   ]
+    578,
+    447
+   ],
+   "repainted": "2026-10-17: repainted in the grey reference room (the cream-room originals were not true 2:1 isometric)"
   },
   "furniture/living/furn_living_coffee_R.png": {
    "class": "furniture",
    "room": "living",
    "item": "coffee",
    "facing": "R",
-   "job_id": null,
-   "ref_room": "cream",
+   "job_id": "328a3404-42d2-4082-a4b5-137b75506310",
+   "ref_room": "grey",
    "pos_in_ref": [
-    411,
-    302
+    906,
+    827
    ],
    "size_in_ref": [
-    938,
-    862
+    515,
+    396
    ],
    "px": [
-    411,
-    302
-   ]
+    515,
+    396
+   ],
+   "repainted": "2026-10-17: repainted in the grey reference room (the cream-room originals were not true 2:1 isometric)"
   },
   "furniture/living/furn_living_fireplace_L.png": {
    "class": "furniture",
@@ -2890,373 +2902,408 @@
    "room": "living",
    "item": "fireplace",
    "facing": "R",
-   "job_id": "1b1f436d-c163-45ec-a232-e012e60287a8",
-   "ref_room": "cream",
+   "job_id": "b9013bb7-b7c7-4280-ac01-0a8615e69fc9",
+   "ref_room": "grey",
    "pos_in_ref": [
-    1438,
-    475
+    1370,
+    455
    ],
    "size_in_ref": [
-    347,
-    467
+    381,
+    509
    ],
    "px": [
-    347,
-    467
+    381,
+    509
    ],
    "motion_fx": {
     "fx": "fire",
     "anchor": [
-     202,
-     318
+     218,
+     338
     ],
-    "fx_width_px": 47,
+    "fx_width_px": 42,
     "note": "bottom-centre of the painted flame; draw fx/fire frames about 1.3 x fx_width_px wide, additive blend, ~10 fps"
-   }
+   },
+   "repainted": "2026-10-17: repainted in the grey reference room (the cream-room originals were not true 2:1 isometric)"
   },
   "furniture/living/furn_living_lamp_L.png": {
    "class": "furniture",
    "room": "living",
    "item": "lamp",
    "facing": "L",
-   "job_id": null,
-   "ref_room": "cream",
+   "job_id": "a4b4dc55-26d4-4c30-afb3-bcf00ce56851",
+   "ref_room": "grey",
    "pos_in_ref": [
-    142,
-    447
+    1020,
+    416
    ],
    "size_in_ref": [
-    704,
-    440
+    245,
+    735
    ],
    "px": [
-    142,
-    447
-   ]
+    245,
+    735
+   ],
+   "repainted": "2026-10-17: repainted in the grey reference room (the cream-room originals were not true 2:1 isometric)"
   },
   "furniture/living/furn_living_lamp_R.png": {
    "class": "furniture",
    "room": "living",
    "item": "lamp",
    "facing": "R",
-   "job_id": null,
-   "ref_room": "cream",
+   "job_id": "bd9ff3db-f558-468c-88c5-83c6383e1161",
+   "ref_room": "grey",
    "pos_in_ref": [
-    149,
-    470
+    1043,
+    430
    ],
    "size_in_ref": [
-    1571,
-    465
+    239,
+    705
    ],
    "px": [
-    149,
-    470
-   ]
+    239,
+    705
+   ],
+   "repainted": "2026-10-17: repainted in the grey reference room (the cream-room originals were not true 2:1 isometric)"
   },
   "furniture/living/furn_living_picture_L.png": {
    "class": "furniture",
    "room": "living",
    "item": "picture",
    "facing": "L",
-   "job_id": null,
-   "ref_room": "cream",
+   "job_id": "9cf66bb7-866a-45f9-ad74-5149e2c5f900",
+   "ref_room": "grey",
    "pos_in_ref": [
-    194,
-    338
+    642,
+    370
    ],
    "size_in_ref": [
-    569,
-    387
+    204,
+    383
    ],
    "px": [
-    194,
-    338
-   ]
+    204,
+    383
+   ],
+   "repainted": "2026-10-17: repainted in the grey reference room (the cream-room originals were not true 2:1 isometric)"
   },
   "furniture/living/furn_living_picture_R.png": {
    "class": "furniture",
    "room": "living",
    "item": "picture",
    "facing": "R",
-   "job_id": null,
-   "ref_room": "cream",
+   "job_id": "ad46959c-d302-46cd-ab8f-f779492f350f",
+   "ref_room": "grey",
    "pos_in_ref": [
-    195,
-    354
+    1490,
+    373
    ],
    "size_in_ref": [
-    1542,
-    377
+    226,
+    397
    ],
    "px": [
-    195,
-    354
-   ]
+    226,
+    397
+   ],
+   "repainted": "2026-10-17: repainted in the grey reference room (the cream-room originals were not true 2:1 isometric)"
   },
   "furniture/living/furn_living_plant_L.png": {
    "class": "furniture",
    "room": "living",
    "item": "plant",
    "facing": "L",
-   "job_id": "5d517168-3118-4ad7-9e42-6a8742374696",
-   "ref_room": "cream",
+   "job_id": "e3955fda-67b0-4da5-8639-647f883faf20",
+   "ref_room": "grey",
    "pos_in_ref": [
-    417,
-    517
+    748,
+    363
    ],
    "size_in_ref": [
-    381,
-    465
+    774,
+    820
    ],
    "px": [
-    511,
-    598
-   ]
+    774,
+    820
+   ],
+   "repainted": "2026-10-17: repainted in the grey reference room (the cream-room originals were not true 2:1 isometric)"
   },
   "furniture/living/furn_living_plant_R.png": {
    "class": "furniture",
    "room": "living",
    "item": "plant",
    "facing": "R",
-   "job_id": "4810d460-230f-4c27-886e-1b2551a97a6d",
-   "ref_room": "cream",
+   "job_id": "e55f60a0-2a10-46d6-893d-e1aacbf406be",
+   "ref_room": "grey",
    "pos_in_ref": [
-    545,
-    622
+    781,
+    410
    ],
    "size_in_ref": [
-    1529,
-    434
+    796,
+    833
    ],
    "px": [
-    546,
-    583
-   ]
+    796,
+    833
+   ],
+   "repainted": "2026-10-17: repainted in the grey reference room (the cream-room originals were not true 2:1 isometric)"
   },
   "furniture/living/furn_living_radiator_L.png": {
    "class": "furniture",
    "room": "living",
    "item": "radiator",
    "facing": "L",
-   "job_id": "6beb1c74-edb0-4793-bb64-934be3beba95",
-   "ref_room": "cream",
+   "job_id": "a5988cdf-026a-4d5d-b1c0-fd7be99d2e6c",
+   "ref_room": "grey",
    "pos_in_ref": [
-    283,
-    324
+    583,
+    524
    ],
    "size_in_ref": [
-    566,
-    607
+    314,
+    413
    ],
    "px": [
-    261,
-    354
-   ]
+    314,
+    413
+   ],
+   "repainted": "2026-10-17: repainted in the grey reference room (the cream-room originals were not true 2:1 isometric)"
   },
   "furniture/living/furn_living_radiator_R.png": {
    "class": "furniture",
    "room": "living",
    "item": "radiator",
    "facing": "R",
-   "job_id": "87df396a-590e-4108-8931-d4153bed8363",
-   "ref_room": "cream",
+   "job_id": "c4d100bb-f591-43cf-aa41-7c54b45deaca",
+   "ref_room": "grey",
    "pos_in_ref": [
-    301,
-    322
+    1457,
+    509
    ],
    "size_in_ref": [
-    1454,
-    579
+    330,
+    450
    ],
    "px": [
-    229,
-    326
-   ]
+    330,
+    450
+   ],
+   "repainted": "2026-10-17: repainted in the grey reference room (the cream-room originals were not true 2:1 isometric)"
   },
   "furniture/living/furn_living_record_L.png": {
    "class": "furniture",
    "room": "living",
    "item": "record",
    "facing": "L",
-   "job_id": "9e8a5a9d-e06c-4656-8b5c-d7f7450bf259",
-   "ref_room": "cream",
+   "job_id": "23171a29-f1b1-4d91-898e-9f9d50b96fc7",
+   "ref_room": "grey",
    "pos_in_ref": [
-    409,
-    422
+    459,
+    553
    ],
    "size_in_ref": [
-    505,
-    537
+    547,
+    479
    ],
    "px": [
-    437,
-    397
-   ]
+    547,
+    479
+   ],
+   "repainted": "2026-10-17: repainted in the grey reference room (the cream-room originals were not true 2:1 isometric)"
   },
   "furniture/living/furn_living_record_R.png": {
    "class": "furniture",
    "room": "living",
    "item": "record",
    "facing": "R",
-   "job_id": "7d712ea8-d5de-41ca-be82-e793462f571c",
-   "ref_room": "cream",
+   "job_id": "198c618e-3f6d-440d-917a-b79ee8580af1",
+   "ref_room": "grey",
    "pos_in_ref": [
-    572,
-    502
+    1355,
+    565
    ],
    "size_in_ref": [
-    1422,
-    514
+    544,
+    461
    ],
    "px": [
-    494,
-    417
-   ]
+    544,
+    461
+   ],
+   "repainted": "2026-10-17: repainted in the grey reference room (the cream-room originals were not true 2:1 isometric)"
   },
   "furniture/living/furn_living_rug_L.png": {
    "class": "furniture",
    "room": "living",
    "item": "rug",
    "facing": "L",
-   "job_id": null,
-   "ref_room": "cream",
+   "job_id": "51835869-a9f1-4d8a-98c4-8f803bfa29f6",
+   "ref_room": "grey",
    "pos_in_ref": [
-    775,
-    369
+    791,
+    834
    ],
    "size_in_ref": [
-    723,
-    877
+    748,
+    425
    ],
    "px": [
-    775,
-    369
-   ]
+    748,
+    425
+   ],
+   "repainted": "2026-10-17: repainted in the grey reference room (the cream-room originals were not true 2:1 isometric)"
   },
   "furniture/living/furn_living_rug_R.png": {
    "class": "furniture",
    "room": "living",
    "item": "rug",
    "facing": "R",
-   "job_id": null,
-   "ref_room": "cream",
+   "job_id": "e996e677-fe49-4203-88cd-236bfe547437",
+   "ref_room": "grey",
    "pos_in_ref": [
-    766,
-    398
+    718,
+    824
    ],
    "size_in_ref": [
-    752,
-    854
+    802,
+    427
    ],
    "px": [
-    766,
-    398
-   ]
+    802,
+    427
+   ],
+   "repainted": "2026-10-17: repainted in the grey reference room (the cream-room originals were not true 2:1 isometric)"
   },
   "furniture/living/furn_living_scratch_L.png": {
    "class": "furniture",
    "room": "living",
    "item": "scratch",
    "facing": "L",
-   "job_id": null,
-   "ref_room": "cream",
+   "job_id": "8ebb88b8-d53d-4f08-9403-6600997379fc",
+   "ref_room": "grey",
    "pos_in_ref": [
-    210,
-    451
+    970,
+    581
    ],
    "size_in_ref": [
-    526,
-    538
+    344,
+    584
    ],
    "px": [
-    210,
-    451
-   ]
+    344,
+    584
+   ],
+   "repainted": "2026-10-17: repainted in the grey reference room (the cream-room originals were not true 2:1 isometric)"
   },
   "furniture/living/furn_living_scratch_R.png": {
    "class": "furniture",
    "room": "living",
    "item": "scratch",
    "facing": "R",
-   "job_id": null,
-   "ref_room": "cream",
+   "job_id": "d6a47c48-de39-469a-ac55-bf7e5ea36829",
+   "ref_room": "grey",
    "pos_in_ref": [
-    248,
-    436
+    983,
+    550
    ],
    "size_in_ref": [
-    1581,
-    573
+    366,
+    661
    ],
    "px": [
-    248,
-    436
-   ]
+    366,
+    661
+   ],
+   "repainted": "2026-10-17: repainted in the grey reference room (the cream-room originals were not true 2:1 isometric)"
   },
   "furniture/living/furn_living_sofa_L.png": {
    "class": "furniture",
    "room": "living",
    "item": "sofa",
    "facing": "L",
-   "job_id": null,
-   "ref_room": "cream",
+   "job_id": "6cad9c76-4392-49cc-996c-1555b4ff34d3",
+   "ref_room": "grey",
    "px": [
-    923,
-    656
-   ]
+    713,
+    582
+   ],
+   "pos_in_ref": [
+    423,
+    488
+   ],
+   "size_in_ref": [
+    713,
+    582
+   ],
+   "repainted": "2026-10-17: repainted in the grey reference room (the cream-room originals were not true 2:1 isometric)"
   },
   "furniture/living/furn_living_sofa_R.png": {
    "class": "furniture",
    "room": "living",
    "item": "sofa",
    "facing": "R",
-   "job_id": null,
-   "ref_room": "cream",
+   "job_id": "0d29847b-de26-4e96-a7fd-b56de47825d1",
+   "ref_room": "grey",
    "px": [
-    758,
-    615
-   ]
+    682,
+    571
+   ],
+   "pos_in_ref": [
+    1189,
+    535
+   ],
+   "size_in_ref": [
+    682,
+    571
+   ],
+   "repainted": "2026-10-17: repainted in the grey reference room (the cream-room originals were not true 2:1 isometric)"
   },
   "furniture/living/furn_living_windowseat_L.png": {
    "class": "furniture",
    "room": "living",
    "item": "windowseat",
    "facing": "L",
-   "job_id": "368ec954-4291-4003-910f-775ccca788b8",
-   "ref_room": "cream",
+   "job_id": "ed49f480-faff-48f4-acff-e4fa394df472",
+   "ref_room": "grey",
    "pos_in_ref": [
-    549,
-    457
+    367,
+    423
    ],
    "size_in_ref": [
-    503,
-    553
+    756,
+    634
    ],
    "px": [
-    494,
-    410
-   ]
+    756,
+    634
+   ],
+   "repainted": "2026-10-17: repainted in the grey reference room (the cream-room originals were not true 2:1 isometric)"
   },
   "furniture/living/furn_living_windowseat_R.png": {
    "class": "furniture",
    "room": "living",
    "item": "windowseat",
    "facing": "R",
-   "job_id": "04bb9bda-1add-45e0-b827-af52a7877ecd",
-   "ref_room": "cream",
+   "job_id": "2a5b3023-3117-40b3-a7e6-62c89bead6cd",
+   "ref_room": "grey",
    "pos_in_ref": [
-    600,
-    480
+    1236,
+    510
    ],
    "size_in_ref": [
-    1277,
-    535
+    713,
+    608
    ],
    "px": [
-    571,
-    481
-   ]
+    713,
+    608
+   ],
+   "repainted": "2026-10-17: repainted in the grey reference room (the cream-room originals were not true 2:1 isometric)"
   },
   "furniture/pass_firstlight/furn_pass_firstlight_birdbox_L.png": {
    "class": "furniture",

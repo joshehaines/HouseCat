@@ -67,13 +67,13 @@ public final class RoomScene: SKScene {
     /// Where the view looks across the room, in room units; it follows the cat when the room is wider than the view.
     private var focusX: CGFloat?
 
-    /// Scales and centres the room in the view. On a tall screen the room is zoomed in past its width
+    /// Scales and centres the room in the view. On a phone-tall screen the room is zoomed in past its width
     /// (Tuning.Stage.portraitZoom) and the view pans to follow the cat.
     func fit() {
         let bounds = grid.bounds
         guard size.width > 0, size.height > 0 else { return }
         var scale = min(size.width * Tuning.Stage.fitWidth / bounds.width, size.height * Tuning.Stage.fitHeight / bounds.height)
-        if size.height > size.width {
+        if size.height > size.width * CGFloat(Tuning.Stage.portraitZoomAspect) {
             scale = min(scale * Tuning.Stage.portraitZoom, size.height * Tuning.Stage.fitHeight / bounds.height)
         }
         world.setScale(scale)

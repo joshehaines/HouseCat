@@ -326,98 +326,98 @@
   },
   "furniture/living/furn_living_armchair_L.png": {
    "master": [
-    403,
-    456
+    527,
+    586
    ],
-   "ref": "cream",
+   "ref": "grey",
    "scale": 0.6
   },
   "furniture/living/furn_living_armchair_R.png": {
    "master": [
-    361,
-    413
+    589,
+    673
    ],
-   "ref": "cream",
+   "ref": "grey",
    "scale": 0.6
   },
   "furniture/living/furn_living_bookcase_L.png": {
    "master": [
-    220,
-    580
+    373,
+    755
    ],
-   "ref": "cream",
+   "ref": "grey",
    "scale": 0.6
   },
   "furniture/living/furn_living_bookcase_R.png": {
    "master": [
-    239,
-    562
+    342,
+    694
    ],
-   "ref": "cream",
+   "ref": "grey",
    "scale": 0.6
   },
   "furniture/living/furn_living_box_L.png": {
    "master": [
-    390,
-    309
+    579,
+    554
    ],
-   "ref": "cream",
+   "ref": "grey",
    "scale": 0.6
   },
   "furniture/living/furn_living_box_R.png": {
    "master": [
-    369,
-    356
+    512,
+    507
    ],
-   "ref": "cream",
+   "ref": "grey",
    "scale": 0.6
   },
   "furniture/living/furn_living_cattree_L.png": {
    "master": [
-    271,
-    469
+    333,
+    634
    ],
-   "ref": "cream",
+   "ref": "grey",
    "scale": 0.6
   },
   "furniture/living/furn_living_cattree_R.png": {
    "master": [
-    203,
-    411
+    316,
+    609
    ],
-   "ref": "cream",
+   "ref": "grey",
    "scale": 0.6
   },
   "furniture/living/furn_living_clock_L.png": {
    "master": [
-    125,
-    161
+    155,
+    204
    ],
-   "ref": "cream",
+   "ref": "grey",
    "scale": 0.6
   },
   "furniture/living/furn_living_clock_R.png": {
    "master": [
-    119,
-    162
+    169,
+    225
    ],
-   "ref": "cream",
+   "ref": "grey",
    "scale": 0.6
   },
   "furniture/living/furn_living_coffee_L.png": {
    "master": [
-    564,
-    402
+    578,
+    447
    ],
-   "ref": "cream",
+   "ref": "grey",
    "scale": 0.6
   },
   "furniture/living/furn_living_coffee_R.png": {
    "master": [
-    411,
-    302
+    515,
+    396
    ],
-   "ref": "cream",
+   "ref": "grey",
    "scale": 0.6
   },
   "furniture/living/furn_living_fireplace_L.png": {
@@ -430,154 +430,154 @@
   },
   "furniture/living/furn_living_fireplace_R.png": {
    "master": [
-    347,
-    467
+    381,
+    509
    ],
-   "ref": "cream",
+   "ref": "grey",
    "scale": 0.6
   },
   "furniture/living/furn_living_lamp_L.png": {
    "master": [
-    142,
-    447
+    245,
+    735
    ],
-   "ref": "cream",
+   "ref": "grey",
    "scale": 0.6
   },
   "furniture/living/furn_living_lamp_R.png": {
    "master": [
-    149,
-    470
+    239,
+    705
    ],
-   "ref": "cream",
+   "ref": "grey",
    "scale": 0.6
   },
   "furniture/living/furn_living_picture_L.png": {
    "master": [
-    194,
-    338
+    204,
+    383
    ],
-   "ref": "cream",
+   "ref": "grey",
    "scale": 0.6
   },
   "furniture/living/furn_living_picture_R.png": {
    "master": [
-    195,
-    354
+    226,
+    397
    ],
-   "ref": "cream",
+   "ref": "grey",
    "scale": 0.6
   },
   "furniture/living/furn_living_plant_L.png": {
    "master": [
-    511,
-    598
+    774,
+    820
    ],
-   "ref": "cream",
+   "ref": "grey",
    "scale": 0.6
   },
   "furniture/living/furn_living_plant_R.png": {
    "master": [
-    546,
-    583
+    796,
+    833
    ],
-   "ref": "cream",
+   "ref": "grey",
    "scale": 0.6
   },
   "furniture/living/furn_living_radiator_L.png": {
    "master": [
-    261,
-    354
+    314,
+    413
    ],
-   "ref": "cream",
+   "ref": "grey",
    "scale": 0.6
   },
   "furniture/living/furn_living_radiator_R.png": {
    "master": [
-    229,
-    326
+    330,
+    450
    ],
-   "ref": "cream",
+   "ref": "grey",
    "scale": 0.6
   },
   "furniture/living/furn_living_record_L.png": {
    "master": [
-    437,
-    397
+    547,
+    479
    ],
-   "ref": "cream",
+   "ref": "grey",
    "scale": 0.6
   },
   "furniture/living/furn_living_record_R.png": {
    "master": [
-    494,
-    417
+    544,
+    461
    ],
-   "ref": "cream",
+   "ref": "grey",
    "scale": 0.6
   },
   "furniture/living/furn_living_rug_L.png": {
    "master": [
-    775,
-    369
+    748,
+    425
    ],
-   "ref": "cream",
+   "ref": "grey",
    "scale": 0.6
   },
   "furniture/living/furn_living_rug_R.png": {
    "master": [
-    766,
-    398
+    802,
+    427
    ],
-   "ref": "cream",
+   "ref": "grey",
    "scale": 0.6
   },
   "furniture/living/furn_living_scratch_L.png": {
    "master": [
-    210,
-    451
+    344,
+    584
    ],
-   "ref": "cream",
+   "ref": "grey",
    "scale": 0.6
   },
   "furniture/living/furn_living_scratch_R.png": {
    "master": [
-    248,
-    436
+    366,
+    661
    ],
-   "ref": "cream",
+   "ref": "grey",
    "scale": 0.6
   },
   "furniture/living/furn_living_sofa_L.png": {
    "master": [
-    923,
-    656
+    713,
+    582
    ],
-   "ref": "cream",
+   "ref": "grey",
    "scale": 0.6
   },
   "furniture/living/furn_living_sofa_R.png": {
    "master": [
-    758,
-    615
+    682,
+    571
    ],
-   "ref": "cream",
+   "ref": "grey",
    "scale": 0.6
   },
   "furniture/living/furn_living_windowseat_L.png": {
    "master": [
-    494,
-    410
+    756,
+    634
    ],
-   "ref": "cream",
+   "ref": "grey",
    "scale": 0.6
   },
   "furniture/living/furn_living_windowseat_R.png": {
    "master": [
-    571,
-    481
+    713,
+    608
    ],
-   "ref": "cream",
+   "ref": "grey",
    "scale": 0.6
   },
   "fx/fire/fx_fire_00.png": {

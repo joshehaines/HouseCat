@@ -15,10 +15,12 @@ A painterly 2D pet game. Every visit starts outside the player's home in real we
 - `project.yml` (xcodegen) is the source of truth for the Xcode project; never hand-edit the pbxproj.
 
 ## Commands
-- Generate project: `xcodegen generate`
+- Generate project: `xcodegen generate` (the .xcodeproj is generated and git-ignored)
+- App icon and launch logo from `assets/brand`: `tools/app-assets/build_app_assets.sh` (writes `Shared/AppIcon.icon` and the LaunchLogo image set; never edit the masters)
+- Build without XcodeBuildMCP: `xcodebuild -project HouseCat.xcodeproj -scheme HouseCat -destination 'platform=iOS Simulator,name=iPhone 18 Pro' -derivedDataPath build/DerivedData build` (schemes: HouseCat for iPhone, iPad, widgets and Watch; HouseCatMac)
 - Build/run/screenshot: XcodeBuildMCP tools in the iPhone and iPad simulators (Josh tests in the simulators, no physical device yet; widgets, Live Activities and the Watch app all run in simulators too)
-- Core tests: `cd Packages/HouseCatCore && swift test`
-- Lint: `swiftlint`
+- Core tests: `cd Packages/HouseCatCore && swift test` (every package under `Packages/` has its own `swift test`)
+- Format and lint: `swiftformat .` then `swiftlint`
 
 ## Architecture rules (always)
 - The save is an append-only EVENT LOG (fed at t, petted, placed item x, bought y, claimed tier n …). Every piece of state (trust, XP, Beans, streak, room contents, pass progress) is derived from the events + `DaySeed`; nothing is stored as a mutable counter. iPhone, widget, Watch, iPad and Mac all append events to the same iCloud save and never conflict. Compaction keeps a snapshot + the events since it.

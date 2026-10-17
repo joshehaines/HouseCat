@@ -1,0 +1,177 @@
+# The source of truth for the Xcode project. Edit this file and run
+# `xcodegen generate`; never hand-edit HouseCat.xcodeproj.
+name: HouseCat
+
+options:
+  bundleIdPrefix: com.housecatgame
+  deploymentTarget:
+    iOS: "26.0"
+    watchOS: "26.0"
+    macOS: "26.0"
+  createIntermediateGroups: true
+  groupSortPosition: top
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    CODE_SIGN_STYLE: Automatic
+    # Empty until the Apple Developer account is live; simulator builds sign locally.
+    DEVELOPMENT_TEAM: ""
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+    SWIFT_STRICT_CONCURRENCY: complete
+
+packages:
+  HouseCatCore:
+    path: Packages/HouseCatCore
+  HouseCatModels:
+    path: Packages/HouseCatModels
+  HouseCatUI:
+    path: Packages/HouseCatUI
+  HouseCatGame:
+    path: Packages/HouseCatGame
+
+targets:
+  # iPhone and iPad app: SwiftUI shell + SpriteKit scenes.
+  HouseCat:
+    type: application
+    platform: iOS
+    sources:
+      - App/Sources
+      - App/Resources
+      - path: Shared/AppIcon.icon
+        type: file
+        buildPhase: resources
+    dependencies:
+      - package: HouseCatCore
+      - package: HouseCatModels
+      - package: HouseCatUI
+      - package: HouseCatGame
+      - target: HouseCatWidgets
+      - target: HouseCatWatch
+    entitlements:
+      path: App/HouseCat.entitlements
+    info:
+      path: App/Info.plist
+      properties:
+        CFBundleDisplayName: HouseCat
+        ITSAppUsesNonExemptEncryption: false
+        UILaunchScreen:
+          UIImageName: LaunchLogo
+          UIColorName: LaunchBackground
+          UIImageRespectsSafeAreaInsets: true
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: true
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.housecatgame.housecat
+        PRODUCT_NAME: HouseCat
+        TARGETED_DEVICE_FAMILY: "1,2"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+
+  # WidgetKit extension: streak widgets, App Intents and the Nap Live Activity.
+  HouseCatWidgets:
+    type: app-extension
+    platform: iOS
+    sources:
+      - Widgets/Sources
+    dependencies:
+      - package: HouseCatCore
+      - package: HouseCatUI
+      - sdk: WidgetKit.framework
+      - sdk: SwiftUI.framework
+    entitlements:
+      path: Widgets/HouseCatWidgets.entitlements
+    info:
+      path: Widgets/Info.plist
+      properties:
+        CFBundleDisplayName: HouseCat
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.housecatgame.housecat.widgets
+        PRODUCT_NAME: HouseCatWidgets
+        TARGETED_DEVICE_FAMILY: "1,2"
+        SKIP_INSTALL: YES
+
+  # Apple Watch app, embedded in the iPhone app (universal purchase).
+  HouseCatWatch:
+    type: application
+    platform: watchOS
+    sources:
+      - Watch/Sources
+      - path: Shared/AppIcon.icon
+        type: file
+        buildPhase: resources
+    dependencies:
+      - package: HouseCatCore
+    info:
+      path: Watch/Info.plist
+      properties:
+        CFBundleDisplayName: HouseCat
+        WKApplication: true
+        WKCompanionAppBundleIdentifier: com.housecatgame.housecat
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.housecatgame.housecat.watchkitapp
+        PRODUCT_NAME: HouseCatWatch
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        SKIP_INSTALL: YES
+
+  # Mac menu-bar cat: a MenuBarExtra app with App Sandbox on.
+  HouseCatMac:
+    type: application
+    platform: macOS
+    sources:
+      - Mac/Sources
+      - path: Shared/AppIcon.icon
+        type: file
+        buildPhase: resources
+    dependencies:
+      - package: HouseCatCore
+      - package: HouseCatModels
+      - package: HouseCatUI
+      - package: HouseCatGame
+    entitlements:
+      path: Mac/HouseCatMac.entitlements
+    info:
+      path: Mac/Info.plist
+      properties:
+        CFBundleDisplayName: HouseCat
+        LSUIElement: true
+        LSApplicationCategoryType: public.app-category.simulation-games
+        ITSAppUsesNonExemptEncryption: false
+    settings:
+      base:
+        # Same bundle id as the iPhone app, for the universal purchase.
+        PRODUCT_BUNDLE_IDENTIFIER: com.housecatgame.housecat
+        PRODUCT_NAME: HouseCat
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        CODE_SIGN_IDENTITY: "-"
+        ENABLE_HARDENED_RUNTIME: YES
+
+schemes:
+  HouseCat:
+    build:
+      targets:
+        HouseCat: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+  HouseCatMac:
+    build:
+      targets:
+        HouseCatMac: all
+    run:
+      config: Debug

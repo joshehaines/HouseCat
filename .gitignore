@@ -1,4 +1,8 @@
 .DS_Store
-DerivedData/
+_to_delete/
 build/
+DerivedData/
 xcuserdata/
+.build/
+.swiftpm/
+*.xcodeproj/

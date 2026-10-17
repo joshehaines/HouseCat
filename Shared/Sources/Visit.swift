@@ -184,6 +184,7 @@ final class Visit {
             house.onDecorate = { GameSession.shared.record($0) }
             house.onSelect = { [weak self] in self?.selected = $0 }
             house.onClosedRoomTapped = { [weak self] in self?.offer($0) }
+            house.nextActivity = { GameSession.shared.nextActivity() }
         }
         room = built
         return built

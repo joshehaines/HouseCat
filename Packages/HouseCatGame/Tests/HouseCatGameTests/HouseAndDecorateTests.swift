@@ -213,3 +213,32 @@ private func touchPoint(of id: String, in scene: RoomScene) throws -> CGPoint {
     scene.showStorey(0)
     #expect(scene.director?.cat.parent === scene.rooms[.living])
 }
+
+@MainActor
+@Test func aSettledCatWandersToWhatTheTableChoosesNext() throws {
+    let fixture = try Fixture()
+    let scene = try fixture.scene()
+    let director = try scene.addCat(rig: fixture.art.data("cat/rig.json", as: PuppetRig.self), at: 5, 5, pose: .sitSide)
+    var asked = 0
+    scene.nextActivity = {
+        asked += 1
+        return BehaviourChoice(activity: .bowlNag)
+    }
+    // After the idle time the cat sets off for the bowl.
+    var clock: TimeInterval = 0
+    for _ in 0 ..< Int((Tuning.Puppet.idleSeconds + 1) * 20) {
+        clock += 1.0 / 20
+        scene.update(clock)
+    }
+    #expect(asked == 1)
+    #expect(!director.isIdle)
+    for _ in 0 ..< 20 * 20 {
+        clock += 1.0 / 20
+        scene.update(clock)
+        if director.isIdle {
+            break
+        }
+    }
+    #expect(director.cat.pose == .sitFront)
+    #expect(director.floorPoint == scene.spot(for: BehaviourChoice(activity: .bowlNag)).point)
+}

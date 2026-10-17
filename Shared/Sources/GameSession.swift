@@ -104,6 +104,30 @@ final class GameSession {
         return Arrival(greeting: greeting, meow: meow, choice: BehaviourTable.choose(context, rng: &brain), mood: mood)
     }
 
+    /// The cat's next activity while you watch (no event: activities are not game state). Same rule as the
+    /// arrival, drawn afresh each time so it wanders.
+    func nextActivity(weather: Weather = .sun) -> BehaviourChoice? {
+        let date = now()
+        let state = state(at: date)
+        guard let cat = state.cat(Self.catID) else { return nil }
+        let sky = GameWorld.skyPhase(at: date)
+        let context = BehaviourContext(
+            mood: state.mood(of: Self.catID, at: date),
+            weather: weather,
+            personality: cat.personality,
+            timeOfDay: TimeOfDay.at(localMinutes: state.clock.localMinutes(of: date), clock: state.clock),
+            available: state.affordances(in: .living, catalogue: content?.affordances ?? [:]),
+            sunlit: sky == .day && weather.isSunny
+        )
+        var rng = DaySeed(
+            household: state.seed,
+            day: state.clock.day(of: date),
+            purpose: "brain",
+            salt: "idle\(Int(date.timeIntervalSince1970))"
+        )
+        return BehaviourTable.choose(context, rng: &rng)
+    }
+
     // MARK: Decorating
 
     /// Records a change made in decorate mode (the scene already checked it with PlacementRules).

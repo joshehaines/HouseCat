@@ -184,6 +184,27 @@ public final class RoomScene: SKScene {
         lastUpdate = currentTime
         director?.update(dt)
         follow(dt)
+        idle(dt)
+    }
+
+    /// After a while settled, the cat asks the app (and so the behaviour table) what to do next.
+    public var nextActivity: (() -> BehaviourChoice?)?
+    private var settledFor: TimeInterval = 0
+
+    private func idle(_ dt: TimeInterval) {
+        guard let director, director.isIdle, !decorating, storey == house.storey else {
+            settledFor = 0
+            return
+        }
+        settledFor += dt
+        guard settledFor >= Tuning.Puppet.idleSeconds, let choice = nextActivity?() else { return }
+        settledFor = 0
+        let spot = spot(for: choice)
+        // Already there doing it: stay put.
+        if hypot(spot.point.x - director.floorPoint.x, spot.point.y - director.floorPoint.y) < 1, director.cat.pose == spot.pose {
+            return
+        }
+        director.run(steps(to: spot))
     }
 
     /// Where the view looks, in world units; it follows the cat unless the player has just panned.

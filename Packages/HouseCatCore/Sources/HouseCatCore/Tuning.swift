@@ -255,6 +255,8 @@ public enum Tuning {
         public static let minMoveSeconds = 0.25
         public static let hopSeconds = 0.3
         public static let hopHeight = 18.0
+        /// Settled this long, the cat picks its next activity from the behaviour table.
+        public static let idleSeconds = 25.0
         /// Where the cat sits on furniture, as a fraction of the sprite's height.
         public static let seatHeight = 0.32
         public static let perchHeight = 0.9

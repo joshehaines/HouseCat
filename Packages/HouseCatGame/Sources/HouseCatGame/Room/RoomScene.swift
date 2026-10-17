@@ -120,7 +120,14 @@ public final class RoomScene: SKScene {
                 node.addStairs(at: CGFloat(stairs.at[0]), CGFloat(stairs.at[1]), facing: stairs.facing)
             }
             if let label = room.lockLabel {
-                node.veil(label: label)
+                // The label sits on the side nearest the room you are in, so it stays in view.
+                let active = house.rooms.first { $0.id == house.active && $0.storey == storey }
+                let lean = CGFloat(Tuning.House.labelLean)
+                func toward(_ delta: Double) -> CGFloat {
+                    cells / 2 + (delta == 0 ? 0 : delta < 0 ? -lean : lean)
+                }
+                let cell = active.map { (u: toward($0.u - room.u), v: toward($0.v - room.v)) }
+                node.veil(label: label, at: cell)
             }
             world.addChild(node)
             rooms[room.id] = node
@@ -231,7 +238,9 @@ public final class RoomScene: SKScene {
         let bounds = activeBounds
         // didChangeSize can arrive from super.init, before the house is built.
         guard size.width > 0, size.height > 0, bounds.width > 0, !rooms.isEmpty else { return }
-        var scale = min(size.width * Tuning.Stage.fitWidth / bounds.width, size.height * Tuning.Stage.fitHeight / bounds.height)
+        // On a screen taller than the room, leave room at the sides for the house around it.
+        let widthShare = size.height > size.width ? Tuning.House.portraitFitWidth : Tuning.Stage.fitWidth
+        var scale = min(size.width * widthShare / bounds.width, size.height * Tuning.Stage.fitHeight / bounds.height)
         if size.height > size.width * CGFloat(Tuning.Stage.portraitZoomAspect) {
             scale = min(scale * Tuning.Stage.portraitZoom, size.height * Tuning.Stage.fitHeight / bounds.height)
         }

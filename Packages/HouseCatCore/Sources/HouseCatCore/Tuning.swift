@@ -320,6 +320,10 @@ public enum Tuning {
         public static let veilColor = [0.12, 0.12, 0.2]
         public static let veilAlpha = 0.55
         public static let lockFontSize = 64.0
+        /// A closed room's price label leans this many cells from its middle towards the room you are in.
+        public static let labelLean = 3.0
+        /// On a portrait screen the active room fills this share of the width, the house showing either side.
+        public static let portraitFitWidth = 0.7
         /// The staircase runs this many cells along its wall.
         public static let stairsLength = 3.0
         /// The ground runs this many cells out from the house, past any view's edge, a little darker than a room floor.

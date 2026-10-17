@@ -342,7 +342,7 @@ final class RoomNode: SKNode {
     // MARK: Locked rooms
 
     /// A closed room shows as a lit silhouette with what it takes to open it (SPEC "Home and furniture").
-    func veil(label: String) {
+    func veil(label: String, at cell: (u: CGFloat, v: CGFloat)? = nil) {
         let n = grid.cells
         let left = height(of: walls.left), right = height(of: walls.right), back = max(left, right)
         let path = CGMutablePath()
@@ -365,7 +365,7 @@ final class RoomNode: SKNode {
         text.fontSize = CGFloat(Tuning.House.lockFontSize)
         text.fontColor = .white
         text.verticalAlignmentMode = .center
-        text.position = grid.floor(n / 2, n / 2)
+        text.position = grid.floor(cell?.u ?? n / 2, cell?.v ?? n / 2)
         text.zPosition = Layer.veil + 1
         text.name = "lock"
         addChild(text)

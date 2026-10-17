@@ -387,6 +387,134 @@
   "london_terrace_tropical_winter": [
    0.4043,
    0.5605
+  ],
+  "mansion_flat_city_autumn": [
+   0.3691,
+   0.6504
+  ],
+  "mansion_flat_city_spring": [
+   0.3711,
+   0.6445
+  ],
+  "mansion_flat_city_summer": [
+   0.3789,
+   0.6797
+  ],
+  "mansion_flat_city_winter": [
+   0.3633,
+   0.6621
+  ],
+  "mansion_flat_coast_autumn": [
+   0.3711,
+   0.6406
+  ],
+  "mansion_flat_coast_spring": [
+   0.377,
+   0.6562
+  ],
+  "mansion_flat_coast_summer": [
+   0.375,
+   0.5801
+  ],
+  "mansion_flat_coast_winter": [
+   0.3555,
+   0.6797
+  ],
+  "mansion_flat_countryside_autumn": [
+   0.3516,
+   0.6836
+  ],
+  "mansion_flat_countryside_spring": [
+   0.3613,
+   0.5898
+  ],
+  "mansion_flat_countryside_summer": [
+   0.3672,
+   0.6523
+  ],
+  "mansion_flat_countryside_winter": [
+   0.3594,
+   0.6289
+  ],
+  "mansion_flat_desert_autumn": [
+   0.3594,
+   0.7031
+  ],
+  "mansion_flat_desert_spring": [
+   0.3672,
+   0.5977
+  ],
+  "mansion_flat_desert_summer": [
+   0.3516,
+   0.7012
+  ],
+  "mansion_flat_desert_winter": [
+   0.3633,
+   0.6328
+  ],
+  "mansion_flat_forest_autumn": [
+   0.3652,
+   0.6035
+  ],
+  "mansion_flat_forest_spring": [
+   0.3711,
+   0.6094
+  ],
+  "mansion_flat_forest_summer": [
+   0.375,
+   0.6426
+  ],
+  "mansion_flat_forest_winter": [
+   0.3926,
+   0.5918
+  ],
+  "mansion_flat_mountain_autumn": [
+   0.3652,
+   0.6934
+  ],
+  "mansion_flat_mountain_spring": [
+   0.3809,
+   0.5996
+  ],
+  "mansion_flat_mountain_summer": [
+   0.3672,
+   0.6992
+  ],
+  "mansion_flat_mountain_winter": [
+   0.3594,
+   0.6602
+  ],
+  "mansion_flat_snow_autumn": [
+   0.3652,
+   0.6621
+  ],
+  "mansion_flat_snow_spring": [
+   0.3828,
+   0.6094
+  ],
+  "mansion_flat_snow_summer": [
+   0.3828,
+   0.7109
+  ],
+  "mansion_flat_snow_winter": [
+   0.3652,
+   0.6055
+  ],
+  "mansion_flat_tropical_autumn": [
+   0.3672,
+   0.7305
+  ],
+  "mansion_flat_tropical_spring": [
+   0.3867,
+   0.6211
+  ],
+  "mansion_flat_tropical_summer": [
+   0.3633,
+   0.6758
+  ],
+  "mansion_flat_tropical_winter": [
+   0.3652,
+   0.668
   ]
  },
  "note": "Door points of the painted exterior scenes as fractions of the painting (x right, y down), measured from the door-open edits by tools/asset-pipeline/scenes.py; scenes without one use defaultDoor."

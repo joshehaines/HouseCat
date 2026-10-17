@@ -54,14 +54,18 @@ public final class EventStore {
 
     /// - Parameters:
     ///   - inMemory: for tests and previews.
-    ///   - sharedWithWidgets: store in the App Group so the widget reads the same save.
+    ///   - sharedWithWidgets: store in the App Group so the widget reads the same save (when the app is
+    ///     entitled to it; otherwise the app's own container).
     ///   - cloudKit: mirror to the CloudKit private database (needs the iCloud entitlement).
     public init(inMemory: Bool = false, sharedWithWidgets: Bool = true, cloudKit: Bool = false) throws {
         let schema = Schema([StoredEvent.self, StoredSnapshot.self])
+        // SwiftData traps (rather than throws) on an App Group the app is not entitled to, so check it exists first.
+        let group = sharedWithWidgets && !inMemory
+            && FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Self.appGroup) != nil
         let configuration = ModelConfiguration(
             schema: schema,
             isStoredInMemoryOnly: inMemory,
-            groupContainer: sharedWithWidgets && !inMemory ? .identifier(Self.appGroup) : .none,
+            groupContainer: group ? .identifier(Self.appGroup) : .none,
             cloudKitDatabase: cloudKit ? .private(Self.cloudKitContainer) : .none
         )
         container = try ModelContainer(for: schema, configurations: [configuration])

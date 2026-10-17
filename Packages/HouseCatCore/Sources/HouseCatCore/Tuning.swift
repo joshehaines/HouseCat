@@ -23,6 +23,9 @@ public enum Tuning {
         public static let eveningStartMinutes = 18 * 60
         /// "Feed before 09:00" objective.
         public static let earlyFeedBeforeMinutes = 9 * 60
+        /// Greeting lines: an arrival from 23:00 is late, before 06:00 early (Content/lines.json).
+        public static let lateNightMinutes = 23 * 60
+        public static let earlyMinutes = 6 * 60
     }
 
     /// Trusted time (CLAUDE.md "Trusted time").
@@ -77,6 +80,8 @@ public enum Tuning {
         public static let milestoneBeans = [100, 300, 1000, 3000]
         /// After a missed day: sulky on the first return visit, thawing on the second, fine from the third.
         public static let warmUpArrivals = 3
+        /// A miss this long or longer gets the "week plus" greeting.
+        public static let weekMissDays = 7
     }
 
     /// Beans: earned only, never sold, never expire (SPEC "Economy").

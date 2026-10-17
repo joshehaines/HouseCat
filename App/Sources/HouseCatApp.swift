@@ -15,6 +15,16 @@ struct HouseCatApp: App {
         WindowGroup {
             RoomView(scene: visit.scene)
                 .ignoresSafeArea()
+                .overlay(alignment: .bottom) {
+                    if let line = visit.greeting {
+                        GreetingBubble(line)
+                            .padding(.horizontal, 20)
+                            .padding(.bottom, 28)
+                            .transition(.move(edge: .bottom).combined(with: .opacity))
+                            .onTapGesture { visit.dismissGreeting() }
+                    }
+                }
+                .animation(.easeOut(duration: 0.3), value: visit.greeting)
                 .overlay(alignment: .topTrailing) {
                     Button {
                         showShop = true

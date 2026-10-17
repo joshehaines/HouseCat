@@ -12,6 +12,9 @@ import SpriteKit
 final class Visit {
     /// The scene on screen.
     private(set) var scene: SKScene
+    /// The cat's greeting, shown for a few seconds once the room is on screen.
+    private(set) var greeting: String?
+    @ObservationIgnored private var arrival: GameSession.Arrival?
     @ObservationIgnored private let size: CGSize
     @ObservationIgnored private var room: SKScene?
 
@@ -25,6 +28,7 @@ final class Visit {
                 // Present from the exterior's own view so the push flows straight into the room.
                 exterior?.view?.presentScene(room, transition: .crossFade(withDuration: Tuning.Exterior.roomFadeSeconds))
                 scene = room
+                greet()
             }
             // Build the room once the exterior is on screen, behind its first seconds.
             Task { @MainActor [weak self] in
@@ -32,15 +36,38 @@ final class Visit {
                 _ = self?.preparedRoom()
             }
         } else {
-            scene = GameWorld.roomScene(size: size)
+            scene = SKScene(size: size)
+            scene = preparedRoom()
+            greet()
         }
+    }
+
+    /// Shows the greeting while the cat notices you, then lets it go (SPEC: three seconds at most).
+    private func greet() {
+        guard let line = arrival?.greeting else { return }
+        Task { @MainActor [weak self] in
+            try? await Task.sleep(for: .seconds(Tuning.Arrival.noticeDelay))
+            self?.greeting = line
+            try? await Task.sleep(for: .seconds(Tuning.Arrival.greetingMaxSeconds))
+            if self?.greeting == line {
+                self?.greeting = nil
+            }
+        }
+    }
+
+    /// Tap to dismiss the greeting early.
+    func dismissGreeting() {
+        greeting = nil
     }
 
     private func preparedRoom() -> SKScene {
         if let room {
             return room
         }
-        let built = GameWorld.roomScene(size: size)
+        // The arrival is recorded when the room is built: that is when the save learns you came home.
+        let arrival = GameSession.shared.arrive()
+        self.arrival = arrival
+        let built = GameWorld.roomScene(size: size, arrival: arrival)
         room = built
         return built
     }

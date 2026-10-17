@@ -1,3 +1,4 @@
+import HouseCatCore
 import HouseCatStore
 import StoreKit
 import SwiftUI
@@ -5,6 +6,10 @@ import SwiftUI
 /// Placeholder shop for milestone 0: the outfits with their real StoreKit
 /// prices, Buy, and Restore Purchases. The designed shop comes in step 7.
 struct ShopView: View {
+    static func monthName(_ month: Int) -> String {
+        DateFormatter().standaloneMonthSymbols[(month - 1) % 12]
+    }
+
     let store: any EntitlementService
     @State private var products: [ProductInfo] = []
     @State private var message: String?
@@ -14,7 +19,7 @@ struct ShopView: View {
         NavigationStack {
             List {
                 Section("Outfits") {
-                    ForEach(products.filter { $0.id.hasPrefix("housecat.outfit.") }, id: \.id) { product in
+                    ForEach(outfits, id: \.id) { product in
                         row(product)
                     }
                 }
@@ -44,11 +49,37 @@ struct ShopView: View {
         }
     }
 
+    /// Today's game day; the app's clock comes from the save once the event log is wired in.
+    private var today: GameDay {
+        DayClock().day(of: .now)
+    }
+
+    private func isOwned(_ product: ProductInfo) -> Bool {
+        store.entitlements.outfits.contains(String(product.id.dropFirst("housecat.outfit.".count)))
+    }
+
+    /// Outfits on sale today, plus any already owned. Seasonal ones come back every year.
+    private var outfits: [ProductInfo] {
+        products.filter { product in
+            guard product.id.hasPrefix("housecat.outfit.") else { return false }
+            return isOwned(product) || store.catalog.product(product.id)?.isOnSale(on: today) != false
+        }
+    }
+
     private func row(_ product: ProductInfo) -> some View {
-        let outfitID = String(product.id.dropFirst("housecat.outfit.".count))
-        let owned = store.entitlements.outfits.contains(outfitID)
+        let owned = isOwned(product)
+        let months = store.catalog.product(product.id)?.months ?? []
+        let until = ShopRules.lastSaleDay(months: months, from: today)
         return HStack {
-            Text(product.displayName)
+            VStack(alignment: .leading) {
+                Text(product.displayName)
+                if let until, !owned {
+                    // A real date, never a countdown.
+                    Text("On sale until \(until.date.day) \(Self.monthName(until.month))")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                }
+            }
             Spacer()
             if owned {
                 Label("Owned", systemImage: "checkmark.circle.fill")

@@ -41,6 +41,13 @@ public struct ShopProduct: Hashable, Sendable, Codable {
     public var priceGBP: String
     public var unlock: Unlock
     public var displayName: String
+    /// Seasonal stock is on sale only in these months (empty = all year); see `ShopRules`.
+    public var months: [Int] = []
+
+    /// Whether the shop offers it on `day`.
+    public func isOnSale(on day: GameDay) -> Bool {
+        ShopRules.isOnSale(months: months, on: day)
+    }
 }
 
 public struct StoreCatalog: Sendable {
@@ -60,7 +67,7 @@ public struct StoreCatalog: Sendable {
 
     /// Builds the catalogue from the content: paid outfits, the six sets and the seasons.
     public init(
-        paidOutfits: [(id: String, name: String)],
+        paidOutfits: [(id: String, name: String, months: [Int])],
         sets: [(id: String, name: String, outfit: String, beans: Int)],
         seasons: [(id: String, name: String)]
     ) {
@@ -71,7 +78,8 @@ public struct StoreCatalog: Sendable {
                 kind: .nonConsumable,
                 priceGBP: "0.99",
                 unlock: .outfit(outfit.id),
-                displayName: outfit.name
+                displayName: outfit.name,
+                months: outfit.months
             ))
         }
         for set in sets {
@@ -158,7 +166,7 @@ public struct StoreCatalog: Sendable {
     /// The catalogue for the shipped content.
     public init(content: ContentBundle) {
         self.init(
-            paidOutfits: content.outfits.outfits.filter { $0.pool == .paid }.map { ($0.id, $0.name) },
+            paidOutfits: content.outfits.outfits.filter { $0.pool == .paid }.map { ($0.id, $0.name, $0.months) },
             sets: content.catalogue.sets.map { ($0.id, $0.name, $0.outfit, $0.bundleBeans) },
             seasons: content.seasons.seasons.map { ($0.id, $0.name) }
         )

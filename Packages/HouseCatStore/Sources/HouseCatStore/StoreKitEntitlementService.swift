@@ -8,7 +8,7 @@ import StoreKit
 @Observable
 public final class StoreKitEntitlementService: EntitlementService {
     public private(set) var entitlements: Entitlements
-    private let catalog: StoreCatalog
+    public let catalog: StoreCatalog
     private let cache: EntitlementCache
     @ObservationIgnored private var updates: Task<Void, Never>?
 

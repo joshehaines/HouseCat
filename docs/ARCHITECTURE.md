@@ -51,6 +51,7 @@ Only the household owner's devices write these (see §6).
 - `GameDay`: a calendar date as days since 1970, with exact civil-date arithmetic (no `Calendar` in the rules).
 - `DayClock`: wake time, bedtime, time zone. A game day runs from one wake time to the next (06:00 by default), so 02:00 belongs to the previous day. Summer-time changes are tested.
 - `TrustedTime.now`: game time from the wall clock checked against a trusted anchor (a CloudKit `modificationDate` or StoreKit `signedDate` with the system uptime when it was read). A backwards jump holds game time still; a jump of more than a day ahead of the anchor pauses game time instead of punishing. The app calls it before appending any event.
+- `SeasonCalendar`: December is always the Christmas season (1–28 December), with four-week seasons back to back the rest of the year; the season that meets 1 December takes the spare day or two.
 - `DaySeed`: SplitMix64 seeded from the household seed, the day and a purpose, with its own range reduction, so the app, widget, Watch and Mac draw the same gift, objectives and cat schedule without talking, on any Swift version.
 
 ## 4. How state flows to scenes and widgets
@@ -83,6 +84,7 @@ Only the household owner's devices write these (see §6).
 - Entitlements are held in memory and mirrored to the device Keychain (not synchronisable) so an offline launch knows what the player owns; the store's answer replaces the mirror on every refresh, so a refund strips the item at the next launch.
 - `StoreCatalog` lists every launch product from SPEC: outfits, sets and bundles, cat slots, starter, Housewarming pack, Forever Home and founders (non-consumables); Cat Club monthly and yearly in one subscription group with the 7-day trial as an introductory offer on yearly; one non-renewing pass per season; consumable gifts. No rare looks. `tools/store/build_storekit.py` writes the matching `Store/HouseCat.storekit`, and a test checks they agree.
 - Paid furniture is placeable through `RulesContext.paidItems`; the scenes hide any paid item the player no longer owns.
+- Seasonal stock (outfits with months) is listed only in its months, with its real last day, and comes back every year (`ShopRules`, `ShopProduct.isOnSale`). Owned items always show.
 
 ## 7. CloudKit sharing (designed now, built in the social milestone)
 

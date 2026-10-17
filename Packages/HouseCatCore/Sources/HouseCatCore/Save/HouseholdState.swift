@@ -145,6 +145,8 @@ public struct Lifetime: Codable, Equatable, Sendable {
     public var catsAdopted = 0
     public var sundayCards = 0
     public var roomsVisited: Set<RoomID> = []
+    /// Where visits have come from (the Mac and Watch objectives need the device).
+    public var devicesUsed: Set<GameEvent.Source> = []
     public var usedItems: Set<String> = []
 }
 
@@ -253,6 +255,21 @@ public struct HouseholdState: Codable, Equatable, Sendable {
             return .playful
         }
         return .content
+    }
+
+    /// Whether the player can attempt an objective at all (Josh, 18 Oct): the
+    /// Mac and Watch ones need that device, the outfit one an outfit, the
+    /// paw-print one a group, the open-a-room one a room whose level is reached.
+    /// Decided from the save when the day or week opens, so every device draws the same.
+    public func canAttempt(_ objective: ObjectiveDefinition) -> Bool {
+        switch objective.metric {
+        case .macVisit: lifetime.devicesUsed.contains(.mac)
+        case .watchVisit: lifetime.devicesUsed.contains(.watch)
+        case .wearOutfit: !ownedOutfits.isEmpty || lifetime.outfitsWorn > 0
+        case .sendPawPrint: lifetime.groupsJoined > 0
+        case .openRoom: RoomID.allCases.contains { !openedRooms.contains($0) && level >= $0.requiredLevel }
+        default: true
+        }
     }
 
     /// The value of a lifetime metric on `day`.

@@ -32,6 +32,12 @@ struct ContentValidationTests {
         "aluminum", "traveled", "canceled", "fall asleep in the fall", "yard", "cozy", "pants", "zucchini", "eggplant",
         "parking lot", "gotten", "math", "fries", "realize", "organize", "recognize", "apologize", "favorite",
     ]
+    /// No alcohol anywhere (Josh, 18 Oct; rated 4+).
+    static let alcohol = [
+        "wine", "wines", "champagne", "prosecco", "bubbly", "beer", "beers", "lager", "cider", "gin", "rum", "vodka",
+        "whisky", "whiskey", "brandy", "sherry", "booze", "boozy", "pub", "pubs", "cocktail", "cocktails", "drunk", "tipsy",
+        "hangover", "mulled", "eggnog",
+    ]
     static let allowedIze: Set<String> = ["size", "sizes", "sized", "prize", "prizes", "seize", "seized", "capsize", "maize", "resize"]
 
     static func problems(in text: String, limit: Int, isLine: Bool = false) -> [String] {
@@ -46,6 +52,9 @@ struct ContentValidationTests {
         let words = lower.components(separatedBy: CharacterSet.letters.inverted).filter { !$0.isEmpty }
         for word in americanisms where word.contains(" ") ? lower.contains(word) : words.contains(word) {
             problems.append("American English: \(word)")
+        }
+        for word in alcohol where words.contains(word) {
+            problems.append("alcohol: \(word)")
         }
         for word in words where (word.hasSuffix("ize") || word.hasSuffix("izes") || word.hasSuffix("ized") || word.hasSuffix("izing"))
             && !allowedIze.contains(word)
@@ -129,7 +138,8 @@ struct ContentValidationTests {
             }
             switch item.pool {
             case .beans:
-                #expect((item.beans ?? 0) > 0 && item.sku == nil, "\(label): Bean items need a price and no sku")
+                // Bean prices run from a 30-Bean floor (Josh, 18 Oct) to 600.
+                #expect((30 ... 600).contains(item.beans ?? 0) && item.sku == nil, "\(label): Bean price \(item.beans ?? 0)")
             case .set, .housewarming, .founders:
                 #expect(item.sku?.hasPrefix("housecat.") == true && item.beans == nil, "\(label): paid items need a sku")
             case .free, .passFree, .passPaid, .club:
@@ -137,6 +147,7 @@ struct ContentValidationTests {
             }
             #expect(item.level >= 1)
             #expect(item.name.count <= 24, "\(label): name too long")
+            #expect(Self.problems(in: item.name, limit: 24).isEmpty, "\(label): \(Self.problems(in: item.name, limit: 24))")
             #expect(Self.problems(in: item.description, limit: 90).isEmpty, "\(label): \(Self.problems(in: item.description, limit: 90))")
             #expect(item.sprites.keys.sorted() == ["L", "R"], "\(label): needs R and L sprites")
             for sprite in item.sprites.values {
@@ -159,7 +170,11 @@ struct ContentValidationTests {
         let rooms: Set = ["living", "bedroom", "kitchen", "garden", "study", "attic"]
         let roomItems = content.catalogue.items.filter { rooms.contains($0.room) }
         #expect(roomItems.count == 80)
-        #expect(content.catalogue.items.count == 113)
+        // 113 painted, less the two alcohol items (mulled wine, champagne) excluded on 18 Oct.
+        #expect(content.catalogue.items.count == 111)
+        let excluded = Set((content.catalogue.excluded ?? []).map(\.id))
+        #expect(excluded == ["pass_midwinter_mulledwine", "housewarming_pack_champagne"])
+        #expect(content.catalogue.items.allSatisfy { !excluded.contains($0.id) })
         #expect(roomItems.count { $0.pool == .free } == 8)
         #expect(roomItems.count { $0.pool == .beans } == 30)
         #expect(roomItems.count { $0.pool == .set } == 42)
@@ -176,10 +191,8 @@ struct ContentValidationTests {
                   entry["variant"] == nil else { return nil }
             return "\(room)_\(item)"
         })
-        #expect(
-            manifestItems.subtracting(content.catalogue.items.map(\.id)).isEmpty,
-            "missing: \(manifestItems.subtracting(content.catalogue.items.map(\.id)).sorted())"
-        )
+        let missing = manifestItems.subtracting(content.catalogue.items.map(\.id)).subtracting(excluded)
+        #expect(missing.isEmpty, "missing: \(missing.sorted())")
     }
 
     @Test func setsAndSurfacesReferenceRealThings() {
@@ -198,9 +211,7 @@ struct ContentValidationTests {
         for room in ["living", "bedroom", "kitchen", "garden", "study", "attic"] {
             for kind in [CatalogueFile.Surface.Kind.wall, .floor] {
                 let inRoom = content.catalogue.surfaces.filter { $0.room == room && $0.kind == kind }
-                // SPEC asks for five of each per room. The living room has only three wallpapers and
-                // four floors painted (an art gap reported to Josh), so the check here is the three free ones.
-                #expect(inRoom.count >= 3, "\(room) needs at least three \(kind)s")
+                #expect(inRoom.count >= 5, "\(room) needs five \(kind)s")
                 #expect(inRoom.count { $0.pool == .free } >= 3, "\(room) needs three free \(kind)s")
             }
         }
@@ -272,7 +283,10 @@ struct ContentValidationTests {
         #expect(content.seasons.seasonLengthDays == Tuning.Pass.seasonLengthDays)
         for season in content.seasons.seasons {
             let definition = try season.definition()
-            #expect(definition.startDay.distance(to: definition.endDay) == Tuning.Pass.seasonLengthDays, "\(season.id) is not four weeks")
+            // Every season sits exactly on the calendar; December is the Christmas season.
+            let slot = SeasonCalendar.slot(containing: definition.startDay)
+            #expect(slot.start == definition.startDay && slot.end == definition.endDay, "\(season.id) is off the season calendar")
+            #expect(slot.isChristmas == (season.christmas == true), "\(season.id): Christmas flag")
             #expect(season.sku == "housecat.pass.\(season.id)")
             for track in [season.freeTrack, season.paidTrack] {
                 #expect(track.map(\.tier) == Array(1 ... 20), "\(season.id): tiers 1–20 in order")
@@ -291,6 +305,9 @@ struct ContentValidationTests {
                 "\(season.id): tier 20 of the paid track is the season's outfit"
             )
         }
+        let christmas = content.seasons.seasons.filter { $0.christmas == true }
+        #expect(christmas.map(\.id) == ["midwinter"])
+        #expect(christmas.first?.paidTrack.last?.id == "santahat")
         // Seasons run back to back.
         let ordered = try content.seasons.seasons.map { try $0.definition() }.sorted { $0.startDay < $1.startDay }
         for (a, b) in zip(ordered, ordered.dropFirst()) {

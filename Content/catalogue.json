@@ -3105,50 +3105,6 @@
       "fx": null
     },
     {
-      "id": "pass_midwinter_mulledwine",
-      "name": "Spiced mugs",
-      "set": "pass_midwinter",
-      "room": "pass_midwinter",
-      "footprint": {
-        "w": 1,
-        "d": 1
-      },
-      "layer": "floor",
-      "decal": false,
-      "affordances": [
-        "none"
-      ],
-      "capacity": 0,
-      "motion": {
-        "type": "frames",
-        "fx": "steam",
-        "frames": 7,
-        "period": 0.7
-      },
-      "pool": "pass-paid",
-      "level": 1,
-      "beans": null,
-      "sku": null,
-      "description": "Two steaming mugs with orange slices. Not for cats.",
-      "catPose": null,
-      "sprites": {
-        "R": "furniture/pass_midwinter/furn_pass_midwinter_mulledwine_R.png",
-        "L": "furniture/pass_midwinter/furn_pass_midwinter_mulledwine_L.png"
-      },
-      "suggestedScale": 0.25,
-      "fx": {
-        "fx": "steam",
-        "anchor": [
-          221,
-          0
-        ],
-        "anchorL": [
-          215,
-          0
-        ]
-      }
-    },
-    {
       "id": "pass_midwinter_snowglobe",
       "name": "Snow globe",
       "set": "pass_midwinter",
@@ -3692,37 +3648,6 @@
       "fx": null
     },
     {
-      "id": "housewarming_pack_champagne",
-      "name": "Ice bucket",
-      "set": "housewarming_pack",
-      "room": "housewarming_pack",
-      "footprint": {
-        "w": 1,
-        "d": 1
-      },
-      "layer": "floor",
-      "decal": false,
-      "affordances": [
-        "none"
-      ],
-      "capacity": 0,
-      "motion": {
-        "type": "static"
-      },
-      "pool": "housewarming",
-      "level": 1,
-      "beans": null,
-      "sku": "housecat.season.housewarming",
-      "description": "Brass ice bucket on a stand with two glasses. To the new house.",
-      "catPose": null,
-      "sprites": {
-        "R": "furniture/housewarming_pack/furn_housewarming_pack_champagne_R.png",
-        "L": "furniture/housewarming_pack/furn_housewarming_pack_champagne_L.png"
-      },
-      "suggestedScale": 0.35,
-      "fx": null
-    },
-    {
       "id": "housewarming_pack_houseportrait",
       "name": "House portrait",
       "set": "housewarming_pack",
@@ -4059,6 +3984,16 @@
       "sprite": "rooms/floors/floor_living_herringbone.png"
     },
     {
+      "id": "floor_living_honey_boards",
+      "kind": "floor",
+      "room": "living",
+      "name": "Honey-oak boards",
+      "pool": "beans",
+      "beans": 150,
+      "set": null,
+      "sprite": "rooms/floors/floor_living_honey_boards.png"
+    },
+    {
       "id": "floor_living_sage_carpet",
       "kind": "floor",
       "room": "living",
@@ -4369,6 +4304,26 @@
       "sprite": "rooms/walls/wall_kitchen_terracotta_tiles.png"
     },
     {
+      "id": "wall_living_cream_wash",
+      "kind": "wall",
+      "room": "living",
+      "name": "Buttermilk plaster",
+      "pool": "beans",
+      "beans": 120,
+      "set": null,
+      "sprite": "rooms/walls/wall_living_cream_wash.png"
+    },
+    {
+      "id": "wall_living_mint_stripe",
+      "kind": "wall",
+      "room": "living",
+      "name": "Mint stripe",
+      "pool": "beans",
+      "beans": 150,
+      "set": null,
+      "sprite": "rooms/walls/wall_living_mint_stripe.png"
+    },
+    {
       "id": "wall_living_powder_lemon",
       "kind": "wall",
       "room": "living",
@@ -4477,6 +4432,16 @@
       "beans": null,
       "set": null,
       "sprite": "rooms/walls/wall_study_ochre_linen.png"
+    }
+  ],
+  "excluded": [
+    {
+      "id": "pass_midwinter_mulledwine",
+      "reason": "Shows alcohol (mulled wine); removed for the 4+ rating."
+    },
+    {
+      "id": "housewarming_pack_champagne",
+      "reason": "Shows alcohol (a champagne bottle); removed for the 4+ rating."
     }
   ]
 }

@@ -8,7 +8,7 @@ private let repo = URL(fileURLWithPath: #filePath)
     .deletingLastPathComponent().deletingLastPathComponent()
 
 private let catalog = StoreCatalog(
-    paidOutfits: [("beanie", "Beanie"), ("raincoat", "Raincoat")],
+    paidOutfits: [("beanie", "Beanie", []), ("raincoat", "Raincoat", []), ("pumpkinhat", "Pumpkin hat", [10])],
     sets: [("rainy_london", "Rainy London", "raincoat", 300), ("cabin", "Cabin", "beanie", 300)],
     seasons: [("housewarming", "Housewarming")]
 )
@@ -128,5 +128,25 @@ struct CatalogueTests {
         }
         #expect(trial?["paymentMode"] as? String == "free")
         #expect(trial?["subscriptionPeriod"] as? String == "P1W")
+    }
+}
+
+@Suite("Seasonal stock in the shop")
+struct SeasonalStockTests {
+    @Test func aSeasonalOutfitIsOnSaleOnlyInItsMonth() throws {
+        let pumpkin = try #require(catalog.product("housecat.outfit.pumpkinhat"))
+        #expect(pumpkin.months == [10])
+        #expect(pumpkin.isOnSale(on: GameDay(year: 2026, month: 10, day: 20)))
+        #expect(!pumpkin.isOnSale(on: GameDay(year: 2026, month: 11, day: 20)))
+        #expect(catalog.product("housecat.outfit.beanie")?.isOnSale(on: GameDay(year: 2026, month: 11, day: 20)) == true)
+    }
+
+    @Test func theShippedSeasonalOutfitsCarryTheirMonths() throws {
+        let content = try ContentBundle.load(from: repo.appendingPathComponent("Content"))
+        let shipped = StoreCatalog(content: content)
+        let seasonal = Dictionary(uniqueKeysWithValues: shipped.products.filter { !$0.months.isEmpty }.map { ($0.id, $0.months) })
+        #expect(seasonal == [
+            "housecat.outfit.pumpkinhat": [10], "housecat.outfit.skeleton": [10], "housecat.outfit.xmasjumper": [12],
+        ])
     }
 }

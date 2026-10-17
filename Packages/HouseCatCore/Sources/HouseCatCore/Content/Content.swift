@@ -173,10 +173,17 @@ public struct CatalogueFile: Codable, Sendable {
         public var sprite: String
     }
 
+    /// Painted items left out of the game on purpose, with the reason.
+    public struct Excluded: Codable, Sendable {
+        public var id: String
+        public var reason: String
+    }
+
     public var version: Int
     public var sets: [FurnitureSet]
     public var items: [Item]
     public var surfaces: [Surface]
+    public var excluded: [Excluded]?
 }
 
 // MARK: gifts.json, outfits.json
@@ -259,6 +266,8 @@ public struct SeasonsFile: Codable, Sendable {
         public var startAt: String
         public var endAt: String
         public var provisional: Bool?
+        /// The December season.
+        public var christmas: Bool?
         public var sku: String
         public var freeTrack: [PassReward]
         public var paidTrack: [PassReward]

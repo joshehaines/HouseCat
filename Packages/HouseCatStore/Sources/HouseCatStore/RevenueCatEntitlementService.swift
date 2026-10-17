@@ -8,7 +8,7 @@ import RevenueCat
 @Observable
 public final class RevenueCatEntitlementService: EntitlementService {
     public private(set) var entitlements: Entitlements
-    private let catalog: StoreCatalog
+    public let catalog: StoreCatalog
     private let cache: EntitlementCache
 
     public init(apiKey: String, catalog: StoreCatalog, cache: EntitlementCache) {

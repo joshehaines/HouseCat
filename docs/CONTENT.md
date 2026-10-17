@@ -45,9 +45,9 @@ Launch catalogue, 80 items (pool and level set by the tiers in ASSETS.md §5):
 - **Study (12)**: desk (perch, sits on the keyboard), office chair (sit, spin), laptop (perch, "helping"), tall bookshelf (perch), paper tray (sleep), desk lamp (glow), globe (spin), filing cabinet (hide), printer (perch, frames), noticeboard (wall), mug (bat), window blind (sway).
 - **Attic (12)**: old trunk (hide), dusty armchair (sit), skylight beam (sleep; sun only), stacked boxes (perch, hide), rocking horse (sway), dressmaker's dummy (none), telescope (watch), rolled rug (sleep), antique lamp (glow), cobweb corner (bat; Gremlin's favourite), suitcase (hide), old radio (none).
 
-Season-pass sets (8 items a season, 3 on the free track, 5 on the paid track; themes to confirm with Josh): **Housewarming** (moving boxes, tea chest, paint tins, step ladder, fairy lights, picnic blanket, takeaway bag, scented candle); **Midwinter** (knitted blanket, log basket, wreath, mulled-wine mugs, snow globe, fir tree, sledge, hot-water bottle); **First Light** (seed trays, bird box, tulip pot, peg bag, picnic hamper, butterfly jar, wellies, daffodil jug).
+No alcohol anywhere: the champagne bucket and the mulled-wine mugs were painted but are left out (Josh, 18 Oct; `excluded` in catalogue.json). Season-pass sets (8 items a season, Midwinter 7; 3 on the free track, the rest on the paid track): **Housewarming** (moving boxes, tea chest, paint tins, step ladder, fairy lights, picnic blanket, takeaway bag, scented candle); **Midwinter** (knitted blanket, log basket, wreath, snow globe, fir tree, sledge, hot-water bottle); **First Light** (seed trays, bird box, tulip pot, peg bag, picnic hamper, butterfly jar, wellies, daffodil jug).
 
-Housewarming launch pack (6): deluxe fireplace, deluxe record player, string lights, welcome mat, champagne bucket, framed house portrait. Founders: the numbered plaque (wall; brass, slate, oak finishes).
+Housewarming launch pack (5): deluxe fireplace, deluxe record player, string lights, welcome mat, framed house portrait. Founders: the numbered plaque (wall; brass, slate, oak finishes).
 
 ## 3. Gifts (`gifts.json`)
 
@@ -74,7 +74,7 @@ Personality changes the cat's chase speed and reaction lines only.
 
 ## 7. Seasons (`seasons.json`)
 
-Four-week seasons back to back from launch: `id`, `name`, `theme`, `startAt`, `endAt` (real, shown), `freeTrack[20]`, `paidTrack[20]`, `sku`. First three: Housewarming, Midwinter, First Light; December is always the Christmas season.
+Four-week seasons back to back from launch: `id`, `name`, `theme`, `startAt`, `endAt` (real, shown), `freeTrack[20]`, `paidTrack[20]`, `sku`. First three: Housewarming (the launch season), Midwinter, First Light. December is always the Christmas season, Midwinter: it runs 1–28 December every year, the following seasons run four weeks each, and the one that meets 1 December runs a day longer (two in a leap year) (Josh, 18 Oct; `SeasonCalendar` in HouseCatCore). The Santa hat and antlers are Midwinter's outfits.
 
 ## 8. Audio (25 files, `Audio/`)
 

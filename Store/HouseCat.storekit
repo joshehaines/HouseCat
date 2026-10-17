@@ -7,7 +7,7 @@
       "internalID": "6771897224",
       "localizations": [
         {
-          "description": "The Housewarming paid track, 2026-12-07 to 2027-01-04. Everything earned is kept.",
+          "description": "The Housewarming paid track, 2026-11-02 to 2026-12-01. Everything earned is kept.",
           "displayName": "Housewarming Pass",
           "locale": "en_GB"
         }
@@ -22,7 +22,7 @@
       "internalID": "6724101253",
       "localizations": [
         {
-          "description": "The Midwinter paid track, 2027-01-04 to 2027-02-01. Everything earned is kept.",
+          "description": "The Midwinter paid track, 2026-12-01 to 2026-12-29. Everything earned is kept.",
           "displayName": "Midwinter Pass",
           "locale": "en_GB"
         }
@@ -37,7 +37,7 @@
       "internalID": "6756275568",
       "localizations": [
         {
-          "description": "The First Light paid track, 2027-02-01 to 2027-03-01. Everything earned is kept.",
+          "description": "The First Light paid track, 2026-12-29 to 2027-01-26. Everything earned is kept.",
           "displayName": "First Light Pass",
           "locale": "en_GB"
         }

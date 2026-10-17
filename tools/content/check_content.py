@@ -235,7 +235,7 @@ FX_NAMES = {'fire', 'steam', 'candle', 'smoke', 'water_trickle', 'water_ripple',
 
 def check_catalogue(d, manifest, outfits):
     f = 'catalogue.json'
-    keys_exact(d, ['version', 'sets', 'items', 'surfaces'], f)
+    keys_exact(d, ['version', 'sets', 'items', 'surfaces', 'excluded'], f)
     unique([s['id'] for s in d['sets']] + [i['id'] for i in d['items']] + [s['id'] for s in d['surfaces']], f)
     items = {i['id']: i for i in d['items']}
     surfaces = {s['id']: s for s in d['surfaces']}
@@ -244,7 +244,9 @@ def check_catalogue(d, manifest, outfits):
 
     # manifest coverage
     pairs = {(v['room'], v['item']) for v in manifest.values() if v.get('class') == 'furniture'}
-    want_ids = {f"{r}_{i}" for r, i in pairs}
+    # Items left out on purpose (alcohol; Josh, 18 Oct) must say why.
+    excluded = {e['id'] for e in d['excluded'] if e.get('reason')}
+    want_ids = {f"{r}_{i}" for r, i in pairs} - excluded
     if set(items) != want_ids:
         err(f"{f}: items differ from manifest furniture pairs: {sorted(set(items) ^ want_ids)}")
 
@@ -334,8 +336,8 @@ def check_catalogue(d, manifest, outfits):
     pack = [i for i in d['items'] if i['room'] == 'housewarming_pack']
     founders = [i for i in d['items'] if i['room'] == 'founders']
     expect(len(room_items), 80, 'room items')
-    expect(len(pass_items), 24, 'season-pass items')
-    expect(len(pack), 6, 'Housewarming pack items')
+    expect(len(pass_items), 23, 'season-pass items (mulled wine excluded)')
+    expect(len(pack), 5, 'Housewarming pack items (champagne excluded)')
     expect(len(founders), 3, "founders' plaque finishes")
     pc = Counter(i['pool'] for i in room_items)
     expect(pc['free'], 8, 'free room items')
@@ -346,7 +348,7 @@ def check_catalogue(d, manifest, outfits):
     expect(dict(lv), {1: 8, 3: 8, 6: 8, 9: 6}, 'Bean tiers')
     for i in room_items:
         if i['pool'] == 'beans':
-            lo, hi = (30, 60) if i['level'] == 1 else (50, 600)
+            lo, hi = (30, 60) if i['level'] == 1 else (30, 600)  # 30-Bean floor (Josh, 18 Oct)
             if not lo <= i['beans'] <= hi:
                 err(f"{f}: {i['id']} costs {i['beans']} Beans, outside {lo}-{hi} for level {i['level']}")
     cheapest = sorted(i['beans'] for i in room_items if i['pool'] == 'beans' and i['level'] == 1)
@@ -359,7 +361,8 @@ def check_catalogue(d, manifest, outfits):
             err(f"{f}: {i['id']} pass item pool/set wrong")
     for rm in ('pass_housewarming', 'pass_midwinter', 'pass_firstlight'):
         c = Counter(i['pool'] for i in pass_items if i['room'] == rm)
-        expect(dict(c), {'pass-free': 3, 'pass-paid': 5}, f'{rm} pools')
+        want = {'pass-free': 3, 'pass-paid': 4 if rm == 'pass_midwinter' else 5}
+        expect(dict(c), want, f'{rm} pools')
     for i in pack:
         if i['pool'] != 'housewarming' or i['sku'] != 'housecat.season.housewarming':
             err(f"{f}: {i['id']} pack pool/sku wrong")
@@ -610,14 +613,20 @@ def check_seasons(d, items, surfaces, outfits):
     prev_end = None
     for s in d['seasons']:
         w = f"{f} {s['id']}"
-        keys_exact(s, ['id', 'name', 'theme', 'startAt', 'endAt', 'provisional', 'sku', 'freeTrack', 'paidTrack'], w)
+        keys_exact(s, ['id', 'name', 'theme', 'startAt', 'endAt', 'provisional', 'christmas', 'sku', 'freeTrack', 'paidTrack'], w)
         if s['provisional'] is not True:
             err(f"{w}: provisional must be true")
         if s['sku'] != f"housecat.pass.{s['id']}":
             err(f"{w}: sku pattern")
         a, b = date.fromisoformat(s['startAt']), date.fromisoformat(s['endAt'])
-        if (b - a).days != 28:
-            err(f"{w}: not 28 days")
+        # December is the Christmas season (1-28 Dec); the season meeting 1 December runs to it.
+        if s['christmas']:
+            if (a.month, a.day) != (12, 1) or (b - a).days != 28:
+                err(f"{w}: the Christmas season runs four weeks from 1 December")
+        elif not (28 <= (b - a).days <= 30 if (b.month, b.day) == (12, 1) else (b - a).days == 28):
+            err(f"{w}: not four weeks")
+        if not s['christmas'] and a.month == 12 and a.day <= 28:
+            err(f"{w}: December belongs to the Christmas season")
         if prev_end and a != prev_end:
             err(f"{w}: not back to back")
         prev_end = b
@@ -650,7 +659,9 @@ def check_seasons(d, items, surfaces, outfits):
             if pools == 'free':
                 expect(dict(kinds), {'item': 3, 'outfit': 1, 'beans': 16}, f"{w} free track")
             else:
-                expect(dict(kinds), {'item': 5, 'surface': 2, 'outfit': 1, 'beans': 12}, f"{w} paid track")
+                paid_items = 4 if s['id'] == 'midwinter' else 5
+                expect(dict(kinds), {'item': paid_items, 'surface': 2, 'outfit': 1, 'beans': 17 - paid_items},
+                       f"{w} paid track")
                 if t[19]['kind'] != 'outfit':
                     err(f"{w}: paid tier 20 must be the season's outfit")
                 sk = {surfaces[r['id']]['kind'] for r in t if r['kind'] == 'surface' and r['id'] in surfaces}

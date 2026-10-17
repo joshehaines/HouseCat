@@ -296,12 +296,13 @@ extension HouseholdState {
     private mutating func openDay(_ day: GameDay, previousMissed: Bool, context: RulesContext) {
         var tally = DayTally(day: day)
         tally.missedYesterday = previousMissed
-        tally.objectives = ObjectiveRules.daily(from: context.dailyObjectives, household: seed, day: day).map(\.id)
+        tally.objectives = ObjectiveRules.daily(from: context.dailyObjectives.filter(canAttempt), household: seed, day: day).map(\.id)
         today = tally
         if week?.weekStart != day.weekStart {
             week = WeekTally(
                 weekStart: day.weekStart,
-                objectives: ObjectiveRules.weekly(from: context.weeklyObjectives, household: seed, day: day).map(\.id)
+                objectives: ObjectiveRules.weekly(from: context.weeklyObjectives.filter(canAttempt), household: seed, day: day)
+                    .map(\.id)
             )
         }
     }
@@ -309,6 +310,7 @@ extension HouseholdState {
     // MARK: Care
 
     private mutating func recordVisit(_ event: GameEvent, context: RulesContext) {
+        lifetime.devicesUsed.insert(event.source)
         switch event.source {
         case .widget: bump(.widgetVisit, context: context)
         case .mac: bump(.macVisit, context: context)

@@ -30,6 +30,8 @@ public enum StoreError: Error, Equatable {
 /// is configured.
 @MainActor
 public protocol EntitlementService: AnyObject {
+    /// Every product and what it unlocks.
+    var catalog: StoreCatalog { get }
     /// The current entitlements: the Keychain mirror at launch, then the store's.
     var entitlements: Entitlements { get }
     /// Re-derives entitlements from the store's current verified transactions.

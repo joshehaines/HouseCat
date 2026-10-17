@@ -235,15 +235,13 @@ ITEMS = {
                                         "First-night takeaway. The paper bag is the real prize."),
     ('pass_housewarming', 'candle'): ("Scented candle", (1, 1), F, False, ["none"], 0, CANDLE(), None,
                                       "A scented candle in amber glass. Smells like a new home."),
-    # ---- Midwinter season (8)
+    # ---- Midwinter season (7; the mulled-wine mugs are excluded)
     ('pass_midwinter', 'knitblanket'): ("Knitted blanket", (2, 1), F, False, ["sleep"], 1, static(), "sleep_curl",
                                         "A chunky cream knit, folded once. It won't stay folded."),
     ('pass_midwinter', 'logbasket'): ("Log basket", (1, 1), F, False, ["perch"], 1, static(), "loaf_side",
                                       "A wicker basket of split logs, ready for the fire."),
     ('pass_midwinter', 'wreath'): ("Wreath", (1, 1), W, False, ["none"], 0, static(), None,
                                    "Fir, berries and a tartan bow, hung at a batting height."),
-    ('pass_midwinter', 'mulledwine'): ("Spiced mugs", (1, 1), F, False, ["none"], 0, STEAM(), None,
-                                       "Two steaming mugs with orange slices. Not for cats."),
     ('pass_midwinter', 'snowglobe'): ("Snow globe", (1, 1), F, False, ["bat"], 1, static(), None,
                                       "A tiny cottage under glass. Shake it and it snows indoors."),
     ('pass_midwinter', 'firtree'): ("Fir tree", (1, 1), F, False, ["hide", "bat"], 1, glow(0.5, 0.45, 4.0), None,
@@ -269,7 +267,7 @@ ITEMS = {
                                      "Yellow wellington boots. One of them has a cat in it."),
     ('pass_firstlight', 'daffodils'): ("Daffodil jug", (1, 1), F, False, ["none"], 0, sway(0.5, 0.9, 5.0), None,
                                        "A blue enamel jug of daffodils. Cheerful, and best admired."),
-    # ---- Housewarming launch pack (6)
+    # ---- Housewarming launch pack (5; the champagne bucket is excluded)
     ('housewarming_pack', 'grandfireplace'): ("Grand fireplace", (2, 1), F, False, ["sleep"], 1, FIRE(), "sleep_curl",
                                               "Marble, a mantel clock and a proper fire. The grandest bed going."),
     ('housewarming_pack', 'hifi'): ("Hi-fi console", (2, 1), F, False, ["perch"], 1, spin(0.4, 0.3, 1.8), "loaf_side",
@@ -278,8 +276,6 @@ ITEMS = {
                                           "Big round warm bulbs strung along the wall."),
     ('housewarming_pack', 'welcomemat'): ("Welcome mat", (2, 1), F, True, ["sleep"], 1, static(), "sleep_curl",
                                           "Coir, and it says WELCOME. The cat agrees, selectively."),
-    ('housewarming_pack', 'champagne'): ("Ice bucket", (1, 1), F, False, ["none"], 0, static(), None,
-                                         "Brass ice bucket on a stand with two glasses. To the new house."),
     ('housewarming_pack', 'houseportrait'): ("House portrait", (1, 1), W, False, ["none"], 0, static(), None,
                                              "A little terraced house in a gilt frame. Home, framed."),
     # ---- Founders' plaque (3)
@@ -289,6 +285,12 @@ ITEMS = {
                                    "Blue-grey slate, brass screws, and your founder's number."),
     ('founders', 'plaque_oak'): ("Founders' plaque, oak", (1, 1), W, False, ["none"], 0, static(), None,
                                  "Carved honey oak with a cat silhouette and your founder's number."),
+}
+
+# Painted items left out on purpose (Josh, 18 Oct 2026). Their masters stay in assets/.
+EXCLUDED = {
+    ('pass_midwinter', 'mulledwine'): "Shows alcohol (mulled wine); removed for the 4+ rating.",
+    ('housewarming_pack', 'champagne'): "Shows alcohol (a champagne bottle); removed for the 4+ rating.",
 }
 
 # ---------------------------------------------------------------- pools for the 80 room items
@@ -336,9 +338,10 @@ SETS = [
 # season id -> (folder, free items, paid items, free outfit, paid outfit)
 SEASON_ITEMS = {
     'housewarming': ('pass_housewarming', ['movingboxes', 'painttins', 'takeaway'],
-                     ['fairylights', 'teachest', 'picnicblanket', 'stepladder', 'candle'], 'antlers', 'santahat'),
+                     ['fairylights', 'teachest', 'picnicblanket', 'stepladder', 'candle'], 'scarf', 'fisherman'),
+    # The Christmas season (every December): the Santa hat and antlers belong here.
     'midwinter': ('pass_midwinter', ['logbasket', 'hotwaterbottle', 'wreath'],
-                  ['knitblanket', 'sledge', 'snowglobe', 'mulledwine', 'firtree'], 'scarf', 'fisherman'),
+                  ['knitblanket', 'sledge', 'snowglobe', 'firtree'], 'antlers', 'santahat'),
     'firstlight': ('pass_firstlight', ['seedtrays', 'wellies', 'pegbag'],
                    ['tulips', 'birdbox', 'hamper', 'daffodils', 'butterflyjar'], 'bandana', 'flowercrown'),
 }
@@ -353,6 +356,7 @@ SURFACE_NAMES = {
     'apricot_houses': "Apricot houses", 'primrose_daffodil': "Primrose and daffodil", 'mint_lino': "Mint lino",
     'white_boards': "White boards", 'grey_boards': "Grey boards", 'worn_oak': "Worn oak boards",
     'rough_pine': "Rough pine boards", 'dusty_boards': "Dusty boards", 'pale_oak': "Pale oak boards",
+    'cream_wash': "Buttermilk plaster", 'mint_stripe': "Mint stripe", 'honey_boards': "Honey-oak boards",
 }
 # Three of each kind free per room; the rest Beans, a set's, or a season's.
 FREE_SURFACES = {
@@ -367,6 +371,7 @@ BEAN_SURFACES = {
     'wall_kitchen_terracotta_tiles': 150, 'wall_garden_ivy_trellis': 200, 'wall_garden_drystone': 200,
     'wall_attic_faded_rose': 250, 'floor_bedroom_chevron': 150, 'floor_kitchen_encaustic': 150,
     'floor_garden_decking': 200, 'floor_garden_brick_paving': 200, 'floor_attic_chalk_blue': 250,
+    'wall_living_cream_wash': 120, 'wall_living_mint_stripe': 150, 'floor_living_honey_boards': 150,
 }
 
 # ---------------------------------------------------------------- outfits
@@ -473,13 +478,16 @@ GIFTS = {
 }
 
 # ---------------------------------------------------------------- seasons
+# December is always the Christmas season (Josh, 18 Oct): 1-28 December, then four-week seasons back to back,
+# the one that meets 1 December running a day or two over (HouseCatCore SeasonCalendar). Provisional until the
+# launch date is set; Housewarming is the launch season.
 SEASONS = [
     ('housewarming', "Housewarming", "Moving in: boxes, tea chests and the first night in a new home.",
-     '2026-12-07', '2027-01-04'),
-    ('midwinter', "Midwinter", "Deep winter indoors: knitted blankets, log baskets and long evenings.",
-     '2027-01-04', '2027-02-01'),
-    ('firstlight', "First Light", "The first spring mornings: seedlings, wellies and the birds coming back.",
-     '2027-02-01', '2027-03-01'),
+     '2026-11-02', '2026-12-01', False),
+    ('midwinter', "Midwinter", "Christmas, every December: the fir tree, the wreath and long evenings in.",
+     '2026-12-01', '2026-12-29', True),
+    ('firstlight', "First Light", "The first light of the new year: seedlings on the sill and wellies by the door.",
+     '2026-12-29', '2027-01-26', False),
 ]
 FREE_TRACK = {5: 'item0', 10: 'item1', 15: 'item2', 20: 'outfit'}
 FREE_BEANS = {1: 20, 2: 20, 3: 25, 4: 25, 6: 30, 7: 30, 8: 30, 9: 35, 11: 35, 12: 40, 13: 40, 14: 40,
@@ -498,6 +506,8 @@ def main():
         if v.get('class') != 'furniture':
             continue
         key = (v['room'], v['item'])
+        if key in EXCLUDED:
+            continue
         if v.get('variant') or path.endswith('_painted.png'):
             continue  # use the primary sprite; _painted duplicates are kept as art alternatives only
         sprites[key][v['facing']] = path
@@ -603,7 +613,8 @@ def main():
              "bundleBeans": 300, "outfit": outfit, "wallpaper": wall, "floor": floor}
             for sid, name, outfit, wall, floor, _ in SETS]
 
-    write('catalogue.json', {"version": 1, "sets": sets, "items": items, "surfaces": surfaces})
+    excluded = [{"id": f"{r}_{i}", "reason": why} for (r, i), why in EXCLUDED.items()]
+    write('catalogue.json', {"version": 1, "sets": sets, "items": items, "surfaces": surfaces, "excluded": excluded})
 
     # ---- outfits
     views_of = defaultdict(dict)
@@ -647,7 +658,7 @@ def main():
     # ---- seasons
     surf_ids = {s['id']: s for s in surfaces}
     seasons = []
-    for sid, name, theme, start, end in SEASONS:
+    for sid, name, theme, start, end, christmas in SEASONS:
         folder, free, paid, free_outfit, paid_outfit = SEASON_ITEMS[sid]
         wall = next(s['id'] for s in surfaces if s['room'] == folder and s['kind'] == 'wall')
         floor = next(s['id'] for s in surfaces if s['room'] == folder and s['kind'] == 'floor')
@@ -655,7 +666,10 @@ def main():
 
         def reward(slot, items_, outfit):
             if slot.startswith('item'):
-                return "item", f"{folder}_{items_[int(slot[4:])]}", None
+                index = int(slot[4:])
+                if index >= len(items_):  # a season one item short (an excluded item): Beans instead
+                    return "beans", None, 100
+                return "item", f"{folder}_{items_[index]}", None
             if slot == 'outfit':
                 return "outfit", outfit, None
             if slot == 'wall':
@@ -677,7 +691,7 @@ def main():
                 k, i, a = "beans", None, PAID_BEANS[t]
             paid_track.append({"tier": t, "kind": k, "id": i, "amount": a})
         seasons.append({"id": sid, "name": name, "theme": theme, "startAt": start, "endAt": end,
-                        "provisional": True, "sku": f"housecat.pass.{sid}",
+                        "provisional": True, "christmas": christmas, "sku": f"housecat.pass.{sid}",
                         "freeTrack": free_track, "paidTrack": paid_track})
     write('seasons.json', {"version": 1, "seasonLengthDays": 28, "tiers": 20, "seasons": seasons})
 

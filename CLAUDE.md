@@ -80,7 +80,7 @@ A painterly 2D pet game. Every visit starts outside the player's home in real we
 - Usage strings for HealthKit and Notifications in plain English, stating the benefit. No location permission exists. WeatherKit attribution (Apple Weather mark + link to the data-sources page, from `WeatherService.attribution`) appears wherever weather is shown, including the Watch.
 - GeoNames is credited (CC BY 4.0) on the licences screen and in the App Store description.
 - Age rating target 4+: answer None to Health/Wellness topics, Contests, UGC, Messaging; Loot boxes No; not the Kids Category, no "Made for Kids".
-- Limited-time offers state a real end date and never return (UK DMCC banned practice 7); every advertised price is the StoreKit localised total; no "X people bought this" or restarting countdowns; all copy addressed to adults.
+- Limited-time offers (the founders' pack, the Housewarming launch pack) state a real end date and never return (UK DMCC banned practice 7). Seasonal stock is different: the pumpkin hat, skeleton onesie and Christmas jumper are on sale only in their months and come back every year (Josh, 18 Oct); the shop may say "on sale until 31 October", never counts down and never says or implies they won't return; every advertised price is the StoreKit localised total; no "X people bought this" or restarting countdowns; all copy addressed to adults.
 - iPad: launch screen required, all orientations and resizable scenes (no `UIRequiresFullScreen`). Mac: App Sandbox on, Menu Bar Extra with About and Quit, real UI to screenshot. Watch app embedded in the iOS project (universal purchase); same bundle ID across platforms.
 - Accessibility from day one: an accessibility element for every interactive node, Dynamic Type for all text, Reduce Motion gives a still cat, rarity never shown by colour alone; declare VoiceOver, Larger Text, Reduced Motion, Differentiate Without Color, Sufficient Contrast and Dark Interface in the Accessibility Nutrition Labels once every common task passes.
 
@@ -95,6 +95,16 @@ Josh's answers where the spec contradicted itself:
 - Gift odds: each trust tier moves 3 points from common, +2 to rare and +1 to legendary (Soulmate: 42 / 28 / 22 / 8).
 - The 80 room items: 8 free starters + 30 Bean items (level 1 ×8, 3 ×8, 6 ×8, 9 ×6) + 42 in six paid sets of 7.
 - The paid pass track's tier 20 is the season's outfit (no paid cat looks exist at launch).
+
+Josh's answers of 18 Oct 2026 (on the content review):
+- December is always the Christmas season (Midwinter): 1–28 December every year, then four-week seasons back to back; the season that meets 1 December runs a day longer (two in a leap year). `SeasonCalendar` in HouseCatCore; the content test checks every season sits on it. Provisional dates until the launch date is set: Housewarming 2 Nov–1 Dec 2026, Midwinter 1–29 Dec 2026, First Light 29 Dec 2026–26 Jan 2027.
+- `housecat.pass.firstlight` is the confirmed product ID for First Light.
+- Seasonal outfits are on sale only in their months (see Store and review rules).
+- An item's `room` is its catalogue section, not a placement rule: any item can go in any open room.
+- No alcohol anywhere: the champagne bucket and mulled-wine mugs are left out of the catalogue (listed under `excluded`); the content test bans drink words.
+- Bean prices have a 30-Bean floor (30–600).
+- Objectives a player cannot attempt are never drawn: the Mac and Watch ones need a visit from that device, the outfit one an outfit, the paw-print one a group, the open-a-room one a room whose level is reached (`HouseholdState.canAttempt`).
+- The living room's fourth and fifth wallpapers and fifth floor were painted (buttermilk plaster, mint stripe, honey-oak boards; docs/art-log.md).
 
 Where the spec is silent, these are set in `Tuning.swift` and HouseCatCore (tune in beta, tell Josh if one changes):
 - Season pass: 50 points a tier (tier 20 at 1,000, about day 23). SPEC's "play 5" and "mini-game 5" are one action (5 a play). Placing furniture pays pass points once a day. Objective pass points sit on top of the 60-a-day cap.

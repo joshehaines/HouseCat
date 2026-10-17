@@ -127,6 +127,11 @@ public enum Tuning {
     /// Season pass (SPEC "Season pass", CONTENT.md §7).
     public enum Pass {
         public static let seasonLengthDays = 28
+        /// December is always the Christmas season: four weeks from 1 December (Josh, 18 Oct).
+        public static let christmasMonth = 12
+        public static let christmasStartDay = 1
+        /// Twelve four-week seasons and the Christmas season make a year.
+        public static let seasonsPerYear = 13
         public static let tiers = 20
         /// Spec is silent; 50 a tier puts tier 20 at 1,000 points, about day 23 of normal play.
         public static let pointsPerTier = 50

@@ -7,9 +7,10 @@
       "id": "housewarming",
       "name": "Housewarming",
       "theme": "Moving in: boxes, tea chests and the first night in a new home.",
-      "startAt": "2026-12-07",
-      "endAt": "2027-01-04",
+      "startAt": "2026-11-02",
+      "endAt": "2026-12-01",
       "provisional": true,
+      "christmas": false,
       "sku": "housecat.pass.housewarming",
       "freeTrack": [
         {
@@ -129,7 +130,7 @@
         {
           "tier": 20,
           "kind": "outfit",
-          "id": "antlers",
+          "id": "scarf",
           "amount": null
         }
       ],
@@ -251,7 +252,7 @@
         {
           "tier": 20,
           "kind": "outfit",
-          "id": "santahat",
+          "id": "fisherman",
           "amount": null
         }
       ]
@@ -259,10 +260,11 @@
     {
       "id": "midwinter",
       "name": "Midwinter",
-      "theme": "Deep winter indoors: knitted blankets, log baskets and long evenings.",
-      "startAt": "2027-01-04",
-      "endAt": "2027-02-01",
+      "theme": "Christmas, every December: the fir tree, the wreath and long evenings in.",
+      "startAt": "2026-12-01",
+      "endAt": "2026-12-29",
       "provisional": true,
+      "christmas": true,
       "sku": "housecat.pass.midwinter",
       "freeTrack": [
         {
@@ -382,7 +384,7 @@
         {
           "tier": 20,
           "kind": "outfit",
-          "id": "scarf",
+          "id": "antlers",
           "amount": null
         }
       ],
@@ -474,7 +476,7 @@
         {
           "tier": 15,
           "kind": "item",
-          "id": "pass_midwinter_mulledwine",
+          "id": "pass_midwinter_firtree",
           "amount": null
         },
         {
@@ -491,9 +493,9 @@
         },
         {
           "tier": 18,
-          "kind": "item",
-          "id": "pass_midwinter_firtree",
-          "amount": null
+          "kind": "beans",
+          "id": null,
+          "amount": 100
         },
         {
           "tier": 19,
@@ -504,7 +506,7 @@
         {
           "tier": 20,
           "kind": "outfit",
-          "id": "fisherman",
+          "id": "santahat",
           "amount": null
         }
       ]
@@ -512,10 +514,11 @@
     {
       "id": "firstlight",
       "name": "First Light",
-      "theme": "The first spring mornings: seedlings, wellies and the birds coming back.",
-      "startAt": "2027-02-01",
-      "endAt": "2027-03-01",
+      "theme": "The first light of the new year: seedlings on the sill and wellies by the door.",
+      "startAt": "2026-12-29",
+      "endAt": "2027-01-26",
       "provisional": true,
+      "christmas": false,
       "sku": "housecat.pass.firstlight",
       "freeTrack": [
         {

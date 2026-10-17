@@ -42,7 +42,8 @@ public final class RoomScene: SKScene {
         self.model = model
         super.init(size: size)
         scaleMode = .resizeFill
-        backgroundColor = SKColor(red: 0.93, green: 0.91, blue: 0.95, alpha: 1)
+        let grade = Tuning.Sky.grade[model.sky] ?? [1, 1, 1], back = Tuning.Stage.roomBackground
+        backgroundColor = SKColor(red: back[0] * grade[0], green: back[1] * grade[1], blue: back[2] * grade[2], alpha: 1)
         addChild(world)
         build()
     }
@@ -60,15 +61,42 @@ public final class RoomScene: SKScene {
         let dt = lastUpdate.map { min(currentTime - $0, 1.0 / 20) } ?? 0
         lastUpdate = currentTime
         director?.update(dt)
+        follow(dt)
     }
 
-    /// Scales and centres the room in the view.
+    /// Where the view looks across the room, in room units; it follows the cat when the room is wider than the view.
+    private var focusX: CGFloat?
+
+    /// Scales and centres the room in the view. On a tall screen the room is zoomed in past its width
+    /// (Tuning.Stage.portraitZoom) and the view pans to follow the cat.
     func fit() {
         let bounds = grid.bounds
         guard size.width > 0, size.height > 0 else { return }
-        let scale = min(size.width * Tuning.Stage.fitWidth / bounds.width, size.height * Tuning.Stage.fitHeight / bounds.height)
+        var scale = min(size.width * Tuning.Stage.fitWidth / bounds.width, size.height * Tuning.Stage.fitHeight / bounds.height)
+        if size.height > size.width {
+            scale = min(scale * Tuning.Stage.portraitZoom, size.height * Tuning.Stage.fitHeight / bounds.height)
+        }
         world.setScale(scale)
-        world.position = CGPoint(x: size.width / 2 - bounds.midX * scale, y: size.height / 2 - bounds.midY * scale)
+        world.position.y = size.height / 2 - bounds.midY * scale
+        place(focusX ?? director?.cat.position.x ?? bounds.midX)
+    }
+
+    /// Pans so a room x sits mid-view, without showing past the room's sides.
+    private func place(_ x: CGFloat) {
+        let bounds = grid.bounds, scale = world.xScale
+        focusX = x
+        var left = size.width / 2 - x * scale
+        if bounds.width * scale > size.width {
+            left = min(-bounds.minX * scale, max(size.width - bounds.maxX * scale, left))
+        } else {
+            left = size.width / 2 - bounds.midX * scale
+        }
+        world.position.x = left
+    }
+
+    private func follow(_ dt: TimeInterval) {
+        guard let cat = director?.cat, let focus = focusX else { return }
+        place(focus + (cat.position.x - focus) * min(1, CGFloat(dt * Tuning.Stage.followRate)))
     }
 
     /// The scene point of a floor position.
@@ -166,16 +194,21 @@ public final class RoomScene: SKScene {
             tl: wallPoint(opening.wall, along: start, up: up + h), tr: wallPoint(opening.wall, along: start + along, up: up + h)
         )
         let size = CGSize(width: frame.width, height: frame.height)
+        func color(_ rgb: [Double]?) -> CGColor {
+            let c = rgb ?? [1, 1, 1]
+            return CGColor(red: c[0], green: c[1], blue: c[2], alpha: 1)
+        }
         let behind: CGImage? = if isWindow {
             Composite.windowView(
                 size: size,
                 opening: mask,
-                skyTop: CGColor(red: 0.42, green: 0.66, blue: 0.93, alpha: 1),
-                skyBottom: CGColor(red: 0.8, green: 0.89, blue: 0.97, alpha: 1),
-                terrain: art.image("world/terrain/terr_city_autumn.png")
+                skyTop: color(Tuning.Sky.top[model.sky]),
+                skyBottom: color(Tuning.Sky.bottom[model.sky]),
+                terrain: art.image(model.terrain),
+                grade: color(Tuning.Sky.grade[model.sky])
             )
         } else {
-            Composite.doorway(size: size, opening: mask, color: CGColor(red: 0.45, green: 0.39, blue: 0.5, alpha: 1))
+            Composite.doorway(size: size, opening: mask, color: color(Tuning.Stage.doorwayShadow))
         }
         if let behind {
             let view = quad(texture: SKTexture(cgImage: behind), corners)

@@ -22,8 +22,15 @@ enum Composite {
         return ctx.makeImage()
     }
 
-    /// Sky and terrain cut to a window's opening.
-    static func windowView(size: CGSize, opening: CGImage, skyTop: CGColor, skyBottom: CGColor, terrain: CGImage?) -> CGImage? {
+    /// Sky and terrain cut to a window's opening; the terrain is multiplied by `grade` for the time of day.
+    static func windowView(
+        size: CGSize,
+        opening: CGImage,
+        skyTop: CGColor,
+        skyBottom: CGColor,
+        terrain: CGImage?,
+        grade: CGColor
+    ) -> CGImage? {
         let w = Int(size.width), h = Int(size.height)
         guard let clip = mask(opening),
               let ctx = CGContext(
@@ -44,8 +51,33 @@ enum Composite {
             // The lower half of the window shows the terrain, wider than the window so it reads as distance.
             let wide = CGFloat(w) * 2.2
             let tall = wide * CGFloat(terrain.height) / CGFloat(terrain.width)
-            ctx.draw(terrain, in: CGRect(x: -CGFloat(w) * 0.6, y: CGFloat(h) * 0.05 - tall * 0.25, width: wide, height: tall))
+            let place = CGRect(x: -CGFloat(w) * 0.6, y: CGFloat(h) * 0.05 - tall * 0.25, width: wide, height: tall)
+            if let graded = graded(terrain, by: grade) {
+                ctx.draw(graded, in: place)
+            }
         }
+        return ctx.makeImage()
+    }
+
+    /// An image multiplied by a colour, keeping its own transparency.
+    static func graded(_ image: CGImage, by color: CGColor) -> CGImage? {
+        let rect = CGRect(x: 0, y: 0, width: image.width, height: image.height)
+        guard let ctx = CGContext(
+            data: nil,
+            width: image.width,
+            height: image.height,
+            bitsPerComponent: 8,
+            bytesPerRow: 0,
+            space: space,
+            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+        ) else { return nil }
+        ctx.draw(image, in: rect)
+        ctx.setBlendMode(.multiply)
+        ctx.setFillColor(color)
+        ctx.fill(rect)
+        // The multiply also painted the transparent parts; keep only where the image was.
+        ctx.setBlendMode(.destinationIn)
+        ctx.draw(image, in: rect)
         return ctx.makeImage()
     }
 

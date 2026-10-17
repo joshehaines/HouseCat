@@ -1,4 +1,5 @@
 import Foundation
+import HouseCatCore
 
 /// What a room scene draws: its surfaces, window, door, light and furniture.
 /// Built by the app from the save; scenes never decide any of it.
@@ -47,8 +48,11 @@ public struct RoomModel: Decodable, Sendable {
     public var items: [Placement]
     /// Floor spots for activities with no furniture (nearPlayer, sunbeam, sulk, middle), in cells.
     public var spots: [String: [Double]] = [:]
-    /// The light map: morning, midday, evening, overcast or night.
+    /// The light map: morning, midday, evening, overcast or night (set from the sky, not the layout).
     public var light = "midday"
+    /// The sky outside the window, and the terrain seen through it.
+    public var sky = SkyPhase.day
+    public var terrain = "world/terrain/terr_city_autumn.png"
 
     private enum CodingKeys: String, CodingKey {
         case wall, floor, window, door, refScale, scale, catHeight, cat, items, spots

@@ -8,11 +8,12 @@ import SwiftUI
 struct HouseCatApp: App {
     @State private var store = Self.makeStore()
     @State private var showShop = false
-    @State private var scene = GameWorld.roomScene(size: CGSize(width: 1024, height: 768))
+    @State private var visit = Visit(size: CGSize(width: 1024, height: 768), lastActive: Visit.lastActive)
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
         WindowGroup {
-            RoomView(scene: scene)
+            RoomView(scene: visit.scene)
                 .ignoresSafeArea()
                 .overlay(alignment: .topTrailing) {
                     Button {
@@ -33,6 +34,14 @@ struct HouseCatApp: App {
                 }
                 .task {
                     await store?.refresh()
+                }
+                .onChange(of: scenePhase) { old, new in
+                    if new == .active, old == .background, ArrivalRules.showsExterior(lastActive: Visit.lastActive, now: Date()) {
+                        visit = Visit(size: CGSize(width: 1024, height: 768), lastActive: Visit.lastActive)
+                    }
+                    if new != .active {
+                        Visit.lastActive = Date()
+                    }
                 }
         }
     }

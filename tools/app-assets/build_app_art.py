@@ -32,12 +32,12 @@ SETS = [
     ('furniture/living/furn_living_*.png', 0.6),
     ('furniture/kitchen/furn_kitchen_bowl_*.png', 0.6),
     ('fx/fire/fx_fire_0*.png', 0.5),
-    # The exterior: the London terrace on city terrain.
-    ('world/houses/ext_london_terrace.png', 0.5),
-    ('world/houses/ext_london_terrace_dooropen.png', 0.5),
+    # The exterior: the demo home's painted scenes (every season, door closed and open) and the city
+    # terrain seen through the room's window.
+    ('world/scenes/london_terrace_city_*', 0.75),
     ('world/terrain/terr_city_*.png', 0.4),
 ]
-DATA = ['cat/rig.json', 'rooms/layout_living_demo.json', 'fx/anchors.json', 'fx/fx.json']
+DATA = ['cat/rig.json', 'rooms/layout_living_demo.json', 'fx/anchors.json', 'fx/fx.json', 'world/scenes/scenes.json']
 
 
 def size(path):
@@ -52,7 +52,8 @@ def main():
     manifest = json.load(open(os.path.join(ASSETS, 'manifest.json')))['files']
     index = {}
     for pattern, factor in SETS:
-        files = sorted(f for f in glob.glob(os.path.join(ASSETS, pattern)) if not f.endswith('_painted.png'))
+        files = sorted(f for f in glob.glob(os.path.join(ASSETS, pattern))
+                       if not f.endswith('_painted.png') and f.endswith(('.png', '.jpg')))
         assert files, pattern
         for src in files:
             rel = os.path.relpath(src, ASSETS)
@@ -60,7 +61,9 @@ def main():
             os.makedirs(os.path.dirname(dst), exist_ok=True)
             w, h = size(src)
             if factor < 1.0:
-                subprocess.run(['sips', '-s', 'format', 'png', '-z', str(max(1, round(h * factor))), str(max(1, round(w * factor))),
+                fmt = 'jpeg' if src.endswith('.jpg') else 'png'
+                quality = ['-s', 'formatOptions', '90'] if fmt == 'jpeg' else []
+                subprocess.run(['sips', '-s', 'format', fmt, *quality, '-z', str(max(1, round(h * factor))), str(max(1, round(w * factor))),
                                 src, '--out', dst], capture_output=True, check=True)
             else:
                 shutil.copyfile(src, dst)

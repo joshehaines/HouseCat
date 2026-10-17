@@ -260,6 +260,46 @@ public enum Tuning {
         public static let nearCameraScale = 1.2
     }
 
+    /// The code-drawn sky over the exterior and the grade on the painted scene (SPEC "World map,
+    /// search and seasons": the sky, sun, moon and grading are code). Colours are linear RGB 0–1.
+    public enum Sky {
+        public static let dawnStartMinutes = 5 * 60
+        public static let dayStartMinutes = 8 * 60
+        public static let duskStartMinutes = 18 * 60
+        public static let nightStartMinutes = 20 * 60 + 30
+        /// Top and bottom of the sky gradient.
+        public static let top: [SkyPhase: [Double]] = [
+            .dawn: [0.47, 0.55, 0.78], .day: [0.36, 0.6, 0.9], .dusk: [0.36, 0.33, 0.6], .night: [0.06, 0.08, 0.2],
+        ]
+        public static let bottom: [SkyPhase: [Double]] = [
+            .dawn: [0.98, 0.78, 0.66], .day: [0.8, 0.89, 0.97], .dusk: [0.98, 0.62, 0.45], .night: [0.18, 0.2, 0.38],
+        ]
+        /// Multiplies the noon painting.
+        public static let grade: [SkyPhase: [Double]] = [
+            .dawn: [0.98, 0.9, 0.86], .day: [1, 1, 1], .dusk: [0.95, 0.78, 0.7], .night: [0.36, 0.4, 0.62],
+        ]
+        /// Lit windows: how strongly the glass glows warm (0 by day).
+        public static let windowGlow: [SkyPhase: Double] = [.dawn: 0.35, .day: 0, .dusk: 0.6, .night: 1]
+        public static let glassByDay = [0.62, 0.76, 0.86]
+        public static let glassLit = [1.0, 0.8, 0.5]
+    }
+
+    /// How the exterior painting is framed: in portrait the house fills the width and the code sky
+    /// runs above it; in landscape the painting fills the width, cropped from the top.
+    public enum Exterior {
+        /// In portrait, this share of the painting's width fills the screen.
+        public static let portraitWidthShare = 0.7
+        /// In landscape, the painting is shown from this far down (the top is sky and distance).
+        public static let landscapeTopCrop = 0.15
+        /// How far the camera pushes into the door, and when the room starts to fade in.
+        public static let pushScale = 3.2
+        public static let roomFadeAt = 0.65
+        public static let roomFadeSeconds = 0.5
+        public static let doorOpenSeconds = 0.3
+        /// The room is built this long after the exterior appears, so the first frame is not held up.
+        public static let roomBuildDelay = 0.4
+    }
+
     /// How a room is framed on screen.
     public enum Stage {
         /// The share of the view the room may fill.
@@ -267,6 +307,14 @@ public enum Tuning {
         public static let fitHeight = 0.9
         /// Wall items without a height hang this many cells up.
         public static let wallItemHeight = 2.5
+        /// On a tall screen the room is zoomed in past its width and the view follows the cat.
+        public static let portraitZoom = 1.8
+        /// How quickly the view catches up with the cat (per second).
+        public static let followRate = 2.5
+        /// Behind the room, graded with the sky.
+        public static let roomBackground = [0.93, 0.91, 0.95]
+        /// The next room glimpsed through the door, in shadow.
+        public static let doorwayShadow = [0.45, 0.39, 0.5]
         /// Fire drawn a little wider than the opening it sits in, ten frames a second.
         public static let fireWidth = 1.3
         public static let fxFrameSeconds = 0.1

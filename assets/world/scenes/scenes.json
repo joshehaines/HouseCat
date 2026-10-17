@@ -1,0 +1,8 @@
+{
+ "note": "Door points of the painted exterior scenes as fractions of the painting (x right, y down), measured from the door-open edits by tools/asset-pipeline/scenes.py; scenes without one use defaultDoor.",
+ "defaultDoor": [
+  0.39,
+  0.62
+ ],
+ "doors": {}
+}

@@ -839,19 +839,89 @@
    ],
    "scale": 0.4
   },
-  "world/houses/ext_london_terrace.png": {
+  "world/scenes/london_terrace_city_autumn.jpg": {
    "master": [
-    1412,
-    1945
+    2048,
+    2048
    ],
-   "scale": 0.5
+   "scale": 0.75
   },
-  "world/houses/ext_london_terrace_dooropen.png": {
+  "world/scenes/london_terrace_city_autumn_glass.png": {
    "master": [
-    1412,
-    1944
+    2048,
+    2048
    ],
-   "scale": 0.5
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_city_autumn_land.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_city_spring.jpg": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_city_spring_glass.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_city_spring_land.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_city_summer.jpg": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_city_summer_glass.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_city_summer_land.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_city_winter.jpg": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_city_winter_glass.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_city_winter_land.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.75
   },
   "world/terrain/terr_city_autumn.png": {
    "master": [

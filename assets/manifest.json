@@ -713,7 +713,7 @@
    "ref_room": null,
    "px": [
     201,
-    332
+    339
    ]
   },
   "furniture/bedroom/furn_bedroom_catbed_L.png": {
@@ -2109,15 +2109,15 @@
    "ref_room": "grey",
    "pos_in_ref": [
     591,
-    672
+    671
    ],
    "size_in_ref": [
     120,
-    199
+    200
    ],
    "px": [
     120,
-    199
+    200
    ]
   },
   "furniture/kitchen/furn_kitchen_catflap_R.png": {
@@ -2713,7 +2713,7 @@
    ],
    "px": [
     390,
-    312
+    309
    ]
   },
   "furniture/living/furn_living_box_R.png": {
@@ -2732,7 +2732,7 @@
     806
    ],
    "px": [
-    372,
+    369,
     356
    ]
   },
@@ -2893,24 +2893,24 @@
    "job_id": "1b1f436d-c163-45ec-a232-e012e60287a8",
    "ref_room": "cream",
    "pos_in_ref": [
-    1442,
-    476
+    1438,
+    475
    ],
    "size_in_ref": [
-    343,
-    463
+    347,
+    467
    ],
    "px": [
-    343,
-    463
+    347,
+    467
    ],
    "motion_fx": {
     "fx": "fire",
     "anchor": [
-     199,
-     317
+     202,
+     318
     ],
-    "fx_width_px": 46,
+    "fx_width_px": 47,
     "note": "bottom-centre of the painted flame; draw fx/fire frames about 1.3 x fx_width_px wide, additive blend, ~10 fps"
    }
   },
@@ -3234,8 +3234,8 @@
     553
    ],
    "px": [
-    496,
-    412
+    494,
+    410
    ]
   },
   "furniture/living/furn_living_windowseat_R.png": {
@@ -3255,7 +3255,7 @@
    ],
    "px": [
     571,
-    478
+    481
    ]
   },
   "furniture/pass_firstlight/furn_pass_firstlight_birdbox_L.png": {
@@ -4745,11 +4745,11 @@
     787
    ],
    "size_in_ref": [
-    347,
+    348,
     325
    ],
    "px": [
-    347,
+    348,
     325
    ]
   },
@@ -4762,16 +4762,16 @@
    "ref_room": "grey",
    "suggested_scale": 0.5,
    "pos_in_ref": [
-    965,
-    819
+    964,
+    820
    ],
    "size_in_ref": [
-    326,
-    302
+    317,
+    300
    ],
    "px": [
-    326,
-    302
+    317,
+    300
    ]
   },
   "rooms/walls/wall_attic_bluegrey_shiplap.png": {

@@ -7,13 +7,21 @@ import numpy as np
 from PIL import Image
 from scipy import ndimage
 
-def cut(path, out_frame, out_open):
+STRICT = {'shuttered', 'stable_blue'}   # teal / powder-blue paint that the loose cyan test eats
+
+
+def cut(path, out_frame, out_open, strict=False):
     a = np.asarray(Image.open(path).convert('RGB')).astype(float)
     r, g, b = a[..., 0], a[..., 1], a[..., 2]
     # magenta background: high R and B, low G
     mag = (r > 150) & (b > 150) & (g < 120) & (np.abs(r - b) < 90)
     # cyan opening: low R, high G and B
     cya = (r < 120) & (g > 150) & (b > 150) & (np.abs(g - b) < 90)
+    if strict:
+        # only the flat painted key: within 45 of pure #00FFFF, then grown 3 px into its own soft edge
+        d = np.sqrt(r ** 2 + (255 - g) ** 2 + (255 - b) ** 2)
+        core = ndimage.binary_opening(d < 45, iterations=2)
+        cya = ndimage.binary_dilation(core, iterations=3, mask=d < 110)
     # the background is the magenta region connected to the border
     lab, n = ndimage.label(mag)
     border = set(np.unique(np.concatenate([lab[0], lab[-1], lab[:, 0], lab[:, -1]]))) - {0}
@@ -49,6 +57,9 @@ def cut(path, out_frame, out_open):
 if __name__ == '__main__':
     kind = sys.argv[1]
     os.makedirs(f'surfaces/{kind}s', exist_ok=True)
+    only = sys.argv[2] if len(sys.argv) > 2 else None
     for f in sorted(os.listdir(f'gen/{kind}')):
         iid = f[:-4]
-        print(iid, cut(f'gen/{kind}/{f}', f'surfaces/{kind}s/{kind}_{iid}.png', f'surfaces/{kind}s/{kind}_{iid}_opening.png'))
+        if only and iid != only: continue
+        print(iid, cut(f'gen/{kind}/{f}', f'surfaces/{kind}s/{kind}_{iid}.png', f'surfaces/{kind}s/{kind}_{iid}_opening.png',
+                       strict=iid in STRICT))

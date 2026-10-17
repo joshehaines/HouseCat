@@ -5,9 +5,10 @@
   "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261017_100601_04bb9bda-1add-45e0-b827-af52a7877ecd.png",
   "sprite": "sprites/living/furn_living_windowseat_R.png",
   "size": [
-   2048,
-   630
-  ]
+   571,
+   481
+  ],
+  "repaired": "edit on magenta, 17 Oct (matte had eaten part of it)"
  },
  "living:windowseat_L": {
   "job_id": "368ec954-4291-4003-910f-775ccca788b8",
@@ -15,9 +16,10 @@
   "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261017_100601_368ec954-4291-4003-910f-775ccca788b8.png",
   "sprite": "sprites/living/furn_living_windowseat_L.png",
   "size": [
-   2048,
-   643
-  ]
+   494,
+   410
+  ],
+  "repaired": "edit on magenta, 17 Oct (matte had eaten part of it)"
  },
  "living:radiator_R": {
   "job_id": "87df396a-590e-4108-8931-d4153bed8363",
@@ -118,8 +120,9 @@
   "sprite": "sprites/bedroom/furn_bedroom_bedside_R.png",
   "size": [
    201,
-   338
-  ]
+   339
+  ],
+  "repaired": "edit on magenta, 17 Oct (matte had eaten part of it)"
  },
  "bedroom:bedside_L": {
   "job_id": "9e88360b-24a0-41c2-a50c-dfdf26304da3",
@@ -307,14 +310,15 @@
   "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261017_101654_1b1f436d-c163-45ec-a232-e012e60287a8.png",
   "sprite": "sprites/living/furn_living_fireplace_R.png",
   "size": [
-   343,
-   463
+   347,
+   467
   ],
   "pos": [
-   1442,
-   476
+   1438,
+   475
   ],
-  "coverage": 0.94
+  "coverage": 0.94,
+  "repaired": "edit on magenta, 17 Oct (matte had eaten part of it)"
  },
  "living:fireplace_L": {
   "job_id": "5ef94490-e307-4105-843f-40d301ad5a07",
@@ -858,7 +862,8 @@
    1589,
    652
   ],
-  "coverage": 0.71
+  "coverage": 0.71,
+  "repaired": "edit on magenta, 17 Oct (matte had eaten part of it)"
  },
  "kitchen:catflap_L": {
   "job_id": "208a2ae9-0f30-4246-94fd-4cb707dfddfe",
@@ -868,13 +873,14 @@
   "sprite": "sprites/kitchen/furn_kitchen_catflap_L.png",
   "size": [
    120,
-   199
+   200
   ],
   "pos": [
    591,
-   672
+   671
   ],
-  "coverage": 0.73
+  "coverage": 0.73,
+  "repaired": "edit on magenta, 17 Oct (matte had eaten part of it)"
  },
  "kitchen:radio_R": {
   "job_id": "7ec46ead-4d40-4385-be9c-53d1e70db400",
@@ -1619,14 +1625,15 @@
   "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261017_105743_a0b0c751-264c-482a-b065-4dd69fcba615.png",
   "sprite": "sprites/study/furn_study_printer_R.png",
   "size": [
-   326,
-   302
+   317,
+   300
   ],
   "pos": [
-   965,
-   819
+   964,
+   820
   ],
-  "coverage": 0.88
+  "coverage": 0.88,
+  "repaired": "edit on magenta, 17 Oct (matte had eaten part of it)"
  },
  "study:printer_L": {
   "job_id": "6528337e-ee48-4d27-8334-3fda921134cc",
@@ -1635,14 +1642,15 @@
   "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261017_105742_6528337e-ee48-4d27-8334-3fda921134cc.png",
   "sprite": "sprites/study/furn_study_printer_L.png",
   "size": [
-   347,
+   348,
    325
   ],
   "pos": [
    972,
    787
   ],
-  "coverage": 0.9
+  "coverage": 0.9,
+  "repaired": "edit on magenta, 17 Oct (matte had eaten part of it)"
  },
  "study:noticeboard_R": {
   "job_id": "b24bf703-b321-402f-878d-7ae91bac5ee7",

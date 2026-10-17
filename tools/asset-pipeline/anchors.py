@@ -32,7 +32,7 @@ for room, items in FLAME.items():
             if bx:
                 x0, y0, x1, y1 = bx
                 out[f'furniture/{room}/furn_{room}_{it}_{side}.png'] = {'fx': 'fire' if 'fire' in it else 'candle', 'anchor': [(x0 + x1) // 2, y1],
-                    'fx_width_px': min(x1 - x0, 55) if it in ('candle', 'oillamp') else x1 - x0, 'note': 'bottom-centre of the painted flame; scale the fx frames to fx_width_px and blend additively'}
+                    'fx_width_px': min(x1 - x0, 55) if it in ('candle', 'oillamp') else x1 - x0, 'note': ('bottom-centre of the painted flame; draw fx/candle frames about 0.6 x fx_width_px wide, additive blend, ~10 fps' if it in ('candle', 'oillamp') else 'bottom-centre of the painted flame; draw fx/fire frames about 1.3 x fx_width_px wide, additive blend, ~10 fps')}
 for kind, table in (('steam', STEAM), ('water', WATER)):
     for room, items in table.items():
         for it in items:

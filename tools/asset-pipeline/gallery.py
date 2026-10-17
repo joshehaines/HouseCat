@@ -204,7 +204,7 @@ page = f"""<title>HouseCat Art Book</title>
 <style>{CSS}</style>
 <div class="wrap">
 <header class="top">
-  <p class="eyebrow">Lost Lambs · HouseCat · delivered 17 October 2026</p>
+  <p class="eyebrow">HouseCat · delivered 17 October 2026</p>
   <h1>HouseCat Art Book</h1>
   <p class="lede">Every asset for the first build, painted in Higgsfield and cut, keyed and tiled in code. The full-size masters are in <span class="mono">Cat App/housecat/assets</span> on your Mac, with a manifest that tells the code how to use each one.</p>
   <dl class="facts">

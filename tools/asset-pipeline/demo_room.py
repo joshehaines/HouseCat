@@ -93,13 +93,14 @@ def build():
     shadow_for(canvas, 1.0, 5.2, 0.0, 4.4)      # bed
     shadow_for(canvas, 0.0, 1.2, 2.6, 5.6)      # wardrobe
     shadow_for(canvas, 0.0, 1.2, 6.3, 9.3)      # drawers
+    shadow_for(canvas, 7.3, 8.5, 0.3, 1.5, a=70)  # cat bed
 
     items = [
         place_known('bedrug_R'),
         place_known('bed_R'),
         place_known('wardrobe_L'),
         place_known('drawers_L', dv=3.0),
-        place_known('catbed_L', dv=2.2, du=-0.6),
+        place_at('bedroom', 'catbed_R', 8.35, 1.45),   # under the window, in the sun, against the wall
         place_known('slippers_R', dv=0.2, du=2.6),
         place_known('curtains_R', du=2.3),
         place_at('bedroom', 'bedside_R', 5.8, 0.55),

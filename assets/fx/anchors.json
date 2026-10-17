@@ -2,10 +2,10 @@
  "furniture/living/furn_living_fireplace_R.png": {
   "fx": "fire",
   "anchor": [
-   199,
-   317
+   202,
+   318
   ],
-  "fx_width_px": 46,
+  "fx_width_px": 47,
   "note": "bottom-centre of the painted flame; draw fx/fire frames about 1.3 x fx_width_px wide, additive blend, ~10 fps"
  },
  "furniture/living/furn_living_fireplace_L.png": {

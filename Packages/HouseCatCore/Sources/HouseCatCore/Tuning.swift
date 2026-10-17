@@ -305,9 +305,7 @@ public enum Tuning {
 
     /// The house view: the room you are in with the rest of the home around it (room units unless noted).
     public enum House {
-        /// Upper storeys are lifted clear of the one below (a room is 1080 units tall on screen).
-        public static let storeyLift = 1300.0
-        /// Draw-order bands: per storey, and per room's distance from the back within a storey.
+        /// Draw-order bands: below everything (the ground), and per room's distance from the back.
         public static let storeyBand = 200_000.0
         public static let roomBand = 5000.0
         /// Cut-down partitions, in cells, with a darker top so they read as walls seen from above.
@@ -325,6 +323,8 @@ public enum Tuning {
         /// The ground runs this many cells out from the house, past any view's edge, a little darker than a room floor.
         public static let groundReach = 40.0
         public static let groundShade = 0.82
+        /// A touch that travels less than this (points) is a tap, not a pan.
+        public static let tapSlop = 12.0
         /// How far the view may pan past the house, and how long a drag stops it following the cat.
         public static let margin = 200.0
         public static let panHoldSeconds = 4.0

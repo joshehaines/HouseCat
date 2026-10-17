@@ -1,26 +1,32 @@
 import SwiftUI
 
-/// The decorate controls: a button to start, and while decorating Done plus, with a piece picked up,
-/// Turn and Store (SPEC "The session loop" 7).
+/// The room controls: Decorate (and while decorating Done plus, with a piece picked up, Turn and
+/// Store; SPEC "The session loop" 7), and the stairs between storeys.
 public struct DecorateBar: View {
     private let decorating: Bool
     private let hasSelection: Bool
+    private let storeyTitle: String?
     private let toggle: () -> Void
     private let turn: () -> Void
     private let store: () -> Void
+    private let changeStorey: () -> Void
 
     public init(
         decorating: Bool,
         hasSelection: Bool,
+        storeyTitle: String? = nil,
         toggle: @escaping () -> Void,
         turn: @escaping () -> Void,
-        store: @escaping () -> Void
+        store: @escaping () -> Void,
+        changeStorey: @escaping () -> Void = {}
     ) {
         self.decorating = decorating
         self.hasSelection = hasSelection
+        self.storeyTitle = storeyTitle
         self.toggle = toggle
         self.turn = turn
         self.store = store
+        self.changeStorey = changeStorey
     }
 
     public var body: some View {
@@ -29,7 +35,12 @@ public struct DecorateBar: View {
                 button("Turn", systemImage: "arrow.triangle.2.circlepath", action: turn)
                 button("Store", systemImage: "tray.and.arrow.down", action: store)
             }
-            button(decorating ? "Done" : "Decorate", systemImage: decorating ? "checkmark" : "hammer", action: toggle)
+            if !decorating, let storeyTitle {
+                button(storeyTitle, systemImage: storeyTitle == "Upstairs" ? "arrow.up.square" : "arrow.down.square", action: changeStorey)
+            }
+            if storeyTitle != "Downstairs" || decorating {
+                button(decorating ? "Done" : "Decorate", systemImage: decorating ? "checkmark" : "hammer", action: toggle)
+            }
         }
         .animation(.easeOut(duration: 0.2), value: hasSelection)
     }

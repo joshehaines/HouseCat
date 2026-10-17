@@ -34,6 +34,7 @@ public final class RoomScene: SKScene {
         items = Dictionary(uniqueKeysWithValues: content.catalogue.items.map { ($0.id, $0) })
         surfaces = Dictionary(uniqueKeysWithValues: content.catalogue.surfaces.map { ($0.id, $0) })
         self.house = house
+        storey = house.storey
         super.init(size: size)
         scaleMode = .resizeFill
         backgroundColor = Sky.color(Tuning.Sky.bottom[house.sky])
@@ -81,22 +82,40 @@ public final class RoomScene: SKScene {
 
     // MARK: Building
 
+    /// The storey on screen: the active room's, or another one visited by the stairs.
+    public private(set) var storey = 0
+
+    /// The house's storeys, ground floor first.
+    public var storeys: [Int] {
+        Array(Set(house.rooms.map(\.storey))).sorted()
+    }
+
+    /// Shows another storey (up or down the stairs); the cat stays where it is and comes back with its storey.
+    public func showStorey(_ next: Int) {
+        guard storeys.contains(next), next != storey else { return }
+        setDecorating(false)
+        storey = next
+        focus = nil
+        build()
+    }
+
     private func build() {
+        let cat = director?.cat
+        cat?.removeFromParent()
         world.removeAllChildren()
         rooms = [:]
         let cells = CGFloat(Tuning.Room.gridWidth)
         buildGround()
         // One storey at a time, standing on the ground; the others are reached by the stairs.
-        for room in house.rooms where room.storey == house.storey {
+        for room in house.rooms where room.storey == storey {
             let node = RoomNode(
                 id: room.id, model: room.model, art: art, items: items, surfaces: surfaces,
                 walls: house.walls(of: room), outdoor: room.outdoor
             )
             let origin = grid.floor(CGFloat(room.u), CGFloat(room.v))
-            node.position = CGPoint(x: origin.x, y: origin.y + CGFloat(room.storey) * CGFloat(Tuning.House.storeyLift))
-            // Back to front within a storey, storeys bottom up (they never overlap on screen).
-            node.zPosition = CGFloat(room.storey) * CGFloat(Tuning.House.storeyBand)
-                + CGFloat(room.u + room.v) / cells * CGFloat(Tuning.House.roomBand)
+            node.position = origin
+            // Back to front.
+            node.zPosition = CGFloat(room.u + room.v) / cells * CGFloat(Tuning.House.roomBand)
             if let stairs = house.stairs, stairs.room == room.id, stairs.at.count == 2 {
                 node.addStairs(at: CGFloat(stairs.at[0]), CGFloat(stairs.at[1]), facing: stairs.facing)
             }
@@ -105,6 +124,9 @@ public final class RoomScene: SKScene {
             }
             world.addChild(node)
             rooms[room.id] = node
+        }
+        if let cat, let room = activeRoom {
+            room.addChild(cat)
         }
         fit()
     }
@@ -170,7 +192,9 @@ public final class RoomScene: SKScene {
     /// The active room's frame in the world.
     private var activeBounds: CGRect {
         let bounds = grid.bounds
-        guard let node = activeRoom else { return bounds }
+        // Up the stairs, the room furthest back on that storey stands in for the active one.
+        let node = activeRoom ?? house.rooms.filter { $0.storey == storey }.min { $0.u + $0.v < $1.u + $1.v }.flatMap { rooms[$0.id] }
+        guard let node else { return bounds }
         return bounds.offsetBy(dx: node.position.x, dy: node.position.y)
     }
 
@@ -236,9 +260,11 @@ public final class RoomScene: SKScene {
 
     #if os(iOS)
         private var lastTouch: CGPoint?
+        private var touchTravel: CGFloat = 0
 
         override public func touchesBegan(_ touches: Set<UITouch>, with _: UIEvent?) {
             guard let touch = touches.first else { return }
+            touchTravel = 0
             if decorating, beginDecorating(touch.location(in: self)) {
                 return
             }
@@ -253,6 +279,7 @@ public final class RoomScene: SKScene {
             }
             let point = touch.location(in: view)
             if let last = lastTouch {
+                touchTravel += hypot(point.x - last.x, point.y - last.y)
                 // View points have y down; the world has y up.
                 pan(by: CGVector(dx: point.x - last.x, dy: last.y - point.y))
             }
@@ -260,8 +287,11 @@ public final class RoomScene: SKScene {
         }
 
         override public func touchesEnded(_ touches: Set<UITouch>, with _: UIEvent?) {
-            if dragging, let touch = touches.first {
+            guard let touch = touches.first else { return }
+            if dragging {
                 endDecorating(at: touch.location(in: self))
+            } else if !decorating, touchTravel < CGFloat(Tuning.House.tapSlop), let room = closedRoom(at: touch.location(in: self)) {
+                onClosedRoomTapped?(room)
             }
             lastTouch = nil
         }
@@ -273,6 +303,24 @@ public final class RoomScene: SKScene {
             lastTouch = nil
         }
     #endif
+
+    /// The closed room under a scene point, if any (its floor or walls).
+    func closedRoom(at point: CGPoint) -> RoomID? {
+        for room in house.rooms where room.storey == storey && room.lockLabel != nil {
+            guard let node = rooms[room.id], let veil = node.childNode(withName: "veil") as? SKShapeNode else { continue }
+            if veil.path?.contains(convert(point, to: node)) == true {
+                return room.id
+            }
+        }
+        return nil
+    }
+
+    /// Replaces the house (a room opened, a surface changed) and rebuilds it, keeping the cat where it is.
+    public func update(house: HouseModel) {
+        self.house = house
+        setDecorating(false)
+        build()
+    }
 
     // MARK: Decorating (RoomScene+Decorate.swift)
 
@@ -294,4 +342,6 @@ public final class RoomScene: SKScene {
     public var onDecorate: ((DecorateChange) -> Void)?
     /// The piece picked up (or nil), so the app can show Turn and Store.
     public var onSelect: ((UUID?) -> Void)?
+    /// A closed room was tapped: the app offers to open it.
+    public var onClosedRoomTapped: ((RoomID) -> Void)?
 }

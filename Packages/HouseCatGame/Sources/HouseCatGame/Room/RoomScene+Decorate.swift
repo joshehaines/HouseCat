@@ -15,7 +15,8 @@ public extension RoomScene {
 
     /// Turns decorate mode on or off: the grid, and touches that move furniture rather than pan.
     func setDecorating(_ on: Bool) {
-        decorating = on
+        // Furniture is moved in the active room only, so only on its storey.
+        decorating = on && storey == house.storey
         deselect()
         decorateGrid?.removeFromParent()
         decorateGrid = nil

@@ -17,6 +17,22 @@ final class Visit {
     /// Decorate mode, and the piece picked up in it.
     private(set) var decorating = false
     private(set) var selected: UUID?
+    /// A closed room the player tapped, with what opening it takes (Core's `RoomRules.availability`).
+    struct RoomOffer: Identifiable {
+        var room: RoomID
+        var availability: RoomAvailability
+        var level: Int
+        var beans: Int
+        var id: RoomID {
+            room
+        }
+    }
+
+    var roomOffer: RoomOffer?
+
+    /// The storey on screen, and whether the house has one above it.
+    private(set) var storey = 0
+    private(set) var storeys: [Int] = [0]
     @ObservationIgnored private var arrival: GameSession.Arrival?
     @ObservationIgnored private let size: CGSize
     @ObservationIgnored private var room: SKScene?
@@ -66,6 +82,45 @@ final class Visit {
         house.setDecorating(decorating)
     }
 
+    private func offer(_ room: RoomID) {
+        let state = GameSession.shared.state(at: GameSession.shared.now())
+        let availability = RoomRules.availability(
+            of: room,
+            opened: state.openedRooms,
+            level: state.level,
+            beans: state.beans,
+            clubActive: false
+        )
+        roomOffer = RoomOffer(room: room, availability: availability, level: state.level, beans: state.beans)
+    }
+
+    /// Opens the offered room with Beans and rebuilds the house around it.
+    func openOfferedRoom() {
+        guard let offer = roomOffer, case let .unlockable(cost) = offer.availability else { return }
+        roomOffer = nil
+        let session = GameSession.shared
+        session.append(.roomOpened(offer.room, beans: cost), at: session.now())
+        if let house = scene as? RoomScene, let model = GameWorld.house(at: session.now(), state: session.state(at: session.now())) {
+            house.update(house: model)
+        }
+    }
+
+    /// Up the stairs to the next storey, or back down to the ground floor from the top.
+    func changeStorey() {
+        guard let house = scene as? RoomScene, storeys.count > 1 else { return }
+        let next = storeys.first { $0 > storey } ?? storeys[0]
+        decorating = false
+        selected = nil
+        house.showStorey(next)
+        storey = house.storey
+    }
+
+    /// The label for the stairs button, if the house has more than one storey.
+    var storeyTitle: String? {
+        guard storeys.count > 1 else { return nil }
+        return storeys.contains { $0 > storey } ? "Upstairs" : "Downstairs"
+    }
+
     func turnSelection() {
         (scene as? RoomScene)?.turnSelection()
     }
@@ -88,8 +143,11 @@ final class Visit {
         self.arrival = arrival
         let built = GameWorld.roomScene(size: size, state: GameSession.shared.state(at: GameSession.shared.now()), arrival: arrival)
         if let house = built as? RoomScene {
+            storeys = house.storeys
+            storey = house.storey
             house.onDecorate = { GameSession.shared.record($0) }
             house.onSelect = { [weak self] in self?.selected = $0 }
+            house.onClosedRoomTapped = { [weak self] in self?.offer($0) }
         }
         room = built
         return built

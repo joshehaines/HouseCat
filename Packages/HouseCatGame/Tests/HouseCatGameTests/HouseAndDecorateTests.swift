@@ -45,7 +45,13 @@ private struct Fixture {
                 lockLabel: spot.room == .living ? nil : "Level \(spot.room.requiredLevel)"
             )
         }
-        return HouseModel(rooms: rooms, active: .living, sky: .day, ground: "rooms/floors/floor_garden_brick_paving.png")
+        return HouseModel(
+            rooms: rooms,
+            active: .living,
+            sky: .day,
+            ground: "rooms/floors/floor_garden_brick_paving.png",
+            stairs: plan.stairs
+        )
     }
 
     func scene() throws -> RoomScene {
@@ -162,4 +168,22 @@ private func touchPoint(of id: String, in scene: RoomScene) throws -> CGPoint {
     #expect(changes.last == .stored(placementID: id))
     #expect(scene.activeRoom?.model.items.contains { $0.placementID == id } == false)
     #expect(scene.selectedPlacement == nil)
+}
+
+@MainActor
+@Test func upTheStairsShowsTheNextStoreyAndTheCatComesBackWithItsOwn() throws {
+    let fixture = try Fixture()
+    let scene = try fixture.scene()
+    let rig = try fixture.art.data("cat/rig.json", as: PuppetRig.self)
+    scene.addCat(rig: rig, at: 4, 4, pose: .sitSide)
+    #expect(scene.storeys == [0, 1, 2])
+    #expect(scene.rooms[.kitchen]?.childNode(withName: "stairs") != nil)
+    scene.showStorey(1)
+    #expect(Set(scene.rooms.keys) == [.bedroom, .study])
+    #expect(scene.director?.cat.parent == nil)
+    #expect(scene.rooms[.bedroom]?.childNode(withName: "veil") != nil)
+    scene.setDecorating(true)
+    #expect(!scene.decorating, "furniture is moved on the active room's storey only")
+    scene.showStorey(0)
+    #expect(scene.director?.cat.parent === scene.rooms[.living])
 }

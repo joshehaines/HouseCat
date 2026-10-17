@@ -32,9 +32,11 @@ struct HouseCatApp: App {
                         DecorateBar(
                             decorating: visit.decorating,
                             hasSelection: visit.selected != nil,
+                            storeyTitle: visit.storeyTitle,
                             toggle: { visit.toggleDecorating() },
                             turn: { visit.turnSelection() },
-                            store: { visit.storeSelection() }
+                            store: { visit.storeSelection() },
+                            changeStorey: { visit.changeStorey() }
                         )
                         .padding(20)
                     }
@@ -50,6 +52,9 @@ struct HouseCatApp: App {
                     }
                     .accessibilityLabel("Shop")
                     .padding()
+                }
+                .alert(item: $visit.roomOffer) { offer in
+                    roomAlert(offer)
                 }
                 .sheet(isPresented: $showShop) {
                     if let store {
@@ -67,6 +72,35 @@ struct HouseCatApp: App {
                         Visit.lastActive = Date()
                     }
                 }
+        }
+    }
+
+    /// Opening a room (SPEC "Home and furniture": every room needs a level and Beans).
+    private func roomAlert(_ offer: Visit.RoomOffer) -> Alert {
+        let name = offer.room.rawValue.capitalized
+        switch offer.availability {
+        case let .unlockable(cost):
+            return Alert(
+                title: Text("Open the \(name)?"),
+                message: Text("\(cost) Beans. You have \(offer.beans)."),
+                primaryButton: .default(Text("Open for \(cost) Beans")) { visit.openOfferedRoom() },
+                secondaryButton: .cancel()
+            )
+        case let .locked(level, cost, needsLevel, needsBeans):
+            var needs: [String] = []
+            if needsLevel {
+                needs.append("level \(level) (you are level \(offer.level))")
+            }
+            if needsBeans {
+                needs.append("\(cost) Beans (you have \(offer.beans))")
+            }
+            return Alert(
+                title: Text("The \(name)"),
+                message: Text("Opens at " + needs.joined(separator: " and ") + "."),
+                dismissButton: .default(Text("OK"))
+            )
+        case .open:
+            return Alert(title: Text("The \(name) is open"))
         }
     }
 

@@ -88,6 +88,8 @@ Only the household owner's devices write these (see §6).
 
 The room scene is the house view: `RoomScene` builds a `RoomNode` per room of the storey on screen from a `HouseModel` (the home's plan in `assets/rooms/houses.json` plus the save's opened rooms, placed furniture and surfaces), on a ground plane, with the cat in the active room. Decorate mode lives in `RoomScene+Decorate.swift`: hit-test, snap with `PlacementRules.snap`, colour with `PlacementRules.fits`, and report a `DecorateChange` that `GameSession.record` appends as `itemMoved` / `itemStored`.
 
+Care and idle: `GameSession.feed()` / `pet(taps:)` append `fed` / `petted` and pick the line with `CareLines`; the scene's `send(_:)`, `react(_:)` and `nextActivity` hook carry them out. `Sound` (Shared) plays App/Audio.
+
 `Shared/Sources` holds the app-side glue: `GameSession` (the save: load, append with trusted time, derive), `Visit` (which scene is on screen, the greeting bubble) and `GameWorld` (builds scenes from the art and the state). Scenes receive finished values (`RoomModel`, `ExteriorScene.Model`, a `BehaviourChoice`) and decide nothing.
 
 ## 5. Persistence

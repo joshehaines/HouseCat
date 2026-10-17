@@ -18,6 +18,7 @@ A painterly 2D pet game. Every visit starts outside the player's home in real we
 
 ## Commands
 - Generate project: `xcodegen generate` (the .xcodeproj is generated and git-ignored)
+- App sounds from `assets/audio`: `tools/app-assets/build_app_audio.sh` (afconvert to AAC into `App/Audio`)
 - App icon and launch logo from `assets/brand`: `tools/app-assets/build_app_assets.sh` (writes `Shared/AppIcon.icon` and the LaunchLogo image set; never edit the masters)
 - Build without XcodeBuildMCP: `xcodebuild -project HouseCat.xcodeproj -scheme HouseCat -destination 'platform=iOS Simulator,name=iPhone 18 Pro' -derivedDataPath ~/Library/Developer/Xcode/DerivedData/HouseCat-CLI build` (schemes: HouseCat for iPhone, iPad, widgets and Watch; HouseCatMac). Never build into the repo: it sits in ~/Desktop, and simulator apps then hang on macOS's Desktop-folder privacy check when loading frameworks
 - Build/run/screenshot: XcodeBuildMCP tools in the iPhone and iPad simulators (Josh tests in the simulators, no physical device yet; widgets, Live Activities and the Watch app all run in simulators too)
@@ -126,6 +127,11 @@ Where the spec is silent, these are set in `Tuning.swift` and HouseCatCore (tune
 - Decorate (Josh: like moving buildings in a base builder): Decorate shows the grid; press a piece to pick it up, drag and it snaps cell by cell with its footprint green where it fits and red where not, let go to put it down (or it springs back); Turn and Store act on the piece picked up. `PlacementRules` in HouseCatCore decides what fits; each change appends `itemMoved` or `itemStored`. The room's furniture now comes from the save (`placed`), so positions are whole cells.
 - Until onboarding exists the home is the London terrace in the city, London time, seasons on Auto (`GameWorld.DemoHome`), and a fresh save seeds Midnight (Velcro) with the demo layout's furniture granted and placed.
 - The save sits in the App Group only when the app is entitled to it (no team yet), otherwise in the app's own container; SwiftData traps rather than throws on a missing group.
+
+- Closed rooms preview what they become: each room type's window and a few of its own catalogue pieces under the veil (`roomStyles` in `assets/rooms/houses.json`). Tap a closed room to see what opening it takes, and open it with Beans when the level is reached (`RoomRules.availability`, `roomOpened`).
+- Care is in: Feed (top bar) sends the cat to its bowl with the `feed.*` line; a tap on the cat is a pet (a heart and a purr; six in a row and every cat but Velcro walks off, `pet.*` lines from `CareLines`). Settled for 25 s, the cat picks its next activity from the behaviour table and goes (activities are not saved: they are not game state).
+- Sound (App/Audio, AAC from assets/audio by `tools/app-assets/build_app_audio.sh`): the door, the greeting's meow from its line pack, the purr at the rub, crickets after dusk, birds at dawn, the fire, placing furniture. Ambient session: it mixes with music and respects the silent switch.
+- Command-line screenshot runs: launch with `SIMCTL_CHILD_HOUSECAT_SKIP_STORE=1` (no StoreKit, so no sandbox sign-in prompt) and, in Debug builds, `SIMCTL_CHILD_HOUSECAT_SCREEN=decorate|upstairs|feed|pet`.
 
 ## Known gaps after milestone 1
 - `HouseholdState.surfaces` keeps one surface per room (the last changed), so a wallpaper and a floor choice overwrite each other; the house view falls back to the room's first free surface for the other. Key it by room and kind when Decorate gets surfaces.

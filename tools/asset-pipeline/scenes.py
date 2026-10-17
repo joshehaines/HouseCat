@@ -67,6 +67,11 @@ def record(batchfile, jobs):
     print('recorded', len(jobs['jobs']))
 
 
+# Key distances (sum of channel differences, 0-3): fully keyed under KEY_EDGE - KEY_RAMP, untouched past KEY_EDGE.
+KEY_EDGE = 0.55
+KEY_RAMP = 0.3
+
+
 def key(raw, out_dir, name):
     """Key a scene into <name>.jpg (the painting, sky filled with the nearby land colour so no magenta
     bleeds when it is filtered), <name>_land.png (1 = painting, 0 = sky, soft edge) and <name>_glass.png
@@ -76,9 +81,13 @@ def key(raw, out_dir, name):
     from scipy import ndimage
     img = np.asarray(Image.open(raw).convert('RGB')).astype(np.float32) / 255
     r, g, b = img[..., 0], img[..., 1], img[..., 2]
-    # Closeness to the pure key colours, tolerant of the painterly edge.
-    magenta = np.clip(1 - (np.abs(r - 1) + g + np.abs(b - 1)) / 0.9, 0, 1)
-    cyan = np.clip(1 - (r + np.abs(g - 1) + np.abs(b - 1)) / 0.9, 0, 1)
+    # Closeness to the key colours: solid for anything near them (the painted key is never pure, e.g.
+    # 240,5,251), a soft ramp only across the painterly edge.
+    def key(distance):
+        return np.clip((KEY_EDGE - distance) / KEY_RAMP, 0, 1)
+
+    magenta = key(np.abs(r - 1) + g + np.abs(b - 1))
+    cyan = key(r + np.abs(g - 1) + np.abs(b - 1))
     sky = Image.fromarray((magenta * 255).astype(np.uint8)).filter(ImageFilter.MaxFilter(3)).filter(ImageFilter.GaussianBlur(1))
     land = 1 - np.asarray(sky).astype(np.float32) / 255
     # Un-blend the magenta from edge pixels, then fill the sky with the land colour pulled outwards.

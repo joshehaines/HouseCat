@@ -39,6 +39,8 @@
 	<string>1</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>NSSupportsLiveActivities</key>
+	<true/>
 	<key>RevenueCatAPIKey</key>
 	<string></string>
 	<key>UIApplicationSceneManifest</key>

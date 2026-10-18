@@ -249,6 +249,63 @@ final class GameSession {
         return Greeting.line(context, cat: cat, lines: content.lines, rng: &rng)
     }
 
+    // MARK: Play and naps
+
+    /// What a game paid, for its results card.
+    struct Reward {
+        var beans: Int
+        var xp: Int
+        var line: String?
+    }
+
+    var playsLeft: Int {
+        MiniGameRules.playsLeft(state(at: now()))
+    }
+
+    /// The day's seed for one play (String Chase lays its sparkles out with it).
+    func miniGameSeed(_ gameID: String) -> DaySeed {
+        let date = now()
+        let state = state(at: date)
+        return DaySeed(
+            household: state.seed,
+            day: state.clock.day(of: date),
+            purpose: "minigame",
+            salt: "\(gameID).\(state.today?.plays ?? 0)"
+        )
+    }
+
+    /// A finished game: the `miniGamePlayed` event, and what it paid (nothing once the day's plays are used).
+    func playMiniGame(_ gameID: String, stars: Int) -> Reward {
+        let date = now()
+        let before = state(at: date)
+        append(.miniGamePlayed(game: gameID, stars: stars), at: date)
+        let after = state(at: now())
+        return Reward(
+            beans: after.beans - before.beans,
+            xp: after.xp - before.xp,
+            line: line(MiniGameRules.endLine(stars: stars), before: before, date: date)
+        )
+    }
+
+    /// The living room's floor and wallpaper pictures, for the games' room.
+    func livingRoomTiles() -> (floor: String?, wall: String?) {
+        guard let catalogue = content?.catalogue else { return (nil, nil) }
+        let state = state(at: now())
+        func sprite(_ kind: CatalogueFile.Surface.Kind) -> String? {
+            let id = state.surface(kind, in: .living, catalogue: catalogue)
+            return catalogue.surfaces.first { $0.id == id }?.sprite
+        }
+        return (sprite(.floor), sprite(.wall))
+    }
+
+    /// A nap that ran its course, recorded at the moment it ended (it pays once a day).
+    @discardableResult
+    func completeNap(endedAt end: Date) -> Bool {
+        guard NapRules.pays(state(at: end)) else { return false }
+        append(.napCompleted, at: min(end, now()))
+        return true
+    }
+
     // MARK: Inventory
 
     /// A piece the player owns but has not placed.

@@ -57,5 +57,6 @@ struct HouseCatWidget: Widget {
 struct HouseCatWidgetBundle: WidgetBundle {
     var body: some Widget {
         HouseCatWidget()
+        NapLiveActivity()
     }
 }

@@ -162,6 +162,41 @@ public enum Tuning {
         public static let playsPerDay = 5
         /// Beans for one, two and three stars (Josh, 17 Oct).
         public static let starBeans = [2, 4, 6]
+        /// The floor the cat plays on, in cells.
+        public static let arenaWidth = 12.0
+        public static let arenaHeight = 6.0
+        /// How fast each personality chases, in cells a second (it changes the feel, never the stars).
+        public static let chaseSpeed: [String: Double] = ["aloof": 3.0, "velcro": 3.6, "gremlin": 4.0, "loaf": 2.7]
+        /// Laser Pointer: a dot slower than this (cells a second) counts as still, and a dot still this long
+        /// bores the cat; how quickly the cat turns.
+        public static let laserMovingSpeed = 0.6
+        public static let laserBoredSeconds = 1.6
+        public static let laserGrip = 4.0
+        /// Knock It Off: five objects; the paw crosses the shelf in about this many cells of chase; how near the
+        /// paw must be (a fraction of the shelf); each hit speeds it up; a miss rests it.
+        public static let shelfObjects = 5
+        public static let pawSweepCells = 5.0
+        public static let pawReach = 0.09
+        public static let pawSpeedUp = 1.12
+        public static let missRestSeconds = 0.6
+        /// String Chase: five sparkles, collected within this many cells.
+        public static let sparkles = 5
+        public static let sparkleReach = 0.8
+        /// The scene: the cat this many cells tall, the top of the screen kept for the clock and stars.
+        public static let catCells = 2.6
+        public static let hudShare = 0.16
+        /// What stands on the shelf in Knock It Off (gift pictures).
+        public static let shelfThings = [
+            "gift_keepsakes_little_ceramic_fish", "gift_keepsakes_tiny_silver_bell", "gift_keepsakes_small_seashell",
+            "gift_keepsakes_acorn", "gift_keepsakes_marble",
+        ]
+    }
+
+    /// The nap (SPEC "Care"): a wind-down timer as a Live Activity.
+    public enum Nap {
+        public static let minutes = 20.0
+        /// A finished nap stays on the Lock Screen this long.
+        public static let lingerMinutes = 15.0
     }
 
     /// Objectives (CONTENT.md §5).

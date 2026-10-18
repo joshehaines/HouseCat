@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// The room controls: Feed, Decorate (and while decorating Done plus, with a piece picked up, Turn
+/// The room controls: Feed, Play, Decorate (and while decorating Done plus, with a piece picked up, Turn
 /// and Store; SPEC "The session loop" 5 and 7), and the stairs between storeys. Pet is a tap on the cat.
 /// `RoomSwitcher` moves between the open rooms.
 public struct DecorateBar: View {
@@ -13,6 +13,7 @@ public struct DecorateBar: View {
     private let store: () -> Void
     private let changeStorey: () -> Void
     private let feed: (() -> Void)?
+    private let play: (() -> Void)?
 
     public init(
         decorating: Bool,
@@ -23,7 +24,8 @@ public struct DecorateBar: View {
         turn: @escaping () -> Void,
         store: @escaping () -> Void,
         changeStorey: @escaping () -> Void = {},
-        feed: (() -> Void)? = nil
+        feed: (() -> Void)? = nil,
+        play: (() -> Void)? = nil
     ) {
         self.decorating = decorating
         self.hasSelection = hasSelection
@@ -34,6 +36,7 @@ public struct DecorateBar: View {
         self.store = store
         self.changeStorey = changeStorey
         self.feed = feed
+        self.play = play
     }
 
     public var body: some View {
@@ -54,6 +57,9 @@ public struct DecorateBar: View {
             }
             if !decorating, canDecorate, let feed {
                 HUDButton("Feed", icon: "feed_bowl", action: feed)
+            }
+            if !decorating, canDecorate, let play {
+                HUDButton("Play", icon: "play_laser_dot", action: play)
             }
         }
         .animation(.easeOut(duration: 0.2), value: hasSelection)

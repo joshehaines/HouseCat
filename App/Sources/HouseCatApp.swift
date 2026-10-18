@@ -73,6 +73,8 @@ struct HouseCatApp: App {
                 if new == .active {
                     let session = GameSession.shared
                     RealWeather.refreshIfNeeded(state: session.state(at: session.now()))
+                    // A nap that ended while the app was away is recorded now.
+                    visit?.checkNap()
                 }
                 if new != .active {
                     Visit.lastActive = Date()
@@ -213,6 +215,10 @@ struct RoomScreen: View {
     /// The profile's Reminders button: the settings open once the profile has gone.
     @State private var settingsNext = false
     @State private var showBook = false
+    @State private var choosingGame = false
+    @State private var playing: PlayRound?
+    @State private var offeringNap = false
+    @State private var naps = Naps.shared
     @State private var editing: CatBuilderModel?
     @State private var profileVersion = 0
     @Environment(\.horizontalSizeClass) private var sizeClass
@@ -255,7 +261,12 @@ struct RoomScreen: View {
                         turn: { visit.turnSelection() },
                         store: { visit.storeSelection() },
                         changeStorey: { visit.changeStorey() },
-                        feed: { visit.feed() }
+                        feed: { visit.feed() },
+                        play: {
+                            if visit.wantsToPlay() {
+                                choosingGame = true
+                            }
+                        }
                     )
                     .padding(20)
                 }
@@ -277,6 +288,13 @@ struct RoomScreen: View {
                 // Nothing over the cold open: the exterior is the picture.
                 if !visit.decorating, visit.scene is RoomScene {
                     HStack(spacing: 10) {
+                        RoundIconButton("nap_moon", label: "Nap") {
+                            if naps.isNapping {
+                                visit.wakeFromNap()
+                            } else {
+                                offeringNap = true
+                            }
+                        }
                         RoundIconButton("map_pin", label: "Where you live") {
                             let session = GameSession.shared
                             moving = WorldMapModel(mode: .move, current: session.state(at: session.now()))
@@ -331,6 +349,15 @@ struct RoomScreen: View {
             .fullScreenCover(isPresented: $showShop) {
                 ShopView(store: store, content: GameWorld.content)
                     .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
+            }
+            .onChange(of: visit.openGame, initial: true) { _, id in
+                guard let id else { return }
+                visit.openGame = nil
+                if id == "picker" {
+                    choosingGame = true
+                } else if let game = GameWorld.content?.minigames.games.first(where: { $0.id == id }) {
+                    playing = PlayRound(game: game)
+                }
             }
             .onChange(of: visit.openShop, initial: true) { _, open in
                 if open {
@@ -387,6 +414,64 @@ struct RoomScreen: View {
                 }
             }
             .animation(.easeOut(duration: 0.25), value: visit.askReminders)
+            .overlay {
+                if choosingGame, let games = GameWorld.content?.minigames.games {
+                    ZStack {
+                        Color.black.opacity(0.35).ignoresSafeArea().onTapGesture { choosingGame = false }
+                        PlayPicker(games: games, playsLeft: GameSession.shared.playsLeft) { game in
+                            choosingGame = false
+                            playing = PlayRound(game: game)
+                        } close: {
+                            choosingGame = false
+                        }
+                        .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
+                        .padding(24)
+                    }
+                    .transition(.opacity)
+                }
+                if offeringNap {
+                    ZStack {
+                        Color.black.opacity(0.35).ignoresSafeArea().onTapGesture { offeringNap = false }
+                        NapCard(
+                            catName: visit.catName ?? "Your cat",
+                            pays: NapRules.pays(GameSession.shared.state(at: GameSession.shared.now()))
+                        ) {
+                            offeringNap = false
+                            visit.startNap()
+                        } close: {
+                            offeringNap = false
+                        }
+                        .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
+                        .padding(24)
+                    }
+                    .transition(.opacity)
+                }
+            }
+            .overlay(alignment: .top) {
+                if let end = naps.endsAt, !visit.decorating {
+                    NapBanner(catName: visit.catName ?? "Your cat", endsAt: end) { visit.wakeFromNap() }
+                        .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
+                        .padding(.top, 74 * hudScale + 8)
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                }
+            }
+            .animation(.easeOut(duration: 0.25), value: choosingGame)
+            .animation(.easeOut(duration: 0.25), value: offeringNap)
+            .animation(.spring(duration: 0.35), value: naps.endsAt)
+            // When the nap's time is up while the room is open.
+            .task(id: naps.endsAt) {
+                guard let end = naps.endsAt else { return }
+                try? await Task.sleep(for: .seconds(max(0, end.timeIntervalSinceNow) + 0.5))
+                visit.checkNap()
+            }
+            .fullScreenCover(item: $playing) { round in
+                MiniGameView(game: round.game, catName: visit.catName ?? "Your cat") { reward in
+                    playing = nil
+                    if let reward {
+                        visit.played(reward)
+                    }
+                }
+            }
             .sheet(isPresented: $showBook) {
                 GiftBookView(entries: CatScreens.book()) { showBook = false }
             }

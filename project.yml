@@ -78,6 +78,8 @@ targets:
       properties:
         CFBundleDisplayName: HouseCat
         ITSAppUsesNonExemptEncryption: false
+        # The nap timer on the Lock Screen and in the Dynamic Island.
+        NSSupportsLiveActivities: true
         # housecat://visit: the widget's Visit button and a tap on the widget.
         CFBundleURLTypes:
           - CFBundleURLName: com.housecatgame.housecat

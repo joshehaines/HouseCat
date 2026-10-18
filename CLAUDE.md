@@ -208,6 +208,17 @@ Where the spec is silent, these are set in `Tuning.swift` and HouseCatCore (tune
 - Notification scheduling is unit-tested as a plan; delivery was not checked (allowing notifications in the simulator was left to Josh).
 - The large widget (the home model) and the "add the widget" moment at trust day 3 are later steps; the guide shows after the first feed and in the profile.
 
+## Decisions during step 6, depth (18 Oct 2026)
+- The three mini-games are in HouseCatCore as models with tests (`LaserChase`, `KnockItOff`, `StringChase`, `MiniGameRules` in `MiniGames/MiniGames.swift`): stars from `minigames.json`'s thresholds, the cat's chase speed by personality (`Tuning.MiniGames.chaseSpeed`; it changes the feel, never the stars). Laser Pointer: the cat steers after the dot with some weight, and a dot left still bores it. Knock It Off: the paw sweeps a shelf of five of the cat's gift keepsakes, a tap knocks off what is under it, each hit speeds the paw a little, a miss rests it for a moment. String Chase: drag a string; the cat runs along it to five sparkles laid out by the day's seed.
+- `MiniGameScene` (HouseCatGame) draws them with the player's own cat on the living room's own floor and wallpaper; Play sits in the top bar beside Feed, opens a picker with the plays left, then the game full screen (a three-count with the cat's `play.start` line, the clock, the score and the stars, then a results card with the Beans, XP and the `play.win` / `play.lose` line, and Again). A finished game is one `miniGamePlayed` event; leaving early records nothing; after the day's five plays a game is just for fun and says so. Synthesised `ui_knock_off` and `ui_sparkle`, and the recorded zoomies thumps and sleep breathing, joined the app's sounds.
+- The nap: the moon button (bottom right) offers it, the cat curls up in the room, a banner counts down with Wake, and a Live Activity (`NapAttributes`, `NapLiveActivity` in the widget extension; Lock Screen and Dynamic Island, the player's cat from the widget kit) shows the time left. When the 20 minutes are up (checked when the room is open and whenever the app comes back), `napCompleted` is recorded at the moment it ended and pays 10 XP once a day; waking early pays nothing. The nap in progress is kept in the App Group's defaults.
+- Debug: `HOUSECAT_SCREEN=play`, `game:<id>` (with `HOUSECAT_AUTOPLAY=1` the game plays itself), `nap` (with `HOUSECAT_NAP_SECONDS=<n>` it ends that soon).
+
+## Known gaps after step 6
+- CloudKit private mirroring (the exit test's "data survives delete-and-reinstall") needs the developer team and the iCloud container on the App ID; `EventStore(cloudKit:)` is ready and off.
+- The Live Activity rendered in the simulator (the system logged its views loading) but the simulator's screenshots do not show the Dynamic Island, so it has not been seen; check it on a device.
+- The games have no tutorial beyond their one-line instructions, and Knock It Off's shelf is drawn in code, not painted.
+
 ## Known gaps after milestone 1
 - Only the living room has a window and a door; other rooms show none yet. Stairs are a fixture (not in the catalogue), the L sprite mirrored from the R one.
 - The app bundles only the demo home's exterior scenes; shipping every home × biome × season needs On-Demand Resources or Background Assets (about 5 MB a scene with its door-open edit and masks). (Done 18 Oct as Background Assets packs.)

@@ -25,6 +25,9 @@ final class Visit {
     /// After the first feed: the card asking whether the cat may send reminders (once).
     var askReminders = false
 
+    /// Debug screenshot runs: a game to open (HOUSECAT_SCREEN=game:<id>), or "picker".
+    var openGame: String?
+
     /// The first frame of the scene has been drawn (the launch curtain lifts).
     private(set) var ready = false
 
@@ -268,6 +271,12 @@ final class Visit {
                 petCat()
             case "shop":
                 openShop = true
+            case "play":
+                openGame = "picker"
+            case "nap":
+                startNap()
+            case let screen where screen.hasPrefix("game:"):
+                openGame = String(screen.dropFirst("game:".count))
             default:
                 break
             }
@@ -458,6 +467,53 @@ final class Visit {
         }
         say(line)
         refreshStats()
+    }
+
+    // MARK: Play and naps
+
+    /// Play: true to open the games, or the cat's line once the day's five plays are used.
+    func wantsToPlay() -> Bool {
+        if GameSession.shared.playsLeft > 0 {
+            return true
+        }
+        say(GameSession.shared.line("play.used_up"))
+        return false
+    }
+
+    /// Back from a game: the room's numbers and what it paid.
+    func played(_ reward: GameSession.Reward) {
+        refreshStats()
+        if reward.beans > 0 {
+            show(toast: "+\(reward.beans) Beans", icon: "bean_coin")
+        }
+    }
+
+    /// The nap: the cat curls up in its bed, the timer goes on the Lock Screen.
+    func startNap() {
+        guard let house = scene as? RoomScene, !Naps.shared.isNapping else { return }
+        Naps.shared.start(catName: catName ?? "Your cat")
+        house.send(GameSession.shared.placed(BehaviourChoice(activity: .sleep), catRoom: house.catRoom, viewing: activeRoom))
+        house.react("zzz")
+        Sound.loop("cat_sleep_breathing", volume: Tuning.Sound.purr)
+    }
+
+    /// Woken early: up again, and no XP.
+    func wakeFromNap() {
+        Naps.shared.wake()
+        Sound.stop("cat_sleep_breathing", after: Tuning.Sound.fadeSeconds)
+        if let house = scene as? RoomScene {
+            house.send(GameSession.shared.nextActivity(catRoom: house.catRoom, viewing: activeRoom) ?? BehaviourChoice(activity: .sit))
+        }
+    }
+
+    /// A nap whose time is up: recorded, and its XP shown (once a day).
+    func checkNap() {
+        guard Naps.shared.isNapping else { return }
+        let paid = Naps.shared.check()
+        guard !Naps.shared.isNapping else { return }
+        Sound.stop("cat_sleep_breathing", after: Tuning.Sound.fadeSeconds)
+        refreshStats()
+        show(toast: paid ? "A good nap · +\(Tuning.XP.nap) XP" : "A good nap", icon: "nap_moon")
     }
 
     /// Shows a line in the bubble for a few seconds.

@@ -99,6 +99,19 @@ public final class EventStore {
         return SaveLog(snapshot: snapshot, events: stored.compactMap { try? $0.decoded() })
     }
 
+    /// Removes every event and snapshot ("Delete all my data"). With CloudKit mirroring on, the deletions are
+    /// mirrored too.
+    public func deleteEverything() throws {
+        // One by one: a batch delete leaves rows behind in a store shared through the App Group.
+        for event in try context.fetch(FetchDescriptor<StoredEvent>()) {
+            context.delete(event)
+        }
+        for snapshot in try context.fetch(FetchDescriptor<StoredSnapshot>()) {
+            context.delete(snapshot)
+        }
+        try context.save()
+    }
+
     /// Folds events older than the horizon into a snapshot, so loading folds only the recent ones. The events
     /// stay: the snapshot is a cache, rebuilt from them whenever the state's shape changes.
     public func compact(today: GameDay, context rules: RulesContext) throws {

@@ -29,7 +29,7 @@ Share your cat with someone you live with or love, and keep the streak together.
 - Nothing is random for money, no ads, no account.
 - Terms of Use: https://housecatgame.com/terms
 - Privacy Policy: https://housecatgame.com/privacy
-- Weather: Apple Weather. Place names: GeoNames (CC BY 4.0).
+- Weather: Apple Weather. Place search: Apple Maps. The cat's voice: recordings from Wikimedia Commons.
 
 ## Screenshots (iPhone 6.9", landscape, 2868 × 1320, `iphone-6.9/`)
 
@@ -86,3 +86,4 @@ The Housewarming look's product ID keeps its earlier name; IDs can never be rena
 - Sharing a cat (co-owning) uses iCloud: the cat's face button, Reminders and widget, Share. Invites are one-time links or a six-character code that lasts two days.
 - Weather comes from WeatherKit for the home's pinned place (no device location); the Apple Weather mark and link are in the cat's settings.
 - Analytics are off unless the player switches them on in the cat's settings; anonymous counts only.
+- Your data, in the cat's settings: Export my data shares the whole save as JSON; Delete all my data (two confirmations) deletes the save, the widget's files, preferences, reminders and the shared household in iCloud, and starts again from the intro. There is no account to delete. Licences and credits are there too.

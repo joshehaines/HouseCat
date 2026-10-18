@@ -31,6 +31,7 @@ struct SettingsView: View {
                     AnalyticsCard()
                 }
                 CoOwnCard(catName: catName)
+                YourDataCard(catName: catName, deleted: close)
                 WidgetGuide(catName: catName)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(16)

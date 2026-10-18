@@ -84,6 +84,14 @@ struct HouseCatApp: App {
                 }
             }
             .onAppear(perform: start)
+            // Everything was deleted: back to the very first screen, as a fresh install.
+            .onReceive(NotificationCenter.default.publisher(for: .houseCatErased)) { _ in
+                visit = nil
+                adopting = nil
+                placing = nil
+                choosingHome = nil
+                introducing = true
+            }
             // Someone's invite was opened on this phone.
             .overlay {
                 if let metadata = invites.pending {
@@ -1015,6 +1023,8 @@ struct RoomScreen: View {
                 case "addwidget": await askForWidget()
                 case "together": showTogether = true
                 case "profile": showProfile = true
+                case "settings": showSettings = true
+                case "erase": await YourData.deleteEverything()
                 case "trylook":
                     // A look for an open room (the bedroom's first, else the living room's).
                     let state = GameSession.shared.state(at: GameSession.shared.now())

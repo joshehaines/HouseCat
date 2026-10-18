@@ -29,6 +29,12 @@ final class Naps {
         startedAt = defaults.object(forKey: "napStartedAt") as? Date
     }
 
+    /// Forgets a nap in progress without recording it ("Delete all my data").
+    func forget() {
+        startedAt = nil
+        defaults.removeObject(forKey: "napStartedAt")
+    }
+
     func start(catName: String) {
         guard !isNapping else { return }
         var now = Date()

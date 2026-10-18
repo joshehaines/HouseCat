@@ -540,6 +540,44 @@ final class GameSession {
     /// Until onboarding's later steps exist: a household with the free living-room furniture of the demo layout
     /// granted and placed (cells rounded from the layout's hand-tuned positions), and two more in the inventory.
     /// The cat comes from the builder; debug runs can skip it with HOUSECAT_CAT=<preset id> (a velcro cat called Pip).
+    // MARK: Your data
+
+    /// The whole save as JSON ("Export my data"): every event and what they add up to now. Nothing else is
+    /// kept about the player.
+    func exportData() throws -> Data {
+        struct Export: Encodable {
+            var exportedAt: Date
+            var app: String
+            var note: String
+            var events: [GameEvent]
+            var state: HouseholdState
+        }
+        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "?"
+        let export = Export(
+            exportedAt: Date(),
+            app: "HouseCat \(version)",
+            note: "Your HouseCat save: every event in order, and the household they add up to. Purchases are kept by your Apple Account, not here.",
+            events: log.events,
+            state: state(at: now())
+        )
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        encoder.dateEncodingStrategy = .iso8601
+        return try encoder.encode(export)
+    }
+
+    /// Wipes the save on this device and starts a new, empty household ("Delete all my data").
+    func eraseEverything() {
+        do {
+            try store?.deleteEverything()
+        } catch {
+            NSLog("HouseCat: deleting the save failed: %@", "\(error)")
+        }
+        log = SaveLog()
+        folded = nil
+        seedDemoHousehold()
+    }
+
     private func seedDemoHousehold() {
         var date = Date()
         #if DEBUG

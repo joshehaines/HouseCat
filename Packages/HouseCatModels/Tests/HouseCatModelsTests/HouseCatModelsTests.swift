@@ -38,6 +38,14 @@ struct EventStoreTests {
         #expect(loaded.derive(context: .empty).cat("pip")?.careDays == 40)
     }
 
+    @Test func deletingEverythingLeavesAnEmptySave() throws {
+        let store = try EventStore(inMemory: true)
+        try store.append(contentsOf: history())
+        try store.compact(today: start.advanced(by: 45), context: .empty)
+        try store.deleteEverything()
+        #expect(try store.load() == SaveLog())
+    }
+
     @Test func duplicatesSyncedFromAnotherDeviceAreDropped() throws {
         let store = try EventStore(inMemory: true)
         let events = history()

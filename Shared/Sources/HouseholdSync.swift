@@ -122,6 +122,18 @@ enum HouseholdSync {
         return try await container.shareMetadata(for: url)
     }
 
+    /// Removes the household's zone from this person's iCloud (with it, the share and every synced event), as
+    /// "Delete all my data" does; does nothing while CloudKit is off.
+    static func deleteHousehold() async {
+        guard isEnabled else { return }
+        let database = CKContainer(identifier: EventStoreIdentifiers.cloudKitContainer).privateCloudDatabase
+        _ = try? await database.modifyRecordZones(saving: [], deleting: [CKRecordZone.ID(zoneName: zoneName)])
+        await MainActor.run {
+            actor = .owner
+            engine = nil
+        }
+    }
+
     static let codeRecordType = "FriendCode"
 
     enum SyncError: Error {

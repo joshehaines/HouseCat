@@ -1,0 +1,112 @@
+{
+ "cat_meow_short": {
+  "seconds": 0.65,
+  "loop": false,
+  "source": "Wikimedia Commons recording",
+  "title": "File:GettingOutImpatient.ogg",
+  "url": "https://commons.wikimedia.org/wiki/File:GettingOutImpatient.ogg",
+  "author": "Heismark",
+  "license": "Public domain",
+  "excerpt": "4.6-5.25 s"
+ },
+ "cat_meow_long": {
+  "seconds": 1.43,
+  "loop": false,
+  "source": "Wikimedia Commons recording",
+  "title": "File:GettingOutImpatient.ogg",
+  "url": "https://commons.wikimedia.org/wiki/File:GettingOutImpatient.ogg",
+  "author": "Heismark",
+  "license": "Public domain",
+  "excerpt": "7.88-9.32 s"
+ },
+ "cat_meow_question": {
+  "seconds": 1.16,
+  "loop": false,
+  "source": "Wikimedia Commons recording",
+  "title": "File:2015-11-24.\u03bd\u03b9\u03b1\u03bf\u03cd\u03c1\u03b9\u03c3\u03bc\u03b1.\u039d\u03b9\u03ac\u03bf\u03c5.noise reduced.flac",
+  "url": "https://commons.wikimedia.org/wiki/File:2015-11-24.\u03bd\u03b9\u03b1\u03bf\u03cd\u03c1\u03b9\u03c3\u03bc\u03b1.\u039d\u03b9\u03ac\u03bf\u03c5.noise_reduced.flac",
+  "author": "Tsester",
+  "license": "CC0",
+  "excerpt": "0.0-1.155 s"
+ },
+ "cat_meow_hungry": {
+  "seconds": 0.59,
+  "loop": false,
+  "source": "Wikimedia Commons recording",
+  "title": "File:Black cat sound begging the foods.flac",
+  "url": "https://commons.wikimedia.org/wiki/File:Black_cat_sound_begging_the_foods.flac",
+  "author": "\ub9e4\uc77c \ub204\uad70\uac00\uac00 \ub3c4\ub451\ub9de\uc744 \ub54c\ub9c8\ub2e4",
+  "license": "CC0",
+  "excerpt": "0.03-0.62 s"
+ },
+ "cat_meow_pleading": {
+  "seconds": 0.95,
+  "loop": false,
+  "source": "Wikimedia Commons recording",
+  "title": "File:Meow of a pleading cat.oga",
+  "url": "https://commons.wikimedia.org/wiki/File:Meow_of_a_pleading_cat.oga",
+  "author": "Heismark",
+  "license": "Public domain",
+  "excerpt": "0.25-1.2 s"
+ },
+ "cat_meow_soft": {
+  "seconds": 1.15,
+  "loop": false,
+  "source": "Wikimedia Commons recording",
+  "title": "File:Maullido de gata hembra joven.ogg",
+  "url": "https://commons.wikimedia.org/wiki/File:Maullido_de_gata_hembra_joven.ogg",
+  "author": "George Miquilena",
+  "license": "CC0",
+  "excerpt": "0.0-1.15 s"
+ },
+ "cat_chirp": {
+  "seconds": 0.43,
+  "loop": false,
+  "source": "Wikimedia Commons recording",
+  "title": "File:Gurren einer Katze.ogg",
+  "url": "https://commons.wikimedia.org/wiki/File:Gurren_einer_Katze.ogg",
+  "author": "User:Mattes",
+  "license": "Public domain",
+  "excerpt": "19.52-19.95 s"
+ },
+ "cat_trill": {
+  "seconds": 0.64,
+  "loop": false,
+  "source": "Wikimedia Commons recording",
+  "title": "File:Gurren einer Katze.ogg",
+  "url": "https://commons.wikimedia.org/wiki/File:Gurren_einer_Katze.ogg",
+  "author": "User:Mattes",
+  "license": "Public domain",
+  "excerpt": "22.38-23.02 s"
+ },
+ "cat_grumble": {
+  "seconds": 0.48,
+  "loop": false,
+  "source": "Wikimedia Commons recording",
+  "title": "File:Black cat sound begging the foods.flac",
+  "url": "https://commons.wikimedia.org/wiki/File:Black_cat_sound_begging_the_foods.flac",
+  "author": "\ub9e4\uc77c \ub204\uad70\uac00\uac00 \ub3c4\ub451\ub9de\uc744 \ub54c\ub9c8\ub2e4",
+  "license": "CC0",
+  "excerpt": "6.42-6.9 s"
+ },
+ "cat_hiss": {
+  "seconds": 1.16,
+  "loop": false,
+  "source": "Wikimedia Commons recording",
+  "title": "File:Cat hissing - Zabuhailo.wav",
+  "url": "https://commons.wikimedia.org/wiki/File:Cat_hissing_-_Zabuhailo.wav",
+  "author": "Zabuhailo",
+  "license": "CC0",
+  "excerpt": "0.92-2.08 s"
+ },
+ "cat_purr_loop": {
+  "seconds": 8.5,
+  "loop": true,
+  "source": "Wikimedia Commons recording",
+  "title": "File:Purring cat.oga",
+  "url": "https://commons.wikimedia.org/wiki/File:Purring_cat.oga",
+  "author": "Mysid",
+  "license": "Public domain",
+  "excerpt": "0.6-9.6 s"
+ }
+}

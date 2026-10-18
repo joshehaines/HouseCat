@@ -98,6 +98,11 @@ public enum Tuning {
         public static let questVisits = 10
         public static let questMinimumEach = 3
         public static let questBeans = 300
+        /// A friend code stands for an invite this long, and has this many characters.
+        public static let friendCodeHours = 48
+        public static let friendCodeLength = 6
+        /// Paw prints a phone can send a day (a nudge, never a nag).
+        public static let pawPrintsPerDay = 1
     }
 
     /// Beans: the one currency, earned in play and sold in packs (Josh, 18 Oct: like a builder game's gems);

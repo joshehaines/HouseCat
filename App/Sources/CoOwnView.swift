@@ -12,6 +12,9 @@ import SwiftUI
 struct CoOwnCard: View {
     let catName: String
     @State private var link: URL?
+    @State private var code: String?
+    @State private var typed = ""
+    @State private var looking = false
     @State private var making = false
     @State private var problem: String?
 
@@ -38,11 +41,35 @@ struct CoOwnCard: View {
                     Label("Send the invite", systemImage: "square.and.arrow.up")
                 }
                 Text("The link works once, for one person.").font(.caption).foregroundStyle(Theme.inkSoft)
+                if let code {
+                    // Finch's friend code: read it out, or type it on the other phone.
+                    HStack(spacing: 8) {
+                        Text("Or give them this code:").font(.subheadline)
+                        Text(FriendCode.display(code))
+                            .font(.system(size: 20, weight: .heavy, design: .monospaced))
+                            .textSelection(.enabled)
+                    }
+                    Text("It works for \(Tuning.Coop.friendCodeHours / 24) days.").font(.caption).foregroundStyle(Theme.inkSoft)
+                }
             } else {
                 HUDButton(making ? "Making the link…" : "Make an invite link", icon: "share_arrow", prominent: true) {
                     Task { await makeLink() }
                 }
                 .disabled(making)
+            }
+            if HouseholdSync.isEnabled {
+                // Someone gave you a code.
+                HStack(spacing: 8) {
+                    TextField("Have a friend code?", text: $typed)
+                        .textFieldStyle(.roundedBorder)
+                        .textInputAutocapitalization(.characters)
+                        .autocorrectionDisabled()
+                        .frame(maxWidth: 200)
+                    HUDButton(looking ? "Looking…" : "Join") {
+                        Task { await join() }
+                    }
+                    .disabled(FriendCode.normalised(typed) == nil || looking)
+                }
             }
             if let problem {
                 Text(problem).font(.caption).foregroundStyle(.red)
@@ -57,9 +84,22 @@ struct CoOwnCard: View {
         making = true
         defer { making = false }
         do {
-            link = try await HouseholdSync.invite()
+            let url = try await HouseholdSync.invite()
+            link = url
+            code = try? await HouseholdSync.friendCode(for: url)
         } catch {
             problem = "The invite couldn't be made. Check you're signed in to iCloud, then try again."
+        }
+    }
+
+    /// A friend code typed in: the invite it stands for opens the usual join screen.
+    private func join() async {
+        looking = true
+        defer { looking = false }
+        do {
+            Invites.shared.pending = try await HouseholdSync.invite(forCode: typed)
+        } catch {
+            problem = "That code didn't work. Codes last \(Tuning.Coop.friendCodeHours / 24) days; ask for a new one."
         }
     }
 }

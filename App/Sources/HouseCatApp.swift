@@ -297,6 +297,9 @@ struct RoomScreen: View {
     @State private var track: EventDefinition?
     @State private var askingHealth = false
     @State private var askingWidget = false
+    @State private var showTogether = false
+    /// A present the other owner left, opened at this visit.
+    @State private var present: OutfitGift?
     @State private var editing: CatBuilderModel?
     @State private var profileVersion = 0
     @State private var shopOpening: ShopView.Section?
@@ -425,6 +428,16 @@ struct RoomScreen: View {
                             ) { showPass = true }
                                 .id(visit.stats.xp)
                                 .padding(.top, visit.xpGain == nil ? 0 : 28)
+                        }
+                        // Looking after the cat with someone: the week's shared goal, paw prints and presents.
+                        if !visit.decorating, GameSession.shared.isCoOwned {
+                            let quest = GameSession.shared.questProgress
+                            RoundIconButton(
+                                "group_of_three_paw_prints",
+                                label: "Together",
+                                badge: quest.map { $0.isComplete && !$0.claimed } ?? false
+                            ) { showTogether = true }
+                                .id(visit.stats.beans)
                         }
                         // The launch's gift track, while it runs, with a dot when a present waits.
                         if !visit.decorating, let live = GameSession.shared.liveTrack() {
@@ -861,6 +874,7 @@ struct RoomScreen: View {
                 case "streak": showStreak = true
                 case "pass": showPass = true
                 case "addwidget": await askForWidget()
+                case "together": showTogether = true
                 default: break
                 }
             }
@@ -874,6 +888,41 @@ struct RoomScreen: View {
                         } close: {
                             visit.levelReached = nil
                         }
+                    }
+                }
+            }
+            // What the other owner left since this phone last looked: a present to open, or paw prints.
+            .task(id: visit.ready && visit.scene is RoomScene) {
+                guard visit.ready, visit.scene is RoomScene else { return }
+                var debugPresent = false
+                #if DEBUG
+                    debugPresent = ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"] == "present"
+                #endif
+                guard GameSession.shared.isCoOwned || debugPresent else { return }
+                try? await Task.sleep(for: .seconds(Tuning.Care.lineSeconds))
+                let seen = Together.take()
+                if let gift = seen.gifts.first {
+                    present = gift
+                } else if let (key, count) = seen.prints.first {
+                    let name = GameSession.shared.otherOwnerName(key)
+                    visit.notify(count == 1 ? "\(name) left you a paw print" : "\(name) left you \(count) paw prints", icon: "group_of_three_paw_prints")
+                }
+            }
+            .overlay {
+                card(present != nil, close: nil) {
+                    if let present {
+                        PresentCard(gift: present, catName: visit.catName ?? "Your cat") { self.present = nil }
+                    }
+                }
+            }
+            .overlay {
+                card(showTogether, close: { showTogether = false }) {
+                    TogetherCard(catName: visit.catName ?? "Your cat") {
+                        showTogether = false
+                        openShop(.outfits)
+                    } close: {
+                        showTogether = false
+                        visit.refreshStats()
                     }
                 }
             }

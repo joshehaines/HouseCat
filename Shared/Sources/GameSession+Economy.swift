@@ -222,17 +222,38 @@ extension GameSession {
         Sound.play("ui_streak_milestone", volume: Tuning.Sound.levelUp)
     }
 
+    /// Whether this phone can send today's paw print (Tuning.Coop.pawPrintsPerDay).
+    var canSendPawPrint: Bool {
+        let me = HouseholdSync.actor.key
+        let date = now()
+        let state = state(at: date)
+        let today = state.clock.day(of: date)
+        let sent = log.events.filter {
+            if case .pawPrintSent = $0.kind { $0.actor.key == me && $0.day == today } else { false }
+        }.count
+        return sent < Tuning.Coop.pawPrintsPerDay
+    }
+
+    /// Who else looks after the cat, by name, for "from Sam" (the owner, seen from a co-owner's phone, by role).
+    func otherOwnerName(_ key: String) -> String {
+        OwnerName.display(key, otherwise: "\(cat?.name ?? "Your cat")'s other owner")
+    }
+
     /// A paw print for the other owner: a nudge, never a nag (they see it at their next visit).
     func sendPawPrint() {
         append(.pawPrintSent, at: now())
         Sound.play("cat_trill", volume: Tuning.Sound.meow)
     }
 
-    /// Paw prints the other owner sent since this phone last looked.
-    func pawPrints(since date: Date?) -> Int {
+    /// Paw prints the other owner sent since this phone last looked, by sender.
+    func pawPrints(since date: Date?) -> [String: Int] {
         let me = HouseholdSync.actor.key
-        return log.events.filter {
-            if case .pawPrintSent = $0.kind { $0.actor.key != me && $0.at > (date ?? .distantPast) } else { false }
-        }.count
+        var from: [String: Int] = [:]
+        for event in log.events where event.at > (date ?? .distantPast) && event.actor.key != me {
+            if case .pawPrintSent = event.kind {
+                from[event.actor.key, default: 0] += 1
+            }
+        }
+        return from
     }
 }

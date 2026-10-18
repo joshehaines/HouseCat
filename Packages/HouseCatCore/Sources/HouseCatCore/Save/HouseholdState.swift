@@ -403,4 +403,10 @@ public struct OutfitGift: Codable, Equatable, Sendable {
     public var outfitID: String
     public var from: String
     public var at: Date
+
+    public init(outfitID: String, from: String, at: Date) {
+        self.outfitID = outfitID
+        self.from = from
+        self.at = at
+    }
 }

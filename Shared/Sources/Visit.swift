@@ -119,6 +119,11 @@ final class Visit {
     /// The painted icon that goes with the toast.
     private(set) var toastIcon: String?
 
+    /// A short note over the room from outside the visit (a paw print from the other owner).
+    func notify(_ text: String, icon: String? = nil) {
+        show(toast: text, icon: icon)
+    }
+
     private func show(toast text: String, icon: String? = nil) {
         toast = text
         toastIcon = icon

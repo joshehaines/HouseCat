@@ -175,6 +175,20 @@ struct CoopTests {
         #expect(progress?.isComplete == false) // sam has one visit, needs three
     }
 
+    @Test func aFriendCodeIsSixClearCharactersAndForgivesHowItIsTyped() {
+        var rng = DaySeed(household: 7, day: GameDay(index: 1), purpose: "code")
+        let code = FriendCode.make(using: &rng)
+        #expect(code.count == 6)
+        #expect(FriendCode.normalised(code) == code)
+        #expect(FriendCode.normalised(FriendCode.display(code).lowercased()) == code)
+        #expect(FriendCode.normalised(" k7p q3m ") == "K7PQ3M")
+        #expect(FriendCode.normalised("K7P-Q2") == nil)
+        #expect(FriendCode.normalised("O0ILSZ") == nil)
+        #expect(FriendCode.display("K7PQ3M") == "K7P-Q3M")
+        #expect(OwnerName.display("co:Sam", otherwise: "x") == "Sam")
+        #expect(OwnerName.display("owner", otherwise: "Pip's other owner") == "Pip's other owner")
+    }
+
     @Test func anOutfitGivenByOneOwnerIsMarkedFromThem() {
         var f = Fixture()
         f.add(.purchaseBeansGranted(transactionID: "p", beans: 1000), day: 0)

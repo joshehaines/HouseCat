@@ -90,9 +90,44 @@ enum HouseholdSync {
         }
     }
 
+    /// A friend code for an invite (Josh, 18 Oct; Finch's friend code): a record in the app's public database
+    /// named by the code, holding the one-time link and when it lapses (Tuning.Coop.friendCodeHours). Anyone with
+    /// the code can read it; only its maker can change it. No server of our own.
+    static func friendCode(for url: URL) async throws -> String {
+        guard isEnabled else { throw SyncError.unavailable }
+        let database = CKContainer(identifier: EventStoreIdentifiers.cloudKitContainer).publicCloudDatabase
+        var rng = SystemRandomNumberGenerator()
+        // A code already taken is never overwritten: another one is drawn.
+        for _ in 0 ..< 5 {
+            let code = FriendCode.make(using: &rng)
+            let record = CKRecord(recordType: codeRecordType, recordID: CKRecord.ID(recordName: code))
+            record["url"] = url.absoluteString as CKRecordValue
+            record["expires"] = Date().addingTimeInterval(Double(Tuning.Coop.friendCodeHours) * 3600) as CKRecordValue
+            let saved = try await database.modifyRecords(saving: [record], deleting: [], savePolicy: .ifServerRecordUnchanged)
+            if case .success? = saved.saveResults[record.recordID] {
+                return code
+            }
+        }
+        throw SyncError.noLink
+    }
+
+    /// The invite a friend code stands for, if it has not lapsed (then the usual join screen opens).
+    static func invite(forCode typed: String) async throws -> CKShare.Metadata {
+        guard isEnabled else { throw SyncError.unavailable }
+        guard let code = FriendCode.normalised(typed) else { throw SyncError.badCode }
+        let container = CKContainer(identifier: EventStoreIdentifiers.cloudKitContainer)
+        let record = try await container.publicCloudDatabase.record(for: CKRecord.ID(recordName: code))
+        guard let expires = record["expires"] as? Date, expires > Date(),
+              let text = record["url"] as? String, let url = URL(string: text) else { throw SyncError.badCode }
+        return try await container.shareMetadata(for: url)
+    }
+
+    static let codeRecordType = "FriendCode"
+
     enum SyncError: Error {
         case unavailable
         case noLink
+        case badCode
     }
 }
 

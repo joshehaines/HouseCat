@@ -158,6 +158,13 @@ public enum CoopQuest {
         public var target: Int
         public var claimed: Bool
 
+        public init(total: Int, byOwner: [String: Int], target: Int, claimed: Bool) {
+            self.total = total
+            self.byOwner = byOwner
+            self.target = target
+            self.claimed = claimed
+        }
+
         /// Done: the total reached, and everyone pitched in.
         public var isComplete: Bool {
             total >= target && byOwner.values.allSatisfy { $0 >= Tuning.Coop.questMinimumEach }
@@ -177,6 +184,43 @@ public enum CoopQuest {
             target: Tuning.Coop.questVisits,
             claimed: week.questClaimed
         )
+    }
+}
+
+/// A friend code (Josh, 18 Oct; Finch's friend code): six characters to read out or type instead of sending a
+/// link, standing for a co-owner invite for a couple of days. Letters and digits that cannot be mistaken for
+/// each other, shown in two threes ("K7P-Q3M").
+public enum FriendCode {
+    public static let alphabet = Array("ACDEFGHJKMNPQRTUVWXY34679")
+
+    public static func make(using rng: inout some RandomNumberGenerator) -> String {
+        String((0 ..< Tuning.Coop.friendCodeLength).map { _ in alphabet.randomElement(using: &rng)! })
+    }
+
+    /// What someone typed, as the code it stands for (case, spaces and dashes ignored), or nil when it cannot be
+    /// one. The alphabet leaves out O, 0, I, L, 1, B, 8, S, 5, Z and 2.
+    public static func normalised(_ typed: String) -> String? {
+        let code = typed.uppercased().filter { !" -".contains($0) }
+        guard code.count == Tuning.Coop.friendCodeLength, code.allSatisfy(alphabet.contains) else { return nil }
+        return code
+    }
+
+    public static func display(_ code: String) -> String {
+        let half = code.count / 2
+        return String(code.prefix(half)) + "-" + String(code.dropFirst(half))
+    }
+}
+
+/// How a household member is named on screen, from the actor key: a co-owner by the name they chose.
+public enum OwnerName {
+    public static func display(_ key: String, otherwise: String) -> String {
+        if key.hasPrefix("co:") {
+            return String(key.dropFirst(3))
+        }
+        if key.hasPrefix("sitter:") {
+            return String(key.dropFirst(7))
+        }
+        return otherwise
     }
 }
 

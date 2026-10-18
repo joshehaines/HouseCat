@@ -189,6 +189,8 @@ public struct HouseholdState: Codable, Equatable, Sendable {
 
     public internal(set) var xp = 0
     public internal(set) var beansGranted = 0
+    /// The intro's welcome Beans have been given.
+    public internal(set) var tourRewarded = false
     /// Beans earned on closed days, Cat Club bonus included.
     public internal(set) var beansEarnedClosed = 0
     public internal(set) var beansSpent = 0

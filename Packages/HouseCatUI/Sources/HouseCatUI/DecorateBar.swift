@@ -50,16 +50,16 @@ public struct DecorateBar: View {
             }
             if canDecorate || decorating {
                 if decorating {
-                    HUDButton("Done", symbol: "checkmark", prominent: true, action: toggle)
+                    HUDButton("Done", symbol: "checkmark", prominent: true, action: toggle).tourTarget("done")
                 } else {
-                    HUDButton("Decorate", icon: "decorate_paintbrush", action: toggle)
+                    HUDButton("Decorate", icon: "decorate_paintbrush", action: toggle).tourTarget("decorate")
                 }
             }
             if !decorating, canDecorate, let feed {
-                HUDButton("Feed", icon: "feed_bowl", action: feed)
+                HUDButton("Feed", icon: "feed_bowl", action: feed).tourTarget("feed")
             }
             if !decorating, canDecorate, let play {
-                HUDButton("Play", icon: "play_laser_dot", action: play)
+                HUDButton("Play", icon: "play_laser_dot", action: play).tourTarget("play")
             }
         }
         .animation(.easeOut(duration: 0.2), value: hasSelection)

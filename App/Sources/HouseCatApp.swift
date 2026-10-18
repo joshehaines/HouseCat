@@ -16,6 +16,8 @@ struct HouseCatApp: App {
     @State private var choosingHome: HomePlace?
     /// Debug: the widget gallery instead of the game.
     @State private var gallery = false
+    /// A new player sees the intro before the builder.
+    @State private var introducing = false
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
@@ -45,6 +47,12 @@ struct HouseCatApp: App {
                         self.placing = nil
                         choosingHome = place
                     }
+                    .ignoresSafeArea(.keyboard, edges: .bottom)
+                    .overlay(alignment: .topTrailing) {
+                        if placing.mode == .first {
+                            HostHint(\.map, width: 330).padding(.top, 16).padding(.trailing, 20)
+                        }
+                    }
                 } else if let adopting {
                     CatBuilderView(model: adopting) { model in
                         guard let name = model.checkedName else { return }
@@ -53,6 +61,17 @@ struct HouseCatApp: App {
                         // Then where you live (SPEC onboarding: cat, geography, house, first arrival).
                         let session = GameSession.shared
                         placing = WorldMapModel(mode: .first, current: session.state(at: session.now()))
+                    }
+                    .overlay(alignment: .topLeading) {
+                        if adopting.mode == .adopt {
+                            HostHint(\.builder, width: 370).padding(.top, 14).padding(.leading, 16)
+                        }
+                    }
+                } else if introducing, let intro = GameWorld.content?.intro {
+                    // A new player: the intro, then the builder (SPEC onboarding: cat, geography, house, arrival).
+                    IntroView(intro: intro) {
+                        introducing = false
+                        adopting = CatScreens.builder(mode: .adopt)
                     }
                 } else {
                     Color.black.ignoresSafeArea()
@@ -129,8 +148,14 @@ struct HouseCatApp: App {
                 return
             }
         #endif
-        if GameSession.shared.cat == nil, let model = CatScreens.builder(mode: .adopt) {
-            adopting = model
+        #if DEBUG
+            if ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"] == "intro" {
+                introducing = true
+                return
+            }
+        #endif
+        if GameSession.shared.cat == nil {
+            introducing = true
         } else {
             visit = Visit(size: CGSize(width: 1024, height: 768), lastActive: Visit.lastActive)
         }
@@ -238,9 +263,26 @@ struct RoomScreen: View {
     @State private var playing: PlayRound?
     @State private var offeringNap = false
     @State private var naps = Naps.shared
+    @State private var tour = RoomTour.shared
     @State private var editing: CatBuilderModel?
     @State private var profileVersion = 0
     @Environment(\.horizontalSizeClass) private var sizeClass
+
+    /// The room tour, once, a moment after the first arrival (or from the top on a debug run).
+    private func startTour() async {
+        guard visit.ready, visit.scene is RoomScene, !tour.isRunning else { return }
+        try? await Task.sleep(for: .seconds(Tuning.Intro.tourDelay))
+        #if DEBUG
+            if ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"] == "tour" {
+                tour.restart()
+                return
+            }
+        #endif
+        let session = GameSession.shared
+        if !tour.isDone, session.state(at: session.now()).lifetime.visits <= 1 {
+            tour.start()
+        }
+    }
 
     /// Larger controls on an iPad.
     private var hudScale: CGFloat {
@@ -314,13 +356,18 @@ struct RoomScreen: View {
                                 offeringNap = true
                             }
                         }
+                        .tourTarget("nap")
                         RoundIconButton("map_pin", label: "Where you live") {
                             let session = GameSession.shared
                             moving = WorldMapModel(mode: .move, current: session.state(at: session.now()))
                         }
+                        .tourTarget("map")
                         RoundIconButton("cat_face", label: "Your cat") { showProfile = true }
+                            .tourTarget("profile")
                         RoundIconButton("collection_book", label: "The book") { showBook = true }
+                            .tourTarget("book")
                         RoundIconButton("shop_bag", label: "Shop") { showShop = true }
+                            .tourTarget("shop")
                     }
                     .padding(20)
                     .transition(.opacity)
@@ -433,6 +480,35 @@ struct RoomScreen: View {
                 }
             }
             .animation(.easeOut(duration: 0.25), value: visit.askReminders)
+            // The room tour, over everything in the room (Content/intro.json "room").
+            .overlayPreferenceValue(TourTargets.self) { targets in
+                if tour.isRunning, visit.scene is RoomScene {
+                    RoomTourOverlay(
+                        tour: tour,
+                        catName: visit.catName ?? "Your cat",
+                        host: GameWorld.content?.intro.host ?? "Soot",
+                        targets: targets,
+                        catPoint: { visit.catPoint }
+                    )
+                    .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
+                }
+            }
+            // Once the room itself is up (the cold open comes first on a first arrival).
+            .task(id: visit.ready && visit.scene is RoomScene) { await startTour() }
+            .onChange(of: tour.step?.id) { _, id in
+                if id == "pet" {
+                    visit.callCatForTour()
+                }
+            }
+            .onChange(of: tour.isRunning) { was, running in
+                // The reminders card waited for the tour.
+                if was, !running {
+                    visit.refreshStats()
+                    if !Reminders.asked {
+                        visit.askReminders = true
+                    }
+                }
+            }
             .overlay {
                 if choosingGame, let games = GameWorld.content?.minigames.games {
                     ZStack {

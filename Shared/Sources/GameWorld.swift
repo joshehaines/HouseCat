@@ -55,6 +55,13 @@ enum GameWorld {
         var doors: [String: [Double]]
     }
 
+    /// A painted scene's front door (a fraction of the picture), from scenes.json.
+    static func door(for name: String) -> CGPoint {
+        guard let index = try? art?.data("world/scenes/scenes.json", as: SceneIndex.self) else { return CGPoint(x: 0.5, y: 0.7) }
+        let door = index.doors[name] ?? index.defaultDoor
+        return CGPoint(x: door[0], y: door[1])
+    }
+
     /// The home's exterior at this moment: its painting for its biome and season, its sky for the local time.
     static func exteriorScene(size: CGSize, at date: Date, state: HouseholdState) -> ExteriorScene? {
         guard let art, let index = try? art.data("world/scenes/scenes.json", as: SceneIndex.self) else { return nil }

@@ -26,6 +26,27 @@ final class GlobeCamera {
     /// Turns slowly by itself when nobody is holding it (the landing page, the map before a pin).
     var spins: Bool
     private var held = false
+    /// Where the disc sits (fractions of the view: right, and up from the middle), easing when it moves.
+    private var placement = (from: CGPoint.zero, to: CGPoint.zero, since: Date.distantPast)
+    private var placed = false
+
+    /// The first placement is where it starts; later ones slide there.
+    func place(shift: CGFloat, lift: CGFloat) {
+        let target = CGPoint(x: shift, y: lift)
+        guard !placed || target != placement.to else { return }
+        let now = Date()
+        placement = placed ? (offset(at: now), target, now) : (target, target, .distantPast)
+        placed = true
+    }
+
+    func offset(at date: Date) -> CGPoint {
+        let e = min(1, max(0, date.timeIntervalSince(placement.since) / Tuning.Intro.globeSlideSeconds))
+        let eased = e * e * (3 - 2 * e)
+        return CGPoint(
+            x: placement.from.x + (placement.to.x - placement.from.x) * eased,
+            y: placement.from.y + (placement.to.y - placement.from.y) * eased
+        )
+    }
 
     init(latitude: Double = 25, longitude: Double = 0, zoom: Double = 1, spins: Bool = true) {
         rest = GlobeOrientation(latitude: latitude, longitude: longitude)
@@ -147,6 +168,8 @@ struct SpinningGlobe: View {
     var interactive = true
     /// Moves the globe up (a fraction of the view's height) to leave room below it.
     var lift: CGFloat = 0
+    /// Moves the globe right (a fraction of the view's width) to leave room on the left.
+    var shift: CGFloat = 0
     var onTap: ((Double, Double) -> Void)?
 
     @State private var scene: GlobeScene?
@@ -160,7 +183,8 @@ struct SpinningGlobe: View {
                 let pose = camera.pose(at: timeline.date)
                 let size = geometry.size
                 let radius = min(size.width, size.height) * Tuning.World.globeSize * pose.zoom
-                let centre = CGPoint(x: size.width / 2, y: size.height * (0.5 - lift))
+                let offset = camera.offset(at: timeline.date)
+                let centre = CGPoint(x: size.width * (0.5 + offset.x), y: size.height * (0.5 - offset.y))
                 ZStack {
                     SpaceSky(time: timeline.date.timeIntervalSinceReferenceDate)
                     // The glow of the air round it.
@@ -187,7 +211,13 @@ struct SpinningGlobe: View {
             }
         }
         .ignoresSafeArea()
-        .onAppear(perform: makeScene)
+        .onAppear {
+            // The first placement is where it starts; later ones slide.
+            camera.place(shift: shift, lift: lift)
+            makeScene()
+        }
+        .onChange(of: shift) { _, shift in camera.place(shift: shift, lift: lift) }
+        .onChange(of: lift) { _, lift in camera.place(shift: shift, lift: lift) }
         .accessibilityElement()
         .accessibilityLabel("The world. Drag to spin it, pinch to zoom, tap to choose a place.")
     }
@@ -196,11 +226,12 @@ struct SpinningGlobe: View {
     private func makeScene() {
         guard scene == nil, let map = GlobeTextures.map else { return }
         let made = GlobeScene(size: CGSize(width: 800, height: 600), map: map)
-        let camera = camera, lift = lift
+        let camera = camera
         made.pose = { size in
             let pose = camera.pose(at: Date())
             let radius = min(size.width, size.height) * Tuning.World.globeSize * pose.zoom
-            return (CGPoint(x: size.width / 2, y: size.height * (0.5 + lift)), radius, pose.orientation)
+            let offset = camera.offset(at: Date())
+            return (CGPoint(x: size.width * (0.5 + offset.x), y: size.height * (0.5 + offset.y)), radius, pose.orientation)
         }
         scene = made
     }
@@ -254,7 +285,8 @@ struct SpinningGlobe: View {
                     case let .home(icon):
                         let pulse = 1 + 0.12 * sin(time.timeIntervalSinceReferenceDate * 3)
                         VStack(spacing: 2) {
-                            PaintedIcon(icon, size: marker.highlighted ? 40 : 28)
+                            // Small from afar (they crowd), bigger closer in.
+                            PaintedIcon(icon, size: marker.highlighted ? 40 : min(28, 14 + 6 * pose.zoom))
                                 .padding(4)
                                 .background(Circle().fill(Theme.cream))
                                 .overlay(Circle().strokeBorder(

@@ -168,6 +168,7 @@ public struct DecorateTray: View {
                     }
                     .buttonStyle(PressStyle())
                     .disabled(!entry.enabled)
+                    .tourTarget(entry.id == entries.first?.id ? "tray.first" : "tray.\(entry.id)")
                     .accessibilityLabel(entry.price.map { "Buy \(entry.name), \($0)" } ?? "Place \(entry.name)")
                 }
             }

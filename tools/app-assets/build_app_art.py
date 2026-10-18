@@ -57,10 +57,17 @@ SETS = [
     # The widget's window frames, square and wide, one pair per home (their glass is transparent; the masks
     # are not needed). The app copies the home's pair into the App Group for the widget.
     ('widget/widget_*[!s].png', 0.32),
+    # The intro's logo and its host, the mascot.
+    ('brand/logo/logo_stacked_on_dark.png', 0.5),
+    ('brand/icon/AppIcon_layer2_cat.png', 0.5),
     # The world map: the painting and the biome mask under the pin.
     ('world/map/map_painted.png', 1.0),
     ('world/map/map_biome.png', 1.0),
 ]
+# The intro's example homes (see above) and their size.
+INTRO_SCENES = ['woodland_cabin_snow_winter', 'mediterranean_rooftop_coast_summer', 'houseboat_city_spring',
+                'cottage_countryside_spring', 'newbuild_balcony_tropical_summer', 'mansion_flat_desert_summer']
+INTRO_SCALE = 0.75
 DATA = ['cat/rig.json', 'rooms/layout_living_demo.json', 'rooms/houses.json', 'fx/anchors.json', 'fx/fx.json', 'world/scenes/scenes.json',
         'world/map/cities.json', 'world/map/map_biome_legend.json']
 
@@ -163,6 +170,21 @@ def main():
         subprocess.run(['sips', '-Z', str(PREVIEW_WIDTH), os.path.join(scenes, name.replace('.jpg', '_land.png')), '--out',
                         os.path.join(OUT, land)], capture_output=True, check=True)
         index[land] = {"master": [w, h], "scale": PREVIEW_WIDTH / w}
+    # The intro's tour of homes round the world: a few other homes painted in their places, kept apart under intro/
+    # so they never stand in for a player's own home; with their sky masks and window glass.
+    for name in INTRO_SCENES:
+        for suffix, opaque in (('.jpg', True), ('_land.png', False), ('_glass.png', False)):
+            src = os.path.join(scenes, name + suffix)
+            rel = 'intro/scenes/' + name + suffix
+            w, h = size(src)
+            dst = os.path.join(OUT, os.path.splitext(rel)[0] + ('.heic' if opaque else '.png'))
+            os.makedirs(os.path.dirname(dst), exist_ok=True)
+            fmt = ['-s', 'format', 'heic', '-s', 'formatOptions', HEIC_QUALITY] if opaque else ['-s', 'format', 'png']
+            subprocess.run(['sips', *fmt, '-z', str(round(h * INTRO_SCALE)), str(round(w * INTRO_SCALE)), src, '--out', dst],
+                           capture_output=True, check=True)
+            index[rel] = {"master": [w, h], "scale": INTRO_SCALE}
+            if opaque:
+                index[rel]["file"] = os.path.relpath(dst, OUT)
     for rel in DATA:
         dst = os.path.join(OUT, rel)
         os.makedirs(os.path.dirname(dst), exist_ok=True)

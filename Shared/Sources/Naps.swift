@@ -1,4 +1,4 @@
-#if canImport(ActivityKit)
+#if os(iOS)
     import ActivityKit
 #endif
 import Foundation
@@ -40,7 +40,7 @@ final class Naps {
         #endif
         startedAt = now
         defaults.set(now, forKey: "napStartedAt")
-        #if canImport(ActivityKit)
+        #if os(iOS)
             let attributes = NapAttributes(catName: catName, startedAt: now)
             let state = NapAttributes.ContentState(endsAt: NapRules.end(of: now), awake: false)
             // Live Activities may be turned off: the nap still runs in the app.
@@ -66,7 +66,7 @@ final class Naps {
         let end = endsAt ?? Date()
         startedAt = nil
         defaults.removeObject(forKey: "napStartedAt")
-        #if canImport(ActivityKit)
+        #if os(iOS)
             let final = NapAttributes.ContentState(endsAt: end, awake: true)
             Task {
                 for activity in Activity<NapAttributes>.activities {

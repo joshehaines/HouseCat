@@ -41,7 +41,11 @@ enum Reminders {
 
     static func authorised() async -> Bool {
         let status = await status()
-        return status == .authorized || status == .provisional || status == .ephemeral
+        #if os(iOS)
+            return status == .authorized || status == .provisional || status == .ephemeral
+        #else
+            return status == .authorized || status == .provisional
+        #endif
     }
 
     /// Replaces every pending reminder with the plan from now (after each change to the save, so today's

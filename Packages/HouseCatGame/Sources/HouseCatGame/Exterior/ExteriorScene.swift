@@ -33,6 +33,8 @@ public final class ExteriorScene: SKScene {
     public var onEnter: (@MainActor () -> Void)?
     /// Called as the door starts to open (the app plays its sound).
     public var onDoorOpens: (@MainActor () -> Void)?
+    /// Shown, not entered (set before the scene is presented).
+    public var showcase = false
     private let art: ArtLibrary
     private let cameraNode = SKCameraNode()
     private let skyNode = SKSpriteNode()
@@ -187,6 +189,14 @@ public final class ExteriorScene: SKScene {
     // MARK: Entering
 
     override public func didMove(to _: SKView) {
+        // A showcase (the intro's homes round the world) never opens its door: the camera drifts in slowly.
+        if showcase {
+            cameraNode.run(.group([
+                .scale(to: cameraNode.xScale * 0.92, duration: 10),
+                .moveBy(x: size.width * 0.03, y: size.height * 0.01, duration: 10),
+            ]))
+            return
+        }
         run(
             .sequence([.wait(forDuration: Tuning.Arrival.exteriorAutoAdvanceSeconds), .run { [weak self] in self?.enter() }]),
             withKey: "autoAdvance"
@@ -195,6 +205,7 @@ public final class ExteriorScene: SKScene {
 
     #if os(iOS)
         override public func touchesBegan(_: Set<UITouch>, with _: UIEvent?) {
+            guard !showcase else { return }
             enter()
         }
 

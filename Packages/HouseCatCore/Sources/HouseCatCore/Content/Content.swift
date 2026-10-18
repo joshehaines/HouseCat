@@ -14,6 +14,8 @@ public struct ContentBundle: Sendable {
     public var names: NameFilter
     /// The seasonal weather tables per biome.
     public var weather: WeatherFile
+    /// The intro: the host's words, the tour of homes round the world, the room tour.
+    public var intro: IntroFile
 
     /// Loads every content file from a directory (the app bundle's `Content`).
     public static func load(from directory: URL) throws -> ContentBundle {
@@ -34,7 +36,8 @@ public struct ContentBundle: Sendable {
             seasons: read("seasons"),
             minigames: read("minigames"),
             names: read("names"),
-            weather: read("weather")
+            weather: read("weather"),
+            intro: read("intro")
         )
     }
 
@@ -315,4 +318,71 @@ public extension CatalogueFile {
     func defaultSurface(_ kind: Surface.Kind, in room: RoomID) -> Surface? {
         surfaces.filter { $0.room == room.rawValue && $0.kind == kind && $0.pool == .free }.min { $0.id < $1.id }
     }
+}
+
+// MARK: intro.json
+
+/// The intro (a builder game's first five minutes, in the house style): the host's lines, the tour of example
+/// homes round the world (a real place, a home painted there, a cat living in it), and the steps of the guided
+/// tour of the room. Text here is the intro's own; the player's cat speaks from lines.json.
+public struct IntroFile: Codable, Sendable {
+    public struct Stop: Codable, Sendable, Identifiable {
+        public struct Cat: Codable, Sendable {
+            public var preset: String
+            public var name: String
+            public var personality: Personality
+        }
+
+        public var id: String
+        public var place: String
+        public var country: String
+        public var latitude: Double
+        public var longitude: Double
+        public var timeZone: String
+        /// The painting (art path without extension).
+        public var scene: String
+        public var home: String
+        public var season: NatureSeason
+        public var weather: Weather
+        public var cat: Cat
+        public var line: String
+
+        /// The sky there now, at its own local time (the homes are somewhere real).
+        public func sky(at date: Date) -> SkyPhase {
+            var calendar = Calendar(identifier: .gregorian)
+            calendar.timeZone = TimeZone(identifier: timeZone) ?? .gmt
+            let parts = calendar.dateComponents([.hour, .minute], from: date)
+            return .at(localMinutes: (parts.hour ?? 12) * 60 + (parts.minute ?? 0))
+        }
+    }
+
+    /// A step of the room tour: what the host says, the control it points at, what the player must do to go on
+    /// (none: a tap on Next), and whether it gives the welcome Beans.
+    public struct RoomStep: Codable, Sendable, Identifiable {
+        public enum Wait: String, Codable, Sendable {
+            case fed, petted, decorating, placed, decorated
+        }
+
+        public var id: String
+        public var target: String?
+        public var waitFor: Wait?
+        public var reward: Bool?
+        public var text: String
+
+        /// The text with the cat's name in it.
+        public func text(cat: String) -> String {
+            text.replacingOccurrences(of: "{cat}", with: cat)
+        }
+    }
+
+    public var version: Int
+    public var host: String
+    public var tagline: String
+    public var hello: [String]
+    public var stops: [Stop]
+    public var outro: String
+    public var builder: String
+    public var map: String
+    public var homes: String
+    public var room: [RoomStep]
 }

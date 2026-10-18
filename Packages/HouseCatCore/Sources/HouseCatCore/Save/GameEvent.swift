@@ -91,6 +91,8 @@ public struct GameEvent: Codable, Hashable, Sendable, Identifiable {
         case seasonSet(SeasonSetting)
         /// Which of the eight homes it is (onboarding's house step; again when moving).
         case homeStyleChosen(HouseStyle)
+        /// The intro's tour of the room was finished: its welcome Beans, once a household.
+        case tourFinished
 
         // Streak
         case pauseStarted(days: Int)

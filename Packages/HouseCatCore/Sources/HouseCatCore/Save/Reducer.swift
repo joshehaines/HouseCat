@@ -25,7 +25,7 @@ extension HouseholdState {
             applyCare(event, context: context)
         case .itemBought, .itemGranted, .purchaseBeansGranted, .itemPlaced, .itemMoved, .itemStored, .catUsedNewItem, .roomOpened,
              .roomVisited,
-             .surfaceChanged, .outfitWorn, .homeMoved, .seasonModeChanged, .homePlaced, .seasonSet, .homeStyleChosen:
+             .surfaceChanged, .outfitWorn, .homeMoved, .seasonModeChanged, .homePlaced, .seasonSet, .homeStyleChosen, .tourFinished:
             applyHome(event, context: context)
         case .pauseStarted, .pauseEnded, .passPurchased, .passTierClaimed, .clubDayRecorded:
             applyStreakAndPass(event, day: day, context: context)
@@ -167,6 +167,10 @@ extension HouseholdState {
             bump(.buyItemBeans, context: context)
         case let .itemGranted(itemID):
             owned[itemID, default: 0] += 1
+        case .tourFinished:
+            guard !tourRewarded else { break }
+            tourRewarded = true
+            beansGranted += Tuning.Beans.tourReward
         case let .purchaseBeansGranted(transactionID, amount):
             guard amount > 0, !grantedTransactions.contains(transactionID) else { break }
             grantedTransactions.insert(transactionID)

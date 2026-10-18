@@ -349,6 +349,13 @@ public final class RoomScene: SKScene {
         }
     }
 
+    /// The middle of the cat in the view's points (the room tour points at it), when it is on screen.
+    public var catPointInView: CGPoint? {
+        guard let cat = director?.cat, let room = cat.parent, isShown(room), view != nil else { return nil }
+        let middle = convert(CGPoint(x: cat.position.x, y: cat.position.y + cat.height * 0.45), from: room)
+        return convertPoint(toView: middle)
+    }
+
     /// The cat's position in world units, when it is on the storey on screen.
     private var catWorldPosition: CGPoint? {
         guard let cat = director?.cat, let room = cat.parent, isShown(room) else { return nil }

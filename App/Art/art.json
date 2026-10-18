@@ -1,5 +1,19 @@
 {
  "files": {
+  "brand/icon/AppIcon_layer2_cat.png": {
+   "master": [
+    1024,
+    1024
+   ],
+   "scale": 0.5
+  },
+  "brand/logo/logo_stacked_on_dark.png": {
+   "master": [
+    1696,
+    1569
+   ],
+   "scale": 0.5
+  },
   "cat/base/short_slim/cat_short_slim_front_ear_far.png": {
    "master": [
     196,
@@ -2622,6 +2636,138 @@
     429
    ],
    "scale": 0.3
+  },
+  "intro/scenes/cottage_countryside_spring.jpg": {
+   "file": "intro/scenes/cottage_countryside_spring.heic",
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "intro/scenes/cottage_countryside_spring_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "intro/scenes/cottage_countryside_spring_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "intro/scenes/houseboat_city_spring.jpg": {
+   "file": "intro/scenes/houseboat_city_spring.heic",
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "intro/scenes/houseboat_city_spring_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "intro/scenes/houseboat_city_spring_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "intro/scenes/mansion_flat_desert_summer.jpg": {
+   "file": "intro/scenes/mansion_flat_desert_summer.heic",
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "intro/scenes/mansion_flat_desert_summer_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "intro/scenes/mansion_flat_desert_summer_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "intro/scenes/mediterranean_rooftop_coast_summer.jpg": {
+   "file": "intro/scenes/mediterranean_rooftop_coast_summer.heic",
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "intro/scenes/mediterranean_rooftop_coast_summer_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "intro/scenes/mediterranean_rooftop_coast_summer_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "intro/scenes/newbuild_balcony_tropical_summer.jpg": {
+   "file": "intro/scenes/newbuild_balcony_tropical_summer.heic",
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "intro/scenes/newbuild_balcony_tropical_summer_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "intro/scenes/newbuild_balcony_tropical_summer_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "intro/scenes/woodland_cabin_snow_winter.jpg": {
+   "file": "intro/scenes/woodland_cabin_snow_winter.heic",
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "intro/scenes/woodland_cabin_snow_winter_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "intro/scenes/woodland_cabin_snow_winter_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
   },
   "outfits/outfit_antlers_tqfront.png": {
    "master": [

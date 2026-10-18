@@ -221,6 +221,7 @@ targets:
     sources:
       - Mac/Sources
       - Shared/Sources
+      - Widgets/Shared
       - path: Shared/AppIcon.icon
         type: file
         buildPhase: resources

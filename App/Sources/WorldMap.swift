@@ -381,6 +381,32 @@ struct WorldMapView: View {
         }
     }
 
+    static func weatherName(_ weather: Weather) -> String {
+        switch weather {
+        case .sun: "Sunny"
+        case .cloud: "Cloudy"
+        case .rain: "Raining"
+        case .storm: "Stormy"
+        case .snow: "Snowing"
+        case .fog: "Foggy"
+        case .wind: "Windy"
+        case .heat: "Hot"
+        }
+    }
+
+    static func weatherIcon(_ weather: Weather) -> String {
+        switch weather {
+        case .sun: "sun.max"
+        case .cloud: "cloud"
+        case .rain: "cloud.rain"
+        case .storm: "cloud.bolt.rain"
+        case .snow: "snowflake"
+        case .fog: "cloud.fog"
+        case .wind: "wind"
+        case .heat: "thermometer.sun"
+        }
+    }
+
     static func biomeIcon(_ biome: Biome) -> String {
         switch biome {
         case .city: "building.2"

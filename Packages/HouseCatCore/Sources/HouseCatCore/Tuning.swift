@@ -93,6 +93,8 @@ public enum Tuning {
         public static let clubBonusPercent = 20
         public static let moveHome = 500
         public static let freeHomeMoves = 1
+        /// The welcome at the end of the intro's tour of the room, once.
+        public static let tourReward = 100
     }
 
     /// Room gating: a level AND Beans above the allowance (CLAUDE.md "First arrival").
@@ -190,6 +192,16 @@ public enum Tuning {
             "gift_keepsakes_little_ceramic_fish", "gift_keepsakes_tiny_silver_bell", "gift_keepsakes_small_seashell",
             "gift_keepsakes_acorn", "gift_keepsakes_marble",
         ]
+    }
+
+    /// The intro (Content/intro.json): how close the globe comes to each home, and the pause before it opens.
+    public enum Intro {
+        public static let stopZoom = 2.4
+        public static let pauseOnArrival = 0.5
+        /// The room tour begins this long after the first arrival's room is up (the greeting first).
+        public static let tourDelay = 4.0
+        /// The globe slides between the landing page's place and the middle in this long.
+        public static let globeSlideSeconds = 0.9
     }
 
     /// The nap (SPEC "Care"): a wind-down timer as a Live Activity.
@@ -669,7 +681,7 @@ public enum Tuning {
         /// The shape of `HouseholdState` in a stored snapshot. Bump it whenever the state gains, loses or
         /// changes a field: an older snapshot is then ignored and the state refolded from the events, which
         /// are always kept (the snapshot is only a cache).
-        public static let snapshotVersion = 5
+        public static let snapshotVersion = 6
     }
 
     /// The stray (SPEC "The stray").

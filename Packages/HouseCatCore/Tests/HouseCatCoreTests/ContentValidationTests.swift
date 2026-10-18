@@ -327,6 +327,24 @@ struct ContentValidationTests {
         }
     }
 
+    @Test func theIntroReadsWellAndTakesItsCatsFromTheBuilder() throws {
+        let intro = content.intro
+        let builder = try CatBuilder.load(from: Self.repo.appendingPathComponent("App/Art/cat/custom/builder.json"))
+        #expect(intro.stops.count >= 4)
+        #expect(Set(intro.stops.map(\.id)).count == intro.stops.count)
+        for stop in intro.stops {
+            #expect(builder.preset(stop.cat.preset) != nil, "\(stop.id): no preset \(stop.cat.preset)")
+            #expect(TimeZone(identifier: stop.timeZone) != nil, "\(stop.id): time zone")
+            #expect(abs(stop.latitude) <= 90 && abs(stop.longitude) <= 180)
+            #expect(Self.problems(in: stop.line, limit: 90).isEmpty, "\(stop.id): \(Self.problems(in: stop.line, limit: 90))")
+        }
+        for text in intro.hello + [intro.outro, intro.builder, intro.map, intro.homes, intro.tagline] + intro.room.map(\.text) {
+            #expect(Self.problems(in: text, limit: 90).isEmpty, "\(text): \(Self.problems(in: text, limit: 90))")
+        }
+        #expect(intro.room.filter { $0.reward == true }.count == 1)
+        #expect(intro.room.last?.reward == true)
+    }
+
     @Test func theRulesEngineLoadsTheContent() throws {
         let context = try content.rulesContext()
         #expect(context.gifts.count == 60)

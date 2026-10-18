@@ -19,7 +19,9 @@ struct HomePicker: View {
                 PaintedIcon("house", size: 40)
                 VStack(alignment: .leading, spacing: 0) {
                     Text("Which home?").font(Theme.title(30))
-                    Text(place).font(.subheadline).foregroundStyle(Theme.inkSoft)
+                    // Where it is, and the host's word on what the choice means.
+                    Text(GameWorld.content.map { "\(place) · \($0.intro.homes)" } ?? place)
+                        .font(.subheadline).foregroundStyle(Theme.inkSoft)
                 }
                 Spacer()
                 HUDButton("Make it home", icon: "house", prominent: true) { done(chosen) }

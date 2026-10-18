@@ -312,6 +312,7 @@ final class Visit {
         greeting = nil
         house.setDecorating(decorating)
         inventory = decorating ? GameSession.shared.inventory() : []
+        RoomTour.shared.heard(.decorating(decorating))
     }
 
     /// Pieces owned but not placed, shown in a tray while decorating.
@@ -388,6 +389,7 @@ final class Visit {
         house.place(placement)
         inventory = GameSession.shared.inventory()
         refreshStats()
+        RoomTour.shared.heard(.placed)
     }
 
     private func offer(_ room: RoomID) {
@@ -439,8 +441,10 @@ final class Visit {
         }
         // Fed: the day's gift is drawn and drops later; one may already be waiting.
         offerGift()
+        RoomTour.shared.heard(.fed)
         // The first feed ever: may the cat remind you? (SPEC: the pre-permission screen after the first feed.)
-        if !Reminders.asked {
+        // During the room tour it waits for the tour's end.
+        if !Reminders.asked, !RoomTour.shared.isRunning {
             Task { @MainActor [weak self] in
                 try? await Task.sleep(for: .seconds(Tuning.Care.lineSeconds + 0.5))
                 self?.askReminders = true
@@ -467,6 +471,20 @@ final class Visit {
         }
         say(line)
         refreshStats()
+        RoomTour.shared.heard(.petted)
+    }
+
+    // MARK: The room tour
+
+    /// The tour's stroke step: the cat comes to the front of the room you are in and sits for it.
+    func callCatForTour() {
+        guard let house = scene as? RoomScene else { return }
+        house.send(BehaviourChoice(activity: .nearPlayer, room: activeRoom))
+    }
+
+    /// Where the cat is on screen, for the tour's paw.
+    var catPoint: CGPoint? {
+        (scene as? RoomScene)?.catPointInView
     }
 
     // MARK: Play and naps

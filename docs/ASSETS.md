@@ -106,6 +106,12 @@ Beans play the role gems play in Clash of Clans, earned through objectives and s
 - `Content/weather.json`: the seasonal weather tables per biome (weights for sun, cloud, rain, storm, snow, fog, wind, heat), for Josh to tune.
 - App art now carries the London terrace's 32 exterior scenes, all 32 terrains (quarter size) and the world map with its biome mask.
 
+## 6e. Added in the follow-ups (18 Oct 2026)
+- `world/ground/ground_<biome>.png` (city, coast, countryside, mountain, forest, desert, tropical, snow, autumn): seamless 2048 px tiles for the ground around the house, bundled at quarter size as HEIC.
+- `ui/shop/shop_<offer>.png` (club, starter, housewarming, forever, adopt, gifts): the shop's offer illustrations, painted on magenta with the floor reference and the mascot plate, keyed by `tools/asset-pipeline/shopkey.py` (pockets of key colour inside the painting go too, and saturated magenta spill is greyed). Bundled at 0.4.
+- App-only derived art (not masters): `world/previews/<style>_<biome>.jpg` with `_land.png`, the house step's summer previews at 720 px; the seven non-London homes' exteriors as download packs (`tools/app-assets/build_home_packs.py`).
+- `audio`: `ui_purchase_confirm` joins the app's sounds (after a purchase).
+
 ## 7. Known gaps and things for Josh's eye
 
 - **Small items were painted at furniture size.** The model draws whatever it is asked for large, so tabletop and small floor items (mug, kettle, alarm clock, slippers, snow globe, candle, cat bed, laundry basket…) come out as big as a chest of drawers. The sprites are high-resolution, so scaling down in code loses nothing: `assets/manifest.json` carries a `suggested_scale` for 78 such files (from `tools/asset-pipeline/scales.py`); carry it into `catalogue.json` and check each by eye in the room view.

@@ -70,6 +70,21 @@ struct HouseCatApp: App {
     /// The builder for a new player, else the visit.
     private func start() {
         guard visit == nil, adopting == nil else { return }
+        #if DEBUG
+            // Screenshot runs: HOUSECAT_SCREEN=homes opens the house step, painted for HOUSECAT_BIOME.
+            let environment = ProcessInfo.processInfo.environment
+            if environment["HOUSECAT_SCREEN"] == "homes" {
+                let biome = environment["HOUSECAT_BIOME"].flatMap(Biome.init(rawValue:)) ?? .countryside
+                choosingHome = HomePlace(
+                    name: "Debug, \(biome.rawValue)",
+                    latitude: 0,
+                    longitude: 0,
+                    timeZoneID: "Europe/London",
+                    biome: biome
+                )
+                return
+            }
+        #endif
         if GameSession.shared.cat == nil, let model = CatScreens.builder(mode: .adopt) {
             adopting = model
         } else {
@@ -287,11 +302,11 @@ struct RoomScreen: View {
             .alert(item: $visit.roomOffer) { offer in
                 roomAlert(offer)
             }
-            .sheet(isPresented: $showShop) {
+            .fullScreenCover(isPresented: $showShop) {
                 ShopView(store: store, content: GameWorld.content)
                     .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
             }
-            .onChange(of: visit.openShop) { _, open in
+            .onChange(of: visit.openShop, initial: true) { _, open in
                 if open {
                     showShop = true
                     visit.openShop = false

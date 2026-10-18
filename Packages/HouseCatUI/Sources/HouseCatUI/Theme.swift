@@ -244,3 +244,77 @@ public struct CloseButton: View {
         .accessibilityLabel("Close")
     }
 }
+
+/// A chunky shop button, as in a builder game's shop: a raised capsule with a darker lip under it.
+public struct ChunkyButton: View {
+    @Environment(\.hudScale) private var scale
+    @Environment(\.controlFeedback) private var feedback
+    private let title: String
+    private let subtitle: String?
+    private let colour: Color
+    private let action: () -> Void
+
+    public init(_ title: String, subtitle: String? = nil, colour: Color = Theme.accent, action: @escaping () -> Void) {
+        self.title = title
+        self.subtitle = subtitle
+        self.colour = colour
+        self.action = action
+    }
+
+    public var body: some View {
+        Button {
+            feedback.tap()
+            action()
+        } label: {
+            VStack(spacing: 0) {
+                Text(title).font(.system(size: 18 * scale, weight: .heavy, design: .rounded)).lineLimit(1).minimumScaleFactor(0.75)
+                if let subtitle {
+                    Text(subtitle).font(.system(size: 11 * scale, weight: .bold, design: .rounded)).opacity(0.9)
+                }
+            }
+            .foregroundStyle(.white)
+            .shadow(color: .black.opacity(0.25), radius: 0, y: 1)
+            .padding(.horizontal, 22 * scale)
+            .padding(.vertical, (subtitle == nil ? 11 : 7) * scale)
+            .frame(minWidth: 120 * scale)
+            .background {
+                ZStack {
+                    Capsule().fill(colour.mix(with: .black, by: 0.3)).offset(y: 4 * scale)
+                    Capsule().fill(LinearGradient(
+                        colors: [colour.mix(with: .white, by: 0.18), colour],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    ))
+                    Capsule().strokeBorder(.white.opacity(0.35), lineWidth: 1.5).padding(1)
+                }
+            }
+        }
+        .buttonStyle(PressStyle())
+    }
+}
+
+/// A ribbon across a tile's corner ("Best value", "Once only"): only ever true things, never a countdown.
+public struct Ribbon: View {
+    @Environment(\.hudScale) private var scale
+    private let text: String
+    private let colour: Color
+
+    public init(_ text: String, colour: Color = Color(red: 0.92, green: 0.68, blue: 0.18)) {
+        self.text = text
+        self.colour = colour
+    }
+
+    public var body: some View {
+        Text(text.uppercased())
+            .font(.system(size: 11 * scale, weight: .heavy, design: .rounded))
+            .tracking(0.8)
+            .lineLimit(1)
+            .fixedSize()
+            .foregroundStyle(.white)
+            .padding(.horizontal, 10 * scale)
+            .padding(.vertical, 4 * scale)
+            .background(Capsule().fill(colour))
+            .overlay(Capsule().strokeBorder(.white.opacity(0.5), lineWidth: 1))
+            .shadow(color: .black.opacity(0.2), radius: 2, y: 1)
+    }
+}

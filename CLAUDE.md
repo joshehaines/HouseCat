@@ -166,7 +166,7 @@ Where the spec is silent, these are set in `Tuning.swift` and HouseCatCore (tune
 
 ## Known gaps after step 4
 - WeatherKit and the weather particles (rain, snow, fog, blossom, leaves) are step 5; the weather in the save is simulated even on Auto.
-- App size: App/Art is about 190 MB. Shipping every home in every biome needs On-Demand Resources or Background Assets (about 2.7 MB a scene).
+- App size: App/Art is about 190 MB. Shipping every home in every biome needs On-Demand Resources or Background Assets (about 2.7 MB a scene). (Done 18 Oct: HEIC and download packs; see the follow-ups.)
 - The biome mask is rule-based (boxes for deserts, ranges and forests), good to a few hundred km; the city list decides most pins people pick.
 
 ## Decisions during the polish pass (18 Oct 2026)
@@ -179,9 +179,23 @@ Where the spec is silent, these are set in `Tuning.swift` and HouseCatCore (tune
 - The session keeps the derived state and folds only new events onto it (a sixty-day save went from seconds to instant per action).
 - The stored snapshot is a cache with a version (`Tuning.Save.snapshotVersion`; bump it whenever `HouseholdState` changes shape): a snapshot of another version, or one that no longer decodes, is passed over and the state refolded. Compaction never deletes events any more.
 
+## Decisions during the follow-ups: ground, homes, app size and the shop (18 Oct 2026)
+- The ground around the house is the biome's own painted tile (`assets/world/ground`, nine seamless tiles bundled at quarter size): snow in the snow biome, when it snows (not in desert or tropical) and in a white winter (`Tuning.Weather.whiteWinters`); a leaf-strewn lawn for a country autumn (`HouseBuilder.ground`).
+- Opaque pictures ship as HEIC at quality 70 (exteriors, wall and floor tiles, ground, the map); the art index maps each master path to its file, and every picture load in the app goes through `ArtLibrary` (`CatScreens.picture`).
+- Every home in every biome: the London terrace's exteriors are in the app; the seven other homes are Apple-hosted Background Assets packs (`home.<style>`, on demand, 45-53 MB each, built by `tools/app-assets/build_home_packs.py` into ~/Library/Caches/HouseCat/packs), fetched by the `HouseCatDownloader` extension and added to the art library when they arrive (`HomePacks`). Until a home's pack is on the device the visit goes straight inside: no cold open, never the wrong home.
+- Onboarding's house step is now real: after the map, "Which home?" shows the eight homes, each painted in the biome you pinned (summer previews in `world/previews`), and records `homeStyleChosen` (only with the first pin or while moving). `GameWorld.style` reads it; `HOUSECAT_HOME` still overrides.
+- The shop is laid out like a builder game's (Josh, 18 Oct: "inspiration from Clash of Clans"; `App/Sources/ShopView.swift`): a rail of sections on the left, big illustrated offer tiles in one row (`assets/ui/shop`), a Cat Club page like a gold pass (perks as big numbers, both plans side by side, the full renewal terms beside the button), a detail panel before every purchase and a celebration after (sunburst, falling paw prints and Beans, `ui_purchase_confirm`, a success haptic). It is drawn for a landscape phone and scaled to the screen by width and height (`Tuning.Shop`), and presented full screen.
+- What keeps it honest (UK AADC "no nudges", DMCC, Apple 3.1.2): every price is StoreKit's; ribbons only say true things ("Once only", "Paid once", "Best value" on the yearly plan, which costs less a month, "7 days free", a seasonal item's real last day); no countdowns, no "people bought this", no currency for sale; Close is always on screen; the monthly plan sits beside the yearly one. The value lines add up StoreKit's own prices of things sold separately: the Starter Pack's set and outfit, and a year's season passes plus a second cat for Cat Club (the members' outfits are not sold separately, so they are not counted).
+- Debug: `HOUSECAT_SCREEN=shop` opens the shop eight seconds after the room is up, with `HOUSECAT_SHOP=<section>|detail|celebrate`; with no StoreKit (`HOUSECAT_SKIP_STORE`) Buy plays the celebration and charges nothing. `HOUSECAT_SCREEN=homes` (with `HOUSECAT_BIOME`) opens the house step.
+
+## Known gaps after the follow-ups
+- The home packs and the downloader need the developer team and the App Group (`group.com.housecatgame.housecat`); until then no pack arrives and only the London terrace has a cold open. Testing them before upload needs `xcrun ba-serve` with a TLS identity.
+- App/Art is about 146 MB (the London terrace's 32 scenes, every catalogue piece, outfit previews, the shop art, home previews).
+- The shop on an iPad held upright leaves space above and below the row; the game is drawn for landscape.
+
 ## Known gaps after milestone 1
 - Only the living room has a window and a door; other rooms show none yet. Stairs are a fixture (not in the catalogue), the L sprite mirrored from the R one.
-- The app bundles only the demo home's exterior scenes; shipping every home × biome × season needs On-Demand Resources or Background Assets (about 5 MB a scene with its door-open edit and masks).
+- The app bundles only the demo home's exterior scenes; shipping every home × biome × season needs On-Demand Resources or Background Assets (about 5 MB a scene with its door-open edit and masks). (Done 18 Oct as Background Assets packs.)
 
 ## Known gaps after step 3
 - Doorways are gaps in the low partitions, not painted door frames; the cat fades on the stairs rather than climbing them. Rooms on another storey have no doorway between them unless the plan puts them side by side.

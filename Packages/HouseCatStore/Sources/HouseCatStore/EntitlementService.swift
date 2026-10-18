@@ -7,6 +7,25 @@ public struct ProductInfo: Equatable, Sendable {
     public var displayName: String
     public var displayPrice: String
     public var kind: ShopProduct.Kind
+    /// The price as a number and its currency, for sums the shop shows ("bought one by one, £81.74").
+    public var price: Decimal?
+    public var currencyCode: String?
+
+    public init(
+        id: String,
+        displayName: String,
+        displayPrice: String,
+        kind: ShopProduct.Kind,
+        price: Decimal? = nil,
+        currencyCode: String? = nil
+    ) {
+        self.id = id
+        self.displayName = displayName
+        self.displayPrice = displayPrice
+        self.kind = kind
+        self.price = price
+        self.currencyCode = currencyCode
+    }
 }
 
 public enum PurchaseOutcome: Equatable, Sendable {

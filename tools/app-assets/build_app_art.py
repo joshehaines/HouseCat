@@ -42,6 +42,8 @@ SETS = [
     ('outfits/outfit_*_tqfront.png', 0.5),
     # The painted UI icons for the room's controls, the status and the tray.
     ('ui/icon_*.png', 0.4),
+    # The shop's offer illustrations.
+    ('ui/shop/shop_*.png', 0.4),
     # The gifts the cat brings, for the room and the book.
     ('gifts/gift_*.png', 0.3),
     # The exterior: the demo home's painted scenes in every biome and season (door closed and open), and every

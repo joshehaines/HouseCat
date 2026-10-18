@@ -3697,6 +3697,48 @@
    ],
    "scale": 0.4
   },
+  "ui/shop/shop_adopt.png": {
+   "master": [
+    1898,
+    1801
+   ],
+   "scale": 0.4
+  },
+  "ui/shop/shop_club.png": {
+   "master": [
+    1837,
+    1256
+   ],
+   "scale": 0.4
+  },
+  "ui/shop/shop_forever.png": {
+   "master": [
+    1697,
+    1991
+   ],
+   "scale": 0.4
+  },
+  "ui/shop/shop_gifts.png": {
+   "master": [
+    1661,
+    1872
+   ],
+   "scale": 0.4
+  },
+  "ui/shop/shop_housewarming.png": {
+   "master": [
+    1715,
+    1959
+   ],
+   "scale": 0.4
+  },
+  "ui/shop/shop_starter.png": {
+   "master": [
+    1814,
+    1935
+   ],
+   "scale": 0.4
+  },
   "world/ground/ground_autumn.png": {
    "file": "world/ground/ground_autumn.heic",
    "master": [

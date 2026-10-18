@@ -24,7 +24,8 @@
   "fx": "Animated effects. Loops: fire, candle, steam, smoke, water_trickle, water_ripple, butterfly (fx_<name>_NN.png frames in one cell size + a _strip.png). Sprites: robin poses, reaction icons. fx/fx.json has frame counts, cell sizes and anchors; fx/anchors.json (also copied into each furniture entry as motion_fx) says where flames and steam attach on the moving furniture.",
   "fixture": "Parts of the house drawn by the house view, not catalogue items (the staircase); placed by assets/rooms/houses.json.",
   "world/scenes": "<house>_<biome>_<season>[_dooropen].jpg = the home painted into its place (16:9, noon); _land.png = 1 painting / 0 sky (the sky is drawn in code); _glass.png = window glass, lit in code; scenes.json = door points. Made by tools/asset-pipeline/scenes.py.",
-  "world/ground": "2048 px seamless tiles seen from above: the ground around the house in the house view, one per biome plus ground_autumn (a leafy lawn). Same model and brushwork reference as the floors (tools/asset-pipeline/surfaces.py FLOOR_T, gpt_image_2_5, 18 Oct)."
+  "world/ground": "2048 px seamless tiles seen from above: the ground around the house in the house view, one per biome plus ground_autumn (a leafy lawn). Same model and brushwork reference as the floors (tools/asset-pipeline/surfaces.py FLOOR_T, gpt_image_2_5, 18 Oct).",
+  "ui/shop": "The shop offer illustrations (Cat Club, Starter Pack, Housewarming, Forever Home, Adopt a Cat, Gifts), painted on magenta and keyed, transparent background (gpt_image_2_5, the mascot master plate as reference for the cat, 18 Oct)."
  },
  "files": {
   "furniture/attic/furn_attic_boxes_L.png": {
@@ -115264,6 +115265,60 @@
    "px": [
     2048,
     2048
+   ]
+  },
+  "ui/shop/shop_club.png": {
+   "class": "ui/shop",
+   "tile": false,
+   "mask": false,
+   "px": [
+    1839,
+    1258
+   ]
+  },
+  "ui/shop/shop_starter.png": {
+   "class": "ui/shop",
+   "tile": false,
+   "mask": false,
+   "px": [
+    1816,
+    1937
+   ]
+  },
+  "ui/shop/shop_housewarming.png": {
+   "class": "ui/shop",
+   "tile": false,
+   "mask": false,
+   "px": [
+    1717,
+    1961
+   ]
+  },
+  "ui/shop/shop_forever.png": {
+   "class": "ui/shop",
+   "tile": false,
+   "mask": false,
+   "px": [
+    1699,
+    1992
+   ]
+  },
+  "ui/shop/shop_adopt.png": {
+   "class": "ui/shop",
+   "tile": false,
+   "mask": false,
+   "px": [
+    1900,
+    1803
+   ]
+  },
+  "ui/shop/shop_gifts.png": {
+   "class": "ui/shop",
+   "tile": false,
+   "mask": false,
+   "px": [
+    1664,
+    1874
    ]
   }
  }

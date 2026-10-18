@@ -214,8 +214,23 @@ public enum Tuning {
 
     /// The shop's links (App Review 3.1.2: shown with every subscription). Placeholders until the site is up.
     public enum Store {
+        /// Cat Club's members' outfits in a year (one a month), as its page counts them. They are not sold
+        /// separately, so the page's value line leaves them out.
+        public static let clubOutfitsPerYear = 12
         public static let termsURL = URL(string: "https://housecatgame.com/terms")!
         public static let privacyURL = URL(string: "https://housecatgame.com/privacy")!
+    }
+
+    /// The shop's layout (App ShopView): drawn for a landscape phone, then scaled up to fill a taller screen.
+    public enum Shop {
+        /// The screen height (points) the layout is drawn for, a landscape phone's; a taller screen scales
+        /// everything up, in steps of 0.05, to `largestScale`.
+        public static let designHeight = 402.0
+        /// The screen width (points) it needs: the rail and the whole Cat Club page side by side.
+        public static let designWidth = 790.0
+        public static let largestScale = 1.6
+        /// An offer tile's height at scale 1 (the Cat Club page and the detail panel match it).
+        public static let tileHeight = 296.0
     }
 
     /// The weather over the exterior and in the windows (HouseCatGame WeatherLayer).

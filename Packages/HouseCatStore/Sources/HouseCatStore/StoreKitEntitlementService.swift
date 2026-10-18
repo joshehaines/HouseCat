@@ -61,7 +61,14 @@ public final class StoreKitEntitlementService: EntitlementService {
     public func products() async throws -> [ProductInfo] {
         try await Product.products(for: catalog.productIDs).compactMap { product in
             guard let entry = catalog.product(product.id) else { return nil }
-            return ProductInfo(id: product.id, displayName: product.displayName, displayPrice: product.displayPrice, kind: entry.kind)
+            return ProductInfo(
+                id: product.id,
+                displayName: product.displayName,
+                displayPrice: product.displayPrice,
+                kind: entry.kind,
+                price: product.price,
+                currencyCode: product.priceFormatStyle.currencyCode
+            )
         }
     }
 

@@ -97,6 +97,10 @@ Care and idle: `GameSession.feed()` / `pet(taps:)` append `fed` / `petted` and p
 - HouseCatGame: `HouseBuilder` builds the `HouseModel` from the save and `HomeNow` (window terrain, sky, light map, ground) and names the exterior scene for a home, biome and season.
 - The app: `GameWorld.now(state:at:)` (with debug overrides), `WorldMapView` and `WorldMapModel` (MapKit search and reverse geocoding, the biome under the pin from the bundled mask), `GameSession.placeHome`.
 
+### Homes, packs and the shop (18 Oct)
+- `HomePacks` (Shared) asks Background Assets for a home's pack (`home.<style>`), waits for it with `ensureLocalAvailability`, and adds its `homes/<style>/art.json` to the art library (`ArtLibrary.add(packAt:)`); `GameWorld.exteriorScene` only names scenes the library has. The `HouseCatDownloader` extension (`StoreDownloaderExtension`) lets the system fetch packs before launch.
+- `ShopView` (App) is the shop: sections, offer tiles, the Cat Club page, the detail panel and `Celebration`. Prices and the value sums come from `ProductInfo` (`price` and `currencyCode` beside `displayPrice`); `ChunkyButton` and `Ribbon` are in HouseCatUI's `Theme`. The layout's scale comes from the screen size alone (a GeometryReader around it), never from what it sizes.
+
 ### Rooms (step 3)
 - `RoomScene` builds a `RoomNode` for every room of the plan and puts the shown storey's in the world. `house.active` is the room you are in (`show(room:)`; the app's `Visit.go(to:)`), `catRoom` the cat's. `HouseModel.links`/`route` give the doorways between rooms side by side and the way through open ones; `RoomScene.route(to:)` turns that into director steps (walk to the doorway, `.enter` the next room's node, on) or, across storeys, out by the stairs with a fade.
 - HouseCatCore decides which room an activity happens in (`RoomChoice`, from what each open room's furniture offers) and what the Bean shop sells (`BeanShop`); the app asks for both through `GameSession` (`nextActivity(catRoom:viewing:)`, `placed`, `shop(for:)`, `buy`).
@@ -120,6 +124,7 @@ Care and idle: `GameSession.feed()` / `pet(taps:)` append `fed` / `petted` and p
 - `StoreCatalog` lists every launch product from SPEC: outfits, sets and bundles, cat slots, starter, Housewarming pack, Forever Home and founders (non-consumables); Cat Club monthly and yearly in one subscription group with the 7-day trial as an introductory offer on yearly; one non-renewing pass per season; consumable gifts. No rare looks. `tools/store/build_storekit.py` writes the matching `Store/HouseCat.storekit`, and a test checks they agree.
 - Paid furniture is placeable through `RulesContext.paidItems`; the scenes hide any paid item the player no longer owns.
 - Seasonal stock (outfits with months) is listed only in its months, with its real last day, and comes back every year (`ShopRules`, `ShopProduct.isOnSale`). Owned items always show.
+- `ProductInfo` carries StoreKit's `price` and currency code as well as its `displayPrice`, so the shop can show a plan's price a month and add up what a pack's parts cost on their own, always in the player's currency.
 
 ## 7. CloudKit sharing (designed now, built in the social milestone)
 

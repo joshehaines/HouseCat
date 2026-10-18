@@ -551,6 +551,25 @@ public enum Tuning {
     }
 
     /// The house view: the room you are in with the rest of the home around it (room units unless noted).
+    /// The scenery round the house (OutdoorRules): how far out it goes (cells past the plot), how far it keeps
+    /// from the rooms, how many pieces at most from how many tries, how far apart (in widths) and how much each
+    /// piece's size varies.
+    public enum Outdoors {
+        public static let reach = 14.0
+        public static let margin = 1.5
+        public static let count = 46
+        public static let attempts = 900
+        public static let spacing = 1.05
+        public static let sizeVariation = 0.12
+        /// A soft shadow under each piece: how dark, and how wide against the piece (a tree's round its trunk,
+        /// not its whole crown).
+        public static let shadowAlpha = 0.2
+        public static let shadowWidth = 0.8
+        public static let shadowWidthTall = 0.5
+        /// Where a piece's base sits up its picture (the trunk's foot is a little above the bottom edge).
+        public static let baseLift = 0.04
+    }
+
     public enum House {
         /// Doorways in the partitions between rooms: halfway along the wall, this many cells wide.
         public static let doorwayAlong = 5.0

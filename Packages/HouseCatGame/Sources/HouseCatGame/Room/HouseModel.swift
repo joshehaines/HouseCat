@@ -37,13 +37,23 @@ public struct HouseModel: Sendable {
     public var ground: String?
     /// The staircase up, if the home has an upper storey.
     public var stairs: HousePlans.Stairs?
+    /// The trees, bushes and stones of the home's place round the plot (OutdoorRules).
+    public var scenery: [OutdoorPiece]
 
-    public init(rooms: [Room], active: RoomID, sky: SkyPhase, ground: String? = nil, stairs: HousePlans.Stairs? = nil) {
+    public init(
+        rooms: [Room],
+        active: RoomID,
+        sky: SkyPhase,
+        ground: String? = nil,
+        stairs: HousePlans.Stairs? = nil,
+        scenery: [OutdoorPiece] = []
+    ) {
         self.rooms = rooms
         self.active = active
         self.sky = sky
         self.ground = ground
         self.stairs = stairs
+        self.scenery = scenery
     }
 
     /// The storey the active room is on.

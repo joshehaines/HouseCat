@@ -101,7 +101,8 @@ enum GameWorld {
             layout: layout,
             state: state,
             catalogue: content.catalogue,
-            now: now(state: state, at: date)
+            now: now(state: state, at: date),
+            outdoors: content.outdoors
         )
     }
 

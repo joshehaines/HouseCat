@@ -237,6 +237,9 @@ Where the spec is silent, these are set in `Tuning.swift` and HouseCatCore (tune
 - Permission priming: the reminders card shows a notification as it would arrive, in the cat's voice, before iOS asks; the health card leads with the three things read and what each pays.
 - Debug screens (`HOUSECAT_SCREEN=`): `levelup`, `road`, `streak`, `pass` (with `HOUSECAT_PASS_DAY=<n>` the seasons move so today is day n of the first), `addwidget`, `together`, `present`, `reminders`, `health`, `trylook` (a look tried in an open room, the bedroom's first); `HOUSECAT_SHOP=` also takes `beans`, `looks`, `look` (a look's panel) and `topup`; `HOUSECAT_GALLERY=moods` draws each widget mood.
 
+## Decisions during the outdoors pass (18 Oct 2026)
+- The outside shows the place the player picked (Josh): round the house plot stand that biome's trees, bushes and stones (`Content/outdoors.json`, three pieces per biome, 42 paintings in `assets/world/props`), laid out once from the household's seed (`OutdoorRules.layout`: the same home always has the same garden), in the season's dress (autumn leaves, a winter picture on snow and in winter, the same rule as the snow ground). Tall pieces stand only behind the house's back walls so nothing hides a room; low ones go anywhere clear of the rooms. Each has a soft shadow and the sky's light. The ground and the scenery now show on every storey (upstairs used to be bare sky). `HouseModel.scenery`, drawn by `RoomScene.buildScenery`.
+
 ## Known gaps after the economy pass
 - No real purchase has gone through App Store Connect: the 17 products exist only in `Store/HouseCat.storekit` until the developer team creates them (same IDs). The StoreKit tests prove a pack is handed over once and a look survives a relaunch and a refund.
 - Co-owning, presents, paw prints and friend codes can only be seen with the debug screens until CloudKit is on; nothing has crossed between two real phones.

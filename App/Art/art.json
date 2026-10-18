@@ -5079,6 +5079,300 @@
    ],
    "scale": 0.26785714285714285
   },
+  "world/props/city_lamp.png": {
+   "master": [
+    569,
+    2246
+   ],
+   "scale": 0.3
+  },
+  "world/props/city_lamp_winter.png": {
+   "master": [
+    493,
+    2225
+   ],
+   "scale": 0.3
+  },
+  "world/props/city_plane.png": {
+   "master": [
+    1603,
+    2161
+   ],
+   "scale": 0.3
+  },
+  "world/props/city_plane_autumn.png": {
+   "master": [
+    1599,
+    2196
+   ],
+   "scale": 0.3
+  },
+  "world/props/city_plane_winter.png": {
+   "master": [
+    1620,
+    2235
+   ],
+   "scale": 0.3
+  },
+  "world/props/city_planter.png": {
+   "master": [
+    1779,
+    1857
+   ],
+   "scale": 0.3
+  },
+  "world/props/city_planter_winter.png": {
+   "master": [
+    1642,
+    1841
+   ],
+   "scale": 0.3
+  },
+  "world/props/coast_dunegrass.png": {
+   "master": [
+    1653,
+    1832
+   ],
+   "scale": 0.3
+  },
+  "world/props/coast_dunegrass_winter.png": {
+   "master": [
+    1627,
+    1896
+   ],
+   "scale": 0.3
+  },
+  "world/props/coast_pine.png": {
+   "master": [
+    1664,
+    2063
+   ],
+   "scale": 0.3
+  },
+  "world/props/coast_pine_winter.png": {
+   "master": [
+    1663,
+    2072
+   ],
+   "scale": 0.3
+  },
+  "world/props/coast_rocks.png": {
+   "master": [
+    1830,
+    1636
+   ],
+   "scale": 0.3
+  },
+  "world/props/coast_rocks_winter.png": {
+   "master": [
+    1799,
+    1628
+   ],
+   "scale": 0.3
+  },
+  "world/props/countryside_hawthorn.png": {
+   "master": [
+    1783,
+    1774
+   ],
+   "scale": 0.3
+  },
+  "world/props/countryside_hawthorn_winter.png": {
+   "master": [
+    1739,
+    1637
+   ],
+   "scale": 0.3
+  },
+  "world/props/countryside_oak.png": {
+   "master": [
+    1683,
+    2047
+   ],
+   "scale": 0.3
+  },
+  "world/props/countryside_oak_autumn.png": {
+   "master": [
+    1652,
+    2009
+   ],
+   "scale": 0.3
+  },
+  "world/props/countryside_oak_winter.png": {
+   "master": [
+    1669,
+    2051
+   ],
+   "scale": 0.3
+  },
+  "world/props/countryside_stone.png": {
+   "master": [
+    1793,
+    1481
+   ],
+   "scale": 0.3
+  },
+  "world/props/countryside_stone_winter.png": {
+   "master": [
+    1825,
+    1536
+   ],
+   "scale": 0.3
+  },
+  "world/props/desert_agave.png": {
+   "master": [
+    1873,
+    1920
+   ],
+   "scale": 0.3
+  },
+  "world/props/desert_palm.png": {
+   "master": [
+    1609,
+    2242
+   ],
+   "scale": 0.3
+  },
+  "world/props/desert_pots.png": {
+   "master": [
+    1587,
+    1898
+   ],
+   "scale": 0.3
+  },
+  "world/props/forest_birch.png": {
+   "master": [
+    1179,
+    2184
+   ],
+   "scale": 0.3
+  },
+  "world/props/forest_birch_autumn.png": {
+   "master": [
+    1399,
+    2227
+   ],
+   "scale": 0.3
+  },
+  "world/props/forest_birch_winter.png": {
+   "master": [
+    1275,
+    2225
+   ],
+   "scale": 0.3
+  },
+  "world/props/forest_fir.png": {
+   "master": [
+    1010,
+    2224
+   ],
+   "scale": 0.3
+  },
+  "world/props/forest_fir_winter.png": {
+   "master": [
+    1014,
+    2221
+   ],
+   "scale": 0.3
+  },
+  "world/props/forest_stump.png": {
+   "master": [
+    1838,
+    1812
+   ],
+   "scale": 0.3
+  },
+  "world/props/forest_stump_winter.png": {
+   "master": [
+    1672,
+    1755
+   ],
+   "scale": 0.3
+  },
+  "world/props/mountain_boulder.png": {
+   "master": [
+    1825,
+    1735
+   ],
+   "scale": 0.3
+  },
+  "world/props/mountain_boulder_winter.png": {
+   "master": [
+    1780,
+    1800
+   ],
+   "scale": 0.3
+  },
+  "world/props/mountain_pine.png": {
+   "master": [
+    1604,
+    2163
+   ],
+   "scale": 0.3
+  },
+  "world/props/mountain_pine_winter.png": {
+   "master": [
+    1562,
+    2206
+   ],
+   "scale": 0.3
+  },
+  "world/props/mountain_woodpile.png": {
+   "master": [
+    1758,
+    1800
+   ],
+   "scale": 0.3
+  },
+  "world/props/mountain_woodpile_winter.png": {
+   "master": [
+    1796,
+    1842
+   ],
+   "scale": 0.3
+  },
+  "world/props/snow_rock.png": {
+   "master": [
+    1739,
+    1638
+   ],
+   "scale": 0.3
+  },
+  "world/props/snow_snowman.png": {
+   "master": [
+    1470,
+    1789
+   ],
+   "scale": 0.3
+  },
+  "world/props/snow_spruce.png": {
+   "master": [
+    1087,
+    2216
+   ],
+   "scale": 0.3
+  },
+  "world/props/tropical_banana.png": {
+   "master": [
+    1670,
+    2211
+   ],
+   "scale": 0.3
+  },
+  "world/props/tropical_frangipani.png": {
+   "master": [
+    1850,
+    1775
+   ],
+   "scale": 0.3
+  },
+  "world/props/tropical_palm.png": {
+   "master": [
+    1494,
+    2124
+   ],
+   "scale": 0.3
+  },
   "world/scenes/london_terrace_city_autumn.jpg": {
    "file": "world/scenes/london_terrace_city_autumn.heic",
    "master": [

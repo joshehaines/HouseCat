@@ -14,10 +14,7 @@ public enum HouseBuilder {
     /// The ground around the house (assets/world/ground): the biome's own, under snow when it is snowing
     /// (or deep winter where winters are white), a leaf-strewn lawn in a country autumn.
     public static func ground(_ biome: Biome, season: NatureSeason, weather: Weather) -> String {
-        let name: String = if biome == .snow
-            || weather == .snow && ![.desert, .tropical].contains(biome)
-            || season == .winter && Tuning.Weather.whiteWinters.contains(biome.rawValue)
-        {
+        let name: String = if isSnowy(biome, season: season, weather: weather) {
             "snow"
         } else if season == .autumn, biome == .countryside {
             "autumn"
@@ -25,6 +22,14 @@ public enum HouseBuilder {
             biome.rawValue
         }
         return "world/ground/ground_\(name).png"
+    }
+
+    /// Whether snow lies on the ground: always in the snow biome, while it snows (never in the desert or the
+    /// tropics), and all winter where winters are white.
+    public static func isSnowy(_ biome: Biome, season: NatureSeason, weather: Weather) -> Bool {
+        biome == .snow
+            || weather == .snow && ![.desert, .tropical].contains(biome)
+            || season == .winter && Tuning.Weather.whiteWinters.contains(biome.rawValue)
     }
 
     /// A home's painted exterior in a biome and season (assets/world/scenes, without the extension).
@@ -38,7 +43,8 @@ public enum HouseBuilder {
         layout: RoomModel,
         state: HouseholdState,
         catalogue: CatalogueFile,
-        now: HomeNow
+        now: HomeNow,
+        outdoors: OutdoorsFile? = nil
     ) -> HouseModel? {
         guard let plan = plans.houses[style.rawValue] else { return nil }
         let rooms = plan.rooms.map { spot -> HouseModel.Room in
@@ -80,12 +86,25 @@ public enum HouseBuilder {
                 lockLabel: open ? nil : label
             )
         }
+        // The scenery stands round the ground floor's rooms, the plot the house is built on.
+        let plot = plan.rooms.filter { $0.storey == 0 }.map { (u: $0.at[0], v: $0.at[1]) }
+        let scenery = outdoors.map {
+            OutdoorRules.layout(
+                biome: now.biome,
+                rooms: plot,
+                seed: state.seed,
+                season: now.season,
+                snowy: isSnowy(now.biome, season: now.season, weather: now.weather),
+                file: $0
+            )
+        } ?? []
         return HouseModel(
             rooms: rooms,
             active: .living,
             sky: now.sky,
             ground: ground(now.biome, season: now.season, weather: now.weather),
-            stairs: plan.stairs
+            stairs: plan.stairs,
+            scenery: scenery
         )
     }
 }

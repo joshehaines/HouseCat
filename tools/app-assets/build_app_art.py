@@ -52,6 +52,8 @@ SETS = [
     ('world/terrain/terr_*.png', 0.25),
     # The ground around the house, per biome.
     ('world/ground/ground_*.png', 0.25),
+    # The scenery round the house (Content/outdoors.json), painted on magenta and keyed like the shop pictures.
+    ('world/props/*.png', 0.3),
     # The painted weather particles (rain, snow, fog, clouds, leaves, blossom).
     ('world/weather/*.png', 0.5),
     # The widget's window frames, square and wide, one pair per home (their glass is transparent; the masks

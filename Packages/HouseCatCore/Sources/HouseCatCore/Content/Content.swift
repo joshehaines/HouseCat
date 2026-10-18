@@ -22,6 +22,8 @@ public struct ContentBundle: Sendable {
     public var bundles: BundlesFile
     /// What each level gives.
     public var levels: LevelsFile
+    /// The scenery round the house, by biome.
+    public var outdoors: OutdoorsFile
 
     /// Loads every content file from a directory (the app bundle's `Content`).
     public static func load(from directory: URL) throws -> ContentBundle {
@@ -46,7 +48,8 @@ public struct ContentBundle: Sendable {
             intro: read("intro"),
             events: read("events"),
             bundles: read("bundles"),
-            levels: read("levels")
+            levels: read("levels"),
+            outdoors: read("outdoors")
         )
     }
 

@@ -207,10 +207,11 @@ public final class RoomScene: SKScene {
         rooms.filter { isShown($0.value) }.map(\.key)
     }
 
-    /// The ground the house stands on, out past the edges of the view (a builder game's base on its field).
+    /// The ground the house stands on, out past the edges of the view (a builder game's base on its field), on
+    /// every storey, with the scenery of the home's place round it.
     private func buildGround() {
-        // Upper storeys hang in the sky: the street is downstairs.
-        guard let tile = house.ground, storey == 0 else { return }
+        buildScenery()
+        guard let tile = house.ground else { return }
         let reach = CGFloat(Tuning.House.groundReach), cells = CGFloat(Tuning.Room.gridWidth)
         let maxU = house.rooms.map { CGFloat($0.u) }.max() ?? 0, maxV = house.rooms.map { CGFloat($0.v) }.max() ?? 0
         let low = -reach, highU = maxU + cells + reach, highV = maxV + cells + reach
@@ -246,6 +247,38 @@ public final class RoomScene: SKScene {
         node.zPosition = -CGFloat(Tuning.House.storeyBand)
         node.name = "ground"
         world.addChild(node)
+    }
+
+    /// The trees, bushes and stones round the plot (Josh, 18 Oct: the outside as the place the player picked),
+    /// each standing on its cell with a soft shadow, in the sky's light. Those behind the house draw under the
+    /// rooms, the low ones in front over them.
+    private func buildScenery() {
+        let rgb = Tuning.Sky.grade[house.sky] ?? [1, 1, 1]
+        let grade = SKColor(red: rgb[0], green: rgb[1], blue: rgb[2], alpha: 1)
+        let band = CGFloat(Tuning.House.storeyBand) / 2
+        for piece in house.scenery {
+            let texture = art.texture(piece.sprite)
+            let painted = art.paintedSize(piece.sprite)
+            guard painted.width > 0 else { continue }
+            let width = CGFloat(piece.width) * grid.cellHalfWidth * 2
+            let height = width * painted.height / painted.width
+            let node = SKSpriteNode(texture: texture, size: CGSize(width: width, height: height))
+            node.anchorPoint = CGPoint(x: 0.5, y: CGFloat(Tuning.Outdoors.baseLift))
+            node.position = grid.floor(CGFloat(piece.u), CGFloat(piece.v))
+            node.color = grade
+            node.colorBlendFactor = 1
+            let depth = grid.depth(CGFloat(piece.u), CGFloat(piece.v))
+            node.zPosition = (piece.behind ? -band : band) + depth
+            node.name = "scenery"
+            let shadowWidth = width * CGFloat(piece.tall ? Tuning.Outdoors.shadowWidthTall : Tuning.Outdoors.shadowWidth)
+            let shadow = SKShapeNode(ellipseOf: CGSize(width: shadowWidth, height: shadowWidth / 2))
+            shadow.fillColor = SKColor(white: 0, alpha: CGFloat(Tuning.Outdoors.shadowAlpha))
+            shadow.strokeColor = .clear
+            shadow.position = .zero
+            shadow.zPosition = -1
+            node.addChild(shadow)
+            world.addChild(node)
+        }
     }
 
     // MARK: Framing

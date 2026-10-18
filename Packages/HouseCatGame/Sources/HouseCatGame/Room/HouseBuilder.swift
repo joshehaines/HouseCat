@@ -31,6 +31,8 @@ public enum HouseBuilder {
             model.sky = now.sky
             model.light = now.sky.lightMap(weather: now.weather)
             model.terrain = terrain(now.biome, now.season)
+            model.weather = now.weather
+            model.season = now.season
             model.wall = state.surface(.wall, in: spot.room, catalogue: catalogue) ?? layout.wall
             model.floor = state.surface(.floor, in: spot.room, catalogue: catalogue) ?? layout.floor
             if spot.room != .living {

@@ -44,6 +44,9 @@ enum GameWorld {
             if let name = environment["HOUSECAT_TIME"], let sky = SkyPhase(rawValue: name) {
                 now.sky = sky
             }
+            if let name = environment["HOUSECAT_WEATHER"], let weather = Weather(rawValue: name) {
+                now.weather = weather
+            }
         #endif
         return now
     }
@@ -65,7 +68,13 @@ enum GameWorld {
         guard let path = candidates.first(where: { art.has("\($0).jpg") }) else { return nil }
         let name = String(path.dropFirst("world/scenes/".count))
         let door = index.doors[name] ?? index.defaultDoor
-        let model = ExteriorScene.Model(scene: path, sky: now.sky, door: CGPoint(x: door[0], y: door[1]))
+        let model = ExteriorScene.Model(
+            scene: path,
+            sky: now.sky,
+            door: CGPoint(x: door[0], y: door[1]),
+            weather: now.weather,
+            season: now.season
+        )
         return ExteriorScene(size: size, art: art, model: model)
     }
 

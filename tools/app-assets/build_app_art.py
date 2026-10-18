@@ -46,6 +46,8 @@ SETS = [
     # terrain seen through the rooms' windows.
     ('world/scenes/london_terrace_*', 0.75),
     ('world/terrain/terr_*.png', 0.25),
+    # The painted weather particles (rain, snow, fog, clouds, leaves, blossom).
+    ('world/weather/*.png', 0.5),
     # The world map: the painting and the biome mask under the pin.
     ('world/map/map_painted.png', 1.0),
     ('world/map/map_biome.png', 1.0),

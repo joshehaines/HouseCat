@@ -263,11 +263,34 @@ final class RoomNode: SKNode {
             view.zPosition = Layer.openings
             view.name = isWindow ? "window.view" : "door.beyond"
             addChild(view)
+            if isWindow {
+                addWeather(over: view, corners: corners, texture: SKTexture(cgImage: behind))
+            }
         }
         let node = quad(texture: art.texture(framePath), corners)
         node.zPosition = Layer.openings + 1
         node.name = isWindow ? "window" : "door"
         addChild(node)
+    }
+
+    /// The weather outside, clipped to the window's opening.
+    private func addWeather(over view: SKSpriteNode, corners: Quad, texture: SKTexture) {
+        let frame = view.frame
+        let layer = WeatherLayer.node(
+            weather: model.weather,
+            season: model.season,
+            size: frame.size,
+            unit: CGFloat(Tuning.Weather.windowUnit),
+            art: art
+        )
+        guard !layer.children.isEmpty else { return }
+        layer.position = CGPoint(x: frame.minX, y: frame.minY)
+        let crop = SKCropNode()
+        crop.maskNode = quad(texture: texture, corners)
+        crop.addChild(layer)
+        crop.zPosition = Layer.openings + 0.5
+        crop.name = "window.weather"
+        addChild(crop)
     }
 
     // MARK: Furniture

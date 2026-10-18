@@ -15,11 +15,16 @@ public final class ExteriorScene: SKScene {
         public var sky: SkyPhase
         /// The front door's centre as a fraction of the painting, top-left origin (assets/world/scenes/scenes.json).
         public var door: CGPoint
+        /// Today's weather and the season there: the particles and tint over the picture.
+        public var weather: Weather
+        public var season: NatureSeason
 
-        public init(scene: String, sky: SkyPhase, door: CGPoint) {
+        public init(scene: String, sky: SkyPhase, door: CGPoint, weather: Weather = .sun, season: NatureSeason = .summer) {
             self.scene = scene
             self.sky = sky
             self.door = door
+            self.weather = weather
+            self.season = season
         }
     }
 
@@ -129,6 +134,30 @@ public final class ExteriorScene: SKScene {
         cameraNode.position = CGPoint(x: size.width / 2, y: size.height / 2)
         cameraNode.setScale(1)
         skyNode.size = size
+        // Clouds behind the painting (they show only in its sky), and the weather over everything, both fixed
+        // to the screen through the push.
+        cameraNode.childNode(withName: "weather")?.removeFromParent()
+        cameraNode.childNode(withName: "clouds")?.removeFromParent()
+        let clouds = WeatherLayer.clouds(
+            weather: model.weather,
+            season: model.season,
+            size: size,
+            unit: CGFloat(Tuning.Weather.exteriorUnit),
+            art: art
+        )
+        clouds.position = CGPoint(x: -size.width / 2, y: -size.height / 2)
+        clouds.zPosition = -50
+        cameraNode.addChild(clouds)
+        let weather = WeatherLayer.node(
+            weather: model.weather,
+            season: model.season,
+            size: size,
+            unit: CGFloat(Tuning.Weather.exteriorUnit),
+            art: art
+        )
+        weather.position = CGPoint(x: -size.width / 2, y: -size.height / 2)
+        weather.zPosition = 10
+        cameraNode.addChild(weather)
         let painted = art.paintedSize(model.scene + ".jpg")
         guard painted.width > 0, painted.height > 0 else { return }
         let focusWidth = CGFloat(Tuning.Exterior.focusWidth), focusHeight = CGFloat(Tuning.Exterior.focusHeight)

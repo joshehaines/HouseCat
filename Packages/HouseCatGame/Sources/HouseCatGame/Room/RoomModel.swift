@@ -56,6 +56,9 @@ public struct RoomModel: Decodable, Sendable {
     /// The sky outside the window, and the terrain seen through it.
     public var sky = SkyPhase.day
     public var terrain = "world/terrain/terr_city_autumn.png"
+    /// The weather and season outside, for the particles in the window.
+    public var weather = Weather.sun
+    public var season = NatureSeason.autumn
 
     private enum CodingKeys: String, CodingKey {
         case wall, floor, window, door, refScale, scale, catHeight, cat, items, spots

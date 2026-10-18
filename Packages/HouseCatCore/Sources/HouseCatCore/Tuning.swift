@@ -212,6 +212,28 @@ public enum Tuning {
         public static let shortestWhiskers = 0.35
     }
 
+    /// The weather over the exterior and in the windows (HouseCatGame WeatherLayer).
+    public enum Weather {
+        /// A wash over the picture: red, green, blue, strength.
+        public static let overcastVeil = [0.55, 0.6, 0.7, 0.16]
+        public static let rainVeil = [0.32, 0.38, 0.5, 0.26]
+        public static let stormVeil = [0.2, 0.22, 0.34, 0.42]
+        public static let snowVeil = [0.9, 0.93, 1.0, 0.14]
+        public static let fogVeil = [0.86, 0.88, 0.92, 0.22]
+        public static let heatVeil = [1.0, 0.82, 0.55, 0.1]
+        /// How grey the clouds are in each weather (0 white, 1 slate).
+        public static let cloudGrey: [String: Double] = ["cloud": 0.3, "rain": 0.55, "storm": 0.8, "snow": 0.2, "wind": 0.15]
+        /// About this many seconds between flashes in a storm.
+        public static let lightningEvery = 7.0
+        /// The size particles are drawn at: a raindrop is about half this long (points over the exterior,
+        /// room units in a window).
+        public static let exteriorUnit = 24.0
+        public static let windowUnit = 14.0
+        /// WeatherKit (step 5): how often to ask, and how long an answer is trusted.
+        public static let fetchIntervalMinutes = 60
+        public static let cacheHours = 3
+    }
+
     /// The world map and places (SPEC "World map, search and seasons").
     public enum World {
         /// A pin this close to a listed city is city (big cities reach further).
@@ -511,11 +533,7 @@ public enum Tuning {
         public static let zoomiesFromMinutes = 22 * 60
     }
 
-    /// Weather (CLAUDE.md "Weather").
-    public enum Weather {
-        public static let fetchIntervalMinutes = 60
-        public static let cacheHours = 3
-    }
+    // Weather (CLAUDE.md "Weather").
 
     /// The save (CLAUDE.md "Architecture rules").
     public enum Save {

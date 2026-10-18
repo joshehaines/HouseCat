@@ -137,3 +137,38 @@ private struct World {
         #expect(world.art.has("rooms/lightmaps/lm_\(phase.lightMap(weather: .sun))_floor.png"))
     }
 }
+
+/// The weather shows outside and in every window: what falls, the wash, fog, lightning, clouds.
+@MainActor
+@Test func theWeatherShowsOutsideAndInEveryWindow() throws {
+    let world = try World()
+    #expect(WeatherLayer.recipe(weather: .storm, season: .summer).lightning)
+    #expect(WeatherLayer.recipe(weather: .rain, season: .spring).falls == [.rain(heavy: false)], "rain, not blossom, when it rains")
+    #expect(WeatherLayer.recipe(weather: .sun, season: .spring).falls == [.petals])
+    #expect(WeatherLayer.recipe(weather: .sun, season: .autumn).falls == [.leaves])
+    #expect(WeatherLayer.recipe(weather: .sun, season: .summer).falls.isEmpty)
+    #expect(WeatherLayer.recipe(weather: .fog, season: .autumn).fog)
+    for weather in Weather.allCases {
+        for season in NatureSeason.allCases {
+            let layer = WeatherLayer.node(weather: weather, season: season, size: CGSize(width: 800, height: 400), unit: 24, art: world.art)
+            #expect(layer.name == "weather")
+            if weather != .sun || season == .spring || season == .autumn {
+                #expect(!layer.children.isEmpty, "\(weather) in \(season) shows something")
+            }
+        }
+    }
+    for path in ["raindrop", "snowflake", "leaf", "petal", "cloud", "fog"] {
+        #expect(world.art.has("world/weather/\(path).png"))
+    }
+    // Every window of a rainy house carries the rain.
+    let place = HomePlace(name: "Bristol", latitude: 51.45, longitude: -2.59, timeZoneID: "Europe/London", biome: .city)
+    let now = HomeNow(place: place, biome: .city, season: .autumn, sky: .day, weather: .rain, localMinutes: 720)
+    let house = try #require(HouseBuilder.house(
+        style: .londonTerrace, plans: world.plans, layout: world.layout, state: world.state(),
+        catalogue: world.content.catalogue, now: now
+    ))
+    let scene = RoomScene(size: CGSize(width: 1366, height: 1024), art: world.art, content: world.content, house: house)
+    for (id, node) in scene.rooms where house.room(id)?.model.window != nil {
+        #expect(node.childNode(withName: "window.weather") != nil, "\(id) shows the rain")
+    }
+}

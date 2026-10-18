@@ -120,6 +120,11 @@ Beans play the role gems play in Clash of Clans, earned through objectives and s
 - `audio/ui_knock_off.wav` (a ceramic clack and a soft bump) and `audio/ui_sparkle.wav` (two rising chimes): synthesised in code like the other UI sounds, for the mini-games. The recorded `cat_zoomies_thumps` and `cat_sleep_breathing` are now in the app too (Laser Pointer and the nap).
 - The games use existing art: the living room's floor, wallpaper and rug, five gift keepsakes on the shelf, the paw and sparkle reactions.
 
+## 6h. Added in the economy pass (18 Oct 2026)
+- `ui/shop/shop_beans_<size>.png` (handful, pouch, jar, sack, barrel): the five Bean packs, golden paw-print Beans in a growing pile, pouch, glass jar, hessian sack and barrel, painted with gpt_image_2_5 on flat magenta in the shop pictures' style and keyed by `shopkey.py`. Bundled at 0.4 like the other shop pictures.
+- `shop_starter.png` now stands for the starter's real contents (Beans, the knitted beanie, an armchair); `shop_adopt`, `shop_forever` and `shop_gifts` are no longer shown (their products went) but stay as masters.
+- The widget's peeking head is a crop of the kit's sitting-front pose, not new art.
+
 ## 7. Known gaps and things for Josh's eye
 
 - **Small items were painted at furniture size.** The model draws whatever it is asked for large, so tabletop and small floor items (mug, kettle, alarm clock, slippers, snow globe, candle, cat bed, laundry basket…) come out as big as a chest of drawers. The sprites are high-resolution, so scaling down in code loses nothing: `assets/manifest.json` carries a `suggested_scale` for 78 such files (from `tools/asset-pipeline/scales.py`); carry it into `catalogue.json` and check each by eye in the room view.

@@ -698,7 +698,7 @@ struct RoomScreen: View {
             .task(id: visit.ready) {
                 guard visit.ready, !tour.isRunning else { return }
                 let session = GameSession.shared
-                if HealthLayer.isAvailable, HealthRules.shouldAsk(session.state(at: session.now()), asked: HealthLayer.asked) {
+                if HealthLayer.isAvailable, HealthRules.shouldAsk(session.state(at: session.now()), asked: HealthLayer.asked), !Self.debugScreenRun {
                     try? await Task.sleep(for: .seconds(Tuning.Care.lineSeconds + 2))
                     askingHealth = true
                 } else {
@@ -831,9 +831,20 @@ struct RoomScreen: View {
             }
     }
 
+    /// Debug screenshot runs (HOUSECAT_SCREEN) are not interrupted by the day-3 cards.
+    private static var debugScreenRun: Bool {
+        #if DEBUG
+            let screen = ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"]
+            return screen != nil && screen != "health" && screen != "addwidget"
+        #else
+            return false
+        #endif
+    }
+
     /// The add-widget card, when it is due and nothing else is on screen (after the first feed, on day 3).
     private func askForWidget() async {
         try? await Task.sleep(for: .seconds(1.2))
+        guard !Self.debugScreenRun else { return }
         guard visit.ready, visit.scene is RoomScene, !tour.isRunning, !visit.askReminders, !askingHealth, !offering,
               visit.levelReached == nil, !askingWidget else { return }
         let session = GameSession.shared

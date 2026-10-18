@@ -40,17 +40,17 @@ public struct DecorateBar: View {
     }
 
     public var body: some View {
-        HStack(spacing: 10) {
+        HStack(alignment: .top, spacing: 10) {
             if decorating, hasSelection {
-                HUDButton("Turn", symbol: "arrow.triangle.2.circlepath", action: turn)
-                HUDButton("Store", icon: "sofa_for_furniture", action: store)
+                GameButton("Turn", symbol: "arrow.triangle.2.circlepath", size: 54, action: turn)
+                GameButton("Store", icon: "sofa_for_furniture", size: 54, action: store)
             }
             if !decorating, let storeyTitle {
                 HUDButton(storeyTitle, symbol: storeyTitle == "Upstairs" ? "arrow.up" : "arrow.down", action: changeStorey)
             }
             if canDecorate || decorating {
                 if decorating {
-                    HUDButton("Done", symbol: "checkmark", prominent: true, action: toggle).tourTarget("done")
+                    GameButton("Done", symbol: "checkmark", style: .accent, size: 54, action: toggle).tourTarget("done")
                 } else {
                     HUDButton("Decorate", icon: "decorate_paintbrush", action: toggle).tourTarget("decorate")
                 }

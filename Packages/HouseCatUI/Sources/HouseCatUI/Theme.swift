@@ -146,43 +146,6 @@ public struct HUDButton: View {
     }
 }
 
-/// A round control with a painted icon (the cat, the book, the map, the shop).
-public struct RoundIconButton: View {
-    @Environment(\.hudScale) private var scale
-    @Environment(\.controlFeedback) private var feedback
-    private let icon: String
-    private let label: String
-    private let badge: Bool
-    private let action: () -> Void
-
-    public init(_ icon: String, label: String, badge: Bool = false, action: @escaping () -> Void) {
-        self.icon = icon
-        self.label = label
-        self.badge = badge
-        self.action = action
-    }
-
-    public var body: some View {
-        Button {
-            feedback.tap()
-            action()
-        } label: {
-            PaintedIcon(icon, size: 38 * scale)
-                .frame(width: 54 * scale, height: 54 * scale)
-                .paper(Circle())
-                .overlay(alignment: .topTrailing) {
-                    if badge {
-                        Circle().fill(Theme.accent).frame(width: 13 * scale, height: 13 * scale)
-                            .overlay(Circle().stroke(Theme.cream, lineWidth: 2))
-                            .offset(x: -2, y: 2)
-                    }
-                }
-        }
-        .buttonStyle(PressStyle())
-        .accessibilityLabel(label)
-    }
-}
-
 /// Controls sink a little when pressed.
 public struct PressStyle: ButtonStyle {
     public init() {}

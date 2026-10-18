@@ -54,7 +54,7 @@ final class Visit {
     private(set) var decorating = false
     private(set) var selected: UUID?
     /// What the save says now, for the status readout.
-    struct Stats: Equatable {
+    struct Stats: Hashable {
         var level = 1
         var xp = 0
         /// How far into the level, 0 to 1 (the pill's XP bar).

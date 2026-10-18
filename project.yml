@@ -42,6 +42,8 @@ targets:
     sources:
       - App/Sources
       - Shared/Sources
+      # The widget's files, intents and views, shared so the app can write what it reads and draw it too.
+      - Widgets/Shared
       - App/Resources
       - path: Shared/AppIcon.icon
         type: file
@@ -66,11 +68,20 @@ targets:
       - target: HouseCatDownloader
     entitlements:
       path: App/HouseCat.entitlements
+      # xcodegen writes the file from these. The App Group is the widget's shared save (it works in the
+      # simulator now; a device build needs the team and the group on the App ID), WeatherKit the real weather.
+      properties:
+        com.apple.security.application-groups: [group.com.housecatgame.housecat]
+        com.apple.developer.weatherkit: true
     info:
       path: App/Info.plist
       properties:
         CFBundleDisplayName: HouseCat
         ITSAppUsesNonExemptEncryption: false
+        # housecat://visit: the widget's Visit button and a tap on the widget.
+        CFBundleURLTypes:
+          - CFBundleURLName: com.housecatgame.housecat
+            CFBundleURLSchemes: [housecat]
         # Empty until the RevenueCat project exists; the app uses StoreKit 2 directly until then.
         RevenueCatAPIKey: ""
         # The homes' exterior packs (Background Assets, Apple-hosted): Shared/Sources/HomePacks.swift.
@@ -130,6 +141,7 @@ targets:
     platform: iOS
     sources:
       - Widgets/Sources
+      - Widgets/Shared
     dependencies:
       - package: HouseCatCore
       - package: HouseCatUI
@@ -137,6 +149,8 @@ targets:
       - sdk: SwiftUI.framework
     entitlements:
       path: Widgets/HouseCatWidgets.entitlements
+      properties:
+        com.apple.security.application-groups: [group.com.housecatgame.housecat]
     info:
       path: Widgets/Info.plist
       properties:

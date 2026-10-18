@@ -112,6 +112,10 @@ Beans play the role gems play in Clash of Clans, earned through objectives and s
 - App-only derived art (not masters): `world/previews/<style>_<biome>.jpg` with `_land.png`, the house step's summer previews at 720 px; the seven non-London homes' exteriors as download packs (`tools/app-assets/build_home_packs.py`).
 - `audio`: `ui_purchase_confirm` joins the app's sounds (after a purchase).
 
+## 6f. Added in step 5 (18 Oct 2026)
+- The widget frames go into the app at 0.32 (square 655 px, wide 860 px; the glass masks stay out, the frames' own transparency is the glass). The app measures each frame's glass from its alpha when it makes the widget kit; the sill line (where the cat's feet go) is set by eye per frame, square and wide, in `Tuning.Widget.sill`.
+- One frame per home: London terrace sash, Georgian townhouse arched, mansion flat bay, cottage casement, woodland cabin cabin, houseboat porthole, Mediterranean rooftop shuttered, new-build picture window.
+
 ## 7. Known gaps and things for Josh's eye
 
 - **Small items were painted at furniture size.** The model draws whatever it is asked for large, so tabletop and small floor items (mug, kettle, alarm clock, slippers, snow globe, candle, cat bed, laundry basket…) come out as big as a chest of drawers. The sprites are high-resolution, so scaling down in code loses nothing: `assets/manifest.json` carries a `suggested_scale` for 78 such files (from `tools/asset-pipeline/scales.py`); carry it into `catalogue.json` and check each by eye in the room view.
@@ -121,7 +125,7 @@ Beans play the role gems play in Clash of Clans, earned through objectives and s
 - **R/L pairs are painted separately**, so a few pairs differ in detail (e.g. First Light bird box roof colour, hamper lining). Mirroring the R sprite for L is the fallback if a pair jars when rotated.
 - **Door-open and snow houses** are repaints, not pixel-aligned: cross-fade rather than swap.
 - **Tuxedo**: on some views only one front paw is white.
-- **Widget frames** need a sill line per frame (where the cat's feet go); set it once by eye in data.
+- **Widget frames**: the sill lines are set (step 5, `Tuning.Widget.sill`); worth a look on a device in each home.
 - **Paid looks**: none at launch. Every builder option is free (decided 17 Oct); the `rare` flags in `cat/custom/catbuilder.json` are all off and stay as the switch if paid looks come later. Kitten-forever is a scale; nothing is painted per look.
 - **Cat builder, tortoiseshell**: the tortie mask came out as bold patches rather than fine brindle; it doubles as the calico patches.
 - **Cat builder, mitts and tuxedo on the expression heads**: the model drew bodies under some heads when painting these masks; the masks are clipped to the head, so only the chin and muzzle marking remains, which is right.

@@ -1,62 +1,61 @@
+import HouseCatCore
+import HouseCatUI
 import SwiftUI
 import WidgetKit
 
-/// Placeholder widget: the streak and the visited-today pose arrive with the
-/// widget state in HouseCatCore. Widgets read state; they never compute it.
-struct StreakEntry: TimelineEntry {
-    let date: Date
-    let streak: Int
+/// The widget's timeline (SPEC "Widgets, the Duolingo layer"): 48 entries half an hour apart, each computed
+/// by HouseCatCore from the save the app left in the App Group (plus the widget's own taps), so the app and
+/// the widget always agree. Feed and Pet reload it at once.
+struct HouseCatProvider: TimelineProvider {
+    func placeholder(in _: Context) -> WidgetEntry {
+        WidgetEntry(date: .now, scene: nil, catName: "Your cat", caption: nil, kit: nil)
+    }
+
+    func getSnapshot(in context: Context, completion: @escaping (WidgetEntry) -> Void) {
+        completion(Self.entries(from: .now).first ?? placeholder(in: context))
+    }
+
+    func getTimeline(in context: Context, completion: @escaping (Timeline<WidgetEntry>) -> Void) {
+        let entries = Self.entries(from: .now)
+        completion(Timeline(entries: entries.isEmpty ? [placeholder(in: context)] : entries, policy: .atEnd))
+    }
+
+    static func entries(from date: Date) -> [WidgetEntry] {
+        guard let world = WidgetWorld.load() else { return [] }
+        return world.scenes(from: date).map {
+            WidgetEntry(date: $0.state.date, scene: $0, catName: world.catName, caption: world.caption($0), kit: world.kit)
+        }
+    }
 }
 
-struct StreakProvider: TimelineProvider {
-    func placeholder(in _: Context) -> StreakEntry {
-        StreakEntry(date: .now, streak: 0)
-    }
-
-    func getSnapshot(in _: Context, completion: @escaping (StreakEntry) -> Void) {
-        completion(StreakEntry(date: .now, streak: 0))
-    }
-
-    func getTimeline(in _: Context, completion: @escaping (Timeline<StreakEntry>) -> Void) {
-        completion(Timeline(entries: [StreakEntry(date: .now, streak: 0)], policy: .never))
-    }
-}
-
-struct StreakWidgetView: View {
-    let entry: StreakEntry
+struct HouseCatWidgetEntryView: View {
+    let entry: WidgetEntry
+    @Environment(\.widgetFamily) private var family
 
     var body: some View {
-        VStack(spacing: 4) {
-            Image(systemName: "pawprint.fill")
-                .font(.title2)
-                .accessibilityHidden(true)
-            Text("\(entry.streak)")
-                .font(.system(.largeTitle, design: .serif, weight: .bold))
-            Text("HouseCat")
-                .font(.caption)
-        }
-        .accessibilityElement(children: .combine)
-        .accessibilityLabel("Visit streak, \(entry.streak) days")
-        .containerBackground(for: .widget) {
-            Color(red: 0.98, green: 0.95, blue: 0.91)
-        }
+        HouseCatWidgetView(entry: entry, family: family)
+            .containerBackground(for: .widget) {
+                Theme.paper
+            }
     }
 }
 
-struct StreakWidget: Widget {
+/// Your cat in your window: every size from the small square to the Lock Screen, and StandBy at night.
+struct HouseCatWidget: Widget {
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: "StreakWidget", provider: StreakProvider()) { entry in
-            StreakWidgetView(entry: entry)
+        StaticConfiguration(kind: "HouseCatWidget", provider: HouseCatProvider()) { entry in
+            HouseCatWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("Streak")
-        .description("Your visit streak and your cat.")
-        .supportedFamilies([.systemSmall, .systemMedium, .accessoryCircular, .accessoryRectangular])
+        .configurationDisplayName("Your cat")
+        .description("Your cat in your window and your visit streak. Feed and pet it from here.")
+        .supportedFamilies([.systemSmall, .systemMedium, .accessoryCircular, .accessoryRectangular, .accessoryInline])
+        .contentMarginsDisabled()
     }
 }
 
 @main
 struct HouseCatWidgetBundle: WidgetBundle {
     var body: some Widget {
-        StreakWidget()
+        HouseCatWidget()
     }
 }

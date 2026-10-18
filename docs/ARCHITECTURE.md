@@ -97,6 +97,12 @@ Care and idle: `GameSession.feed()` / `pet(taps:)` append `fed` / `petted` and p
 - HouseCatGame: `HouseBuilder` builds the `HouseModel` from the save and `HomeNow` (window terrain, sky, light map, ground) and names the exterior scene for a home, biome and season.
 - The app: `GameWorld.now(state:at:)` (with debug overrides), `WorldMapView` and `WorldMapModel` (MapKit search and reverse geocoding, the biome under the pin from the bundled mask), `GameSession.placeHome`.
 
+### The widget (step 5)
+- `Widgets/Shared` is compiled into the app and the widget: `WidgetFiles` (the App Group's `Widget/` folder: `snapshot.json`, `weather.json`, `Kit/`, `Inbox/`), `WidgetWorld` (the snapshot with the widget's own taps folded on, the app's Content read from the app bundle, the report and the kit), `WidgetIntents` (Feed and Pet) and `WidgetViews` (every size).
+- HouseCatCore decides everything a widget shows: `WidgetRules.state`/`timeline` (pose, streak, fed), `WidgetRules.scene` (the pose's painting, the home's window, biome, season, sky and weather at that moment), `WidgetRules.event` (what Feed and Pet append). The widget only folds and draws.
+- The app keeps its side current through `WidgetBridge`: the snapshot after each change (debounced), the kit when the look, home or biome changes (rendered off the main thread through `CatArt`), the inbox merged into the save each time the app becomes active (`GameSession.importEvents`, by event id, so a repeat is dropped).
+- `RealWeather` asks WeatherKit for the pin's hourly forecast and stores a `WeatherReport` beside the snapshot; `GameWorld.now` and the widget both pass it to `homeNow`. `Reminders` schedules `ReminderRules.plan` with `UNUserNotificationCenter`.
+
 ### Homes, packs and the shop (18 Oct)
 - `HomePacks` (Shared) asks Background Assets for a home's pack (`home.<style>`), waits for it with `ensureLocalAvailability`, and adds its `homes/<style>/art.json` to the art library (`ArtLibrary.add(packAt:)`); `GameWorld.exteriorScene` only names scenes the library has. The `HouseCatDownloader` extension (`StoreDownloaderExtension`) lets the system fetch packs before launch.
 - `ShopView` (App) is the shop: sections, offer tiles, the Cat Club page, the detail panel and `Celebration`. Prices and the value sums come from `ProductInfo` (`price` and `currencyCode` beside `displayPrice`); `ChunkyButton` and `Ribbon` are in HouseCatUI's `Theme`. The layout's scale comes from the screen size alone (a GeometryReader around it), never from what it sizes.

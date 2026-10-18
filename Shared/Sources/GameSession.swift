@@ -90,7 +90,24 @@ final class GameSession {
         let event = GameEvent(at: at, day: clock.day(of: at), source: source, kind: kind)
         log.append(event)
         try? store?.append(event)
+        WidgetBridge.changed()
         return event
+    }
+
+    /// The derived state through the last event (what the widget is left with).
+    var current: HouseholdState {
+        fold()
+    }
+
+    /// Events made elsewhere on this device (the widget's Feed and Pet), into the save once each.
+    func importEvents(_ events: [GameEvent]) {
+        let known = Set(log.events.map(\.id))
+        let horizon = log.snapshot?.lastEventAt ?? .distantPast
+        let new = events.filter { !known.contains($0.id) && $0.at > horizon }
+        guard !new.isEmpty else { return }
+        log.merge(new)
+        try? store?.append(contentsOf: new)
+        WidgetBridge.changed()
     }
 
     private static let bootID: String = {
@@ -216,6 +233,14 @@ final class GameSession {
     func line(_ context: String) -> String? {
         let date = now()
         return line(context, before: state(at: date), date: date)
+    }
+
+    /// A reminder's line, in the cat's voice, for a moment ahead, with nothing left to fill in.
+    func reminderLine(_ context: String, id: String, at date: Date) -> String? {
+        let state = state(at: now())
+        guard let cat = state.cat(Self.catID), let content else { return nil }
+        var rng = DaySeed(household: state.seed, day: state.clock.day(of: date), purpose: "reminder", salt: id)
+        return Greeting.line(context, cat: cat, lines: content.lines, rng: &rng, whole: true)
     }
 
     private func line(_ context: String, before state: HouseholdState, date: Date) -> String? {

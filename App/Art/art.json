@@ -3739,6 +3739,118 @@
    ],
    "scale": 0.4
   },
+  "widget/widget_arched.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.32
+  },
+  "widget/widget_arched_wide.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.32
+  },
+  "widget/widget_bay.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.32
+  },
+  "widget/widget_bay_wide.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.32
+  },
+  "widget/widget_cabin.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.32
+  },
+  "widget/widget_cabin_wide.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.32
+  },
+  "widget/widget_casement.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.32
+  },
+  "widget/widget_casement_wide.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.32
+  },
+  "widget/widget_picture.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.32
+  },
+  "widget/widget_picture_wide.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.32
+  },
+  "widget/widget_porthole.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.32
+  },
+  "widget/widget_porthole_wide.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.32
+  },
+  "widget/widget_sash.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.32
+  },
+  "widget/widget_sash_wide.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.32
+  },
+  "widget/widget_shuttered.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.32
+  },
+  "widget/widget_shuttered_wide.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.32
+  },
   "world/ground/ground_autumn.png": {
    "file": "world/ground/ground_autumn.heic",
    "master": [

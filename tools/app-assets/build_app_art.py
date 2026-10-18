@@ -54,6 +54,9 @@ SETS = [
     ('world/ground/ground_*.png', 0.25),
     # The painted weather particles (rain, snow, fog, clouds, leaves, blossom).
     ('world/weather/*.png', 0.5),
+    # The widget's window frames, square and wide, one pair per home (their glass is transparent; the masks
+    # are not needed). The app copies the home's pair into the App Group for the widget.
+    ('widget/widget_*[!s].png', 0.32),
     # The world map: the painting and the biome mask under the pin.
     ('world/map/map_painted.png', 1.0),
     ('world/map/map_biome.png', 1.0),

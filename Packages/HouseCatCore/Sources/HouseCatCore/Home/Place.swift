@@ -166,7 +166,8 @@ public struct HomeNow: Equatable, Sendable {
 }
 
 public extension HouseholdState {
-    func homeNow(at date: Date, weather tables: WeatherFile) -> HomeNow {
+    /// `report` is the real weather at the home (WeatherKit), which takes over from the simulation on Auto.
+    func homeNow(at date: Date, weather tables: WeatherFile, report: WeatherReport? = nil) -> HomeNow {
         let place = home.place ?? .london
         let zone = place.timeZone
         let season = home.season.season(at: date, timeZone: zone, southernHemisphere: place.southernHemisphere)
@@ -174,7 +175,14 @@ public extension HouseholdState {
         calendar.timeZone = zone
         let parts = calendar.dateComponents([.hour, .minute], from: date)
         let minutes = (parts.hour ?? 12) * 60 + (parts.minute ?? 0)
-        let weather = WeatherRules.simulated(biome: place.biome, season: season, day: clock.day(of: date), household: seed, tables: tables)
+        let simulated = WeatherRules.simulated(
+            biome: place.biome,
+            season: season,
+            day: clock.day(of: date),
+            household: seed,
+            tables: tables
+        )
+        let weather = WeatherRules.weather(at: date, home: home, report: report, simulated: simulated)
         return HomeNow(
             place: place,
             biome: place.biome,

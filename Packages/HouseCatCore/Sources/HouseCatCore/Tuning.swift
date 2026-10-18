@@ -219,6 +219,8 @@ public enum Tuning {
         public static let clubOutfitsPerYear = 12
         public static let termsURL = URL(string: "https://housecatgame.com/terms")!
         public static let privacyURL = URL(string: "https://housecatgame.com/privacy")!
+        /// WeatherKit's legal page, until the service gives its own (it needs the capability).
+        public static let weatherLegalURL = URL(string: "https://weatherkit.apple.com/legal-attribution.html")!
     }
 
     /// The shop's layout (App ShopView): drawn for a landscape phone, then scaled up to fill a taller screen.
@@ -244,6 +246,11 @@ public enum Tuning {
         public static let heatVeil = [1.0, 0.82, 0.55, 0.1]
         /// Biomes whose ground lies under snow all winter.
         public static let whiteWinters: Set<String> = ["mountain", "forest"]
+        /// A real weather report counts for a pin this close to where it was taken (kilometres).
+        public static let reportRadiusKm = 25.0
+        /// The app asks WeatherKit again after this long, and the report covers this many hours ahead.
+        public static let reportRefreshMinutes = 30.0
+        public static let reportHours = 72
         /// How grey the clouds are in each weather (0 white, 1 slate).
         public static let cloudGrey: [String: Double] = ["cloud": 0.3, "rain": 0.55, "storm": 0.8, "snow": 0.2, "wind": 0.15]
         /// About this many seconds between flashes in a storm.
@@ -548,6 +555,14 @@ public enum Tuning {
     }
 
     /// Widgets (SPEC "Widgets, the Duolingo layer").
+    /// Local reminders (SPEC "Notifications"), at the player's own times; these are the defaults.
+    public enum Reminders {
+        public static let breakfastMinutes = 7 * 60 + 30
+        public static let eveningMinutes = 19 * 60 + 30
+        /// How far ahead they are scheduled (iOS keeps at most 64 pending).
+        public static let daysAhead = 7
+    }
+
     public enum Widget {
         public static let entryIntervalMinutes = 30
         public static let entriesPerTimeline = 48
@@ -560,6 +575,41 @@ public enum Tuning {
         public static let boxFromMinutes = 14 * 60
         public static let sofaFromMinutes = 18 * 60
         public static let zoomiesFromMinutes = 22 * 60
+        /// The picture (CLAUDE.md "The widget scene"): a sitting cat this tall as a fraction of the widget,
+        /// its feet this far below the glass, the wide window's cat this far across its glass.
+        public static let catHeight = 0.5
+        public static let catHeightWide = 0.62
+        /// Where the cat's feet go on each window (set by eye from the paintings): the sill's top as a fraction of
+        /// the frame's height, square then wide.
+        public static let sill: [String: [Double]] = [
+            "arched": [0.77, 0.78],
+            "bay": [0.69, 0.67],
+            "cabin": [0.755, 0.745],
+            "casement": [0.755, 0.76],
+            "picture": [0.745, 0.76],
+            "porthole": [0.735, 0.715],
+            "sash": [0.765, 0.765],
+            "shuttered": [0.755, 0.78],
+        ]
+        /// The room's light on the frame and the cat by the time of day (the frames are painted in daylight).
+        public static let roomGrade: [SkyPhase: [Double]] = [
+            .dawn: [0.93, 0.88, 0.9],
+            .day: [1, 1, 1],
+            .dusk: [0.88, 0.78, 0.76],
+            .night: [0.5, 0.47, 0.62],
+        ]
+        public static let catXWide = 0.42
+        /// The terrain behind the glass: wider than the glass by this much, its foot this far below.
+        public static let terrainOverhang = 1.12
+        public static let terrainDrop = 0.06
+        /// The shapes of the painted wide frame and terrain (width over height).
+        public static let wideFrameAspect = 2688.0 / 1520.0
+        public static let terrainAspect = 672.0 / 380.0
+        /// The kit the app makes: the cat's pictures this tall in pixels, and a version to remake it on change.
+        public static let catPixels = 420
+        public static let kitVersion = "1"
+        /// The app writes the widget's snapshot this long after the last change.
+        public static let publishDelaySeconds = 1.0
     }
 
     // Weather (CLAUDE.md "Weather").

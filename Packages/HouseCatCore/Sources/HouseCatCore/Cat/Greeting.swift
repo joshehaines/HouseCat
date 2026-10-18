@@ -38,9 +38,14 @@ public enum Greeting {
     }
 
     /// One variant for the context in the cat's personality, the same all day for the same visit
-    /// (`DaySeed`), with the cat's name filled in.
-    public static func line(_ context: String, cat: CatState, lines: LinesFile, rng: inout DaySeed) -> String? {
-        let variants = lines.variants(for: context, personality: cat.personality)
+    /// (`DaySeed`), with the cat's name filled in. `whole` keeps to the variants with no other placeholder
+    /// (a reminder knows the gift is coming, not what it is), unless every variant has one.
+    public static func line(_ context: String, cat: CatState, lines: LinesFile, rng: inout DaySeed, whole: Bool = false) -> String? {
+        var variants = lines.variants(for: context, personality: cat.personality)
+        if whole {
+            let plain = variants.filter { !$0.replacingOccurrences(of: "{cat}", with: "").contains("{") }
+            variants = plain.isEmpty ? variants : plain
+        }
         guard !variants.isEmpty else { return nil }
         return variants[Int(rng.next() % UInt64(variants.count))].replacingOccurrences(of: "{cat}", with: cat.name)
     }

@@ -14,12 +14,18 @@ struct HouseCatApp: App {
     @State private var placing: WorldMapModel?
     /// The house step, after the map: where it is, to paint the choices there.
     @State private var choosingHome: HomePlace?
+    /// Debug: the widget gallery instead of the game.
+    @State private var gallery = false
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
         WindowGroup {
             Group {
-                if let visit {
+                if gallery {
+                    #if DEBUG
+                        WidgetGallery()
+                    #endif
+                } else if let visit {
                     RoomScreen(visit: visit, store: store) {
                         // Moved home: the cold open at the new place.
                         self.visit = Visit(size: CGSize(width: 1024, height: 768), lastActive: nil)
@@ -57,12 +63,22 @@ struct HouseCatApp: App {
                 await store?.refresh()
             }
             .onChange(of: scenePhase) { old, new in
+                // The widget's Feed and Pet since the app was last open are in the save before anything else.
+                if new == .active {
+                    WidgetBridge.importInbox()
+                }
                 if new == .active, old == .background, visit != nil, ArrivalRules.showsExterior(lastActive: Visit.lastActive, now: Date()) {
                     visit = Visit(size: CGSize(width: 1024, height: 768), lastActive: Visit.lastActive)
+                }
+                if new == .active {
+                    let session = GameSession.shared
+                    RealWeather.refreshIfNeeded(state: session.state(at: session.now()))
                 }
                 if new != .active {
                     Visit.lastActive = Date()
                 }
+                // The widget leaves with the save as it is now.
+                WidgetBridge.publish()
             }
         }
     }
@@ -70,7 +86,14 @@ struct HouseCatApp: App {
     /// The builder for a new player, else the visit.
     private func start() {
         guard visit == nil, adopting == nil else { return }
+        WidgetBridge.importInbox()
         #if DEBUG
+            // HOUSECAT_SCREEN=widgets: every widget size and pose, drawn as the widget draws them.
+            if ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"] == "widgets" {
+                WidgetBridge.publish()
+                gallery = true
+                return
+            }
             // Screenshot runs: HOUSECAT_SCREEN=homes opens the house step, painted for HOUSECAT_BIOME.
             let environment = ProcessInfo.processInfo.environment
             if environment["HOUSECAT_SCREEN"] == "homes" {
@@ -186,6 +209,9 @@ struct RoomScreen: View {
     @State private var moving: WorldMapModel?
     @State private var showShop = false
     @State private var showProfile = false
+    @State private var showSettings = false
+    /// The profile's Reminders button: the settings open once the profile has gone.
+    @State private var settingsNext = false
     @State private var showBook = false
     @State private var editing: CatBuilderModel?
     @State private var profileVersion = 0
@@ -312,7 +338,12 @@ struct RoomScreen: View {
                     visit.openShop = false
                 }
             }
-            .sheet(isPresented: $showProfile) {
+            .sheet(isPresented: $showProfile, onDismiss: {
+                if settingsNext {
+                    settingsNext = false
+                    showSettings = true
+                }
+            }) {
                 if let info = CatScreens.profile() {
                     CatProfileView(
                         profile: info.profile,
@@ -331,11 +362,31 @@ struct RoomScreen: View {
                             GameSession.shared.edit(personality: personality)
                             profileVersion += 1
                         },
+                        settings: {
+                            settingsNext = true
+                            showProfile = false
+                        },
                         close: { showProfile = false }
                     )
                     .id(profileVersion)
                 }
             }
+            .sheet(isPresented: $showSettings) {
+                SettingsView(catName: visit.catName ?? "Your cat") { showSettings = false }
+                    .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
+            }
+            .overlay {
+                if visit.askReminders {
+                    ZStack {
+                        Color.black.opacity(0.35).ignoresSafeArea()
+                        RemindersCard(catName: visit.catName ?? "Your cat") { visit.askReminders = false }
+                            .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
+                            .padding(24)
+                    }
+                    .transition(.opacity)
+                }
+            }
+            .animation(.easeOut(duration: 0.25), value: visit.askReminders)
             .sheet(isPresented: $showBook) {
                 GiftBookView(entries: CatScreens.book()) { showBook = false }
             }

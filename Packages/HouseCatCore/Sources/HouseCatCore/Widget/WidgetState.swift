@@ -113,3 +113,96 @@ public enum WidgetRules {
         return .content
     }
 }
+
+public extension WidgetPose {
+    /// The painted resting pose that shows it (the widget draws no puppet): waiting faces you, the window
+    /// watch is seen from behind, a sulk turns side-on.
+    var catPose: CatPose {
+        switch self {
+        case .waitingByDoor, .stillWaiting, .holdingGift: .sitFront
+        case .lookingOutWindow: .sitBack
+        case .content: .sitThreeQuarterFront
+        case .loaf: .loafThreeQuarterFront
+        case .box, .sofa: .loafSide
+        case .zoomies: .stretchSide
+        case .asleep: .sleepCurl
+        case .sulk: .sitSide
+        }
+    }
+}
+
+public extension HouseStyle {
+    /// The home's window in the widget (`assets/widget/widget_<frame>[_wide].png`).
+    var widgetFrame: String {
+        switch self {
+        case .londonTerrace: "sash"
+        case .georgianTownhouse: "arched"
+        case .mansionFlat: "bay"
+        case .cottage: "casement"
+        case .woodlandCabin: "cabin"
+        case .houseboat: "porthole"
+        case .mediterraneanRooftop: "shuttered"
+        case .newbuildBalcony: "picture"
+        }
+    }
+}
+
+/// One widget entry (CLAUDE.md "The widget scene"): the cat in its pose on the home's window sill, the
+/// home's sky, season and weather behind the glass, the streak on top.
+public struct WidgetScene: Codable, Equatable, Sendable {
+    public var state: WidgetState
+    public var catPose: CatPose
+    public var frame: String
+    public var biome: Biome
+    public var season: NatureSeason
+    public var sky: SkyPhase
+    public var weather: Weather
+    /// From the real weather report, when there is one.
+    public var temperatureC: Double?
+}
+
+/// What a widget's buttons do (SPEC "Widgets, the Duolingo layer"): Feed and Pet append the same events as
+/// the app, marked as from the widget, so a widget-only day keeps the streak.
+public enum WidgetAction: String, Codable, Sendable {
+    case feed
+    case pet
+}
+
+public extension WidgetRules {
+    /// The entry at a widget state's moment: the pose's painting, the home's window and what is outside it.
+    static func scene(for state: WidgetState, save: HouseholdState, weather tables: WeatherFile, report: WeatherReport?) -> WidgetScene {
+        let home = save.homeNow(at: state.date, weather: tables, report: report)
+        let real = save.home.season == .auto && report?.isFor(home.place) == true ? report?.hour(at: state.date) : nil
+        return WidgetScene(
+            state: state,
+            catPose: state.pose.catPose,
+            frame: (save.home.style ?? .londonTerrace).widgetFrame,
+            biome: home.biome,
+            season: home.season,
+            sky: home.sky,
+            weather: home.weather,
+            temperatureC: real?.temperatureC
+        )
+    }
+
+    /// The timeline's entries as scenes.
+    static func scenes(
+        from date: Date,
+        save: HouseholdState,
+        context: RulesContext,
+        weather tables: WeatherFile,
+        report: WeatherReport?
+    ) -> [WidgetScene] {
+        timeline(from: date, save: save, context: context).map { scene(for: $0, save: save, weather: tables, report: report) }
+    }
+
+    /// The event a widget button appends, or nil when there is nothing to do (the bowl is already full).
+    static func event(for action: WidgetAction, at date: Date, save: HouseholdState, context: RulesContext) -> GameEvent.Kind? {
+        let now = save.resolved(through: save.clock.day(of: date), context: context)
+        guard let cat = now.cats.first else { return nil }
+        switch action {
+        case .feed: return now.isFedToday(cat.id) ? nil : .fed(catID: cat.id)
+        case .pet: return .petted(catID: cat.id)
+        }
+    }
+}

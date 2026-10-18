@@ -22,6 +22,9 @@ final class Visit {
     /// Debug screenshot runs open the shop (HOUSECAT_SCREEN=shop).
     var openShop = false
 
+    /// After the first feed: the card asking whether the cat may send reminders (once).
+    var askReminders = false
+
     /// The first frame of the scene has been drawn (the launch curtain lifts).
     private(set) var ready = false
 
@@ -427,6 +430,13 @@ final class Visit {
         }
         // Fed: the day's gift is drawn and drops later; one may already be waiting.
         offerGift()
+        // The first feed ever: may the cat remind you? (SPEC: the pre-permission screen after the first feed.)
+        if !Reminders.asked {
+            Task { @MainActor [weak self] in
+                try? await Task.sleep(for: .seconds(Tuning.Care.lineSeconds + 0.5))
+                self?.askReminders = true
+            }
+        }
     }
 
     @ObservationIgnored private var petTaps = 0

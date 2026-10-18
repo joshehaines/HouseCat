@@ -78,6 +78,7 @@ public struct CatProfileView: View {
     private let editLook: () -> Void
     private let rename: (String) -> String?
     private let setPersonality: (Personality) -> Void
+    private let settings: (() -> Void)?
     private let close: () -> Void
     @State private var naming = false
     @State private var newName = ""
@@ -91,8 +92,10 @@ public struct CatProfileView: View {
         editLook: @escaping () -> Void,
         rename: @escaping (String) -> String?,
         setPersonality: @escaping (Personality) -> Void,
+        settings: (() -> Void)? = nil,
         close: @escaping () -> Void
     ) {
+        self.settings = settings
         self.profile = profile
         self.portrait = portrait
         level = LevelCurve.progress(xp: xp)
@@ -116,6 +119,9 @@ public struct CatProfileView: View {
                 .padding(12)
                 .paper(RoundedRectangle(cornerRadius: 24, style: .continuous))
                 HUDButton("Edit look", icon: "decorate_paintbrush", action: editLook)
+                if let settings {
+                    HUDButton("Reminders and widget", icon: "bell_for_notifications", action: settings)
+                }
             }
             .frame(width: 230)
             ScrollView {

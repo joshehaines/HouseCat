@@ -46,10 +46,11 @@ public extension RoomScene {
         commit(piece, for: selection, in: room)
     }
 
-    /// Every piece in the active room as the placement rules see them (for finding room for a new one).
+    /// Every piece in the active room as the placement rules see them (for finding room for a new one), with
+    /// the window and door, which wall items keep clear of.
     func pieces() -> [PlacementRules.Piece] {
         guard let room = activeRoom else { return [] }
-        return room.model.items.compactMap { placement in
+        return Self.openings(in: room) + room.model.items.compactMap { placement in
             guard let item = items[placement.id] else { return nil }
             return PlacementRules.Piece(
                 item,
@@ -78,6 +79,7 @@ public extension RoomScene {
         deselect()
         room.remove(selection.placementID)
         onDecorate?(.stored(placementID: selection.placementID))
+        catGetsDown(in: room)
     }
 
     /// Picks up a piece by item id without a touch (screenshots and previews).
@@ -179,6 +181,7 @@ public extension RoomScene {
         let moved = placement(current.placement, at: piece)
         room.replace(moved)
         onDecorate?(.moved(placementID: current.placementID, x: piece.x, y: piece.y, facing: piece.facing))
+        catGetsDown(in: room)
         // Stay picked up in the new place, like a builder game: the player can keep nudging it.
         guard let sprite = room.placements[current.placementID], let item = items[moved.id] else {
             deselect()
@@ -197,9 +200,23 @@ public extension RoomScene {
         dragging = false
     }
 
-    /// Every other piece in the room, as the rules see them.
+    /// The window and door set into the room's walls, as wall pieces the rules keep others off (a clock never
+    /// hangs over the glass).
+    internal static func openings(in room: RoomNode) -> [PlacementRules.Piece] {
+        [room.model.window, room.model.door].compactMap { $0 }.compactMap { opening in
+            let first = Int(opening.start.rounded(.down)), last = Int((opening.start + opening.along).rounded(.up))
+            guard last > first else { return nil }
+            let right = opening.wall == "R"
+            return PlacementRules.Piece(
+                x: right ? first : 0, y: right ? 0 : first, width: last - first, depth: 1,
+                facing: right ? .right : .left, onWall: true, decal: false
+            )
+        }
+    }
+
+    /// Every other piece in the room, and its window and door, as the rules see them.
     private func others(than placementID: UUID, in room: RoomNode) -> [PlacementRules.Piece] {
-        room.model.items.compactMap { placement in
+        Self.openings(in: room) + room.model.items.compactMap { placement in
             guard placement.placementID != placementID, let item = items[placement.id] else { return nil }
             return PlacementRules.Piece(
                 item,

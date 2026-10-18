@@ -97,6 +97,31 @@ public extension RoomScene {
         }
     }
 
+    /// Furniture moved, turned or put away in the cat's room while the cat was up on something: when nothing
+    /// is under it any more, it gets up and hops down where it is (a present it left up there drops with it).
+    internal func catGetsDown(in room: RoomNode) {
+        guard let director, director.lift > 0, director.cat.parent === room else { return }
+        let (cu, cv) = grid.cell(at: director.floorPoint)
+        let underneath = room.model.items.contains { placement in
+            guard let item = items[placement.id], item.layer != .wall, !item.decal else { return false }
+            let (w, d) = room.footprint(item, facing: placement.facing)
+            return cu >= CGFloat(placement.u) && cu <= CGFloat(placement.u) + w && cv >= CGFloat(placement.v) && cv <= CGFloat(placement.v) + d
+        }
+        guard !underneath else { return }
+        let lift = director.lift
+        if let gift = room.childNode(withName: "gift") {
+            let drop = SKAction.moveBy(x: 0, y: -lift, duration: Tuning.Puppet.hopSeconds)
+            drop.timingMode = .easeIn
+            gift.run(drop)
+        }
+        director.run([
+            .rise(.tqfront),
+            .hop(to: 0),
+            .call { [weak self] in self?.director?.perchDepth = nil },
+            .settle(.sitThreeQuarterFront),
+        ])
+    }
+
     /// Steps that take the cat from where it is to a spot (in its room, or another) and settle it there.
     func steps(to spot: CatSpot, in room: RoomID? = nil, run: Bool = false) -> [CatDirector.Step] {
         var steps: [CatDirector.Step] = [.rise(.side)]

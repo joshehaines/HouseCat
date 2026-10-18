@@ -323,6 +323,7 @@
    "scale": 0.6
   },
   "furniture/attic/furn_attic_boxes_L.png": {
+   "file": "furniture/attic/furn_attic_boxes_L.heic",
    "master": [
     266,
     491
@@ -331,6 +332,7 @@
    "scale": 0.6
   },
   "furniture/attic/furn_attic_boxes_R.png": {
+   "file": "furniture/attic/furn_attic_boxes_R.heic",
    "master": [
     241,
     454
@@ -339,6 +341,7 @@
    "scale": 0.6
   },
   "furniture/attic/furn_attic_cobweb_L.png": {
+   "file": "furniture/attic/furn_attic_cobweb_L.heic",
    "master": [
     1945,
     1972
@@ -347,6 +350,7 @@
    "scale": 0.6
   },
   "furniture/attic/furn_attic_cobweb_R.png": {
+   "file": "furniture/attic/furn_attic_cobweb_R.heic",
    "master": [
     1945,
     1972
@@ -355,6 +359,7 @@
    "scale": 0.6
   },
   "furniture/attic/furn_attic_dummy_L.png": {
+   "file": "furniture/attic/furn_attic_dummy_L.heic",
    "master": [
     218,
     721
@@ -363,6 +368,7 @@
    "scale": 0.6
   },
   "furniture/attic/furn_attic_dummy_R.png": {
+   "file": "furniture/attic/furn_attic_dummy_R.heic",
    "master": [
     210,
     732
@@ -371,6 +377,7 @@
    "scale": 0.6
   },
   "furniture/attic/furn_attic_dustyarmchair_L.png": {
+   "file": "furniture/attic/furn_attic_dustyarmchair_L.heic",
    "master": [
     460,
     546
@@ -379,6 +386,7 @@
    "scale": 0.6
   },
   "furniture/attic/furn_attic_dustyarmchair_R.png": {
+   "file": "furniture/attic/furn_attic_dustyarmchair_R.heic",
    "master": [
     381,
     488
@@ -387,6 +395,7 @@
    "scale": 0.6
   },
   "furniture/attic/furn_attic_oillamp_L.png": {
+   "file": "furniture/attic/furn_attic_oillamp_L.heic",
    "master": [
     238,
     567
@@ -395,6 +404,7 @@
    "scale": 0.6
   },
   "furniture/attic/furn_attic_oillamp_R.png": {
+   "file": "furniture/attic/furn_attic_oillamp_R.heic",
    "master": [
     275,
     562
@@ -403,6 +413,7 @@
    "scale": 0.6
   },
   "furniture/attic/furn_attic_rockinghorse_L.png": {
+   "file": "furniture/attic/furn_attic_rockinghorse_L.heic",
    "master": [
     516,
     478
@@ -411,6 +422,7 @@
    "scale": 0.6
   },
   "furniture/attic/furn_attic_rockinghorse_R.png": {
+   "file": "furniture/attic/furn_attic_rockinghorse_R.heic",
    "master": [
     616,
     536
@@ -419,6 +431,7 @@
    "scale": 0.6
   },
   "furniture/attic/furn_attic_rolledrug_L.png": {
+   "file": "furniture/attic/furn_attic_rolledrug_L.heic",
    "master": [
     764,
     497
@@ -427,6 +440,7 @@
    "scale": 0.6
   },
   "furniture/attic/furn_attic_rolledrug_R.png": {
+   "file": "furniture/attic/furn_attic_rolledrug_R.heic",
    "master": [
     721,
     460
@@ -435,6 +449,7 @@
    "scale": 0.6
   },
   "furniture/attic/furn_attic_skylightpatch_L.png": {
+   "file": "furniture/attic/furn_attic_skylightpatch_L.heic",
    "master": [
     895,
     480
@@ -443,6 +458,7 @@
    "scale": 0.6
   },
   "furniture/attic/furn_attic_skylightpatch_R.png": {
+   "file": "furniture/attic/furn_attic_skylightpatch_R.heic",
    "master": [
     1037,
     562
@@ -451,6 +467,7 @@
    "scale": 0.6
   },
   "furniture/attic/furn_attic_suitcase_L.png": {
+   "file": "furniture/attic/furn_attic_suitcase_L.heic",
    "master": [
     355,
     403
@@ -459,6 +476,7 @@
    "scale": 0.6
   },
   "furniture/attic/furn_attic_suitcase_R.png": {
+   "file": "furniture/attic/furn_attic_suitcase_R.heic",
    "master": [
     383,
     435
@@ -467,6 +485,7 @@
    "scale": 0.6
   },
   "furniture/attic/furn_attic_telescope_L.png": {
+   "file": "furniture/attic/furn_attic_telescope_L.heic",
    "master": [
     482,
     636
@@ -475,6 +494,7 @@
    "scale": 0.6
   },
   "furniture/attic/furn_attic_telescope_R.png": {
+   "file": "furniture/attic/furn_attic_telescope_R.heic",
    "master": [
     462,
     632
@@ -483,6 +503,7 @@
    "scale": 0.6
   },
   "furniture/attic/furn_attic_trunk_L.png": {
+   "file": "furniture/attic/furn_attic_trunk_L.heic",
    "master": [
     380,
     404
@@ -491,6 +512,7 @@
    "scale": 0.6
   },
   "furniture/attic/furn_attic_trunk_R.png": {
+   "file": "furniture/attic/furn_attic_trunk_R.heic",
    "master": [
     391,
     410
@@ -499,6 +521,7 @@
    "scale": 0.6
   },
   "furniture/attic/furn_attic_wireless_L.png": {
+   "file": "furniture/attic/furn_attic_wireless_L.heic",
    "master": [
     620,
     602
@@ -507,6 +530,7 @@
    "scale": 0.6
   },
   "furniture/attic/furn_attic_wireless_R.png": {
+   "file": "furniture/attic/furn_attic_wireless_R.heic",
    "master": [
     641,
     647
@@ -515,6 +539,7 @@
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_alarmclock_L.png": {
+   "file": "furniture/bedroom/furn_bedroom_alarmclock_L.heic",
    "master": [
     184,
     252
@@ -523,6 +548,7 @@
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_alarmclock_R.png": {
+   "file": "furniture/bedroom/furn_bedroom_alarmclock_R.heic",
    "master": [
     194,
     274
@@ -531,6 +557,7 @@
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_bed_L.png": {
+   "file": "furniture/bedroom/furn_bedroom_bed_L.heic",
    "master": [
     809,
     689
@@ -539,6 +566,7 @@
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_bed_R.png": {
+   "file": "furniture/bedroom/furn_bedroom_bed_R.heic",
    "master": [
     780,
     633
@@ -547,6 +575,7 @@
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_bedrug_L.png": {
+   "file": "furniture/bedroom/furn_bedroom_bedrug_L.heic",
    "master": [
     1120,
     608
@@ -555,6 +584,7 @@
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_bedrug_R.png": {
+   "file": "furniture/bedroom/furn_bedroom_bedrug_R.heic",
    "master": [
     1088,
     586
@@ -563,6 +593,7 @@
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_bedside_L.png": {
+   "file": "furniture/bedroom/furn_bedroom_bedside_L.heic",
    "master": [
     227,
     359
@@ -570,6 +601,7 @@
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_bedside_R.png": {
+   "file": "furniture/bedroom/furn_bedroom_bedside_R.heic",
    "master": [
     201,
     339
@@ -577,6 +609,7 @@
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_catbed_L.png": {
+   "file": "furniture/bedroom/furn_bedroom_catbed_L.heic",
    "master": [
     426,
     312
@@ -584,6 +617,7 @@
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_catbed_R.png": {
+   "file": "furniture/bedroom/furn_bedroom_catbed_R.heic",
    "master": [
     483,
     344
@@ -591,6 +625,7 @@
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_curtains_L.png": {
+   "file": "furniture/bedroom/furn_bedroom_curtains_L.heic",
    "master": [
     366,
     644
@@ -599,6 +634,7 @@
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_curtains_R.png": {
+   "file": "furniture/bedroom/furn_bedroom_curtains_R.heic",
    "master": [
     329,
     569
@@ -606,6 +642,7 @@
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_drawers_L.png": {
+   "file": "furniture/bedroom/furn_bedroom_drawers_L.heic",
    "master": [
     366,
     463
@@ -614,6 +651,7 @@
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_drawers_R.png": {
+   "file": "furniture/bedroom/furn_bedroom_drawers_R.heic",
    "master": [
     371,
     470
@@ -622,6 +660,7 @@
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_gownhook_L.png": {
+   "file": "furniture/bedroom/furn_bedroom_gownhook_L.heic",
    "master": [
     153,
     436
@@ -630,6 +669,7 @@
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_gownhook_R.png": {
+   "file": "furniture/bedroom/furn_bedroom_gownhook_R.heic",
    "master": [
     150,
     415
@@ -638,6 +678,7 @@
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_hammock_L.png": {
+   "file": "furniture/bedroom/furn_bedroom_hammock_L.heic",
    "master": [
     429,
     417
@@ -646,6 +687,7 @@
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_hammock_R.png": {
+   "file": "furniture/bedroom/furn_bedroom_hammock_R.heic",
    "master": [
     481,
     443
@@ -654,6 +696,7 @@
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_laundry_L.png": {
+   "file": "furniture/bedroom/furn_bedroom_laundry_L.heic",
    "master": [
     329,
     382
@@ -661,6 +704,7 @@
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_laundry_R.png": {
+   "file": "furniture/bedroom/furn_bedroom_laundry_R.heic",
    "master": [
     383,
     383
@@ -668,6 +712,7 @@
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_mirror_L.png": {
+   "file": "furniture/bedroom/furn_bedroom_mirror_L.heic",
    "master": [
     163,
     404
@@ -676,6 +721,7 @@
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_mirror_R.png": {
+   "file": "furniture/bedroom/furn_bedroom_mirror_R.heic",
    "master": [
     131,
     367
@@ -684,6 +730,7 @@
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_readinglamp_L.png": {
+   "file": "furniture/bedroom/furn_bedroom_readinglamp_L.heic",
    "master": [
     155,
     344
@@ -691,6 +738,7 @@
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_readinglamp_R.png": {
+   "file": "furniture/bedroom/furn_bedroom_readinglamp_R.heic",
    "master": [
     188,
     415
@@ -699,6 +747,7 @@
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_slippers_L.png": {
+   "file": "furniture/bedroom/furn_bedroom_slippers_L.heic",
    "master": [
     252,
     202
@@ -707,6 +756,7 @@
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_slippers_R.png": {
+   "file": "furniture/bedroom/furn_bedroom_slippers_R.heic",
    "master": [
     389,
     257
@@ -715,6 +765,7 @@
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_wardrobe_L.png": {
+   "file": "furniture/bedroom/furn_bedroom_wardrobe_L.heic",
    "master": [
     341,
     655
@@ -723,6 +774,7 @@
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_wardrobe_R.png": {
+   "file": "furniture/bedroom/furn_bedroom_wardrobe_R.heic",
    "master": [
     335,
     618
@@ -730,6 +782,7 @@
    "scale": 0.6
   },
   "furniture/founders/furn_founders_plaque_brass_L.png": {
+   "file": "furniture/founders/furn_founders_plaque_brass_L.heic",
    "master": [
     168,
     174
@@ -738,6 +791,7 @@
    "scale": 0.6
   },
   "furniture/founders/furn_founders_plaque_brass_R.png": {
+   "file": "furniture/founders/furn_founders_plaque_brass_R.heic",
    "master": [
     185,
     193
@@ -746,6 +800,7 @@
    "scale": 0.6
   },
   "furniture/founders/furn_founders_plaque_oak_L.png": {
+   "file": "furniture/founders/furn_founders_plaque_oak_L.heic",
    "master": [
     197,
     209
@@ -754,6 +809,7 @@
    "scale": 0.6
   },
   "furniture/founders/furn_founders_plaque_oak_R.png": {
+   "file": "furniture/founders/furn_founders_plaque_oak_R.heic",
    "master": [
     197,
     207
@@ -762,6 +818,7 @@
    "scale": 0.6
   },
   "furniture/founders/furn_founders_plaque_slate_L.png": {
+   "file": "furniture/founders/furn_founders_plaque_slate_L.heic",
    "master": [
     182,
     199
@@ -770,6 +827,7 @@
    "scale": 0.6
   },
   "furniture/founders/furn_founders_plaque_slate_R.png": {
+   "file": "furniture/founders/furn_founders_plaque_slate_R.heic",
    "master": [
     208,
     221
@@ -778,6 +836,7 @@
    "scale": 0.6
   },
   "furniture/garden/furn_garden_bench_L.png": {
+   "file": "furniture/garden/furn_garden_bench_L.heic",
    "master": [
     453,
     449
@@ -786,6 +845,7 @@
    "scale": 0.6
   },
   "furniture/garden/furn_garden_bench_R.png": {
+   "file": "furniture/garden/furn_garden_bench_R.heic",
    "master": [
     467,
     473
@@ -794,6 +854,7 @@
    "scale": 0.6
   },
   "furniture/garden/furn_garden_birdfeeder_L.png": {
+   "file": "furniture/garden/furn_garden_birdfeeder_L.heic",
    "master": [
     400,
     669
@@ -802,6 +863,7 @@
    "scale": 0.6
   },
   "furniture/garden/furn_garden_birdfeeder_R.png": {
+   "file": "furniture/garden/furn_garden_birdfeeder_R.heic",
    "master": [
     323,
     681
@@ -810,6 +872,7 @@
    "scale": 0.6
   },
   "furniture/garden/furn_garden_deckchair_L.png": {
+   "file": "furniture/garden/furn_garden_deckchair_L.heic",
    "master": [
     473,
     577
@@ -818,6 +881,7 @@
    "scale": 0.6
   },
   "furniture/garden/furn_garden_deckchair_R.png": {
+   "file": "furniture/garden/furn_garden_deckchair_R.heic",
    "master": [
     538,
     609
@@ -826,6 +890,7 @@
    "scale": 0.6
   },
   "furniture/garden/furn_garden_fence_L.png": {
+   "file": "furniture/garden/furn_garden_fence_L.heic",
    "master": [
     417,
     418
@@ -834,6 +899,7 @@
    "scale": 0.6
   },
   "furniture/garden/furn_garden_fence_R.png": {
+   "file": "furniture/garden/furn_garden_fence_R.heic",
    "master": [
     475,
     424
@@ -842,6 +908,7 @@
    "scale": 0.6
   },
   "furniture/garden/furn_garden_festoon_L.png": {
+   "file": "furniture/garden/furn_garden_festoon_L.heic",
    "master": [
     571,
     307
@@ -850,6 +917,7 @@
    "scale": 0.6
   },
   "furniture/garden/furn_garden_festoon_R.png": {
+   "file": "furniture/garden/furn_garden_festoon_R.heic",
    "master": [
     740,
     377
@@ -858,6 +926,7 @@
    "scale": 0.6
   },
   "furniture/garden/furn_garden_flowerpots_L.png": {
+   "file": "furniture/garden/furn_garden_flowerpots_L.heic",
    "master": [
     520,
     544
@@ -866,6 +935,7 @@
    "scale": 0.6
   },
   "furniture/garden/furn_garden_flowerpots_R.png": {
+   "file": "furniture/garden/furn_garden_flowerpots_R.heic",
    "master": [
     533,
     461
@@ -874,6 +944,7 @@
    "scale": 0.6
   },
   "furniture/garden/furn_garden_gardenhammock_L.png": {
+   "file": "furniture/garden/furn_garden_gardenhammock_L.heic",
    "master": [
     761,
     598
@@ -882,6 +953,7 @@
    "scale": 0.6
   },
   "furniture/garden/furn_garden_gardenhammock_R.png": {
+   "file": "furniture/garden/furn_garden_gardenhammock_R.heic",
    "master": [
     729,
     614
@@ -890,6 +962,7 @@
    "scale": 0.6
   },
   "furniture/garden/furn_garden_pond_L.png": {
+   "file": "furniture/garden/furn_garden_pond_L.heic",
    "master": [
     555,
     367
@@ -898,6 +971,7 @@
    "scale": 0.6
   },
   "furniture/garden/furn_garden_pond_R.png": {
+   "file": "furniture/garden/furn_garden_pond_R.heic",
    "master": [
     593,
     367
@@ -906,6 +980,7 @@
    "scale": 0.6
   },
   "furniture/garden/furn_garden_shed_L.png": {
+   "file": "furniture/garden/furn_garden_shed_L.heic",
    "master": [
     464,
     574
@@ -914,6 +989,7 @@
    "scale": 0.6
   },
   "furniture/garden/furn_garden_shed_R.png": {
+   "file": "furniture/garden/furn_garden_shed_R.heic",
    "master": [
     407,
     532
@@ -922,6 +998,7 @@
    "scale": 0.6
   },
   "furniture/garden/furn_garden_sunpatch_L.png": {
+   "file": "furniture/garden/furn_garden_sunpatch_L.heic",
    "master": [
     773,
     434
@@ -930,6 +1007,7 @@
    "scale": 0.6
   },
   "furniture/garden/furn_garden_sunpatch_R.png": {
+   "file": "furniture/garden/furn_garden_sunpatch_R.heic",
    "master": [
     703,
     372
@@ -938,6 +1016,7 @@
    "scale": 0.6
   },
   "furniture/garden/furn_garden_washingline_L.png": {
+   "file": "furniture/garden/furn_garden_washingline_L.heic",
    "master": [
     720,
     728
@@ -946,6 +1025,7 @@
    "scale": 0.6
   },
   "furniture/garden/furn_garden_washingline_R.png": {
+   "file": "furniture/garden/furn_garden_washingline_R.heic",
    "master": [
     620,
     685
@@ -954,6 +1034,7 @@
    "scale": 0.6
   },
   "furniture/garden/furn_garden_wateringcan_L.png": {
+   "file": "furniture/garden/furn_garden_wateringcan_L.heic",
    "master": [
     383,
     328
@@ -962,6 +1043,7 @@
    "scale": 0.6
   },
   "furniture/garden/furn_garden_wateringcan_R.png": {
+   "file": "furniture/garden/furn_garden_wateringcan_R.heic",
    "master": [
     427,
     368
@@ -970,6 +1052,7 @@
    "scale": 0.6
   },
   "furniture/housewarming_pack/furn_housewarming_pack_bulbstring_L.png": {
+   "file": "furniture/housewarming_pack/furn_housewarming_pack_bulbstring_L.heic",
    "master": [
     564,
     371
@@ -978,6 +1061,7 @@
    "scale": 0.6
   },
   "furniture/housewarming_pack/furn_housewarming_pack_bulbstring_R.png": {
+   "file": "furniture/housewarming_pack/furn_housewarming_pack_bulbstring_R.heic",
    "master": [
     653,
     385
@@ -986,6 +1070,7 @@
    "scale": 0.6
   },
   "furniture/housewarming_pack/furn_housewarming_pack_grandfireplace_L.png": {
+   "file": "furniture/housewarming_pack/furn_housewarming_pack_grandfireplace_L.heic",
    "master": [
     363,
     483
@@ -994,6 +1079,7 @@
    "scale": 0.6
   },
   "furniture/housewarming_pack/furn_housewarming_pack_grandfireplace_R.png": {
+   "file": "furniture/housewarming_pack/furn_housewarming_pack_grandfireplace_R.heic",
    "master": [
     444,
     568
@@ -1002,6 +1088,7 @@
    "scale": 0.6
   },
   "furniture/housewarming_pack/furn_housewarming_pack_hifi_L.png": {
+   "file": "furniture/housewarming_pack/furn_housewarming_pack_hifi_L.heic",
    "master": [
     523,
     499
@@ -1010,6 +1097,7 @@
    "scale": 0.6
   },
   "furniture/housewarming_pack/furn_housewarming_pack_hifi_R.png": {
+   "file": "furniture/housewarming_pack/furn_housewarming_pack_hifi_R.heic",
    "master": [
     473,
     491
@@ -1018,6 +1106,7 @@
    "scale": 0.6
   },
   "furniture/housewarming_pack/furn_housewarming_pack_houseportrait_L.png": {
+   "file": "furniture/housewarming_pack/furn_housewarming_pack_houseportrait_L.heic",
    "master": [
     187,
     360
@@ -1026,6 +1115,7 @@
    "scale": 0.6
   },
   "furniture/housewarming_pack/furn_housewarming_pack_houseportrait_R.png": {
+   "file": "furniture/housewarming_pack/furn_housewarming_pack_houseportrait_R.heic",
    "master": [
     259,
     353
@@ -1034,6 +1124,7 @@
    "scale": 0.6
   },
   "furniture/housewarming_pack/furn_housewarming_pack_welcomemat_L.png": {
+   "file": "furniture/housewarming_pack/furn_housewarming_pack_welcomemat_L.heic",
    "master": [
     582,
     330
@@ -1042,6 +1133,7 @@
    "scale": 0.6
   },
   "furniture/housewarming_pack/furn_housewarming_pack_welcomemat_R.png": {
+   "file": "furniture/housewarming_pack/furn_housewarming_pack_welcomemat_R.heic",
    "master": [
     593,
     345
@@ -1050,6 +1142,7 @@
    "scale": 0.6
   },
   "furniture/kitchen/furn_kitchen_bowl_L.png": {
+   "file": "furniture/kitchen/furn_kitchen_bowl_L.heic",
    "master": [
     401,
     232
@@ -1058,6 +1151,7 @@
    "scale": 0.6
   },
   "furniture/kitchen/furn_kitchen_bowl_R.png": {
+   "file": "furniture/kitchen/furn_kitchen_bowl_R.heic",
    "master": [
     420,
     240
@@ -1066,6 +1160,7 @@
    "scale": 0.6
   },
   "furniture/kitchen/furn_kitchen_breadbin_L.png": {
+   "file": "furniture/kitchen/furn_kitchen_breadbin_L.heic",
    "master": [
     482,
     413
@@ -1074,6 +1169,7 @@
    "scale": 0.6
   },
   "furniture/kitchen/furn_kitchen_breadbin_R.png": {
+   "file": "furniture/kitchen/furn_kitchen_breadbin_R.heic",
    "master": [
     433,
     392
@@ -1082,6 +1178,7 @@
    "scale": 0.6
   },
   "furniture/kitchen/furn_kitchen_catflap_L.png": {
+   "file": "furniture/kitchen/furn_kitchen_catflap_L.heic",
    "master": [
     120,
     200
@@ -1090,6 +1187,7 @@
    "scale": 0.6
   },
   "furniture/kitchen/furn_kitchen_catflap_R.png": {
+   "file": "furniture/kitchen/furn_kitchen_catflap_R.heic",
    "master": [
     111,
     194
@@ -1098,6 +1196,7 @@
    "scale": 0.6
   },
   "furniture/kitchen/furn_kitchen_chair_L.png": {
+   "file": "furniture/kitchen/furn_kitchen_chair_L.heic",
    "master": [
     317,
     538
@@ -1106,6 +1205,7 @@
    "scale": 0.6
   },
   "furniture/kitchen/furn_kitchen_chair_R.png": {
+   "file": "furniture/kitchen/furn_kitchen_chair_R.heic",
    "master": [
     318,
     481
@@ -1114,6 +1214,7 @@
    "scale": 0.6
   },
   "furniture/kitchen/furn_kitchen_cooker_L.png": {
+   "file": "furniture/kitchen/furn_kitchen_cooker_L.heic",
    "master": [
     385,
     491
@@ -1122,6 +1223,7 @@
    "scale": 0.6
   },
   "furniture/kitchen/furn_kitchen_cooker_R.png": {
+   "file": "furniture/kitchen/furn_kitchen_cooker_R.heic",
    "master": [
     351,
     459
@@ -1130,6 +1232,7 @@
    "scale": 0.6
   },
   "furniture/kitchen/furn_kitchen_doormat_L.png": {
+   "file": "furniture/kitchen/furn_kitchen_doormat_L.heic",
    "master": [
     544,
     322
@@ -1138,6 +1241,7 @@
    "scale": 0.6
   },
   "furniture/kitchen/furn_kitchen_doormat_R.png": {
+   "file": "furniture/kitchen/furn_kitchen_doormat_R.heic",
    "master": [
     560,
     316
@@ -1146,6 +1250,7 @@
    "scale": 0.6
   },
   "furniture/kitchen/furn_kitchen_fountain_L.png": {
+   "file": "furniture/kitchen/furn_kitchen_fountain_L.heic",
    "master": [
     302,
     253
@@ -1154,6 +1259,7 @@
    "scale": 0.6
   },
   "furniture/kitchen/furn_kitchen_fountain_R.png": {
+   "file": "furniture/kitchen/furn_kitchen_fountain_R.heic",
    "master": [
     291,
     281
@@ -1162,6 +1268,7 @@
    "scale": 0.6
   },
   "furniture/kitchen/furn_kitchen_fridge_L.png": {
+   "file": "furniture/kitchen/furn_kitchen_fridge_L.heic",
    "master": [
     267,
     489
@@ -1170,6 +1277,7 @@
    "scale": 0.6
   },
   "furniture/kitchen/furn_kitchen_fridge_R.png": {
+   "file": "furniture/kitchen/furn_kitchen_fridge_R.heic",
    "master": [
     291,
     515
@@ -1178,6 +1286,7 @@
    "scale": 0.6
   },
   "furniture/kitchen/furn_kitchen_fruitbowl_L.png": {
+   "file": "furniture/kitchen/furn_kitchen_fruitbowl_L.heic",
    "master": [
     528,
     350
@@ -1186,6 +1295,7 @@
    "scale": 0.6
   },
   "furniture/kitchen/furn_kitchen_fruitbowl_R.png": {
+   "file": "furniture/kitchen/furn_kitchen_fruitbowl_R.heic",
    "master": [
     512,
     355
@@ -1194,6 +1304,7 @@
    "scale": 0.6
   },
   "furniture/kitchen/furn_kitchen_herbshelf_L.png": {
+   "file": "furniture/kitchen/furn_kitchen_herbshelf_L.heic",
    "master": [
     322,
     315
@@ -1202,6 +1313,7 @@
    "scale": 0.6
   },
   "furniture/kitchen/furn_kitchen_herbshelf_R.png": {
+   "file": "furniture/kitchen/furn_kitchen_herbshelf_R.heic",
    "master": [
     316,
     280
@@ -1210,6 +1322,7 @@
    "scale": 0.6
   },
   "furniture/kitchen/furn_kitchen_kettle_L.png": {
+   "file": "furniture/kitchen/furn_kitchen_kettle_L.heic",
    "master": [
     241,
     319
@@ -1218,6 +1331,7 @@
    "scale": 0.6
   },
   "furniture/kitchen/furn_kitchen_kettle_R.png": {
+   "file": "furniture/kitchen/furn_kitchen_kettle_R.heic",
    "master": [
     326,
     316
@@ -1226,6 +1340,7 @@
    "scale": 0.6
   },
   "furniture/kitchen/furn_kitchen_radio_L.png": {
+   "file": "furniture/kitchen/furn_kitchen_radio_L.heic",
    "master": [
     291,
     281
@@ -1234,6 +1349,7 @@
    "scale": 0.6
   },
   "furniture/kitchen/furn_kitchen_radio_R.png": {
+   "file": "furniture/kitchen/furn_kitchen_radio_R.heic",
    "master": [
     295,
     270
@@ -1242,6 +1358,7 @@
    "scale": 0.6
   },
   "furniture/kitchen/furn_kitchen_sink_L.png": {
+   "file": "furniture/kitchen/furn_kitchen_sink_L.heic",
    "master": [
     277,
     408
@@ -1250,6 +1367,7 @@
    "scale": 0.6
   },
   "furniture/kitchen/furn_kitchen_sink_R.png": {
+   "file": "furniture/kitchen/furn_kitchen_sink_R.heic",
    "master": [
     257,
     405
@@ -1258,6 +1376,7 @@
    "scale": 0.6
   },
   "furniture/kitchen/furn_kitchen_table_L.png": {
+   "file": "furniture/kitchen/furn_kitchen_table_L.heic",
    "master": [
     491,
     482
@@ -1266,6 +1385,7 @@
    "scale": 0.6
   },
   "furniture/kitchen/furn_kitchen_table_R.png": {
+   "file": "furniture/kitchen/furn_kitchen_table_R.heic",
    "master": [
     457,
     437
@@ -1274,6 +1394,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_armchair_L.png": {
+   "file": "furniture/living/furn_living_armchair_L.heic",
    "master": [
     527,
     586
@@ -1282,6 +1403,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_armchair_R.png": {
+   "file": "furniture/living/furn_living_armchair_R.heic",
    "master": [
     589,
     673
@@ -1290,6 +1412,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_bookcase_L.png": {
+   "file": "furniture/living/furn_living_bookcase_L.heic",
    "master": [
     373,
     755
@@ -1298,6 +1421,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_bookcase_R.png": {
+   "file": "furniture/living/furn_living_bookcase_R.heic",
    "master": [
     342,
     694
@@ -1306,6 +1430,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_box_L.png": {
+   "file": "furniture/living/furn_living_box_L.heic",
    "master": [
     579,
     554
@@ -1314,6 +1439,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_box_R.png": {
+   "file": "furniture/living/furn_living_box_R.heic",
    "master": [
     512,
     507
@@ -1322,6 +1448,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_cattree_L.png": {
+   "file": "furniture/living/furn_living_cattree_L.heic",
    "master": [
     333,
     634
@@ -1330,6 +1457,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_cattree_R.png": {
+   "file": "furniture/living/furn_living_cattree_R.heic",
    "master": [
     316,
     609
@@ -1338,6 +1466,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_clock_L.png": {
+   "file": "furniture/living/furn_living_clock_L.heic",
    "master": [
     155,
     204
@@ -1346,6 +1475,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_clock_R.png": {
+   "file": "furniture/living/furn_living_clock_R.heic",
    "master": [
     169,
     225
@@ -1354,6 +1484,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_coffee_L.png": {
+   "file": "furniture/living/furn_living_coffee_L.heic",
    "master": [
     578,
     447
@@ -1362,6 +1493,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_coffee_R.png": {
+   "file": "furniture/living/furn_living_coffee_R.heic",
    "master": [
     515,
     396
@@ -1370,6 +1502,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_fireplace_L.png": {
+   "file": "furniture/living/furn_living_fireplace_L.heic",
    "master": [
     347,
     461
@@ -1378,6 +1511,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_fireplace_R.png": {
+   "file": "furniture/living/furn_living_fireplace_R.heic",
    "master": [
     381,
     509
@@ -1386,6 +1520,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_lamp_L.png": {
+   "file": "furniture/living/furn_living_lamp_L.heic",
    "master": [
     245,
     735
@@ -1394,6 +1529,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_lamp_R.png": {
+   "file": "furniture/living/furn_living_lamp_R.heic",
    "master": [
     239,
     705
@@ -1402,6 +1538,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_picture_L.png": {
+   "file": "furniture/living/furn_living_picture_L.heic",
    "master": [
     204,
     383
@@ -1410,6 +1547,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_picture_R.png": {
+   "file": "furniture/living/furn_living_picture_R.heic",
    "master": [
     226,
     397
@@ -1418,6 +1556,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_plant_L.png": {
+   "file": "furniture/living/furn_living_plant_L.heic",
    "master": [
     774,
     820
@@ -1426,6 +1565,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_plant_R.png": {
+   "file": "furniture/living/furn_living_plant_R.heic",
    "master": [
     796,
     833
@@ -1434,6 +1574,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_radiator_L.png": {
+   "file": "furniture/living/furn_living_radiator_L.heic",
    "master": [
     314,
     413
@@ -1442,6 +1583,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_radiator_R.png": {
+   "file": "furniture/living/furn_living_radiator_R.heic",
    "master": [
     330,
     450
@@ -1450,6 +1592,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_record_L.png": {
+   "file": "furniture/living/furn_living_record_L.heic",
    "master": [
     547,
     479
@@ -1458,6 +1601,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_record_R.png": {
+   "file": "furniture/living/furn_living_record_R.heic",
    "master": [
     544,
     461
@@ -1466,6 +1610,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_rug_L.png": {
+   "file": "furniture/living/furn_living_rug_L.heic",
    "master": [
     748,
     425
@@ -1474,6 +1619,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_rug_R.png": {
+   "file": "furniture/living/furn_living_rug_R.heic",
    "master": [
     802,
     427
@@ -1482,6 +1628,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_scratch_L.png": {
+   "file": "furniture/living/furn_living_scratch_L.heic",
    "master": [
     344,
     584
@@ -1490,6 +1637,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_scratch_R.png": {
+   "file": "furniture/living/furn_living_scratch_R.heic",
    "master": [
     366,
     661
@@ -1498,6 +1646,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_sofa_L.png": {
+   "file": "furniture/living/furn_living_sofa_L.heic",
    "master": [
     713,
     582
@@ -1506,6 +1655,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_sofa_R.png": {
+   "file": "furniture/living/furn_living_sofa_R.heic",
    "master": [
     682,
     571
@@ -1514,6 +1664,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_stairs_L.png": {
+   "file": "furniture/living/furn_living_stairs_L.heic",
    "master": [
     430,
     880
@@ -1522,6 +1673,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_stairs_R.png": {
+   "file": "furniture/living/furn_living_stairs_R.heic",
    "master": [
     430,
     880
@@ -1530,6 +1682,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_windowseat_L.png": {
+   "file": "furniture/living/furn_living_windowseat_L.heic",
    "master": [
     756,
     634
@@ -1538,6 +1691,7 @@
    "scale": 0.6
   },
   "furniture/living/furn_living_windowseat_R.png": {
+   "file": "furniture/living/furn_living_windowseat_R.heic",
    "master": [
     713,
     608
@@ -1546,6 +1700,7 @@
    "scale": 0.6
   },
   "furniture/pass_firstlight/furn_pass_firstlight_birdbox_L.png": {
+   "file": "furniture/pass_firstlight/furn_pass_firstlight_birdbox_L.heic",
    "master": [
     143,
     198
@@ -1554,6 +1709,7 @@
    "scale": 0.6
   },
   "furniture/pass_firstlight/furn_pass_firstlight_birdbox_R.png": {
+   "file": "furniture/pass_firstlight/furn_pass_firstlight_birdbox_R.heic",
    "master": [
     117,
     185
@@ -1562,6 +1718,7 @@
    "scale": 0.6
   },
   "furniture/pass_firstlight/furn_pass_firstlight_butterflyjar_L.png": {
+   "file": "furniture/pass_firstlight/furn_pass_firstlight_butterflyjar_L.heic",
    "master": [
     229,
     439
@@ -1570,6 +1727,7 @@
    "scale": 0.6
   },
   "furniture/pass_firstlight/furn_pass_firstlight_butterflyjar_R.png": {
+   "file": "furniture/pass_firstlight/furn_pass_firstlight_butterflyjar_R.heic",
    "master": [
     246,
     467
@@ -1578,6 +1736,7 @@
    "scale": 0.6
   },
   "furniture/pass_firstlight/furn_pass_firstlight_daffodils_L.png": {
+   "file": "furniture/pass_firstlight/furn_pass_firstlight_daffodils_L.heic",
    "master": [
     279,
     434
@@ -1586,6 +1745,7 @@
    "scale": 0.6
   },
   "furniture/pass_firstlight/furn_pass_firstlight_daffodils_R.png": {
+   "file": "furniture/pass_firstlight/furn_pass_firstlight_daffodils_R.heic",
    "master": [
     316,
     517
@@ -1594,6 +1754,7 @@
    "scale": 0.6
   },
   "furniture/pass_firstlight/furn_pass_firstlight_hamper_L.png": {
+   "file": "furniture/pass_firstlight/furn_pass_firstlight_hamper_L.heic",
    "master": [
     387,
     458
@@ -1602,6 +1763,7 @@
    "scale": 0.6
   },
   "furniture/pass_firstlight/furn_pass_firstlight_hamper_R.png": {
+   "file": "furniture/pass_firstlight/furn_pass_firstlight_hamper_R.heic",
    "master": [
     399,
     490
@@ -1610,6 +1772,7 @@
    "scale": 0.6
   },
   "furniture/pass_firstlight/furn_pass_firstlight_pegbag_L.png": {
+   "file": "furniture/pass_firstlight/furn_pass_firstlight_pegbag_L.heic",
    "master": [
     119,
     369
@@ -1618,6 +1781,7 @@
    "scale": 0.6
   },
   "furniture/pass_firstlight/furn_pass_firstlight_pegbag_R.png": {
+   "file": "furniture/pass_firstlight/furn_pass_firstlight_pegbag_R.heic",
    "master": [
     115,
     350
@@ -1626,6 +1790,7 @@
    "scale": 0.6
   },
   "furniture/pass_firstlight/furn_pass_firstlight_seedtrays_L.png": {
+   "file": "furniture/pass_firstlight/furn_pass_firstlight_seedtrays_L.heic",
    "master": [
     579,
     420
@@ -1634,6 +1799,7 @@
    "scale": 0.6
   },
   "furniture/pass_firstlight/furn_pass_firstlight_seedtrays_R.png": {
+   "file": "furniture/pass_firstlight/furn_pass_firstlight_seedtrays_R.heic",
    "master": [
     624,
     467
@@ -1642,6 +1808,7 @@
    "scale": 0.6
   },
   "furniture/pass_firstlight/furn_pass_firstlight_tulips_L.png": {
+   "file": "furniture/pass_firstlight/furn_pass_firstlight_tulips_L.heic",
    "master": [
     320,
     425
@@ -1650,6 +1817,7 @@
    "scale": 0.6
   },
   "furniture/pass_firstlight/furn_pass_firstlight_tulips_R.png": {
+   "file": "furniture/pass_firstlight/furn_pass_firstlight_tulips_R.heic",
    "master": [
     353,
     439
@@ -1658,6 +1826,7 @@
    "scale": 0.6
   },
   "furniture/pass_firstlight/furn_pass_firstlight_wellies_L.png": {
+   "file": "furniture/pass_firstlight/furn_pass_firstlight_wellies_L.heic",
    "master": [
     226,
     328
@@ -1666,6 +1835,7 @@
    "scale": 0.6
   },
   "furniture/pass_firstlight/furn_pass_firstlight_wellies_R.png": {
+   "file": "furniture/pass_firstlight/furn_pass_firstlight_wellies_R.heic",
    "master": [
     244,
     335
@@ -1674,6 +1844,7 @@
    "scale": 0.6
   },
   "furniture/pass_housewarming/furn_pass_housewarming_candle_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_candle_L.heic",
    "master": [
     198,
     288
@@ -1682,6 +1853,7 @@
    "scale": 0.6
   },
   "furniture/pass_housewarming/furn_pass_housewarming_candle_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_candle_R.heic",
    "master": [
     177,
     237
@@ -1690,6 +1862,7 @@
    "scale": 0.6
   },
   "furniture/pass_housewarming/furn_pass_housewarming_fairylights_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_fairylights_L.heic",
    "master": [
     496,
     310
@@ -1698,6 +1871,7 @@
    "scale": 0.6
   },
   "furniture/pass_housewarming/furn_pass_housewarming_fairylights_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_fairylights_R.heic",
    "master": [
     713,
     347
@@ -1706,6 +1880,7 @@
    "scale": 0.6
   },
   "furniture/pass_housewarming/furn_pass_housewarming_movingboxes_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_movingboxes_L.heic",
    "master": [
     377,
     513
@@ -1714,6 +1889,7 @@
    "scale": 0.6
   },
   "furniture/pass_housewarming/furn_pass_housewarming_movingboxes_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_movingboxes_R.heic",
    "master": [
     444,
     554
@@ -1722,6 +1898,7 @@
    "scale": 0.6
   },
   "furniture/pass_housewarming/furn_pass_housewarming_painttins_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_painttins_L.heic",
    "master": [
     402,
     428
@@ -1730,6 +1907,7 @@
    "scale": 0.6
   },
   "furniture/pass_housewarming/furn_pass_housewarming_painttins_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_painttins_R.heic",
    "master": [
     415,
     439
@@ -1738,6 +1916,7 @@
    "scale": 0.6
   },
   "furniture/pass_housewarming/furn_pass_housewarming_picnicblanket_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_picnicblanket_L.heic",
    "master": [
     1057,
     584
@@ -1746,6 +1925,7 @@
    "scale": 0.6
   },
   "furniture/pass_housewarming/furn_pass_housewarming_picnicblanket_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_picnicblanket_R.heic",
    "master": [
     1073,
     551
@@ -1754,6 +1934,7 @@
    "scale": 0.6
   },
   "furniture/pass_housewarming/furn_pass_housewarming_stepladder_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_stepladder_L.heic",
    "master": [
     487,
     779
@@ -1762,6 +1943,7 @@
    "scale": 0.6
   },
   "furniture/pass_housewarming/furn_pass_housewarming_stepladder_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_stepladder_R.heic",
    "master": [
     504,
     766
@@ -1770,6 +1952,7 @@
    "scale": 0.6
   },
   "furniture/pass_housewarming/furn_pass_housewarming_takeaway_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_takeaway_L.heic",
    "master": [
     241,
     384
@@ -1778,6 +1961,7 @@
    "scale": 0.6
   },
   "furniture/pass_housewarming/furn_pass_housewarming_takeaway_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_takeaway_R.heic",
    "master": [
     255,
     395
@@ -1786,6 +1970,7 @@
    "scale": 0.6
   },
   "furniture/pass_housewarming/furn_pass_housewarming_teachest_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_teachest_L.heic",
    "master": [
     575,
     530
@@ -1794,6 +1979,7 @@
    "scale": 0.6
   },
   "furniture/pass_housewarming/furn_pass_housewarming_teachest_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_teachest_R.heic",
    "master": [
     539,
     492
@@ -1802,6 +1988,7 @@
    "scale": 0.6
   },
   "furniture/pass_midwinter/furn_pass_midwinter_firtree_L.png": {
+   "file": "furniture/pass_midwinter/furn_pass_midwinter_firtree_L.heic",
    "master": [
     400,
     769
@@ -1810,6 +1997,7 @@
    "scale": 0.6
   },
   "furniture/pass_midwinter/furn_pass_midwinter_firtree_R.png": {
+   "file": "furniture/pass_midwinter/furn_pass_midwinter_firtree_R.heic",
    "master": [
     439,
     764
@@ -1818,6 +2006,7 @@
    "scale": 0.6
   },
   "furniture/pass_midwinter/furn_pass_midwinter_hotwaterbottle_L.png": {
+   "file": "furniture/pass_midwinter/furn_pass_midwinter_hotwaterbottle_L.heic",
    "master": [
     193,
     406
@@ -1826,6 +2015,7 @@
    "scale": 0.6
   },
   "furniture/pass_midwinter/furn_pass_midwinter_hotwaterbottle_R.png": {
+   "file": "furniture/pass_midwinter/furn_pass_midwinter_hotwaterbottle_R.heic",
    "master": [
     210,
     346
@@ -1834,6 +2024,7 @@
    "scale": 0.6
   },
   "furniture/pass_midwinter/furn_pass_midwinter_knitblanket_L.png": {
+   "file": "furniture/pass_midwinter/furn_pass_midwinter_knitblanket_L.heic",
    "master": [
     584,
     417
@@ -1842,6 +2033,7 @@
    "scale": 0.6
   },
   "furniture/pass_midwinter/furn_pass_midwinter_knitblanket_R.png": {
+   "file": "furniture/pass_midwinter/furn_pass_midwinter_knitblanket_R.heic",
    "master": [
     618,
     441
@@ -1850,6 +2042,7 @@
    "scale": 0.6
   },
   "furniture/pass_midwinter/furn_pass_midwinter_logbasket_L.png": {
+   "file": "furniture/pass_midwinter/furn_pass_midwinter_logbasket_L.heic",
    "master": [
     446,
     400
@@ -1858,6 +2051,7 @@
    "scale": 0.6
   },
   "furniture/pass_midwinter/furn_pass_midwinter_logbasket_R.png": {
+   "file": "furniture/pass_midwinter/furn_pass_midwinter_logbasket_R.heic",
    "master": [
     486,
     463
@@ -1866,6 +2060,7 @@
    "scale": 0.6
   },
   "furniture/pass_midwinter/furn_pass_midwinter_sledge_L.png": {
+   "file": "furniture/pass_midwinter/furn_pass_midwinter_sledge_L.heic",
    "master": [
     217,
     537
@@ -1874,6 +2069,7 @@
    "scale": 0.6
   },
   "furniture/pass_midwinter/furn_pass_midwinter_sledge_R.png": {
+   "file": "furniture/pass_midwinter/furn_pass_midwinter_sledge_R.heic",
    "master": [
     224,
     508
@@ -1882,6 +2078,7 @@
    "scale": 0.6
   },
   "furniture/pass_midwinter/furn_pass_midwinter_snowglobe_L.png": {
+   "file": "furniture/pass_midwinter/furn_pass_midwinter_snowglobe_L.heic",
    "master": [
     263,
     343
@@ -1890,6 +2087,7 @@
    "scale": 0.6
   },
   "furniture/pass_midwinter/furn_pass_midwinter_snowglobe_R.png": {
+   "file": "furniture/pass_midwinter/furn_pass_midwinter_snowglobe_R.heic",
    "master": [
     243,
     322
@@ -1898,6 +2096,7 @@
    "scale": 0.6
   },
   "furniture/pass_midwinter/furn_pass_midwinter_wreath_L.png": {
+   "file": "furniture/pass_midwinter/furn_pass_midwinter_wreath_L.heic",
    "master": [
     239,
     344
@@ -1906,6 +2105,7 @@
    "scale": 0.6
   },
   "furniture/pass_midwinter/furn_pass_midwinter_wreath_R.png": {
+   "file": "furniture/pass_midwinter/furn_pass_midwinter_wreath_R.heic",
    "master": [
     240,
     310
@@ -1914,6 +2114,7 @@
    "scale": 0.6
   },
   "furniture/study/furn_study_blind_L.png": {
+   "file": "furniture/study/furn_study_blind_L.heic",
    "master": [
     350,
     435
@@ -1922,6 +2123,7 @@
    "scale": 0.6
   },
   "furniture/study/furn_study_blind_R.png": {
+   "file": "furniture/study/furn_study_blind_R.heic",
    "master": [
     372,
     431
@@ -1930,6 +2132,7 @@
    "scale": 0.6
   },
   "furniture/study/furn_study_bookshelf_L.png": {
+   "file": "furniture/study/furn_study_bookshelf_L.heic",
    "master": [
     440,
     633
@@ -1938,6 +2141,7 @@
    "scale": 0.6
   },
   "furniture/study/furn_study_bookshelf_R.png": {
+   "file": "furniture/study/furn_study_bookshelf_R.heic",
    "master": [
     477,
     673
@@ -1946,6 +2150,7 @@
    "scale": 0.6
   },
   "furniture/study/furn_study_desk_L.png": {
+   "file": "furniture/study/furn_study_desk_L.heic",
    "master": [
     464,
     449
@@ -1954,6 +2159,7 @@
    "scale": 0.6
   },
   "furniture/study/furn_study_desk_R.png": {
+   "file": "furniture/study/furn_study_desk_R.heic",
    "master": [
     442,
     446
@@ -1962,6 +2168,7 @@
    "scale": 0.6
   },
   "furniture/study/furn_study_desklamp_L.png": {
+   "file": "furniture/study/furn_study_desklamp_L.heic",
    "master": [
     259,
     352
@@ -1970,6 +2177,7 @@
    "scale": 0.6
   },
   "furniture/study/furn_study_desklamp_R.png": {
+   "file": "furniture/study/furn_study_desklamp_R.heic",
    "master": [
     279,
     359
@@ -1978,6 +2186,7 @@
    "scale": 0.6
   },
   "furniture/study/furn_study_filing_L.png": {
+   "file": "furniture/study/furn_study_filing_L.heic",
    "master": [
     277,
     445
@@ -1986,6 +2195,7 @@
    "scale": 0.6
   },
   "furniture/study/furn_study_filing_R.png": {
+   "file": "furniture/study/furn_study_filing_R.heic",
    "master": [
     288,
     406
@@ -1994,6 +2204,7 @@
    "scale": 0.6
   },
   "furniture/study/furn_study_globe_L.png": {
+   "file": "furniture/study/furn_study_globe_L.heic",
    "master": [
     303,
     452
@@ -2002,6 +2213,7 @@
    "scale": 0.6
   },
   "furniture/study/furn_study_globe_R.png": {
+   "file": "furniture/study/furn_study_globe_R.heic",
    "master": [
     293,
     466
@@ -2010,6 +2222,7 @@
    "scale": 0.6
   },
   "furniture/study/furn_study_laptop_L.png": {
+   "file": "furniture/study/furn_study_laptop_L.heic",
    "master": [
     323,
     298
@@ -2018,6 +2231,7 @@
    "scale": 0.6
   },
   "furniture/study/furn_study_laptop_R.png": {
+   "file": "furniture/study/furn_study_laptop_R.heic",
    "master": [
     338,
     325
@@ -2026,6 +2240,7 @@
    "scale": 0.6
   },
   "furniture/study/furn_study_mug_L.png": {
+   "file": "furniture/study/furn_study_mug_L.heic",
    "master": [
     454,
     442
@@ -2034,6 +2249,7 @@
    "scale": 0.6
   },
   "furniture/study/furn_study_mug_R.png": {
+   "file": "furniture/study/furn_study_mug_R.heic",
    "master": [
     464,
     441
@@ -2042,6 +2258,7 @@
    "scale": 0.6
   },
   "furniture/study/furn_study_noticeboard_L.png": {
+   "file": "furniture/study/furn_study_noticeboard_L.heic",
    "master": [
     311,
     398
@@ -2050,6 +2267,7 @@
    "scale": 0.6
   },
   "furniture/study/furn_study_noticeboard_R.png": {
+   "file": "furniture/study/furn_study_noticeboard_R.heic",
    "master": [
     276,
     398
@@ -2058,6 +2276,7 @@
    "scale": 0.6
   },
   "furniture/study/furn_study_officechair_L.png": {
+   "file": "furniture/study/furn_study_officechair_L.heic",
    "master": [
     412,
     568
@@ -2066,6 +2285,7 @@
    "scale": 0.6
   },
   "furniture/study/furn_study_officechair_R.png": {
+   "file": "furniture/study/furn_study_officechair_R.heic",
    "master": [
     392,
     545
@@ -2074,6 +2294,7 @@
    "scale": 0.6
   },
   "furniture/study/furn_study_papertray_L.png": {
+   "file": "furniture/study/furn_study_papertray_L.heic",
    "master": [
     476,
     428
@@ -2082,6 +2303,7 @@
    "scale": 0.6
   },
   "furniture/study/furn_study_papertray_R.png": {
+   "file": "furniture/study/furn_study_papertray_R.heic",
    "master": [
     463,
     390
@@ -2090,6 +2312,7 @@
    "scale": 0.6
   },
   "furniture/study/furn_study_printer_L.png": {
+   "file": "furniture/study/furn_study_printer_L.heic",
    "master": [
     348,
     325
@@ -2098,6 +2321,7 @@
    "scale": 0.6
   },
   "furniture/study/furn_study_printer_R.png": {
+   "file": "furniture/study/furn_study_printer_R.heic",
    "master": [
     317,
     300
@@ -2770,6 +2994,7 @@
    "scale": 0.75
   },
   "outfits/outfit_antlers_front.png": {
+   "file": "outfits/outfit_antlers_front.heic",
    "master": [
     625,
     744
@@ -2777,6 +3002,7 @@
    "scale": 0.5
   },
   "outfits/outfit_antlers_side.png": {
+   "file": "outfits/outfit_antlers_side.heic",
    "master": [
     269,
     836
@@ -2784,6 +3010,7 @@
    "scale": 0.5
   },
   "outfits/outfit_antlers_tqback.png": {
+   "file": "outfits/outfit_antlers_tqback.heic",
    "master": [
     575,
     758
@@ -2791,6 +3018,7 @@
    "scale": 0.5
   },
   "outfits/outfit_antlers_tqfront.png": {
+   "file": "outfits/outfit_antlers_tqfront.heic",
    "master": [
     493,
     772
@@ -2798,6 +3026,7 @@
    "scale": 0.5
   },
   "outfits/outfit_bandana_front.png": {
+   "file": "outfits/outfit_bandana_front.heic",
    "master": [
     514,
     578
@@ -2805,6 +3034,7 @@
    "scale": 0.5
   },
   "outfits/outfit_bandana_side.png": {
+   "file": "outfits/outfit_bandana_side.heic",
    "master": [
     481,
     531
@@ -2812,6 +3042,7 @@
    "scale": 0.5
   },
   "outfits/outfit_bandana_tqback.png": {
+   "file": "outfits/outfit_bandana_tqback.heic",
    "master": [
     520,
     565
@@ -2819,6 +3050,7 @@
    "scale": 0.5
   },
   "outfits/outfit_bandana_tqfront.png": {
+   "file": "outfits/outfit_bandana_tqfront.heic",
    "master": [
     496,
     562
@@ -2826,6 +3058,7 @@
    "scale": 0.5
   },
   "outfits/outfit_beanie_front.png": {
+   "file": "outfits/outfit_beanie_front.heic",
    "master": [
     560,
     605
@@ -2833,6 +3066,7 @@
    "scale": 0.5
   },
   "outfits/outfit_beanie_side.png": {
+   "file": "outfits/outfit_beanie_side.heic",
    "master": [
     495,
     610
@@ -2840,6 +3074,7 @@
    "scale": 0.5
   },
   "outfits/outfit_beanie_tqback.png": {
+   "file": "outfits/outfit_beanie_tqback.heic",
    "master": [
     536,
     658
@@ -2847,6 +3082,7 @@
    "scale": 0.5
   },
   "outfits/outfit_beanie_tqfront.png": {
+   "file": "outfits/outfit_beanie_tqfront.heic",
    "master": [
     539,
     603
@@ -2854,6 +3090,7 @@
    "scale": 0.5
   },
   "outfits/outfit_bowtie_front.png": {
+   "file": "outfits/outfit_bowtie_front.heic",
    "master": [
     549,
     406
@@ -2861,6 +3098,7 @@
    "scale": 0.5
   },
   "outfits/outfit_bowtie_side.png": {
+   "file": "outfits/outfit_bowtie_side.heic",
    "master": [
     405,
     340
@@ -2868,6 +3106,7 @@
    "scale": 0.5
   },
   "outfits/outfit_bowtie_tqback.png": {
+   "file": "outfits/outfit_bowtie_tqback.heic",
    "master": [
     600,
     354
@@ -2875,6 +3114,7 @@
    "scale": 0.5
   },
   "outfits/outfit_bowtie_tqfront.png": {
+   "file": "outfits/outfit_bowtie_tqfront.heic",
    "master": [
     538,
     386
@@ -2882,6 +3122,7 @@
    "scale": 0.5
   },
   "outfits/outfit_buckethat_front.png": {
+   "file": "outfits/outfit_buckethat_front.heic",
    "master": [
     605,
     410
@@ -2889,6 +3130,7 @@
    "scale": 0.5
   },
   "outfits/outfit_buckethat_side.png": {
+   "file": "outfits/outfit_buckethat_side.heic",
    "master": [
     555,
     459
@@ -2896,6 +3138,7 @@
    "scale": 0.5
   },
   "outfits/outfit_buckethat_tqback.png": {
+   "file": "outfits/outfit_buckethat_tqback.heic",
    "master": [
     593,
     517
@@ -2903,6 +3146,7 @@
    "scale": 0.5
   },
   "outfits/outfit_buckethat_tqfront.png": {
+   "file": "outfits/outfit_buckethat_tqfront.heic",
    "master": [
     567,
     447
@@ -2910,6 +3154,7 @@
    "scale": 0.5
   },
   "outfits/outfit_cardigan_front.png": {
+   "file": "outfits/outfit_cardigan_front.heic",
    "master": [
     380,
     561
@@ -2917,6 +3162,7 @@
    "scale": 0.5
   },
   "outfits/outfit_cardigan_side.png": {
+   "file": "outfits/outfit_cardigan_side.heic",
    "master": [
     551,
     535
@@ -2924,6 +3170,7 @@
    "scale": 0.5
   },
   "outfits/outfit_cardigan_tqback.png": {
+   "file": "outfits/outfit_cardigan_tqback.heic",
    "master": [
     621,
     583
@@ -2931,6 +3178,7 @@
    "scale": 0.5
   },
   "outfits/outfit_cardigan_tqfront.png": {
+   "file": "outfits/outfit_cardigan_tqfront.heic",
    "master": [
     586,
     551
@@ -2938,6 +3186,7 @@
    "scale": 0.5
   },
   "outfits/outfit_crown_front.png": {
+   "file": "outfits/outfit_crown_front.heic",
    "master": [
     474,
     360
@@ -2945,6 +3194,7 @@
    "scale": 0.5
   },
   "outfits/outfit_crown_side.png": {
+   "file": "outfits/outfit_crown_side.heic",
    "master": [
     268,
     392
@@ -2952,6 +3202,7 @@
    "scale": 0.5
   },
   "outfits/outfit_crown_tqback.png": {
+   "file": "outfits/outfit_crown_tqback.heic",
    "master": [
     427,
     375
@@ -2959,6 +3210,7 @@
    "scale": 0.5
   },
   "outfits/outfit_crown_tqfront.png": {
+   "file": "outfits/outfit_crown_tqfront.heic",
    "master": [
     411,
     363
@@ -2966,6 +3218,7 @@
    "scale": 0.5
   },
   "outfits/outfit_fisherman_front.png": {
+   "file": "outfits/outfit_fisherman_front.heic",
    "master": [
     384,
     574
@@ -2973,6 +3226,7 @@
    "scale": 0.5
   },
   "outfits/outfit_fisherman_side.png": {
+   "file": "outfits/outfit_fisherman_side.heic",
    "master": [
     654,
     559
@@ -2980,6 +3234,7 @@
    "scale": 0.5
   },
   "outfits/outfit_fisherman_tqback.png": {
+   "file": "outfits/outfit_fisherman_tqback.heic",
    "master": [
     556,
     575
@@ -2987,6 +3242,7 @@
    "scale": 0.5
   },
   "outfits/outfit_fisherman_tqfront.png": {
+   "file": "outfits/outfit_fisherman_tqfront.heic",
    "master": [
     601,
     559
@@ -2994,6 +3250,7 @@
    "scale": 0.5
   },
   "outfits/outfit_flatcap_front.png": {
+   "file": "outfits/outfit_flatcap_front.heic",
    "master": [
     527,
     374
@@ -3001,6 +3258,7 @@
    "scale": 0.5
   },
   "outfits/outfit_flatcap_side.png": {
+   "file": "outfits/outfit_flatcap_side.heic",
    "master": [
     589,
     357
@@ -3008,6 +3266,7 @@
    "scale": 0.5
   },
   "outfits/outfit_flatcap_tqback.png": {
+   "file": "outfits/outfit_flatcap_tqback.heic",
    "master": [
     559,
     436
@@ -3015,6 +3274,7 @@
    "scale": 0.5
   },
   "outfits/outfit_flatcap_tqfront.png": {
+   "file": "outfits/outfit_flatcap_tqfront.heic",
    "master": [
     569,
     366
@@ -3022,6 +3282,7 @@
    "scale": 0.5
   },
   "outfits/outfit_flowercrown_front.png": {
+   "file": "outfits/outfit_flowercrown_front.heic",
    "master": [
     627,
     376
@@ -3029,6 +3290,7 @@
    "scale": 0.5
   },
   "outfits/outfit_flowercrown_side.png": {
+   "file": "outfits/outfit_flowercrown_side.heic",
    "master": [
     542,
     461
@@ -3036,6 +3298,7 @@
    "scale": 0.5
   },
   "outfits/outfit_flowercrown_tqback.png": {
+   "file": "outfits/outfit_flowercrown_tqback.heic",
    "master": [
     611,
     446
@@ -3043,6 +3306,7 @@
    "scale": 0.5
   },
   "outfits/outfit_flowercrown_tqfront.png": {
+   "file": "outfits/outfit_flowercrown_tqfront.heic",
    "master": [
     493,
     453
@@ -3050,6 +3314,7 @@
    "scale": 0.5
   },
   "outfits/outfit_hawaiian_front.png": {
+   "file": "outfits/outfit_hawaiian_front.heic",
    "master": [
     451,
     653
@@ -3057,6 +3322,7 @@
    "scale": 0.5
   },
   "outfits/outfit_hawaiian_side.png": {
+   "file": "outfits/outfit_hawaiian_side.heic",
    "master": [
     599,
     621
@@ -3064,6 +3330,7 @@
    "scale": 0.5
   },
   "outfits/outfit_hawaiian_tqback.png": {
+   "file": "outfits/outfit_hawaiian_tqback.heic",
    "master": [
     612,
     677
@@ -3071,6 +3338,7 @@
    "scale": 0.5
   },
   "outfits/outfit_hawaiian_tqfront.png": {
+   "file": "outfits/outfit_hawaiian_tqfront.heic",
    "master": [
     579,
     628
@@ -3078,6 +3346,7 @@
    "scale": 0.5
   },
   "outfits/outfit_hoodie_front.png": {
+   "file": "outfits/outfit_hoodie_front.heic",
    "master": [
     411,
     642
@@ -3085,6 +3354,7 @@
    "scale": 0.5
   },
   "outfits/outfit_hoodie_side.png": {
+   "file": "outfits/outfit_hoodie_side.heic",
    "master": [
     614,
     618
@@ -3092,6 +3362,7 @@
    "scale": 0.5
   },
   "outfits/outfit_hoodie_tqback.png": {
+   "file": "outfits/outfit_hoodie_tqback.heic",
    "master": [
     590,
     664
@@ -3099,6 +3370,7 @@
    "scale": 0.5
   },
   "outfits/outfit_hoodie_tqfront.png": {
+   "file": "outfits/outfit_hoodie_tqfront.heic",
    "master": [
     594,
     629
@@ -3106,6 +3378,7 @@
    "scale": 0.5
   },
   "outfits/outfit_lifevest_front.png": {
+   "file": "outfits/outfit_lifevest_front.heic",
    "master": [
     464,
     646
@@ -3113,6 +3386,7 @@
    "scale": 0.5
   },
   "outfits/outfit_lifevest_side.png": {
+   "file": "outfits/outfit_lifevest_side.heic",
    "master": [
     562,
     527
@@ -3120,6 +3394,7 @@
    "scale": 0.5
   },
   "outfits/outfit_lifevest_tqback.png": {
+   "file": "outfits/outfit_lifevest_tqback.heic",
    "master": [
     619,
     624
@@ -3127,6 +3402,7 @@
    "scale": 0.5
   },
   "outfits/outfit_lifevest_tqfront.png": {
+   "file": "outfits/outfit_lifevest_tqfront.heic",
    "master": [
     550,
     633
@@ -3134,6 +3410,7 @@
    "scale": 0.5
   },
   "outfits/outfit_partyhat_front.png": {
+   "file": "outfits/outfit_partyhat_front.heic",
    "master": [
     439,
     801
@@ -3141,6 +3418,7 @@
    "scale": 0.5
   },
   "outfits/outfit_partyhat_side.png": {
+   "file": "outfits/outfit_partyhat_side.heic",
    "master": [
     412,
     771
@@ -3148,6 +3426,7 @@
    "scale": 0.5
   },
   "outfits/outfit_partyhat_tqback.png": {
+   "file": "outfits/outfit_partyhat_tqback.heic",
    "master": [
     423,
     791
@@ -3155,6 +3434,7 @@
    "scale": 0.5
   },
   "outfits/outfit_partyhat_tqfront.png": {
+   "file": "outfits/outfit_partyhat_tqfront.heic",
    "master": [
     429,
     784
@@ -3162,6 +3442,7 @@
    "scale": 0.5
   },
   "outfits/outfit_pumpkinhat_front.png": {
+   "file": "outfits/outfit_pumpkinhat_front.heic",
    "master": [
     573,
     521
@@ -3169,6 +3450,7 @@
    "scale": 0.5
   },
   "outfits/outfit_pumpkinhat_side.png": {
+   "file": "outfits/outfit_pumpkinhat_side.heic",
    "master": [
     455,
     544
@@ -3176,6 +3458,7 @@
    "scale": 0.5
   },
   "outfits/outfit_pumpkinhat_tqback.png": {
+   "file": "outfits/outfit_pumpkinhat_tqback.heic",
    "master": [
     534,
     575
@@ -3183,6 +3466,7 @@
    "scale": 0.5
   },
   "outfits/outfit_pumpkinhat_tqfront.png": {
+   "file": "outfits/outfit_pumpkinhat_tqfront.heic",
    "master": [
     538,
     525
@@ -3190,6 +3474,7 @@
    "scale": 0.5
   },
   "outfits/outfit_pyjamas_front.png": {
+   "file": "outfits/outfit_pyjamas_front.heic",
    "master": [
     420,
     608
@@ -3197,6 +3482,7 @@
    "scale": 0.5
   },
   "outfits/outfit_pyjamas_side.png": {
+   "file": "outfits/outfit_pyjamas_side.heic",
    "master": [
     665,
     594
@@ -3204,6 +3490,7 @@
    "scale": 0.5
   },
   "outfits/outfit_pyjamas_tqback.png": {
+   "file": "outfits/outfit_pyjamas_tqback.heic",
    "master": [
     557,
     636
@@ -3211,6 +3498,7 @@
    "scale": 0.5
   },
   "outfits/outfit_pyjamas_tqfront.png": {
+   "file": "outfits/outfit_pyjamas_tqfront.heic",
    "master": [
     595,
     618
@@ -3218,6 +3506,7 @@
    "scale": 0.5
   },
   "outfits/outfit_raincoat_front.png": {
+   "file": "outfits/outfit_raincoat_front.heic",
    "master": [
     432,
     796
@@ -3225,6 +3514,7 @@
    "scale": 0.5
   },
   "outfits/outfit_raincoat_side.png": {
+   "file": "outfits/outfit_raincoat_side.heic",
    "master": [
     657,
     776
@@ -3232,6 +3522,7 @@
    "scale": 0.5
   },
   "outfits/outfit_raincoat_tqback.png": {
+   "file": "outfits/outfit_raincoat_tqback.heic",
    "master": [
     575,
     782
@@ -3239,6 +3530,7 @@
    "scale": 0.5
   },
   "outfits/outfit_raincoat_tqfront.png": {
+   "file": "outfits/outfit_raincoat_tqfront.heic",
    "master": [
     649,
     784
@@ -3246,6 +3538,7 @@
    "scale": 0.5
   },
   "outfits/outfit_roundglasses_front.png": {
+   "file": "outfits/outfit_roundglasses_front.heic",
    "master": [
     568,
     227
@@ -3253,6 +3546,7 @@
    "scale": 0.5
   },
   "outfits/outfit_roundglasses_side.png": {
+   "file": "outfits/outfit_roundglasses_side.heic",
    "master": [
     543,
     245
@@ -3260,6 +3554,7 @@
    "scale": 0.5
   },
   "outfits/outfit_roundglasses_tqback.png": {
+   "file": "outfits/outfit_roundglasses_tqback.heic",
    "master": [
     610,
     415
@@ -3267,6 +3562,7 @@
    "scale": 0.5
   },
   "outfits/outfit_roundglasses_tqfront.png": {
+   "file": "outfits/outfit_roundglasses_tqfront.heic",
    "master": [
     623,
     307
@@ -3274,6 +3570,7 @@
    "scale": 0.5
   },
   "outfits/outfit_santahat_front.png": {
+   "file": "outfits/outfit_santahat_front.heic",
    "master": [
     420,
     462
@@ -3281,6 +3578,7 @@
    "scale": 0.5
   },
   "outfits/outfit_santahat_side.png": {
+   "file": "outfits/outfit_santahat_side.heic",
    "master": [
     543,
     414
@@ -3288,6 +3586,7 @@
    "scale": 0.5
   },
   "outfits/outfit_santahat_tqback.png": {
+   "file": "outfits/outfit_santahat_tqback.heic",
    "master": [
     479,
     459
@@ -3295,6 +3594,7 @@
    "scale": 0.5
   },
   "outfits/outfit_santahat_tqfront.png": {
+   "file": "outfits/outfit_santahat_tqfront.heic",
    "master": [
     523,
     428
@@ -3302,6 +3602,7 @@
    "scale": 0.5
   },
   "outfits/outfit_scarf_front.png": {
+   "file": "outfits/outfit_scarf_front.heic",
    "master": [
     419,
     807
@@ -3309,6 +3610,7 @@
    "scale": 0.5
   },
   "outfits/outfit_scarf_side.png": {
+   "file": "outfits/outfit_scarf_side.heic",
    "master": [
     358,
     827
@@ -3316,6 +3618,7 @@
    "scale": 0.5
   },
   "outfits/outfit_scarf_tqback.png": {
+   "file": "outfits/outfit_scarf_tqback.heic",
    "master": [
     432,
     842
@@ -3323,6 +3626,7 @@
    "scale": 0.5
   },
   "outfits/outfit_scarf_tqfront.png": {
+   "file": "outfits/outfit_scarf_tqfront.heic",
    "master": [
     441,
     818
@@ -3330,6 +3634,7 @@
    "scale": 0.5
   },
   "outfits/outfit_skeleton_front.png": {
+   "file": "outfits/outfit_skeleton_front.heic",
    "master": [
     352,
     753
@@ -3337,6 +3642,7 @@
    "scale": 0.5
   },
   "outfits/outfit_skeleton_side.png": {
+   "file": "outfits/outfit_skeleton_side.heic",
    "master": [
     584,
     739
@@ -3344,6 +3650,7 @@
    "scale": 0.5
   },
   "outfits/outfit_skeleton_tqback.png": {
+   "file": "outfits/outfit_skeleton_tqback.heic",
    "master": [
     599,
     779
@@ -3351,6 +3658,7 @@
    "scale": 0.5
   },
   "outfits/outfit_skeleton_tqfront.png": {
+   "file": "outfits/outfit_skeleton_tqfront.heic",
    "master": [
     585,
     748
@@ -3358,6 +3666,7 @@
    "scale": 0.5
   },
   "outfits/outfit_sunglasses_front.png": {
+   "file": "outfits/outfit_sunglasses_front.heic",
    "master": [
     569,
     256
@@ -3365,6 +3674,7 @@
    "scale": 0.5
   },
   "outfits/outfit_sunglasses_side.png": {
+   "file": "outfits/outfit_sunglasses_side.heic",
    "master": [
     581,
     248
@@ -3372,6 +3682,7 @@
    "scale": 0.5
   },
   "outfits/outfit_sunglasses_tqback.png": {
+   "file": "outfits/outfit_sunglasses_tqback.heic",
    "master": [
     629,
     420
@@ -3379,6 +3690,7 @@
    "scale": 0.5
   },
   "outfits/outfit_sunglasses_tqfront.png": {
+   "file": "outfits/outfit_sunglasses_tqfront.heic",
    "master": [
     602,
     296
@@ -3386,6 +3698,7 @@
    "scale": 0.5
   },
   "outfits/outfit_xmasjumper_front.png": {
+   "file": "outfits/outfit_xmasjumper_front.heic",
    "master": [
     359,
     663
@@ -3393,6 +3706,7 @@
    "scale": 0.5
   },
   "outfits/outfit_xmasjumper_side.png": {
+   "file": "outfits/outfit_xmasjumper_side.heic",
    "master": [
     623,
     638
@@ -3400,6 +3714,7 @@
    "scale": 0.5
   },
   "outfits/outfit_xmasjumper_tqback.png": {
+   "file": "outfits/outfit_xmasjumper_tqback.heic",
    "master": [
     553,
     668
@@ -3407,6 +3722,7 @@
    "scale": 0.5
   },
   "outfits/outfit_xmasjumper_tqfront.png": {
+   "file": "outfits/outfit_xmasjumper_tqfront.heic",
    "master": [
     583,
     667
@@ -4327,6 +4643,7 @@
    "scale": 0.4
   },
   "ui/shop/shop_adopt.png": {
+   "file": "ui/shop/shop_adopt.heic",
    "master": [
     1898,
     1801
@@ -4334,6 +4651,7 @@
    "scale": 0.4
   },
   "ui/shop/shop_beans_barrel.png": {
+   "file": "ui/shop/shop_beans_barrel.heic",
    "master": [
     1819,
     1940
@@ -4341,6 +4659,7 @@
    "scale": 0.4
   },
   "ui/shop/shop_beans_handful.png": {
+   "file": "ui/shop/shop_beans_handful.heic",
    "master": [
     1671,
     1263
@@ -4348,6 +4667,7 @@
    "scale": 0.4
   },
   "ui/shop/shop_beans_jar.png": {
+   "file": "ui/shop/shop_beans_jar.heic",
    "master": [
     1655,
     1874
@@ -4355,6 +4675,7 @@
    "scale": 0.4
   },
   "ui/shop/shop_beans_pouch.png": {
+   "file": "ui/shop/shop_beans_pouch.heic",
    "master": [
     1813,
     1598
@@ -4362,6 +4683,7 @@
    "scale": 0.4
   },
   "ui/shop/shop_beans_sack.png": {
+   "file": "ui/shop/shop_beans_sack.heic",
    "master": [
     1616,
     1890
@@ -4369,6 +4691,7 @@
    "scale": 0.4
   },
   "ui/shop/shop_club.png": {
+   "file": "ui/shop/shop_club.heic",
    "master": [
     1837,
     1256
@@ -4376,6 +4699,7 @@
    "scale": 0.4
   },
   "ui/shop/shop_forever.png": {
+   "file": "ui/shop/shop_forever.heic",
    "master": [
     1697,
     1991
@@ -4383,6 +4707,7 @@
    "scale": 0.4
   },
   "ui/shop/shop_gifts.png": {
+   "file": "ui/shop/shop_gifts.heic",
    "master": [
     1661,
     1872
@@ -4390,6 +4715,7 @@
    "scale": 0.4
   },
   "ui/shop/shop_housewarming.png": {
+   "file": "ui/shop/shop_housewarming.heic",
    "master": [
     1715,
     1959
@@ -4397,6 +4723,7 @@
    "scale": 0.4
   },
   "ui/shop/shop_starter.png": {
+   "file": "ui/shop/shop_starter.heic",
    "master": [
     1814,
     1935
@@ -5563,6 +5890,7 @@
    "scale": 0.26785714285714285
   },
   "world/props/city_lamp.png": {
+   "file": "world/props/city_lamp.heic",
    "master": [
     569,
     2246
@@ -5570,6 +5898,7 @@
    "scale": 0.3
   },
   "world/props/city_lamp_winter.png": {
+   "file": "world/props/city_lamp_winter.heic",
    "master": [
     493,
     2225
@@ -5577,6 +5906,7 @@
    "scale": 0.3
   },
   "world/props/city_plane.png": {
+   "file": "world/props/city_plane.heic",
    "master": [
     1603,
     2161
@@ -5584,6 +5914,7 @@
    "scale": 0.3
   },
   "world/props/city_plane_autumn.png": {
+   "file": "world/props/city_plane_autumn.heic",
    "master": [
     1599,
     2196
@@ -5591,6 +5922,7 @@
    "scale": 0.3
   },
   "world/props/city_plane_winter.png": {
+   "file": "world/props/city_plane_winter.heic",
    "master": [
     1620,
     2235
@@ -5598,6 +5930,7 @@
    "scale": 0.3
   },
   "world/props/city_planter.png": {
+   "file": "world/props/city_planter.heic",
    "master": [
     1779,
     1857
@@ -5605,6 +5938,7 @@
    "scale": 0.3
   },
   "world/props/city_planter_winter.png": {
+   "file": "world/props/city_planter_winter.heic",
    "master": [
     1642,
     1841
@@ -5612,6 +5946,7 @@
    "scale": 0.3
   },
   "world/props/coast_dunegrass.png": {
+   "file": "world/props/coast_dunegrass.heic",
    "master": [
     1653,
     1832
@@ -5619,6 +5954,7 @@
    "scale": 0.3
   },
   "world/props/coast_dunegrass_winter.png": {
+   "file": "world/props/coast_dunegrass_winter.heic",
    "master": [
     1627,
     1896
@@ -5626,6 +5962,7 @@
    "scale": 0.3
   },
   "world/props/coast_pine.png": {
+   "file": "world/props/coast_pine.heic",
    "master": [
     1664,
     2063
@@ -5633,6 +5970,7 @@
    "scale": 0.3
   },
   "world/props/coast_pine_winter.png": {
+   "file": "world/props/coast_pine_winter.heic",
    "master": [
     1663,
     2072
@@ -5640,6 +5978,7 @@
    "scale": 0.3
   },
   "world/props/coast_rocks.png": {
+   "file": "world/props/coast_rocks.heic",
    "master": [
     1830,
     1636
@@ -5647,6 +5986,7 @@
    "scale": 0.3
   },
   "world/props/coast_rocks_winter.png": {
+   "file": "world/props/coast_rocks_winter.heic",
    "master": [
     1799,
     1628
@@ -5654,6 +5994,7 @@
    "scale": 0.3
   },
   "world/props/countryside_hawthorn.png": {
+   "file": "world/props/countryside_hawthorn.heic",
    "master": [
     1783,
     1774
@@ -5661,6 +6002,7 @@
    "scale": 0.3
   },
   "world/props/countryside_hawthorn_winter.png": {
+   "file": "world/props/countryside_hawthorn_winter.heic",
    "master": [
     1739,
     1637
@@ -5668,6 +6010,7 @@
    "scale": 0.3
   },
   "world/props/countryside_oak.png": {
+   "file": "world/props/countryside_oak.heic",
    "master": [
     1683,
     2047
@@ -5675,6 +6018,7 @@
    "scale": 0.3
   },
   "world/props/countryside_oak_autumn.png": {
+   "file": "world/props/countryside_oak_autumn.heic",
    "master": [
     1652,
     2009
@@ -5682,6 +6026,7 @@
    "scale": 0.3
   },
   "world/props/countryside_oak_winter.png": {
+   "file": "world/props/countryside_oak_winter.heic",
    "master": [
     1669,
     2051
@@ -5689,6 +6034,7 @@
    "scale": 0.3
   },
   "world/props/countryside_stone.png": {
+   "file": "world/props/countryside_stone.heic",
    "master": [
     1793,
     1481
@@ -5696,6 +6042,7 @@
    "scale": 0.3
   },
   "world/props/countryside_stone_winter.png": {
+   "file": "world/props/countryside_stone_winter.heic",
    "master": [
     1825,
     1536
@@ -5703,6 +6050,7 @@
    "scale": 0.3
   },
   "world/props/desert_agave.png": {
+   "file": "world/props/desert_agave.heic",
    "master": [
     1873,
     1920
@@ -5710,6 +6058,7 @@
    "scale": 0.3
   },
   "world/props/desert_palm.png": {
+   "file": "world/props/desert_palm.heic",
    "master": [
     1609,
     2242
@@ -5717,6 +6066,7 @@
    "scale": 0.3
   },
   "world/props/desert_pots.png": {
+   "file": "world/props/desert_pots.heic",
    "master": [
     1587,
     1898
@@ -5724,6 +6074,7 @@
    "scale": 0.3
   },
   "world/props/forest_birch.png": {
+   "file": "world/props/forest_birch.heic",
    "master": [
     1179,
     2184
@@ -5731,6 +6082,7 @@
    "scale": 0.3
   },
   "world/props/forest_birch_autumn.png": {
+   "file": "world/props/forest_birch_autumn.heic",
    "master": [
     1399,
     2227
@@ -5738,6 +6090,7 @@
    "scale": 0.3
   },
   "world/props/forest_birch_winter.png": {
+   "file": "world/props/forest_birch_winter.heic",
    "master": [
     1275,
     2225
@@ -5745,6 +6098,7 @@
    "scale": 0.3
   },
   "world/props/forest_fir.png": {
+   "file": "world/props/forest_fir.heic",
    "master": [
     1010,
     2224
@@ -5752,6 +6106,7 @@
    "scale": 0.3
   },
   "world/props/forest_fir_winter.png": {
+   "file": "world/props/forest_fir_winter.heic",
    "master": [
     1014,
     2221
@@ -5759,6 +6114,7 @@
    "scale": 0.3
   },
   "world/props/forest_stump.png": {
+   "file": "world/props/forest_stump.heic",
    "master": [
     1838,
     1812
@@ -5766,6 +6122,7 @@
    "scale": 0.3
   },
   "world/props/forest_stump_winter.png": {
+   "file": "world/props/forest_stump_winter.heic",
    "master": [
     1672,
     1755
@@ -5773,6 +6130,7 @@
    "scale": 0.3
   },
   "world/props/mountain_boulder.png": {
+   "file": "world/props/mountain_boulder.heic",
    "master": [
     1825,
     1735
@@ -5780,6 +6138,7 @@
    "scale": 0.3
   },
   "world/props/mountain_boulder_winter.png": {
+   "file": "world/props/mountain_boulder_winter.heic",
    "master": [
     1780,
     1800
@@ -5787,6 +6146,7 @@
    "scale": 0.3
   },
   "world/props/mountain_pine.png": {
+   "file": "world/props/mountain_pine.heic",
    "master": [
     1604,
     2163
@@ -5794,6 +6154,7 @@
    "scale": 0.3
   },
   "world/props/mountain_pine_winter.png": {
+   "file": "world/props/mountain_pine_winter.heic",
    "master": [
     1562,
     2206
@@ -5801,6 +6162,7 @@
    "scale": 0.3
   },
   "world/props/mountain_woodpile.png": {
+   "file": "world/props/mountain_woodpile.heic",
    "master": [
     1758,
     1800
@@ -5808,6 +6170,7 @@
    "scale": 0.3
   },
   "world/props/mountain_woodpile_winter.png": {
+   "file": "world/props/mountain_woodpile_winter.heic",
    "master": [
     1796,
     1842
@@ -5815,6 +6178,7 @@
    "scale": 0.3
   },
   "world/props/snow_rock.png": {
+   "file": "world/props/snow_rock.heic",
    "master": [
     1739,
     1638
@@ -5822,6 +6186,7 @@
    "scale": 0.3
   },
   "world/props/snow_snowman.png": {
+   "file": "world/props/snow_snowman.heic",
    "master": [
     1470,
     1789
@@ -5829,6 +6194,7 @@
    "scale": 0.3
   },
   "world/props/snow_spruce.png": {
+   "file": "world/props/snow_spruce.heic",
    "master": [
     1087,
     2216
@@ -5836,6 +6202,7 @@
    "scale": 0.3
   },
   "world/props/tropical_banana.png": {
+   "file": "world/props/tropical_banana.heic",
    "master": [
     1670,
     2211
@@ -5843,6 +6210,7 @@
    "scale": 0.3
   },
   "world/props/tropical_frangipani.png": {
+   "file": "world/props/tropical_frangipani.heic",
    "master": [
     1850,
     1775
@@ -5850,6 +6218,7 @@
    "scale": 0.3
   },
   "world/props/tropical_palm.png": {
+   "file": "world/props/tropical_palm.heic",
    "master": [
     1494,
     2124
@@ -7265,6 +7634,7 @@
    "scale": 0.75
   },
   "world/terrain/terr_city_autumn.png": {
+   "file": "world/terrain/terr_city_autumn.heic",
    "master": [
     2688,
     1520
@@ -7272,6 +7642,7 @@
    "scale": 0.25
   },
   "world/terrain/terr_city_spring.png": {
+   "file": "world/terrain/terr_city_spring.heic",
    "master": [
     2688,
     1520
@@ -7279,6 +7650,7 @@
    "scale": 0.25
   },
   "world/terrain/terr_city_summer.png": {
+   "file": "world/terrain/terr_city_summer.heic",
    "master": [
     2688,
     1520
@@ -7286,6 +7658,7 @@
    "scale": 0.25
   },
   "world/terrain/terr_city_winter.png": {
+   "file": "world/terrain/terr_city_winter.heic",
    "master": [
     2688,
     1520
@@ -7293,6 +7666,7 @@
    "scale": 0.25
   },
   "world/terrain/terr_coast_autumn.png": {
+   "file": "world/terrain/terr_coast_autumn.heic",
    "master": [
     2688,
     1520
@@ -7300,6 +7674,7 @@
    "scale": 0.25
   },
   "world/terrain/terr_coast_spring.png": {
+   "file": "world/terrain/terr_coast_spring.heic",
    "master": [
     2688,
     1520
@@ -7307,6 +7682,7 @@
    "scale": 0.25
   },
   "world/terrain/terr_coast_summer.png": {
+   "file": "world/terrain/terr_coast_summer.heic",
    "master": [
     2688,
     1520
@@ -7314,6 +7690,7 @@
    "scale": 0.25
   },
   "world/terrain/terr_coast_winter.png": {
+   "file": "world/terrain/terr_coast_winter.heic",
    "master": [
     2688,
     1520
@@ -7321,6 +7698,7 @@
    "scale": 0.25
   },
   "world/terrain/terr_countryside_autumn.png": {
+   "file": "world/terrain/terr_countryside_autumn.heic",
    "master": [
     2688,
     1520
@@ -7328,6 +7706,7 @@
    "scale": 0.25
   },
   "world/terrain/terr_countryside_spring.png": {
+   "file": "world/terrain/terr_countryside_spring.heic",
    "master": [
     2688,
     1520
@@ -7335,6 +7714,7 @@
    "scale": 0.25
   },
   "world/terrain/terr_countryside_summer.png": {
+   "file": "world/terrain/terr_countryside_summer.heic",
    "master": [
     2688,
     1520
@@ -7342,6 +7722,7 @@
    "scale": 0.25
   },
   "world/terrain/terr_countryside_winter.png": {
+   "file": "world/terrain/terr_countryside_winter.heic",
    "master": [
     2688,
     1520
@@ -7349,6 +7730,7 @@
    "scale": 0.25
   },
   "world/terrain/terr_desert_autumn.png": {
+   "file": "world/terrain/terr_desert_autumn.heic",
    "master": [
     2688,
     1520
@@ -7356,6 +7738,7 @@
    "scale": 0.25
   },
   "world/terrain/terr_desert_spring.png": {
+   "file": "world/terrain/terr_desert_spring.heic",
    "master": [
     2688,
     1520
@@ -7363,6 +7746,7 @@
    "scale": 0.25
   },
   "world/terrain/terr_desert_summer.png": {
+   "file": "world/terrain/terr_desert_summer.heic",
    "master": [
     2688,
     1520
@@ -7370,6 +7754,7 @@
    "scale": 0.25
   },
   "world/terrain/terr_desert_winter.png": {
+   "file": "world/terrain/terr_desert_winter.heic",
    "master": [
     2688,
     1520
@@ -7377,6 +7762,7 @@
    "scale": 0.25
   },
   "world/terrain/terr_forest_autumn.png": {
+   "file": "world/terrain/terr_forest_autumn.heic",
    "master": [
     2688,
     1520
@@ -7384,6 +7770,7 @@
    "scale": 0.25
   },
   "world/terrain/terr_forest_spring.png": {
+   "file": "world/terrain/terr_forest_spring.heic",
    "master": [
     2688,
     1520
@@ -7391,6 +7778,7 @@
    "scale": 0.25
   },
   "world/terrain/terr_forest_summer.png": {
+   "file": "world/terrain/terr_forest_summer.heic",
    "master": [
     2688,
     1520
@@ -7398,6 +7786,7 @@
    "scale": 0.25
   },
   "world/terrain/terr_forest_winter.png": {
+   "file": "world/terrain/terr_forest_winter.heic",
    "master": [
     2688,
     1520
@@ -7405,6 +7794,7 @@
    "scale": 0.25
   },
   "world/terrain/terr_mountain_autumn.png": {
+   "file": "world/terrain/terr_mountain_autumn.heic",
    "master": [
     2688,
     1520
@@ -7412,6 +7802,7 @@
    "scale": 0.25
   },
   "world/terrain/terr_mountain_spring.png": {
+   "file": "world/terrain/terr_mountain_spring.heic",
    "master": [
     2688,
     1520
@@ -7419,6 +7810,7 @@
    "scale": 0.25
   },
   "world/terrain/terr_mountain_summer.png": {
+   "file": "world/terrain/terr_mountain_summer.heic",
    "master": [
     2688,
     1520
@@ -7426,6 +7818,7 @@
    "scale": 0.25
   },
   "world/terrain/terr_mountain_winter.png": {
+   "file": "world/terrain/terr_mountain_winter.heic",
    "master": [
     2688,
     1520
@@ -7433,6 +7826,7 @@
    "scale": 0.25
   },
   "world/terrain/terr_snow_autumn.png": {
+   "file": "world/terrain/terr_snow_autumn.heic",
    "master": [
     2688,
     1520
@@ -7440,6 +7834,7 @@
    "scale": 0.25
   },
   "world/terrain/terr_snow_spring.png": {
+   "file": "world/terrain/terr_snow_spring.heic",
    "master": [
     2688,
     1520
@@ -7447,6 +7842,7 @@
    "scale": 0.25
   },
   "world/terrain/terr_snow_summer.png": {
+   "file": "world/terrain/terr_snow_summer.heic",
    "master": [
     2688,
     1520
@@ -7454,6 +7850,7 @@
    "scale": 0.25
   },
   "world/terrain/terr_snow_winter.png": {
+   "file": "world/terrain/terr_snow_winter.heic",
    "master": [
     2688,
     1520
@@ -7461,6 +7858,7 @@
    "scale": 0.25
   },
   "world/terrain/terr_tropical_autumn.png": {
+   "file": "world/terrain/terr_tropical_autumn.heic",
    "master": [
     2688,
     1520
@@ -7468,6 +7866,7 @@
    "scale": 0.25
   },
   "world/terrain/terr_tropical_spring.png": {
+   "file": "world/terrain/terr_tropical_spring.heic",
    "master": [
     2688,
     1520
@@ -7475,6 +7874,7 @@
    "scale": 0.25
   },
   "world/terrain/terr_tropical_summer.png": {
+   "file": "world/terrain/terr_tropical_summer.heic",
    "master": [
     2688,
     1520
@@ -7482,6 +7882,7 @@
    "scale": 0.25
   },
   "world/terrain/terr_tropical_winter.png": {
+   "file": "world/terrain/terr_tropical_winter.heic",
    "master": [
     2688,
     1520

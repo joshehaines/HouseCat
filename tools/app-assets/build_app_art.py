@@ -78,11 +78,18 @@ DATA = ['cat/rig.json', 'rooms/layout_living_demo.json', 'rooms/houses.json', 'f
 # to the file, so the data and the game keep using the masters' names.
 HEIC = ('world/scenes/', 'rooms/walls/', 'rooms/floors/', 'world/ground/', 'world/map/map_painted')
 HEIC_QUALITY = '70'
+# Cut-outs go in as HEIC with their transparency too (four to seven times smaller than PNG; keeps the app's
+# download under 200 MB), at a higher quality for clean edges. Not the cat's sprites and masks, the light maps,
+# the widget's frames and icons (read pixel for pixel, or copied for the widget).
+HEIC_ALPHA = ('world/props/', 'furniture/', 'outfits/', 'world/terrain/', 'ui/shop/')
+HEIC_ALPHA_QUALITY = '82'
 PREVIEW_WIDTH = 720
 
 
 def heic(rel):
-    """Whether a file goes in as HEIC: an opaque picture (not a mask)."""
+    """Whether a file goes in as HEIC: an opaque picture (not a mask), or a cut-out keeping its transparency."""
+    if rel.startswith(HEIC_ALPHA):
+        return True
     if not rel.startswith(HEIC):
         return False
     return not rel.endswith(('_land.png', '_glass.png'))
@@ -139,7 +146,8 @@ def main():
             if heic(rel):
                 file = os.path.splitext(rel)[0] + '.heic'
                 dst = os.path.join(OUT, file)
-                subprocess.run(['sips', '-s', 'format', 'heic', '-s', 'formatOptions', HEIC_QUALITY,
+                quality = HEIC_ALPHA_QUALITY if rel.startswith(HEIC_ALPHA) else HEIC_QUALITY
+                subprocess.run(['sips', '-s', 'format', 'heic', '-s', 'formatOptions', quality,
                                 '-z', str(max(1, round(h * factor))), str(max(1, round(w * factor))), src, '--out', dst],
                                capture_output=True, check=True)
                 entry["file"] = file

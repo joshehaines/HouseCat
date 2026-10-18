@@ -250,6 +250,9 @@ Where the spec is silent, these are set in `Tuning.swift` and HouseCatCore (tune
 - Licences and credits (from the same card): the cat recordings from Wikimedia Commons (`Content/credits_sounds.json`), Apple Weather, Apple Maps' place search, and the rest made for HouseCat.
 - Debug: `HOUSECAT_SCREEN=settings` opens the settings; `HOUSECAT_SCREEN=erase` runs the delete (with `HOUSECAT_HOUSE=full` still set the new household is seeded full again).
 
+## Decisions during the size pass (18 Oct 2026)
+- The app must download in under 200 MB (over it, a phone on mobile data asks first). Measured as a Release build for a device, zipped as an .ipa: 225 MB before, 166 MB after. Cut-outs (the scenery, furniture, outfits, terrain and shop pictures) now go into App/Art as HEIC with their transparency (`HEIC_ALPHA` in `build_app_art.py`, quality 82), four to seven times smaller than PNG and the same on screen; App/Art went from 191 MB to 132 MB. Not converted: the cat's sprites and masks and the light maps (read pixel for pixel), the widget's frames and icons (copied for the widget). The .ipa still carries the placeholder Watch app (11 MB) and the binary (29 MB); App Store thinning cuts the asset catalogue per device. Measure again with a Release build and `zip -qry` of `Payload/HouseCat.app` before every release.
+
 ## Known gaps after the economy pass
 - No real purchase has gone through App Store Connect: the 17 products exist only in `Store/HouseCat.storekit` until the developer team creates them (same IDs). The StoreKit tests prove a pack is handed over once and a look survives a relaunch and a refund.
 - Co-owning, presents, paw prints and friend codes can only be seen with the debug screens until CloudKit is on; nothing has crossed between two real phones.

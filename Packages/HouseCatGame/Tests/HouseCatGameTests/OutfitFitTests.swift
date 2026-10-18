@@ -24,7 +24,9 @@ struct OutfitFitTests {
     }
 
     func shape(_ outfit: String, _ view: String) throws -> OutfitShape {
-        let picture = try #require(Raster.read(art.appendingPathComponent("outfits/outfit_\(outfit)_\(view).png")))
+        // Bundled as HEIC with its transparency (build_app_art.py).
+        let picture = try #require(Raster.read(art.appendingPathComponent("outfits/outfit_\(outfit)_\(view).heic")))
+        try #require(picture.planes.count == 4)
         return OutfitFit.shape(alpha: picture.planes[3], width: picture.width, height: picture.height)
     }
 

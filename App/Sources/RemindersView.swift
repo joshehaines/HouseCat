@@ -161,44 +161,73 @@ struct WidgetGuide: View {
     }
 }
 
-/// Once, after the first feed: may the cat remind you? Asked here before iOS asks (App Review 4.5.4), then
-/// the widget guide.
+/// After the first feed: may the cat send reminders? (Josh, 18 Oct: permission priming in the cat's voice.) It
+/// shows a reminder as it would arrive, with a real line from the cat, before iOS asks; Not now asks nothing.
 struct RemindersCard: View {
     let catName: String
     let done: () -> Void
-    @State private var guide = false
+    @State private var sample: String?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            if guide {
-                WidgetGuide(catName: catName)
-                HUDButton("Got it", symbol: "checkmark", prominent: true, action: done)
-                    .frame(maxWidth: .infinity, alignment: .trailing)
-            } else {
-                HStack(spacing: 8) {
-                    PaintedIcon("bell_for_notifications", size: 34)
-                    Text("Shall \(catName) remind you?").font(Theme.title(22))
-                }
-                Text(
-                    "At breakfast if the bowl is empty, and when there's a present waiting. Only at the times you pick; change them any time from \(catName)'s profile."
-                )
-                .font(.subheadline)
-                .fixedSize(horizontal: false, vertical: true)
-                HStack(spacing: 10) {
-                    Spacer()
-                    HUDButton("Not now") { guide = true }
-                    HUDButton("Remind me", icon: "bell_for_notifications", prominent: true) {
-                        Task {
-                            await Reminders.ask()
-                            guide = true
-                        }
+            HStack(spacing: 8) {
+                PaintedIcon("bell_for_notifications", size: 34)
+                Text("Shall \(catName) remind you?").font(Theme.title(22))
+            }
+            NotificationPreview(title: catName, message: sample ?? "Breakfast? The bowl is looking very empty from here.")
+            Text(
+                "Like this: at breakfast if the bowl is empty, and when there's a present waiting. Only at the times you pick; change them any time from \(catName)'s profile."
+            )
+            .font(.subheadline)
+            .foregroundStyle(Theme.inkSoft)
+            .fixedSize(horizontal: false, vertical: true)
+            HStack(spacing: 10) {
+                Spacer()
+                HUDButton("Not now", action: done)
+                HUDButton("Remind me", icon: "bell_for_notifications", prominent: true) {
+                    Task {
+                        await Reminders.ask()
+                        done()
                     }
                 }
             }
         }
         .padding(20)
-        .frame(maxWidth: 460)
+        .frame(maxWidth: 480)
         .paper(RoundedRectangle(cornerRadius: 24, style: .continuous))
-        .onAppear { Reminders.asked = true }
+        .onAppear {
+            Reminders.asked = true
+            let session = GameSession.shared
+            sample = session.reminderLine("feed.nag_morning", id: "preview", at: session.now())
+        }
+    }
+}
+
+/// A notification as iOS shows it on the Lock Screen: the app's picture, its name and the time, the cat's name
+/// and its line.
+struct NotificationPreview: View {
+    let title: String
+    let message: String
+
+    var body: some View {
+        HStack(alignment: .top, spacing: 10) {
+            PaintedIcon("cat_face", size: 30)
+                .frame(width: 38, height: 38)
+                .background(RoundedRectangle(cornerRadius: 9, style: .continuous).fill(Theme.cream))
+            VStack(alignment: .leading, spacing: 1) {
+                HStack {
+                    Text(title).font(.subheadline.weight(.semibold))
+                    Spacer()
+                    Text("now").font(.caption).foregroundStyle(.secondary)
+                }
+                Text(message).font(.subheadline).lineLimit(3).fixedSize(horizontal: false, vertical: true)
+            }
+        }
+        .padding(12)
+        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 20, style: .continuous).strokeBorder(Theme.rim, lineWidth: 1))
+        .shadow(color: .black.opacity(0.12), radius: 8, y: 3)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("A sample reminder from \(title): \(message)")
     }
 }

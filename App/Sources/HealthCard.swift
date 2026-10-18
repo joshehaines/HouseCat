@@ -2,8 +2,9 @@ import HouseCatCore
 import HouseCatUI
 import SwiftUI
 
-/// Day 3's question (SPEC "Health layer": asked with the benefit stated): may the cat notice your steps, sleep
-/// and workouts? Rewards only, read-only, and it can be turned off from the cat's settings.
+/// Day 3: may the cat notice your steps, sleep and workouts? (Josh, 18 Oct: value first, then the system's
+/// question.) The three things it would read, each with what it pays and how the cat takes it, then plainly
+/// what is read and where; never a penalty for a day without.
 struct HealthCard: View {
     let catName: String
     let done: () -> Void
@@ -12,14 +13,14 @@ struct HealthCard: View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(spacing: 8) {
                 PaintedIcon("trust_heart_with_a_paw_print", size: 34)
-                Text("\(catName) notices things").font(Theme.title(22))
+                Text("\(catName) notices how your day went").font(Theme.title(22))
             }
-            Text(
-                "If you walk \(Tuning.Health.stepsGoal.formatted()) steps, sleep \(Int(Tuning.Health.sleepGoalHours)) hours or do a workout, \(catName) will notice and you'll earn extra XP. A day you don't is never held against you."
-            )
-            .font(.subheadline)
-            .fixedSize(horizontal: false, vertical: true)
-            Text("HouseCat only reads these three things from Health, on this phone. Nothing is written to Health or sent anywhere.")
+            HStack(spacing: 10) {
+                tile("group_of_three_paw_prints", "\(Tuning.Health.stepsGoal.formatted()) steps", xp: Tuning.XP.stepsGoalMet, goal: .steps)
+                tile("nap_moon", "\(Int(Tuning.Health.sleepGoalHours)) hours' sleep", xp: Tuning.XP.sleepGoalMet, goal: .sleep)
+                tile("play_laser_dot", "A workout", xp: Tuning.XP.workoutLogged, goal: .workout)
+            }
+            Text("Only these three, read from Health on this phone. Nothing is written to Health or sent anywhere, and a day without is never held against you.")
                 .font(.caption).foregroundStyle(Theme.inkSoft)
                 .fixedSize(horizontal: false, vertical: true)
             HStack(spacing: 10) {
@@ -37,9 +38,29 @@ struct HealthCard: View {
             }
         }
         .padding(20)
-        .frame(maxWidth: 480)
+        .frame(maxWidth: 560)
         .paper(RoundedRectangle(cornerRadius: 24, style: .continuous))
         .foregroundStyle(Theme.ink)
+    }
+
+    private func tile(_ icon: String, _ title: String, xp: Int, goal: GameEvent.HealthGoal) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            PaintedIcon(icon, size: 34)
+            Text(title).font(.subheadline.weight(.bold))
+            HStack(spacing: 3) {
+                PaintedIcon("xp_star", size: 15)
+                Text("+\(xp) XP").font(.caption.weight(.bold)).foregroundStyle(Theme.accent)
+            }
+            if let line = GameSession.shared.line(HealthRules.line(goal)) {
+                Text("\u{201C}\(line)\u{201D}").font(.caption2).italic().foregroundStyle(Theme.inkSoft).lineLimit(3)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            Spacer(minLength: 0)
+        }
+        .padding(10)
+        .frame(maxWidth: .infinity, minHeight: 132, alignment: .topLeading)
+        .background(RoundedRectangle(cornerRadius: 16, style: .continuous).fill(Theme.cream))
+        .accessibilityElement(children: .combine)
     }
 }
 

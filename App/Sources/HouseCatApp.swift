@@ -864,7 +864,7 @@ struct RoomScreen: View {
     private func progressCards(_ content: some View) -> some View {
         content
             #if DEBUG
-            // Screenshot runs: HOUSECAT_SCREEN=levelup|road|streak|pass.
+            // Screenshot runs: HOUSECAT_SCREEN=levelup|road|streak|pass|addwidget|together|reminders|health.
             .task(id: visit.ready) {
                 guard visit.ready, let wanted = ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"] else { return }
                 try? await Task.sleep(for: .seconds(3))
@@ -875,6 +875,8 @@ struct RoomScreen: View {
                 case "pass": showPass = true
                 case "addwidget": await askForWidget()
                 case "together": showTogether = true
+                case "reminders": visit.askReminders = true
+                case "health": askingHealth = true
                 default: break
                 }
             }

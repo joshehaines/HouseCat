@@ -357,8 +357,8 @@ struct ShopView: View {
     /// A piece of the app's art by its path, or nothing.
     @ViewBuilder
     private func art(_ path: String) -> some View {
-        if let url = Bundle.main.url(forResource: "Art/" + path, withExtension: nil), let image = UIImage(contentsOfFile: url.path) {
-            Image(uiImage: image).resizable().interpolation(.high).scaledToFit()
+        if let image = CatScreens.picture(path) {
+            image.resizable().interpolation(.high).scaledToFit()
         } else {
             Color.clear
         }

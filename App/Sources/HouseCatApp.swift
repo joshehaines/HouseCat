@@ -114,6 +114,11 @@ enum CatScreens {
         return state.profile(of: GameSession.catID, on: state.clock.day(of: now)).map { ($0, state.xp) }
     }
 
+    /// A picture from the app's art by its master path (whatever format it is stored in).
+    static func picture(_ path: String) -> Image? {
+        GameWorld.art?.image(path).map { Image(decorative: $0, scale: 1) }
+    }
+
     static func portrait(_ look: CatLook) -> CGImage? {
         guard let catArt = GameWorld.catArt else { return nil }
         return catArt.image(catArt.builder.pose(CatPose.sitThreeQuarterFront.rawValue, look: look), look: look)
@@ -342,8 +347,7 @@ struct RoomScreen: View {
 
     /// A Bean-shop piece with its price (or the level it needs).
     private func shopEntry(_ entry: GameSession.ShopEntry) -> DecorateTray.Entry {
-        let url = Bundle.main.url(forResource: "Art/" + entry.sprite, withExtension: nil)
-        let image = url.flatMap { UIImage(contentsOfFile: $0.path) }.map { Image(uiImage: $0) }
+        let image = CatScreens.picture(entry.sprite)
         let (price, enabled) = switch entry.status {
         case let .buyable(price): ("\(price) Beans", true)
         case let .needsBeans(price): ("\(price) Beans", false)
@@ -356,16 +360,14 @@ struct RoomScreen: View {
     private func surfaceEntries() -> [DecorateTray.Entry] {
         let (options, current) = visit.surfaceOptions
         return options.map { surface in
-            let url = Bundle.main.url(forResource: "Art/" + surface.sprite, withExtension: nil)
-            let image = url.flatMap { UIImage(contentsOfFile: $0.path) }.map { Image(uiImage: $0) }
+            let image = CatScreens.picture(surface.sprite)
             return DecorateTray.Entry(id: surface.id, name: surface.name, count: 1, image: image, selected: surface.id == current)
         }
     }
 
     /// A tray entry with the piece's picture from the app art.
     private func trayEntry(_ entry: GameSession.InventoryEntry) -> DecorateTray.Entry {
-        let url = Bundle.main.url(forResource: "Art/" + entry.sprite, withExtension: nil)
-        let image = url.flatMap { UIImage(contentsOfFile: $0.path) }.map { Image(uiImage: $0) }
+        let image = CatScreens.picture(entry.sprite)
         return DecorateTray.Entry(id: entry.id, name: entry.name, count: entry.count, image: image)
     }
 

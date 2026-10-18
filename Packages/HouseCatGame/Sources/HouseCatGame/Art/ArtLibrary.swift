@@ -14,9 +14,11 @@ public final class ArtLibrary {
         public var scale: Double
         /// The reference room furniture was painted in ("grey" or "cream").
         public var ref: String?
+        /// The file, when it is not at the master's path (opaque pictures are stored as HEIC).
+        public var file: String?
 
         enum CodingKeys: String, CodingKey {
-            case painted = "master", scale, ref
+            case painted = "master", scale, ref, file
         }
     }
 
@@ -25,7 +27,9 @@ public final class ArtLibrary {
     }
 
     public let root: URL
-    private let entries: [String: Entry]
+    private var entries: [String: Entry]
+    /// Where each master path's file is (this library's folder, or an asset pack's added later).
+    private var roots: [String: URL] = [:]
     private var textures: [String: SKTexture] = [:]
     private var images: [String: CGImage] = [:]
 
@@ -58,11 +62,25 @@ public final class ArtLibrary {
         entries[path]?.ref
     }
 
+    /// The file a master path is stored in.
+    public func url(_ path: String) -> URL {
+        (roots[path] ?? root).appendingPathComponent(entries[path]?.file ?? path)
+    }
+
+    /// Adds the art of an asset pack (a home's exteriors) that has arrived: its own art.json, its files.
+    public func add(packAt packRoot: URL) throws {
+        let data = try Data(contentsOf: packRoot.appendingPathComponent("art.json"))
+        for (path, entry) in try JSONDecoder().decode(Index.self, from: data).files {
+            entries[path] = entry
+            roots[path] = packRoot
+        }
+    }
+
     public func image(_ path: String) -> CGImage? {
         if let cached = images[path] {
             return cached
         }
-        let url = root.appendingPathComponent(path)
+        let url = url(path)
         guard let source = CGImageSourceCreateWithURL(url as CFURL, nil),
               let image = CGImageSourceCreateImageAtIndex(source, 0, nil) else { return nil }
         images[path] = image

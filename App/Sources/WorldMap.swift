@@ -194,8 +194,7 @@ struct WorldMapView: View {
     @State private var settledOffset: CGSize = .zero
     @FocusState private var searching: Bool
     @State private var viewSize: CGSize = .zero
-    private let image: UIImage? = Bundle.main.url(forResource: "Art/world/map/map_painted.png", withExtension: nil)
-        .flatMap { UIImage(contentsOfFile: $0.path) }
+    private let image: UIImage? = GameWorld.art.flatMap { UIImage(contentsOfFile: $0.url("world/map/map_painted.png").path) }
 
     var body: some View {
         ZStack {

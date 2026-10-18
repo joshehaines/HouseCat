@@ -264,6 +264,7 @@ struct RoomScreen: View {
     @State private var offeringNap = false
     @State private var naps = Naps.shared
     @State private var tour = RoomTour.shared
+    @State private var offering = false
     @State private var editing: CatBuilderModel?
     @State private var profileVersion = 0
     @Environment(\.horizontalSizeClass) private var sizeClass
@@ -495,6 +496,36 @@ struct RoomScreen: View {
             }
             // Once the room itself is up (the cold open comes first on a first arrival).
             .task(id: visit.ready && visit.scene is RoomScene) { await startTour() }
+            // The once-only offer, a moment after the trust toast, never during the tour.
+            .onChange(of: visit.trustRose) { _, tier in
+                var due = tier.map { Offers.due(tier: $0, owned: store?.entitlements ?? .none) } ?? false
+                #if DEBUG
+                    due = due || ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"] == "offer"
+                #endif
+                guard due, !tour.isRunning else { return }
+                Offers.trustOfferShown = true
+                Task {
+                    try? await Task.sleep(for: .seconds(Tuning.Care.lineSeconds))
+                    offering = true
+                }
+            }
+            .overlay {
+                if offering {
+                    ZStack {
+                        Color.black.opacity(0.35).ignoresSafeArea().onTapGesture { offering = false }
+                        OfferCard(catName: visit.catName ?? "Your cat", store: store, content: GameWorld.content) {
+                            offering = false
+                            showShop = true
+                        } close: {
+                            offering = false
+                        }
+                        .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
+                        .padding(24)
+                    }
+                    .transition(.opacity)
+                }
+            }
+            .animation(.easeOut(duration: 0.25), value: offering)
             .onChange(of: tour.step?.id) { _, id in
                 if id == "pet" {
                     visit.callCatForTour()

@@ -84,6 +84,7 @@ struct ShopView: View {
     @State private var detail: Offer?
     @State private var celebrating: Offer?
     @State private var yearly = true
+    @State private var refunding = false
     /// Everything is laid out for a landscape phone and scaled up to fill a bigger screen.
     @State private var s: CGFloat = 1
     @Environment(\.dismiss) private var dismiss
@@ -155,6 +156,7 @@ struct ShopView: View {
         }
         .foregroundStyle(Theme.ink)
         .environment(\.hudScale, s)
+        .sheet(isPresented: $refunding) { RefundView { refunding = false } }
         .animation(.spring(duration: 0.35), value: detail)
         .animation(.easeOut(duration: 0.3), value: celebrating)
         .task {
@@ -866,6 +868,8 @@ struct ShopView: View {
                 }
             }
             .disabled(store == nil)
+            HUDButton("Request a refund", symbol: "arrow.uturn.backward") { refunding = true }
+                .disabled(store == nil)
             HUDButton("Manage subscription", symbol: "gearshape") {
                 if let url = URL(string: "https://apps.apple.com/account/subscriptions") {
                     openURL(url)

@@ -25,6 +25,9 @@ final class Visit {
     /// After the first feed: the card asking whether the cat may send reminders (once).
     var askReminders = false
 
+    /// The cat has just reached a new trust tier (the app may show the once-only offer).
+    var trustRose: TrustTier?
+
     /// Debug screenshot runs: a game to open (HOUSECAT_SCREEN=game:<id>), or "picker".
     var openGame: String?
 
@@ -275,6 +278,8 @@ final class Visit {
                 openGame = "picker"
             case "nap":
                 startNap()
+            case "offer":
+                trustRose = Tuning.Store.offerTrustTier
             case let screen where screen.hasPrefix("game:"):
                 openGame = String(screen.dropFirst("game:".count))
             default:
@@ -437,6 +442,7 @@ final class Visit {
                 try? await Task.sleep(for: .seconds(Tuning.Care.lineSeconds))
                 self?.say(GameSession.shared.line("progress.trust_\(String(describing: after))"))
                 self?.show(toast: "Trust: \(String(describing: after).capitalized)", icon: "trust_heart_with_a_paw_print")
+                self?.trustRose = after
             }
         }
         // Fed: the day's gift is drawn and drops later; one may already be waiting.

@@ -264,6 +264,8 @@ public enum Tuning {
         /// Cat Club's members' outfits in a year (one a month), as its page counts them. They are not sold
         /// separately, so the page's value line leaves them out.
         public static let clubOutfitsPerYear = 12
+        /// The one card that mentions the shop unasked comes when the cat first reaches this trust tier.
+        public static let offerTrustTier = TrustTier.wary
         public static let termsURL = URL(string: "https://housecatgame.com/terms")!
         public static let privacyURL = URL(string: "https://housecatgame.com/privacy")!
         /// WeatherKit's legal page, until the service gives its own (it needs the capability).

@@ -25,6 +25,15 @@ struct StoreKitPurchaseTests {
         catalog = try StoreCatalog(content: ContentBundle.load(from: content))
     }
 
+    /// A purchase made the way StoreKit's own sheet would make it, without the sheet (in this simulator the sheet
+    /// asks for an Apple Account sign-in and waits). The service hears it as it hears any transaction.
+    @discardableResult
+    func buy(_ id: String, into service: StoreKitEntitlementService) async throws -> Transaction {
+        let transaction = try await session.buyProduct(identifier: id)
+        await service.refresh()
+        return transaction
+    }
+
     func firstProduct(_ matches: (ShopProduct.Unlock) -> Bool) throws -> ShopProduct {
         try #require(catalog.products.first { matches($0.unlock) })
     }
@@ -59,11 +68,7 @@ struct StoreKitPurchaseTests {
         guard case let .outfit(outfitID) = outfit.unlock else { return }
 
         let first = StoreKitEntitlementService(catalog: catalog, cache: keychain)
-        let outcome = try await first.purchase(outfit.id)
-        guard case .purchased = outcome else {
-            Issue.record("not purchased: \(outcome)")
-            return
-        }
+        try await buy(outfit.id, into: first)
         #expect(first.entitlements.outfits == [outfitID])
         first.stopListening()
 
@@ -78,18 +83,15 @@ struct StoreKitPurchaseTests {
     @Test func catClubTheSeasonPassAndGifts() async throws {
         let service = StoreKitEntitlementService(catalog: catalog, cache: InMemoryEntitlementCache())
         defer { service.stopListening() }
-        _ = try await service.purchase("housecat.pass.housewarming")
+        try await buy("housecat.pass.housewarming", into: service)
         #expect(service.entitlements.passes == ["housewarming"])
         #expect(!service.entitlements.hasClub)
-        _ = try await service.purchase(StoreCatalog.clubYearly)
+        try await buy(StoreCatalog.clubYearly, into: service)
         #expect(service.entitlements.hasClub)
         #expect(service.entitlements.ownsPaidTrack(season: "midwinter"))
         let before = service.entitlements
-        let gift = try await service.purchase("housecat.gift.cat")
-        guard case .purchased = gift else {
-            Issue.record("gift not purchased: \(gift)")
-            return
-        }
+        let gift = try await buy("housecat.gift.cat", into: service)
+        #expect(gift.productID == "housecat.gift.cat")
         #expect(service.entitlements == before) // a gift unlocks nothing for the buyer
     }
 
@@ -103,14 +105,9 @@ struct StoreKitPurchaseTests {
                 false
             }
         }
-        guard case let .purchased(_, transactionID) = try await service.purchase(set.id),
-              let identifier = UInt(transactionID)
-        else {
-            Issue.record("set not purchased")
-            return
-        }
+        let transaction = try await buy(set.id, into: service)
         #expect(service.entitlements.sets.count == 1)
-        try session.refundTransaction(identifier: identifier)
+        try session.refundTransaction(identifier: UInt(transaction.id))
         // The refund reaches StoreKit's current entitlements shortly after.
         for _ in 0 ..< 20 where !service.entitlements.sets.isEmpty {
             try await Task.sleep(for: .milliseconds(100))

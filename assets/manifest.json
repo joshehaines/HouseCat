@@ -23,7 +23,8 @@
   "cat/custom/mask": "masks/<mask>/<same path as the base sprite>: 8-bit greyscale, same size as the sprite. tabby_mackerel, tabby_classic, spotted, tortie, colourpoint: 255 = pattern colour. white_mitts, white_tuxedo, white_bicolour, white_van: 255 = the fur stays white. features (RGB): R = iris of the eye on the image left (the only eye in a side view), G = the other iris, B = nose leather. A missing mask = 0 everywhere.",
   "fx": "Animated effects. Loops: fire, candle, steam, smoke, water_trickle, water_ripple, butterfly (fx_<name>_NN.png frames in one cell size + a _strip.png). Sprites: robin poses, reaction icons. fx/fx.json has frame counts, cell sizes and anchors; fx/anchors.json (also copied into each furniture entry as motion_fx) says where flames and steam attach on the moving furniture.",
   "fixture": "Parts of the house drawn by the house view, not catalogue items (the staircase); placed by assets/rooms/houses.json.",
-  "world/scenes": "<house>_<biome>_<season>[_dooropen].jpg = the home painted into its place (16:9, noon); _land.png = 1 painting / 0 sky (the sky is drawn in code); _glass.png = window glass, lit in code; scenes.json = door points. Made by tools/asset-pipeline/scenes.py."
+  "world/scenes": "<house>_<biome>_<season>[_dooropen].jpg = the home painted into its place (16:9, noon); _land.png = 1 painting / 0 sky (the sky is drawn in code); _glass.png = window glass, lit in code; scenes.json = door points. Made by tools/asset-pipeline/scenes.py.",
+  "world/ground": "2048 px seamless tiles seen from above: the ground around the house in the house view, one per biome plus ground_autumn (a leafy lawn). Same model and brushwork reference as the floors (tools/asset-pipeline/surfaces.py FLOOR_T, gpt_image_2_5, 18 Oct)."
  },
  "files": {
   "furniture/attic/furn_attic_boxes_L.png": {
@@ -115182,6 +115183,87 @@
    "px": [
     2688,
     1520
+   ]
+  },
+  "world/ground/ground_city.png": {
+   "class": "world/ground",
+   "tile": true,
+   "mask": false,
+   "px": [
+    2048,
+    2048
+   ]
+  },
+  "world/ground/ground_coast.png": {
+   "class": "world/ground",
+   "tile": true,
+   "mask": false,
+   "px": [
+    2048,
+    2048
+   ]
+  },
+  "world/ground/ground_countryside.png": {
+   "class": "world/ground",
+   "tile": true,
+   "mask": false,
+   "px": [
+    2048,
+    2048
+   ]
+  },
+  "world/ground/ground_mountain.png": {
+   "class": "world/ground",
+   "tile": true,
+   "mask": false,
+   "px": [
+    2048,
+    2048
+   ]
+  },
+  "world/ground/ground_forest.png": {
+   "class": "world/ground",
+   "tile": true,
+   "mask": false,
+   "px": [
+    2048,
+    2048
+   ]
+  },
+  "world/ground/ground_desert.png": {
+   "class": "world/ground",
+   "tile": true,
+   "mask": false,
+   "px": [
+    2048,
+    2048
+   ]
+  },
+  "world/ground/ground_tropical.png": {
+   "class": "world/ground",
+   "tile": true,
+   "mask": false,
+   "px": [
+    2048,
+    2048
+   ]
+  },
+  "world/ground/ground_snow.png": {
+   "class": "world/ground",
+   "tile": true,
+   "mask": false,
+   "px": [
+    2048,
+    2048
+   ]
+  },
+  "world/ground/ground_autumn.png": {
+   "class": "world/ground",
+   "tile": true,
+   "mask": false,
+   "px": [
+    2048,
+    2048
    ]
   }
  }

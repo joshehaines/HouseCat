@@ -172,3 +172,18 @@ private struct World {
         #expect(node.childNode(withName: "window.weather") != nil, "\(id) shows the rain")
     }
 }
+
+@MainActor
+@Test func theGroundIsTheBiomesOwnUnderSnowInWinterHills() throws {
+    let world = try World()
+    for biome in Biome.allCases {
+        let path = HouseBuilder.ground(biome, season: .summer, weather: .sun)
+        #expect(world.art.has(path), "\(path)")
+    }
+    #expect(HouseBuilder.ground(.city, season: .summer, weather: .sun) == "world/ground/ground_city.png")
+    #expect(HouseBuilder.ground(.city, season: .winter, weather: .snow) == "world/ground/ground_snow.png")
+    #expect(HouseBuilder.ground(.desert, season: .winter, weather: .snow) == "world/ground/ground_desert.png")
+    #expect(HouseBuilder.ground(.mountain, season: .winter, weather: .sun) == "world/ground/ground_snow.png")
+    #expect(HouseBuilder.ground(.countryside, season: .autumn, weather: .rain) == "world/ground/ground_autumn.png")
+    #expect(world.art.has("world/ground/ground_autumn.png") && world.art.has("world/ground/ground_snow.png"))
+}

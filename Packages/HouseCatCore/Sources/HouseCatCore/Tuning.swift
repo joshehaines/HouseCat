@@ -221,6 +221,8 @@ public enum Tuning {
         public static let snowVeil = [0.9, 0.93, 1.0, 0.14]
         public static let fogVeil = [0.86, 0.88, 0.92, 0.22]
         public static let heatVeil = [1.0, 0.82, 0.55, 0.1]
+        /// Biomes whose ground lies under snow all winter.
+        public static let whiteWinters: Set<String> = ["mountain", "forest"]
         /// How grey the clouds are in each weather (0 white, 1 slate).
         public static let cloudGrey: [String: Double] = ["cloud": 0.3, "rain": 0.55, "storm": 0.8, "snow": 0.2, "wind": 0.15]
         /// About this many seconds between flashes in a storm.

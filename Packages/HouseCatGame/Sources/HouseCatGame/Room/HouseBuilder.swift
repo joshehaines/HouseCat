@@ -11,6 +11,22 @@ public enum HouseBuilder {
         "world/terrain/terr_\(biome.rawValue)_\(season.rawValue).png"
     }
 
+    /// The ground around the house (assets/world/ground): the biome's own, under snow when it is snowing
+    /// (or deep winter where winters are white), a leaf-strewn lawn in a country autumn.
+    public static func ground(_ biome: Biome, season: NatureSeason, weather: Weather) -> String {
+        let name: String = if biome == .snow
+            || weather == .snow && ![.desert, .tropical].contains(biome)
+            || season == .winter && Tuning.Weather.whiteWinters.contains(biome.rawValue)
+        {
+            "snow"
+        } else if season == .autumn, biome == .countryside {
+            "autumn"
+        } else {
+            biome.rawValue
+        }
+        return "world/ground/ground_\(name).png"
+    }
+
     /// A home's painted exterior in a biome and season (assets/world/scenes, without the extension).
     public static func scene(_ house: HouseStyle, _ biome: Biome, _ season: NatureSeason) -> String {
         "world/scenes/\(house.rawValue)_\(biome.rawValue)_\(season.rawValue)"
@@ -25,7 +41,6 @@ public enum HouseBuilder {
         now: HomeNow
     ) -> HouseModel? {
         guard let plan = plans.houses[style.rawValue] else { return nil }
-        let surfaces = Dictionary(uniqueKeysWithValues: catalogue.surfaces.map { ($0.id, $0) })
         let rooms = plan.rooms.map { spot -> HouseModel.Room in
             var model = layout
             model.sky = now.sky
@@ -65,7 +80,12 @@ public enum HouseBuilder {
                 lockLabel: open ? nil : label
             )
         }
-        let ground = plans.grounds[now.biome.rawValue].flatMap { surfaces[$0]?.sprite }
-        return HouseModel(rooms: rooms, active: .living, sky: now.sky, ground: ground, stairs: plan.stairs)
+        return HouseModel(
+            rooms: rooms,
+            active: .living,
+            sky: now.sky,
+            ground: ground(now.biome, season: now.season, weather: now.weather),
+            stairs: plan.stairs
+        )
     }
 }

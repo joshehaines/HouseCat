@@ -115320,6 +115320,342 @@
     1664,
     1874
    ]
+  },
+  "outfits/outfit_beret_side.png": {
+   "class": "outfits",
+   "px": [
+    498,
+    415
+   ]
+  },
+  "outfits/outfit_beret_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    508,
+    420
+   ]
+  },
+  "outfits/outfit_beret_front.png": {
+   "class": "outfits",
+   "px": [
+    595,
+    414
+   ]
+  },
+  "outfits/outfit_beret_tqback.png": {
+   "class": "outfits",
+   "px": [
+    550,
+    453
+   ]
+  },
+  "outfits/outfit_strawberryhat_side.png": {
+   "class": "outfits",
+   "px": [
+    474,
+    559
+   ]
+  },
+  "outfits/outfit_strawberryhat_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    536,
+    552
+   ]
+  },
+  "outfits/outfit_strawberryhat_front.png": {
+   "class": "outfits",
+   "px": [
+    557,
+    551
+   ]
+  },
+  "outfits/outfit_strawberryhat_tqback.png": {
+   "class": "outfits",
+   "px": [
+    541,
+    602
+   ]
+  },
+  "outfits/outfit_froghat_side.png": {
+   "class": "outfits",
+   "px": [
+    476,
+    546
+   ]
+  },
+  "outfits/outfit_froghat_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    549,
+    552
+   ]
+  },
+  "outfits/outfit_froghat_front.png": {
+   "class": "outfits",
+   "px": [
+    566,
+    530
+   ]
+  },
+  "outfits/outfit_froghat_tqback.png": {
+   "class": "outfits",
+   "px": [
+    553,
+    598
+   ]
+  },
+  "outfits/outfit_sunhat_side.png": {
+   "class": "outfits",
+   "px": [
+    535,
+    360
+   ]
+  },
+  "outfits/outfit_sunhat_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    536,
+    370
+   ]
+  },
+  "outfits/outfit_sunhat_front.png": {
+   "class": "outfits",
+   "px": [
+    544,
+    382
+   ]
+  },
+  "outfits/outfit_sunhat_tqback.png": {
+   "class": "outfits",
+   "px": [
+    538,
+    394
+   ]
+  },
+  "outfits/outfit_nightcap_side.png": {
+   "class": "outfits",
+   "px": [
+    462,
+    559
+   ]
+  },
+  "outfits/outfit_nightcap_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    473,
+    583
+   ]
+  },
+  "outfits/outfit_nightcap_front.png": {
+   "class": "outfits",
+   "px": [
+    534,
+    598
+   ]
+  },
+  "outfits/outfit_nightcap_tqback.png": {
+   "class": "outfits",
+   "px": [
+    598,
+    586
+   ]
+  },
+  "outfits/outfit_chefhat_side.png": {
+   "class": "outfits",
+   "px": [
+    433,
+    447
+   ]
+  },
+  "outfits/outfit_chefhat_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    455,
+    451
+   ]
+  },
+  "outfits/outfit_chefhat_front.png": {
+   "class": "outfits",
+   "px": [
+    484,
+    432
+   ]
+  },
+  "outfits/outfit_chefhat_tqback.png": {
+   "class": "outfits",
+   "px": [
+    472,
+    467
+   ]
+  },
+  "outfits/outfit_bowler_side.png": {
+   "class": "outfits",
+   "px": [
+    507,
+    382
+   ]
+  },
+  "outfits/outfit_bowler_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    508,
+    375
+   ]
+  },
+  "outfits/outfit_bowler_front.png": {
+   "class": "outfits",
+   "px": [
+    521,
+    384
+   ]
+  },
+  "outfits/outfit_bowler_tqback.png": {
+   "class": "outfits",
+   "px": [
+    516,
+    431
+   ]
+  },
+  "outfits/outfit_cowboyhat_side.png": {
+   "class": "outfits",
+   "px": [
+    542,
+    372
+   ]
+  },
+  "outfits/outfit_cowboyhat_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    543,
+    382
+   ]
+  },
+  "outfits/outfit_cowboyhat_front.png": {
+   "class": "outfits",
+   "px": [
+    522,
+    376
+   ]
+  },
+  "outfits/outfit_cowboyhat_tqback.png": {
+   "class": "outfits",
+   "px": [
+    560,
+    431
+   ]
+  },
+  "outfits/outfit_bunnyears_side.png": {
+   "class": "outfits",
+   "px": [
+    312,
+    796
+   ]
+  },
+  "outfits/outfit_bunnyears_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    472,
+    696
+   ]
+  },
+  "outfits/outfit_bunnyears_front.png": {
+   "class": "outfits",
+   "px": [
+    606,
+    718
+   ]
+  },
+  "outfits/outfit_bunnyears_tqback.png": {
+   "class": "outfits",
+   "px": [
+    443,
+    752
+   ]
+  },
+  "outfits/outfit_heartglasses_side.png": {
+   "class": "outfits",
+   "px": [
+    508,
+    292
+   ]
+  },
+  "outfits/outfit_heartglasses_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    585,
+    309
+   ]
+  },
+  "outfits/outfit_heartglasses_front.png": {
+   "class": "outfits",
+   "px": [
+    583,
+    311
+   ]
+  },
+  "outfits/outfit_heartglasses_tqback.png": {
+   "class": "outfits",
+   "px": [
+    565,
+    390
+   ]
+  },
+  "outfits/outfit_pearls_side.png": {
+   "class": "outfits",
+   "px": [
+    172,
+    546
+   ]
+  },
+  "outfits/outfit_pearls_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    441,
+    516
+   ]
+  },
+  "outfits/outfit_pearls_front.png": {
+   "class": "outfits",
+   "px": [
+    501,
+    544
+   ]
+  },
+  "outfits/outfit_pearls_tqback.png": {
+   "class": "outfits",
+   "px": [
+    456,
+    539
+   ]
+  },
+  "outfits/outfit_bellcollar_side.png": {
+   "class": "outfits",
+   "px": [
+    459,
+    431
+   ]
+  },
+  "outfits/outfit_bellcollar_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    503,
+    493
+   ]
+  },
+  "outfits/outfit_bellcollar_front.png": {
+   "class": "outfits",
+   "px": [
+    548,
+    504
+   ]
+  },
+  "outfits/outfit_bellcollar_tqback.png": {
+   "class": "outfits",
+   "px": [
+    543,
+    370
+   ]
   }
  }
 }

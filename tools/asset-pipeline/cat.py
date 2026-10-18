@@ -94,6 +94,19 @@ OUTFITS = [
  ('hawaiian', 'body', "a bright teal Hawaiian shirt with orange and yellow hibiscus flowers"),
  ('lifevest', 'body', "a small orange life vest with straps"),
  ('skeleton', 'body', "a black onesie printed with a cream skeleton pattern"),
+ # 18 Oct 2026, for the launch shop (the beanie sheet added as a second reference for the style):
+ ('beret', 'head', "a red wool beret"),
+ ('strawberryhat', 'head', "a knitted red strawberry hat with tiny cream seed stitches, a green leafy top and two ear holes"),
+ ('froghat', 'head', "a soft green knitted frog beanie with two round frog eyes on top and two ear holes"),
+ ('sunhat', 'head', "a small round straw sun hat with a short brim and a peach ribbon band tied in a little bow (no cat ears drawn)"),
+ ('nightcap', 'head', "a soft blue and white striped sleeping nightcap with a white pompom drooping to one side"),
+ ('chefhat', 'head', "a small white pleated chef's toque"),
+ ('bowler', 'head', "a tiny black felt bowler hat"),
+ ('cowboyhat', 'head', "a small tan suede cowboy hat with a stitched band"),
+ ('bunnyears', 'head', "a soft white felt bunny ears headband with pink inner ears"),
+ ('heartglasses', 'face', "a pair of small heart-shaped sunglasses with pink frames and rose-tinted lenses"),
+ ('pearls', 'neck', "a string of small cream pearls as a necklace"),
+ ('bellcollar', 'neck', "a red leather collar with a small round gold bell"),
 ]
 OUT_T_ = ("Costume sprite sheet: {d}, sized to fit the slim black cat from the reference image, drawn on its own WITHOUT the cat, "
          "in four views in a row matching the cat's views: side view facing left, three-quarter front view facing the lower "

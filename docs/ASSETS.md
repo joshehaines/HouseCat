@@ -30,7 +30,7 @@ Decision (Josh, 17 Oct): every asset class is generated in Higgsfield and finish
 | `cat/custom/base/` | **The cat builder, painted white** (added 17 Oct, see §3b): 8 bodies (short slim, short chunky, long slim, long chunky, Persian, Siamese, Maine Coon, Sphynx) × 4 views × 11 parts (352); resting poses for every body, plus every ear and bobtail variant of the four standard bodies (352); expression heads (108: ear-less for the standard bodies, with ears for the breeds, and the old eared standard set kept as a fallback); swap ears rounded, folded, tufted, oriental × 4 views × far/near (32); bobtails × 4 views × up/curl/low (12); standing references for the breeds (16) | 872 |
 | `cat/custom/masks/` | Per sprite, same size: 5 pattern masks (tabby_mackerel, tabby_classic, spotted, tortie, colourpoint), 4 white-marking masks (white_mitts, white_tuxedo, white_bicolour, white_van) and a features mask (iris left, iris right, nose) | 7,988 |
 | `cat/custom/catbuilder.json` | Bodies, ears, tails, patterns, white markings, colour palettes, the 23 presets, file paths, the proposed free/paid flags; `cut_report.json` has the cut check per sheet | 2 |
-| `outfits/` | 23 outfits × 4 views (14 head/neck/face, 9 body) | 92 |
+| `outfits/` | 35 outfits × 4 views (26 head/neck/face, 9 body) | 140 |
 | `gifts/` | 60 gifts: toys, treats, oddities, keepsakes, seasonal, 12 each | 60 |
 | `ui/` | 30 icons (Beans, XP, trust, streak, pass, objectives, shop, actions, rooms…) | 30 |
 | `widget/` | 8 window-sill frames, square and wide, each with a `_glass` mask | 32 |

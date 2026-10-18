@@ -188,7 +188,12 @@ public enum OutfitFit {
                 right = middle + half
             }
             let point = CGPoint(x: (left + right) / 2, y: neck.y * h)
-            let pictureWidth = (right - left) * CGFloat(size ?? t.neckWidth) / shape.topWidth
+            var pictureWidth = (right - left) * CGFloat(size ?? t.neckWidth) / shape.topWidth
+            // No longer than the head allows: a necklace seen side-on is a narrow strand, so sized by its width
+            // it would hang to the floor.
+            if let (hl, hr) = headSpan(face, eyes: eyes, w: w, h: h), ph > 0 {
+                pictureWidth = min(pictureWidth, (hr - hl) * CGFloat(t.neckMaxHeight) * pw / ph)
+            }
             let band = CGPoint(x: shape.top.x, y: min(1, shape.top.y + CGFloat(t.neckBandDrop)))
             return Placement(point: point, width: pictureWidth, angle: angle, anchor: anchor(band))
         }

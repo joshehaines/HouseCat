@@ -1026,6 +1026,7 @@ struct RoomScreen: View {
                 case "streak": showStreak = true
                 case "pass": showPass = true
                 case "gifts": track = GameSession.shared.liveTrack()
+                case "shop": openShop(ProcessInfo.processInfo.environment["HOUSECAT_SHOP"].flatMap(ShopView.Section.init))
                 case "addwidget": await askForWidget()
                 case "together": showTogether = true
                 case "profile": showProfile = true

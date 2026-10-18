@@ -235,9 +235,9 @@ struct ContentValidationTests {
 
     @Test func outfitsMatchTheBrief() {
         let outfits = content.outfits.outfits
-        #expect(outfits.count == 23)
+        #expect(outfits.count == 35)
         let pools = Dictionary(grouping: outfits, by: \.pool).mapValues(\.count)
-        #expect(pools == [.paid: 13, .earned: 4, .passPaid: 3, .passFree: 3])
+        #expect(pools == [.paid: 25, .earned: 4, .passPaid: 3, .passFree: 3])
         for outfit in outfits {
             for sprite in outfit.sprites.values {
                 #expect(manifest[sprite] != nil, "\(outfit.id): sprite \(sprite) not in manifest")

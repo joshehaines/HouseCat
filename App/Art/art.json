@@ -3089,6 +3089,102 @@
    ],
    "scale": 0.5
   },
+  "outfits/outfit_bellcollar_front.png": {
+   "master": [
+    548,
+    504
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_bellcollar_front.heic"
+  },
+  "outfits/outfit_bellcollar_side.png": {
+   "master": [
+    459,
+    431
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_bellcollar_side.heic"
+  },
+  "outfits/outfit_bellcollar_tqback.png": {
+   "master": [
+    543,
+    370
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_bellcollar_tqback.heic"
+  },
+  "outfits/outfit_bellcollar_tqfront.png": {
+   "master": [
+    503,
+    493
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_bellcollar_tqfront.heic"
+  },
+  "outfits/outfit_beret_front.png": {
+   "master": [
+    595,
+    414
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_beret_front.heic"
+  },
+  "outfits/outfit_beret_side.png": {
+   "master": [
+    498,
+    415
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_beret_side.heic"
+  },
+  "outfits/outfit_beret_tqback.png": {
+   "master": [
+    550,
+    453
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_beret_tqback.heic"
+  },
+  "outfits/outfit_beret_tqfront.png": {
+   "master": [
+    508,
+    420
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_beret_tqfront.heic"
+  },
+  "outfits/outfit_bowler_front.png": {
+   "master": [
+    521,
+    384
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_bowler_front.heic"
+  },
+  "outfits/outfit_bowler_side.png": {
+   "master": [
+    507,
+    382
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_bowler_side.heic"
+  },
+  "outfits/outfit_bowler_tqback.png": {
+   "master": [
+    516,
+    431
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_bowler_tqback.heic"
+  },
+  "outfits/outfit_bowler_tqfront.png": {
+   "master": [
+    508,
+    375
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_bowler_tqfront.heic"
+  },
   "outfits/outfit_bowtie_front.png": {
    "file": "outfits/outfit_bowtie_front.heic",
    "master": [
@@ -3153,6 +3249,38 @@
    ],
    "scale": 0.5
   },
+  "outfits/outfit_bunnyears_front.png": {
+   "master": [
+    606,
+    718
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_bunnyears_front.heic"
+  },
+  "outfits/outfit_bunnyears_side.png": {
+   "master": [
+    312,
+    796
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_bunnyears_side.heic"
+  },
+  "outfits/outfit_bunnyears_tqback.png": {
+   "master": [
+    443,
+    752
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_bunnyears_tqback.heic"
+  },
+  "outfits/outfit_bunnyears_tqfront.png": {
+   "master": [
+    472,
+    696
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_bunnyears_tqfront.heic"
+  },
   "outfits/outfit_cardigan_front.png": {
    "file": "outfits/outfit_cardigan_front.heic",
    "master": [
@@ -3184,6 +3312,70 @@
     551
    ],
    "scale": 0.5
+  },
+  "outfits/outfit_chefhat_front.png": {
+   "master": [
+    484,
+    432
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_chefhat_front.heic"
+  },
+  "outfits/outfit_chefhat_side.png": {
+   "master": [
+    433,
+    447
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_chefhat_side.heic"
+  },
+  "outfits/outfit_chefhat_tqback.png": {
+   "master": [
+    472,
+    467
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_chefhat_tqback.heic"
+  },
+  "outfits/outfit_chefhat_tqfront.png": {
+   "master": [
+    455,
+    451
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_chefhat_tqfront.heic"
+  },
+  "outfits/outfit_cowboyhat_front.png": {
+   "master": [
+    522,
+    376
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_cowboyhat_front.heic"
+  },
+  "outfits/outfit_cowboyhat_side.png": {
+   "master": [
+    542,
+    372
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_cowboyhat_side.heic"
+  },
+  "outfits/outfit_cowboyhat_tqback.png": {
+   "master": [
+    560,
+    431
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_cowboyhat_tqback.heic"
+  },
+  "outfits/outfit_cowboyhat_tqfront.png": {
+   "master": [
+    543,
+    382
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_cowboyhat_tqfront.heic"
   },
   "outfits/outfit_crown_front.png": {
    "file": "outfits/outfit_crown_front.heic",
@@ -3313,6 +3505,38 @@
    ],
    "scale": 0.5
   },
+  "outfits/outfit_froghat_front.png": {
+   "master": [
+    566,
+    530
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_froghat_front.heic"
+  },
+  "outfits/outfit_froghat_side.png": {
+   "master": [
+    476,
+    546
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_froghat_side.heic"
+  },
+  "outfits/outfit_froghat_tqback.png": {
+   "master": [
+    553,
+    598
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_froghat_tqback.heic"
+  },
+  "outfits/outfit_froghat_tqfront.png": {
+   "master": [
+    549,
+    552
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_froghat_tqfront.heic"
+  },
   "outfits/outfit_hawaiian_front.png": {
    "file": "outfits/outfit_hawaiian_front.heic",
    "master": [
@@ -3344,6 +3568,38 @@
     628
    ],
    "scale": 0.5
+  },
+  "outfits/outfit_heartglasses_front.png": {
+   "master": [
+    583,
+    311
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_heartglasses_front.heic"
+  },
+  "outfits/outfit_heartglasses_side.png": {
+   "master": [
+    508,
+    292
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_heartglasses_side.heic"
+  },
+  "outfits/outfit_heartglasses_tqback.png": {
+   "master": [
+    565,
+    390
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_heartglasses_tqback.heic"
+  },
+  "outfits/outfit_heartglasses_tqfront.png": {
+   "master": [
+    585,
+    309
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_heartglasses_tqfront.heic"
   },
   "outfits/outfit_hoodie_front.png": {
    "file": "outfits/outfit_hoodie_front.heic",
@@ -3409,6 +3665,38 @@
    ],
    "scale": 0.5
   },
+  "outfits/outfit_nightcap_front.png": {
+   "master": [
+    534,
+    598
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_nightcap_front.heic"
+  },
+  "outfits/outfit_nightcap_side.png": {
+   "master": [
+    462,
+    559
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_nightcap_side.heic"
+  },
+  "outfits/outfit_nightcap_tqback.png": {
+   "master": [
+    598,
+    586
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_nightcap_tqback.heic"
+  },
+  "outfits/outfit_nightcap_tqfront.png": {
+   "master": [
+    473,
+    583
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_nightcap_tqfront.heic"
+  },
   "outfits/outfit_partyhat_front.png": {
    "file": "outfits/outfit_partyhat_front.heic",
    "master": [
@@ -3440,6 +3728,38 @@
     784
    ],
    "scale": 0.5
+  },
+  "outfits/outfit_pearls_front.png": {
+   "master": [
+    501,
+    544
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_pearls_front.heic"
+  },
+  "outfits/outfit_pearls_side.png": {
+   "master": [
+    172,
+    546
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_pearls_side.heic"
+  },
+  "outfits/outfit_pearls_tqback.png": {
+   "master": [
+    456,
+    539
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_pearls_tqback.heic"
+  },
+  "outfits/outfit_pearls_tqfront.png": {
+   "master": [
+    441,
+    516
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_pearls_tqfront.heic"
   },
   "outfits/outfit_pumpkinhat_front.png": {
    "file": "outfits/outfit_pumpkinhat_front.heic",
@@ -3665,6 +3985,38 @@
    ],
    "scale": 0.5
   },
+  "outfits/outfit_strawberryhat_front.png": {
+   "master": [
+    557,
+    551
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_strawberryhat_front.heic"
+  },
+  "outfits/outfit_strawberryhat_side.png": {
+   "master": [
+    474,
+    559
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_strawberryhat_side.heic"
+  },
+  "outfits/outfit_strawberryhat_tqback.png": {
+   "master": [
+    541,
+    602
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_strawberryhat_tqback.heic"
+  },
+  "outfits/outfit_strawberryhat_tqfront.png": {
+   "master": [
+    536,
+    552
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_strawberryhat_tqfront.heic"
+  },
   "outfits/outfit_sunglasses_front.png": {
    "file": "outfits/outfit_sunglasses_front.heic",
    "master": [
@@ -3696,6 +4048,38 @@
     296
    ],
    "scale": 0.5
+  },
+  "outfits/outfit_sunhat_front.png": {
+   "master": [
+    544,
+    382
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_sunhat_front.heic"
+  },
+  "outfits/outfit_sunhat_side.png": {
+   "master": [
+    535,
+    360
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_sunhat_side.heic"
+  },
+  "outfits/outfit_sunhat_tqback.png": {
+   "master": [
+    538,
+    394
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_sunhat_tqback.heic"
+  },
+  "outfits/outfit_sunhat_tqfront.png": {
+   "master": [
+    536,
+    370
+   ],
+   "scale": 0.5,
+   "file": "outfits/outfit_sunhat_tqfront.heic"
   },
   "outfits/outfit_xmasjumper_front.png": {
    "file": "outfits/outfit_xmasjumper_front.heic",

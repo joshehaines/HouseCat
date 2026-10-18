@@ -604,6 +604,8 @@ public enum Tuning {
         public static let bandAspect = 2.0
         public static let bandHeight = 2.5
         public static let bandDrop = 0.25
+        /// The longest neckwear may hang, in head widths (a scarf's tassels reach about 1.5).
+        public static let neckMaxHeight = 1.7
         /// A profile's head is at most this many times the eye's distance to the front of the face long (sitting
         /// it is 5 to 6.4; lying down the row runs on into the body, 8 to 11).
         public static let profileHeadToFront = 6.0

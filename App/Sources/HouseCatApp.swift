@@ -104,6 +104,8 @@ struct HouseCatApp: App {
                 }
             }
             .task {
+                // Siri learns the cat's name for its phrases ("Feed Pip in HouseCat").
+                HouseCatShortcuts.updateAppShortcutParameters()
                 await store?.refresh()
                 // While Cat Club is on, today is a club day (its Beans, half-price rooms and the paid track).
                 GameSession.shared.recordClubDay(active: store?.entitlements.hasClub == true)

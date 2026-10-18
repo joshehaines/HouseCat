@@ -25,7 +25,7 @@ extension HouseholdState {
             applyCare(event, context: context)
         case .itemBought, .itemGranted, .purchaseBeansGranted, .itemPlaced, .itemMoved, .itemStored, .catUsedNewItem, .roomOpened,
              .roomVisited,
-             .surfaceChanged, .outfitWorn, .homeMoved, .seasonModeChanged:
+             .surfaceChanged, .outfitWorn, .homeMoved, .seasonModeChanged, .homePlaced, .seasonSet:
             applyHome(event, context: context)
         case .pauseStarted, .pauseEnded, .passPurchased, .passTierClaimed, .clubDayRecorded:
             applyStreakAndPass(event, day: day, context: context)
@@ -223,7 +223,17 @@ extension HouseholdState {
             beansSpent += price
             homeMovesUsed += 1
             lifetime.homeMoves += 1
+            home.moving = true
         case .seasonModeChanged:
+            lifetime.seasonChanges += 1
+        case let .homePlaced(place):
+            // The first pin is free; after that a move must have been paid for (or used the free one).
+            guard home.place == nil || home.moving else { break }
+            home.place = place
+            home.moving = false
+        case let .seasonSet(setting):
+            guard setting != home.season else { break }
+            home.season = setting
             lifetime.seasonChanges += 1
         default:
             break

@@ -212,6 +212,17 @@ public enum Tuning {
         public static let shortestWhiskers = 0.35
     }
 
+    /// The world map and places (SPEC "World map, search and seasons").
+    public enum World {
+        /// A pin this close to a listed city is city (big cities reach further).
+        public static let cityRadiusKm = 18.0
+        public static let bigCityRadiusKm = 35.0
+        /// The map's zoom: fit the world at 1; city names appear from this zoom.
+        public static let maxZoom = 12.0
+        public static let cityNamesZoom = 3.0
+        public static let bigCityNamesZoom = 1.8
+    }
+
     /// Debug launches only (HOUSECAT_HOUSE=full).
     public enum Debug {
         public static let fullHouseDays = 60

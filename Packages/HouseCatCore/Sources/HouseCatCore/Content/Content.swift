@@ -12,6 +12,8 @@ public struct ContentBundle: Sendable {
     public var minigames: MinigamesFile
     /// The word filter for cat names.
     public var names: NameFilter
+    /// The seasonal weather tables per biome.
+    public var weather: WeatherFile
 
     /// Loads every content file from a directory (the app bundle's `Content`).
     public static func load(from directory: URL) throws -> ContentBundle {
@@ -31,7 +33,8 @@ public struct ContentBundle: Sendable {
             objectives: read("objectives"),
             seasons: read("seasons"),
             minigames: read("minigames"),
-            names: read("names")
+            names: read("names"),
+            weather: read("weather")
         )
     }
 

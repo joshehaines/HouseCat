@@ -1,0 +1,228 @@
+{
+ "note": "The simulated weather (SPEC 'World map, search and seasons'): for each biome and season, how often each weather comes (weights, any scale). Used for a fixed season, and on Auto until WeatherKit is wired. One weather a game day.",
+ "tables": {
+  "city": {
+   "spring": {
+    "sun": 35,
+    "cloud": 30,
+    "rain": 22,
+    "fog": 5,
+    "wind": 8
+   },
+   "summer": {
+    "sun": 50,
+    "cloud": 20,
+    "rain": 12,
+    "storm": 5,
+    "heat": 13
+   },
+   "autumn": {
+    "sun": 20,
+    "cloud": 30,
+    "rain": 30,
+    "fog": 12,
+    "wind": 8
+   },
+   "winter": {
+    "sun": 15,
+    "cloud": 35,
+    "rain": 25,
+    "snow": 10,
+    "fog": 10,
+    "wind": 5
+   }
+  },
+  "coast": {
+   "spring": {
+    "sun": 35,
+    "cloud": 25,
+    "rain": 20,
+    "wind": 15,
+    "fog": 5
+   },
+   "summer": {
+    "sun": 55,
+    "cloud": 15,
+    "rain": 8,
+    "wind": 12,
+    "heat": 10
+   },
+   "autumn": {
+    "sun": 20,
+    "cloud": 25,
+    "rain": 25,
+    "storm": 10,
+    "wind": 20
+   },
+   "winter": {
+    "sun": 15,
+    "cloud": 30,
+    "rain": 25,
+    "storm": 10,
+    "wind": 15,
+    "snow": 5
+   }
+  },
+  "countryside": {
+   "spring": {
+    "sun": 35,
+    "cloud": 28,
+    "rain": 25,
+    "fog": 7,
+    "wind": 5
+   },
+   "summer": {
+    "sun": 55,
+    "cloud": 18,
+    "rain": 12,
+    "storm": 5,
+    "heat": 10
+   },
+   "autumn": {
+    "sun": 20,
+    "cloud": 28,
+    "rain": 30,
+    "fog": 17,
+    "wind": 5
+   },
+   "winter": {
+    "sun": 15,
+    "cloud": 30,
+    "rain": 20,
+    "snow": 20,
+    "fog": 15
+   }
+  },
+  "mountain": {
+   "spring": {
+    "sun": 30,
+    "cloud": 25,
+    "rain": 15,
+    "snow": 20,
+    "fog": 10
+   },
+   "summer": {
+    "sun": 50,
+    "cloud": 20,
+    "rain": 15,
+    "storm": 15
+   },
+   "autumn": {
+    "sun": 25,
+    "cloud": 30,
+    "rain": 20,
+    "snow": 15,
+    "fog": 10
+   },
+   "winter": {
+    "sun": 20,
+    "cloud": 20,
+    "snow": 50,
+    "fog": 10
+   }
+  },
+  "forest": {
+   "spring": {
+    "sun": 30,
+    "cloud": 30,
+    "rain": 30,
+    "fog": 10
+   },
+   "summer": {
+    "sun": 45,
+    "cloud": 20,
+    "rain": 20,
+    "storm": 10,
+    "heat": 5
+   },
+   "autumn": {
+    "sun": 15,
+    "cloud": 30,
+    "rain": 35,
+    "fog": 20
+   },
+   "winter": {
+    "sun": 15,
+    "cloud": 30,
+    "snow": 40,
+    "fog": 15
+   }
+  },
+  "desert": {
+   "spring": {
+    "sun": 70,
+    "heat": 15,
+    "wind": 15
+   },
+   "summer": {
+    "sun": 35,
+    "heat": 60,
+    "wind": 5
+   },
+   "autumn": {
+    "sun": 70,
+    "cloud": 5,
+    "heat": 10,
+    "wind": 15
+   },
+   "winter": {
+    "sun": 70,
+    "cloud": 15,
+    "rain": 5,
+    "wind": 10
+   }
+  },
+  "tropical": {
+   "spring": {
+    "sun": 40,
+    "rain": 30,
+    "storm": 15,
+    "heat": 15
+   },
+   "summer": {
+    "sun": 25,
+    "rain": 35,
+    "storm": 25,
+    "heat": 15
+   },
+   "autumn": {
+    "sun": 35,
+    "rain": 35,
+    "storm": 15,
+    "heat": 15
+   },
+   "winter": {
+    "sun": 55,
+    "cloud": 15,
+    "rain": 15,
+    "heat": 15
+   }
+  },
+  "snow": {
+   "spring": {
+    "sun": 25,
+    "cloud": 25,
+    "snow": 45,
+    "wind": 5
+   },
+   "summer": {
+    "sun": 40,
+    "cloud": 35,
+    "rain": 15,
+    "fog": 10
+   },
+   "autumn": {
+    "cloud": 35,
+    "snow": 35,
+    "fog": 15,
+    "wind": 15
+   },
+   "winter": {
+    "cloud": 15,
+    "snow": 55,
+    "fog": 5,
+    "wind": 25
+   }
+  }
+ }
+}

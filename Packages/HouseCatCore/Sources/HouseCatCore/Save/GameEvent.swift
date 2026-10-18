@@ -85,6 +85,10 @@ public struct GameEvent: Codable, Hashable, Sendable, Identifiable {
         case outfitWorn(catID: String, outfitID: String)
         case homeMoved(beans: Int)
         case seasonModeChanged
+        /// The pin on the world map: the first one free (onboarding), later ones after a `homeMoved`.
+        case homePlaced(HomePlace)
+        /// Auto, or a season fixed by the player.
+        case seasonSet(SeasonSetting)
 
         // Streak
         case pauseStarted(days: Int)

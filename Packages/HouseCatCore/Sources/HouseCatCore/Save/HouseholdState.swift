@@ -208,6 +208,8 @@ public struct HouseholdState: Codable, Equatable, Sendable {
     public internal(set) var wallpapers: [RoomID: String] = [:]
     public internal(set) var floors: [RoomID: String] = [:]
     public internal(set) var homeMovesUsed = 0
+    /// Where the home is and its season setting.
+    public internal(set) var home = HomeSettings()
 
     public internal(set) var giftsCollected: [String: Int] = [:]
     public internal(set) var pendingGifts: [GiftDraw] = []

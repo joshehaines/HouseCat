@@ -60,11 +60,11 @@ final class Visit {
     private(set) var gift: GameSession.WaitingGift?
 
     /// If a gift is waiting, the cat drops it at your feet (SPEC "The session loop" 4).
-    private func offerGift() {
-        guard let house = scene as? RoomScene, let waiting = GameSession.shared.waitingGift(), let art = GameWorld.art,
-              !house.hasGift else { return }
+    private func offerGift(after delay: TimeInterval = Tuning.Gifts.dropDelay) {
+        guard let house = (scene as? RoomScene) ?? (room as? RoomScene), let waiting = GameSession.shared.waitingGift(),
+              let art = GameWorld.art, !house.hasGift else { return }
         gift = waiting
-        house.dropGift(art.texture(waiting.sprite))
+        house.dropGift(art.texture(waiting.sprite), after: delay)
     }
 
     /// Tap on the gift: into the book, with its Beans and XP.
@@ -183,7 +183,6 @@ final class Visit {
         if let house = scene as? RoomScene {
             Sound.ambience(for: house.house.sky, fire: house.furniture.values.contains { $0.childNode(withName: "fx.fire") != nil })
         }
-        offerGift()
         guard let line = arrival?.greeting else { return }
         let meow = Sound.meow(arrival?.meow)
         Task { @MainActor [weak self] in
@@ -374,7 +373,14 @@ final class Visit {
         // The arrival is recorded when the room is built: that is when the save learns you came home.
         let arrival = GameSession.shared.arrive()
         self.arrival = arrival
-        let built = GameWorld.roomScene(size: size, state: GameSession.shared.state(at: GameSession.shared.now()), arrival: arrival)
+        // The gift lands at your feet as the cat comes to you (or once it has arrived, if it never does).
+        let built = GameWorld.roomScene(
+            size: size,
+            state: GameSession.shared.state(at: GameSession.shared.now()),
+            arrival: arrival,
+            onRub: { [weak self] in self?.offerGift(after: Tuning.Gifts.rubDropDelay) },
+            onArrived: { [weak self] in self?.offerGift(after: 0) }
+        )
         if let house = built as? RoomScene {
             storeys = house.storeys
             storey = house.storey

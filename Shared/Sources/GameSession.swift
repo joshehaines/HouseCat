@@ -283,14 +283,25 @@ final class GameSession {
 
     /// Until onboarding's later steps exist: a household with the free living-room furniture of the demo layout
     /// granted and placed (cells rounded from the layout's hand-tuned positions), and two more in the inventory.
-    /// The cat comes from the builder; debug runs can skip it with HOUSECAT_CAT=<preset id> (Midnight, velcro).
+    /// The cat comes from the builder; debug runs can skip it with HOUSECAT_CAT=<preset id> (a velcro cat called Pip).
     private func seedDemoHousehold() {
-        let date = Date()
+        var date = Date()
+        #if DEBUG
+            // HOUSECAT_GIFT=1: the household starts yesterday with the cat fed, so a gift is waiting.
+            let gift = ProcessInfo.processInfo.environment["HOUSECAT_GIFT"] != nil
+            if gift {
+                date = date.addingTimeInterval(-26 * 3600)
+            }
+        #endif
         append(.householdCreated(seed: UInt64.random(in: 1 ... UInt64.max), clock: DayClock()), at: date)
         #if DEBUG
             if let id = ProcessInfo.processInfo.environment["HOUSECAT_CAT"], let preset = GameWorld.catArt?.builder.preset(id) {
-                append(.catAdopted(catID: Self.catID, name: "Midnight", personality: .velcro, isKitten: false), at: date)
+                append(.catAdopted(catID: Self.catID, name: "Pip", personality: .velcro, isKitten: false), at: date)
                 append(.catLookSet(catID: Self.catID, look: preset.look), at: date)
+                if gift {
+                    append(.arrived, at: date.addingTimeInterval(300))
+                    append(.fed(catID: Self.catID), at: date.addingTimeInterval(360))
+                }
             }
         #endif
         guard let art = GameWorld.art, let layout = try? art.data("rooms/layout_living_demo.json", as: RoomModel.self) else { return }

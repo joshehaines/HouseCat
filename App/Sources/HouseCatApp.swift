@@ -187,15 +187,23 @@ struct RoomScreen: View {
                 }
             }
             .overlay(alignment: .topTrailing) {
-                HStack(spacing: 10) {
-                    if visit.scene is RoomScene {
-                        StatusPill(level: visit.stats.level, beans: visit.stats.beans, streak: visit.stats.streak)
-                        roundButton("pawprint", label: "Your cat") { showProfile = true }
-                        roundButton("book", label: "The book") { showBook = true }
-                    }
-                    roundButton("bag", label: "Shop") { showShop = true }
+                if visit.scene is RoomScene {
+                    StatusPill(level: visit.stats.level, beans: visit.stats.beans, streak: visit.stats.streak)
+                        .padding(20)
                 }
-                .padding()
+            }
+            .overlay(alignment: .bottomTrailing) {
+                if !visit.decorating {
+                    HStack(spacing: 10) {
+                        if visit.scene is RoomScene {
+                            roundButton("pawprint", label: "Your cat") { showProfile = true }
+                            roundButton("book", label: "The book") { showBook = true }
+                        }
+                        roundButton("bag", label: "Shop") { showShop = true }
+                    }
+                    .padding(20)
+                    .transition(.opacity)
+                }
             }
             .overlay(alignment: .bottom) {
                 if visit.decorating {

@@ -121,7 +121,15 @@ enum GameWorld {
     }
 
     /// The house with the cat arriving in the living room to do what the save says, or a blank scene if the art is missing.
-    static func roomScene(size: CGSize, at date: Date = Date(), state: HouseholdState, arrival: GameSession.Arrival?) -> SKScene {
+    /// `onRub` runs when the cat reaches you and rubs along the bottom edge; `onArrived` when it has gone on to what it does next.
+    static func roomScene(
+        size: CGSize,
+        at date: Date = Date(),
+        state: HouseholdState,
+        arrival: GameSession.Arrival?,
+        onRub: @escaping @MainActor () -> Void = {},
+        onArrived: @escaping @MainActor () -> Void = {}
+    ) -> SKScene {
         guard let art, let content, let house = house(at: date, state: state), let rig else {
             return SKScene(size: size)
         }
@@ -139,7 +147,10 @@ enum GameWorld {
             pose: .loafThreeQuarterFront
         )
         if let arrival {
-            scene.playArrival(then: arrival.choice, onRub: purr, onDone: {})
+            scene.playArrival(then: arrival.choice, onRub: {
+                purr()
+                onRub()
+            }, onDone: onArrived)
         }
         return scene
     }

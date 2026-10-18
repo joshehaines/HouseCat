@@ -115,8 +115,10 @@ public enum Tuning {
     public enum Gifts {
         /// The gift on the floor, as a fraction of the cat's standing height, and how long after the greeting
         /// starts it lands at the cat's feet.
-        public static let dropSize = 0.34
+        public static let dropSize = 0.45
         public static let dropDelay = 1.4
+        /// After the cat starts rubbing at your feet.
+        public static let rubDropDelay = 0.5
         /// Draw weights in percent: common, uncommon, rare, legendary.
         public static let baseWeights = [60, 28, 10, 2]
         /// Each trust tier moves 3 points from common: +2 to rare and +1 to legendary (Josh, 17 Oct).

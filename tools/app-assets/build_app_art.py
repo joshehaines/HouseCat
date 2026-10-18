@@ -4,6 +4,7 @@ plus App/Art/art.json giving each file's master size so the game can apply scale
 The masters are never edited. Standard library plus macOS `sips` only.
 
 Run from the repo root: python3 -I tools/app-assets/build_app_art.py
+(then tools/app-assets/build_cat_art.py for the cat builder's sprites in App/Art/cat/custom, which this leaves alone)
 """
 import glob
 import json
@@ -59,8 +60,14 @@ def preview_sets():
 
 
 def main():
-    if os.path.isdir(OUT):
-        shutil.rmtree(OUT)
+    # Start clean, except the cat builder's sprites (build_cat_art.py, which needs numpy and scipy).
+    keep = os.path.join(OUT, 'cat', 'custom')
+    for dirpath, dirnames, filenames in os.walk(OUT, topdown=True):
+        if dirpath == keep or dirpath.startswith(keep + os.sep):
+            dirnames[:] = []
+            continue
+        for name in filenames:
+            os.remove(os.path.join(dirpath, name))
     manifest = json.load(open(os.path.join(ASSETS, 'manifest.json')))['files']
     index = {}
     for pattern, factor in SETS + preview_sets():

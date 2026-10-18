@@ -57,6 +57,8 @@ public struct GameEvent: Codable, Hashable, Sendable, Identifiable {
         case catAdopted(catID: String, name: String, personality: Personality, isKitten: Bool)
         case catRenamed(catID: String, name: String)
         case personalityChanged(catID: String, personality: Personality)
+        /// The cat's look from the builder: at adoption, and each time it is edited from the profile.
+        case catLookSet(catID: String, look: CatLook)
 
         // The visit and care
         case arrived

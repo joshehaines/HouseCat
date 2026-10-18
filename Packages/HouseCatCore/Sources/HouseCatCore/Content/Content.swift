@@ -10,6 +10,8 @@ public struct ContentBundle: Sendable {
     public var objectives: ObjectivesFile
     public var seasons: SeasonsFile
     public var minigames: MinigamesFile
+    /// The word filter for cat names.
+    public var names: NameFilter
 
     /// Loads every content file from a directory (the app bundle's `Content`).
     public static func load(from directory: URL) throws -> ContentBundle {
@@ -28,7 +30,8 @@ public struct ContentBundle: Sendable {
             outfits: read("outfits"),
             objectives: read("objectives"),
             seasons: read("seasons"),
-            minigames: read("minigames")
+            minigames: read("minigames"),
+            names: read("names")
         )
     }
 

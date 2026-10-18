@@ -1,0 +1,5 @@
+{
+ "note": "The word filter for cat names (SPEC 'Cat builder': groups show them). words: caught as whole words. anywhere: caught inside a name too, once spacing and look-alike characters are taken out. Review and extend before launch.",
+ "words": ["arse", "ass", "cock", "crap", "dick", "piss", "prick", "tit", "tits", "twat", "wank", "fag", "homo", "nazi", "hitler", "rape", "porn", "sex", "kkk"],
+ "anywhere": ["fuck", "shit", "cunt", "bastard", "bitch", "bollock", "asshole", "arsehole", "wanker", "nigger", "nigga", "faggot", "retard", "spastic", "paedo", "pedophile", "dildo", "whore", "slut", "motherfuck"]
+}

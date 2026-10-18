@@ -19,7 +19,7 @@ extension HouseholdState {
         lastEventAt = max(lastEventAt ?? event.at, event.at)
 
         switch event.kind {
-        case .householdCreated, .clockChanged, .catAdopted, .catRenamed, .personalityChanged:
+        case .householdCreated, .clockChanged, .catAdopted, .catRenamed, .personalityChanged, .catLookSet:
             applyHousehold(event, day: day)
         case .arrived, .fed, .petted, .miniGamePlayed, .giftCollected, .giftSold, .napCompleted, .healthGoalMet, .windowTapped:
             applyCare(event, context: context)
@@ -83,6 +83,11 @@ extension HouseholdState {
             updateCat(catID) { $0.name = String(name.prefix(Tuning.Cat.nameMaxLength)) }
         case let .personalityChanged(catID, personality):
             updateCat(catID) { $0.personality = personality }
+        case let .catLookSet(catID, look):
+            updateCat(catID) {
+                $0.look = look
+                $0.isKitten = look.age.isKitten
+            }
         default:
             break
         }

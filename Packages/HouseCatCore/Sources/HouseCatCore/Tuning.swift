@@ -185,6 +185,21 @@ public enum Tuning {
         public static let maineCoonScale = 1.15
         public static let kittenHeadScale = 1.25
         public static let kittenBodyScale = 0.8
+        /// The kitten puppet and poses are drawn this much of the adult's height.
+        public static let kittenScale = 0.72
+        /// The weight slider (Shorthair and Longhair, 0 slim … 1 chunky): where each set sits, and how much
+        /// wider or narrower than painted the torso is drawn at either end of a set.
+        public static let slimDefaultWeight = 0.25
+        public static let chunkyDefaultWeight = 0.75
+        public static let weightStretch = 0.06
+        public static let maxAdultYears = 20
+        /// A picked coat or pattern colour's luminance (0–255) is held inside this range.
+        public static let pickerMinLuminance = 40.0
+        public static let pickerMaxLuminance = 250.0
+        /// Eye size slider: the irises are drawn this much smaller or larger at its ends.
+        public static let eyeSizeRange = 0.18
+        /// Whisker slider at 0: the whiskers are trimmed to this fraction of their painted reach.
+        public static let shortestWhiskers = 0.35
     }
 
     /// Personality sliders: affection, energy, mischief, independence (0–1).

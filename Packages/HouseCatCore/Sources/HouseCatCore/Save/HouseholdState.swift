@@ -50,6 +50,8 @@ public struct CatState: Codable, Equatable, Sendable {
     public var careDays = 0
     public var lastFedDay: GameDay?
     public var outfitID: String?
+    /// What the cat looks like (Midnight until the builder sets it).
+    public var look = CatLook.midnight
 
     public var trust: TrustTier {
         .forCareDays(careDays)
@@ -60,14 +62,38 @@ public struct CatState: Codable, Equatable, Sendable {
         max(0, adoptedOn.distance(to: day))
     }
 
-    /// The cat's own age: its age at adoption plus the time together.
+    /// The cat's own age: its age at adoption (a kitten's 12 weeks, or the adult age set in the builder)
+    /// plus the time together.
     public func ageDays(on day: GameDay) -> Int {
-        (isKitten ? Tuning.Cat.kittenStartAgeDays : Tuning.Cat.adultDefaultAgeDays) + togetherDays(on: day)
+        let start = isKitten ? Tuning.Cat.kittenStartAgeDays : look.age.isKitten ? Tuning.Cat.adultDefaultAgeDays : look.age.startDays
+        return start + togetherDays(on: day)
     }
 
     /// A kitten grows up on day 21.
     public func isKittenStage(on day: GameDay) -> Bool {
         isKitten && togetherDays(on: day) < Tuning.Cat.kittenGrowsUpAtDay
+    }
+}
+
+extension CatState {
+    enum CodingKeys: String, CodingKey {
+        case id, name, personality, adoptedOn, isKitten, careDays, lastFedDay, outfitID, look
+    }
+
+    /// Snapshots written before looks existed decode as Midnight.
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        try self.init(
+            id: c.decode(String.self, forKey: .id),
+            name: c.decode(String.self, forKey: .name),
+            personality: c.decode(Personality.self, forKey: .personality),
+            adoptedOn: c.decode(GameDay.self, forKey: .adoptedOn),
+            isKitten: c.decode(Bool.self, forKey: .isKitten)
+        )
+        careDays = try c.decodeIfPresent(Int.self, forKey: .careDays) ?? 0
+        lastFedDay = try c.decodeIfPresent(GameDay.self, forKey: .lastFedDay)
+        outfitID = try c.decodeIfPresent(String.self, forKey: .outfitID)
+        look = try c.decodeIfPresent(CatLook.self, forKey: .look) ?? .midnight
     }
 }
 

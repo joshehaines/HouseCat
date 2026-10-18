@@ -38,6 +38,8 @@ SETS = [
     ('furniture/kitchen/furn_kitchen_bowl_*.png', 0.6),
     ('fx/fire/fx_fire_0*.png', 0.5),
     ('fx/reactions/fx_reactions_*.png', 0.5),
+    # The outfits as the shop shows them (three-quarter front).
+    ('outfits/outfit_*_tqfront.png', 0.5),
     # The painted UI icons for the room's controls, the status and the tray.
     ('ui/icon_*.png', 0.4),
     # The gifts the cat brings, for the room and the book.
@@ -72,11 +74,11 @@ def preview_sets():
 
 
 def catalogue_sets():
-    """Every piece the player can own without paying money (the free and Bean catalogue), both facings: the
-    decorate tray's shop lists them for every room."""
+    """Every piece in the catalogue, both facings: the decorate tray's Bean shop lists the free and Bean pieces
+    for every room, the shop shows the paid sets and packs, and an owned one is placed like any other."""
     catalogue = json.load(open(os.path.join(ROOT, 'Content', 'catalogue.json')))
-    paths = sorted({path for item in catalogue['items'] if item['pool'] in ('free', 'beans') for path in item['sprites'].values()})
-    return [(path, 0.6) for path in paths]
+    paths = sorted({path for item in catalogue['items'] for path in item['sprites'].values()})
+    return [(path, 0.6) for path in paths if os.path.exists(os.path.join(ASSETS, path))]
 
 
 def main():

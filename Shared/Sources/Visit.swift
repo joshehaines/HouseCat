@@ -19,6 +19,9 @@ final class Visit {
         GameSession.shared.cat?.name
     }
 
+    /// Debug screenshot runs open the shop (HOUSECAT_SCREEN=shop).
+    var openShop = false
+
     /// The first frame of the scene has been drawn (the launch curtain lifts).
     private(set) var ready = false
 
@@ -258,6 +261,8 @@ final class Visit {
                 feed()
             case "pet":
                 petCat()
+            case "shop":
+                openShop = true
             default:
                 break
             }

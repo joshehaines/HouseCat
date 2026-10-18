@@ -212,6 +212,12 @@ public enum Tuning {
         public static let shortestWhiskers = 0.35
     }
 
+    /// The shop's links (App Review 3.1.2: shown with every subscription). Placeholders until the site is up.
+    public enum Store {
+        public static let termsURL = URL(string: "https://housecatgame.com/terms")!
+        public static let privacyURL = URL(string: "https://housecatgame.com/privacy")!
+    }
+
     /// The weather over the exterior and in the windows (HouseCatGame WeatherLayer).
     public enum Weather {
         /// A wash over the picture: red, green, blue, strength.

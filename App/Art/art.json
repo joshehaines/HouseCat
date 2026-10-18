@@ -324,6 +324,38 @@
    "ref": "grey",
    "scale": 0.6
   },
+  "furniture/attic/furn_attic_cobweb_L.png": {
+   "master": [
+    1945,
+    1972
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/attic/furn_attic_cobweb_R.png": {
+   "master": [
+    1945,
+    1972
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/attic/furn_attic_dummy_L.png": {
+   "master": [
+    218,
+    721
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/attic/furn_attic_dummy_R.png": {
+   "master": [
+    210,
+    732
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
   "furniture/attic/furn_attic_dustyarmchair_L.png": {
    "master": [
     460,
@@ -340,6 +372,22 @@
    "ref": "grey",
    "scale": 0.6
   },
+  "furniture/attic/furn_attic_oillamp_L.png": {
+   "master": [
+    238,
+    567
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/attic/furn_attic_oillamp_R.png": {
+   "master": [
+    275,
+    562
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
   "furniture/attic/furn_attic_rockinghorse_L.png": {
    "master": [
     516,
@@ -352,6 +400,54 @@
    "master": [
     616,
     536
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/attic/furn_attic_rolledrug_L.png": {
+   "master": [
+    764,
+    497
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/attic/furn_attic_rolledrug_R.png": {
+   "master": [
+    721,
+    460
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/attic/furn_attic_skylightpatch_L.png": {
+   "master": [
+    895,
+    480
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/attic/furn_attic_skylightpatch_R.png": {
+   "master": [
+    1037,
+    562
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/attic/furn_attic_suitcase_L.png": {
+   "master": [
+    355,
+    403
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/attic/furn_attic_suitcase_R.png": {
+   "master": [
+    383,
+    435
    ],
    "ref": "grey",
    "scale": 0.6
@@ -384,6 +480,38 @@
    "master": [
     391,
     410
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/attic/furn_attic_wireless_L.png": {
+   "master": [
+    620,
+    602
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/attic/furn_attic_wireless_R.png": {
+   "master": [
+    641,
+    647
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/bedroom/furn_bedroom_alarmclock_L.png": {
+   "master": [
+    184,
+    252
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/bedroom/furn_bedroom_alarmclock_R.png": {
+   "master": [
+    194,
+    274
    ],
    "ref": "grey",
    "scale": 0.6
@@ -448,6 +576,21 @@
    ],
    "scale": 0.6
   },
+  "furniture/bedroom/furn_bedroom_curtains_L.png": {
+   "master": [
+    366,
+    644
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/bedroom/furn_bedroom_curtains_R.png": {
+   "master": [
+    329,
+    569
+   ],
+   "scale": 0.6
+  },
   "furniture/bedroom/furn_bedroom_drawers_L.png": {
    "master": [
     366,
@@ -460,6 +603,99 @@
    "master": [
     371,
     470
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/bedroom/furn_bedroom_gownhook_L.png": {
+   "master": [
+    153,
+    436
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/bedroom/furn_bedroom_gownhook_R.png": {
+   "master": [
+    150,
+    415
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/bedroom/furn_bedroom_hammock_L.png": {
+   "master": [
+    429,
+    417
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/bedroom/furn_bedroom_hammock_R.png": {
+   "master": [
+    481,
+    443
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/bedroom/furn_bedroom_laundry_L.png": {
+   "master": [
+    329,
+    382
+   ],
+   "scale": 0.6
+  },
+  "furniture/bedroom/furn_bedroom_laundry_R.png": {
+   "master": [
+    383,
+    383
+   ],
+   "scale": 0.6
+  },
+  "furniture/bedroom/furn_bedroom_mirror_L.png": {
+   "master": [
+    163,
+    404
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/bedroom/furn_bedroom_mirror_R.png": {
+   "master": [
+    131,
+    367
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/bedroom/furn_bedroom_readinglamp_L.png": {
+   "master": [
+    155,
+    344
+   ],
+   "scale": 0.6
+  },
+  "furniture/bedroom/furn_bedroom_readinglamp_R.png": {
+   "master": [
+    188,
+    415
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/bedroom/furn_bedroom_slippers_L.png": {
+   "master": [
+    252,
+    202
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/bedroom/furn_bedroom_slippers_R.png": {
+   "master": [
+    389,
+    257
    ],
    "ref": "grey",
    "scale": 0.6
@@ -477,6 +713,54 @@
     335,
     618
    ],
+   "scale": 0.6
+  },
+  "furniture/founders/furn_founders_plaque_brass_L.png": {
+   "master": [
+    168,
+    174
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/founders/furn_founders_plaque_brass_R.png": {
+   "master": [
+    185,
+    193
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/founders/furn_founders_plaque_oak_L.png": {
+   "master": [
+    197,
+    209
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/founders/furn_founders_plaque_oak_R.png": {
+   "master": [
+    197,
+    207
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/founders/furn_founders_plaque_slate_L.png": {
+   "master": [
+    182,
+    199
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/founders/furn_founders_plaque_slate_R.png": {
+   "master": [
+    208,
+    221
+   ],
+   "ref": "grey",
    "scale": 0.6
   },
   "furniture/garden/furn_garden_bench_L.png": {
@@ -511,6 +795,22 @@
    "ref": "grey",
    "scale": 0.6
   },
+  "furniture/garden/furn_garden_deckchair_L.png": {
+   "master": [
+    473,
+    577
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/garden/furn_garden_deckchair_R.png": {
+   "master": [
+    538,
+    609
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
   "furniture/garden/furn_garden_fence_L.png": {
    "master": [
     417,
@@ -527,6 +827,22 @@
    "ref": "grey",
    "scale": 0.6
   },
+  "furniture/garden/furn_garden_festoon_L.png": {
+   "master": [
+    571,
+    307
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/garden/furn_garden_festoon_R.png": {
+   "master": [
+    740,
+    377
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
   "furniture/garden/furn_garden_flowerpots_L.png": {
    "master": [
     520,
@@ -539,6 +855,22 @@
    "master": [
     533,
     461
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/garden/furn_garden_gardenhammock_L.png": {
+   "master": [
+    761,
+    598
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/garden/furn_garden_gardenhammock_R.png": {
+   "master": [
+    729,
+    614
    ],
    "ref": "grey",
    "scale": 0.6
@@ -591,6 +923,22 @@
    "ref": "grey",
    "scale": 0.6
   },
+  "furniture/garden/furn_garden_washingline_L.png": {
+   "master": [
+    720,
+    728
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/garden/furn_garden_washingline_R.png": {
+   "master": [
+    620,
+    685
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
   "furniture/garden/furn_garden_wateringcan_L.png": {
    "master": [
     383,
@@ -607,6 +955,86 @@
    "ref": "grey",
    "scale": 0.6
   },
+  "furniture/housewarming_pack/furn_housewarming_pack_bulbstring_L.png": {
+   "master": [
+    564,
+    371
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/housewarming_pack/furn_housewarming_pack_bulbstring_R.png": {
+   "master": [
+    653,
+    385
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/housewarming_pack/furn_housewarming_pack_grandfireplace_L.png": {
+   "master": [
+    363,
+    483
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/housewarming_pack/furn_housewarming_pack_grandfireplace_R.png": {
+   "master": [
+    444,
+    568
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/housewarming_pack/furn_housewarming_pack_hifi_L.png": {
+   "master": [
+    523,
+    499
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/housewarming_pack/furn_housewarming_pack_hifi_R.png": {
+   "master": [
+    473,
+    491
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/housewarming_pack/furn_housewarming_pack_houseportrait_L.png": {
+   "master": [
+    187,
+    360
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/housewarming_pack/furn_housewarming_pack_houseportrait_R.png": {
+   "master": [
+    259,
+    353
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/housewarming_pack/furn_housewarming_pack_welcomemat_L.png": {
+   "master": [
+    582,
+    330
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/housewarming_pack/furn_housewarming_pack_welcomemat_R.png": {
+   "master": [
+    593,
+    345
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
   "furniture/kitchen/furn_kitchen_bowl_L.png": {
    "master": [
     401,
@@ -619,6 +1047,22 @@
    "master": [
     420,
     240
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/kitchen/furn_kitchen_breadbin_L.png": {
+   "master": [
+    482,
+    413
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/kitchen/furn_kitchen_breadbin_R.png": {
+   "master": [
+    433,
+    392
    ],
    "ref": "grey",
    "scale": 0.6
@@ -687,6 +1131,22 @@
    "ref": "grey",
    "scale": 0.6
   },
+  "furniture/kitchen/furn_kitchen_fountain_L.png": {
+   "master": [
+    302,
+    253
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/kitchen/furn_kitchen_fountain_R.png": {
+   "master": [
+    291,
+    281
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
   "furniture/kitchen/furn_kitchen_fridge_L.png": {
    "master": [
     267,
@@ -699,6 +1159,54 @@
    "master": [
     291,
     515
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/kitchen/furn_kitchen_fruitbowl_L.png": {
+   "master": [
+    528,
+    350
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/kitchen/furn_kitchen_fruitbowl_R.png": {
+   "master": [
+    512,
+    355
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/kitchen/furn_kitchen_herbshelf_L.png": {
+   "master": [
+    322,
+    315
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/kitchen/furn_kitchen_herbshelf_R.png": {
+   "master": [
+    316,
+    280
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/kitchen/furn_kitchen_kettle_L.png": {
+   "master": [
+    241,
+    319
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/kitchen/furn_kitchen_kettle_R.png": {
+   "master": [
+    326,
+    316
    ],
    "ref": "grey",
    "scale": 0.6
@@ -1023,6 +1531,390 @@
    "ref": "grey",
    "scale": 0.6
   },
+  "furniture/pass_firstlight/furn_pass_firstlight_birdbox_L.png": {
+   "master": [
+    143,
+    198
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_firstlight/furn_pass_firstlight_birdbox_R.png": {
+   "master": [
+    117,
+    185
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_firstlight/furn_pass_firstlight_butterflyjar_L.png": {
+   "master": [
+    229,
+    439
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_firstlight/furn_pass_firstlight_butterflyjar_R.png": {
+   "master": [
+    246,
+    467
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_firstlight/furn_pass_firstlight_daffodils_L.png": {
+   "master": [
+    279,
+    434
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_firstlight/furn_pass_firstlight_daffodils_R.png": {
+   "master": [
+    316,
+    517
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_firstlight/furn_pass_firstlight_hamper_L.png": {
+   "master": [
+    387,
+    458
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_firstlight/furn_pass_firstlight_hamper_R.png": {
+   "master": [
+    399,
+    490
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_firstlight/furn_pass_firstlight_pegbag_L.png": {
+   "master": [
+    119,
+    369
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_firstlight/furn_pass_firstlight_pegbag_R.png": {
+   "master": [
+    115,
+    350
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_firstlight/furn_pass_firstlight_seedtrays_L.png": {
+   "master": [
+    579,
+    420
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_firstlight/furn_pass_firstlight_seedtrays_R.png": {
+   "master": [
+    624,
+    467
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_firstlight/furn_pass_firstlight_tulips_L.png": {
+   "master": [
+    320,
+    425
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_firstlight/furn_pass_firstlight_tulips_R.png": {
+   "master": [
+    353,
+    439
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_firstlight/furn_pass_firstlight_wellies_L.png": {
+   "master": [
+    226,
+    328
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_firstlight/furn_pass_firstlight_wellies_R.png": {
+   "master": [
+    244,
+    335
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_candle_L.png": {
+   "master": [
+    198,
+    288
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_candle_R.png": {
+   "master": [
+    177,
+    237
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_fairylights_L.png": {
+   "master": [
+    496,
+    310
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_fairylights_R.png": {
+   "master": [
+    713,
+    347
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_movingboxes_L.png": {
+   "master": [
+    377,
+    513
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_movingboxes_R.png": {
+   "master": [
+    444,
+    554
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_painttins_L.png": {
+   "master": [
+    402,
+    428
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_painttins_R.png": {
+   "master": [
+    415,
+    439
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_picnicblanket_L.png": {
+   "master": [
+    1057,
+    584
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_picnicblanket_R.png": {
+   "master": [
+    1073,
+    551
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_stepladder_L.png": {
+   "master": [
+    487,
+    779
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_stepladder_R.png": {
+   "master": [
+    504,
+    766
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_takeaway_L.png": {
+   "master": [
+    241,
+    384
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_takeaway_R.png": {
+   "master": [
+    255,
+    395
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_teachest_L.png": {
+   "master": [
+    575,
+    530
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_teachest_R.png": {
+   "master": [
+    539,
+    492
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_midwinter/furn_pass_midwinter_firtree_L.png": {
+   "master": [
+    400,
+    769
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_midwinter/furn_pass_midwinter_firtree_R.png": {
+   "master": [
+    439,
+    764
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_midwinter/furn_pass_midwinter_hotwaterbottle_L.png": {
+   "master": [
+    193,
+    406
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_midwinter/furn_pass_midwinter_hotwaterbottle_R.png": {
+   "master": [
+    210,
+    346
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_midwinter/furn_pass_midwinter_knitblanket_L.png": {
+   "master": [
+    584,
+    417
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_midwinter/furn_pass_midwinter_knitblanket_R.png": {
+   "master": [
+    618,
+    441
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_midwinter/furn_pass_midwinter_logbasket_L.png": {
+   "master": [
+    446,
+    400
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_midwinter/furn_pass_midwinter_logbasket_R.png": {
+   "master": [
+    486,
+    463
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_midwinter/furn_pass_midwinter_sledge_L.png": {
+   "master": [
+    217,
+    537
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_midwinter/furn_pass_midwinter_sledge_R.png": {
+   "master": [
+    224,
+    508
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_midwinter/furn_pass_midwinter_snowglobe_L.png": {
+   "master": [
+    263,
+    343
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_midwinter/furn_pass_midwinter_snowglobe_R.png": {
+   "master": [
+    243,
+    322
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_midwinter/furn_pass_midwinter_wreath_L.png": {
+   "master": [
+    239,
+    344
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_midwinter/furn_pass_midwinter_wreath_R.png": {
+   "master": [
+    240,
+    310
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/study/furn_study_blind_L.png": {
+   "master": [
+    350,
+    435
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/study/furn_study_blind_R.png": {
+   "master": [
+    372,
+    431
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
   "furniture/study/furn_study_bookshelf_L.png": {
    "master": [
     440,
@@ -1051,6 +1943,22 @@
    "master": [
     442,
     446
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/study/furn_study_desklamp_L.png": {
+   "master": [
+    259,
+    352
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/study/furn_study_desklamp_R.png": {
+   "master": [
+    279,
+    359
    ],
    "ref": "grey",
    "scale": 0.6
@@ -1087,6 +1995,54 @@
    "ref": "grey",
    "scale": 0.6
   },
+  "furniture/study/furn_study_laptop_L.png": {
+   "master": [
+    323,
+    298
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/study/furn_study_laptop_R.png": {
+   "master": [
+    338,
+    325
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/study/furn_study_mug_L.png": {
+   "master": [
+    454,
+    442
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/study/furn_study_mug_R.png": {
+   "master": [
+    464,
+    441
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/study/furn_study_noticeboard_L.png": {
+   "master": [
+    311,
+    398
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/study/furn_study_noticeboard_R.png": {
+   "master": [
+    276,
+    398
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
   "furniture/study/furn_study_officechair_L.png": {
    "master": [
     412,
@@ -1099,6 +2055,38 @@
    "master": [
     392,
     545
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/study/furn_study_papertray_L.png": {
+   "master": [
+    476,
+    428
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/study/furn_study_papertray_R.png": {
+   "master": [
+    463,
+    390
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/study/furn_study_printer_L.png": {
+   "master": [
+    348,
+    325
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/study/furn_study_printer_R.png": {
+   "master": [
+    317,
+    300
    ],
    "ref": "grey",
    "scale": 0.6
@@ -1634,6 +2622,167 @@
     429
    ],
    "scale": 0.3
+  },
+  "outfits/outfit_antlers_tqfront.png": {
+   "master": [
+    493,
+    772
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_bandana_tqfront.png": {
+   "master": [
+    496,
+    562
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_beanie_tqfront.png": {
+   "master": [
+    539,
+    603
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_bowtie_tqfront.png": {
+   "master": [
+    538,
+    386
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_buckethat_tqfront.png": {
+   "master": [
+    567,
+    447
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_cardigan_tqfront.png": {
+   "master": [
+    586,
+    551
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_crown_tqfront.png": {
+   "master": [
+    411,
+    363
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_fisherman_tqfront.png": {
+   "master": [
+    601,
+    559
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_flatcap_tqfront.png": {
+   "master": [
+    569,
+    366
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_flowercrown_tqfront.png": {
+   "master": [
+    493,
+    453
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_hawaiian_tqfront.png": {
+   "master": [
+    579,
+    628
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_hoodie_tqfront.png": {
+   "master": [
+    594,
+    629
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_lifevest_tqfront.png": {
+   "master": [
+    550,
+    633
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_partyhat_tqfront.png": {
+   "master": [
+    429,
+    784
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_pumpkinhat_tqfront.png": {
+   "master": [
+    538,
+    525
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_pyjamas_tqfront.png": {
+   "master": [
+    595,
+    618
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_raincoat_tqfront.png": {
+   "master": [
+    649,
+    784
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_roundglasses_tqfront.png": {
+   "master": [
+    623,
+    307
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_santahat_tqfront.png": {
+   "master": [
+    523,
+    428
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_scarf_tqfront.png": {
+   "master": [
+    441,
+    818
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_skeleton_tqfront.png": {
+   "master": [
+    585,
+    748
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_sunglasses_tqfront.png": {
+   "master": [
+    602,
+    296
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_xmasjumper_tqfront.png": {
+   "master": [
+    583,
+    667
+   ],
+   "scale": 0.5
   },
   "rooms/doors/door_panelled_cream.png": {
    "master": [
@@ -2481,6 +3630,69 @@
     392
    ],
    "scale": 0.4
+  },
+  "world/ground/ground_autumn.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "world/ground/ground_city.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "world/ground/ground_coast.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "world/ground/ground_countryside.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "world/ground/ground_desert.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "world/ground/ground_forest.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "world/ground/ground_mountain.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "world/ground/ground_snow.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "world/ground/ground_tropical.png": {
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
   },
   "world/map/map_biome.png": {
    "master": [

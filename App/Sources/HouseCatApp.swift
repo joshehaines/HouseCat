@@ -274,8 +274,13 @@ struct RoomScreen: View {
                 roomAlert(offer)
             }
             .sheet(isPresented: $showShop) {
-                if let store {
-                    ShopView(store: store)
+                ShopView(store: store, content: GameWorld.content)
+                    .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
+            }
+            .onChange(of: visit.openShop) { _, open in
+                if open {
+                    showShop = true
+                    visit.openShop = false
                 }
             }
             .sheet(isPresented: $showProfile) {

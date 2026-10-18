@@ -18,6 +18,10 @@ public final class CatDirector {
         case move(to: CGPoint, run: Bool, view: CatNode.View, scale: CGFloat, lift: CGFloat, speed: CGFloat)
         /// A small hop to a height (onto a seat) without moving across the floor.
         case hop(to: CGFloat)
+        /// Through a doorway (or up the stairs, out of sight): into another room's node at a floor point there.
+        case enter(SKNode, at: CGPoint)
+        /// Fade the cat out or in (going up or down the stairs).
+        case fade(to: CGFloat)
         case call(@MainActor () -> Void)
     }
 
@@ -95,6 +99,17 @@ public final class CatDirector {
         case .hop:
             duration = Tuning.Puppet.hopSeconds
             cat.stopCycle()
+        case let .enter(room, point):
+            cat.removeFromParent()
+            room.addChild(cat)
+            floorPoint = point
+            lift = 0
+            perchDepth = nil
+            apply()
+            duration = 0
+        case let .fade(alpha):
+            cat.run(.fadeAlpha(to: alpha, duration: Tuning.Puppet.stairsFadeSeconds))
+            duration = Tuning.Puppet.stairsFadeSeconds
         case let .call(action):
             action()
             duration = 0

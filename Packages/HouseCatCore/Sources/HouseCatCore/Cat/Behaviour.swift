@@ -161,10 +161,13 @@ public struct BehaviourChoice: Equatable, Sendable {
     public var activity: Activity
     /// A line context to show with it (from Content/lines.json), if any.
     public var lineContext: String?
+    /// The room it happens in (`RoomChoice`); nil: wherever the cat is.
+    public var room: RoomID?
 
-    public init(activity: Activity, lineContext: String? = nil) {
+    public init(activity: Activity, lineContext: String? = nil, room: RoomID? = nil) {
         self.activity = activity
         self.lineContext = lineContext
+        self.room = room
     }
 
     public var affordance: Affordance? {

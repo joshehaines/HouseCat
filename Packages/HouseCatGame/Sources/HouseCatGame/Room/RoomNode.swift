@@ -20,6 +20,8 @@ final class RoomNode: SKNode {
     private(set) var model: RoomModel
     let outdoor: Bool
     let walls: (left: Wall, right: Wall)
+    /// Doorways cut into the partitions, by wall ("L", "R"): the cell along the wall at their middle.
+    let doorways: [String: CGFloat]
     /// Placed furniture by item id (the first of each) and by placement.
     private(set) var furniture: [String: SKSpriteNode] = [:]
     private(set) var placements: [UUID: SKSpriteNode] = [:]
@@ -49,7 +51,8 @@ final class RoomNode: SKNode {
         items: [String: CatalogueFile.Item],
         surfaces: [String: CatalogueFile.Surface],
         walls: (left: Wall, right: Wall),
-        outdoor: Bool
+        outdoor: Bool,
+        doorways: [String: CGFloat] = [:]
     ) {
         self.id = id
         self.model = model
@@ -58,6 +61,7 @@ final class RoomNode: SKNode {
         self.surfaces = surfaces
         self.walls = walls
         self.outdoor = outdoor
+        self.doorways = doorways
         super.init()
         name = "room.\(id.rawValue)"
         build()
@@ -108,19 +112,48 @@ final class RoomNode: SKNode {
         addChild(plane(light: "floor", tile: floorTile, repeats: floorRepeat, corners: floor))
         let right = height(of: walls.right), left = height(of: walls.left)
         if right > 0 {
-            let quad = Quad(bl: grid.floor(0, 0), br: grid.floor(n, 0), tl: grid.rightWall(0, up: right), tr: grid.rightWall(n, up: right))
-            addChild(plane(light: "right", tile: wallTile, repeats: SIMD2(Float(n / 2), Float(right / 2)), corners: quad))
-            if walls.right == .stub {
-                addCap(from: grid.rightWall(0, up: right), to: grid.rightWall(n, up: right))
+            for (a, b) in pieces(of: "R") {
+                let quad = Quad(
+                    bl: grid.floor(a, 0),
+                    br: grid.floor(b, 0),
+                    tl: grid.rightWall(a, up: right),
+                    tr: grid.rightWall(b, up: right)
+                )
+                addChild(plane(
+                    light: "right",
+                    tile: wallTile,
+                    repeats: SIMD2(Float(n / 2), Float(right / 2)),
+                    corners: quad,
+                    span: (a / n, b / n)
+                ))
+                if walls.right == .stub {
+                    addCap(from: grid.rightWall(a, up: right), to: grid.rightWall(b, up: right))
+                }
             }
         }
         if left > 0 {
-            let quad = Quad(bl: grid.floor(0, 0), br: grid.floor(0, n), tl: grid.leftWall(0, up: left), tr: grid.leftWall(n, up: left))
-            addChild(plane(light: "left", tile: wallTile, repeats: SIMD2(Float(n / 2), Float(left / 2)), corners: quad))
-            if walls.left == .stub {
-                addCap(from: grid.leftWall(0, up: left), to: grid.leftWall(n, up: left))
+            for (a, b) in pieces(of: "L") {
+                let quad = Quad(bl: grid.floor(0, a), br: grid.floor(0, b), tl: grid.leftWall(a, up: left), tr: grid.leftWall(b, up: left))
+                addChild(plane(
+                    light: "left",
+                    tile: wallTile,
+                    repeats: SIMD2(Float(n / 2), Float(left / 2)),
+                    corners: quad,
+                    span: (a / n, b / n)
+                ))
+                if walls.left == .stub {
+                    addCap(from: grid.leftWall(a, up: left), to: grid.leftWall(b, up: left))
+                }
             }
         }
+    }
+
+    /// The stretches of a wall that stand: all of it, or either side of a doorway in a partition.
+    private func pieces(of side: String) -> [(CGFloat, CGFloat)] {
+        let n = grid.cells
+        guard wall(side) == .stub, let middle = doorways[side] else { return [(0, n)] }
+        let half = CGFloat(Tuning.House.doorwayWidth) / 2
+        return [(0, max(0, middle - half)), (min(n, middle + half), n)].filter { $0.1 - $0.0 > 0.01 }
     }
 
     /// The cut top of a stub wall, so it reads as a wall seen from above rather than a skirting board.
@@ -146,8 +179,19 @@ final class RoomNode: SKNode {
     }
 
     /// A flat plane warped onto four corners: the tile repeats across it and the light map multiplies it.
-    private func plane(light: String, tile: String, repeats: SIMD2<Float>, corners: Quad) -> SKSpriteNode {
-        let lightMap = art.texture("rooms/lightmaps/lm_\(model.light)_\(light).png")
+    /// `span` is the stretch of the whole wall this plane covers (0–1), so a wall in pieces keeps one light
+    /// map and one run of tiles (`v_tex_coord` stays in the whole texture's space for a part of it).
+    private func plane(
+        light: String,
+        tile: String,
+        repeats: SIMD2<Float>,
+        corners: Quad,
+        span: (CGFloat, CGFloat) = (0, 1)
+    ) -> SKSpriteNode {
+        var lightMap = art.texture("rooms/lightmaps/lm_\(model.light)_\(light).png")
+        if span != (0, 1) {
+            lightMap = SKTexture(rect: CGRect(x: span.0, y: 0, width: span.1 - span.0, height: 1), in: lightMap)
+        }
         let node = quad(texture: lightMap, corners)
         node.zPosition = Layer.planes
         let shader = SKShader(source: """

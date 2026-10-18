@@ -212,6 +212,25 @@ public enum Tuning {
         public static let shortestWhiskers = 0.35
     }
 
+    /// Which room the cat goes to (RoomChoice).
+    public enum CatRooms {
+        /// "<affordance>.<time of day>" or "<affordance>" → the room type that is for it.
+        public static let preferred: [String: String] = [
+            "sleep.night": "bedroom",
+            "sleep.afternoon": "bedroom",
+            "eat": "kitchen",
+            "watch.morning": "garden",
+            "watch.midday": "garden",
+            "watch.afternoon": "garden",
+            "hide.afternoon": "attic",
+            "perch.midday": "study",
+            "sit.evening": "living",
+        ]
+        /// The chance the cat goes to that room when it has what it wants, and else stays where it is.
+        public static let preferredPercent = 70
+        public static let stayPercent = 55
+    }
+
     /// The cat's profile (SPEC "Age and time together").
     public enum Together {
         /// The together-count milestone with its own badge and line (then each year).
@@ -303,6 +322,8 @@ public enum Tuning {
         public static let minMoveSeconds = 0.25
         public static let hopSeconds = 0.3
         public static let hopHeight = 18.0
+        /// The cat fades out at the stairs and in on the other storey.
+        public static let stairsFadeSeconds = 0.35
         /// Reaction icons over the cat (room units, seconds), and how far round the cat a tap still counts.
         public static let reactionWidth = 60.0
         public static let reactionRise = 70.0
@@ -360,6 +381,13 @@ public enum Tuning {
 
     /// The house view: the room you are in with the rest of the home around it (room units unless noted).
     public enum House {
+        /// Doorways in the partitions between rooms: halfway along the wall, this many cells wide.
+        public static let doorwayAlong = 5.0
+        public static let doorwayWidth = 1.8
+        /// After the player picks a room, the view stays on it this long before following the cat again.
+        public static let roomHoldSeconds = 30.0
+        /// The cat steps this far into a room through a doorway, in cells.
+        public static let doorwayStep = 0.8
         /// Draw-order bands: below everything (the ground), and per room's distance from the back.
         public static let storeyBand = 200_000.0
         public static let roomBand = 5000.0

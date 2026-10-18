@@ -113,7 +113,8 @@ private struct Fixture {
 @Test func theStoreyIsBuiltAroundTheActiveRoomOnItsGroundWithClosedRoomsVeiled() throws {
     let scene = try Fixture().scene()
     // The ground floor of the terrace: living room, kitchen beside it, garden; upstairs is reached by the stairs.
-    #expect(Set(scene.rooms.keys) == [.living, .kitchen, .garden])
+    #expect(Set(scene.shownRooms) == [.living, .kitchen, .garden])
+    #expect(Set(scene.rooms.keys) == Set(RoomID.allCases), "every room is built, for the cat to go to")
     let living = try #require(scene.rooms[.living]), kitchen = try #require(scene.rooms[.kitchen])
     #expect(kitchen.position == scene.grid.floor(10, 0))
     #expect(living.childNode(withName: "veil") == nil)
@@ -205,8 +206,9 @@ private func touchPoint(of id: String, in scene: RoomScene) throws -> CGPoint {
     #expect(scene.storeys == [0, 1, 2])
     #expect(scene.rooms[.kitchen]?.childNode(withName: "stairs") != nil)
     scene.showStorey(1)
-    #expect(Set(scene.rooms.keys) == [.bedroom, .study])
-    #expect(scene.director?.cat.parent == nil)
+    #expect(Set(scene.shownRooms) == [.bedroom, .study])
+    #expect(scene.director?.cat.parent === scene.rooms[.living], "the cat stays in its room, off screen")
+    #expect(scene.isOnCat(.zero) == false)
     #expect(scene.rooms[.bedroom]?.childNode(withName: "veil") != nil)
     scene.setDecorating(true)
     #expect(!scene.decorating, "furniture is moved on the active room's storey only")
@@ -220,7 +222,7 @@ private func touchPoint(of id: String, in scene: RoomScene) throws -> CGPoint {
     let scene = try fixture.scene()
     let director = try scene.addCat(rig: fixture.art.data("cat/rig.json", as: PuppetRig.self), at: 5, 5, pose: .sitSide)
     var asked = 0
-    scene.nextActivity = {
+    scene.nextActivity = { _ in
         asked += 1
         return BehaviourChoice(activity: .bowlNag)
     }

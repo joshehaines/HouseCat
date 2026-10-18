@@ -2,9 +2,11 @@ import HouseCatCore
 import SpriteKit
 
 /// The home seen as a dollhouse (ASSETS.md §2, SPEC "Rooms"): the room you are in at the centre, the
-/// rest of the house laid out around it on the same 2:1 grid (partitions cut down, upper storeys lifted
-/// clear above, closed rooms as lit silhouettes with their price), all under the code-drawn sky. The
-/// cat lives in the active room; the view settles on that room, follows the cat and pans on a drag.
+/// rest of the house laid out around it on the same 2:1 grid (partitions cut down with a doorway in each,
+/// one storey at a time, closed rooms as lit silhouettes with their price), all under the code-drawn sky.
+/// The active room is the one you are in (tap another open room to go there; decorating acts on it); the
+/// cat has its own room and walks between rooms through the doorways, up and down the stairs out of sight.
+/// The view settles on the active room, follows the cat and pans on a drag.
 @MainActor
 public final class RoomScene: SKScene {
     public let grid = IsoGrid()
@@ -18,7 +20,11 @@ public final class RoomScene: SKScene {
     private let sky = SKSpriteNode()
     /// The cat, once added.
     public internal(set) var director: CatDirector?
-    private var lastUpdate: TimeInterval?
+    /// The room the cat is in (its node holds the cat, on screen or not).
+    public internal(set) var catRoom: RoomID
+    var lastUpdate: TimeInterval?
+    /// When the player last picked a room: the view stays there a while rather than following the cat.
+    var roomChosenAt: TimeInterval = -.infinity
 
     /// Draw order the cat needs across the house.
     enum Layer {
@@ -35,6 +41,7 @@ public final class RoomScene: SKScene {
         surfaces = Dictionary(uniqueKeysWithValues: content.catalogue.surfaces.map { ($0.id, $0) })
         self.house = house
         storey = house.storey
+        catRoom = house.active
         super.init(size: size)
         scaleMode = .resizeFill
         backgroundColor = Sky.color(Tuning.Sky.bottom[house.sky])
@@ -96,21 +103,58 @@ public final class RoomScene: SKScene {
         setDecorating(false)
         storey = next
         focus = nil
-        build()
+        attachStorey()
     }
 
+    /// Goes to another room: the view settles on it (on its storey) and decorating acts on it.
+    public func show(room id: RoomID) {
+        guard let room = house.room(id), room.lockLabel == nil else { return }
+        setDecorating(false)
+        house.active = id
+        roomChosenAt = lastUpdate ?? 0
+        focus = nil
+        if room.storey != storey {
+            storey = room.storey
+            attachStorey()
+        } else {
+            fit()
+        }
+    }
+
+    /// The active room changed without the player picking it (the view followed the cat).
+    public var onActiveRoomChanged: ((RoomID) -> Void)?
+    /// A tap on an open room other than the one you are in.
+    public var onRoomTapped: ((RoomID) -> Void)?
+
+    /// The cat went through a doorway or up the stairs; unless you are decorating or picked a room a moment
+    /// ago, the view goes with it.
+    func catEntered(_ id: RoomID) {
+        let from = catRoom
+        catRoom = id
+        guard !decorating, from == house.active, (lastUpdate ?? 0) - roomChosenAt > Tuning.House.roomHoldSeconds,
+              let room = house.room(id) else { return }
+        house.active = id
+        if room.storey != storey {
+            storey = room.storey
+            focus = nil
+            attachStorey()
+        }
+        onActiveRoomChanged?(id)
+    }
+
+    /// Every room's node, built once; a storey's are put in the world when it is shown.
     private func build() {
         let cat = director?.cat
         cat?.removeFromParent()
-        world.removeAllChildren()
+        for node in rooms.values {
+            node.removeFromParent()
+        }
         rooms = [:]
         let cells = CGFloat(Tuning.Room.gridWidth)
-        buildGround()
-        // One storey at a time, standing on the ground; the others are reached by the stairs.
-        for room in house.rooms where room.storey == storey {
+        for room in house.rooms {
             let node = RoomNode(
                 id: room.id, model: room.model, art: art, items: items, surfaces: surfaces,
-                walls: house.walls(of: room), outdoor: room.outdoor
+                walls: house.walls(of: room), outdoor: room.outdoor, doorways: house.doorways(of: room)
             )
             let origin = grid.floor(CGFloat(room.u), CGFloat(room.v))
             node.position = origin
@@ -121,7 +165,7 @@ public final class RoomScene: SKScene {
             }
             if let label = room.lockLabel {
                 // The label sits on the side nearest the room you are in, so it stays in view.
-                let active = house.rooms.first { $0.id == house.active && $0.storey == storey }
+                let active = house.rooms.first { $0.id == house.active && $0.storey == room.storey }
                 let lean = CGFloat(Tuning.House.labelLean)
                 func toward(_ delta: Double) -> CGFloat {
                     cells / 2 + (delta == 0 ? 0 : delta < 0 ? -lean : lean)
@@ -129,13 +173,37 @@ public final class RoomScene: SKScene {
                 let cell = active.map { (u: toward($0.u - room.u), v: toward($0.v - room.v)) }
                 node.veil(label: label, at: cell)
             }
-            world.addChild(node)
             rooms[room.id] = node
         }
-        if let cat, let room = activeRoom {
+        if let cat, let room = rooms[catRoom] ?? activeRoom {
             room.addChild(cat)
         }
+        attachStorey()
+    }
+
+    /// Puts the shown storey's rooms (and the ground, downstairs) in the world.
+    private func attachStorey() {
+        for node in rooms.values {
+            node.removeFromParent()
+        }
+        world.removeAllChildren()
+        buildGround()
+        for room in house.rooms where room.storey == storey {
+            if let node = rooms[room.id] {
+                world.addChild(node)
+            }
+        }
         fit()
+    }
+
+    /// Whether a room is on the storey on screen.
+    func isShown(_ node: SKNode?) -> Bool {
+        node?.parent === world
+    }
+
+    /// The rooms on the storey on screen.
+    var shownRooms: [RoomID] {
+        rooms.filter { isShown($0.value) }.map(\.key)
     }
 
     /// The ground the house stands on, out past the edges of the view (a builder game's base on its field).
@@ -194,24 +262,29 @@ public final class RoomScene: SKScene {
         idle(dt)
     }
 
-    /// After a while settled, the cat asks the app (and so the behaviour table) what to do next.
-    public var nextActivity: (() -> BehaviourChoice?)?
+    /// After a while settled, the cat asks the app (and so the behaviour table) what to do next, saying which
+    /// room it is in; the choice says which room it happens in.
+    public var nextActivity: ((RoomID) -> BehaviourChoice?)?
     private var settledFor: TimeInterval = 0
 
     private func idle(_ dt: TimeInterval) {
-        guard let director, director.isIdle, !decorating, storey == house.storey else {
+        guard let director, director.isIdle, !decorating else {
             settledFor = 0
             return
         }
         settledFor += dt
-        guard settledFor >= Tuning.Puppet.idleSeconds, let choice = nextActivity?() else { return }
+        guard settledFor >= Tuning.Puppet.idleSeconds, let choice = nextActivity?(catRoom) else { return }
         settledFor = 0
-        let spot = spot(for: choice)
+        let target = choice.room ?? catRoom
+        guard let node = rooms[target] else { return }
+        let spot = spot(for: choice, in: node)
         // Already there doing it: stay put.
-        if hypot(spot.point.x - director.floorPoint.x, spot.point.y - director.floorPoint.y) < 1, director.cat.pose == spot.pose {
+        if target == catRoom, hypot(spot.point.x - director.floorPoint.x, spot.point.y - director.floorPoint.y) < 1,
+           director.cat.pose == spot.pose
+        {
             return
         }
-        director.run(steps(to: spot))
+        director.run(steps(to: spot, in: target))
     }
 
     /// Where the view looks, in world units; it follows the cat unless the player has just panned.
@@ -222,14 +295,15 @@ public final class RoomScene: SKScene {
     private var activeBounds: CGRect {
         let bounds = grid.bounds
         // Up the stairs, the room furthest back on that storey stands in for the active one.
-        let node = activeRoom ?? house.rooms.filter { $0.storey == storey }.min { $0.u + $0.v < $1.u + $1.v }.flatMap { rooms[$0.id] }
+        let node = activeRoom.flatMap { isShown($0) ? $0 : nil }
+            ?? house.rooms.filter { $0.storey == storey }.min { $0.u + $0.v < $1.u + $1.v }.flatMap { rooms[$0.id] }
         guard let node else { return bounds }
         return bounds.offsetBy(dx: node.position.x, dy: node.position.y)
     }
 
-    /// Everything in the house, for clamping the pan.
+    /// Everything on the storey on screen, for clamping the pan.
     private var houseBounds: CGRect {
-        rooms.values.reduce(CGRect.null) { $0.union(grid.bounds.offsetBy(dx: $1.position.x, dy: $1.position.y)) }
+        rooms.values.filter(isShown).reduce(CGRect.null) { $0.union(grid.bounds.offsetBy(dx: $1.position.x, dy: $1.position.y)) }
     }
 
     /// Scales so the active room fills the view's height (Tuning.Stage), centred on it; the rest of the house
@@ -248,9 +322,9 @@ public final class RoomScene: SKScene {
         look(at: focus ?? CGPoint(x: catWorldPosition?.x ?? bounds.midX, y: bounds.midY))
     }
 
-    /// The cat's position in world units.
+    /// The cat's position in world units, when it is on the storey on screen.
     private var catWorldPosition: CGPoint? {
-        guard let cat = director?.cat, let room = cat.parent else { return nil }
+        guard let cat = director?.cat, let room = cat.parent, isShown(room) else { return nil }
         return world.convert(cat.position, from: room)
     }
 
@@ -329,6 +403,8 @@ public final class RoomScene: SKScene {
                     onCatTapped?()
                 } else if let room = closedRoom(at: point) {
                     onClosedRoomTapped?(room)
+                } else if let room = openRoom(at: point), room != house.active {
+                    onRoomTapped?(room)
                 }
             }
             lastTouch = nil
@@ -353,8 +429,25 @@ public final class RoomScene: SKScene {
         return nil
     }
 
-    /// Replaces the house (a room opened, a surface changed) and rebuilds it, keeping the cat where it is.
+    /// The open room on screen under a scene point, if any (its floor).
+    func openRoom(at point: CGPoint) -> RoomID? {
+        for room in house.rooms where room.storey == storey && room.lockLabel == nil {
+            guard let node = rooms[room.id], isShown(node) else { continue }
+            let cell = grid.cell(at: convert(point, to: node))
+            if (0 ..< grid.cells).contains(cell.u), (0 ..< grid.cells).contains(cell.v) {
+                return room.id
+            }
+        }
+        return nil
+    }
+
+    /// Replaces the house (a room opened, a surface changed) and rebuilds it, keeping the cat where it is and
+    /// the room you are in.
     public func update(house: HouseModel) {
+        var house = house
+        if house.room(self.house.active) != nil {
+            house.active = self.house.active
+        }
         self.house = house
         setDecorating(false)
         build()

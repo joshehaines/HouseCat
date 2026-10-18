@@ -18,3 +18,30 @@ public enum ShopRules {
         return last
     }
 }
+
+/// The Bean catalogue (SPEC "Home and furniture", "Economy"): the pieces bought with Beans, shown in the
+/// decorate tray for the room you are in. Each shows its price; a piece above your level shows the level.
+public enum BeanShop {
+    public enum Status: Equatable, Sendable {
+        case buyable(price: Int)
+        case needsBeans(price: Int)
+        case needsLevel(Int)
+    }
+
+    /// A room's Bean pieces, cheapest first (the room's own, then the rest of the catalogue's).
+    public static func stock(for room: RoomID, catalogue: CatalogueFile) -> [CatalogueFile.Item] {
+        let beanItems = catalogue.items.filter { $0.pool == .beans && $0.beans != nil }
+        let own = beanItems.filter { $0.room == room.rawValue }.sorted { ($0.beans ?? 0, $0.id) < ($1.beans ?? 0, $1.id) }
+        let rest = beanItems.filter { $0.room != room.rawValue }
+            .sorted { ($0.room, $0.beans ?? 0, $0.id) < ($1.room, $1.beans ?? 0, $1.id) }
+        return own + rest
+    }
+
+    public static func status(of item: CatalogueFile.Item, level: Int, beans: Int) -> Status {
+        let price = item.beans ?? 0
+        if level < item.level {
+            return .needsLevel(item.level)
+        }
+        return beans >= price ? .buyable(price: price) : .needsBeans(price: price)
+    }
+}

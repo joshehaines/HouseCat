@@ -34,6 +34,7 @@ public extension RoomScene {
         let cat = CatNode(art: art, rig: rig, catArt: catArt, look: look, isKitten: isKitten, height: CGFloat(model.catHeight))
         if let room = activeRoom {
             room.addChild(cat)
+            catRoom = room.id
         } else {
             world.addChild(cat)
         }
@@ -44,13 +45,22 @@ public extension RoomScene {
         return director
     }
 
-    /// The spot for an activity, given the furniture in the room.
+    /// The spot for an activity in the cat's room.
     func spot(for choice: BehaviourChoice) -> CatSpot {
+        guard let room = rooms[choice.room ?? catRoom] ?? activeRoom else {
+            return CatSpot(point: grid.floor(grid.cells / 2, grid.cells / 2), lift: 0, pose: choice.pose ?? .sitSide)
+        }
+        return spot(for: choice, in: room)
+    }
+
+    /// The spot for an activity in a room, given the furniture in it.
+    internal func spot(for choice: BehaviourChoice, in room: RoomNode) -> CatSpot {
         let pose = choice.pose ?? .sitSide
+        let model = room.model
         if let need = choice.affordance, let placement = model.items.first(where: { items[$0.id]?.affordances.contains(need) == true }),
-           let item = items[placement.id], let node = furniture[item.id]
+           let item = items[placement.id], let node = room.furniture[item.id]
         {
-            let (w, d) = footprint(item, facing: placement.facing)
+            let (w, d) = room.footprint(item, facing: placement.facing)
             let u = CGFloat(placement.u), v = CGFloat(placement.v)
             switch need {
             case .sit, .sleep, .perch where !item.decal:
@@ -82,9 +92,10 @@ public extension RoomScene {
         }
     }
 
-    /// Steps that take the cat from where it is to a spot and settle it there.
-    func steps(to spot: CatSpot, run: Bool = false) -> [CatDirector.Step] {
+    /// Steps that take the cat from where it is to a spot (in its room, or another) and settle it there.
+    func steps(to spot: CatSpot, in room: RoomID? = nil, run: Bool = false) -> [CatDirector.Step] {
         var steps: [CatDirector.Step] = [.rise(.side)]
+        steps += route(to: room ?? catRoom, run: run)
         steps.append(.move(to: spot.point, run: run, view: .side, scale: 1, lift: 0, speed: run ? Pace.run : Pace.walk))
         if spot.lift > 0 {
             steps.append(.hop(to: spot.lift))
@@ -92,6 +103,46 @@ public extension RoomScene {
         steps.append(.call { [weak self] in self?.director?.perchDepth = spot.perchDepth })
         steps.append(.settle(spot.pose))
         return steps
+    }
+
+    /// The way into another room: doorway by doorway through the open rooms of the storey, or out by the
+    /// stairs (or the middle of the room, if there is no way through) and in on the other side, out of sight.
+    func route(to target: RoomID, run: Bool = false) -> [CatDirector.Step] {
+        guard target != catRoom, let to = rooms[target] else { return [] }
+        let speed = run ? Pace.run : Pace.walk
+        func walk(_ cell: CGPoint) -> CatDirector.Step {
+            .move(to: grid.floor(cell.x, cell.y), run: run, view: .side, scale: 1, lift: 0, speed: speed)
+        }
+        let step = CGFloat(Tuning.House.doorwayStep), n = grid.cells
+        if let path = house.route(from: catRoom, to: target) {
+            var steps: [CatDirector.Step] = []
+            for link in path {
+                guard let node = rooms[link.to] else { continue }
+                // Up to the doorway, through it, and a step into the room beyond.
+                let inward = CGPoint(
+                    x: link.entry.x == 0 ? step : link.entry.x == n ? -step : 0,
+                    y: link.entry.y == 0 ? step : link.entry.y == n ? -step : 0
+                )
+                steps.append(walk(CGPoint(x: link.exit.x - inward.x, y: link.exit.y - inward.y)))
+                steps.append(walk(link.exit))
+                steps.append(.enter(node, at: grid.floor(link.entry.x, link.entry.y)))
+                steps.append(.call { [weak self] in self?.catEntered(link.to) })
+                steps.append(walk(CGPoint(x: link.entry.x + inward.x, y: link.entry.y + inward.y)))
+            }
+            return steps
+        }
+        // Up or down the stairs where the stairs stand; otherwise the cat slips out of sight in the room.
+        let stairs = house.stairs.flatMap { $0.at.count == 2 ? CGPoint(x: $0.at[0] + 0.5, y: $0.at[1] + 1) : nil }
+        let middle = CGPoint(x: n / 2, y: n / 2)
+        let out = house.stairs?.room == catRoom ? stairs ?? middle : middle
+        let into = house.stairs?.room == target ? stairs ?? middle : middle
+        return [
+            walk(out),
+            .fade(to: 0),
+            .enter(to, at: grid.floor(into.x, into.y)),
+            .call { [weak self] in self?.catEntered(target) },
+            .fade(to: 1),
+        ]
     }
 
     /// The arrival (CLAUDE.md "The arrival in the room view is live"): the cat notices
@@ -104,6 +155,12 @@ public extension RoomScene {
         let start = CGPoint(x: Tuning.Arrival.rubStartX, y: bottom - Tuning.Arrival.rubStartDrop)
         let end = CGPoint(x: Tuning.Arrival.rubEndX, y: bottom - Tuning.Arrival.rubEndDrop)
         let spot = spot(for: choice)
+        let room = choice.room ?? catRoom
+        // Off to what it chose: in this room, the walk-off from the rub; in another, the way there.
+        let walkOff: [CatDirector.Step] = room == catRoom
+            ? [.move(to: spot.point, run: false, view: .side, scale: 1, lift: 0, speed: Pace.walk * CGFloat(Tuning.Arrival.walkOffPace))]
+            + Array(steps(to: spot).dropFirst(2))
+            : [.move(to: end, run: false, view: .side, scale: 1, lift: 0, speed: Pace.walk)] + Array(steps(to: spot, in: room).dropFirst())
         director.run([
             .wait(Tuning.Arrival.noticeDelay),
             .rise(.tqfront), // ears up, it has noticed you
@@ -111,14 +168,13 @@ public extension RoomScene {
             .move(to: start, run: true, view: .front, scale: near, lift: 0, speed: Pace.run),
             .call(onRub),
             .move(to: end, run: false, view: .side, scale: near, lift: 0, speed: Pace.rub),
-            .move(to: spot.point, run: false, view: .side, scale: 1, lift: 0, speed: Pace.walk * CGFloat(Tuning.Arrival.walkOffPace)),
-        ] + Array(steps(to: spot).dropFirst(2)) + [.call(onDone)])
+        ] + walkOff + [.call(onDone)])
     }
 
-    /// Sends the cat off to an activity now (fed: to the bowl; petted too much: away).
+    /// Sends the cat off to an activity now (fed: to the bowl; petted too much: away), in the choice's room.
     func send(_ choice: BehaviourChoice) {
         guard let director else { return }
-        director.run(steps(to: spot(for: choice)))
+        director.run(steps(to: spot(for: choice), in: choice.room ?? catRoom))
     }
 
     /// A reaction icon (assets/fx/reactions: heart, zzz, notes, sparkle, question, exclaim, paw) floats up over the cat.
@@ -146,7 +202,7 @@ public extension RoomScene {
 
     /// Whether a scene point is on the cat.
     func isOnCat(_ point: CGPoint) -> Bool {
-        guard let cat = director?.cat, let room = cat.parent else { return false }
+        guard let cat = director?.cat, let room = cat.parent, isShown(room) else { return false }
         let frame = cat.calculateAccumulatedFrame().offsetBy(dx: 0, dy: 0)
         return frame.insetBy(dx: -CGFloat(Tuning.Puppet.tapPadding), dy: -CGFloat(Tuning.Puppet.tapPadding)).contains(convert(
             point,

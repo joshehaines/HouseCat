@@ -29,6 +29,8 @@ struct HouseCatApp: App {
                     #if DEBUG
                         if ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"] == "outfits" {
                             OutfitGallery()
+                        } else if ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"] == "puppets" {
+                            PuppetGallery()
                         } else {
                             WidgetGallery()
                         }
@@ -147,7 +149,7 @@ struct HouseCatApp: App {
         WidgetBridge.importInbox()
         #if DEBUG
             // HOUSECAT_SCREEN=widgets: every widget size and pose, drawn as the widget draws them.
-            if ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"] == "outfits" {
+            if ["outfits", "puppets"].contains(ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"]) {
                 gallery = true
                 return
             }
@@ -276,7 +278,8 @@ enum CatScreens {
             kind: kind,
             view: "tqfront",
             size: outfit.fit,
-            tallEars: OutfitFit.tallEars(look)
+            tallEars: OutfitFit.tallEars(look),
+            pose: .sitThreeQuarterFront
         )?.image ?? image
     }
 

@@ -597,6 +597,16 @@ public enum Tuning {
         public static let tallEarsLift = 0.15
         public static let tallEars: Set<String> = ["siamese", "sphynx", "mainecoon", "oriental", "tufted"]
         public static let hatWidth = 1.15
+        /// The tallest a hat's picture may be, in eye-line-to-crown heights (the others reach about 3, antlers 4).
+        public static let hatMaxHeight = 4.3
+        /// A hat painted this many times taller than wide is a headband seen side-on (the antlers): its height in
+        /// eye-line-to-crown heights, and how far below the eye line its end comes.
+        public static let bandAspect = 2.0
+        public static let bandHeight = 2.5
+        public static let bandDrop = 0.25
+        /// A profile's head is at most this many times the eye's distance to the front of the face long (sitting
+        /// it is 5 to 6.4; lying down the row runs on into the body, 8 to 11).
+        public static let profileHeadToFront = 6.0
         public static let lensFit = 1.0
         public static let profileGlassesWidth = 0.95
         /// Where a profile's lens is on its picture (the front end), and a pair's lenses in each view when the
@@ -616,8 +626,17 @@ public enum Tuning {
         public static let neckWidth = 1.12
         public static let neckBandDrop = 0.12
         public static let chinDrop = 0.48
+        /// A flat face (its nose less than this many eye spans below the eyes) has its chin at least the next
+        /// many eye spans below the eyes; two eyes closer than this share of the head's width are a profile with
+        /// the far eye peeking.
+        public static let flatNose = 0.25
+        public static let chinBelowEyes = 0.72
+        public static let profileEyeSpan = 0.32
         public static let profileChinDrop = 0.55
         public static let backHeadDrop = 0.12
+        /// From behind, the head's row is the first one at least this wide (of the picture), no lower than this.
+        public static let backHeadMinWidth = 0.35
+        public static let backHeadLowest = 0.4
         /// The edges are measured over the middle of the picture, this far in from each side.
         public static let edgeInset = 0.2
         public static let minimumLensCells = 40

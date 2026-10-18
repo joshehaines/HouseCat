@@ -2,6 +2,7 @@
     import HouseCatCore
     import HouseCatGame
     import HouseCatUI
+    import SpriteKit
     import SwiftUI
 
     /// Debug (HOUSECAT_SCREEN=outfits, HOUSECAT_GALLERY=<body>): the cat in every resting pose wearing each kind of
@@ -61,13 +62,77 @@
                               kind: kind,
                               view: view,
                               size: outfit.fit,
-                              tallEars: OutfitFit.tallEars(look)
+                              tallEars: OutfitFit.tallEars(look),
+                              pose: pose
                           )
                     else { return image }
                     return dressed.image
                 }
                 return (id, images)
             }
+        }
+    }
+
+    /// Debug (HOUSECAT_SCREEN=puppets, HOUSECAT_GALLERY_PAGE=<n>, HOUSECAT_GALLERY_KIND=stand|rest,
+    /// HOUSECAT_GALLERY=<body>): the room's own puppet cat wearing each wearable outfit, standing in every view
+    /// both ways, or in every resting pose that keeps its outfit, three outfits a page, for checking by eye what
+    /// the room draws.
+    struct PuppetGallery: View {
+        var body: some View {
+            GeometryReader { geometry in
+                SpriteView(scene: Self.scene(size: geometry.size))
+            }
+            .ignoresSafeArea()
+        }
+
+        private static let pageSize = 3
+
+        private static func scene(size: CGSize) -> SKScene {
+            let scene = SKScene(size: size)
+            scene.backgroundColor = SKColor(red: 0.36, green: 0.5, blue: 0.62, alpha: 1)
+            guard let art = GameWorld.art, let rig = GameWorld.rig, let catArt = GameWorld.catArt,
+                  let content = GameWorld.content else { return scene }
+            let environment = ProcessInfo.processInfo.environment
+            var look = GameSession.shared.cat?.look ?? .midnight
+            if let body = environment["HOUSECAT_GALLERY"] {
+                look.body = body
+            }
+            let page = environment["HOUSECAT_GALLERY_PAGE"].flatMap(Int.init) ?? 0
+            // HOUSECAT_GALLERY_OUTFITS=antlers,scarf: just those, one row each.
+            let chosen = environment["HOUSECAT_GALLERY_OUTFITS"]?.split(separator: ",").map(String.init)
+            let wearable = content.outfits.outfits.filter(\.wearable)
+            let outfits = chosen.map { ids in ids.compactMap { id in wearable.first { $0.id == id } } }
+                ?? Array(wearable.dropFirst(page * pageSize).prefix(pageSize))
+            let rowsPerPage = max(1, outfits.count)
+            let resting = environment["HOUSECAT_GALLERY_KIND"] == "rest"
+            let stands: [(CatNode.View, Bool)] = resting ? [] : [(.side, false), (.side, true), (.tqfront, false), (.front, false)]
+            let poses: [CatPose] = resting ? [.sitThreeQuarterFront, .sitFront, .sitSide, .loafThreeQuarterFront, .loafSide, .sitBack] : []
+            let columns = stands.count + poses.count
+            let left: CGFloat = 70
+            let cellWidth = (size.width - left) / CGFloat(columns)
+            let cellHeight = size.height / CGFloat(rowsPerPage)
+            for (row, outfit) in outfits.enumerated() {
+                let baseline = size.height - CGFloat(row + 1) * cellHeight + cellHeight * 0.08
+                let label = SKLabelNode(text: outfit.id)
+                label.fontSize = 13
+                label.fontName = "Helvetica-Bold"
+                label.horizontalAlignmentMode = .left
+                label.position = CGPoint(x: 8, y: baseline + cellHeight * 0.4)
+                scene.addChild(label)
+                for column in 0 ..< columns {
+                    let cat = CatNode(art: art, rig: rig, catArt: catArt, look: look, height: cellHeight * (resting ? 0.78 : 0.62))
+                    cat.position = CGPoint(x: left + (CGFloat(column) + 0.5) * cellWidth, y: baseline)
+                    cat.wear(outfit)
+                    scene.addChild(cat)
+                    if column < stands.count {
+                        cat.show(stands[column].0, facingRight: stands[column].1)
+                    } else {
+                        cat.show(.tqfront, facingRight: false)
+                        cat.settle(into: poses[column - stands.count], duration: 0.01)
+                    }
+                }
+            }
+            return scene
         }
     }
 #endif

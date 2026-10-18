@@ -147,11 +147,23 @@ public final class CatNode: SKNode {
               let shape = OutfitShapes.shape(picture, art: art),
               let face = catArt.face(catArt.builder.pose(pose.rawValue, look: look).path),
               let fit = OutfitFit.place(kind, shape: shape, on: face, view: view, size: outfit.fit, tallEars: hasTallEars) else { return }
-        poseOutfit = put(picture, fit: fit, face: face, on: poseNode)
+        guard kind == .neck, OutfitFit.tucksNeckwear(pose) else {
+            poseOutfit = put(picture, fit: fit, face: face, on: poseNode)
+            return
+        }
+        // Lying down, neckwear only where the cat is.
+        let crop = SKCropNode()
+        let mask = SKSpriteNode(texture: poseNode.texture, size: poseNode.size)
+        mask.anchorPoint = poseNode.anchorPoint
+        crop.maskNode = mask
+        crop.zPosition = CGFloat(Tuning.Outfits.zLift)
+        poseNode.addChild(crop)
+        _ = put(picture, fit: fit, face: face, on: poseNode, into: crop)
+        poseOutfit = crop
     }
 
     /// An outfit picture on a sprite, where the fit says, in the sprite's own frame (it follows its turns and flips).
-    private func put(_ picture: String, fit: OutfitFit.Placement, face: CatFace, on parent: SKSpriteNode) -> SKNode {
+    private func put(_ picture: String, fit: OutfitFit.Placement, face: CatFace, on parent: SKSpriteNode, into container: SKNode? = nil) -> SKNode {
         let painted = art.paintedSize(picture)
         let size = parent.size
         let width = fit.width / max(1, face.size.width) * size.width
@@ -165,7 +177,7 @@ public final class CatNode: SKNode {
         node.zRotation = -fit.angle
         node.zPosition = CGFloat(Tuning.Outfits.zLift)
         node.name = "outfit"
-        parent.addChild(node)
+        (container ?? parent).addChild(node)
         return node
     }
 

@@ -76,6 +76,12 @@ public enum OutfitFit {
         Tuning.Outfits.tallEars.contains(look.body) || Tuning.Outfits.tallEars.contains(look.ears)
     }
 
+    /// Lying down, the chin rests on the paws: neckwear is cut to the cat's outline (tucked under, never hanging
+    /// below the floor).
+    public static func tucksNeckwear(_ pose: CatPose) -> Bool {
+        pose == .loafSide || pose == .loafThreeQuarterFront
+    }
+
     /// The outfit picture for a pose (its view), or nil for a pose an outfit is not drawn on (curled asleep or
     /// mid-stretch, eyes shut).
     public static func view(for pose: CatPose) -> String? {
@@ -119,14 +125,41 @@ public enum OutfitFit {
             let row = head.y * h
             let width = right - left
             guard width > 1, shape.rimWidth > 0 else { return nil }
+            // A headband painted side-on (much taller than wide): sized by its height over the head, its end down
+            // by the cheek, so the band runs up the side of the head with the antler above. (From behind there is
+            // no eye line to measure from, and the back's pictures are not side-on.)
+            let lift = eyes.isEmpty ? 0 : row - crown.y
+            if ph > pw * CGFloat(t.bandAspect), lift > 0 {
+                let point = CGPoint(x: (left + right) / 2, y: row + lift * CGFloat(t.bandDrop))
+                return Placement(point: point, width: lift * CGFloat(t.bandHeight) * pw / ph, angle: angle, anchor: anchor(shape.rim))
+            }
             // The rim: across the head, part way from the eye line up to the crown.
-            let rise = (row - crown.y) * CGFloat(t.hatRise + (tallEars ? t.tallEarsLift : 0))
+            // Tall ears lift a hat that has holes for them; side-on the crown is already the ear's tip.
+            let rise = (row - crown.y) * CGFloat(t.hatRise + (tallEars && eyes.count != 1 ? t.tallEarsLift : 0))
             let point = CGPoint(x: (left + right) / 2, y: row - rise)
-            let pictureWidth = width * CGFloat(size ?? t.hatWidth) / shape.rimWidth
+            var pictureWidth = width * CGFloat(size ?? t.hatWidth) / shape.rimWidth
+            // No taller than a hat can be over this head: a headband painted side-on is narrow, so sized by its
+            // width it would tower over the cat.
+            let tallest = lift * CGFloat(t.hatMaxHeight)
+            if tallest > 0, shape.size.height > 0 {
+                pictureWidth = min(pictureWidth, tallest * pw / ph)
+            }
             return Placement(point: point, width: pictureWidth, angle: angle, anchor: anchor(shape.rim))
         case .glasses:
             // The lenses found in the picture, or where they sit in a pair painted for this view.
             let lenses = shape.lenses.count >= 2 ? shape.lenses : (view.flatMap { t.lenses[$0] }?.map { CGPoint(x: $0[0], y: $0[1]) } ?? [])
+            // A profile can show the far eye peeking past the nose: the glasses go on the near one, further back.
+            if view == "side", eyes.count >= 2, let head = face.head {
+                let nose = face.nose.map(px)
+                let near = eyes.max { a, b in
+                    if let nose { return hypot(a.x - nose.x, a.y - nose.y) < hypot(b.x - nose.x, b.y - nose.y) }
+                    return min(a.x - head.left * w, head.right * w - a.x) < min(b.x - head.left * w, head.right * w - b.x)
+                }
+                if let near {
+                    let width = (head.right - head.left) * w * CGFloat(t.profileGlassesWidth)
+                    return Placement(point: near, width: width, angle: 0, anchor: anchor(CGPoint(x: t.profileLens[0], y: t.profileLens[1])))
+                }
+            }
             if eyes.count >= 2, lenses.count >= 2 {
                 let a = CGPoint(x: lenses[0].x * pw, y: lenses[0].y * ph)
                 let b = CGPoint(x: lenses[1].x * pw, y: lenses[1].y * ph)
@@ -174,7 +207,8 @@ public enum OutfitFit {
             return (middle - cap / 2, middle + cap / 2)
         }
         if let eye = eyes.first, let nose = face.nose.map({ CGPoint(x: $0.x * w, y: $0.y * h) }) {
-            let cap = abs(eye.x - nose.x) * CGFloat(t.headToEyeNose)
+            // Eye to nose straight (a flat face has its nose under the eye, not in front of it).
+            let cap = hypot(eye.x - nose.x, eye.y - nose.y) * CGFloat(t.headToEyeNose)
             guard right - left > cap else { return (left, right) }
             let back: CGFloat = eye.x > nose.x ? 1 : -1
             let middle = eye.x + back * cap * CGFloat(t.profileHeadBack)
@@ -186,7 +220,9 @@ public enum OutfitFit {
     // MARK: Measuring
 
     /// The face and head in a features mask and alpha (planes as stored), as fractions.
-    public static func face(features: [[UInt8]], alpha: [UInt8], width: Int, height: Int) -> CatFace {
+    /// `headOnly`: the picture is a head on its own (the puppet's), where two eyes close together on it are a
+    /// profile with the far eye peeking past the nose.
+    public static func face(features: [[UInt8]], alpha: [UInt8], width: Int, height: Int, headOnly: Bool = false) -> CatFace {
         let t = Tuning.Outfits.self
         func centroid(_ plane: [UInt8]) -> CGPoint? {
             var sx = 0, sy = 0, n = 0
@@ -229,13 +265,26 @@ public enum OutfitFit {
         if let anchor, let (l, r) = run(through: Int(anchor.x), row: Int(anchor.y)) {
             head = (CGFloat(l), CGFloat(r), anchor.y)
         } else if eyes.isEmpty, nose == nil {
-            // From behind: the head is the top of the sprite.
+            // From behind: the head is the top of the sprite, below any tall ears (tufts make the first rows narrow).
             if let top = (0 ..< height).first(where: { y in (0 ..< width).contains { opaque($0, y) } }) {
-                let row = top + Int(Double(height) * t.backHeadDrop)
-                let xs = (0 ..< width).filter { opaque($0, row) }
-                if let mid = xs.isEmpty ? nil : xs[xs.count / 2], let (l, r) = run(through: mid, row: row) {
-                    head = (CGFloat(l), CGFloat(r), CGFloat(row))
+                var row = top + Int(Double(height) * t.backHeadDrop)
+                let wide = Int(Double(width) * t.backHeadMinWidth), lowest = Int(Double(height) * t.backHeadLowest)
+                while row < lowest {
+                    let xs = (0 ..< width).filter { opaque($0, row) }
+                    if let mid = xs.isEmpty ? nil : xs[xs.count / 2], let (l, r) = run(through: mid, row: row), r - l >= wide {
+                        head = (CGFloat(l), CGFloat(r), CGFloat(row))
+                        break
+                    }
+                    row += 2
                 }
+            }
+        }
+        // A profile lying down: the row through the eye runs on into the body the chin rests against, so the
+        // head is no longer than it can be from the eye's distance to the front of the face, on the far side.
+        if eyes.count == 1, let eye = eyes.first, let (l, r, y) = head {
+            let longest = min(eye.x - l, r - eye.x) * CGFloat(t.profileHeadToFront)
+            if longest > 0, r - l > longest {
+                head = eye.x - l < r - eye.x ? (l, l + longest, y) : (r - longest, r, y)
             }
         }
         if let (l, r, y) = head {
@@ -247,18 +296,38 @@ public enum OutfitFit {
             }
             crown = CGPoint(x: CGFloat(column), y: CGFloat(top))
             // The neck: under the chin, below the nose by part of the eye span (sleepy eyes sit lower, so not the
-            // eyes' height).
-            if let nose, eyes.count >= 2 {
-                let span = hypot(eyes[1].x - eyes[0].x, eyes[1].y - eyes[0].y)
-                let chin = Int(nose.y + span * CGFloat(t.chinDrop))
-                if let (nl, nr) = run(through: column, row: min(height - 1, chin)) {
-                    neck = (CGFloat(nl), CGFloat(nr), CGFloat(chin))
+            // eyes' height). A puppet's head ends at the chin, so where the row is past the picture the neck is
+            // as wide as the head allows, centred under it.
+            func neckAt(_ estimate: Int) -> (CGFloat, CGFloat, CGFloat) {
+                // A head on its own ends at the neck: the chin is no higher than the picture's bottom under the face
+                // (where the outline narrows to the chin's tip, so the neck takes the head's width).
+                var chin = estimate, atBottom = false
+                if headOnly {
+                    var bottom = Int(y)
+                    while bottom + 1 < height, opaque(column, bottom + 1) {
+                        bottom += 1
+                    }
+                    if bottom > chin {
+                        chin = bottom
+                        atBottom = true
+                    }
                 }
+                if !atBottom, chin < height, let (nl, nr) = run(through: column, row: chin) {
+                    return (CGFloat(nl), CGFloat(nr), CGFloat(chin))
+                }
+                let half = (r - l) * CGFloat(t.neckToHead) / 2
+                return ((l + r) / 2 - half, (l + r) / 2 + half, CGFloat(chin))
+            }
+            let span = eyes.count >= 2 ? hypot(eyes[1].x - eyes[0].x, eyes[1].y - eyes[0].y) : 0
+            // Two eyes close together on a wide head: a profile with the far eye peeking past the nose.
+            let peeking = headOnly && span > 0 && span < (r - l) * CGFloat(t.profileEyeSpan)
+            if let nose, eyes.count >= 2, !peeking {
+                // Below the nose; a flat face has its nose high, between the eyes, so there well below the eyes.
+                let eyeRow = (eyes[0].y + eyes[1].y) / 2
+                let flat = nose.y - eyeRow < span * CGFloat(t.flatNose)
+                neck = neckAt(Int(max(nose.y + span * CGFloat(t.chinDrop), flat ? eyeRow + span * CGFloat(t.chinBelowEyes) : 0)))
             } else if !eyes.isEmpty || nose != nil {
-                let chin = Int(y + (r - l) * CGFloat(t.profileChinDrop))
-                if let (nl, nr) = run(through: column, row: min(height - 1, chin)) {
-                    neck = (CGFloat(nl), CGFloat(nr), CGFloat(chin))
-                }
+                neck = neckAt(Int(y + (r - l) * CGFloat(t.profileChinDrop)))
             }
         }
         let w = CGFloat(width), h = CGFloat(height)
@@ -371,7 +440,8 @@ public enum OutfitFit {
         kind: Kind,
         view: String? = nil,
         size: Double? = nil,
-        tallEars: Bool = false
+        tallEars: Bool = false,
+        pose: CatPose? = nil
     ) -> (image: CGImage, extra: Int)? {
         let w = CGFloat(cat.width), h = CGFloat(cat.height)
         var scaled = face
@@ -388,9 +458,30 @@ public enum OutfitFit {
         ) else { return nil }
         context.draw(cat, in: CGRect(x: 0, y: 0, width: w, height: h))
         // Into the context's bottom-left frame: the fit point, then the outfit round its anchor, turned.
-        context.translateBy(x: fit.point.x, y: h - fit.point.y)
-        context.rotate(by: -fit.angle)
-        context.draw(outfit, in: CGRect(x: -fit.anchor.x * ow, y: -fit.anchor.y * oh, width: ow, height: oh))
+        func drawOutfit(_ into: CGContext) {
+            into.saveGState()
+            into.translateBy(x: fit.point.x, y: h - fit.point.y)
+            into.rotate(by: -fit.angle)
+            into.draw(outfit, in: CGRect(x: -fit.anchor.x * ow, y: -fit.anchor.y * oh, width: ow, height: oh))
+            into.restoreGState()
+        }
+        if kind == .neck, pose.map(tucksNeckwear) == true, let layer = CGContext(
+            data: nil, width: cat.width, height: cat.height + extra, bitsPerComponent: 8, bytesPerRow: 0,
+            space: CGColorSpace(name: CGColorSpace.sRGB) ?? CGColorSpaceCreateDeviceRGB(),
+            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+        ) {
+            // Only where the cat is.
+            drawOutfit(layer)
+            layer.setBlendMode(.destinationIn)
+            layer.draw(cat, in: CGRect(x: 0, y: 0, width: w, height: h))
+            layer.setBlendMode(.normal)
+            layer.clear(CGRect(x: 0, y: h, width: w, height: CGFloat(extra)))
+            if let tucked = layer.makeImage() {
+                context.draw(tucked, in: CGRect(x: 0, y: 0, width: w, height: h + CGFloat(extra)))
+            }
+        } else {
+            drawOutfit(context)
+        }
         return context.makeImage().map { ($0, extra) }
     }
 }

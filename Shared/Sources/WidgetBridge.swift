@@ -127,7 +127,8 @@ enum WidgetBridge {
                        kind: kind,
                        view: view,
                        size: worn?.fit,
-                       tallEars: tall
+                       tallEars: tall,
+                       pose: pose
                    )
                 {
                     grown = Double(image.height + dressed.extra) / Double(max(1, image.height))

@@ -98,6 +98,25 @@ struct HouseCatApp: App {
             }
             // Screenshot runs: HOUSECAT_SCREEN=homes opens the house step, painted for HOUSECAT_BIOME.
             let environment = ProcessInfo.processInfo.environment
+            // HOUSECAT_SCREEN=map opens the globe (HOUSECAT_SEARCH=<place> searches and flies there).
+            if environment["HOUSECAT_SCREEN"] == "map" {
+                let session = GameSession.shared
+                let model = WorldMapModel(mode: .first, current: session.state(at: session.now()))
+                placing = model
+                if let wanted = environment["HOUSECAT_SEARCH"] {
+                    model.query = wanted
+                    Task {
+                        for _ in 0 ..< 40 where model.search.results.isEmpty {
+                            try? await Task.sleep(for: .seconds(0.25))
+                        }
+                        try? await Task.sleep(for: .seconds(3))
+                        if let first = model.search.results.first {
+                            model.choose(first)
+                        }
+                    }
+                }
+                return
+            }
             if environment["HOUSECAT_SCREEN"] == "homes" {
                 let biome = environment["HOUSECAT_BIOME"].flatMap(Biome.init(rawValue:)) ?? .countryside
                 choosingHome = HomePlace(

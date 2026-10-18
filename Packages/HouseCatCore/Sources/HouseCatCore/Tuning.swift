@@ -310,6 +310,19 @@ public enum Tuning {
         public static let bigCityNamesZoom = 1.8
         /// A place found by search is shown at this zoom.
         public static let searchZoom = 4.0
+        /// The globe: how far it tips towards the poles (degrees), its size at zoom 1 (a fraction of the shorter
+        /// side), how far in it zooms, how fast it turns by itself (degrees a second), how long a drag coasts
+        /// (seconds to settle) and how long a flight to a place takes.
+        public static let globeTiltLimit = 65.0
+        public static let globeSize = 0.4
+        public static let globeMaxZoom = 7.0
+        public static let globeSearchZoom = 3.2
+        public static let globeSpin = 7.0
+        public static let globeCoast = 0.9
+        public static let globeFlightSeconds = 1.8
+        /// City names appear on the globe from these zooms, and fade out towards its rim.
+        public static let globeBigCityZoom = 1.9
+        public static let globeCityZoom = 3.4
     }
 
     /// Debug launches only (HOUSECAT_HOUSE=full).

@@ -139,3 +139,48 @@ private func cities() throws -> CitiesFile {
     #expect(fixture.state.home.style == .houseboat)
     #expect(HouseStyle.allCases.allSatisfy { !$0.name.isEmpty && !$0.blurb.isEmpty })
 }
+
+@Suite("Globe")
+struct GlobeTests {
+    @Test func theCentreFacesTheViewer() {
+        let view = GlobeOrientation(latitude: 51.5, longitude: -0.1)
+        let p = view.project(latitude: 51.5, longitude: -0.1)
+        #expect(abs(p.x) < 1e-9 && abs(p.y) < 1e-9)
+        #expect(abs(p.depth - 1) < 1e-9)
+        let back = view.project(latitude: -51.5, longitude: 179.9)
+        #expect(back.depth < -0.9)
+    }
+
+    @Test func northIsUpAndEastIsRight() {
+        let view = GlobeOrientation(latitude: 0, longitude: 0)
+        #expect(view.project(latitude: 30, longitude: 0).y > 0)
+        #expect(view.project(latitude: 0, longitude: 30).x > 0)
+    }
+
+    @Test func aTapFindsThePlaceItWasProjectedFrom() {
+        let view = GlobeOrientation(latitude: 38, longitude: 140)
+        for (lat, lon) in [(35.68, 139.69), (43.06, 141.35), (21.3, 157.8), (-33.87, 151.2)] {
+            let p = view.project(latitude: lat, longitude: lon)
+            guard p.depth > 0, let place = view.place(x: p.x, y: p.y) else { continue }
+            #expect(abs(place.latitude - lat) < 1e-6)
+            #expect(abs(place.longitude - lon) < 1e-6)
+        }
+        #expect(view.place(x: 0.9, y: 0.9) == nil)
+    }
+
+    @Test func dragsFollowTheFingerAndStopShortOfThePoles() {
+        let view = GlobeOrientation(latitude: 0, longitude: 0)
+        #expect(view.dragged(dx: 0.5, dy: 0).longitude < 0)
+        #expect(view.dragged(dx: 0, dy: 0.5).latitude > 0)
+        #expect(view.dragged(dx: 0, dy: 10).latitude == Tuning.World.globeTiltLimit)
+        #expect(GlobeOrientation(latitude: 0, longitude: 179).dragged(dx: -0.1, dy: 0).longitude < -170)
+    }
+
+    @Test func aFlightGoesTheShortWayRound() {
+        let from = GlobeOrientation(latitude: 0, longitude: 170), to = GlobeOrientation(latitude: 10, longitude: -170)
+        let half = from.blended(to: to, by: 0.5)
+        #expect(abs(abs(half.longitude) - 180) < 1e-9)
+        #expect(abs(half.latitude - 5) < 1e-9)
+        #expect(from.blended(to: to, by: 1).longitude == -170)
+    }
+}

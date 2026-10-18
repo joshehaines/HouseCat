@@ -5,8 +5,8 @@ import MapKit
 import Observation
 import SwiftUI
 
-/// The world map (SPEC "World map, search and seasons"): search for any place or tap the painted map to drop
-/// the pin; the pin decides the biome (the painted mask, or city near a listed city), the sky's local time and
+/// The world map (SPEC "World map, search and seasons"): search for any place or spin the painted globe and tap
+/// to drop the pin; the pin decides the biome (the painted mask, or city near a listed city), the sky's local time and
 /// the hemisphere's season, which can also be fixed. No device location is read.
 @MainActor
 @Observable
@@ -185,7 +185,7 @@ final class PlaceSearch: NSObject, MKLocalSearchCompleterDelegate {
     }
 }
 
-/// The map screen.
+/// The map screen: the world as a globe to spin, with the search above it and the place you chose below.
 struct WorldMapView: View {
     @Bindable var model: WorldMapModel
     /// What a move costs (0: free), shown on the button.
@@ -194,24 +194,16 @@ struct WorldMapView: View {
     let cancel: (() -> Void)?
     let done: (HomePlace, SeasonSetting) -> Void
 
-    @State private var zoom: CGFloat = 1
-    @State private var settledZoom: CGFloat = 1
-    @State private var offset: CGSize = .zero
-    @State private var settledOffset: CGSize = .zero
+    @State private var camera = GlobeCamera()
     @FocusState private var searching: Bool
-    @State private var viewSize: CGSize = .zero
-    private let image: UIImage? = GameWorld.art.flatMap { UIImage(contentsOfFile: $0.url("world/map/map_painted.png").path) }
 
     var body: some View {
         ZStack {
-            // The map fills the whole screen, under the notch and the home bar.
-            GeometryReader { geometry in
-                map(fit: fitted(in: geometry.size), in: geometry.size)
-                    .onAppear { viewSize = geometry.size }
-                    .onChange(of: geometry.size) { _, size in viewSize = size }
+            SpinningGlobe(camera: camera, markers: markers, cities: model.cities?.cities ?? [], lift: 0.02) { latitude, longitude in
+                searching = false
+                camera.spins = false
+                model.drop(latitude: latitude, longitude: longitude)
             }
-            .ignoresSafeArea()
-            .background(Color(red: 0.47, green: 0.72, blue: 0.88))
             VStack(spacing: 0) {
                 header
                 Spacer()
@@ -222,115 +214,25 @@ struct WorldMapView: View {
         // The keyboard covers the card while you type; nothing moves.
         .ignoresSafeArea(.keyboard, edges: .bottom)
         .onChange(of: model.searchedTo) { _, _ in focusOnPin() }
-    }
-
-    /// After a search, the map flies in to the place.
-    private func focusOnPin() {
-        guard let pin = model.pin, viewSize.width > 0 else { return }
-        let fit = fitted(in: viewSize)
-        let p = WorldMap.point(latitude: pin.latitude, longitude: pin.longitude, width: fit.width, height: fit.height)
-        let target = CGFloat(Tuning.World.searchZoom)
-        withAnimation(.easeInOut(duration: 0.6)) {
-            zoom = target
-            settledZoom = target
-            offset = clamped(CGSize(width: (fit.width / 2 - p.x) * target, height: (fit.height / 2 - p.y) * target), fit: fit, in: viewSize)
-            settledOffset = offset
-        }
-    }
-
-    // MARK: The map
-
-    /// The map's size at zoom 1: the whole world in the view.
-    private func fitted(in size: CGSize) -> CGSize {
-        let scale = max(size.width / 2, size.height) // 2:1, covering the view
-        return CGSize(width: scale * 2, height: scale)
-    }
-
-    private func map(fit: CGSize, in size: CGSize) -> some View {
-        ZStack(alignment: .topLeading) {
-            if let image {
-                Image(uiImage: image)
-                    .resizable()
-                    .interpolation(.high)
-                    .frame(width: fit.width, height: fit.height)
-            }
-            cityLabels(fit: fit)
+        .onAppear {
+            // Moving home: start over the home you have.
             if let pin = model.pin {
-                let p = WorldMap.point(latitude: pin.latitude, longitude: pin.longitude, width: fit.width, height: fit.height)
-                Image(systemName: "mappin.circle.fill")
-                    .font(.system(size: 34 / zoom))
-                    .foregroundStyle(.white, Color.accentColor)
-                    .shadow(radius: 2 / zoom)
-                    .position(x: p.x, y: p.y - 14 / zoom)
+                camera.spins = false
+                camera.fly(to: pin.latitude, pin.longitude, zoom: Tuning.World.globeSearchZoom * 0.8, seconds: 0.01)
             }
         }
-        .frame(width: fit.width, height: fit.height)
-        .scaleEffect(zoom)
-        .offset(offset)
-        .frame(width: size.width, height: size.height)
-        .clipped()
-        .contentShape(Rectangle())
-        .gesture(
-            SimultaneousGesture(
-                MagnifyGesture()
-                    .onChanged { value in
-                        zoom = min(CGFloat(Tuning.World.maxZoom), max(1, settledZoom * value.magnification))
-                        offset = clamped(settledOffset, fit: fit, in: size)
-                    }
-                    .onEnded { _ in
-                        settledZoom = zoom
-                        settledOffset = clamped(offset, fit: fit, in: size)
-                        offset = settledOffset
-                    },
-                DragGesture(minimumDistance: 4)
-                    .onChanged { value in
-                        offset = clamped(
-                            CGSize(
-                                width: settledOffset.width + value.translation.width,
-                                height: settledOffset.height + value.translation.height
-                            ),
-                            fit: fit,
-                            in: size
-                        )
-                    }
-                    .onEnded { _ in settledOffset = offset }
-            )
-        )
-        .simultaneousGesture(
-            SpatialTapGesture().onEnded { value in
-                // The tap in map units: undo the offset and the zoom about the view's centre.
-                let x = (value.location.x - size.width / 2 - offset.width) / zoom + fit.width / 2
-                let y = (value.location.y - size.height / 2 - offset.height) / zoom + fit.height / 2
-                guard y >= 0, y <= fit.height else { return }
-                let c = WorldMap.coordinate(x: x, y: y, width: fit.width, height: fit.height)
-                model.drop(latitude: c.latitude, longitude: c.longitude)
-            }
-        )
     }
 
-    /// Keeps the map covering the view.
-    private func clamped(_ proposed: CGSize, fit: CGSize, in size: CGSize) -> CGSize {
-        let spareX = max(0, (fit.width * zoom - size.width) / 2), spareY = max(0, (fit.height * zoom - size.height) / 2)
-        return CGSize(width: min(spareX, max(-spareX, proposed.width)), height: min(spareY, max(-spareY, proposed.height)))
+    private var markers: [GlobeMarker] {
+        guard let pin = model.pin else { return [] }
+        return [GlobeMarker(id: "pin", latitude: pin.latitude, longitude: pin.longitude, kind: .pin)]
     }
 
-    /// City names drawn by code as you zoom in: the big ones first.
-    private func cityLabels(fit: CGSize) -> some View {
-        let shown = (model.cities?.cities ?? []).filter {
-            zoom >= CGFloat($0.big ? Tuning.World.bigCityNamesZoom : Tuning.World.cityNamesZoom)
-        }
-        return ForEach(shown, id: \.self) { city in
-            let p = WorldMap.point(latitude: city.latitude, longitude: city.longitude, width: fit.width, height: fit.height)
-            VStack(spacing: 1 / zoom) {
-                Circle().fill(Color(white: 0.25)).frame(width: 4 / zoom, height: 4 / zoom)
-                Text(city.name)
-                    .font(.system(size: 11 / zoom, weight: city.big ? .semibold : .regular))
-                    .foregroundStyle(Color(white: 0.2))
-                    .fixedSize()
-            }
-            .position(x: p.x, y: p.y + 6 / zoom)
-            .allowsHitTesting(false)
-        }
+    /// After a search, the globe turns to the place and comes in close.
+    private func focusOnPin() {
+        guard let pin = model.pin else { return }
+        camera.spins = false
+        camera.fly(to: pin.latitude, pin.longitude, zoom: Tuning.World.globeSearchZoom)
     }
 
     // MARK: Search and the card
@@ -401,7 +303,7 @@ struct WorldMapView: View {
         HStack(alignment: .center, spacing: 16) {
             VStack(alignment: .leading, spacing: 4) {
                 if model.pin == nil {
-                    Text("Search, or tap the map to drop your pin.").font(.headline)
+                    Text("Search for your town, or spin the globe and tap.").font(.headline)
                 } else {
                     HStack(spacing: 6) {
                         Text(model.placeName).font(.headline).lineLimit(1)

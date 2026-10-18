@@ -16,6 +16,8 @@ public struct ContentBundle: Sendable {
     public var weather: WeatherFile
     /// The intro: the host's words, the tour of homes round the world, the room tour.
     public var intro: IntroFile
+    /// Launch events: the Housewarming gift track and the Housewarming pack's sale.
+    public var events: EventsFile
 
     /// Loads every content file from a directory (the app bundle's `Content`).
     public static func load(from directory: URL) throws -> ContentBundle {
@@ -37,7 +39,8 @@ public struct ContentBundle: Sendable {
             minigames: read("minigames"),
             names: read("names"),
             weather: read("weather"),
-            intro: read("intro")
+            intro: read("intro"),
+            events: read("events")
         )
     }
 
@@ -50,6 +53,7 @@ public struct ContentBundle: Sendable {
             achievements: objectives.achievements.map(\.definition),
             seasons: seasons.seasons.map { try $0.definition() },
             paidItems: Set(catalogue.items.filter { [.set, .housewarming, .founders].contains($0.pool) }.map(\.id)),
+            events: events.definitions(launch: GameDay(iso: seasons.seasons.first?.startAt ?? "") ?? GameDay(index: 0)),
             shapes: Dictionary(uniqueKeysWithValues: catalogue.items.map {
                 ($0.id, RulesContext.Shape(width: $0.footprint.w, depth: $0.footprint.d, onWall: $0.layer == .wall, decal: $0.decal))
             })
@@ -388,4 +392,42 @@ public struct IntroFile: Codable, Sendable {
     public var map: String
     public var homes: String
     public var room: [RoomStep]
+}
+
+// MARK: events.json
+
+/// Launch events (SPEC "Launch"): a gift track (one present a day for a run of days) or a sale (an item on sale
+/// for a run of days). Days count from launch, the first season's start, so every date shown is real.
+public struct EventsFile: Codable, Sendable {
+    public struct Event: Codable, Sendable {
+        public enum Kind: String, Codable, Sendable {
+            case track, sale
+        }
+
+        public var id: String
+        public var name: String
+        public var kind: Kind
+        public var startDay: Int
+        public var days: Int
+        public var sku: String?
+        public var blurb: String
+        public var rewards: [EventReward]?
+    }
+
+    public var version: Int
+    public var events: [Event]
+
+    func definitions(launch: GameDay) -> [EventDefinition] {
+        events.map {
+            EventDefinition(
+                id: $0.id,
+                name: $0.name,
+                kind: $0.kind,
+                startDay: launch.advanced(by: $0.startDay),
+                endDay: launch.advanced(by: $0.startDay + $0.days),
+                sku: $0.sku,
+                rewards: $0.rewards ?? []
+            )
+        }
+    }
 }

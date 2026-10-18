@@ -105,6 +105,8 @@ public struct GameEvent: Codable, Hashable, Sendable, Identifiable {
         // Season pass and Cat Club
         case passPurchased(seasonID: String)
         case passTierClaimed(seasonID: String, track: PassTrack, tier: Int)
+        /// A launch event's present for one day of its track.
+        case eventRewardClaimed(eventID: String, day: Int)
         /// Written once a day while a verified Cat Club entitlement is live, so
         /// that day's +20% Beans and paid-track claims re-derive the same way
         /// forever. It grants nothing by itself.

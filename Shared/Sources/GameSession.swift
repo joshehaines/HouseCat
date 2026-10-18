@@ -56,7 +56,21 @@ final class GameSession {
     ///   reads the same save), else the app's container. Tests pass an in-memory store.
     init(store: EventStore? = nil) {
         content = GameWorld.content
-        rules = (try? content?.rulesContext()) ?? RulesContext()
+        var rules = (try? content?.rulesContext()) ?? RulesContext()
+        #if DEBUG
+            // HOUSECAT_TRACK_DAY=<n>: the launch moved so that today is day n of the gift track.
+            if let n = ProcessInfo.processInfo.environment["HOUSECAT_TRACK_DAY"].flatMap(Int.init), let first = rules.events.first {
+                let today = DayClock().day(of: Date())
+                let shift = first.startDay.distance(to: today.advanced(by: -(n - 1)))
+                rules.events = rules.events.map { event in
+                    var moved = event
+                    moved.startDay = event.startDay.advanced(by: shift)
+                    moved.endDay = event.endDay.advanced(by: shift)
+                    return moved
+                }
+            }
+        #endif
+        self.rules = rules
         self.store = store ?? (try? EventStore()) ?? (try? EventStore(inMemory: true))
         log = (try? self.store?.load()) ?? SaveLog()
         if log.events.isEmpty, log.snapshot == nil {
@@ -252,6 +266,28 @@ final class GameSession {
         guard let cat = state.cat(Self.catID), let content else { return nil }
         var rng = DaySeed(household: state.seed, day: state.clock.day(of: date), purpose: "line", salt: "\(context)\(log.events.count)")
         return Greeting.line(context, cat: cat, lines: content.lines, rng: &rng)
+    }
+
+    // MARK: Launch events
+
+    /// The gift track running today, if any.
+    func liveTrack() -> EventDefinition? {
+        let date = now()
+        let state = state(at: date)
+        return EventRules.live(on: state.clock.day(of: date), context: rules).first { $0.kind == .track }
+    }
+
+    /// The track's days whose presents are waiting, and which are already opened.
+    func trackProgress(_ event: EventDefinition) -> (waiting: [Int], claimed: Set<Int>, today: Int?) {
+        let date = now()
+        let state = state(at: date)
+        let day = state.clock.day(of: date)
+        return (EventRules.claimable(event, state: state, on: day), state.eventClaims[event.id] ?? [], event.trackDay(on: day))
+    }
+
+    /// Opens one day's present.
+    func claim(_ event: EventDefinition, day: Int) {
+        append(.eventRewardClaimed(eventID: event.id, day: day), at: now())
     }
 
     // MARK: Play and naps

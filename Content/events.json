@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "note": "Launch events (SPEC 'Launch': a 14-day Housewarming gift track with a real end date; the Housewarming pack on sale for the first 31 days). Days count from launch, the first season's start in seasons.json, so the dates shown are always true. Every reward is fixed and visible from the first day; a day's present can be claimed on that day or any later day until the track ends.",
+  "events": [
+    {
+      "id": "housewarming_track",
+      "name": "Housewarming",
+      "kind": "track",
+      "startDay": 0,
+      "days": 14,
+      "blurb": "A present for the new house every day for two weeks.",
+      "rewards": [
+        { "day": 1, "beans": 50 },
+        { "day": 2, "item": "living_clock" },
+        { "day": 3, "beans": 60 },
+        { "day": 4, "item": "living_windowseat" },
+        { "day": 5, "beans": 70 },
+        { "day": 6, "item": "bedroom_catbed" },
+        { "day": 7, "beans": 100 },
+        { "day": 8, "item": "living_bookcase" },
+        { "day": 9, "beans": 80 },
+        { "day": 10, "item": "living_cattree" },
+        { "day": 11, "beans": 90 },
+        { "day": 12, "item": "kitchen_radio" },
+        { "day": 13, "beans": 120 },
+        { "day": 14, "item": "garden_birdfeeder", "beans": 150 }
+      ]
+    },
+    {
+      "id": "housewarming_pack",
+      "name": "Housewarming Pack",
+      "kind": "sale",
+      "startDay": 0,
+      "days": 31,
+      "sku": "housecat.season.housewarming",
+      "blurb": "On sale for the first month only, then gone for good."
+    }
+  ]
+}

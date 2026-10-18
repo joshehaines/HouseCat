@@ -43,6 +43,8 @@
 	<false/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>NSHealthShareUsageDescription</key>
+	<string>Your cat notices your steps, sleep and workouts and gives you extra XP when you meet a goal. HouseCat only reads them, on this phone.</string>
 	<key>NSSupportsLiveActivities</key>
 	<true/>
 	<key>RevenueCatAPIKey</key>

@@ -16,6 +16,8 @@ public struct RulesContext: Sendable {
     /// pieces in the same cells once their phones merge: the later placement (in the log's order) yields.
     /// Empty in rule tests that do not place real furniture (no check then).
     public var shapes: [String: Shape]
+    /// Launch events with their real dates (events.json).
+    public var events: [EventDefinition]
 
     /// A piece's footprint and layer, as PlacementRules reads it.
     public struct Shape: Sendable, Equatable {
@@ -39,8 +41,10 @@ public struct RulesContext: Sendable {
         achievements: [ObjectiveDefinition] = [],
         seasons: [SeasonDefinition] = [],
         paidItems: Set<String> = [],
+        events: [EventDefinition] = [],
         shapes: [String: Shape] = [:]
     ) {
+        self.events = events
         self.gifts = gifts
         self.dailyObjectives = dailyObjectives
         self.weeklyObjectives = weeklyObjectives
@@ -225,6 +229,8 @@ public struct HouseholdState: Codable, Equatable, Sendable {
     public internal(set) var beansGranted = 0
     /// The intro's welcome Beans have been given.
     public internal(set) var tourRewarded = false
+    /// The days of each event's gift track already claimed.
+    public internal(set) var eventClaims: [String: Set<Int>] = [:]
     /// Beans earned on closed days, Cat Club bonus included.
     public internal(set) var beansEarnedClosed = 0
     public internal(set) var beansSpent = 0

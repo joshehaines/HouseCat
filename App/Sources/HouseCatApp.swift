@@ -279,6 +279,8 @@ struct RoomScreen: View {
     @State private var naps = Naps.shared
     @State private var tour = RoomTour.shared
     @State private var offering = false
+    @State private var track: EventDefinition?
+    @State private var askingHealth = false
     @State private var editing: CatBuilderModel?
     @State private var profileVersion = 0
     @Environment(\.horizontalSizeClass) private var sizeClass
@@ -349,8 +351,19 @@ struct RoomScreen: View {
             }
             .overlay(alignment: .topTrailing) {
                 if visit.scene is RoomScene {
-                    StatusPill(level: visit.stats.level, beans: visit.stats.beans, streak: visit.stats.streak)
-                        .padding(20)
+                    VStack(alignment: .trailing, spacing: 8) {
+                        StatusPill(level: visit.stats.level, beans: visit.stats.beans, streak: visit.stats.streak)
+                        // The launch's gift track, while it runs, with a dot when a present waits.
+                        if !visit.decorating, let live = GameSession.shared.liveTrack() {
+                            RoundIconButton(
+                                "gift_box_with_a_ribbon",
+                                label: live.name,
+                                badge: !GameSession.shared.trackProgress(live).waiting.isEmpty
+                            ) { track = live }
+                                .id(visit.stats.beans)
+                        }
+                    }
+                    .padding(20)
                 }
             }
             .overlay(alignment: .bottomLeading) {
@@ -540,6 +553,47 @@ struct RoomScreen: View {
                 }
             }
             .animation(.easeOut(duration: 0.25), value: offering)
+            .overlay {
+                if let live = track {
+                    ZStack {
+                        Color.black.opacity(0.35).ignoresSafeArea().onTapGesture { track = nil }
+                        GiftTrackView(event: live) {
+                            track = nil
+                            visit.refreshStats()
+                        }
+                        .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
+                        .padding(24)
+                    }
+                    .transition(.opacity)
+                }
+            }
+            .animation(.easeOut(duration: 0.25), value: track?.id)
+            // Day 3: may the cat notice your steps, sleep and workouts? Then any goal met today.
+            .task(id: visit.ready) {
+                guard visit.ready, !tour.isRunning else { return }
+                let session = GameSession.shared
+                if HealthLayer.isAvailable, HealthRules.shouldAsk(session.state(at: session.now()), asked: HealthLayer.asked) {
+                    try? await Task.sleep(for: .seconds(Tuning.Care.lineSeconds + 2))
+                    askingHealth = true
+                } else {
+                    for goal in await HealthLayer.check() {
+                        visit.say(session.line(HealthRules.line(goal)))
+                        visit.refreshStats()
+                    }
+                }
+            }
+            .overlay {
+                if askingHealth {
+                    ZStack {
+                        Color.black.opacity(0.35).ignoresSafeArea()
+                        HealthCard(catName: visit.catName ?? "Your cat") { askingHealth = false }
+                            .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
+                            .padding(24)
+                    }
+                    .transition(.opacity)
+                }
+            }
+            .animation(.easeOut(duration: 0.25), value: askingHealth)
             .onChange(of: tour.step?.id) { _, id in
                 if id == "pet" {
                     visit.callCatForTour()

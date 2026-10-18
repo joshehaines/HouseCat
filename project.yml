@@ -73,6 +73,8 @@ targets:
       properties:
         com.apple.security.application-groups: [group.com.housecatgame.housecat]
         com.apple.developer.weatherkit: true
+        com.apple.developer.healthkit: true
+        com.apple.developer.healthkit.access: []
     info:
       path: App/Info.plist
       properties:
@@ -80,6 +82,7 @@ targets:
         ITSAppUsesNonExemptEncryption: false
         # Co-owning through CloudKit (Shared/Sources/HouseholdSync.swift): on once the iCloud container is on the App ID.
         HouseCatCloudKit: false
+        NSHealthShareUsageDescription: "Your cat notices your steps, sleep and workouts and gives you extra XP when you meet a goal. HouseCat only reads them, on this phone."
         # An invite link opens in the app.
         CKSharingSupported: true
         # The nap timer on the Lock Screen and in the Dynamic Island.

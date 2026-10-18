@@ -27,7 +27,7 @@ extension HouseholdState {
              .roomVisited,
              .surfaceChanged, .outfitWorn, .homeMoved, .seasonModeChanged, .homePlaced, .seasonSet, .homeStyleChosen, .tourFinished:
             applyHome(event, context: context)
-        case .pauseStarted, .pauseEnded, .passPurchased, .passTierClaimed, .clubDayRecorded:
+        case .pauseStarted, .pauseEnded, .passPurchased, .passTierClaimed, .clubDayRecorded, .eventRewardClaimed:
             applyStreakAndPass(event, day: day, context: context)
         case .sundayCardShared, .pawPrintSent, .groupJoined, .giftSent, .satForFriend:
             applySocial(event, context: context)
@@ -270,6 +270,18 @@ extension HouseholdState {
             passes[seasonID, default: SeasonProgress()].purchased = true
         case let .passTierClaimed(seasonID, track, tier):
             claimTier(seasonID: seasonID, track: track, tier: tier, day: day, context: context)
+        case let .eventRewardClaimed(eventID, rewardDay):
+            guard let event = context.events.first(where: { $0.id == eventID }),
+                  EventRules.claimable(event, state: self, on: day).contains(rewardDay),
+                  let reward = event.rewards.first(where: { $0.day == rewardDay })
+            else { break }
+            eventClaims[eventID, default: []].insert(rewardDay)
+            if let beans = reward.beans {
+                beansGranted += beans
+            }
+            if let item = reward.item {
+                owned[item, default: 0] += 1
+            }
         case .clubDayRecorded:
             today?.clubDay = true
         default:

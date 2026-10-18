@@ -362,7 +362,8 @@ struct ShopView: View {
             id: StoreCatalog.housewarmingPack,
             title: "Housewarming",
             art: ["ui/shop/shop_housewarming.png"],
-            ribbon: "Launch season",
+            // Its real last day (UK DMCC: a limited offer states a true end date).
+            ribbon: housewarmingSale.map { "Until \($0.lastDay.date.day) \(Self.monthName($0.lastDay.month))" },
             contents: [
                 .init(icon: "house", text: "A grand fireplace"),
                 .init(icon: "sofa_for_furniture", text: "Hi-fi, lights and a mat"),
@@ -470,7 +471,18 @@ struct ShopView: View {
     private var featured: some View {
         clubBanner
         tile(starter)
-        tile(housewarming)
+        // Only during its sale (events.json), or for someone who has it.
+        if housewarmingSale != nil || owned.housewarmingPack {
+            tile(housewarming)
+        }
+    }
+
+    /// The Housewarming pack's sale, while it is on (the first month after launch).
+    private var housewarmingSale: EventDefinition? {
+        guard let context = try? content?.rulesContext() else { return nil }
+        let session = GameSession.shared
+        let today = session.state(at: session.now()).clock.day(of: session.now())
+        return EventRules.onSale(StoreCatalog.housewarmingPack, on: today, context: context)
     }
 
     // MARK: Tiles

@@ -183,3 +183,64 @@ struct ObjectiveTests {
         #expect(state.beans == 150 + 100 + 100 + 100 + 50 + 100)
     }
 }
+
+@Suite("Launch events")
+struct LaunchEventTests {
+    let content: ContentBundle
+    let context: RulesContext
+
+    init() throws {
+        content = try ContentBundle.load(from: ContentValidationTests.repo.appendingPathComponent("Content"))
+        context = try content.rulesContext()
+    }
+
+    var track: EventDefinition {
+        context.events.first { $0.id == "housewarming_track" }!
+    }
+
+    @Test func theEventsRunFromLaunchWithRealDates() throws {
+        let launch = try #require(GameDay(iso: content.seasons.seasons[0].startAt))
+        #expect(track.startDay == launch)
+        #expect(track.lastDay == launch.advanced(by: 13))
+        let sale = try #require(EventRules.onSale("housecat.season.housewarming", on: launch.advanced(by: 30), context: context))
+        #expect(sale.lastDay == launch.advanced(by: 30))
+        #expect(EventRules.onSale("housecat.season.housewarming", on: launch.advanced(by: 31), context: context) == nil)
+        #expect(EventRules.live(on: launch.advanced(by: -1), context: context).isEmpty)
+    }
+
+    @Test func everyDayOfTheTrackHasAPresentThatExists() {
+        #expect(track.rewards.map(\.day) == Array(1 ... 14))
+        let items = Set(content.catalogue.items.map(\.id))
+        for reward in track.rewards {
+            #expect(reward.beans != nil || reward.item != nil)
+            if let item = reward.item {
+                #expect(items.contains(item), "\(item)")
+            }
+        }
+    }
+
+    @Test func presentsAreClaimedOnTheirDayOrLaterOnceEach() {
+        var f = Fixture(context: context)
+        let offset = f.start.distance(to: track.startDay)
+        f.visit(days: [offset])
+        // Day one: only day one's present.
+        #expect(EventRules.claimable(track, state: f.state, on: f.day(offset)) == [1])
+        let before = f.state.beans
+        f.add(.eventRewardClaimed(eventID: track.id, day: 1), day: offset, hour: 9)
+        f.add(.eventRewardClaimed(eventID: track.id, day: 1), day: offset, hour: 9, minute: 1)
+        #expect(f.state.beans == before + 50)
+        // Not tomorrow's yet.
+        f.add(.eventRewardClaimed(eventID: track.id, day: 2), day: offset, hour: 10)
+        #expect(f.state.owned["living_clock"] == nil)
+        // Back on day four: days two to four wait.
+        f.visit(days: [offset + 3])
+        #expect(EventRules.claimable(track, state: f.state, on: f.day(offset + 3)) == [2, 3, 4])
+        f.add(.eventRewardClaimed(eventID: track.id, day: 2), day: offset + 3, hour: 9)
+        #expect(f.state.owned["living_clock"] == 1)
+        // After the track, nothing more.
+        f.visit(days: [offset + 14])
+        #expect(EventRules.claimable(track, state: f.state, on: f.day(offset + 14)).isEmpty)
+        f.add(.eventRewardClaimed(eventID: track.id, day: 5), day: offset + 14, hour: 9)
+        #expect(f.state.eventClaims[track.id] == [1, 2])
+    }
+}

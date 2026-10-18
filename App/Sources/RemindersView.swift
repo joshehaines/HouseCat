@@ -24,6 +24,9 @@ struct SettingsView: View {
                     Text("Reminders, sharing and widget").font(Theme.title(28))
                 }
                 reminders
+                if HealthLayer.isAvailable {
+                    HealthSettingsCard()
+                }
                 CoOwnCard(catName: catName)
                 WidgetGuide(catName: catName)
                     .frame(maxWidth: .infinity, alignment: .leading)

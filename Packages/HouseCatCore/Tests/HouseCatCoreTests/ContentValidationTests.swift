@@ -345,6 +345,19 @@ struct ContentValidationTests {
         #expect(intro.room.last?.reward == true)
     }
 
+    /// Step 9's content bar (SPEC "Build phases": 600 lines loaded, reading right in all four personalities).
+    @Test func everyLineContextSpeaksInAllFourPersonalities() {
+        let variants = content.lines.lines.reduce(0) { $0 + $1.variants.count }
+        #expect(variants >= 600, "\(variants) lines")
+        for context in content.lines.contexts {
+            let speakers = Set(content.lines.lines.filter { $0.context == context.id }.map(\.personality))
+            #expect(speakers.count == Personality.allCases.count, "\(context.id): \(speakers.count) personalities")
+        }
+        for goal in GameEvent.HealthGoal.allCases {
+            #expect(content.lines.contexts.contains { $0.id == HealthRules.line(goal) })
+        }
+    }
+
     @Test func theRulesEngineLoadsTheContent() throws {
         let context = try content.rulesContext()
         #expect(context.gifts.count == 60)

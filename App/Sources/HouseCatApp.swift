@@ -298,6 +298,10 @@ struct RoomScreen: View {
     @State private var askingHealth = false
     @State private var editing: CatBuilderModel?
     @State private var profileVersion = 0
+    @State private var shopOpening: ShopView.Section?
+    @State private var showRoad = false
+    @State private var showStreak = false
+    @State private var showPass = false
     /// Short of Beans for something in the room: the top-up, then the purchase.
     @State private var topUp: ShopView.TopUpRequest?
     @Environment(\.horizontalSizeClass) private var sizeClass
@@ -324,7 +328,7 @@ struct RoomScreen: View {
     }
 
     var body: some View {
-        screens(cards(sheets(hud)))
+        screens(progressCards(cards(sheets(hud))))
     }
 
     /// The room and its controls.
@@ -395,7 +399,32 @@ struct RoomScreen: View {
             .overlay(alignment: .topTrailing) {
                 if visit.scene is RoomScene {
                     VStack(alignment: .trailing, spacing: 8) {
-                        StatusPill(level: visit.stats.level, beans: visit.stats.beans, streak: visit.stats.streak)
+                        StatusPill(
+                            level: visit.stats.level,
+                            progress: visit.stats.progress,
+                            beans: visit.stats.beans,
+                            streak: visit.stats.streak,
+                            onLevel: { showRoad = true },
+                            onBeans: { openShop(.beans) },
+                            onStreak: { showStreak = true }
+                        )
+                        .overlay(alignment: .bottomLeading) {
+                            if let gain = visit.xpGain {
+                                XPFloat(amount: gain.amount).id(gain.id).offset(y: 34).transition(.opacity)
+                            }
+                        }
+                        .animation(.easeOut(duration: 0.3), value: visit.xpGain)
+                        // The season pass, with a dot when a tier waits to be claimed.
+                        if !visit.decorating {
+                            let pass = GameSession.shared.passInfo(club: store?.entitlements.hasClub == true)
+                            RoundIconButton(
+                                "season_pass_ticket",
+                                label: "Season pass",
+                                badge: !(pass?.claimableFree.isEmpty ?? true) || !(pass?.claimablePaid.isEmpty ?? true)
+                            ) { showPass = true }
+                                .id(visit.stats.xp)
+                                .padding(.top, visit.xpGain == nil ? 0 : 28)
+                        }
                         // The launch's gift track, while it runs, with a dot when a present waits.
                         if !visit.decorating, let live = GameSession.shared.liveTrack() {
                             RoundIconButton(
@@ -437,7 +466,7 @@ struct RoomScreen: View {
                             .tourTarget("profile")
                         RoundIconButton("collection_book", label: "The book") { showBook = true }
                             .tourTarget("book")
-                        RoundIconButton("shop_bag", label: "Shop") { showShop = true }
+                        RoundIconButton("shop_bag", label: "Shop") { openShop(nil) }
                             .tourTarget("shop")
                     }
                     .padding(20)
@@ -500,7 +529,8 @@ struct RoomScreen: View {
                     store: store,
                     content: GameWorld.content,
                     tryLook: { visit.preview($0) },
-                    addLook: { visit.addWholeRoom($0) }
+                    addLook: { visit.addWholeRoom($0) },
+                    opening: shopOpening
                 )
                 .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
             }
@@ -515,7 +545,7 @@ struct RoomScreen: View {
             }
             .onChange(of: visit.openShop, initial: true) { _, open in
                 if open {
-                    showShop = true
+                    openShop(nil)
                     visit.openShop = false
                 }
             }
@@ -624,7 +654,7 @@ struct RoomScreen: View {
                         Color.black.opacity(0.35).ignoresSafeArea().onTapGesture { offering = false }
                         OfferCard(catName: visit.catName ?? "Your cat", store: store, content: GameWorld.content) {
                             offering = false
-                            showShop = true
+                            openShop(nil)
                         } close: {
                             offering = false
                         }
@@ -773,6 +803,79 @@ struct RoomScreen: View {
                     GameSession.shared.edit(look: model.look)
                     editing = nil
                     visit.refreshCat()
+                }
+            }
+    }
+
+    private func openShop(_ section: ShopView.Section?) {
+        shopOpening = section
+        showShop = true
+    }
+
+    /// A card over the room, dimming it; a tap outside closes it when `close` is given.
+    private func card(_ shown: Bool, close: (() -> Void)?, @ViewBuilder content: () -> some View) -> some View {
+        ZStack {
+            if shown {
+                Color.black.opacity(0.4).ignoresSafeArea().onTapGesture { close?() }
+                content()
+                    .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
+                    .padding(24)
+            }
+        }
+        .animation(.easeOut(duration: 0.25), value: shown)
+    }
+
+    /// The level, road, streak and pass cards.
+    private func progressCards(_ content: some View) -> some View {
+        content
+            #if DEBUG
+            // Screenshot runs: HOUSECAT_SCREEN=levelup|road|streak|pass.
+            .task(id: visit.ready) {
+                guard visit.ready, let wanted = ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"] else { return }
+                try? await Task.sleep(for: .seconds(3))
+                switch wanted {
+                case "levelup": visit.levelReached = max(2, visit.stats.level)
+                case "road": showRoad = true
+                case "streak": showStreak = true
+                case "pass": showPass = true
+                default: break
+                }
+            }
+            #endif
+            .overlay {
+                card(visit.levelReached != nil && !tour.isRunning && visit.ready, close: nil) {
+                    if let level = visit.levelReached, let stop = GameSession.shared.stop(for: level) {
+                        LevelUpCard(stop: stop, next: LevelRoadmap.nextRoomLevel(after: level)) {
+                            visit.levelReached = nil
+                            showRoad = true
+                        } close: {
+                            visit.levelReached = nil
+                        }
+                    }
+                }
+            }
+            .overlay {
+                card(showRoad, close: { showRoad = false }) {
+                    RoadmapView(info: GameSession.shared.levelInfo, stops: GameSession.shared.roadmap()) { showRoad = false }
+                }
+            }
+            .overlay {
+                card(showStreak, close: { showStreak = false }) {
+                    StreakCard(catName: visit.catName ?? "Your cat") {
+                        showStreak = false
+                        visit.refreshStats()
+                    }
+                }
+            }
+            .overlay {
+                card(showPass, close: { showPass = false }) {
+                    PassView(club: store?.entitlements.hasClub == true) {
+                        showPass = false
+                        openShop(.club)
+                    } close: {
+                        showPass = false
+                        visit.refreshStats()
+                    }
                 }
             }
     }

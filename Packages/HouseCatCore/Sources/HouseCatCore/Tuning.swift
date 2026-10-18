@@ -67,6 +67,8 @@ public enum Tuning {
         public static let xpPerLevelAfterTable = 650
         /// The roadmap shows this many levels ahead.
         public static let roadmapAhead = 8
+        /// How long "+12 XP" floats by the level after it is earned.
+        public static let floatSeconds = 1.6
     }
 
     /// Trust: the count of days a cat was fed (SPEC "Two progressions").

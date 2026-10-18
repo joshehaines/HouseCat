@@ -56,23 +56,60 @@ final class Visit {
     /// What the save says now, for the status readout.
     struct Stats: Equatable {
         var level = 1
+        var xp = 0
+        /// How far into the level, 0 to 1 (the pill's XP bar).
+        var progress = 0.0
         var beans = 0
         var streak = 0
     }
 
     private(set) var stats = Stats()
 
-    /// Reads the level, Beans and streak again after anything that changes them; a new level gets its fanfare.
+    /// XP just earned, floating up by the level ("+12 XP"); a new id each time so the same amount floats again.
+    struct XPGain: Equatable {
+        var amount: Int
+        var id = UUID()
+    }
+
+    private(set) var xpGain: XPGain?
+
+    /// A level just reached: the card with what it brought (Josh, 18 Oct: a level-up card and a road ahead).
+    var levelReached: Int?
+
+    /// Reads the level, Beans and streak again after anything that changes them; XP earned floats up, and a new
+    /// level gets its fanfare and its card.
     func refreshStats() {
         let state = GameSession.shared.state(at: GameSession.shared.now())
         let before = stats
-        stats = Stats(level: state.level, beans: state.beans, streak: state.streak.current)
-        if statsRead, stats.level > before.level {
-            Sound.play("ui_level_up", volume: Tuning.Sound.levelUp)
-            show(toast: "Level \(stats.level)", icon: "level_up_arrow")
-            say(GameSession.shared.line("progress.level_up"))
+        let curve = LevelCurve.progress(xp: state.xp)
+        let span = max(1, curve.intoLevel + curve.toNext)
+        stats = Stats(
+            level: state.level,
+            xp: state.xp,
+            progress: Double(curve.intoLevel) / Double(span),
+            beans: state.beans,
+            streak: state.streak.current
+        )
+        guard statsRead else {
+            statsRead = true
+            return
         }
-        statsRead = true
+        if stats.xp > before.xp {
+            let gain = XPGain(amount: stats.xp - before.xp)
+            xpGain = gain
+            Task { @MainActor [weak self] in
+                try? await Task.sleep(for: .seconds(Tuning.Levels.floatSeconds))
+                if self?.xpGain == gain {
+                    self?.xpGain = nil
+                }
+            }
+        }
+        if stats.level > before.level {
+            Sound.play("ui_level_up", volume: Tuning.Sound.levelUp)
+            say(GameSession.shared.line("progress.level_up"))
+            // Never over the tour: it waits for the tour's end.
+            levelReached = stats.level
+        }
     }
 
     @ObservationIgnored private var statsRead = false

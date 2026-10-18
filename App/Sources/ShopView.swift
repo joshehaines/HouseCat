@@ -85,6 +85,8 @@ struct ShopView: View {
     /// "Try it in your room" and "Add the whole room": the shop closes and the room does it.
     var tryLook: ((BundlesFile.Bundle) -> Void)?
     var addLook: ((BundlesFile.Bundle) -> Void)?
+    /// The section to open on (the pill's Beans open the packs, the pass opens Cat Club).
+    var opening: Section?
     @State private var prices = StorePrices.shared
     @State private var message: String?
     @State private var buying: String?
@@ -188,6 +190,10 @@ struct ShopView: View {
         .task {
             Analytics.track(.shopOpened)
             refresh()
+            if let opening {
+                try? await Task.sleep(for: .seconds(0.3))
+                section = opening
+            }
             await prices.load(store: store, content: content)
             if prices.unavailable {
                 message = "The shop is not available right now."

@@ -69,6 +69,17 @@ final class GameSession {
                     return moved
                 }
             }
+            // HOUSECAT_PASS_DAY=<n>: the seasons moved so that today is day n of the first one.
+            if let n = ProcessInfo.processInfo.environment["HOUSECAT_PASS_DAY"].flatMap(Int.init), let first = rules.seasons.first {
+                let today = DayClock().day(of: Date())
+                let shift = first.startDay.distance(to: today.advanced(by: -(n - 1)))
+                rules.seasons = rules.seasons.map { season in
+                    var moved = season
+                    moved.startDay = season.startDay.advanced(by: shift)
+                    moved.endDay = season.endDay.advanced(by: shift)
+                    return moved
+                }
+            }
         #endif
         self.rules = rules
         self.store = store ?? (try? EventStore()) ?? (try? EventStore(inMemory: true))

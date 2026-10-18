@@ -267,6 +267,7 @@ struct RoomScreen: View {
             }
             .animation(.easeOut(duration: 0.45), value: visit.ready)
             .environment(\.hudScale, hudScale)
+            .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
             .statusBarHidden()
             .persistentSystemOverlays(.hidden)
             .alert(item: $visit.roomOffer) { offer in

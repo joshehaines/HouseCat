@@ -196,6 +196,7 @@ final class Visit {
         ) {
             scene = exterior
             exterior.onDoorOpens = { Sound.play("door_open", volume: Tuning.Sound.door) }
+            Sound.weather(exterior.model.weather)
             exterior.onEnter = { [weak self, weak exterior] in
                 guard let self else { return }
                 let room = preparedRoom()
@@ -268,6 +269,8 @@ final class Visit {
         if let house = scene as? RoomScene {
             Sound.ambience(for: house.house.sky, fire: house.furniture.values.contains { $0.childNode(withName: "fx.fire") != nil })
         }
+        let session = GameSession.shared
+        Sound.weather(GameWorld.now(state: session.state(at: session.now()), at: session.now()).weather)
         guard let line = arrival?.greeting else { return }
         let meow = Sound.meow(arrival?.meow)
         Task { @MainActor [weak self] in

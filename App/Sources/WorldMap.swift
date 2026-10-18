@@ -1,5 +1,6 @@
 import HouseCatCore
 import HouseCatGame
+import HouseCatUI
 import MapKit
 import Observation
 import SwiftUI
@@ -333,11 +334,16 @@ struct WorldMapView: View {
         HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 6) {
                 if !searching {
-                    Text(model.mode == .first || cost == 0 && model.pin == nil ? "Where do you live?" : "Move home")
-                        .font(.title2.weight(.bold))
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 6)
-                        .background(.thinMaterial, in: Capsule())
+                    HStack(spacing: 6) {
+                        PaintedIcon("map_pin", size: 30)
+                        Text(model.mode == .first || cost == 0 && model.pin == nil ? "Where do you live?" : "Move home")
+                            .font(Theme.title(22))
+                            .foregroundStyle(Theme.ink)
+                    }
+                    .padding(.leading, 8)
+                    .padding(.trailing, 16)
+                    .padding(.vertical, 4)
+                    .paper(Capsule())
                 }
                 HStack {
                     Image(systemName: "magnifyingglass").foregroundStyle(.secondary)
@@ -354,7 +360,7 @@ struct WorldMapView: View {
                 }
                 .padding(10)
                 .frame(maxWidth: 380)
-                .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 12))
+                .paper(RoundedRectangle(cornerRadius: 14, style: .continuous))
                 if !model.search.results.isEmpty {
                     VStack(alignment: .leading, spacing: 0) {
                         ForEach(model.search.results.prefix(4), id: \.self) { result in
@@ -376,15 +382,12 @@ struct WorldMapView: View {
                         }
                     }
                     .frame(maxWidth: 380)
-                    .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 12))
+                    .paper(RoundedRectangle(cornerRadius: 14, style: .continuous))
                 }
             }
             Spacer()
             if let cancel {
-                Button(action: cancel) {
-                    Image(systemName: "xmark.circle.fill").font(.title).foregroundStyle(.white, .black.opacity(0.4))
-                }
-                .accessibilityLabel("Close")
+                CloseButton(action: cancel)
             }
         }
     }
@@ -422,24 +425,26 @@ struct WorldMapView: View {
                     }
                 }
             } label: {
-                Label(seasonTitle, systemImage: "leaf")
-                    .font(.subheadline.weight(.semibold))
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 8)
-                    .background(.thinMaterial, in: Capsule())
+                HStack(spacing: 4) {
+                    PaintedIcon("weather_sun_and_cloud", size: 24)
+                    Text(seasonTitle).font(.subheadline.weight(.semibold)).foregroundStyle(Theme.ink)
+                }
+                .padding(.leading, 8)
+                .padding(.trailing, 12)
+                .padding(.vertical, 6)
+                .paper(Capsule())
             }
-            Button {
+            HUDButton(buttonTitle, icon: "house", prominent: true) {
                 if let place = model.place {
                     done(place, model.season)
                 }
-            } label: {
-                Text(buttonTitle).font(.headline).padding(.horizontal, 8)
             }
-            .buttonStyle(.borderedProminent)
             .disabled(model.place == nil || model.resolving || !canAfford)
+            .opacity(model.place == nil || model.resolving || !canAfford ? 0.5 : 1)
         }
         .padding(14)
-        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 18))
+        .foregroundStyle(Theme.ink)
+        .paper(RoundedRectangle(cornerRadius: 20, style: .continuous))
     }
 
     private var buttonTitle: String {

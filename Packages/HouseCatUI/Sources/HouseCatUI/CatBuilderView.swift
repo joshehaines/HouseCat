@@ -42,7 +42,9 @@ public struct CatBuilderView: View {
                 }
             }
         }
-        .background(Color(red: 0.95, green: 0.9, blue: 0.86))
+        .background(Color(red: 0.95, green: 0.9, blue: 0.86).ignoresSafeArea())
+        .foregroundStyle(Theme.ink)
+        .tint(Theme.accent)
     }
 
     private var panel: some View {
@@ -56,7 +58,7 @@ public struct CatBuilderView: View {
             }
             footer
         }
-        .background(.regularMaterial)
+        .background(Theme.paper)
     }
 
     // MARK: Left: the cat and the presets
@@ -105,7 +107,7 @@ public struct CatBuilderView: View {
                         .padding(4)
                         .background(
                             RoundedRectangle(cornerRadius: 12)
-                                .fill(model.presetID == preset.id ? Color.accentColor.opacity(0.18) : Color.white.opacity(0.5))
+                                .fill(model.presetID == preset.id ? Theme.accent.opacity(0.18) : Color.white.opacity(0.5))
                         )
                     }
                     .buttonStyle(.plain)
@@ -127,9 +129,11 @@ public struct CatBuilderView: View {
                         model.section = section
                     }
                     .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(model.section == section ? Theme.ink : Theme.inkSoft)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 7)
-                    .background(model.section == section ? Color.accentColor.opacity(0.2) : Color.clear, in: Capsule())
+                    .background(Capsule().fill(model.section == section ? Theme.cream : Color.clear))
+                    .overlay(Capsule().strokeBorder(model.section == section ? Theme.rim : .clear, lineWidth: 1))
                     .buttonStyle(.plain)
                 }
             }
@@ -338,7 +342,7 @@ public struct CatBuilderView: View {
                             .padding(10)
                             .background(
                                 RoundedRectangle(cornerRadius: 12)
-                                    .fill(model.personality == personality ? Color.accentColor.opacity(0.18) : Color.white.opacity(0.4))
+                                    .fill(model.personality == personality ? Theme.accent.opacity(0.18) : Color.white.opacity(0.4))
                             )
                         }
                         .buttonStyle(.plain)
@@ -351,29 +355,26 @@ public struct CatBuilderView: View {
     private var footer: some View {
         HStack {
             if let cancel {
-                Button("Cancel", action: cancel)
-                    .buttonStyle(.bordered)
+                HUDButton("Cancel", symbol: "xmark", action: cancel)
             }
             Spacer()
             let sections = model.sections
             let index = sections.firstIndex(of: model.section) ?? 0
             if index + 1 < sections.count {
-                Button("Next: \(sections[index + 1].rawValue)") {
+                HUDButton("Next: \(sections[index + 1].rawValue)", symbol: "arrow.right") {
                     model.section = sections[index + 1]
                 }
-                .buttonStyle(.bordered)
             }
             if model.mode == .edit {
-                Button("Done") {
+                HUDButton("Done", symbol: "checkmark", prominent: true) {
                     done(model)
                 }
-                .buttonStyle(.borderedProminent)
             } else if model.section == .name {
-                Button(model.checkedName.map { "Bring \($0) home" } ?? "Bring them home") {
+                HUDButton(model.checkedName.map { "Bring \($0) home" } ?? "Bring them home", icon: "house", prominent: true) {
                     done(model)
                 }
-                .buttonStyle(.borderedProminent)
                 .disabled(!model.canAdopt)
+                .opacity(model.canAdopt ? 1 : 0.5)
             }
         }
         .padding(12)
@@ -383,7 +384,7 @@ public struct CatBuilderView: View {
 
     private func row(_ title: String, @ViewBuilder content: () -> some View) -> some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(title).font(.headline)
+            Text(title).font(Theme.title(17))
             content()
         }
     }
@@ -397,10 +398,8 @@ public struct CatBuilderView: View {
                 .font(.subheadline)
                 .padding(.horizontal, 12)
                 .padding(.vertical, 7)
-                .background(
-                    Capsule().fill(selected == id ? Color.accentColor.opacity(0.22) : Color.primary.opacity(0.06))
-                )
-                .overlay(Capsule().stroke(selected == id ? Color.accentColor : .clear, lineWidth: 1.5))
+                .background(Capsule().fill(selected == id ? Theme.cream : Theme.ink.opacity(0.05)))
+                .overlay(Capsule().strokeBorder(selected == id ? Theme.accent : .clear, lineWidth: 2))
                 .buttonStyle(.plain)
             }
         }
@@ -421,7 +420,7 @@ public struct CatBuilderView: View {
                         .fill(Color(rgb: swatch.rgb))
                         .frame(width: 34, height: 34)
                         .overlay(Circle().stroke(Color.primary.opacity(0.15), lineWidth: 1))
-                        .overlay(Circle().stroke(Color.accentColor, lineWidth: selected == .named(swatch.id) ? 3 : 0).padding(-4))
+                        .overlay(Circle().stroke(Theme.accent, lineWidth: selected == .named(swatch.id) ? 3 : 0).padding(-4))
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel(swatch.label)
@@ -442,7 +441,7 @@ public struct CatBuilderView: View {
                 ), supportsOpacity: false)
                     .labelsHidden()
                     .frame(width: 34, height: 34)
-                    .overlay(Circle().stroke(Color.accentColor, lineWidth: {
+                    .overlay(Circle().stroke(Theme.accent, lineWidth: {
                         if case .picked = selected {
                             return 3
                         }

@@ -168,7 +168,16 @@ Where the spec is silent, these are set in `Tuning.swift` and HouseCatCore (tune
 - WeatherKit and the weather particles (rain, snow, fog, blossom, leaves) are step 5; the weather in the save is simulated even on Auto.
 - App size: App/Art is about 190 MB. Shipping every home in every biome needs On-Demand Resources or Background Assets (about 2.7 MB a scene).
 - The biome mask is rule-based (boxes for deserts, ranges and forests), good to a few hundred km; the city list decides most pins people pick.
-- The snapshot of the save (`HouseholdState` is Codable) is not tolerant of new fields; compaction is not switched on yet, but must be before the first release that compacts.
+
+## Decisions during the polish pass (18 Oct 2026)
+- The game's controls use the painted icons in `assets/ui` (bundled at 0.4) on cream paper with plum ink, a serif for titles (`HouseCatUI` `Theme`, `HUDButton`, `RoundIconButton`, `PaintedIcon`, `Toast`, `CloseButton`); controls sink when pressed and play a soft tap with a haptic tick (`ControlFeedback`, set by the app). On an iPad they are drawn 1.3× (`Tuning.Stage.iPadHUDScale`). The status bar and home indicator are hidden in the room. The builder, profile, book, map and shop share the look.
+- The greeting card carries the cat's name; toasts carry their painted icon (level up, gift, trust).
+- Closed rooms show a cream badge with the painted padlock, held at eye height towards the room you are in and slid back inside the view when the room runs off screen.
+- The decorate tray is a dock along the bottom with its tabs down its left edge; the room is framed in the space above it (`RoomScene.bottomInset`), so the grid is never under the tray.
+- The launch screen stays up until the first picture is drawn, then lifts. Nothing covers the exterior's cold open.
+- Weather over the exterior and in every window (`HouseCatGame` `WeatherLayer`, from the painted particles in `assets/world/weather`): rain streaks, storms with grey clouds and lightning, snow, a low mist, wind-blown leaves, blossom in spring and leaves in autumn on fair days; clouds drift behind the painting so they only show in its sky. Rain, wind and snow have their own ambient loop. Debug: `HOUSECAT_WEATHER=<weather>`.
+- The session keeps the derived state and folds only new events onto it (a sixty-day save went from seconds to instant per action).
+- The stored snapshot is a cache with a version (`Tuning.Save.snapshotVersion`; bump it whenever `HouseholdState` changes shape): a snapshot of another version, or one that no longer decodes, is passed over and the state refolded. Compaction never deletes events any more.
 
 ## Known gaps after milestone 1
 - Only the living room has a window and a door; other rooms show none yet. Stairs are a fixture (not in the catalogue), the L sprite mirrored from the R one.

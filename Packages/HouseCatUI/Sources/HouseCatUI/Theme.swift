@@ -25,6 +25,19 @@ public extension EnvironmentValues {
     @Entry var hudScale: CGFloat = 1
 }
 
+/// What a control does when pressed, besides its action (the app plays a tap and a haptic tick).
+public struct ControlFeedback: Sendable {
+    public var tap: @MainActor @Sendable () -> Void
+
+    public init(tap: @escaping @MainActor @Sendable () -> Void) {
+        self.tap = tap
+    }
+}
+
+public extension EnvironmentValues {
+    @Entry var controlFeedback: ControlFeedback = ControlFeedback {}
+}
+
 /// One of the painted icons (App/Art/ui/icon_<name>.png): "feed_bowl", "shop_bag", "xp_star"...
 public struct PaintedIcon: View {
     private let name: String
@@ -90,6 +103,7 @@ public extension View {
 /// A capsule control: a painted icon (or a symbol) and a word.
 public struct HUDButton: View {
     @Environment(\.hudScale) private var scale
+    @Environment(\.controlFeedback) private var feedback
     private let title: String
     private let icon: String?
     private let symbol: String?
@@ -106,7 +120,10 @@ public struct HUDButton: View {
     }
 
     public var body: some View {
-        Button(action: action) {
+        Button {
+            feedback.tap()
+            action()
+        } label: {
             HStack(spacing: 6 * scale) {
                 if let icon {
                     PaintedIcon(icon, size: 30 * scale)
@@ -132,6 +149,7 @@ public struct HUDButton: View {
 /// A round control with a painted icon (the cat, the book, the map, the shop).
 public struct RoundIconButton: View {
     @Environment(\.hudScale) private var scale
+    @Environment(\.controlFeedback) private var feedback
     private let icon: String
     private let label: String
     private let badge: Bool
@@ -145,7 +163,10 @@ public struct RoundIconButton: View {
     }
 
     public var body: some View {
-        Button(action: action) {
+        Button {
+            feedback.tap()
+            action()
+        } label: {
             PaintedIcon(icon, size: 38 * scale)
                 .frame(width: 54 * scale, height: 54 * scale)
                 .paper(Circle())
@@ -196,5 +217,30 @@ public struct Toast: View {
         .padding(.trailing, 18 * scale)
         .padding(.vertical, 7 * scale)
         .paper(Capsule())
+    }
+}
+
+/// Closes a sheet: a cream disc with a cross.
+public struct CloseButton: View {
+    @Environment(\.controlFeedback) private var feedback
+    private let action: () -> Void
+
+    public init(action: @escaping () -> Void) {
+        self.action = action
+    }
+
+    public var body: some View {
+        Button {
+            feedback.tap()
+            action()
+        } label: {
+            Image(systemName: "xmark")
+                .font(.system(size: 15, weight: .bold))
+                .foregroundStyle(Theme.ink)
+                .frame(width: 36, height: 36)
+                .paper(Circle())
+        }
+        .buttonStyle(PressStyle())
+        .accessibilityLabel("Close")
     }
 }

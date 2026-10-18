@@ -1,5 +1,6 @@
 import HouseCatCore
 import HouseCatStore
+import HouseCatUI
 import StoreKit
 import SwiftUI
 
@@ -35,6 +36,8 @@ struct ShopView: View {
                     }
                 }
             }
+            .scrollContentBackground(.hidden)
+            .background(Theme.paper.ignoresSafeArea())
             .navigationTitle("Shop")
             .toolbar {
                 Button("Done") { dismiss() }

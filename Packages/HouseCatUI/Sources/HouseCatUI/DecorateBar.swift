@@ -74,6 +74,7 @@ public struct RoomSwitcher: View {
     }
 
     @Environment(\.hudScale) private var scale
+    @Environment(\.controlFeedback) private var feedback
 
     public var body: some View {
         HStack(spacing: 2 * scale) {
@@ -96,7 +97,10 @@ public struct RoomSwitcher: View {
     }
 
     private func arrow(_ systemImage: String, label: String, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
+        Button {
+            feedback.tap()
+            action()
+        } label: {
             Image(systemName: systemImage)
                 .font(.system(size: 15 * scale, weight: .bold))
                 .foregroundStyle(Theme.accent)

@@ -449,10 +449,12 @@ public enum Tuning {
         public static let labelBack = 2.0
         /// …and this high over the floor, in room units.
         public static let labelLift = 170.0
+        /// A badge keeps at least this far (points) from the sides of the view.
+        public static let badgeMargin = 12.0
         /// A closed room's price label leans this many cells from its middle towards the room you are in.
         public static let labelLean = 3.0
         /// On a portrait screen the active room fills this share of the width, the house showing either side.
-        public static let portraitFitWidth = 0.7
+        public static let portraitFitWidth = 0.92
         /// The staircase runs this many cells along its wall.
         public static let stairsLength = 3.0
         /// The ground runs this many cells out from the house, past any view's edge, a little darker than a room floor.
@@ -489,6 +491,10 @@ public enum Tuning {
         public static let place = 0.6
         public static let gift = 0.7
         public static let levelUp = 0.7
+        public static let tap = 0.35
+        /// Rain, wind and snow under everything; a storm louder.
+        public static let weather = 0.3
+        public static let storm = 0.45
         public static let fadeSeconds = 0.8
     }
 

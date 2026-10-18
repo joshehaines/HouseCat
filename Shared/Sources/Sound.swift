@@ -1,6 +1,9 @@
 import AVFoundation
 import Foundation
 import HouseCatCore
+#if canImport(UIKit)
+    import UIKit
+#endif
 
 /// The app's sounds (App/Audio, built from assets/audio by tools/app-assets/build_app_audio.sh): one-shots
 /// and loops at the volumes in Tuning.Sound. Ambient session, so it mixes with the player's music and
@@ -68,6 +71,25 @@ enum Sound {
         case .purr: "cat_purr_loop"
         case .silent, .none: nil
         }
+    }
+
+    /// The weather's own sound under everything: rain on the glass, the wind, the hush of snow.
+    static func weather(_ weather: Weather) {
+        let loops: [Weather: String] = [.rain: "rain_loop", .storm: "rain_loop", .wind: "wind_loop", .snow: "snow_hush_loop"]
+        for name in Set(loops.values) where name != loops[weather] {
+            stop(name)
+        }
+        if let name = loops[weather] {
+            loop(name, volume: weather == .storm ? Tuning.Sound.storm : Tuning.Sound.weather)
+        }
+    }
+
+    /// A control pressed: a soft tap and a tick under the finger.
+    static func tap() {
+        play("ui_tap", volume: Tuning.Sound.tap)
+        #if canImport(UIKit) && !os(watchOS)
+            UISelectionFeedbackGenerator().selectionChanged()
+        #endif
     }
 
     /// The room's ambience for the sky: crickets at night, birds in the morning, the fire when one is lit.

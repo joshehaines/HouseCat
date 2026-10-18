@@ -466,6 +466,8 @@ final class RoomNode: SKNode {
         badge.position = point
         badge.zPosition = Layer.veil + 1
         badge.name = "lock"
+        // Where it belongs; the scene slides it back inside the view when the room runs off screen.
+        badge.userData = ["homeX": point.x, "homeY": point.y, "halfWidth": width / 2]
         return badge
     }
 

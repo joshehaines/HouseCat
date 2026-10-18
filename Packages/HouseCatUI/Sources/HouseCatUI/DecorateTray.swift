@@ -46,6 +46,7 @@ public struct DecorateTray: View {
     }
 
     @Environment(\.hudScale) private var scale
+    @Environment(\.controlFeedback) private var feedback
     private let entries: [Entry]
     private let modes: [Mode]
     private let mode: Int
@@ -83,6 +84,7 @@ public struct DecorateTray: View {
                 VStack(spacing: 2 * scale) {
                     ForEach(Array(modes.enumerated()), id: \.offset) { index, tab in
                         Button {
+                            feedback.tap()
                             selectMode(index)
                         } label: {
                             HStack(spacing: 3 * scale) {

@@ -333,6 +333,22 @@ public final class RoomScene: SKScene {
         look(at: focus ?? CGPoint(x: catWorldPosition?.x ?? bounds.midX, y: bounds.midY))
     }
 
+    /// Slides each closed room's badge along so it stays readable when its room runs off the side of the view.
+    private func keepBadgesInView() {
+        let margin = CGFloat(Tuning.House.badgeMargin)
+        for room in rooms.values where isShown(room) {
+            guard let badge = room.childNode(withName: "lock"),
+                  let hx = badge.userData?["homeX"] as? CGFloat, let hy = badge.userData?["homeY"] as? CGFloat,
+                  let half = badge.userData?["halfWidth"] as? CGFloat else { continue }
+            let home = CGPoint(x: hx, y: hy)
+            let onScreen = convert(home, from: room)
+            let scale = world.xScale
+            let low = margin + half * scale, high = size.width - margin - half * scale
+            let x = low <= high ? min(max(onScreen.x, low), high) : size.width / 2
+            badge.position = CGPoint(x: home.x + (x - onScreen.x) / scale, y: home.y)
+        }
+    }
+
     /// The cat's position in world units, when it is on the storey on screen.
     private var catWorldPosition: CGPoint? {
         guard let cat = director?.cat, let room = cat.parent, isShown(room) else { return nil }
@@ -350,6 +366,7 @@ public final class RoomScene: SKScene {
         focus = target
         // Centred in the part of the view the controls leave open.
         world.position = CGPoint(x: size.width / 2 - target.x * scale, y: bottomInset + shown / 2 - target.y * scale)
+        keepBadgesInView()
     }
 
     private func follow(_ dt: TimeInterval) {

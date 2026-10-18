@@ -113,10 +113,11 @@ public struct CatProfileView: View {
                     }
                 }
                 .frame(maxHeight: 220)
-                Button("Edit look", systemImage: "paintbrush", action: editLook)
-                    .buttonStyle(.bordered)
+                .padding(12)
+                .paper(RoundedRectangle(cornerRadius: 24, style: .continuous))
+                HUDButton("Edit look", icon: "decorate_paintbrush", action: editLook)
             }
-            .frame(width: 220)
+            .frame(width: 230)
             ScrollView {
                 VStack(alignment: .leading, spacing: 14) {
                     header
@@ -124,11 +125,14 @@ public struct CatProfileView: View {
                     if !profile.badges.isEmpty {
                         HStack {
                             ForEach(profile.badges, id: \.self) { badge in
-                                Label(ProfileText.badge(badge), systemImage: "rosette")
-                                    .font(.caption.weight(.semibold))
-                                    .padding(.horizontal, 10)
-                                    .padding(.vertical, 5)
-                                    .background(.yellow.opacity(0.25), in: Capsule())
+                                HStack(spacing: 4) {
+                                    PaintedIcon("xp_star", size: 18)
+                                    Text(ProfileText.badge(badge)).font(.caption.weight(.bold)).foregroundStyle(Theme.ink)
+                                }
+                                .padding(.leading, 6)
+                                .padding(.trailing, 10)
+                                .padding(.vertical, 4)
+                                .paper(Capsule())
                             }
                         }
                     }
@@ -136,16 +140,15 @@ public struct CatProfileView: View {
                     personality
                 }
                 .padding(.vertical, 8)
+                .padding(.horizontal, 4)
             }
+            .scrollClipDisabled()
         }
         .padding(24)
+        .foregroundStyle(Theme.ink)
+        .background(Theme.paper.ignoresSafeArea())
         .overlay(alignment: .topTrailing) {
-            Button(action: close) {
-                Image(systemName: "xmark.circle.fill").font(.title2).foregroundStyle(.secondary)
-            }
-            .buttonStyle(.plain)
-            .padding(14)
-            .accessibilityLabel("Close")
+            CloseButton(action: close).padding(14)
         }
     }
 
@@ -159,12 +162,12 @@ public struct CatProfileView: View {
                         .onSubmit(commitName)
                     Button("Save", action: commitName).buttonStyle(.borderedProminent)
                 } else {
-                    Text(profile.name).font(.largeTitle.weight(.bold))
+                    Text(profile.name).font(Theme.title(34))
                     Button {
                         newName = profile.name
                         naming = true
                     } label: {
-                        Image(systemName: "pencil")
+                        Image(systemName: "pencil").foregroundStyle(Theme.accent)
                     }
                     .accessibilityLabel("Rename")
                 }
@@ -172,10 +175,10 @@ public struct CatProfileView: View {
             if let nameProblem {
                 Text(nameProblem).font(.footnote).foregroundStyle(.red)
             }
-            Text(ProfileText.together(profile.togetherDays)).font(.title3.weight(.semibold))
+            Text(ProfileText.together(profile.togetherDays)).font(Theme.title(20)).foregroundStyle(Theme.accent)
             Text((profile.isKitten ? "Kitten, " : "") + ProfileText.age(profile.ageDays) + " · " + ProfileText
                 .personality(profile.personality))
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Theme.inkSoft)
         }
     }
 
@@ -189,16 +192,19 @@ public struct CatProfileView: View {
     private var trust: some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack {
+                PaintedIcon("trust_heart_with_a_paw_print", size: 26)
                 Text("Trust: \(ProfileText.trust(profile.trust))").font(.headline)
                 Spacer()
+                PaintedIcon("xp_star", size: 26)
                 Text("Level \(level.level)").font(.headline)
             }
             if let next = profile.careDaysToNextTier, let tier = TrustTier(rawValue: profile.trust.rawValue + 1) {
                 Text("\(next) more \(next == 1 ? "day" : "days") of breakfast to \(ProfileText.trust(tier)).")
-                    .font(.footnote).foregroundStyle(.secondary)
+                    .font(.footnote).foregroundStyle(Theme.inkSoft)
             }
             ProgressView(value: Double(level.intoLevel), total: Double(max(1, level.intoLevel + level.toNext)))
-            Text("\(level.toNext) XP to level \(level.level + 1)").font(.caption).foregroundStyle(.secondary)
+                .tint(Theme.accent)
+            Text("\(level.toNext) XP to level \(level.level + 1)").font(.caption).foregroundStyle(Theme.inkSoft)
         }
     }
 
@@ -217,12 +223,12 @@ public struct CatProfileView: View {
 
     private func stat(_ title: String, _ value: Int) -> some View {
         VStack(spacing: 2) {
-            Text("\(value)").font(.title2.weight(.bold)).monospacedDigit()
-            Text(title).font(.caption).foregroundStyle(.secondary)
+            Text("\(value)").font(Theme.title(24)).monospacedDigit()
+            Text(title).font(.caption).foregroundStyle(Theme.inkSoft)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 8)
-        .background(.quaternary.opacity(0.5), in: RoundedRectangle(cornerRadius: 12))
+        .paper(RoundedRectangle(cornerRadius: 14, style: .continuous))
     }
 
     private var personality: some View {
@@ -234,7 +240,7 @@ public struct CatProfileView: View {
                 }
             }
             .pickerStyle(.segmented)
-            Text(ProfileText.personalityBlurb(profile.personality)).font(.footnote).foregroundStyle(.secondary)
+            Text(ProfileText.personalityBlurb(profile.personality)).font(.footnote).foregroundStyle(Theme.inkSoft)
         }
     }
 }
@@ -271,19 +277,16 @@ public struct GiftBookView: View {
     public var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
-                Text("The book").font(.largeTitle.weight(.bold))
-                Text("\(entries.filter { $0.count > 0 }.count) of \(entries.count) found").foregroundStyle(.secondary)
+                PaintedIcon("collection_book", size: 40)
+                Text("The book").font(Theme.title(34))
+                Text("\(entries.filter { $0.count > 0 }.count) of \(entries.count) found").foregroundStyle(Theme.inkSoft)
                 Spacer()
-                Button(action: close) {
-                    Image(systemName: "xmark.circle.fill").font(.title2).foregroundStyle(.secondary)
-                }
-                .buttonStyle(.plain)
-                .accessibilityLabel("Close")
+                CloseButton(action: close)
             }
             if let entry = entries.first(where: { $0.id == chosen }), entry.count > 0 {
                 HStack {
                     Text(entry.name).font(.headline)
-                    Text(entry.description).font(.subheadline).foregroundStyle(.secondary)
+                    Text(entry.description).font(.subheadline).foregroundStyle(Theme.inkSoft)
                 }
             }
             ScrollView {
@@ -306,7 +309,7 @@ public struct GiftBookView: View {
                                 .opacity(entry.count > 0 ? 1 : 0.35)
                                 Text(entry.count > 0 ? entry.name : "?").font(.caption2).lineLimit(1)
                                 if entry.count > 1 {
-                                    Text("×\(entry.count)").font(.caption2.weight(.bold)).foregroundStyle(.secondary)
+                                    Text("×\(entry.count)").font(.caption2.weight(.bold)).foregroundStyle(Theme.inkSoft)
                                 }
                             }
                             .frame(width: 84, height: 100)
@@ -321,6 +324,8 @@ public struct GiftBookView: View {
             }
         }
         .padding(24)
+        .foregroundStyle(Theme.ink)
+        .background(Theme.paper.ignoresSafeArea())
     }
 
     private func rarityColour(_ rarity: GiftRarity) -> Color {

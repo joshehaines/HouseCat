@@ -198,11 +198,12 @@ struct HouseCatApp: App {
             let content = try? ContentBundle.load(from: folder) else { return nil }
         let catalog = StoreCatalog(content: content)
         let cache = KeychainEntitlementCache()
-        let service: any EntitlementService
-        if let key = Bundle.main.object(forInfoDictionaryKey: "RevenueCatAPIKey") as? String, !key.isEmpty {
-            service = RevenueCatEntitlementService(apiKey: key, catalog: catalog, cache: cache)
+        let service: any EntitlementService = if let key = Bundle.main.object(forInfoDictionaryKey: "RevenueCatAPIKey") as? String,
+                                                 !key.isEmpty
+        {
+            RevenueCatEntitlementService(apiKey: key, catalog: catalog, cache: cache)
         } else {
-            service = StoreKitEntitlementService(catalog: catalog, cache: cache)
+            StoreKitEntitlementService(catalog: catalog, cache: cache)
         }
         // Beans and room looks go into the save, once per transaction (Bean packs bought while the app was
         // closed are handed over here before StoreKit is told they are finished).
@@ -377,6 +378,10 @@ struct RoomScreen: View {
                 }
             }
             .animation(.spring(duration: 0.35), value: visit.previewing?.id)
+            .onChange(of: visit.previewing?.id) { _, look in
+                // The room lifts above the bar, as it does for the decorate tray.
+                (visit.scene as? RoomScene)?.bottomInset = look == nil ? 0 : RoomLookBar.height * hudScale
+            }
             .animation(.easeOut(duration: 0.3), value: visit.greeting)
             .animation(.spring(duration: 0.35), value: visit.toast)
             .overlay(alignment: .topLeading) {
@@ -453,15 +458,15 @@ struct RoomScreen: View {
                 }
             }
             .overlay(alignment: .bottomLeading) {
-                if !visit.decorating, visit.scene is RoomScene {
+                if !visit.decorating, visit.previewing == nil, visit.scene is RoomScene {
                     RoomSwitcher(title: visit.roomTitle, canStep: visit.openRooms.count > 1) { visit.stepRoom($0) }
                         .padding(20)
                         .transition(.opacity)
                 }
             }
             .overlay(alignment: .bottomTrailing) {
-                // Nothing over the cold open: the exterior is the picture.
-                if !visit.decorating, visit.scene is RoomScene {
+                // Nothing over the cold open: the exterior is the picture. A look being tried has the bottom to itself.
+                if !visit.decorating, visit.previewing == nil, visit.scene is RoomScene {
                     HStack(spacing: 10) {
                         RoundIconButton("nap_moon", label: "Nap") {
                             if naps.isNapping {
@@ -698,7 +703,9 @@ struct RoomScreen: View {
             .task(id: visit.ready) {
                 guard visit.ready, !tour.isRunning else { return }
                 let session = GameSession.shared
-                if HealthLayer.isAvailable, HealthRules.shouldAsk(session.state(at: session.now()), asked: HealthLayer.asked), !Self.debugScreenRun {
+                if HealthLayer.isAvailable, HealthRules.shouldAsk(session.state(at: session.now()), asked: HealthLayer.asked),
+                   !Self.debugScreenRun
+                {
                     try? await Task.sleep(for: .seconds(Tuning.Care.lineSeconds + 2))
                     askingHealth = true
                 } else {
@@ -717,8 +724,8 @@ struct RoomScreen: View {
                             askingHealth = false
                             Task { await askForWidget() }
                         }
-                            .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
-                            .padding(24)
+                        .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
+                        .padding(24)
                     }
                     .transition(.opacity)
                 }
@@ -844,8 +851,7 @@ struct RoomScreen: View {
     /// The add-widget card, when it is due and nothing else is on screen (after the first feed, on day 3).
     private func askForWidget() async {
         try? await Task.sleep(for: .seconds(1.2))
-        guard !Self.debugScreenRun else { return }
-        guard visit.ready, visit.scene is RoomScene, !tour.isRunning, !visit.askReminders, !askingHealth, !offering,
+        guard !Self.debugScreenRun, visit.ready, visit.scene is RoomScene, !tour.isRunning, !visit.askReminders, !askingHealth, !offering,
               visit.levelReached == nil, !askingWidget else { return }
         let session = GameSession.shared
         if await WidgetPrompt.take(session.state(at: session.now())) != nil {
@@ -874,10 +880,11 @@ struct RoomScreen: View {
     /// The level, road, streak and pass cards.
     private func progressCards(_ content: some View) -> some View {
         content
-            #if DEBUG
-            // Screenshot runs: HOUSECAT_SCREEN=levelup|road|streak|pass|addwidget|together|reminders|health.
-            .task(id: visit.ready) {
-                guard visit.ready, let wanted = ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"] else { return }
+        #if DEBUG
+            // Screenshot runs: HOUSECAT_SCREEN=levelup|road|streak|pass|addwidget|together|reminders|health|trylook.
+            .task(id: visit.ready && visit.scene is RoomScene) {
+                guard visit.ready, visit.scene is RoomScene,
+                      let wanted = ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"] else { return }
                 try? await Task.sleep(for: .seconds(3))
                 switch wanted {
                 case "levelup": visit.levelReached = max(2, visit.stats.level)
@@ -886,12 +893,19 @@ struct RoomScreen: View {
                 case "pass": showPass = true
                 case "addwidget": await askForWidget()
                 case "together": showTogether = true
+                case "trylook":
+                    // A look for an open room (the bedroom's first, else the living room's).
+                    let state = GameSession.shared.state(at: GameSession.shared.now())
+                    let looks = GameSession.shared.bundles.filter { state.openedRooms.contains($0.room) }
+                    if let look = looks.first(where: { $0.room == .bedroom }) ?? looks.first {
+                        visit.preview(look)
+                    }
                 case "reminders": visit.askReminders = true
                 case "health": askingHealth = true
                 default: break
                 }
             }
-            #endif
+        #endif
             .overlay {
                 card(visit.levelReached != nil && !tour.isRunning && visit.ready, close: nil) {
                     if let level = visit.levelReached, let stop = GameSession.shared.stop(for: level) {
@@ -918,7 +932,10 @@ struct RoomScreen: View {
                     present = gift
                 } else if let (key, count) = seen.prints.first {
                     let name = GameSession.shared.otherOwnerName(key)
-                    visit.notify(count == 1 ? "\(name) left you a paw print" : "\(name) left you \(count) paw prints", icon: "group_of_three_paw_prints")
+                    visit.notify(
+                        count == 1 ? "\(name) left you a paw print" : "\(name) left you \(count) paw prints",
+                        icon: "group_of_three_paw_prints"
+                    )
                 }
             }
             .overlay {

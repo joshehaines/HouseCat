@@ -225,6 +225,9 @@ final class Visit {
     /// Goes to another open room (a tap on it, or the room arrows).
     func go(to room: RoomID) {
         guard let house = scene as? RoomScene, house.house.room(room)?.lockLabel == nil else { return }
+        if let look = previewing, look.room != room {
+            endPreview()
+        }
         decorating = false
         selected = nil
         house.show(room: room)
@@ -365,6 +368,9 @@ final class Visit {
     /// Decorate mode on or off (the room must be on screen).
     func toggleDecorating() {
         guard let house = scene as? RoomScene else { return }
+        if previewing != nil {
+            endPreview()
+        }
         decorating.toggle()
         greeting = nil
         house.setDecorating(decorating)
@@ -428,23 +434,53 @@ final class Visit {
 
     // MARK: Room looks
 
-    /// A room look being tried in its room (the shop's "Try it in your room"): its pieces see-through where
-    /// they would go, nothing recorded, until bought or put away.
+    /// A room look being tried in its room (the shop's "Try it in your room"): its wallpaper and floor up and its
+    /// pieces see-through where they would go, nothing recorded, until bought or put away.
     private(set) var previewing: BundlesFile.Bundle?
+    /// The scene shows a look's wallpaper or floor that the save does not (put back when the preview ends).
+    @ObservationIgnored private var previewSurfaces = false
 
     func preview(_ bundle: BundlesFile.Bundle) {
         guard let house = scene as? RoomScene else { return }
+        endPreview()
         if activeRoom != bundle.room {
             go(to: bundle.room)
         }
         guard activeRoom == bundle.room else { return }
-        house.showPreview(GameSession.shared.preview(bundle, among: house.pieces()))
+        let session = GameSession.shared
+        // The house as the save has it, with the look's surfaces on this room's walls and floor.
+        if !bundle.surfaces.isEmpty, var model = GameWorld.house(at: session.now(), state: session.state(at: session.now())),
+           let index = model.rooms.firstIndex(where: { $0.id == bundle.room })
+        {
+            if let wallpaper = bundle.wallpaper {
+                model.rooms[index].model.wall = wallpaper
+            }
+            if let floor = bundle.floor {
+                model.rooms[index].model.floor = floor
+            }
+            house.update(house: model)
+            previewSurfaces = true
+        }
+        house.showPreview(session.preview(bundle, among: house.pieces()))
         previewing = bundle
         greeting = nil
     }
 
-    func endPreview() {
-        (scene as? RoomScene)?.clearPreview()
+    /// Puts the look away: its pieces fade, and the room's own wallpaper and floor come back (`restoring` false
+    /// when the house is about to be rebuilt anyway).
+    func endPreview(restoring: Bool = true) {
+        guard let house = scene as? RoomScene else {
+            previewing = nil
+            return
+        }
+        house.clearPreview()
+        if restoring, previewSurfaces {
+            let session = GameSession.shared
+            if let model = GameWorld.house(at: session.now(), state: session.state(at: session.now())) {
+                house.update(house: model)
+            }
+        }
+        previewSurfaces = false
         previewing = nil
     }
 
@@ -452,7 +488,8 @@ final class Visit {
     /// fits, the wallpaper and floor up; what does not fit waits in the inventory.
     func addWholeRoom(_ bundle: BundlesFile.Bundle) {
         guard let house = scene as? RoomScene else { return }
-        endPreview()
+        // The house is rebuilt below with the look in it, so the preview's surfaces need not be put back first.
+        endPreview(restoring: false)
         if activeRoom != bundle.room {
             go(to: bundle.room)
         }

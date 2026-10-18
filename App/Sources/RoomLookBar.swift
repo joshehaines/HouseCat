@@ -19,11 +19,23 @@ struct RoomLookBar: View {
             || GameSession.shared.state(at: GameSession.shared.now()).grantedBundles.values.contains(bundle.id)
     }
 
+    private var surfaces: String {
+        switch (bundle.wallpaper != nil, bundle.floor != nil) {
+        case (true, true): ", the wallpaper and floor"
+        case (true, false): " and the wallpaper"
+        case (false, true): " and the floor"
+        case (false, false): ""
+        }
+    }
+
+    /// The bar's height at scale 1, for lifting the room above it.
+    static let height: CGFloat = 96
+
     var body: some View {
         HStack(spacing: 14) {
             VStack(alignment: .leading, spacing: 2) {
                 Text("Trying \(bundle.name)").font(Theme.title(19))
-                Text(message ?? "\(bundle.items.count) pieces\(bundle.surfaces.isEmpty ? "" : ", the wallpaper and floor"). Nothing changes until you buy it.")
+                Text(message ?? "\(bundle.items.count) pieces\(surfaces). Nothing changes until you buy it.")
                     .font(.caption)
                     .foregroundStyle(Theme.inkSoft)
                     .lineLimit(2)

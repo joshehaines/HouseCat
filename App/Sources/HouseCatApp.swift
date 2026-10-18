@@ -12,6 +12,8 @@ struct HouseCatApp: App {
     /// Adoption (onboarding's cat creation) when the save has no cat yet, then where you live.
     @State private var adopting: CatBuilderModel?
     @State private var placing: WorldMapModel?
+    /// The house step, after the map: where it is, to paint the choices there.
+    @State private var choosingHome: HomePlace?
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
@@ -24,11 +26,18 @@ struct HouseCatApp: App {
                     }
                     // A new visit is a new screen: SpriteView keeps showing its first scene otherwise.
                     .id(ObjectIdentifier(visit))
+                } else if let choosingHome {
+                    HomePicker(biome: choosingHome.biome, place: choosingHome.name) { style in
+                        GameSession.shared.chooseHome(style)
+                        self.choosingHome = nil
+                        visit = Visit(size: CGSize(width: 1024, height: 768), lastActive: nil)
+                    }
+                    .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
                 } else if let placing {
                     WorldMapView(model: placing, cost: 0, canAfford: true, cancel: nil) { place, season in
                         GameSession.shared.placeHome(place, season: season)
                         self.placing = nil
-                        visit = Visit(size: CGSize(width: 1024, height: 768), lastActive: nil)
+                        choosingHome = place
                     }
                 } else if let adopting {
                     CatBuilderView(model: adopting) { model in

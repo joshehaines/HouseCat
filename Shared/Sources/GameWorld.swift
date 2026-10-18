@@ -16,17 +16,15 @@ enum GameWorld {
     static let catArt: CatArt? = art.flatMap { try? CatArt(art: $0) }
     static let rig: PuppetRig? = try? art?.data("cat/rig.json", as: PuppetRig.self)
 
-    /// The home's style until the house step of onboarding records one: the London terrace.
-    enum DemoHome {
-        /// Debug builds can try another home: HOUSECAT_HOME=cottage (scheme environment).
-        static let house: HouseStyle = {
-            #if DEBUG
-                if let name = ProcessInfo.processInfo.environment["HOUSECAT_HOME"], let style = HouseStyle(rawValue: name) {
-                    return style
-                }
-            #endif
-            return .londonTerrace
-        }()
+    /// The home's style: the save's, the London terrace until one is chosen. Debug builds can try another
+    /// home with HOUSECAT_HOME=cottage (scheme environment).
+    static func style(_ state: HouseholdState) -> HouseStyle {
+        #if DEBUG
+            if let name = ProcessInfo.processInfo.environment["HOUSECAT_HOME"], let style = HouseStyle(rawValue: name) {
+                return style
+            }
+        #endif
+        return state.home.style ?? .londonTerrace
     }
 
     /// The home right now: its pin, season, sky at its local time and today's weather. Debug builds can
@@ -61,11 +59,12 @@ enum GameWorld {
     static func exteriorScene(size: CGSize, at date: Date, state: HouseholdState) -> ExteriorScene? {
         guard let art, let index = try? art.data("world/scenes/scenes.json", as: SceneIndex.self) else { return nil }
         let now = now(state: state, at: date)
-        // Until every home is bundled in every biome and season, fall back to what is.
+        let style = style(state)
+        // A home whose pack has not arrived has no cold open yet (HomePacks); otherwise its painting for the
+        // biome and season, falling back to another season if one is missing.
         let seasons = [now.season] + NatureSeason.allCases.filter { $0 != now.season }
-        let biomes = [now.biome] + (now.biome == .city ? [] : [.city])
-        let candidates = biomes.flatMap { biome in seasons.map { HouseBuilder.scene(DemoHome.house, biome, $0) } }
-        guard let path = candidates.first(where: { art.has("\($0).jpg") }) else { return nil }
+        guard let path = seasons.map({ HouseBuilder.scene(style, now.biome, $0) }).first(where: { art.has("\($0).jpg") })
+        else { return nil }
         let name = String(path.dropFirst("world/scenes/".count))
         let door = index.doors[name] ?? index.defaultDoor
         let model = ExteriorScene.Model(
@@ -90,7 +89,7 @@ enum GameWorld {
               let plans = try? art.data("rooms/houses.json", as: HousePlans.self)
         else { return nil }
         return HouseBuilder.house(
-            style: DemoHome.house,
+            style: style(state),
             plans: plans,
             layout: layout,
             state: state,

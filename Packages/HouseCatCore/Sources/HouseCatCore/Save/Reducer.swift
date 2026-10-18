@@ -25,7 +25,7 @@ extension HouseholdState {
             applyCare(event, context: context)
         case .itemBought, .itemGranted, .purchaseBeansGranted, .itemPlaced, .itemMoved, .itemStored, .catUsedNewItem, .roomOpened,
              .roomVisited,
-             .surfaceChanged, .outfitWorn, .homeMoved, .seasonModeChanged, .homePlaced, .seasonSet:
+             .surfaceChanged, .outfitWorn, .homeMoved, .seasonModeChanged, .homePlaced, .seasonSet, .homeStyleChosen:
             applyHome(event, context: context)
         case .pauseStarted, .pauseEnded, .passPurchased, .passTierClaimed, .clubDayRecorded:
             applyStreakAndPass(event, day: day, context: context)
@@ -231,6 +231,10 @@ extension HouseholdState {
             guard home.place == nil || home.moving else { break }
             home.place = place
             home.moving = false
+        case let .homeStyleChosen(style):
+            // Chosen with the first pin, or while a move is under way (before the new pin lands).
+            guard home.style == nil || home.moving || home.place == nil else { break }
+            home.style = style
         case let .seasonSet(setting):
             guard setting != home.season else { break }
             home.season = setting

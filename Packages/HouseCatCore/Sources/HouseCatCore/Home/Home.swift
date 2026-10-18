@@ -13,7 +13,7 @@ public enum Biome: String, CaseIterable, Codable, Sendable {
 }
 
 /// The eight homes at launch (SPEC "Home and furniture").
-public enum HouseStyle: String, CaseIterable, Codable, Sendable {
+public enum HouseStyle: String, CaseIterable, Codable, Sendable, Identifiable {
     case londonTerrace = "london_terrace"
     case mansionFlat = "mansion_flat"
     case cottage
@@ -22,6 +22,37 @@ public enum HouseStyle: String, CaseIterable, Codable, Sendable {
     case houseboat
     case mediterraneanRooftop = "mediterranean_rooftop"
     case woodlandCabin = "woodland_cabin"
+
+    public var id: String {
+        rawValue
+    }
+
+    /// As the house step names it.
+    public var name: String {
+        switch self {
+        case .londonTerrace: "London terrace"
+        case .mansionFlat: "Mansion-block flat"
+        case .cottage: "Cottage"
+        case .georgianTownhouse: "Georgian townhouse"
+        case .newbuildBalcony: "New-build flat"
+        case .houseboat: "Houseboat"
+        case .mediterraneanRooftop: "Rooftop flat"
+        case .woodlandCabin: "Woodland cabin"
+        }
+    }
+
+    public var blurb: String {
+        switch self {
+        case .londonTerrace: "Yellow brick, a bay window and a garden out the back."
+        case .mansionFlat: "High ceilings and a lift that thinks about it first."
+        case .cottage: "Low beams, a rose round the door, a garden for sunbathing."
+        case .georgianTownhouse: "Tall windows, a fanlight, stairs for racing up at night."
+        case .newbuildBalcony: "Clean lines and a balcony for watching the birds."
+        case .houseboat: "A cabin on the water. The ducks visit."
+        case .mediterraneanRooftop: "White walls, blue shutters and a terrace in the sun."
+        case .woodlandCabin: "Logs, a stove and the whole forest outside."
+        }
+    }
 }
 
 /// The season the world is painted in (SPEC "World map, search and seasons"): the real

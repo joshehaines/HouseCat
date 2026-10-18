@@ -89,6 +89,8 @@ public struct GameEvent: Codable, Hashable, Sendable, Identifiable {
         case homePlaced(HomePlace)
         /// Auto, or a season fixed by the player.
         case seasonSet(SeasonSetting)
+        /// Which of the eight homes it is (onboarding's house step; again when moving).
+        case homeStyleChosen(HouseStyle)
 
         // Streak
         case pauseStarted(days: Int)

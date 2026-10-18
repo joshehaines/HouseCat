@@ -123,3 +123,19 @@ private func cities() throws -> CitiesFile {
     let morning = fixture.state.homeNow(at: fixture.at(0, 7), weather: tables).weather
     #expect(fixture.state.homeNow(at: fixture.at(0, 20), weather: tables).weather == morning)
 }
+
+@Test func theHomeStyleIsChosenWithTheFirstPinOrWhileMoving() {
+    var fixture = Fixture()
+    #expect(fixture.state.home.style == nil)
+    fixture.add(.homeStyleChosen(.cottage), day: 0)
+    #expect(fixture.state.home.style == .cottage)
+    let bath = HomePlace(name: "Bath", latitude: 51.38, longitude: -2.36, timeZoneID: "Europe/London", biome: .countryside)
+    fixture.add(.homePlaced(bath), day: 0)
+    // Settled in: another style only comes with a move.
+    fixture.add(.homeStyleChosen(.houseboat), day: 0)
+    #expect(fixture.state.home.style == .cottage)
+    fixture.add(.homeMoved(beans: 0), day: 0)
+    fixture.add(.homeStyleChosen(.houseboat), day: 0)
+    #expect(fixture.state.home.style == .houseboat)
+    #expect(HouseStyle.allCases.allSatisfy { !$0.name.isEmpty && !$0.blurb.isEmpty })
+}

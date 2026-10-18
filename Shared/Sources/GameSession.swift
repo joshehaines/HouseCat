@@ -358,6 +358,12 @@ final class GameSession {
         }
     }
 
+    /// The house step: which home it is. Its exteriors are fetched if they are not in the app.
+    func chooseHome(_ style: HouseStyle) {
+        append(.homeStyleChosen(style), at: now())
+        HomePacks.prepare(style)
+    }
+
     // MARK: Gifts
 
     /// A gift the cat has dropped and the player has not picked up, with its book entry.

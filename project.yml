@@ -63,6 +63,7 @@ targets:
       - package: HouseCatStore
       - target: HouseCatWidgets
       - target: HouseCatWatch
+      - target: HouseCatDownloader
     entitlements:
       path: App/HouseCat.entitlements
     info:
@@ -72,6 +73,10 @@ targets:
         ITSAppUsesNonExemptEncryption: false
         # Empty until the RevenueCat project exists; the app uses StoreKit 2 directly until then.
         RevenueCatAPIKey: ""
+        # The homes' exterior packs (Background Assets, Apple-hosted): Shared/Sources/HomePacks.swift.
+        BAHasManagedAssetPacks: true
+        BAUsesAppleHosting: true
+        BAAppGroupID: group.com.housecatgame.housecat
         UILaunchScreen:
           UIImageName: LaunchLogo
           UIColorName: LaunchBackground
@@ -142,6 +147,30 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.housecatgame.housecat.widgets
         PRODUCT_NAME: HouseCatWidgets
+        TARGETED_DEVICE_FAMILY: "1,2"
+        SKIP_INSTALL: YES
+
+  # Background Assets downloader for the homes' exterior packs (Apple-hosted). Needs the App Group, which
+  # needs the developer team: until then it is built and embedded but the system never runs it.
+  HouseCatDownloader:
+    type: extensionkit-extension
+    platform: iOS
+    sources:
+      - Downloader/Sources
+    dependencies:
+      - sdk: BackgroundAssets.framework
+      - sdk: StoreKit.framework
+    info:
+      path: Downloader/Info.plist
+      properties:
+        CFBundleDisplayName: HouseCat
+        EXAppExtensionAttributes:
+          EXExtensionPointIdentifier: com.apple.background-asset-downloader-extension
+        BAAppGroupID: group.com.housecatgame.housecat
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.housecatgame.housecat.downloader
+        PRODUCT_NAME: HouseCatDownloader
         TARGETED_DEVICE_FAMILY: "1,2"
         SKIP_INSTALL: YES
 

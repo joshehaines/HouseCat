@@ -136,6 +136,8 @@ public struct HomeSettings: Codable, Equatable, Sendable {
     /// Nil until the player pins one (the app shows `HomePlace.london`).
     public var place: HomePlace?
     public var season: SeasonSetting = .auto
+    /// Which home it is; nil until chosen (the app shows the London terrace).
+    public var style: HouseStyle?
     /// A paid or free move was recorded and the next pin may land.
     public var moving = false
 

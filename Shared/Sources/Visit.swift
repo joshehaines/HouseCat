@@ -192,6 +192,8 @@ final class Visit {
 
     init(size: CGSize, now: Date = Date(), lastActive: Date?) {
         self.size = size
+        // A home whose exteriors come as a download: ask for them (the cold open waits until they are here).
+        HomePacks.prepare(GameWorld.style(GameSession.shared.state(at: now)))
         if ArrivalRules.showsExterior(lastActive: lastActive, now: now), let exterior = GameWorld.exteriorScene(
             size: size,
             at: now,

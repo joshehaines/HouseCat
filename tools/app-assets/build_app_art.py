@@ -64,6 +64,7 @@ DATA = ['cat/rig.json', 'rooms/layout_living_demo.json', 'rooms/houses.json', 'f
 # to the file, so the data and the game keep using the masters' names.
 HEIC = ('world/scenes/', 'rooms/walls/', 'rooms/floors/', 'world/ground/', 'world/map/map_painted')
 HEIC_QUALITY = '70'
+PREVIEW_WIDTH = 720
 
 
 def heic(rel):
@@ -139,6 +140,24 @@ def main():
             ref = manifest.get(rel, {}).get('ref_room')
             if ref:  # the reference room a piece of furniture was painted in sets its scale
                 index[rel]["ref"] = ref
+    # A small summer picture of every home in every biome, for the house step (the full exteriors of the
+    # homes other than the London terrace come as download packs: tools/app-assets/build_home_packs.py).
+    scenes = os.path.join(ASSETS, 'world', 'scenes')
+    for name in sorted(os.listdir(scenes)):
+        if not name.endswith('_summer.jpg') or '_dooropen' in name:
+            continue
+        rel = 'world/previews/' + name.replace('_summer.jpg', '.jpg')
+        file = os.path.splitext(rel)[0] + '.heic'
+        os.makedirs(os.path.dirname(os.path.join(OUT, file)), exist_ok=True)
+        w, h = size(os.path.join(scenes, name))
+        subprocess.run(['sips', '-s', 'format', 'heic', '-s', 'formatOptions', HEIC_QUALITY, '-Z', str(PREVIEW_WIDTH),
+                        os.path.join(scenes, name), '--out', os.path.join(OUT, file)], capture_output=True, check=True)
+        index[rel] = {"master": [w, h], "scale": PREVIEW_WIDTH / w, "file": file}
+        # Its sky mask, so the picker can put a sky behind it.
+        land = rel.replace('.jpg', '_land.png')
+        subprocess.run(['sips', '-Z', str(PREVIEW_WIDTH), os.path.join(scenes, name.replace('.jpg', '_land.png')), '--out',
+                        os.path.join(OUT, land)], capture_output=True, check=True)
+        index[land] = {"master": [w, h], "scale": PREVIEW_WIDTH / w}
     for rel in DATA:
         dst = os.path.join(OUT, rel)
         os.makedirs(os.path.dirname(dst), exist_ok=True)

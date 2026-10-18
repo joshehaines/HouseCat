@@ -174,8 +174,14 @@ final class PlaceSearch: NSObject, MKLocalSearchCompleterDelegate {
         guard let request = MKReverseGeocodingRequest(location: CLLocation(latitude: latitude, longitude: longitude)),
               let item = try? await request.mapItems.first else { return nil }
         let city = item.addressRepresentations?.cityWithContext
-        let name = [item.name, city].compactMap(\.self).filter { !$0.isEmpty }
-        return (name.isEmpty ? WorldMapModel.coordinateName(latitude, longitude) : name.joined(separator: ", "), item.timeZone)
+        // "Djado" and "Djado, Niger" read as "Djado, Niger", not "Djado, Djado, Niger".
+        var parts: [String] = []
+        let pieces = [item.name, city].compactMap(\.self).flatMap { $0.components(separatedBy: ",") }
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+        for part in pieces where !part.isEmpty && !parts.contains(where: { $0.caseInsensitiveCompare(part) == .orderedSame }) {
+            parts.append(part)
+        }
+        return (parts.isEmpty ? WorldMapModel.coordinateName(latitude, longitude) : parts.joined(separator: ", "), item.timeZone)
     }
 }
 

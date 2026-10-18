@@ -45,6 +45,11 @@ public extension RoomScene {
         return director
     }
 
+    /// Dresses the cat (nil: nothing on).
+    func dress(_ outfit: OutfitsFile.Outfit?) {
+        director?.cat.wear(outfit)
+    }
+
     /// The spot for an activity in the cat's room.
     func spot(for choice: BehaviourChoice) -> CatSpot {
         guard let room = rooms[choice.room ?? catRoom] ?? activeRoom else {

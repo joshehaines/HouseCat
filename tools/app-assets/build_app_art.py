@@ -38,8 +38,8 @@ SETS = [
     ('furniture/kitchen/furn_kitchen_bowl_*.png', 0.6),
     ('fx/fire/fx_fire_0*.png', 0.5),
     ('fx/reactions/fx_reactions_*.png', 0.5),
-    # The outfits as the shop shows them (three-quarter front).
-    ('outfits/outfit_*_tqfront.png', 0.5),
+    # The outfits in every view: worn by the cat (fitted to its face) and shown in the shop (three-quarter front).
+    ('outfits/outfit_*.png', 0.5),
     # The painted UI icons for the room's controls, the status and the tray.
     ('ui/icon_*.png', 0.4),
     # The shop's offer illustrations.

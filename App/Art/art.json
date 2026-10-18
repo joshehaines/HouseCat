@@ -2769,10 +2769,52 @@
    ],
    "scale": 0.75
   },
+  "outfits/outfit_antlers_front.png": {
+   "master": [
+    625,
+    744
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_antlers_side.png": {
+   "master": [
+    269,
+    836
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_antlers_tqback.png": {
+   "master": [
+    575,
+    758
+   ],
+   "scale": 0.5
+  },
   "outfits/outfit_antlers_tqfront.png": {
    "master": [
     493,
     772
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_bandana_front.png": {
+   "master": [
+    514,
+    578
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_bandana_side.png": {
+   "master": [
+    481,
+    531
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_bandana_tqback.png": {
+   "master": [
+    520,
+    565
    ],
    "scale": 0.5
   },
@@ -2783,10 +2825,52 @@
    ],
    "scale": 0.5
   },
+  "outfits/outfit_beanie_front.png": {
+   "master": [
+    560,
+    605
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_beanie_side.png": {
+   "master": [
+    495,
+    610
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_beanie_tqback.png": {
+   "master": [
+    536,
+    658
+   ],
+   "scale": 0.5
+  },
   "outfits/outfit_beanie_tqfront.png": {
    "master": [
     539,
     603
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_bowtie_front.png": {
+   "master": [
+    549,
+    406
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_bowtie_side.png": {
+   "master": [
+    405,
+    340
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_bowtie_tqback.png": {
+   "master": [
+    600,
+    354
    ],
    "scale": 0.5
   },
@@ -2797,10 +2881,52 @@
    ],
    "scale": 0.5
   },
+  "outfits/outfit_buckethat_front.png": {
+   "master": [
+    605,
+    410
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_buckethat_side.png": {
+   "master": [
+    555,
+    459
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_buckethat_tqback.png": {
+   "master": [
+    593,
+    517
+   ],
+   "scale": 0.5
+  },
   "outfits/outfit_buckethat_tqfront.png": {
    "master": [
     567,
     447
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_cardigan_front.png": {
+   "master": [
+    380,
+    561
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_cardigan_side.png": {
+   "master": [
+    551,
+    535
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_cardigan_tqback.png": {
+   "master": [
+    621,
+    583
    ],
    "scale": 0.5
   },
@@ -2811,10 +2937,52 @@
    ],
    "scale": 0.5
   },
+  "outfits/outfit_crown_front.png": {
+   "master": [
+    474,
+    360
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_crown_side.png": {
+   "master": [
+    268,
+    392
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_crown_tqback.png": {
+   "master": [
+    427,
+    375
+   ],
+   "scale": 0.5
+  },
   "outfits/outfit_crown_tqfront.png": {
    "master": [
     411,
     363
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_fisherman_front.png": {
+   "master": [
+    384,
+    574
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_fisherman_side.png": {
+   "master": [
+    654,
+    559
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_fisherman_tqback.png": {
+   "master": [
+    556,
+    575
    ],
    "scale": 0.5
   },
@@ -2825,10 +2993,52 @@
    ],
    "scale": 0.5
   },
+  "outfits/outfit_flatcap_front.png": {
+   "master": [
+    527,
+    374
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_flatcap_side.png": {
+   "master": [
+    589,
+    357
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_flatcap_tqback.png": {
+   "master": [
+    559,
+    436
+   ],
+   "scale": 0.5
+  },
   "outfits/outfit_flatcap_tqfront.png": {
    "master": [
     569,
     366
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_flowercrown_front.png": {
+   "master": [
+    627,
+    376
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_flowercrown_side.png": {
+   "master": [
+    542,
+    461
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_flowercrown_tqback.png": {
+   "master": [
+    611,
+    446
    ],
    "scale": 0.5
   },
@@ -2839,10 +3049,52 @@
    ],
    "scale": 0.5
   },
+  "outfits/outfit_hawaiian_front.png": {
+   "master": [
+    451,
+    653
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_hawaiian_side.png": {
+   "master": [
+    599,
+    621
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_hawaiian_tqback.png": {
+   "master": [
+    612,
+    677
+   ],
+   "scale": 0.5
+  },
   "outfits/outfit_hawaiian_tqfront.png": {
    "master": [
     579,
     628
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_hoodie_front.png": {
+   "master": [
+    411,
+    642
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_hoodie_side.png": {
+   "master": [
+    614,
+    618
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_hoodie_tqback.png": {
+   "master": [
+    590,
+    664
    ],
    "scale": 0.5
   },
@@ -2853,10 +3105,52 @@
    ],
    "scale": 0.5
   },
+  "outfits/outfit_lifevest_front.png": {
+   "master": [
+    464,
+    646
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_lifevest_side.png": {
+   "master": [
+    562,
+    527
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_lifevest_tqback.png": {
+   "master": [
+    619,
+    624
+   ],
+   "scale": 0.5
+  },
   "outfits/outfit_lifevest_tqfront.png": {
    "master": [
     550,
     633
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_partyhat_front.png": {
+   "master": [
+    439,
+    801
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_partyhat_side.png": {
+   "master": [
+    412,
+    771
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_partyhat_tqback.png": {
+   "master": [
+    423,
+    791
    ],
    "scale": 0.5
   },
@@ -2867,10 +3161,52 @@
    ],
    "scale": 0.5
   },
+  "outfits/outfit_pumpkinhat_front.png": {
+   "master": [
+    573,
+    521
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_pumpkinhat_side.png": {
+   "master": [
+    455,
+    544
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_pumpkinhat_tqback.png": {
+   "master": [
+    534,
+    575
+   ],
+   "scale": 0.5
+  },
   "outfits/outfit_pumpkinhat_tqfront.png": {
    "master": [
     538,
     525
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_pyjamas_front.png": {
+   "master": [
+    420,
+    608
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_pyjamas_side.png": {
+   "master": [
+    665,
+    594
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_pyjamas_tqback.png": {
+   "master": [
+    557,
+    636
    ],
    "scale": 0.5
   },
@@ -2881,10 +3217,52 @@
    ],
    "scale": 0.5
   },
+  "outfits/outfit_raincoat_front.png": {
+   "master": [
+    432,
+    796
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_raincoat_side.png": {
+   "master": [
+    657,
+    776
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_raincoat_tqback.png": {
+   "master": [
+    575,
+    782
+   ],
+   "scale": 0.5
+  },
   "outfits/outfit_raincoat_tqfront.png": {
    "master": [
     649,
     784
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_roundglasses_front.png": {
+   "master": [
+    568,
+    227
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_roundglasses_side.png": {
+   "master": [
+    543,
+    245
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_roundglasses_tqback.png": {
+   "master": [
+    610,
+    415
    ],
    "scale": 0.5
   },
@@ -2895,10 +3273,52 @@
    ],
    "scale": 0.5
   },
+  "outfits/outfit_santahat_front.png": {
+   "master": [
+    420,
+    462
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_santahat_side.png": {
+   "master": [
+    543,
+    414
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_santahat_tqback.png": {
+   "master": [
+    479,
+    459
+   ],
+   "scale": 0.5
+  },
   "outfits/outfit_santahat_tqfront.png": {
    "master": [
     523,
     428
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_scarf_front.png": {
+   "master": [
+    419,
+    807
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_scarf_side.png": {
+   "master": [
+    358,
+    827
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_scarf_tqback.png": {
+   "master": [
+    432,
+    842
    ],
    "scale": 0.5
   },
@@ -2909,6 +3329,27 @@
    ],
    "scale": 0.5
   },
+  "outfits/outfit_skeleton_front.png": {
+   "master": [
+    352,
+    753
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_skeleton_side.png": {
+   "master": [
+    584,
+    739
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_skeleton_tqback.png": {
+   "master": [
+    599,
+    779
+   ],
+   "scale": 0.5
+  },
   "outfits/outfit_skeleton_tqfront.png": {
    "master": [
     585,
@@ -2916,10 +3357,52 @@
    ],
    "scale": 0.5
   },
+  "outfits/outfit_sunglasses_front.png": {
+   "master": [
+    569,
+    256
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_sunglasses_side.png": {
+   "master": [
+    581,
+    248
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_sunglasses_tqback.png": {
+   "master": [
+    629,
+    420
+   ],
+   "scale": 0.5
+  },
   "outfits/outfit_sunglasses_tqfront.png": {
    "master": [
     602,
     296
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_xmasjumper_front.png": {
+   "master": [
+    359,
+    663
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_xmasjumper_side.png": {
+   "master": [
+    623,
+    638
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_xmasjumper_tqback.png": {
+   "master": [
+    553,
+    668
    ],
    "scale": 0.5
   },

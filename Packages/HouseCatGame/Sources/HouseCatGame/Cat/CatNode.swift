@@ -34,6 +34,10 @@ public final class CatNode: SKNode {
     public private(set) var facingRight = false
     public private(set) var pose: CatPose?
     private var cycle: (kind: Cycle, phase: CGFloat)?
+    /// The outfit the cat wears (OutfitFit: hats, glasses, neckwear), on each view's head and on the pose on show.
+    public private(set) var outfit: OutfitsFile.Outfit?
+    private var outfitNodes: [SKNode] = []
+    private var poseOutfit: SKNode?
 
     private enum Cycle {
         case walk
@@ -96,9 +100,73 @@ public final class CatNode: SKNode {
         }
         pose = nil
         show(keepView, facingRight: keepFacing)
+        layOutfit()
         if let keepPose {
             settle(into: keepPose, duration: 0)
         }
+    }
+
+    // MARK: Outfits
+
+    /// Puts an outfit on (nil takes it off). Body garments are not drawn: they are painted for a standing cat.
+    public func wear(_ outfit: OutfitsFile.Outfit?) {
+        self.outfit = outfit
+        layOutfit()
+        if let pose {
+            layPoseOutfit(pose)
+        }
+    }
+
+    private var hasTallEars: Bool {
+        look.map(OutfitFit.tallEars) ?? false
+    }
+
+    /// The outfit on each puppet view's head, so it turns and bobs with it.
+    private func layOutfit() {
+        for node in outfitNodes {
+            node.removeFromParent()
+        }
+        outfitNodes = []
+        guard let outfit, let kind = OutfitFit.kind(outfit), let catArt, let look else { return }
+        for view in View.allCases {
+            guard let head = parts[view]?["head"], let picture = outfit.sprites[view.rawValue],
+                  let shape = OutfitShapes.shape(picture, art: art),
+                  let face = catArt.face(catArt.builder.part("head", view: view.rawValue, look: look).path),
+                  let fit = OutfitFit.place(kind, shape: shape, on: face, view: view.rawValue, size: outfit.fit, tallEars: hasTallEars)
+            else { continue }
+            outfitNodes.append(put(picture, fit: fit, face: face, on: head))
+        }
+    }
+
+    /// The outfit on the resting pose on show (its own view's picture; a curl is seen from the side).
+    private func layPoseOutfit(_ pose: CatPose) {
+        poseOutfit?.removeFromParent()
+        poseOutfit = nil
+        guard let outfit, let kind = OutfitFit.kind(outfit), let catArt, let look,
+              let view = OutfitFit.view(for: pose), let picture = outfit.sprites[view],
+              let shape = OutfitShapes.shape(picture, art: art),
+              let face = catArt.face(catArt.builder.pose(pose.rawValue, look: look).path),
+              let fit = OutfitFit.place(kind, shape: shape, on: face, view: view, size: outfit.fit, tallEars: hasTallEars) else { return }
+        poseOutfit = put(picture, fit: fit, face: face, on: poseNode)
+    }
+
+    /// An outfit picture on a sprite, where the fit says, in the sprite's own frame (it follows its turns and flips).
+    private func put(_ picture: String, fit: OutfitFit.Placement, face: CatFace, on parent: SKSpriteNode) -> SKNode {
+        let painted = art.paintedSize(picture)
+        let size = parent.size
+        let width = fit.width / max(1, face.size.width) * size.width
+        let node = SKSpriteNode(
+            texture: art.texture(picture),
+            size: CGSize(width: width, height: width * painted.height / max(1, painted.width))
+        )
+        node.anchorPoint = fit.anchor
+        let fx = fit.point.x / max(1, face.size.width), fy = fit.point.y / max(1, face.size.height)
+        node.position = CGPoint(x: (fx - parent.anchorPoint.x) * size.width, y: (1 - fy - parent.anchorPoint.y) * size.height)
+        node.zRotation = -fit.angle
+        node.zPosition = CGFloat(Tuning.Outfits.zLift)
+        node.name = "outfit"
+        parent.addChild(node)
+        return node
     }
 
     /// A part's or pose's texture and its master size.
@@ -263,6 +331,7 @@ public final class CatNode: SKNode {
         poseNode.texture = texture
         poseNode.size = CGSize(width: painted.width * s * CGFloat(stretch), height: painted.height * s)
         self.pose = pose
+        layPoseOutfit(pose)
         poseNode.removeAllActions()
         poseNode.run(.fadeIn(withDuration: duration * Self.overlap))
         fade(puppets[view], to: 0, duration: duration * Self.overlap, after: duration * (1 - Self.overlap))

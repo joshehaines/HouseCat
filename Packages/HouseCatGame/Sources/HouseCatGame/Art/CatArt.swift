@@ -26,6 +26,7 @@ public final class CatArt: @unchecked Sendable {
     private let lock = NSLock()
     private var images: [Key: CGImage] = [:]
     private var textures: [Key: SKTexture] = [:]
+    private var faces: [String: CatFace] = [:]
 
     private struct Key: Hashable {
         var path: String
@@ -111,6 +112,26 @@ public final class CatArt: @unchecked Sendable {
         texture.filteringMode = .linear
         lock.withLock { textures[key] = texture }
         return texture
+    }
+
+    /// Where the face is in a sprite (its features mask and alpha), for fitting outfits; cached.
+    public func face(_ path: String) -> CatFace? {
+        if let cached = lock.withLock({ faces[path] }) {
+            return cached
+        }
+        guard let entry = entries[path], let alpha = Raster.read(root.appendingPathComponent("alpha/\(path)")) else { return nil }
+        let size = (alpha.width, alpha.height)
+        var features: [[UInt8]] = []
+        if entry.masks.contains("features"), let raster = Raster.read(root.appendingPathComponent("masks/features/\(path)")),
+           raster.planes.count >= 3
+        {
+            features = raster.planes.prefix(3).map { plane in
+                raster.width == size.0 && raster.height == size.1 ? plane : Raster.scaled(plane, from: (raster.width, raster.height), to: size)
+            }
+        }
+        let face = OutfitFit.face(features: features, alpha: alpha.planes[0], width: size.0, height: size.1)
+        lock.withLock { faces[path] = face }
+        return face
     }
 
     /// Forgets every tinted sprite (after the look changes, the old ones are not drawn again).

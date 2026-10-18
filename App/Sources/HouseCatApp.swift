@@ -27,7 +27,11 @@ struct HouseCatApp: App {
             Group {
                 if gallery {
                     #if DEBUG
-                        WidgetGallery()
+                        if ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"] == "outfits" {
+                            OutfitGallery()
+                        } else {
+                            WidgetGallery()
+                        }
                     #endif
                 } else if let visit {
                     RoomScreen(visit: visit, store: store) {
@@ -133,6 +137,10 @@ struct HouseCatApp: App {
         WidgetBridge.importInbox()
         #if DEBUG
             // HOUSECAT_SCREEN=widgets: every widget size and pose, drawn as the widget draws them.
+            if ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"] == "outfits" {
+                gallery = true
+                return
+            }
             if ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"] == "widgets" {
                 WidgetBridge.publish()
                 gallery = true
@@ -242,9 +250,35 @@ enum CatScreens {
         GameWorld.art?.image(path).map { Image(decorative: $0, scale: 1) }
     }
 
-    static func portrait(_ look: CatLook) -> CGImage? {
+    /// The cat sitting three-quarter front in its look, wearing what it has on.
+    static func portrait(_ look: CatLook, outfit: OutfitsFile.Outfit? = GameSession.shared.wornOutfit) -> CGImage? {
         guard let catArt = GameWorld.catArt else { return nil }
-        return catArt.image(catArt.builder.pose(CatPose.sitThreeQuarterFront.rawValue, look: look), look: look)
+        let sprite = catArt.builder.pose(CatPose.sitThreeQuarterFront.rawValue, look: look)
+        guard let image = catArt.image(sprite, look: look) else { return nil }
+        guard let outfit, let kind = OutfitFit.kind(outfit), let path = outfit.sprites["tqfront"], let art = GameWorld.art,
+              let picture = art.image(path), let shape = OutfitShapes.shape(path, art: art), let face = catArt.face(sprite.path)
+        else { return image }
+        return OutfitFit.compose(
+            image,
+            face: face,
+            outfit: picture,
+            shape: shape,
+            kind: kind,
+            view: "tqfront",
+            size: outfit.fit,
+            tallEars: OutfitFit.tallEars(look)
+        )?.image ?? image
+    }
+
+    /// The wardrobe's outfits with their pictures, for the cat's profile.
+    static func wardrobe() -> [CatProfileView.WardrobeItem] {
+        GameSession.shared.wardrobe.map { outfit in
+            CatProfileView.WardrobeItem(
+                id: outfit.id,
+                name: outfit.name,
+                image: outfit.sprites["tqfront"].flatMap { GameWorld.art?.image($0) }
+            )
+        }
     }
 
     static func book() -> [GiftBookView.Entry] {
@@ -334,6 +368,11 @@ struct RoomScreen: View {
         sizeClass == .regular ? Tuning.Stage.iPadHUDScale : 1
     }
 
+    /// The room sits above the care buttons along the bottom, so the cat coming to greet you is never under them.
+    private var restInset: CGFloat {
+        CGFloat(Tuning.Stage.careBarInset) * hudScale
+    }
+
     var body: some View {
         screens(progressCards(cards(sheets(hud))))
     }
@@ -380,9 +419,14 @@ struct RoomScreen: View {
                 }
             }
             .animation(.spring(duration: 0.35), value: visit.previewing?.id)
+            .onChange(of: visit.ready && visit.scene is RoomScene, initial: true) { _, inRoom in
+                if inRoom, !visit.decorating, visit.previewing == nil {
+                    (visit.scene as? RoomScene)?.bottomInset = restInset
+                }
+            }
             .onChange(of: visit.previewing?.id) { _, look in
                 // The room lifts above the bar, as it does for the decorate tray.
-                (visit.scene as? RoomScene)?.bottomInset = look == nil ? 0 : RoomLookBar.height * hudScale
+                (visit.scene as? RoomScene)?.bottomInset = look == nil ? restInset : RoomLookBar.height * hudScale
             }
             .animation(.easeOut(duration: 0.3), value: visit.greeting)
             .animation(.spring(duration: 0.35), value: visit.toast)
@@ -424,7 +468,11 @@ struct RoomScreen: View {
                     .padding(.top, 14)
                 }
             }
-            .task(id: GameSession.shared.cat?.look) {
+            .task(id: [
+                AnyHashable(GameSession.shared.cat?.look),
+                AnyHashable(GameSession.shared.cat?.outfitID),
+                AnyHashable(profileVersion),
+            ]) {
                 portrait = GameSession.shared.cat.flatMap { CatScreens.portrait($0.look) }.map { Image(decorative: $0, scale: 1) }
             }
             .overlay(alignment: .topTrailing) {
@@ -550,7 +598,7 @@ struct RoomScreen: View {
             }
             .animation(.easeOut(duration: 0.25), value: visit.decorating)
             .onChange(of: visit.decorating) { _, decorating in
-                (visit.scene as? RoomScene)?.bottomInset = decorating ? DecorateTray.height(scale: hudScale) : 0
+                (visit.scene as? RoomScene)?.bottomInset = decorating ? DecorateTray.height(scale: hudScale) : restInset
             }
             .overlay {
                 // The launch screen stays up until the first picture is drawn, then lifts.
@@ -618,6 +666,14 @@ struct RoomScreen: View {
                         setPersonality: { personality in
                             GameSession.shared.edit(personality: personality)
                             profileVersion += 1
+                        },
+                        wardrobe: CatScreens.wardrobe(),
+                        worn: GameSession.shared.wornOutfit?.id,
+                        wear: { id in
+                            GameSession.shared.wear(id)
+                            visit.dressCat()
+                            profileVersion += 1
+                            WidgetBridge.publish()
                         },
                         settings: {
                             settingsNext = true
@@ -934,6 +990,20 @@ struct RoomScreen: View {
         #if DEBUG
             // Screenshot runs: HOUSECAT_SCREEN=levelup|road|streak|pass|addwidget|together|reminders|health|trylook.
             .task(id: visit.ready && visit.scene is RoomScene) {
+                // HOUSECAT_OUTFIT=<id>: the cat given that outfit and wearing it.
+                if visit.ready, let outfit = ProcessInfo.processInfo.environment["HOUSECAT_OUTFIT"] {
+                    let session = GameSession.shared
+                    if !session.ownedOutfits.contains(outfit) {
+                        session.append(
+                            .purchaseBeansGranted(transactionID: "debug-outfit-\(outfit)", beans: Tuning.Beans.outfit),
+                            at: session.now()
+                        )
+                        session.buyOutfit(outfit)
+                    }
+                    session.wear(outfit)
+                    visit.dressCat()
+                    profileVersion += 1
+                }
                 guard visit.ready, visit.scene is RoomScene,
                       let wanted = ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"] else { return }
                 try? await Task.sleep(for: .seconds(3))
@@ -944,6 +1014,7 @@ struct RoomScreen: View {
                 case "pass": showPass = true
                 case "addwidget": await askForWidget()
                 case "together": showTogether = true
+                case "profile": showProfile = true
                 case "trylook":
                     // A look for an open room (the bedroom's first, else the living room's).
                     let state = GameSession.shared.state(at: GameSession.shared.now())

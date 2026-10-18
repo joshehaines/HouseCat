@@ -177,6 +177,12 @@ final class Visit {
             look: cat.look,
             isKitten: cat.isKittenStage(on: session.state(at: session.now()).clock.day(of: session.now()))
         )
+        dressCat()
+    }
+
+    /// Puts on the cat what the save says it wears (after the wardrobe changes it).
+    func dressCat() {
+        (scene as? RoomScene)?.dress(GameSession.shared.wornOutfit)
     }
 
     /// A closed room the player tapped, with what opening it takes (Core's `RoomRules.availability`).
@@ -750,6 +756,7 @@ final class Visit {
             house.onActiveRoomChanged = { [weak self] in self?.roomShown($0) }
             house.onCatTapped = { [weak self] in self?.petCat() }
             house.onGiftTapped = { [weak self] in self?.collectGift() }
+            house.dress(GameSession.shared.wornOutfit)
         }
         room = built
         refreshStats()

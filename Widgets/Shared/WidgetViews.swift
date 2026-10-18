@@ -169,7 +169,8 @@ struct WidgetWindow: View {
            let pixels = kit.poses[scene.catPose.rawValue], let sit = kit.poses[CatPose.sitFront.rawValue]
         {
             // Every pose at the scale that makes a sitting cat this tall.
-            let scale = size.height * (wide ? Tuning.Widget.catHeightWide : Tuning.Widget.catHeight) / sit[1]
+            // Scaled by the sitting cat's own height (a hat may make its picture taller).
+            let scale = size.height * (wide ? Tuning.Widget.catHeightWide : Tuning.Widget.catHeight) / (sit.count > 2 ? sit[2] : sit[1])
             let width = pixels[0] * scale, height = pixels[1] * scale
             let feet = sill(scene.frame, frame: frame, glass: glass)
             let x = wide ? glass.minX + glass.width * Tuning.Widget.catXWide : glass.midX

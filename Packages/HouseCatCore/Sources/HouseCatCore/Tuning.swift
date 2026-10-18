@@ -570,6 +570,47 @@ public enum Tuning {
         public static let baseLift = 0.04
     }
 
+    /// Outfits fitted to the cat (HouseCatGame OutfitFit), from the head's own outline in each sprite: a hat's
+    /// rim this far from the eye line up to the crown (a little further on tall ears) and this wide against the
+    /// head; glasses' lenses this far apart against the eyes, a profile's lens this wide against the head;
+    /// neckwear's band this wide against the neck, its anchor this far down the band; the chin this many eye
+    /// spans below the nose (a profile's, against the head's width); a head seen
+    /// from behind this far down the sprite; how deep an outfit's top and bottom edges are measured; the smallest
+    /// hole that counts as a lens (in half-pixel cells).
+    public enum Outfits {
+        public static let hatRise = 0.62
+        public static let tallEarsLift = 0.15
+        public static let tallEars: Set<String> = ["siamese", "sphynx", "mainecoon", "oriental", "tufted"]
+        public static let hatWidth = 1.15
+        public static let lensFit = 1.0
+        public static let profileGlassesWidth = 0.95
+        /// Where a profile's lens is on its picture (the front end), and a pair's lenses in each view when the
+        /// picture's own cannot be found (measured off the round glasses).
+        public static let profileLens = [0.05, 0.5]
+        public static let lenses: [String: [[Double]]] = [
+            "front": [[0.25, 0.5], [0.75, 0.5]],
+            "tqfront": [[0.15, 0.51], [0.48, 0.66]],
+        ]
+        /// A head no wider than this many eye spans (or eye-to-nose lengths in a profile).
+        public static let headToEyes = 2.4
+        public static let headToEyeNose = 3.4
+        /// A profile's head middle, behind its eye by this much of the head's width; neckwear no wider than this
+        /// much of the head.
+        public static let profileHeadBack = 0.12
+        public static let neckToHead = 0.9
+        public static let neckWidth = 1.12
+        public static let neckBandDrop = 0.12
+        public static let chinDrop = 0.48
+        public static let profileChinDrop = 0.55
+        public static let backHeadDrop = 0.12
+        /// The edges are measured over the middle of the picture, this far in from each side.
+        public static let edgeInset = 0.2
+        public static let minimumLensCells = 40
+        public static let minimumFeaturePixels = 4
+        /// Over the head and its ears.
+        public static let zLift = 0.5
+    }
+
     public enum House {
         /// Doorways in the partitions between rooms: halfway along the wall, this many cells wide.
         public static let doorwayAlong = 5.0
@@ -658,6 +699,8 @@ public enum Tuning {
     public enum Stage {
         /// The room's controls are drawn this much larger on an iPad.
         public static let iPadHUDScale = 1.3
+        /// The room sits this far above the bottom of the screen (points), clear of the care buttons.
+        public static let careBarInset = 92.0
         /// The room slides up over this long when the decorate tray opens.
         public static let insetSeconds = 0.25
         /// The share of the view the room may fill.

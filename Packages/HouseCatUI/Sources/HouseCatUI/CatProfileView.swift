@@ -72,7 +72,23 @@ public enum ProfileText {
 /// The cat's profile (SPEC "Age and time together"): its picture, how long you have had it and its age,
 /// its trust, badges and lifetime stats; Edit look, Rename and Personality change it again, free.
 public struct CatProfileView: View {
+    /// An outfit in the wardrobe: its name and picture.
+    public struct WardrobeItem: Identifiable, Sendable {
+        public var id: String
+        public var name: String
+        public var image: CGImage?
+
+        public init(id: String, name: String, image: CGImage?) {
+            self.id = id
+            self.name = name
+            self.image = image
+        }
+    }
+
     private let profile: CatProfile
+    private let wardrobe: [WardrobeItem]
+    private let worn: String?
+    private let wear: ((String?) -> Void)?
     private let portrait: CGImage?
     private let level: (level: Int, intoLevel: Int, toNext: Int)
     private let editLook: () -> Void
@@ -92,9 +108,15 @@ public struct CatProfileView: View {
         editLook: @escaping () -> Void,
         rename: @escaping (String) -> String?,
         setPersonality: @escaping (Personality) -> Void,
+        wardrobe: [WardrobeItem] = [],
+        worn: String? = nil,
+        wear: ((String?) -> Void)? = nil,
         settings: (() -> Void)? = nil,
         close: @escaping () -> Void
     ) {
+        self.wardrobe = wardrobe
+        self.worn = worn
+        self.wear = wear
         self.settings = settings
         self.profile = profile
         self.portrait = portrait
@@ -141,6 +163,9 @@ public struct CatProfileView: View {
                                 .paper(Capsule())
                             }
                         }
+                    }
+                    if wear != nil {
+                        wardrobeView
                     }
                     stats
                     personality
@@ -235,6 +260,58 @@ public struct CatProfileView: View {
         .frame(maxWidth: .infinity)
         .padding(.vertical, 8)
         .paper(RoundedRectangle(cornerRadius: 14, style: .continuous))
+    }
+
+    /// The outfits the cat can wear: tap one to put it on, tap it again (or Take off) to take it off.
+    private var wardrobeView: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack {
+                Text("Wardrobe").font(.headline)
+                Spacer()
+                if worn != nil {
+                    Button("Take off") { wear?(nil) }
+                        .font(.subheadline.weight(.semibold))
+                        .tint(Theme.accent)
+                }
+            }
+            if wardrobe.isEmpty {
+                Text("No outfits yet. Hats, glasses and scarves come from the shop, the season pass and presents.")
+                    .font(.caption)
+                    .foregroundStyle(Theme.inkSoft)
+            } else {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 10) {
+                        ForEach(wardrobe) { item in
+                            Button {
+                                wear?(item.id == worn ? nil : item.id)
+                            } label: {
+                                VStack(spacing: 2) {
+                                    Group {
+                                        if let image = item.image {
+                                            Image(decorative: image, scale: 1).resizable().interpolation(.high).scaledToFit()
+                                        } else {
+                                            Image(systemName: "tshirt").resizable().scaledToFit().padding(12)
+                                        }
+                                    }
+                                    .frame(width: 56, height: 50)
+                                    Text(item.name).font(.caption2.weight(.semibold)).lineLimit(1)
+                                }
+                                .frame(width: 76, height: 78)
+                                .paper(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                        .strokeBorder(Theme.accent, lineWidth: item.id == worn ? 3 : 0)
+                                )
+                            }
+                            .buttonStyle(PressStyle())
+                            .accessibilityLabel(item.name + (item.id == worn ? ", wearing" : ""))
+                            .accessibilityAddTraits(item.id == worn ? .isSelected : [])
+                        }
+                    }
+                    .padding(.vertical, 2)
+                }
+            }
+        }
     }
 
     private var personality: some View {

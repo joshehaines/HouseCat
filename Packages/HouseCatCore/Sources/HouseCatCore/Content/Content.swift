@@ -253,6 +253,14 @@ public struct OutfitsFile: Codable, Sendable {
         public var earnedBy: String?
         public var months: [Int]
         public var sprites: [String: String]
+        /// How wide it is worn against the head (hats) or the neck (neckwear); nil for the usual (Tuning.Outfits).
+        public var fit: Double?
+
+        /// Whether the cat can be seen in it: hats, glasses and neckwear are fitted to the face in every pose; body
+        /// garments are painted for a standing cat only, so they are not sold or given until they are fitted.
+        public var wearable: Bool {
+            slot != .body
+        }
     }
 
     public var version: Int

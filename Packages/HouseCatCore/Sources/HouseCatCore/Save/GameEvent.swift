@@ -83,6 +83,7 @@ public struct GameEvent: Codable, Hashable, Sendable, Identifiable {
         case roomVisited(RoomID)
         case surfaceChanged(room: RoomID, surfaceID: String)
         case outfitWorn(catID: String, outfitID: String)
+        case outfitTakenOff(catID: String)
         case homeMoved(beans: Int)
         case seasonModeChanged
         /// The pin on the world map: the first one free (onboarding), later ones after a `homeMoved`.

@@ -55,6 +55,29 @@ struct RoomLookTests {
         #expect(!f.state.ownedOutfits.contains("beanie"))
     }
 
+    @Test func theCatWearsOnlyWhatTheHouseholdOwnsAndCanTakeItOff() {
+        var f = Fixture(context: context)
+        f.add(.outfitWorn(catID: f.cat, outfitID: "beanie"), day: 0)
+        #expect(f.state.cat(f.cat)?.outfitID == nil)
+        f.add(.purchaseBeansGranted(transactionID: "w", beans: 1000), day: 0, hour: 9)
+        f.add(.outfitBought(outfitID: "beanie", beans: Tuning.Beans.outfit, gift: false), day: 0, hour: 10)
+        f.add(.outfitWorn(catID: f.cat, outfitID: "beanie"), day: 0, hour: 11)
+        #expect(f.state.cat(f.cat)?.outfitID == "beanie")
+        f.add(.outfitTakenOff(catID: f.cat), day: 0, hour: 12)
+        #expect(f.state.cat(f.cat)?.outfitID == nil)
+    }
+
+    @Test func everythingSoldOrGivenIsSomethingTheCatCanBeSeenIn() {
+        let outfits = Dictionary(uniqueKeysWithValues: content.outfits.outfits.map { ($0.id, $0) })
+        for season in content.seasons.seasons {
+            for reward in season.freeTrack + season.paidTrack where reward.kind == .outfit {
+                #expect(reward.id.flatMap { outfits[$0]?.wearable } == true, "\(season.id): \(reward.id ?? "")")
+            }
+        }
+        #expect(outfits[Tuning.Store.starterOutfit]?.wearable == true)
+        #expect(outfits.values.filter(\.wearable).count == 14)
+    }
+
     @Test func singlePiecesFromLooksArePricedBySize() throws {
         let items = Dictionary(uniqueKeysWithValues: content.catalogue.items.map { ($0.id, $0) })
         #expect(try BeanPrices.piece(#require(items["study_mug"])) == Tuning.Beans.paidPieceSmall)

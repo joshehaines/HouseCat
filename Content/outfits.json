@@ -20,7 +20,8 @@
         "side": "outfits/outfit_beanie_side.png",
         "tqback": "outfits/outfit_beanie_tqback.png",
         "tqfront": "outfits/outfit_beanie_tqfront.png"
-      }
+      },
+      "fit": 1.15
     },
     {
       "id": "flatcap",
@@ -41,7 +42,8 @@
         "side": "outfits/outfit_flatcap_side.png",
         "tqback": "outfits/outfit_flatcap_tqback.png",
         "tqfront": "outfits/outfit_flatcap_tqfront.png"
-      }
+      },
+      "fit": 1.2
     },
     {
       "id": "buckethat",
@@ -62,7 +64,8 @@
         "side": "outfits/outfit_buckethat_side.png",
         "tqback": "outfits/outfit_buckethat_tqback.png",
         "tqfront": "outfits/outfit_buckethat_tqfront.png"
-      }
+      },
+      "fit": 1.35
     },
     {
       "id": "partyhat",
@@ -83,7 +86,8 @@
         "side": "outfits/outfit_partyhat_side.png",
         "tqback": "outfits/outfit_partyhat_tqback.png",
         "tqfront": "outfits/outfit_partyhat_tqfront.png"
-      }
+      },
+      "fit": 0.55
     },
     {
       "id": "bandana",
@@ -104,7 +108,8 @@
         "side": "outfits/outfit_bandana_side.png",
         "tqback": "outfits/outfit_bandana_tqback.png",
         "tqfront": "outfits/outfit_bandana_tqfront.png"
-      }
+      },
+      "fit": 1.05
     },
     {
       "id": "scarf",
@@ -125,7 +130,8 @@
         "side": "outfits/outfit_scarf_side.png",
         "tqback": "outfits/outfit_scarf_tqback.png",
         "tqfront": "outfits/outfit_scarf_tqfront.png"
-      }
+      },
+      "fit": 1.2
     },
     {
       "id": "bowtie",
@@ -146,7 +152,8 @@
         "side": "outfits/outfit_bowtie_side.png",
         "tqback": "outfits/outfit_bowtie_tqback.png",
         "tqfront": "outfits/outfit_bowtie_tqfront.png"
-      }
+      },
+      "fit": 0.6
     },
     {
       "id": "roundglasses",
@@ -209,7 +216,8 @@
         "side": "outfits/outfit_flowercrown_side.png",
         "tqback": "outfits/outfit_flowercrown_tqback.png",
         "tqfront": "outfits/outfit_flowercrown_tqfront.png"
-      }
+      },
+      "fit": 1.05
     },
     {
       "id": "pumpkinhat",
@@ -232,7 +240,8 @@
         "side": "outfits/outfit_pumpkinhat_side.png",
         "tqback": "outfits/outfit_pumpkinhat_tqback.png",
         "tqfront": "outfits/outfit_pumpkinhat_tqfront.png"
-      }
+      },
+      "fit": 1.2
     },
     {
       "id": "santahat",
@@ -255,7 +264,8 @@
         "side": "outfits/outfit_santahat_side.png",
         "tqback": "outfits/outfit_santahat_tqback.png",
         "tqfront": "outfits/outfit_santahat_tqfront.png"
-      }
+      },
+      "fit": 1.2
     },
     {
       "id": "antlers",
@@ -278,7 +288,8 @@
         "side": "outfits/outfit_antlers_side.png",
         "tqback": "outfits/outfit_antlers_tqback.png",
         "tqfront": "outfits/outfit_antlers_tqfront.png"
-      }
+      },
+      "fit": 1.35
     },
     {
       "id": "crown",
@@ -290,8 +301,8 @@
         "tqback",
         "tqfront"
       ],
-      "pool": "founders",
-      "sku": "housecat.founders",
+      "pool": "pass-paid",
+      "sku": null,
       "earnedBy": null,
       "months": [],
       "sprites": {
@@ -299,7 +310,8 @@
         "side": "outfits/outfit_crown_side.png",
         "tqback": "outfits/outfit_crown_tqback.png",
         "tqfront": "outfits/outfit_crown_tqfront.png"
-      }
+      },
+      "fit": 0.62
     },
     {
       "id": "fisherman",
@@ -311,8 +323,8 @@
         "tqback",
         "tqfront"
       ],
-      "pool": "pass-paid",
-      "sku": null,
+      "pool": "paid",
+      "sku": "housecat.outfit.fisherman",
       "earnedBy": null,
       "months": [],
       "sprites": {

@@ -58,7 +58,8 @@ enum WidgetBridge {
     private static func kitKey(_ state: HouseholdState) -> String {
         let look = state.cats.first.flatMap { try? JSONEncoder().encode($0.look) }.map { String(decoding: $0, as: UTF8.self) } ?? ""
         let place = state.home.place ?? .london
-        return [Tuning.Widget.kitVersion, GameWorld.style(state).rawValue, place.biome.rawValue, look].joined(separator: "|")
+        let outfit = state.cats.first?.outfitID ?? ""
+        return [Tuning.Widget.kitVersion, GameWorld.style(state).rawValue, place.biome.rawValue, look, outfit].joined(separator: "|")
     }
 
     private static func makeKitIfNeeded(state: HouseholdState) {
@@ -86,6 +87,20 @@ enum WidgetBridge {
             let sprite = catArt.builder.pose(pose.rawValue, look: look)
             return (pose, sprite, catArt.paintedSize(sprite.path))
         }
+        // What the cat has on, in each pose's view (OutfitFit draws it on the pose).
+        let worn = GameSession.shared.wornOutfit
+        let kind = worn.flatMap(OutfitFit.kind)
+        let tall = OutfitFit.tallEars(look)
+        var outfitPictures: [CatPose: (CGImage, OutfitShape, String)] = [:]
+        if let worn {
+            for pose in CatPose.allCases {
+                if let view = OutfitFit.view(for: pose), let path = worn.sprites[view], let picture = art.image(path),
+                   let shape = OutfitShapes.shape(path, art: art)
+                {
+                    outfitPictures[pose] = (picture, shape, view)
+                }
+            }
+        }
         making = Task.detached(priority: .utility) {
             let files = FileManager.default
             try? files.createDirectory(at: kit, withIntermediateDirectories: true)
@@ -96,9 +111,30 @@ enum WidgetBridge {
             }
             var sizes: [String: [Double]] = [:]
             for (pose, sprite, painted) in poses {
-                guard let image = catArt.image(sprite, look: look) else { continue }
-                write(scaled(image, height: Tuning.Widget.catPixels), to: kit.appendingPathComponent(WidgetFiles.catFile(pose)))
-                sizes[pose.rawValue] = [Double(painted.width) * stretch, Double(painted.height)]
+                guard var image = catArt.image(sprite, look: look) else { continue }
+                // A hat may stand above the picture: the canvas grows, and the third size is the cat's own height
+                // (what the widget scales every pose by).
+                var grown = 1.0
+                if let kind, let (picture, shape, view) = outfitPictures[pose], let face = catArt.face(sprite.path),
+                   let dressed = OutfitFit.compose(
+                       image,
+                       face: face,
+                       outfit: picture,
+                       shape: shape,
+                       kind: kind,
+                       view: view,
+                       size: worn?.fit,
+                       tallEars: tall
+                   )
+                {
+                    grown = Double(image.height + dressed.extra) / Double(max(1, image.height))
+                    image = dressed.image
+                }
+                write(
+                    scaled(image, height: Int((Double(Tuning.Widget.catPixels) * grown).rounded())),
+                    to: kit.appendingPathComponent(WidgetFiles.catFile(pose))
+                )
+                sizes[pose.rawValue] = [Double(painted.width) * stretch, Double(painted.height) * grown, Double(painted.height)]
             }
             let info = WidgetKitInfo(
                 key: key,

@@ -28,7 +28,7 @@ extension HouseholdState {
             applyCare(event, context: context)
         case .itemBought, .itemGranted, .purchaseBeansGranted, .itemPlaced, .itemMoved, .itemStored, .catUsedNewItem, .roomOpened,
              .roomVisited,
-             .surfaceChanged, .outfitWorn, .homeMoved, .seasonModeChanged, .homePlaced, .seasonSet, .homeStyleChosen, .tourFinished,
+             .surfaceChanged, .outfitWorn, .outfitTakenOff, .homeMoved, .seasonModeChanged, .homePlaced, .seasonSet, .homeStyleChosen, .tourFinished,
              .bundleGranted, .outfitBought:
             applyHome(event, context: context)
         case .pauseStarted, .pauseEnded, .passPurchased, .passTierClaimed, .clubDayRecorded, .eventRewardClaimed, .streakRepaired,
@@ -237,10 +237,13 @@ extension HouseholdState {
             lifetime.surfacesChanged += 1
             bump(.changeSurface, context: context)
         case let .outfitWorn(catID, outfitID):
-            guard cat(catID) != nil else { break }
+            // Only what the household owns.
+            guard cat(catID) != nil, ownedOutfits.contains(outfitID) else { break }
             updateCat(catID) { $0.outfitID = outfitID }
             lifetime.outfitsWorn += 1
             bump(.wearOutfit, context: context)
+        case let .outfitTakenOff(catID):
+            updateCat(catID) { $0.outfitID = nil }
         case let .homeMoved(price):
             let free = homeMovesUsed < Tuning.Beans.freeHomeMoves || today?.clubDay == true
             let required = free ? 0 : Tuning.Beans.moveHome

@@ -128,6 +128,9 @@ Beans play the role gems play in Clash of Clans, earned through objectives and s
 ## 6i. Added in the outdoors pass (18 Oct 2026)
 - `world/props/<biome>_<piece>[_autumn|_winter].png` (42): the scenery round the house, three pieces per biome (countryside oak, hawthorn, field stone; city plane tree, Victorian lamp, planter; coast umbrella pine, dune grass, sea rocks; forest Douglas fir, silver birch, mossy stump; mountain Swiss stone pine, granite boulder, woodpile; desert date palm, agave, terracotta pots; tropical coconut palm, banana plant, frangipani; snow spruce, snowman, snowy rocks), with autumn pictures for the oak, the plane and the birch and winter pictures for every piece outside the desert, the tropics and the snow biome. Painted with gpt_image_2_5 on magenta at a high isometric three-quarter view, keyed with `shopkey.py`, bundled at 0.3 (about 17 MB).
 
+## 6j. The outfits worn (18 Oct 2026)
+- All four views of every outfit are bundled now (they were three-quarter front only, for the shop), at 0.5. No new art: hats, glasses and neckwear are fitted in code to each pose. The body garments need painting for the sitting and loafing poses before they can be sold.
+
 ## 7. Known gaps and things for Josh's eye
 
 - **Small items were painted at furniture size.** The model draws whatever it is asked for large, so tabletop and small floor items (mug, kettle, alarm clock, slippers, snow globe, candle, cat bed, laundry basket…) come out as big as a chest of drawers. The sprites are high-resolution, so scaling down in code loses nothing: `assets/manifest.json` carries a `suggested_scale` for 78 such files (from `tools/asset-pipeline/scales.py`); carry it into `catalogue.json` and check each by eye in the room view.

@@ -34,6 +34,31 @@ extension GameSession {
         state(at: now()).ownedOutfits
     }
 
+    // MARK: The wardrobe
+
+    /// The outfits the cat can wear: owned and fitted (hats, glasses, neckwear).
+    var wardrobe: [OutfitsFile.Outfit] {
+        let owned = ownedOutfits
+        return (content?.outfits.outfits ?? []).filter { owned.contains($0.id) && $0.wearable }
+    }
+
+    /// What the cat has on.
+    var wornOutfit: OutfitsFile.Outfit? {
+        guard let id = cat?.outfitID else { return nil }
+        return content?.outfits.outfits.first { $0.id == id && $0.wearable }
+    }
+
+    /// Puts an outfit on the cat, or takes it off (nil).
+    func wear(_ outfitID: String?) {
+        guard let cat else { return }
+        if let outfitID {
+            append(.outfitWorn(catID: cat.id, outfitID: outfitID), at: now())
+        } else {
+            append(.outfitTakenOff(catID: cat.id), at: now())
+        }
+        Sound.play("ui_sparkle", volume: Tuning.Sound.place)
+    }
+
     /// Whether more than one person looks after the cat (presents and the shared quest appear then).
     var isCoOwned: Bool {
         state(at: now()).owners.count >= 2

@@ -795,7 +795,7 @@ struct ShopView: View {
         let today = DayClock().day(of: .now)
         let mine = session.ownedOutfits
         return (content?.outfits.outfits ?? []).filter { outfit in
-            guard outfit.pool == .paid else { return false }
+            guard outfit.pool == .paid, outfit.wearable else { return false }
             return mine.contains(outfit.id) || ShopRules.isOnSale(months: outfit.months, on: today)
         }
         .map { outfit in

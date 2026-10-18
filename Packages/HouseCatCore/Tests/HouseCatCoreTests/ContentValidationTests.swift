@@ -237,7 +237,7 @@ struct ContentValidationTests {
         let outfits = content.outfits.outfits
         #expect(outfits.count == 23)
         let pools = Dictionary(grouping: outfits, by: \.pool).mapValues(\.count)
-        #expect(pools == [.paid: 12, .earned: 4, .passPaid: 3, .passFree: 3, .founders: 1])
+        #expect(pools == [.paid: 13, .earned: 4, .passPaid: 3, .passFree: 3])
         for outfit in outfits {
             for sprite in outfit.sprites.values {
                 #expect(manifest[sprite] != nil, "\(outfit.id): sprite \(sprite) not in manifest")

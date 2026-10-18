@@ -7,6 +7,8 @@ import SwiftUI
 
 @main
 struct HouseCatApp: App {
+    @UIApplicationDelegateAdaptor(HouseCatAppDelegate.self) private var appDelegate
+    @State private var invites = Invites.shared
     @State private var store = Self.makeStore()
     @State private var visit: Visit?
     /// Adoption (onboarding's cat creation) when the save has no cat yet, then where you live.
@@ -78,6 +80,17 @@ struct HouseCatApp: App {
                 }
             }
             .onAppear(perform: start)
+            // Someone's invite was opened on this phone.
+            .overlay {
+                if let metadata = invites.pending {
+                    ZStack {
+                        Color.black.opacity(0.4).ignoresSafeArea()
+                        JoinView(metadata: metadata) { invites.pending = nil }
+                            .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
+                            .padding(24)
+                    }
+                }
+            }
             .task {
                 await store?.refresh()
             }
@@ -107,6 +120,7 @@ struct HouseCatApp: App {
     /// The builder for a new player, else the visit.
     private func start() {
         guard visit == nil, adopting == nil else { return }
+        HouseholdSync.start()
         WidgetBridge.importInbox()
         #if DEBUG
             // HOUSECAT_SCREEN=widgets: every widget size and pose, drawn as the widget draws them.

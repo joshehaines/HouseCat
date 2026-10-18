@@ -49,7 +49,10 @@ public struct ContentBundle: Sendable {
             weeklyObjectives: objectives.weekly.map(\.definition),
             achievements: objectives.achievements.map(\.definition),
             seasons: seasons.seasons.map { try $0.definition() },
-            paidItems: Set(catalogue.items.filter { [.set, .housewarming, .founders].contains($0.pool) }.map(\.id))
+            paidItems: Set(catalogue.items.filter { [.set, .housewarming, .founders].contains($0.pool) }.map(\.id)),
+            shapes: Dictionary(uniqueKeysWithValues: catalogue.items.map {
+                ($0.id, RulesContext.Shape(width: $0.footprint.w, depth: $0.footprint.d, onWall: $0.layer == .wall, decal: $0.decal))
+            })
         )
     }
 

@@ -21,9 +21,10 @@ struct SettingsView: View {
             VStack(alignment: .leading, spacing: 18) {
                 HStack(spacing: 8) {
                     PaintedIcon("bell_for_notifications", size: 36)
-                    Text("Reminders and widget").font(Theme.title(28))
+                    Text("Reminders, sharing and widget").font(Theme.title(28))
                 }
                 reminders
+                CoOwnCard(catName: catName)
                 WidgetGuide(catName: catName)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(16)

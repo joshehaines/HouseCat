@@ -78,6 +78,10 @@ targets:
       properties:
         CFBundleDisplayName: HouseCat
         ITSAppUsesNonExemptEncryption: false
+        # Co-owning through CloudKit (Shared/Sources/HouseholdSync.swift): on once the iCloud container is on the App ID.
+        HouseCatCloudKit: false
+        # An invite link opens in the app.
+        CKSharingSupported: true
         # The nap timer on the Lock Screen and in the Dynamic Island.
         NSSupportsLiveActivities: true
         # housecat://visit: the widget's Visit button and a tap on the widget.

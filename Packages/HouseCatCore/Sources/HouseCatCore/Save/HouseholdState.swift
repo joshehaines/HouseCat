@@ -12,6 +12,25 @@ public struct RulesContext: Sendable {
     /// player's entitlements, never the save, so the rules let one of each be
     /// placed and the scenes hide any the player no longer owns.
     public var paidItems: Set<String>
+    /// Each catalogue piece's shape on the grid, so two owners placing furniture apart can never leave two
+    /// pieces in the same cells once their phones merge: the later placement (in the log's order) yields.
+    /// Empty in rule tests that do not place real furniture (no check then).
+    public var shapes: [String: Shape]
+
+    /// A piece's footprint and layer, as PlacementRules reads it.
+    public struct Shape: Sendable, Equatable {
+        public var width: Int
+        public var depth: Int
+        public var onWall: Bool
+        public var decal: Bool
+
+        public init(width: Int, depth: Int, onWall: Bool, decal: Bool) {
+            self.width = width
+            self.depth = depth
+            self.onWall = onWall
+            self.decal = decal
+        }
+    }
 
     public init(
         gifts: [GiftDefinition] = [],
@@ -19,7 +38,8 @@ public struct RulesContext: Sendable {
         weeklyObjectives: [ObjectiveDefinition] = [],
         achievements: [ObjectiveDefinition] = [],
         seasons: [SeasonDefinition] = [],
-        paidItems: Set<String> = []
+        paidItems: Set<String> = [],
+        shapes: [String: Shape] = [:]
     ) {
         self.gifts = gifts
         self.dailyObjectives = dailyObjectives
@@ -27,6 +47,20 @@ public struct RulesContext: Sendable {
         self.achievements = achievements
         self.seasons = seasons
         self.paidItems = paidItems
+        self.shapes = shapes
+    }
+
+    /// A placed piece as PlacementRules sees it, when its shape is known.
+    func piece(_ item: PlacedItem) -> PlacementRules.Piece? {
+        piece(item.itemID, placementID: item.placementID, x: item.x, y: item.y, facing: item.facing)
+    }
+
+    func piece(_ itemID: String, placementID: UUID?, x: Int, y: Int, facing: GameEvent.Facing) -> PlacementRules.Piece? {
+        guard let shape = shapes[itemID] else { return nil }
+        return PlacementRules.Piece(
+            placementID: placementID, x: x, y: y, width: shape.width, depth: shape.depth,
+            facing: facing, onWall: shape.onWall, decal: shape.decal
+        )
     }
 
     public static let empty = RulesContext()

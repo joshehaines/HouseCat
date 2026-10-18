@@ -179,7 +179,9 @@ extension HouseholdState {
             placeItem(itemID, room: room, x: x, y: y, facing: facing, event: event, context: context)
         case let .itemMoved(placementID, room, x, y, facing):
             guard openedRooms.contains(room), Self.inBounds(x, y),
-                  let index = placed.firstIndex(where: { $0.placementID == placementID }) else { break }
+                  let index = placed.firstIndex(where: { $0.placementID == placementID }),
+                  fits(placed[index].itemID, placementID: placementID, room: room, x: x, y: y, facing: facing, context: context)
+            else { break }
             placed[index].room = room
             placed[index].x = x
             placed[index].y = y
@@ -416,6 +418,22 @@ extension HouseholdState {
         (0 ..< Tuning.Room.gridWidth).contains(x) && (0 ..< Tuning.Room.gridDepth).contains(y)
     }
 
+    /// Whether a piece fits where an event puts it, among the room's other pieces (the co-owning merge rule:
+    /// whoever placed second, in the log's order, finds the cells taken and the piece stays in the inventory).
+    private func fits(
+        _ itemID: String,
+        placementID: UUID,
+        room: RoomID,
+        x: Int,
+        y: Int,
+        facing: GameEvent.Facing,
+        context: RulesContext
+    ) -> Bool {
+        guard let piece = context.piece(itemID, placementID: placementID, x: x, y: y, facing: facing) else { return true }
+        let others = placed.filter { $0.room == room && $0.placementID != placementID }.compactMap(context.piece)
+        return PlacementRules.fits(piece, among: others)
+    }
+
     private mutating func placeItem(
         _ itemID: String,
         room: RoomID,
@@ -426,7 +444,9 @@ extension HouseholdState {
         context: RulesContext
     ) {
         let available = owned[itemID, default: 0] + (context.paidItems.contains(itemID) ? 1 : 0)
-        guard openedRooms.contains(room), Self.inBounds(x, y), available > placedCount(of: itemID) else { return }
+        guard openedRooms.contains(room), Self.inBounds(x, y), available > placedCount(of: itemID),
+              fits(itemID, placementID: event.id, room: room, x: x, y: y, facing: facing, context: context)
+        else { return }
         placed.append(PlacedItem(placementID: event.id, itemID: itemID, room: room, x: x, y: y, facing: facing))
         let headroom = Tuning.XP.furniturePlacedMaxPerDay - (today?.furnitureXP ?? 0)
         let gain = min(Tuning.XP.furniturePlaced, headroom)

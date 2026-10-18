@@ -87,10 +87,11 @@ final class GameSession {
     func append(_ kind: GameEvent.Kind, at date: Date, source: GameEvent.Source = .app) -> GameEvent {
         let at = log.timestamp(for: date)
         let clock = fold().clock
-        let event = GameEvent(at: at, day: clock.day(of: at), source: source, kind: kind)
+        let event = GameEvent(at: at, day: clock.day(of: at), actor: HouseholdSync.actor, source: source, kind: kind)
         log.append(event)
         try? store?.append(event)
         WidgetBridge.changed()
+        HouseholdSync.queue(event)
         return event
     }
 
@@ -108,6 +109,10 @@ final class GameSession {
         log.merge(new)
         try? store?.append(contentsOf: new)
         WidgetBridge.changed()
+        // The widget's taps go up to the co-owner too (events from CloudKit are already there).
+        for event in new where event.source == .widget {
+            HouseholdSync.queue(event)
+        }
     }
 
     private static let bootID: String = {

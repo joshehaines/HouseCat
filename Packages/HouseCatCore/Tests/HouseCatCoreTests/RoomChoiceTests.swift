@@ -86,10 +86,11 @@ private let furnished: [RoomID: Set<Affordance>] = [
     for room in RoomID.allCases {
         let stock = BeanShop.stock(for: room, catalogue: catalogue)
         #expect(!stock.isEmpty)
-        #expect(stock.allSatisfy { $0.pool == .beans && $0.beans != nil })
+        // One currency: the Bean catalogue and the looks' pieces one at a time.
+        #expect(stock.allSatisfy { ($0.pool == .beans && $0.beans != nil) || $0.pool == .set })
         let own = stock.prefix { $0.room == room.rawValue }
         #expect(!own.isEmpty, "\(room) has Bean pieces of its own")
-        #expect(own.map { $0.beans ?? 0 } == own.map { $0.beans ?? 0 }.sorted())
+        #expect(own.map(BeanPrices.piece) == own.map(BeanPrices.piece).sorted())
     }
     let bed = try #require(catalogue.items.first { $0.id == "bedroom_bed" })
     #expect(BeanShop.status(of: bed, level: 1, beans: 500) == (bed.level > 1 ? .needsLevel(bed.level) : .buyable(price: bed.beans ?? 0)))

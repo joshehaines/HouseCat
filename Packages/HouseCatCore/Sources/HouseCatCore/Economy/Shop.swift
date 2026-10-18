@@ -29,16 +29,17 @@ public enum BeanShop {
     }
 
     /// A room's Bean pieces, cheapest first (the room's own, then the rest of the catalogue's).
+    /// Every piece sold for Beans: the Bean catalogue, and the room looks' pieces one at a time (one currency).
     public static func stock(for room: RoomID, catalogue: CatalogueFile) -> [CatalogueFile.Item] {
-        let beanItems = catalogue.items.filter { $0.pool == .beans && $0.beans != nil }
-        let own = beanItems.filter { $0.room == room.rawValue }.sorted { ($0.beans ?? 0, $0.id) < ($1.beans ?? 0, $1.id) }
-        let rest = beanItems.filter { $0.room != room.rawValue }
-            .sorted { ($0.room, $0.beans ?? 0, $0.id) < ($1.room, $1.beans ?? 0, $1.id) }
+        let beanItems = catalogue.items.filter { ($0.pool == .beans && $0.beans != nil) || $0.pool == .set }
+        let price = { (item: CatalogueFile.Item) in BeanPrices.piece(item) }
+        let own = beanItems.filter { $0.room == room.rawValue }.sorted { (price($0), $0.id) < (price($1), $1.id) }
+        let rest = beanItems.filter { $0.room != room.rawValue }.sorted { ($0.room, price($0), $0.id) < ($1.room, price($1), $1.id) }
         return own + rest
     }
 
     public static func status(of item: CatalogueFile.Item, level: Int, beans: Int) -> Status {
-        let price = item.beans ?? 0
+        let price = BeanPrices.piece(item)
         if level < item.level {
             return .needsLevel(item.level)
         }

@@ -3850,6 +3850,41 @@
    ],
    "scale": 0.4
   },
+  "ui/shop/shop_beans_barrel.png": {
+   "master": [
+    1819,
+    1940
+   ],
+   "scale": 0.4
+  },
+  "ui/shop/shop_beans_handful.png": {
+   "master": [
+    1671,
+    1263
+   ],
+   "scale": 0.4
+  },
+  "ui/shop/shop_beans_jar.png": {
+   "master": [
+    1655,
+    1874
+   ],
+   "scale": 0.4
+  },
+  "ui/shop/shop_beans_pouch.png": {
+   "master": [
+    1813,
+    1598
+   ],
+   "scale": 0.4
+  },
+  "ui/shop/shop_beans_sack.png": {
+   "master": [
+    1616,
+    1890
+   ],
+   "scale": 0.4
+  },
   "ui/shop/shop_club.png": {
    "master": [
     1837,

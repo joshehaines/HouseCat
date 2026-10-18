@@ -7,11 +7,10 @@ private let repo = URL(fileURLWithPath: #filePath)
     .deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
     .deletingLastPathComponent().deletingLastPathComponent()
 
-private let catalog = StoreCatalog(
-    paidOutfits: [("beanie", "Beanie", []), ("raincoat", "Raincoat", []), ("pumpkinhat", "Pumpkin hat", [10])],
-    sets: [("rainy_london", "Rainy London", "raincoat", 300), ("cabin", "Cabin", "beanie", 300)],
-    seasons: [("housewarming", "Housewarming")]
-)
+private let catalog = StoreCatalog(bundles: [
+    ("cosy_study", "Cosy study", "housecat.room.cosy_study", "4.99"),
+    ("housewarming_living", "Housewarming living room", "housecat.season.housewarming", "4.99"),
+])
 
 @Suite("Entitlements")
 struct EntitlementTests {
@@ -23,14 +22,14 @@ struct EntitlementTests {
 
     @Test func onlyVerifiedTransactionsCount() {
         let result = EntitlementMapper.entitlements(from: [
-            record("housecat.outfit.beanie", verified: false),
-            record("housecat.outfit.raincoat"),
+            record("housecat.room.cosy_study", verified: false),
+            record("housecat.season.housewarming"),
         ], catalog: catalog, now: now)
-        #expect(result.outfits == ["raincoat"])
+        #expect(result.bundles == ["housewarming_living"])
     }
 
-    @Test func revokedAndRefundedTransactionsStripTheItem() {
-        let result = EntitlementMapper.entitlements(from: [record("housecat.set.cabin", revoked: true)], catalog: catalog, now: now)
+    @Test func revokedAndRefundedTransactionsStripTheLook() {
+        let result = EntitlementMapper.entitlements(from: [record("housecat.room.cosy_study", revoked: true)], catalog: catalog, now: now)
         #expect(result == .none)
     }
 
@@ -42,40 +41,31 @@ struct EntitlementTests {
         let active = EntitlementMapper.entitlements(
             from: [record("housecat.club.yearly", expires: now.addingTimeInterval(86400))], catalog: catalog, now: now
         )
-        #expect(active.hasClub && active.extraCatSlots == 1)
+        #expect(active.hasClub && active.ownsPaidTrack(season: "anything"))
     }
 
-    @Test func lifetimeAndFoundersIncludeCatClubAndEveryPass() {
-        for id in ["housecat.lifetime", "housecat.founders"] {
-            let result = EntitlementMapper.entitlements(from: [record(id)], catalog: catalog, now: now)
-            #expect(result.hasClub)
-            #expect(result.ownsPaidTrack(season: "anything"))
-        }
-    }
-
-    @Test func aBundleUnlocksItsSetAndOutfit() {
-        let result = EntitlementMapper.entitlements(from: [record("housecat.bundle.cabin")], catalog: catalog, now: now)
-        #expect(result.sets == ["cabin"] && result.outfits == ["beanie"])
-    }
-
-    @Test func aSeasonPassIsKeptAndGiftsUnlockNothingForTheBuyer() {
+    @Test func beanPacksUnlockNothingButCarryTheirBeans() {
         let result = EntitlementMapper.entitlements(from: [
-            record("housecat.pass.housewarming"),
-            record("housecat.gift.club.yearly"),
-            record("housecat.gift.set.cabin"),
-            record("housecat.cat.slot2"),
-            record("housecat.not.a.product"),
+            record("housecat.beans.jar"), record("housecat.starter"), record("housecat.not.a.product"),
         ], catalog: catalog, now: now)
-        #expect(result.passes == ["housewarming"])
-        #expect(!result.hasClub && result.sets.isEmpty)
-        #expect(result.catSlots == [2] && result.extraCatSlots == 1)
+        #expect(result.starter && result.bundles.isEmpty && !result.hasClub)
+        #expect(catalog.product("housecat.beans.jar")?.beans == Tuning.Beans.packs[2])
+        #expect(catalog.product(StoreCatalog.starter)?.beans == Tuning.Beans.starterPack)
+    }
+
+    @Test func eachBiggerPackGivesMoreBeansAPound() {
+        let packs = StoreCatalog.beanPacks
+        for (small, big) in zip(packs, packs.dropFirst()) {
+            let rate = { (pack: (id: String, beans: Int, price: String, name: String)) in Double(pack.beans) / Double(pack.price)! }
+            #expect(rate(big) > rate(small), "\(big.id)")
+        }
     }
 
     @Test func theCacheMirrorsEntitlements() {
         let cache = InMemoryEntitlementCache()
         #expect(cache.load() == nil)
         var entitlements = Entitlements()
-        entitlements.outfits = ["beanie"]
+        entitlements.bundles = ["cosy_study"]
         cache.save(entitlements)
         #expect(cache.load() == entitlements)
     }
@@ -83,16 +73,16 @@ struct EntitlementTests {
 
 @Suite("Store catalogue")
 struct CatalogueTests {
-    @Test func everyProductHasTheRightType() {
-        let shipped = try? ContentBundle.load(from: repo.appendingPathComponent("Content"))
-        let catalog = shipped.map(StoreCatalog.init(content:)) ?? catalog
-        let kinds = Dictionary(grouping: catalog.products, by: \.kind)
+    @Test func threeKindsOfProduct() throws {
+        let shipped = try StoreCatalog(content: ContentBundle.load(from: repo.appendingPathComponent("Content")))
+        let kinds = Dictionary(grouping: shipped.products, by: \.kind)
         #expect(kinds[.autoRenewable]?.map(\.id).sorted() == ["housecat.club.monthly", "housecat.club.yearly"])
-        #expect(kinds[.nonRenewing]?.allSatisfy { $0.id.hasPrefix("housecat.pass.") } == true)
-        #expect(kinds[.consumable]?.allSatisfy { $0.id.hasPrefix("housecat.gift.") } == true)
-        #expect(catalog.products.allSatisfy { $0.id.hasPrefix("housecat.") })
-        #expect(!catalog.products.contains { $0.id.hasPrefix("housecat.look.") }) // no rare looks at launch
-        #expect(Set(catalog.productIDs).count == catalog.products.count)
+        #expect(kinds[.consumable]?.allSatisfy { $0.id.hasPrefix("housecat.beans.") } == true)
+        #expect(kinds[.nonConsumable]?.allSatisfy { $0.id == StoreCatalog.starter || $0.beans == nil } == true)
+        #expect(kinds[.nonRenewing] == nil)
+        #expect(shipped.products.allSatisfy { $0.id.hasPrefix("housecat.") })
+        #expect(Set(shipped.productIDs).count == shipped.products.count)
+        #expect(shipped.product(bundle: "housewarming_living")?.id == StoreCatalog.housewarmingPack)
     }
 
     @Test func theStoreKitConfigurationMatchesTheCatalogue() throws {
@@ -128,25 +118,5 @@ struct CatalogueTests {
         }
         #expect(trial?["paymentMode"] as? String == "free")
         #expect(trial?["subscriptionPeriod"] as? String == "P1W")
-    }
-}
-
-@Suite("Seasonal stock in the shop")
-struct SeasonalStockTests {
-    @Test func aSeasonalOutfitIsOnSaleOnlyInItsMonth() throws {
-        let pumpkin = try #require(catalog.product("housecat.outfit.pumpkinhat"))
-        #expect(pumpkin.months == [10])
-        #expect(pumpkin.isOnSale(on: GameDay(year: 2026, month: 10, day: 20)))
-        #expect(!pumpkin.isOnSale(on: GameDay(year: 2026, month: 11, day: 20)))
-        #expect(catalog.product("housecat.outfit.beanie")?.isOnSale(on: GameDay(year: 2026, month: 11, day: 20)) == true)
-    }
-
-    @Test func theShippedSeasonalOutfitsCarryTheirMonths() throws {
-        let content = try ContentBundle.load(from: repo.appendingPathComponent("Content"))
-        let shipped = StoreCatalog(content: content)
-        let seasonal = Dictionary(uniqueKeysWithValues: shipped.products.filter { !$0.months.isEmpty }.map { ($0.id, $0.months) })
-        #expect(seasonal == [
-            "housecat.outfit.pumpkinhat": [10], "housecat.outfit.skeleton": [10], "housecat.outfit.xmasjumper": [12],
-        ])
     }
 }

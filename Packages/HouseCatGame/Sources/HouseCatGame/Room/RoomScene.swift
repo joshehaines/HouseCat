@@ -506,6 +506,8 @@ public final class RoomScene: SKScene {
     var grabOffset = CGVector.zero
     var footprintNode: SKShapeNode?
     var decorateGrid: SKShapeNode?
+    /// A room look tried in the room (RoomScene+Decorate.swift `showPreview`).
+    var previewNodes: [SKNode] = []
     /// Each change the player makes while decorating, for the app to record.
     public var onDecorate: ((DecorateChange) -> Void)?
     /// The piece picked up (or nil), so the app can show Turn and Store.

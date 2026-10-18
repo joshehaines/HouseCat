@@ -93,6 +93,9 @@ struct HouseCatApp: App {
             }
             .task {
                 await store?.refresh()
+                // While Cat Club is on, today is a club day (its Beans, half-price rooms and the paid track).
+                GameSession.shared.recordClubDay(active: store?.entitlements.hasClub == true)
+                await StorePrices.shared.load(store: store, content: GameWorld.content)
             }
             .onChange(of: scenePhase) { old, new in
                 // The widget's Feed and Pet since the app was last open are in the save before anything else.
@@ -107,6 +110,12 @@ struct HouseCatApp: App {
                     RealWeather.refreshIfNeeded(state: session.state(at: session.now()))
                     // A nap that ended while the app was away is recorded now.
                     visit?.checkNap()
+                }
+                if new == .active, old == .background {
+                    Task {
+                        await store?.refresh()
+                        GameSession.shared.recordClubDay(active: store?.entitlements.hasClub == true)
+                    }
                 }
                 if new != .active {
                     Visit.lastActive = Date()
@@ -189,10 +198,16 @@ struct HouseCatApp: App {
             let content = try? ContentBundle.load(from: folder) else { return nil }
         let catalog = StoreCatalog(content: content)
         let cache = KeychainEntitlementCache()
+        let service: any EntitlementService
         if let key = Bundle.main.object(forInfoDictionaryKey: "RevenueCatAPIKey") as? String, !key.isEmpty {
-            return RevenueCatEntitlementService(apiKey: key, catalog: catalog, cache: cache)
+            service = RevenueCatEntitlementService(apiKey: key, catalog: catalog, cache: cache)
+        } else {
+            service = StoreKitEntitlementService(catalog: catalog, cache: cache)
         }
-        return StoreKitEntitlementService(catalog: catalog, cache: cache)
+        // Beans and room looks go into the save, once per transaction (Bean packs bought while the app was
+        // closed are handed over here before StoreKit is told they are finished).
+        service.onGrant = { grant in GameSession.shared.grant(grant, catalog: catalog) }
+        return service
     }
 }
 
@@ -283,6 +298,8 @@ struct RoomScreen: View {
     @State private var askingHealth = false
     @State private var editing: CatBuilderModel?
     @State private var profileVersion = 0
+    /// Short of Beans for something in the room: the top-up, then the purchase.
+    @State private var topUp: ShopView.TopUpRequest?
     @Environment(\.horizontalSizeClass) private var sizeClass
 
     /// The room tour, once, a moment after the first arrival (or from the top on a debug run).
@@ -307,6 +324,11 @@ struct RoomScreen: View {
     }
 
     var body: some View {
+        screens(cards(sheets(hud)))
+    }
+
+    /// The room and its controls.
+    private var hud: some View {
         RoomView(
             scene: visit.scene,
             label: visit.accessibilityDescription,
@@ -333,6 +355,20 @@ struct RoomScreen: View {
                 // Below the room controls and the status along the top.
                 .padding(.top, 74 * hudScale)
             }
+            .overlay(alignment: .bottom) {
+                if let look = visit.previewing {
+                    RoomLookBar(bundle: look, store: store) {
+                        visit.addWholeRoom(look)
+                    } close: {
+                        visit.endPreview()
+                    }
+                    .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 16)
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                }
+            }
+            .animation(.spring(duration: 0.35), value: visit.previewing?.id)
             .animation(.easeOut(duration: 0.3), value: visit.greeting)
             .animation(.spring(duration: 0.35), value: visit.toast)
             .overlay(alignment: .topLeading) {
@@ -421,7 +457,15 @@ struct RoomScreen: View {
                     ) { id in
                         switch visit.trayMode {
                         case .furniture: visit.placeFromInventory(id)
-                        case .shop: visit.buy(id)
+                        case .shop:
+                            if let entry = visit.shopEntries.first(where: { $0.id == id }), case let .needsBeans(price) = entry.status {
+                                topUp = ShopView.TopUpRequest(
+                                    need: BeanPrices.shortfall(price: price, balance: visit.stats.beans),
+                                    purpose: "the \(entry.name.lowercased())"
+                                ) { visit.buy(id) }
+                            } else {
+                                visit.buy(id)
+                            }
                         case .walls, .floors: visit.chooseSurface(id)
                         }
                     }
@@ -444,12 +488,21 @@ struct RoomScreen: View {
             .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
             .statusBarHidden()
             .persistentSystemOverlays(.hidden)
+    }
+
+    private func sheets(_ content: some View) -> some View {
+        content
             .alert(item: $visit.roomOffer) { offer in
                 roomAlert(offer)
             }
             .fullScreenCover(isPresented: $showShop) {
-                ShopView(store: store, content: GameWorld.content)
-                    .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
+                ShopView(
+                    store: store,
+                    content: GameWorld.content,
+                    tryLook: { visit.preview($0) },
+                    addLook: { visit.addWholeRoom($0) }
+                )
+                .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
             }
             .onChange(of: visit.openGame, initial: true) { _, id in
                 guard let id else { return }
@@ -503,6 +556,28 @@ struct RoomScreen: View {
                 SettingsView(catName: visit.catName ?? "Your cat") { showSettings = false }
                     .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
             }
+    }
+
+    private func cards(_ content: some View) -> some View {
+        content
+            .overlay {
+                if let request = topUp {
+                    ZStack {
+                        Color.black.opacity(0.4).ignoresSafeArea().onTapGesture { topUp = nil }
+                        BeanTopUp(need: request.need, purpose: request.purpose, store: store) { bought in
+                            topUp = nil
+                            visit.refreshStats()
+                            if bought {
+                                request.then()
+                            }
+                        }
+                        .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
+                        .padding(24)
+                    }
+                    .transition(.opacity)
+                }
+            }
+            .animation(.easeOut(duration: 0.25), value: topUp?.id)
             .overlay {
                 if visit.askReminders {
                     ZStack {
@@ -665,6 +740,10 @@ struct RoomScreen: View {
                 try? await Task.sleep(for: .seconds(max(0, end.timeIntervalSinceNow) + 0.5))
                 visit.checkNap()
             }
+    }
+
+    private func screens(_ content: some View) -> some View {
+        content
             .fullScreenCover(item: $playing) { round in
                 MiniGameView(game: round.game, catName: visit.catName ?? "Your cat") { reward in
                     playing = nil
@@ -709,12 +788,13 @@ struct RoomScreen: View {
     /// A Bean-shop piece with its price (or the level it needs).
     private func shopEntry(_ entry: GameSession.ShopEntry) -> DecorateTray.Entry {
         let image = CatScreens.picture(entry.sprite)
-        let (price, enabled) = switch entry.status {
-        case let .buyable(price): ("\(price) Beans", true)
-        case let .needsBeans(price): ("\(price) Beans", false)
-        case let .needsLevel(level): ("Level \(level)", false)
+        let (price, enabled, short) = switch entry.status {
+        case let .buyable(price): ("\(price) Beans", true, false)
+        // Short of Beans: still tappable, for a top-up (Josh, 18 Oct).
+        case let .needsBeans(price): ("\(price) Beans", true, true)
+        case let .needsLevel(level): ("Level \(level)", false, false)
         }
-        return DecorateTray.Entry(id: entry.id, name: entry.name, count: 1, image: image, price: price, enabled: enabled)
+        return DecorateTray.Entry(id: entry.id, name: entry.name, count: 1, image: image, price: price, enabled: enabled, short: short)
     }
 
     /// The room's wallpapers or floors as tray entries, the one up now marked.

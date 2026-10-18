@@ -38,7 +38,7 @@ struct StoreKitPurchaseTests {
         try #require(catalog.products.first { matches($0.unlock) })
     }
 
-    @Test func theConfigurationLoadsEveryLaunchProduct() async throws {
+    @Test func theConfigurationLoadsEveryProduct() async throws {
         let service = StoreKitEntitlementService(catalog: catalog, cache: InMemoryEntitlementCache())
         defer { service.stopListening() }
         let products = try await service.products()
@@ -48,71 +48,59 @@ struct StoreKitPurchaseTests {
         #expect(yearly.subscription?.introductoryOffer?.paymentMode == .freeTrial)
         let trial = try #require(yearly.subscription?.introductoryOffer?.period)
         #expect(trial.unit == .week && trial.value == 1)
-        let pass = try #require(try await Product.products(for: ["housecat.pass.housewarming"]).first)
-        #expect(pass.type == .nonRenewable)
-        let gift = try #require(try await Product.products(for: ["housecat.gift.cat"]).first)
-        #expect(gift.type == .consumable)
+        let pack = try #require(try await Product.products(for: ["housecat.beans.jar"]).first)
+        #expect(pack.type == .consumable)
     }
 
-    @Test func anOutfitPurchaseUnlocksItAfterARelaunch() async throws {
+    @Test func aBeanPackIsHandedOverOnceAndALookSurvivesARelaunch() async throws {
         let keychain = KeychainEntitlementCache(service: "com.housecatgame.housecat.tests")
         keychain.clear()
         defer { keychain.clear() }
-        let outfit = try firstProduct {
-            if case .outfit = $0 {
-                true
-            } else {
-                false
-            }
-        }
-        guard case let .outfit(outfitID) = outfit.unlock else { return }
-
+        var grants: [StoreGrant] = []
         let first = StoreKitEntitlementService(catalog: catalog, cache: keychain)
-        try await buy(outfit.id, into: first)
-        #expect(first.entitlements.outfits == [outfitID])
+        first.onGrant = { grants.append($0) }
+        let pack = try await buy("housecat.beans.pouch", into: first)
+        // A pack bought outside the purchase call reaches the app through the unfinished transactions.
+        for _ in 0 ..< 20 where !grants.contains(where: { $0.transactionID == String(pack.id) }) {
+            try await Task.sleep(for: .milliseconds(100))
+        }
+        #expect(grants.contains { $0.productID == "housecat.beans.pouch" && $0.transactionID == String(pack.id) })
+        let bundle = try #require(catalog.products.first { if case .bundle = $0.unlock { true } else { false } })
+        try await buy(bundle.id, into: first)
+        guard case let .bundle(bundleID) = bundle.unlock else { return }
+        #expect(first.entitlements.bundles == [bundleID])
+        #expect(grants.contains { $0.productID == bundle.id })
         first.stopListening()
 
         // Relaunch: the new service starts from the Keychain mirror, then re-derives from StoreKit.
         let relaunched = StoreKitEntitlementService(catalog: catalog, cache: keychain)
         defer { relaunched.stopListening() }
-        #expect(relaunched.entitlements.outfits == [outfitID])
+        #expect(relaunched.entitlements.bundles == [bundleID])
         await relaunched.refresh()
-        #expect(relaunched.entitlements.outfits == [outfitID])
+        #expect(relaunched.entitlements.bundles == [bundleID])
     }
 
-    @Test func catClubTheSeasonPassAndGifts() async throws {
+    @Test func catClubIncludesThePaidTrack() async throws {
         let service = StoreKitEntitlementService(catalog: catalog, cache: InMemoryEntitlementCache())
         defer { service.stopListening() }
-        try await buy("housecat.pass.housewarming", into: service)
-        #expect(service.entitlements.passes == ["housewarming"])
         #expect(!service.entitlements.hasClub)
         try await buy(StoreCatalog.clubYearly, into: service)
         #expect(service.entitlements.hasClub)
         #expect(service.entitlements.ownsPaidTrack(season: "midwinter"))
-        let before = service.entitlements
-        let gift = try await buy("housecat.gift.cat", into: service)
-        #expect(gift.productID == "housecat.gift.cat")
-        #expect(service.entitlements == before) // a gift unlocks nothing for the buyer
     }
 
-    @Test func aRefundStripsTheItemOnTheNextRefresh() async throws {
+    @Test func aRefundStripsTheLookOnTheNextRefresh() async throws {
         let service = StoreKitEntitlementService(catalog: catalog, cache: InMemoryEntitlementCache())
         defer { service.stopListening() }
-        let set = try firstProduct {
-            if case .set = $0 {
-                true
-            } else {
-                false
-            }
-        }
-        let transaction = try await buy(set.id, into: service)
-        #expect(service.entitlements.sets.count == 1)
+        let bundle = try #require(catalog.products.first { if case .bundle = $0.unlock { true } else { false } })
+        let transaction = try await buy(bundle.id, into: service)
+        #expect(service.entitlements.bundles.count == 1)
         try session.refundTransaction(identifier: UInt(transaction.id))
         // The refund reaches StoreKit's current entitlements shortly after.
-        for _ in 0 ..< 20 where !service.entitlements.sets.isEmpty {
+        for _ in 0 ..< 20 where !service.entitlements.bundles.isEmpty {
             try await Task.sleep(for: .milliseconds(100))
             await service.refresh()
         }
-        #expect(service.entitlements.sets.isEmpty)
+        #expect(service.entitlements.bundles.isEmpty)
     }
 }

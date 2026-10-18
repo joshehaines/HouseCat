@@ -65,6 +65,8 @@ public enum Tuning {
         /// Index 0 is level 1, index 11 is level 12.
         public static let thresholds = [0, 100, 250, 450, 700, 1000, 1350, 1750, 2200, 2700, 3250, 3850]
         public static let xpPerLevelAfterTable = 650
+        /// The roadmap shows this many levels ahead.
+        public static let roadmapAhead = 8
     }
 
     /// Trust: the count of days a cat was fed (SPEC "Two progressions").
@@ -80,14 +82,36 @@ public enum Tuning {
         public static let pauseDaysPerQuarter = 14
         public static let milestoneDays = [7, 30, 100, 365]
         public static let milestoneBeans = [100, 300, 1000, 3000]
+        /// A lost streak can be mended for this many days after the miss, by a day with a visit, a feed and a game.
+        public static let repairWindowDays = 3
         /// After a missed day: sulky on the first return visit, thawing on the second, fine from the third.
         public static let warmUpArrivals = 3
         /// A miss this long or longer gets the "week plus" greeting.
         public static let weekMissDays = 7
     }
 
-    /// Beans: earned only, never sold, never expire (SPEC "Economy").
+    /// The co-owners' shared quest (Duolingo's friends quest): days visited between them in a week, each owner
+    /// pitching in at least a few, for Beans once a week.
+    public enum Coop {
+        public static let questVisits = 10
+        public static let questMinimumEach = 3
+        public static let questBeans = 300
+    }
+
+    /// Beans: the one currency, earned in play and sold in packs (Josh, 18 Oct: like a builder game's gems);
+    /// they never expire.
     public enum Beans {
+        /// A piece from a room look bought alone, by size (one cell or a wall piece, two cells, larger).
+        public static let paidPieceSmall = 250
+        public static let paidPieceMedium = 400
+        public static let paidPieceLarge = 550
+        /// A paid outfit, bought with Beans.
+        public static let outfit = 450
+        /// The Bean packs, smallest to largest (StoreCatalog prices them at £0.99, £1.99, £3.99, £9.99, £19.99:
+        /// each bigger pack gives more Beans a pound).
+        public static let packs = [500, 1_200, 2_600, 7_000, 15_000]
+        /// The once-only starter offer at £1.99 (the pouch's price, more Beans).
+        public static let starterPack = 2_000
         public static let housewarmingAllowance = 150
         public static let dailyArrival = 10
         public static let levelUp = 100
@@ -268,9 +292,9 @@ public enum Tuning {
 
     /// The shop's links (App Review 3.1.2: shown with every subscription). Placeholders until the site is up.
     public enum Store {
-        /// Cat Club's members' outfits in a year (one a month), as its page counts them. They are not sold
-        /// separately, so the page's value line leaves them out.
-        public static let clubOutfitsPerYear = 12
+        /// The starter offer's beanie and armchair (what its picture shows), given with its Beans.
+        public static let starterOutfit = "beanie"
+        public static let starterPiece = "living_armchair"
         /// The one card that mentions the shop unasked comes when the cat first reaches this trust tier.
         public static let offerTrustTier = TrustTier.wary
         public static let termsURL = URL(string: "https://housecatgame.com/terms")!
@@ -575,6 +599,13 @@ public enum Tuning {
         public static let fitColor = [0.35, 0.8, 0.45]
         public static let blockedColor = [0.92, 0.32, 0.3]
         public static let footprintAlpha = 0.4
+        /// The ring round a picked-up piece's base (Josh, 18 Oct; Tolan's placement ring): how far it reaches past
+        /// the footprint, how much it swells and how fast it breathes.
+        public static let ringReach = 0.18
+        public static let ringPulse = 1.07
+        public static let ringSeconds = 0.7
+        /// A room look tried in the room: how see-through its pieces are.
+        public static let previewAlpha = 0.72
         public static let gridAlpha = 0.35
         public static let flashSeconds = 0.6
     }
@@ -690,7 +721,7 @@ public enum Tuning {
         /// The shape of `HouseholdState` in a stored snapshot. Bump it whenever the state gains, loses or
         /// changes a field: an older snapshot is then ignored and the state refolded from the events, which
         /// are always kept (the snapshot is only a cache).
-        public static let snapshotVersion = 7
+        public static let snapshotVersion = 8
     }
 
     /// The stray (SPEC "The stray").

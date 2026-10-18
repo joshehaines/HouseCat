@@ -17,6 +17,9 @@ extension HouseholdState {
         let day = max(event.day, today?.day ?? event.day)
         advance(to: day, context: context)
         lastEventAt = max(lastEventAt ?? event.at, event.at)
+        if case .sitter = event.actor {} else {
+            owners.insert(event.actor.key)
+        }
 
         switch event.kind {
         case .householdCreated, .clockChanged, .catAdopted, .catRenamed, .personalityChanged, .catLookSet:
@@ -25,9 +28,11 @@ extension HouseholdState {
             applyCare(event, context: context)
         case .itemBought, .itemGranted, .purchaseBeansGranted, .itemPlaced, .itemMoved, .itemStored, .catUsedNewItem, .roomOpened,
              .roomVisited,
-             .surfaceChanged, .outfitWorn, .homeMoved, .seasonModeChanged, .homePlaced, .seasonSet, .homeStyleChosen, .tourFinished:
+             .surfaceChanged, .outfitWorn, .homeMoved, .seasonModeChanged, .homePlaced, .seasonSet, .homeStyleChosen, .tourFinished,
+             .bundleGranted, .outfitBought:
             applyHome(event, context: context)
-        case .pauseStarted, .pauseEnded, .passPurchased, .passTierClaimed, .clubDayRecorded, .eventRewardClaimed:
+        case .pauseStarted, .pauseEnded, .passPurchased, .passTierClaimed, .clubDayRecorded, .eventRewardClaimed, .streakRepaired,
+             .questClaimed:
             applyStreakAndPass(event, day: day, context: context)
         case .sundayCardShared, .pawPrintSent, .groupJoined, .giftSent, .satForFriend:
             applySocial(event, context: context)
@@ -101,7 +106,7 @@ extension HouseholdState {
             warmUpArrivals = min(Tuning.Streak.warmUpArrivals, warmUpArrivals + 1)
             if today?.arrived == false {
                 today?.arrived = true
-                gainXP(Tuning.XP.arrival)
+                gainXP(Tuning.XP.arrival, context: context)
                 earn(Tuning.Beans.dailyArrival)
             }
         case let .fed(catID):
@@ -112,7 +117,7 @@ extension HouseholdState {
             let index = today?.pets ?? 0
             today?.pets += 1
             if index < Tuning.XP.pets.count {
-                gainXP(Tuning.XP.pets[index])
+                gainXP(Tuning.XP.pets[index], context: context)
             }
             lifetime.pets += 1
             bump(.pet, context: context)
@@ -124,7 +129,7 @@ extension HouseholdState {
             }) else { break }
             let gift = pendingGifts.remove(at: index)
             earn(gift.rarity.collectBeans)
-            gainXP(Tuning.XP.giftCollected)
+            gainXP(Tuning.XP.giftCollected, context: context)
             giftsCollected[giftID, default: 0] += 1
             lifetime.gifts += 1
             if gift.rarity == .legendary {
@@ -139,16 +144,16 @@ extension HouseholdState {
         case .napCompleted:
             guard today?.napped == false else { break }
             today?.napped = true
-            gainXP(Tuning.XP.nap)
+            gainXP(Tuning.XP.nap, context: context)
             lifetime.naps += 1
             bump(.nap, context: context)
         case let .healthGoalMet(goal):
             guard today?.healthGoals.contains(goal) == false else { break }
             today?.healthGoals.insert(goal)
             switch goal {
-            case .steps: gainXP(Tuning.XP.stepsGoalMet)
-            case .sleep: gainXP(Tuning.XP.sleepGoalMet)
-            case .workout: gainXP(Tuning.XP.workoutLogged)
+            case .steps: gainXP(Tuning.XP.stepsGoalMet, context: context)
+            case .sleep: gainXP(Tuning.XP.sleepGoalMet, context: context)
+            case .workout: gainXP(Tuning.XP.workoutLogged, context: context)
             }
         case .windowTapped:
             bump(.tapWindow, context: context)
@@ -167,6 +172,20 @@ extension HouseholdState {
             bump(.buyItemBeans, context: context)
         case let .itemGranted(itemID):
             owned[itemID, default: 0] += 1
+        case let .bundleGranted(bundleID, transactionID):
+            guard grantedBundles[transactionID] == nil, let bundle = context.bundles[bundleID] else { break }
+            grantedBundles[transactionID] = bundleID
+            for item in bundle.items {
+                owned[item, default: 0] += 1
+            }
+            ownedSurfaces.formUnion(bundle.surfaces)
+        case let .outfitBought(outfitID, price, gift):
+            guard price >= 0, beans >= price, !ownedOutfits.contains(outfitID) else { break }
+            beansSpent += price
+            ownedOutfits.insert(outfitID)
+            if gift {
+                outfitGifts.append(OutfitGift(outfitID: outfitID, from: event.actor.key, at: event.at))
+            }
         case .tourFinished:
             guard !tourRewarded else { break }
             tourRewarded = true
@@ -196,7 +215,7 @@ extension HouseholdState {
             let gain = min(Tuning.XP.catUsedNewFurniture, headroom)
             if gain > 0 {
                 today?.newFurnitureXP += gain
-                gainXP(gain)
+                gainXP(gain, context: context)
             }
         case let .roomOpened(room, price):
             let cost = RoomRules.cost(of: room, clubActive: today?.clubDay ?? false)
@@ -270,6 +289,15 @@ extension HouseholdState {
             passes[seasonID, default: SeasonProgress()].purchased = true
         case let .passTierClaimed(seasonID, track, tier):
             claimTier(seasonID: seasonID, track: track, tier: tier, day: day, context: context)
+        case .streakRepaired:
+            guard StreakRepair.canRepair(self, on: day) else { break }
+            for milestone in streak.repair() {
+                earn(StreakState.beans(forMilestone: milestone))
+            }
+        case .questClaimed:
+            guard let progress = CoopQuest.progress(self), progress.isComplete, !progress.claimed else { break }
+            week?.questClaimed = true
+            earn(Tuning.Coop.questBeans)
         case let .eventRewardClaimed(eventID, rewardDay):
             guard let event = context.events.first(where: { $0.id == eventID }),
                   EventRules.claimable(event, state: self, on: day).contains(rewardDay),
@@ -336,6 +364,7 @@ extension HouseholdState {
     }
 
     private mutating func openDay(_ day: GameDay, previousMissed: Bool, context: RulesContext) {
+        streak.forgetBreak(before: day)
         var tally = DayTally(day: day)
         tally.missedYesterday = previousMissed
         tally.objectives = ObjectiveRules.daily(from: context.dailyObjectives.filter(canAttempt), household: seed, day: day).map(\.id)
@@ -358,6 +387,12 @@ extension HouseholdState {
         case .mac: bump(.macVisit, context: context)
         case .watch: bump(.watchVisit, context: context)
         case .app, .siri: break
+        }
+        if today?.visitors.contains(event.actor.key) == false {
+            today?.visitors.insert(event.actor.key)
+            if case .sitter = event.actor {} else {
+                week?.visitsByOwner[event.actor.key, default: 0] += 1
+            }
         }
         guard let tally = today, !tally.visited else { return }
         today?.visited = true
@@ -385,7 +420,7 @@ extension HouseholdState {
             bump(.feedBefore9, context: context)
         }
         if firstFeedToday {
-            gainXP(Tuning.XP.feed)
+            gainXP(Tuning.XP.feed, context: context)
             addPassPoints(Tuning.Pass.feed, capped: true, context: context)
         }
         // One gift a day when fed; none the day after a missed day.
@@ -405,7 +440,7 @@ extension HouseholdState {
     private mutating func playMiniGame(stars: Int, context: RulesContext) {
         guard let tally = today, tally.plays < Tuning.MiniGames.playsPerDay else { return }
         today?.plays += 1
-        gainXP(Tuning.XP.play)
+        gainXP(Tuning.XP.play, context: context)
         let stars = min(max(stars, 0), Tuning.MiniGames.starBeans.count)
         if stars >= 1 {
             earn(Tuning.MiniGames.starBeans[stars - 1])
@@ -464,7 +499,7 @@ extension HouseholdState {
         let gain = min(Tuning.XP.furniturePlaced, headroom)
         if gain > 0 {
             today?.furnitureXP += gain
-            gainXP(gain)
+            gainXP(gain, context: context)
         }
         if today?.placedFurniture == false {
             today?.placedFurniture = true
@@ -551,12 +586,20 @@ extension HouseholdState {
 
     // MARK: XP and Beans
 
-    private mutating func gainXP(_ amount: Int) {
+    private mutating func gainXP(_ amount: Int, context: RulesContext) {
         let before = level
         xp += amount
-        let gained = level - before
-        if gained > 0 {
-            earn(gained * Tuning.Beans.levelUp)
+        guard level > before else { return }
+        for reached in before + 1 ... level {
+            // Each level's Beans and any piece it gives (levels.json); rule tests without content pay the flat amount.
+            if let reward = context.levels?.reward(for: reached) {
+                earn(reward.beans)
+                if let item = reward.item {
+                    owned[item, default: 0] += 1
+                }
+            } else {
+                earn(Tuning.Beans.levelUp)
+            }
         }
     }
 

@@ -14,6 +14,8 @@ public struct DecorateTray: View {
         /// In the shop: the price, or what it needs ("Level 6"), and whether it can be bought now.
         public var price: String?
         public var enabled: Bool
+        /// In the shop: more Beans than the player has (a tap offers a top-up).
+        public var short: Bool
 
         public init(
             id: String,
@@ -22,7 +24,8 @@ public struct DecorateTray: View {
             image: Image?,
             selected: Bool = false,
             price: String? = nil,
-            enabled: Bool = true
+            enabled: Bool = true,
+            short: Bool = false
         ) {
             self.id = id
             self.name = name
@@ -31,6 +34,7 @@ public struct DecorateTray: View {
             self.selected = selected
             self.price = price
             self.enabled = enabled
+            self.short = short
         }
     }
 
@@ -154,7 +158,12 @@ public struct DecorateTray: View {
                                     }
                                     Text(price.replacingOccurrences(of: " Beans", with: ""))
                                         .font(.system(size: 12 * scale, weight: .bold).monospacedDigit())
-                                        .foregroundStyle(entry.enabled ? Theme.accent : Theme.inkSoft)
+                                        .foregroundStyle(entry.enabled && !entry.short ? Theme.accent : Theme.inkSoft)
+                                    if entry.short {
+                                        Image(systemName: "plus.circle.fill")
+                                            .font(.system(size: 11 * scale, weight: .bold))
+                                            .foregroundStyle(Theme.accent)
+                                    }
                                 }
                             }
                         }
@@ -169,7 +178,7 @@ public struct DecorateTray: View {
                     .buttonStyle(PressStyle())
                     .disabled(!entry.enabled)
                     .tourTarget(entry.id == entries.first?.id ? "tray.first" : "tray.\(entry.id)")
-                    .accessibilityLabel(entry.price.map { "Buy \(entry.name), \($0)" } ?? "Place \(entry.name)")
+                    .accessibilityLabel(entry.price.map { entry.short ? "Top up for \(entry.name), \($0)" : "Buy \(entry.name), \($0)" } ?? "Place \(entry.name)")
                 }
             }
             .padding(.horizontal, 8 * scale)

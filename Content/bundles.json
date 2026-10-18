@@ -1,0 +1,103 @@
+{
+  "version": 1,
+  "note": "Room looks sold for money, one tap for a whole room (Josh, 18 Oct: three products, Bean packs, room looks and Cat Club). Each gives every piece listed, its wallpaper and floor, and can be added to the room in one go. Single pieces from the looks are also sold for Beans in the decorate tray. Prices are UK App Store tiers; the shop always shows StoreKit's own.",
+  "bundles": [
+    {
+      "id": "housewarming_living",
+      "name": "Housewarming living room",
+      "room": "living",
+      "sku": "housecat.season.housewarming",
+      "price": "4.99",
+      "blurb": "A grand fireplace, a hi-fi, a string of bulbs, a welcome mat and a portrait of your house.",
+      "items": ["housewarming_pack_grandfireplace", "housewarming_pack_hifi", "housewarming_pack_bulbstring", "housewarming_pack_welcomemat", "housewarming_pack_houseportrait", "living_armchair", "living_coffee"],
+      "wallpaper": "wall_living_cream_wash",
+      "floor": "floor_living_terracotta",
+      "limited": true
+    },
+    {
+      "id": "fireside_living",
+      "name": "Fireside living room",
+      "room": "living",
+      "sku": "housecat.room.fireside_living",
+      "price": "2.99",
+      "blurb": "A fire, a record player and a radiator seat that is never free.",
+      "items": ["living_fireplace", "living_record", "living_radiator", "living_bookcase", "living_windowseat", "living_cattree"],
+      "wallpaper": "wall_living_mint_stripe",
+      "floor": "floor_living_honey_boards"
+    },
+    {
+      "id": "midnight_bedroom",
+      "name": "Midnight bedroom",
+      "room": "bedroom",
+      "sku": "housecat.room.midnight_bedroom",
+      "price": "3.99",
+      "blurb": "Starry walls, a reading lamp, a cat hammock and slippers by the bed.",
+      "items": ["bedroom_readinglamp", "bedroom_mirror", "bedroom_hammock", "bedroom_alarmclock", "bedroom_slippers", "bedroom_bed"],
+      "wallpaper": "wall_bedroom_starry_dusk"
+    },
+    {
+      "id": "rainy_bedroom",
+      "name": "Rainy day bedroom",
+      "room": "bedroom",
+      "sku": "housecat.room.rainy_bedroom",
+      "price": "3.99",
+      "blurb": "Toile walls, rose carpet, curtains, a rug and a basket of warm laundry.",
+      "items": ["bedroom_laundry", "bedroom_curtains", "bedroom_gownhook", "bedroom_bedrug", "bedroom_catbed"],
+      "wallpaper": "wall_bedroom_toile_blue",
+      "floor": "floor_bedroom_rose_carpet"
+    },
+    {
+      "id": "country_kitchen",
+      "name": "Country kitchen",
+      "room": "kitchen",
+      "sku": "housecat.room.country_kitchen",
+      "price": "4.99",
+      "blurb": "Lemon walls, slate floor, a kettle, a herb shelf, a bread bin and a water fountain.",
+      "items": ["kitchen_kettle", "kitchen_doormat", "kitchen_herbshelf", "kitchen_breadbin", "kitchen_fountain", "kitchen_fruitbowl", "kitchen_table"],
+      "wallpaper": "wall_kitchen_lemon_print",
+      "floor": "floor_kitchen_slate"
+    },
+    {
+      "id": "riviera_garden",
+      "name": "Riviera garden",
+      "room": "garden",
+      "sku": "housecat.room.riviera_garden",
+      "price": "4.99",
+      "blurb": "A pond, a deck chair, festoon lights, a rope hammock and pots of flowers.",
+      "items": ["garden_deckchair", "garden_pond", "garden_festoon", "garden_gardenhammock", "garden_flowerpots", "garden_washingline"],
+      "wallpaper": "wall_garden_ivy_trellis",
+      "floor": "floor_garden_decking"
+    },
+    {
+      "id": "cosy_study",
+      "name": "Cosy study",
+      "room": "study",
+      "sku": "housecat.room.cosy_study",
+      "price": "4.99",
+      "blurb": "Map walls, green carpet, a globe, a desk lamp, a laptop and a mug of tea.",
+      "items": ["study_laptop", "study_papertray", "study_desklamp", "study_globe", "study_printer", "study_noticeboard", "study_mug", "study_blind"],
+      "wallpaper": "wall_study_antique_map",
+      "floor": "floor_study_green_carpet"
+    },
+    {
+      "id": "cabin_attic",
+      "name": "Cabin attic",
+      "room": "attic",
+      "sku": "housecat.room.cabin_attic",
+      "price": "3.99",
+      "blurb": "Pine walls, a dusty armchair, a skylight beam, an oil lamp and an old wireless.",
+      "items": ["attic_dustyarmchair", "attic_skylightpatch", "attic_rolledrug", "attic_oillamp", "attic_wireless"],
+      "wallpaper": "wall_attic_pine_planks",
+      "floor": "floor_attic_rough_pine"
+    },
+    {
+      "id": "starlit_attic",
+      "name": "Starlit attic",
+      "room": "attic",
+      "sku": "housecat.room.starlit_attic",
+      "price": "2.99",
+      "blurb": "A telescope, a rocking horse, a dressmaker's dummy and a suitcase of old adventures.",
+      "items": ["attic_telescope", "attic_cobweb", "attic_rockinghorse", "attic_dummy", "attic_suitcase"]
+    }
+  ]
+}

@@ -7,32 +7,23 @@ import Foundation
 /// next refresh.
 public struct Entitlements: Codable, Equatable, Sendable {
     public var clubSubscription = false
-    public var lifetime = false
-    public var founders = false
-    public var passes: Set<String> = []
-    public var outfits: Set<String> = []
-    public var sets: Set<String> = []
-    public var catSlots: Set<Int> = []
+    /// The once-only starter offer was bought.
     public var starter = false
-    public var housewarmingPack = false
+    /// Room looks bought (their pieces are granted into the save once per transaction; this says which the
+    /// player has, for the shop's Owned).
+    public var bundles: Set<String> = []
 
     public init() {}
 
     public static let none = Entitlements()
 
-    /// Cat Club benefits: an active subscription, Forever Home (lifetime) or the founders' pack.
     public var hasClub: Bool {
-        clubSubscription || lifetime || founders
-    }
-
-    /// Extra cats beyond the first: adopted slots plus the one inside Cat Club.
-    public var extraCatSlots: Int {
-        catSlots.count + (hasClub ? 1 : 0)
+        clubSubscription
     }
 
     /// Cat Club includes every season's paid track.
-    public func ownsPaidTrack(season: String) -> Bool {
-        hasClub || passes.contains(season)
+    public func ownsPaidTrack(season _: String) -> Bool {
+        hasClub
     }
 }
 
@@ -65,19 +56,10 @@ public enum EntitlementMapper {
                 continue
             }
             switch product.unlock {
-            case let .outfit(id): result.outfits.insert(id)
-            case let .set(id): result.sets.insert(id)
-            case let .bundle(set, outfit, _):
-                result.sets.insert(set)
-                result.outfits.insert(outfit)
-            case let .catSlot(slot): result.catSlots.insert(slot)
-            case .starter: result.starter = true
-            case .housewarmingPack: result.housewarmingPack = true
             case .club: result.clubSubscription = true
-            case .lifetime: result.lifetime = true
-            case .founders: result.founders = true
-            case let .seasonPass(season): result.passes.insert(season)
-            case .gift: break
+            case .starter: result.starter = true
+            case let .bundle(id): result.bundles.insert(id)
+            case .beans: break
             }
         }
         return result

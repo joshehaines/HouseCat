@@ -10,6 +10,7 @@ public final class RevenueCatEntitlementService: EntitlementService {
     public private(set) var entitlements: Entitlements
     public let catalog: StoreCatalog
     private let cache: EntitlementCache
+    @ObservationIgnored public var onGrant: (@MainActor (StoreGrant) -> Void)?
 
     public init(apiKey: String, catalog: StoreCatalog, cache: EntitlementCache) {
         self.catalog = catalog
@@ -32,6 +33,11 @@ public final class RevenueCatEntitlementService: EntitlementService {
         let derived = Self.entitlements(from: info, catalog: catalog, now: Date())
         entitlements = derived
         cache.save(derived)
+        // Everything bought once (packs included: RevenueCat lists consumables too); the save dedupes by transaction.
+        guard info.entitlements.verification != .failed else { return }
+        for purchase in info.nonSubscriptions where catalog.product(purchase.productIdentifier) != nil {
+            onGrant?(StoreGrant(productID: purchase.productIdentifier, transactionID: purchase.transactionIdentifier))
+        }
     }
 
     static func entitlements(from info: CustomerInfo, catalog: StoreCatalog, now: Date) -> Entitlements {

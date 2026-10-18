@@ -13,7 +13,7 @@ final class GameSession {
     static let catID = "midnight"
 
     let content: ContentBundle?
-    private let rules: RulesContext
+    let rules: RulesContext
     private let store: EventStore?
     private(set) var log: SaveLog {
         didSet {
@@ -397,7 +397,8 @@ final class GameSession {
     /// Buys a piece with Beans into the inventory; false if it is not for sale to you now.
     @discardableResult
     func buy(_ itemID: String) -> Bool {
-        guard let entry = shop(for: .living).first(where: { $0.id == itemID }),
+        guard let room = content?.catalogue.items.first(where: { $0.id == itemID }).flatMap({ RoomID(rawValue: $0.room) }),
+              let entry = shop(for: room).first(where: { $0.id == itemID }),
               case let .buyable(price) = entry.status else { return false }
         append(.itemBought(itemID: itemID, beans: price), at: now())
         Sound.play("ui_bean_chime", volume: Tuning.Sound.place)

@@ -384,6 +384,51 @@ final class Visit {
         placeFromInventory(itemID)
     }
 
+    // MARK: Room looks
+
+    /// A room look being tried in its room (the shop's "Try it in your room"): its pieces see-through where
+    /// they would go, nothing recorded, until bought or put away.
+    private(set) var previewing: BundlesFile.Bundle?
+
+    func preview(_ bundle: BundlesFile.Bundle) {
+        guard let house = scene as? RoomScene else { return }
+        if activeRoom != bundle.room {
+            go(to: bundle.room)
+        }
+        guard activeRoom == bundle.room else { return }
+        house.showPreview(GameSession.shared.preview(bundle, among: house.pieces()))
+        previewing = bundle
+        greeting = nil
+    }
+
+    func endPreview() {
+        (scene as? RoomScene)?.clearPreview()
+        previewing = nil
+    }
+
+    /// Puts a whole room look in its room at once (the shop's "Add the whole room"): each piece where it first
+    /// fits, the wallpaper and floor up; what does not fit waits in the inventory.
+    func addWholeRoom(_ bundle: BundlesFile.Bundle) {
+        guard let house = scene as? RoomScene else { return }
+        endPreview()
+        if activeRoom != bundle.room {
+            go(to: bundle.room)
+        }
+        guard activeRoom == bundle.room else { return }
+        let session = GameSession.shared
+        let placed = session.addWholeRoom(bundle, among: house.pieces())
+        if let model = GameWorld.house(at: session.now(), state: session.state(at: session.now())) {
+            house.update(house: model)
+            house.setDecorating(decorating)
+        }
+        inventory = decorating ? session.inventory() : []
+        refreshStats()
+        show(
+            toast: placed == bundle.items.count ? "\(bundle.name) is in" : "\(placed) pieces in, the rest in your things",
+            icon: "sofa_for_furniture"
+        )
+    }
+
     /// Puts up a wallpaper or floor and rebuilds the house, staying in decorate mode.
     func chooseSurface(_ surfaceID: String) {
         guard let house = scene as? RoomScene, decorating else { return }
@@ -414,7 +459,7 @@ final class Visit {
             opened: state.openedRooms,
             level: state.level,
             beans: state.beans,
-            clubActive: false
+            clubActive: state.today?.clubDay == true
         )
         roomOffer = RoomOffer(room: room, availability: availability, level: state.level, beans: state.beans)
     }

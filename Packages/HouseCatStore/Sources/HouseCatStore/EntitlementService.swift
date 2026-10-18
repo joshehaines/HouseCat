@@ -43,6 +43,18 @@ public enum StoreError: Error, Equatable {
     case unverified
 }
 
+/// Something a purchase puts in the save (Beans, a room look's pieces), once per transaction. The app records it
+/// as an event keyed by the transaction, so hearing it twice changes nothing.
+public struct StoreGrant: Equatable, Sendable {
+    public var productID: String
+    public var transactionID: String
+
+    public init(productID: String, transactionID: String) {
+        self.productID = productID
+        self.transactionID = transactionID
+    }
+}
+
 /// The store layer the app talks to. Implemented on StoreKit 2 directly
 /// (`StoreKitEntitlementService`) and through RevenueCat
 /// (`RevenueCatEntitlementService`); the app picks RevenueCat once an API key
@@ -59,4 +71,7 @@ public protocol EntitlementService: AnyObject {
     func purchase(_ productID: String) async throws -> PurchaseOutcome
     /// The Restore Purchases button (shop, paywall, Settings).
     func restore() async throws
+    /// Told about every purchase that puts something in the save: as it happens, Bean packs bought while the
+    /// app was closed (finished only once handed over), and room looks and the starter on each refresh.
+    var onGrant: (@MainActor (StoreGrant) -> Void)? { get set }
 }

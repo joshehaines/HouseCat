@@ -8,17 +8,19 @@ import SwiftUI
 #endif
 
 /// The shop (SPEC "Monetisation and the shop"), laid out like a builder game's shop: a rail of sections down
-/// the left, big illustrated offers in a row, a Cat Club page that shows everything membership holds (as a
-/// battle pass does), a detail panel before buying and a celebration after. Every price is StoreKit's own;
-/// nothing is random, no currency is sold, nothing counts down (a seasonal item gives its real last day), the
-/// two Cat Club plans sit side by side with the full renewal terms, and Close is always on screen.
+/// the left, big illustrated offers in a row, a Cat Club page that shows everything membership holds, a detail
+/// panel before buying and a celebration after. Three kinds of product (Josh, 18 Oct): Bean packs, the one
+/// currency, bought like a builder game's gems; room looks, a whole room in one tap; and Cat Club. Outfits are
+/// bought with Beans, and when Beans fall short Buy becomes Top up. Every price is StoreKit's own, a Bean price
+/// shows what it comes to in money, nothing is random, nothing counts down (a limited look gives its real last
+/// day), the two Cat Club plans sit side by side with the full renewal terms, and Close is always on screen.
 struct ShopView: View {
     static func monthName(_ month: Int) -> String {
         DateFormatter().standaloneMonthSymbols[(month - 1) % 12]
     }
 
     enum Section: String, CaseIterable, Identifiable {
-        case featured, club, sets, outfits, cats, gifts
+        case featured, beans, looks, club, outfits
 
         var id: String {
             rawValue
@@ -27,22 +29,20 @@ struct ShopView: View {
         var title: String {
             switch self {
             case .featured: "Featured"
+            case .beans: "Beans"
+            case .looks: "Room looks"
             case .club: "Cat Club"
-            case .sets: "Furniture"
             case .outfits: "Outfits"
-            case .cats: "Cats & more"
-            case .gifts: "Gifts"
             }
         }
 
         var icon: String {
             switch self {
             case .featured: "xp_star"
+            case .beans: "bean_coin"
+            case .looks: "sofa_for_furniture"
             case .club: "cat_face"
-            case .sets: "sofa_for_furniture"
             case .outfits: "decorate_paintbrush"
-            case .cats: "trust_heart_with_a_paw_print"
-            case .gifts: "gift_box_with_a_ribbon"
             }
         }
     }
@@ -54,11 +54,6 @@ struct ShopView: View {
             var text: String
         }
 
-        struct Alternative: Equatable {
-            var id: String
-            var label: String
-        }
-
         var id: String
         var title: String
         /// One illustration, or a few pieces of furniture side by side.
@@ -66,23 +61,39 @@ struct ShopView: View {
         var ribbon: String?
         var contents: [Line]
         var note: String?
-        /// A second way to buy it (a set's bundle, with its outfit and Beans).
-        var alternative: Alternative?
         var tint: Color
         var isClub = false
+        /// Bought with Beans (an outfit): its price in Beans, and the outfit.
+        var beanPrice: Int?
+        var outfitID: String?
+        /// A room look.
+        var bundle: BundlesFile.Bundle?
+    }
+
+    /// Beans short for something, and what to do once topped up.
+    struct TopUpRequest: Identifiable {
+        let id = UUID()
+        var need: Int
+        var purpose: String
+        var then: @MainActor () -> Void
     }
 
     /// Nil when StoreKit is off (command-line screenshot runs): debug builds then show the catalogue's own UK
     /// prices, and Buy plays the celebration as a preview without charging anything.
     let store: (any EntitlementService)?
     let content: ContentBundle?
-    @State private var products: [String: ProductInfo] = [:]
+    /// "Try it in your room" and "Add the whole room": the shop closes and the room does it.
+    var tryLook: ((BundlesFile.Bundle) -> Void)?
+    var addLook: ((BundlesFile.Bundle) -> Void)?
+    @State private var prices = StorePrices.shared
     @State private var message: String?
     @State private var buying: String?
     @State private var owned = Entitlements.none
+    @State private var beans = 0
     @State private var section: Section = .featured
     @State private var detail: Offer?
     @State private var celebrating: Offer?
+    @State private var topUp: TopUpRequest?
     @State private var yearly = true
     @State private var refunding = false
     /// Everything is laid out for a landscape phone and scaled up to fill a bigger screen.
@@ -91,8 +102,8 @@ struct ShopView: View {
     @Environment(\.openURL) private var openURL
     @Environment(\.controlFeedback) private var feedback
 
-    private var catalog: StoreCatalog? {
-        store?.catalog ?? content.map(StoreCatalog.init(content:))
+    private var session: GameSession {
+        GameSession.shared
     }
 
     var body: some View {
@@ -126,11 +137,10 @@ struct ShopView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(alignment: .top, spacing: 22 * s) {
                             group(.featured) { featured }
+                            group(.beans) { ForEach(beanOffers) { beanTile($0) } }
+                            group(.looks) { ForEach(lookOffers) { tile($0) } }
                             group(.club) { clubPage }
-                            group(.sets) { ForEach(setOffers) { tile($0) } }
                             group(.outfits) { outfitGrid }
-                            group(.cats) { ForEach(catOffers) { tile($0) } }
-                            group(.gifts) { ForEach(giftOffers) { tile($0) } }
                             footer
                         }
                         .padding(.horizontal, 16 * s)
@@ -145,6 +155,7 @@ struct ShopView: View {
                     }
                 }
             }
+            .overlay(alignment: .topTrailing) { balance.padding(14 * s) }
             if let detail {
                 detailPanel(detail)
                     .transition(.opacity.combined(with: .scale(scale: 0.92)))
@@ -153,24 +164,47 @@ struct ShopView: View {
                 Celebration(offer: celebrating, scale: s) { self.celebrating = nil }
                     .transition(.opacity)
             }
+            if let topUp {
+                ZStack {
+                    Color.black.opacity(0.45).ignoresSafeArea().onTapGesture { self.topUp = nil }
+                    BeanTopUp(need: topUp.need, purpose: topUp.purpose, store: store) { bought in
+                        self.topUp = nil
+                        refresh()
+                        if bought {
+                            topUp.then()
+                        }
+                    }
+                    .padding(24)
+                }
+                .transition(.opacity)
+            }
         }
         .foregroundStyle(Theme.ink)
         .environment(\.hudScale, s)
         .sheet(isPresented: $refunding) { RefundView { refunding = false } }
         .animation(.spring(duration: 0.35), value: detail)
         .animation(.easeOut(duration: 0.3), value: celebrating)
+        .animation(.easeOut(duration: 0.25), value: topUp?.id)
         .task {
             Analytics.track(.shopOpened)
-            owned = store?.entitlements ?? .none
-            await loadProducts()
+            refresh()
+            await prices.load(store: store, content: content)
+            if prices.unavailable {
+                message = "The shop is not available right now."
+            }
             #if DEBUG
-                // Screenshot runs: HOUSECAT_SHOP=<section>, detail (the Starter Pack's panel) or celebrate (Cat Club's).
+                // Screenshot runs: HOUSECAT_SHOP=<section>, detail (the starter's panel), look (a room look's),
+                // topup (short for an outfit) or celebrate (Cat Club's).
                 if let wanted = ProcessInfo.processInfo.environment["HOUSECAT_SHOP"] {
                     try? await Task.sleep(for: .seconds(1))
                     if let open = Section(rawValue: wanted) {
                         section = open
                     } else if wanted == "detail" {
                         detail = starter
+                    } else if wanted == "look" {
+                        detail = lookOffers.first { $0.bundle?.room != .living } ?? lookOffers.first
+                    } else if wanted == "topup" {
+                        topUp = TopUpRequest(need: 900, purpose: "the Raincoat") {}
                     } else if wanted == "celebrate" {
                         celebrate(clubOffer)
                     }
@@ -187,63 +221,76 @@ struct ShopView: View {
         .system(size: size * s, weight: weight, design: rounded ? .rounded : .default)
     }
 
+    private func refresh() {
+        owned = store?.entitlements ?? .none
+        beans = session.beans
+    }
+
+    /// The player's Beans, top right, as in a builder game's shop.
+    private var balance: some View {
+        HStack(spacing: 5 * s) {
+            PaintedIcon("bean_coin", size: 24 * s)
+            Text(beans.formatted()).font(font(16, .heavy, rounded: true)).monospacedDigit().contentTransition(.numericText())
+            Button {
+                feedback.tap()
+                section = .beans
+            } label: {
+                Image(systemName: "plus").font(font(12, .black)).foregroundStyle(.white)
+                    .frame(width: 22 * s, height: 22 * s)
+                    .background(Circle().fill(Theme.accent))
+            }
+            .buttonStyle(PressStyle())
+            .accessibilityLabel("Get Beans")
+        }
+        .padding(.leading, 10 * s)
+        .padding(.trailing, 5 * s)
+        .padding(.vertical, 5 * s)
+        .paper(Capsule())
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(beans) Beans")
+        .animation(.spring(duration: 0.4), value: beans)
+    }
+
     // MARK: Prices and buying
 
-    private func loadProducts() async {
-        if let store {
-            do {
-                products = try await Dictionary(store.products().map { ($0.id, $0) }, uniquingKeysWith: { a, _ in a })
-            } catch {
-                message = "The shop is not available right now."
-            }
-        } else {
-            #if DEBUG
-                let pounds = (catalog?.products ?? []).map {
-                    ($0.id, ProductInfo(
-                        id: $0.id,
-                        displayName: $0.displayName,
-                        displayPrice: "£" + $0.priceGBP,
-                        kind: $0.kind,
-                        price: Decimal(string: $0.priceGBP),
-                        currencyCode: "GBP"
-                    ))
-                }
-                products = Dictionary(pounds, uniquingKeysWith: { a, _ in a })
-            #endif
-        }
-    }
-
     private func price(_ id: String) -> String? {
-        products[id]?.displayPrice
+        prices.price(id)
     }
 
+    /// Buys a real-money product (a Bean pack, the starter, a room look, Cat Club).
     private func buy(_ id: String, offer: Offer) {
         guard buying == nil else { return }
-        guard let store else {
-            #if DEBUG
-                // Debug preview: nothing is charged.
-                detail = nil
-                celebrate(offer)
-            #endif
-            return
-        }
         buying = id
         Task {
             defer { buying = nil }
-            do {
-                switch try await store.purchase(id) {
-                case .purchased:
-                    Analytics.track(.purchased, detail: id)
-                    owned = store.entitlements
-                    detail = nil
-                    celebrate(offer)
-                case .pending: message = "Waiting for approval."
-                case .cancelled: break
-                }
-            } catch {
-                message = "That purchase did not go through."
+            switch await ShopPurchase.buy(id, store: store) {
+            case .bought:
+                refresh()
+                detail = nil
+                celebrate(offer)
+            case .pending: message = "Waiting for approval."
+            case .cancelled: break
+            case .failed: message = "That purchase did not go through."
             }
         }
+    }
+
+    /// Buys an outfit with Beans, or offers a top-up for what is short (and then buys it).
+    private func buyWithBeans(_ offer: Offer, gift: Bool = false) {
+        guard let outfitID = offer.outfitID, let cost = offer.beanPrice else { return }
+        let short = BeanPrices.shortfall(price: cost, balance: session.beans)
+        if short > 0 {
+            topUp = TopUpRequest(need: short, purpose: "the \(offer.title)") { buyWithBeans(offer, gift: gift) }
+            return
+        }
+        guard session.buyOutfit(outfitID, gift: gift) else { return }
+        refresh()
+        detail = nil
+        var shown = offer
+        if gift {
+            shown.contents = [.init(icon: "gift_box_with_a_ribbon", text: "Wrapped, for the next visit")]
+        }
+        celebrate(shown)
     }
 
     private func celebrate(_ offer: Offer) {
@@ -254,41 +301,21 @@ struct ShopView: View {
         celebrating = offer
     }
 
-    private func isOwned(_ id: String) -> Bool {
-        if id == StoreCatalog.clubMonthly || id == StoreCatalog.clubYearly {
+    private func isOwned(_ offer: Offer) -> Bool {
+        if offer.isClub {
             return owned.hasClub
         }
-        if id == StoreCatalog.lifetime {
-            return owned.lifetime || owned.founders
-        }
-        if id == StoreCatalog.starter {
+        if offer.id == StoreCatalog.starter {
             return owned.starter
         }
-        if id == StoreCatalog.housewarmingPack {
-            return owned.housewarmingPack
+        if let bundle = offer.bundle {
+            // Bought on this Apple Account, or by a co-owner (its pieces are in the shared save).
+            return owned.bundles.contains(bundle.id) || session.state(at: session.now()).grantedBundles.values.contains(bundle.id)
         }
-        if id.hasPrefix("housecat.set.") {
-            return owned.sets.contains(String(id.dropFirst("housecat.set.".count)))
-        }
-        if id.hasPrefix("housecat.outfit.") {
-            return owned.outfits.contains(String(id.dropFirst("housecat.outfit.".count)))
-        }
-        if id.hasPrefix("housecat.cat.slot") {
-            return owned.catSlots.contains(Int(id.dropFirst("housecat.cat.slot".count)) ?? 0)
+        if let outfit = offer.outfitID {
+            return session.ownedOutfits.contains(outfit)
         }
         return false
-    }
-
-    /// Several products' prices added up, in the player's own currency.
-    private func sum(_ parts: [(id: String, count: Int)]) -> String? {
-        var total = Decimal(0)
-        var code: String?
-        for part in parts {
-            guard let product = products[part.id], let price = product.price else { return nil }
-            total += price * Decimal(part.count)
-            code = product.currencyCode
-        }
-        return code.map { total.formatted(.currency(code: $0)) }
     }
 
     // MARK: The rail and the groups
@@ -343,36 +370,21 @@ struct ShopView: View {
     // MARK: Offers
 
     private var starter: Offer {
-        Offer(
+        let pouch = StoreCatalog.beanPacks[1]
+        let samePrice = prices.products[StoreCatalog.starter]?.price != nil
+            && prices.products[StoreCatalog.starter]?.price == prices.products[pouch.id]?.price
+        return Offer(
             id: StoreCatalog.starter,
             title: "Starter Pack",
             art: ["ui/shop/shop_starter.png"],
             ribbon: "Once only",
             contents: [
-                .init(icon: "sofa_for_furniture", text: "A furniture set"),
-                .init(icon: "cat_face", text: "An outfit"),
-                .init(icon: "bean_coin", text: "500 Beans"),
+                .init(icon: "bean_coin", text: "\(Tuning.Beans.starterPack.formatted()) Beans"),
+                .init(icon: "cat_face", text: "The knitted beanie"),
+                .init(icon: "sofa_for_furniture", text: "An armchair"),
             ],
-            note: sum([("housecat.set.cottagecore", 1), ("housecat.outfit.cardigan", 1)])
-                .map { "A set and an outfit on their own: \($0), before the Beans." },
+            note: samePrice ? "The same price as a pouch of \(pouch.beans.formatted()) Beans, once per household." : nil,
             tint: Color(red: 0.98, green: 0.8, blue: 0.6)
-        )
-    }
-
-    private var housewarming: Offer {
-        Offer(
-            id: StoreCatalog.housewarmingPack,
-            title: "Housewarming",
-            art: ["ui/shop/shop_housewarming.png"],
-            // Its real last day (UK DMCC: a limited offer states a true end date).
-            ribbon: housewarmingSale.map { "Until \($0.lastDay.date.day) \(Self.monthName($0.lastDay.month))" },
-            contents: [
-                .init(icon: "house", text: "A grand fireplace"),
-                .init(icon: "sofa_for_furniture", text: "Hi-fi, lights and a mat"),
-                .init(icon: "decorate_paintbrush", text: "A portrait of your house"),
-                .init(icon: "bean_coin", text: "300 Beans"),
-            ],
-            tint: Color(red: 0.96, green: 0.72, blue: 0.6)
         )
     }
 
@@ -382,109 +394,78 @@ struct ShopView: View {
             title: "Cat Club",
             art: ["ui/shop/shop_club.png"],
             contents: [
-                .init(icon: "trust_heart_with_a_paw_print", text: "A second cat"),
                 .init(icon: "bean_coin", text: "+20% Beans"),
-                .init(icon: "season_pass_ticket", text: "Every season pass"),
+                .init(icon: "house", text: "Rooms for half"),
+                .init(icon: "season_pass_ticket", text: "Every paid track"),
             ],
             tint: Color(red: 0.42, green: 0.62, blue: 0.66),
             isClub: true
         )
     }
 
-    private var setOffers: [Offer] {
-        (content?.catalogue.sets ?? []).map { set in
-            let pieces = (content?.catalogue.items ?? []).filter { $0.set == set.id }
-            return Offer(
-                id: "housecat.set.\(set.id)",
-                title: set.name,
-                art: pieces.prefix(3).compactMap { $0.sprites["R"] ?? $0.sprites.values.first },
-                contents: [
-                    .init(icon: "sofa_for_furniture", text: "\(pieces.count) pieces"),
-                    .init(icon: "wallpaper_roll", text: "A wallpaper and a floor"),
-                ],
-                alternative: price("housecat.bundle.\(set.id)").map {
-                    .init(id: "housecat.bundle.\(set.id)", label: "with its outfit and \(set.bundleBeans) Beans, \($0)")
-                },
-                tint: Color(red: 0.78, green: 0.85, blue: 0.72)
+    /// The Bean packs, smallest first, each with how many more Beans a pound it gives than the smallest.
+    private var beanOffers: [Offer] {
+        StoreCatalog.beanPacks.map { pack in
+            Offer(
+                id: pack.id,
+                title: pack.name,
+                art: [BeanArt.path(pack.id)],
+                ribbon: pack.id == StoreCatalog.beanPacks.last?.id ? "Best value" : prices.bonus(pack).map { "+\($0)% a pound" },
+                contents: [.init(icon: "bean_coin", text: "+\(pack.beans.formatted()) Beans")],
+                tint: Color(red: 0.98, green: 0.88, blue: 0.6)
             )
         }
     }
 
-    private var catOffers: [Offer] {
-        [
-            Offer(
-                id: "housecat.cat.slot2",
-                title: "Adopt a Cat",
-                art: ["ui/shop/shop_adopt.png"],
-                contents: [
-                    .init(icon: "cat_face", text: "Made in the cat builder"),
-                    .init(icon: "trust_heart_with_a_paw_print", text: "A personality of its own"),
-                ],
-                tint: Color(red: 0.98, green: 0.78, blue: 0.68)
-            ),
-            Offer(
-                id: StoreCatalog.lifetime,
-                title: "Forever Home",
-                art: ["ui/shop/shop_forever.png"],
-                ribbon: "Paid once",
-                contents: [
-                    .init(icon: "cat_face", text: "Cat Club, for good"),
-                    .init(icon: "xp_star", text: "Every perk, no renewals"),
-                ],
-                tint: Color(red: 0.62, green: 0.72, blue: 0.9),
-                isClub: true
-            ),
-        ]
+    /// The room looks: every one on sale, the limited one only during its sale (or for someone who has it).
+    private var lookOffers: [Offer] {
+        guard let content else { return [] }
+        let items = Dictionary(uniqueKeysWithValues: content.catalogue.items.map { ($0.id, $0) })
+        return content.bundles.bundles.compactMap { bundle in
+            let sale = bundle.limited == true ? lookSale(bundle) : nil
+            let offer = lookOffer(bundle, items: items, lastDay: sale?.lastDay)
+            if bundle.limited == true, sale == nil, !isOwned(offer) {
+                return nil
+            }
+            return offer
+        }
     }
 
-    private var giftOffers: [Offer] {
-        [
-            Offer(
-                id: "housecat.gift.club.yearly",
-                title: "A year of Cat Club",
-                art: ["ui/shop/shop_gifts.png"],
-                ribbon: "Gift",
-                contents: [.init(icon: "share_arrow", text: "For a friend's cat")],
-                note: "You get a link to send. Their cat brings it in, wrapped, at their next visit.",
-                tint: Color(red: 0.95, green: 0.84, blue: 0.58)
-            ),
-            Offer(
-                id: "housecat.gift.cat",
-                title: "A cat",
-                art: ["ui/shop/shop_adopt.png"],
-                ribbon: "Gift",
-                contents: [.init(icon: "share_arrow", text: "A cat for a friend")],
-                note: "You get a link to send. Their new cat is waiting at their next visit.",
-                tint: Color(red: 0.98, green: 0.78, blue: 0.68)
-            ),
-            Offer(
-                id: "housecat.gift.pass",
-                title: "A season pass",
-                art: ["ui/shop/shop_gifts.png"],
-                ribbon: "Gift",
-                contents: [.init(icon: "season_pass_ticket", text: "This season's paid track")],
-                note: "You get a link to send. Their cat brings it in, wrapped, at their next visit.",
-                tint: Color(red: 0.85, green: 0.8, blue: 0.95)
-            ),
-        ]
+    private func lookOffer(_ bundle: BundlesFile.Bundle, items: [String: CatalogueFile.Item], lastDay: GameDay?) -> Offer {
+        // The three biggest pieces, side by side.
+        let pieces = bundle.items.compactMap { items[$0] }.sorted { $0.footprint.w * $0.footprint.d > $1.footprint.w * $1.footprint.d }
+        let art = pieces.filter { $0.layer != .wall }.prefix(3).compactMap { $0.sprites["R"] ?? $0.sprites.values.first }
+        var contents: [Offer.Line] = [.init(icon: "sofa_for_furniture", text: "\(bundle.items.count) pieces")]
+        if !bundle.surfaces.isEmpty {
+            contents.append(.init(icon: "wallpaper_roll", text: bundle.surfaces.count == 2 ? "Its wallpaper and floor" : "Its wallpaper"))
+        }
+        contents.append(.init(icon: "house", text: Visit.title(of: bundle.room, upstairs: false)))
+        return Offer(
+            id: bundle.sku,
+            title: bundle.name,
+            art: art,
+            // Its real last day (UK DMCC: a limited offer states a true end date).
+            ribbon: lastDay.map { "Until \($0.date.day) \(Self.monthName($0.month))" },
+            contents: contents,
+            note: bundle.blurb,
+            tint: Color(red: 0.78, green: 0.85, blue: 0.72),
+            bundle: bundle
+        )
+    }
+
+    /// A limited look's sale, while it is on (events.json).
+    private func lookSale(_ bundle: BundlesFile.Bundle) -> EventDefinition? {
+        guard let context = try? content?.rulesContext() else { return nil }
+        let today = session.state(at: session.now()).clock.day(of: session.now())
+        return EventRules.onSale(bundle.sku, on: today, context: context)
     }
 
     @ViewBuilder
     private var featured: some View {
         clubBanner
         tile(starter)
-        // Only during its sale (events.json), or for someone who has it.
-        if housewarmingSale != nil || owned.housewarmingPack {
-            tile(housewarming)
-        }
-    }
-
-    /// The Housewarming pack's sale, while it is on (the first month after launch).
-    private var housewarmingSale: EventDefinition? {
-        guard let context = try? content?.rulesContext() else { return nil }
-        let session = GameSession.shared
-        let today = session.state(at: session.now()).clock.day(of: session.now())
-        return EventRules.onSale(StoreCatalog.housewarmingPack, on: today, context: context)
+        // The launch month's look, only during its sale.
+        ForEach(lookOffers.filter { $0.bundle?.limited == true }) { tile($0) }
     }
 
     // MARK: Tiles
@@ -510,19 +491,53 @@ struct ShopView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 Spacer(minLength: 0)
-                priceTag(offer.id)
+                priceTag(offer)
             }
             .padding(12 * s)
             .frame(width: 204 * s, height: Tuning.Shop.tileHeight * s)
             .background(tileBackground(offer.tint))
             .overlay(alignment: .topLeading) {
-                if let ribbon = offer.ribbon, !isOwned(offer.id) {
+                if let ribbon = offer.ribbon, !isOwned(offer) {
                     Ribbon(ribbon).offset(x: 10 * s, y: -8 * s)
                 }
             }
         }
         .buttonStyle(PressStyle())
-        .accessibilityLabel("\(offer.title), \(price(offer.id) ?? "")")
+        .accessibilityLabel("\(offer.title), \(isOwned(offer) ? "owned" : price(offer.id) ?? "")")
+    }
+
+    /// A Bean pack, as a builder game shows its gems: the pile big, the amount, the price, bought in one tap.
+    private func beanTile(_ offer: Offer) -> some View {
+        let amount = StoreCatalog.beanPacks.first { $0.id == offer.id }?.beans ?? 0
+        return Button {
+            feedback.tap()
+            buy(offer.id, offer: offer)
+        } label: {
+            VStack(spacing: 4 * s) {
+                artView(offer.art)
+                    .frame(height: 150 * s)
+                    .frame(maxWidth: .infinity)
+                HStack(spacing: 4 * s) {
+                    PaintedIcon("bean_coin", size: 24 * s)
+                    Text(amount.formatted()).font(font(24, .heavy, rounded: true)).monospacedDigit()
+                }
+                Text(offer.title).font(font(12, .semibold)).foregroundStyle(Theme.inkSoft).lineLimit(1)
+                Spacer(minLength: 0)
+                priceTag(offer)
+            }
+            .padding(12 * s)
+            .frame(width: 168 * s, height: Tuning.Shop.tileHeight * s)
+            .background(tileBackground(offer.tint))
+            .overlay(alignment: .topLeading) {
+                if let ribbon = offer.ribbon {
+                    Ribbon(ribbon, colour: offer.id == StoreCatalog.beanPacks.last?.id ? Self.deepGold : Theme.accent)
+                        .offset(x: 10 * s, y: -8 * s)
+                }
+            }
+        }
+        .buttonStyle(PressStyle())
+        .disabled(buying != nil)
+        .accessibilityLabel("\(amount) Beans, \(price(offer.id) ?? "")")
     }
 
     private func tileBackground(_ tint: Color, corner: CGFloat = 22) -> some View {
@@ -534,33 +549,46 @@ struct ShopView: View {
             .shadow(color: Theme.shadow, radius: 8 * s, y: 4 * s)
     }
 
-    /// The price as a raised button, or Owned.
+    /// The price as a raised button (in Beans for an outfit, with Top up when they fall short), or Owned.
     @ViewBuilder
-    private func priceTag(_ id: String, compact: Bool = false) -> some View {
-        if isOwned(id) {
+    private func priceTag(_ offer: Offer, compact: Bool = false) -> some View {
+        if isOwned(offer) {
             HStack(spacing: 4 * s) {
                 Image(systemName: "checkmark.circle.fill").foregroundStyle(Theme.accent)
                 Text("Owned").font(font(compact ? 13 : 15, .heavy, rounded: true))
             }
             .padding(.vertical, (compact ? 6 : 9) * s)
-        } else {
-            Text(price(id) ?? "…")
-                .font(font(compact ? 14 : 18, .heavy, rounded: true))
-                .foregroundStyle(.white)
-                .shadow(color: .black.opacity(0.25), radius: 0, y: 1)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, (compact ? 5 : 8) * s)
-                .background {
-                    ZStack {
-                        Capsule().fill(Theme.accent.mix(with: .black, by: 0.3)).offset(y: (compact ? 3 : 4) * s)
-                        Capsule().fill(LinearGradient(
-                            colors: [Theme.accent.mix(with: .white, by: 0.18), Theme.accent],
-                            startPoint: .top,
-                            endPoint: .bottom
-                        ))
+        } else if let cost = offer.beanPrice {
+            let short = cost > beans
+            raised(compact: compact, colour: short ? Color(red: 0.36, green: 0.6, blue: 0.42) : Theme.accent) {
+                HStack(spacing: 3 * s) {
+                    if short {
+                        Text("Top up").font(font(compact ? 13 : 16, .heavy, rounded: true))
+                    } else {
+                        PaintedIcon("bean_coin", size: (compact ? 16 : 20) * s)
+                        Text(cost.formatted()).font(font(compact ? 14 : 18, .heavy, rounded: true))
                     }
                 }
+            }
+        } else {
+            raised(compact: compact, colour: Theme.accent) {
+                Text(buying == offer.id ? "…" : price(offer.id) ?? "…").font(font(compact ? 14 : 18, .heavy, rounded: true))
+            }
         }
+    }
+
+    private func raised(compact: Bool, colour: Color, @ViewBuilder label: () -> some View) -> some View {
+        label()
+            .foregroundStyle(.white)
+            .shadow(color: .black.opacity(0.25), radius: 0, y: 1)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, (compact ? 5 : 8) * s)
+            .background {
+                ZStack {
+                    Capsule().fill(colour.mix(with: .black, by: 0.3)).offset(y: (compact ? 3 : 4) * s)
+                    Capsule().fill(LinearGradient(colors: [colour.mix(with: .white, by: 0.18), colour], startPoint: .top, endPoint: .bottom))
+                }
+            }
     }
 
     private func artView(_ art: [String]) -> some View {
@@ -594,7 +622,7 @@ struct ShopView: View {
                 VStack(alignment: .leading, spacing: 8 * s) {
                     Ribbon(owned.hasClub ? "You're a member" : "\(StoreCatalog.yearlyTrialDays) days free", colour: Self.deepGold)
                     Text("Cat Club").font(Theme.title(32 * s)).foregroundStyle(.white)
-                    Text("A second cat, +20% Beans, rooms for half the Beans, an outfit every month and every season pass.")
+                    Text("+20% Beans, rooms for half the Beans, moving home for free and every season's paid track.")
                         .font(font(13))
                         .foregroundStyle(.white.opacity(0.92))
                         .fixedSize(horizontal: false, vertical: true)
@@ -633,15 +661,15 @@ struct ShopView: View {
             .shadow(color: Theme.shadow, radius: 10 * s, y: 5 * s)
     }
 
-    /// The Cat Club page, one screen on a phone: the crowned cat and what the parts sold on their own come to,
-    /// the perks as big numbers, the two plans side by side, the button and the renewal terms in full.
+    /// The Cat Club page, one screen on a phone: the crowned cat, the perks as big numbers, the two plans side by
+    /// side, the button and the renewal terms in full. Only perks the game has are listed.
     private var clubPage: some View {
         HStack(alignment: .top, spacing: 14 * s) {
             VStack(spacing: 4 * s) {
                 artView(["ui/shop/shop_club.png"]).frame(width: 160 * s, height: 140 * s)
                 Text("Cat Club").font(Theme.title(28 * s)).foregroundStyle(.white)
-                if let value = sum([("housecat.pass.\(currentSeasonID)", Tuning.Pass.seasonsPerYear), ("housecat.cat.slot2", 1)]) {
-                    Text("A year's season passes and a second cat, bought on their own: \(value)")
+                if let pass = session.passInfo(club: false) {
+                    Text("This season's paid track: \(pass.season.paidTrack.count) rewards in \(pass.name).")
                         .font(font(10.5, .bold))
                         .foregroundStyle(Self.gold)
                         .multilineTextAlignment(.center)
@@ -652,19 +680,16 @@ struct ShopView: View {
             VStack(alignment: .leading, spacing: 8 * s) {
                 Grid(horizontalSpacing: 8 * s, verticalSpacing: 8 * s) {
                     GridRow {
-                        perk("+1", "cat, its own self", icon: "trust_heart_with_a_paw_print")
                         perk("+20%", "Beans on all you earn", icon: "bean_coin")
-                        perk("½", "the Beans for rooms", icon: "house")
+                        perk("½", "the Beans to open rooms", icon: "house")
                     }
                     GridRow {
-                        perk("\(Tuning.Store.clubOutfitsPerYear)", "outfits a year", icon: "cat_face")
-                        perk("\(Tuning.Pass.seasonsPerYear)", "season passes", icon: "season_pass_ticket")
-                        perk("Early", "seasonal sets", icon: "sofa_for_furniture")
+                        perk("Free", "moving home", icon: "map_pin")
+                        perk("Every", "season's paid track", icon: "season_pass_ticket")
                     }
                 }
                 if owned.hasClub {
-                    Text(owned.lifetime || owned.founders ? "Yours forever." : "You're a member. Thank you.")
-                        .font(Theme.title(20 * s)).foregroundStyle(.white)
+                    Text("You're a member. Thank you.").font(Theme.title(20 * s)).foregroundStyle(.white)
                     Text("Every perk is on. The subscription is managed at the end of the shop.")
                         .font(font(11)).foregroundStyle(.white.opacity(0.85))
                 } else {
@@ -696,10 +721,6 @@ struct ShopView: View {
         .background(clubBackground)
     }
 
-    private var currentSeasonID: String {
-        content?.seasons.seasons.first?.id ?? "housewarming"
-    }
-
     private var clubTerms: String {
         let year = price(StoreCatalog.clubYearly) ?? "…", month = price(StoreCatalog.clubMonthly) ?? "…"
         return "Yearly: free for \(StoreCatalog.yearlyTrialDays) days, then \(year) a year. Monthly: \(month) a month. "
@@ -707,18 +728,18 @@ struct ShopView: View {
     }
 
     private func perk(_ big: String, _ detail: String, icon: String) -> some View {
-        HStack(alignment: .top, spacing: 5 * s) {
-            PaintedIcon(icon, size: 24 * s)
+        HStack(alignment: .top, spacing: 6 * s) {
+            PaintedIcon(icon, size: 28 * s)
             VStack(alignment: .leading, spacing: 0) {
-                Text(big).font(font(21, .heavy, rounded: true)).foregroundStyle(Self.gold).lineLimit(1).minimumScaleFactor(0.7)
-                Text(detail).font(font(10, .semibold)).foregroundStyle(.white.opacity(0.9))
+                Text(big).font(font(22, .heavy, rounded: true)).foregroundStyle(Self.gold).lineLimit(1).minimumScaleFactor(0.7)
+                Text(detail).font(font(10.5, .semibold)).foregroundStyle(.white.opacity(0.9))
                     .lineLimit(2)
                     .fixedSize(horizontal: false, vertical: true)
             }
             Spacer(minLength: 0)
         }
-        .padding(7 * s)
-        .frame(width: 114 * s, height: 64 * s, alignment: .topLeading)
+        .padding(8 * s)
+        .frame(width: 175 * s, height: 62 * s, alignment: .topLeading)
         .background(RoundedRectangle(cornerRadius: 13 * s, style: .continuous).fill(.white.opacity(0.1)))
     }
 
@@ -726,7 +747,7 @@ struct ShopView: View {
     private func plan(yearly isYearly: Bool) -> some View {
         let chosen = yearly == isYearly
         let id = isYearly ? StoreCatalog.clubYearly : StoreCatalog.clubMonthly
-        let perMonth = isYearly ? products[id].flatMap { product in
+        let perMonth = isYearly ? prices.products[id].flatMap { product in
             product.price.flatMap { price in product.currencyCode.map { (price / 12).formatted(.currency(code: $0)) } }
         } : nil
         return Button {
@@ -763,59 +784,70 @@ struct ShopView: View {
 
     // MARK: Outfits
 
-    private var outfitGrid: some View {
+    /// The outfits sold for Beans (catalogue pool "paid"), a seasonal one only in its months.
+    private var outfitOffers: [Offer] {
         let today = DayClock().day(of: .now)
-        let shown = (content?.outfits.outfits ?? []).filter { outfit in
+        let mine = session.ownedOutfits
+        return (content?.outfits.outfits ?? []).filter { outfit in
             guard outfit.pool == .paid else { return false }
-            return owned.outfits.contains(outfit.id) || ShopRules.isOnSale(months: outfit.months, on: today)
+            return mine.contains(outfit.id) || ShopRules.isOnSale(months: outfit.months, on: today)
         }
+        .map { outfit in
+            Offer(
+                id: "outfit.\(outfit.id)",
+                title: outfit.name,
+                art: [outfit.sprites["tqfront"] ?? ""],
+                // A real last day, never a countdown.
+                ribbon: ShopRules.lastSaleDay(months: outfit.months, from: today).map { "Until \($0.date.day) \(Self.monthName($0.month))" },
+                contents: [.init(icon: "cat_face", text: "Fits every cat")],
+                note: prices.value(ofBeans: Tuning.Beans.outfit).map { "\(Tuning.Beans.outfit) Beans is about \($0)." },
+                tint: Color(red: 0.96, green: 0.88, blue: 0.8),
+                beanPrice: Tuning.Beans.outfit,
+                outfitID: outfit.id
+            )
+        }
+    }
+
+    private var outfitGrid: some View {
         let row = (Tuning.Shop.tileHeight - 12) / 2 * s
         return LazyHGrid(rows: [GridItem(.fixed(row), spacing: 12 * s), GridItem(.fixed(row), spacing: 12 * s)], spacing: 12 * s) {
-            ForEach(shown, id: \.id) { outfit in
-                let offer = Offer(
-                    id: "housecat.outfit.\(outfit.id)",
-                    title: outfit.name,
-                    art: [outfit.sprites["tqfront"] ?? ""],
-                    // A real last day, never a countdown.
-                    ribbon: ShopRules.lastSaleDay(months: outfit.months, from: today)
-                        .map { "Until \($0.date.day) \(Self.monthName($0.month))" },
-                    contents: [.init(icon: "cat_face", text: "Fits every cat")],
-                    tint: Color(red: 0.96, green: 0.88, blue: 0.8)
-                )
+            ForEach(outfitOffers) { offer in
                 Button {
                     feedback.tap()
                     detail = offer
                 } label: {
                     VStack(spacing: 3 * s) {
                         artView(offer.art).frame(height: 66 * s)
-                        Text(outfit.name).font(font(13, .bold)).lineLimit(1).minimumScaleFactor(0.8)
+                        Text(offer.title).font(font(13, .bold)).lineLimit(1).minimumScaleFactor(0.8)
                         Spacer(minLength: 0)
-                        priceTag(offer.id, compact: true)
+                        priceTag(offer, compact: true)
                     }
                     .padding(9 * s)
                     .frame(width: 124 * s, height: row)
                     .background(tileBackground(offer.tint, corner: 18))
                     .overlay(alignment: .top) {
-                        if let ribbon = offer.ribbon, !isOwned(offer.id) {
+                        if let ribbon = offer.ribbon, !isOwned(offer) {
                             Ribbon(ribbon).scaleEffect(0.75).offset(y: -9 * s)
                         }
                     }
                 }
                 .buttonStyle(PressStyle())
+                .accessibilityLabel("\(offer.title), \(isOwned(offer) ? "owned" : "\(Tuning.Beans.outfit) Beans")")
             }
         }
     }
 
     // MARK: Detail and the foot
 
-    /// Before buying: the offer big, everything in it, the price (and a second way to buy it), Close.
+    /// Before buying: the offer big, everything in it, the price, Close. A room look can be tried in its room
+    /// first and, once owned, put in all at once; an outfit can be wrapped for a co-owner to find.
     private func detailPanel(_ offer: Offer) -> some View {
         ZStack {
             Color.black.opacity(0.45).ignoresSafeArea().onTapGesture { detail = nil }
             HStack(spacing: 20 * s) {
                 artView(offer.art).frame(width: 230 * s, height: 220 * s)
                 VStack(alignment: .leading, spacing: 9 * s) {
-                    if let ribbon = offer.ribbon {
+                    if let ribbon = offer.ribbon, !isOwned(offer) {
                         Ribbon(ribbon)
                     }
                     Text(offer.title).font(Theme.title(28 * s))
@@ -832,30 +864,7 @@ struct ShopView: View {
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     Spacer(minLength: 2 * s)
-                    if isOwned(offer.id) {
-                        Text("You own this.").font(font(16, .bold))
-                    } else {
-                        ChunkyButton("Buy for \(price(offer.id) ?? "…")") { buy(offer.id, offer: offer) }
-                            .disabled(buying != nil)
-                        if let alternative = offer.alternative {
-                            Button {
-                                feedback.tap()
-                                buy(alternative.id, offer: offer)
-                            } label: {
-                                Text("Or the bundle, " + alternative.label)
-                                    .font(font(12, .bold))
-                                    .foregroundStyle(Theme.accent)
-                                    .multilineTextAlignment(.leading)
-                            }
-                            .buttonStyle(PressStyle())
-                            .disabled(buying != nil)
-                        }
-                        #if DEBUG
-                            if store == nil {
-                                Text("Debug preview: nothing is charged.").font(font(10)).foregroundStyle(Theme.inkSoft)
-                            }
-                        #endif
-                    }
+                    actions(for: offer)
                 }
                 .frame(width: 300 * s, alignment: .leading)
             }
@@ -868,6 +877,67 @@ struct ShopView: View {
         }
     }
 
+    @ViewBuilder
+    private func actions(for offer: Offer) -> some View {
+        let roomOpen = offer.bundle.map { session.state(at: session.now()).openedRooms.contains($0.room) } ?? false
+        if let bundle = offer.bundle {
+            if isOwned(offer) {
+                if roomOpen, let addLook {
+                    ChunkyButton("Add the whole room") {
+                        detail = nil
+                        dismiss()
+                        addLook(bundle)
+                    }
+                } else {
+                    Text("Yours. Its pieces wait in your things for the \(Visit.title(of: bundle.room, upstairs: false).lowercased()).")
+                        .font(font(13, .bold))
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            } else {
+                ChunkyButton("Buy for \(price(offer.id) ?? "…")") { buy(offer.id, offer: offer) }
+                    .disabled(buying != nil)
+                if roomOpen, let tryLook {
+                    Button {
+                        feedback.tap()
+                        detail = nil
+                        dismiss()
+                        tryLook(bundle)
+                    } label: {
+                        Label("Try it in your room", systemImage: "eye").font(font(13, .bold)).foregroundStyle(Theme.accent)
+                    }
+                    .buttonStyle(PressStyle())
+                } else if !roomOpen {
+                    Text("For the \(Visit.title(of: bundle.room, upstairs: false).lowercased()), which opens at level \(bundle.room.requiredLevel).")
+                        .font(font(11, .semibold))
+                        .foregroundStyle(Theme.inkSoft)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+        } else if isOwned(offer) {
+            Text("You own this.").font(font(16, .bold))
+        } else if let cost = offer.beanPrice {
+            let short = BeanPrices.shortfall(price: cost, balance: beans)
+            ChunkyButton(short > 0 ? "Top up \(short.formatted()) Beans" : "Buy for \(cost.formatted()) Beans") { buyWithBeans(offer) }
+            if session.isCoOwned {
+                Button {
+                    feedback.tap()
+                    buyWithBeans(offer, gift: true)
+                } label: {
+                    Label("Wrap it as a present", systemImage: "gift").font(font(13, .bold)).foregroundStyle(Theme.accent)
+                }
+                .buttonStyle(PressStyle())
+            }
+        } else {
+            ChunkyButton("Buy for \(price(offer.id) ?? "…")") { buy(offer.id, offer: offer) }
+                .disabled(buying != nil)
+            #if DEBUG
+                if store == nil {
+                    Text("Debug preview: nothing is charged.").font(font(10)).foregroundStyle(Theme.inkSoft)
+                }
+            #endif
+        }
+    }
+
     private var footer: some View {
         VStack(alignment: .leading, spacing: 10 * s) {
             Text("ALSO").font(font(13, .heavy, rounded: true)).tracking(1.2).foregroundStyle(Theme.inkSoft)
@@ -877,7 +947,7 @@ struct ShopView: View {
             HUDButton("Restore Purchases", symbol: "arrow.clockwise") {
                 Task {
                     try? await store?.restore()
-                    owned = store?.entitlements ?? .none
+                    refresh()
                     message = "Purchases restored."
                 }
             }
@@ -891,7 +961,7 @@ struct ShopView: View {
             }
             Link("Terms of Use", destination: Tuning.Store.termsURL).font(font(12, .semibold)).tint(Theme.accent)
             Link("Privacy Policy", destination: Tuning.Store.privacyURL).font(font(12, .semibold)).tint(Theme.accent)
-            Text("Everything is paid for once and kept, except Cat Club, which renews. Nothing is random, and Beans are never sold.")
+            Text("Beans come in packs and every day from looking after your cat. Room looks are kept for good; Cat Club renews until you cancel. Nothing is random.")
                 .font(font(11))
                 .foregroundStyle(Theme.inkSoft)
                 .fixedSize(horizontal: false, vertical: true)

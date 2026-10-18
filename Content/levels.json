@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "note": "What each level gives (Josh, 18 Oct: levelling with a reward card and a roadmap, like a builder game). XP to reach each level is Tuning.Levels. Every level pays its Beans; some also give a piece of furniture. The roadmap adds what opens at each level on its own: rooms (Tuning.Rooms) and the Bean shop's pieces (catalogue.json `level`).",
+  "levels": [
+    { "level": 2, "title": "Settling in", "beans": 100, "item": "living_clock" },
+    { "level": 3, "title": "Unpacking", "beans": 120 },
+    { "level": 4, "title": "Making it cosy", "beans": 140, "item": "bedroom_catbed" },
+    { "level": 5, "title": "Regular", "beans": 160 },
+    { "level": 6, "title": "Green fingers", "beans": 180, "item": "garden_wateringcan" },
+    { "level": 7, "title": "Home-maker", "beans": 200 },
+    { "level": 8, "title": "Old hand", "beans": 220, "item": "kitchen_radio" },
+    { "level": 9, "title": "Bookish", "beans": 240 },
+    { "level": 10, "title": "Proper home", "beans": 300, "item": "study_officechair" },
+    { "level": 11, "title": "Snug", "beans": 300 },
+    { "level": 12, "title": "Top floor", "beans": 320, "item": "attic_boxes" },
+    { "level": 13, "title": "Curator", "beans": 340 },
+    { "level": 14, "title": "Cat whisperer", "beans": 360 },
+    { "level": 15, "title": "Keeper of the house", "beans": 400, "item": "garden_birdfeeder" },
+    { "level": 16, "title": "Beloved", "beans": 400 },
+    { "level": 17, "title": "Fixture", "beans": 420 },
+    { "level": 18, "title": "Family", "beans": 440 },
+    { "level": 19, "title": "Inseparable", "beans": 460 },
+    { "level": 20, "title": "Home, entirely", "beans": 600, "item": "attic_trunk" }
+  ],
+  "beyond": { "title": "Home, entirely", "beans": 500 }
+}

@@ -47,13 +47,13 @@ struct OfferCard: View {
                 offer(
                     art: "ui/shop/shop_starter.png",
                     title: "Starter Pack",
-                    detail: "A furniture set, an outfit and 500 Beans. Once only.",
+                    detail: "\(Tuning.Beans.starterPack.formatted()) Beans, the knitted beanie and an armchair. Once only.",
                     price: prices[StoreCatalog.starter]
                 )
                 offer(
                     art: "ui/shop/shop_club.png",
                     title: "Cat Club",
-                    detail: "A second cat, +20% Beans and every season pass.",
+                    detail: "+20% Beans, rooms for half the Beans and every season's paid track.",
                     price: prices[StoreCatalog.clubYearly].map { "\(StoreCatalog.yearlyTrialDays) days free, then \($0) a year" }
                 )
             }
@@ -145,7 +145,7 @@ struct RefundView: View {
         }
     }
 
-    /// "housecat.outfit.raincoat" as "Outfit: raincoat".
+    /// "housecat.beans.jar" as "Beans: jar", "housecat.room.cosy_study" as "Room: cosy study".
     static func name(_ productID: String) -> String {
         let parts = productID.split(separator: ".").dropFirst()
         guard let kind = parts.first else { return productID }

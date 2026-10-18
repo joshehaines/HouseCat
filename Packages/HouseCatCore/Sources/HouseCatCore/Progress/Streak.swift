@@ -10,6 +10,9 @@ public struct StreakState: Codable, Equatable, Sendable {
     public private(set) var graceDays: [GameDay] = []
     /// Milestones (in days) ever reached; each pays once.
     public private(set) var milestonesReached: [Int] = []
+    /// The run the last miss ended, and the missed day, while it can still be mended (StreakRepair).
+    public private(set) var brokenLength = 0
+    public private(set) var brokenOn: GameDay?
 
     public init() {}
 
@@ -47,8 +50,33 @@ public struct StreakState: Codable, Equatable, Sendable {
             graceDays.removeAll { $0 < windowStart }
             return .graced
         }
+        brokenLength = current
+        brokenOn = day
         current = 0
         return .lost
+    }
+
+    /// Puts the broken run back, joined to the days since. Returns milestones newly reached.
+    public mutating func repair() -> [Int] {
+        guard brokenLength > 0 else { return [] }
+        current += brokenLength
+        longest = max(longest, current)
+        brokenLength = 0
+        brokenOn = nil
+        var reached: [Int] = []
+        for milestone in Tuning.Streak.milestoneDays where current >= milestone && !milestonesReached.contains(milestone) {
+            milestonesReached.append(milestone)
+            reached.append(milestone)
+        }
+        return reached
+    }
+
+    /// Past its window, a broken run is let go.
+    mutating func forgetBreak(before day: GameDay) {
+        if let brokenOn, brokenOn.distance(to: day) > Tuning.Streak.repairWindowDays {
+            self.brokenOn = nil
+            brokenLength = 0
+        }
     }
 
     /// Beans paid for a milestone.

@@ -18,6 +18,10 @@ public struct ContentBundle: Sendable {
     public var intro: IntroFile
     /// Launch events: the Housewarming gift track and the Housewarming pack's sale.
     public var events: EventsFile
+    /// Room looks sold for money.
+    public var bundles: BundlesFile
+    /// What each level gives.
+    public var levels: LevelsFile
 
     /// Loads every content file from a directory (the app bundle's `Content`).
     public static func load(from directory: URL) throws -> ContentBundle {
@@ -40,7 +44,9 @@ public struct ContentBundle: Sendable {
             names: read("names"),
             weather: read("weather"),
             intro: read("intro"),
-            events: read("events")
+            events: read("events"),
+            bundles: read("bundles"),
+            levels: read("levels")
         )
     }
 
@@ -54,6 +60,8 @@ public struct ContentBundle: Sendable {
             seasons: seasons.seasons.map { try $0.definition() },
             paidItems: Set(catalogue.items.filter { [.set, .housewarming, .founders].contains($0.pool) }.map(\.id)),
             events: events.definitions(launch: GameDay(iso: seasons.seasons.first?.startAt ?? "") ?? GameDay(index: 0)),
+            bundles: Dictionary(uniqueKeysWithValues: bundles.bundles.map { ($0.id, $0) }),
+            levels: levels,
             shapes: Dictionary(uniqueKeysWithValues: catalogue.items.map {
                 ($0.id, RulesContext.Shape(width: $0.footprint.w, depth: $0.footprint.d, onWall: $0.layer == .wall, decal: $0.decal))
             })

@@ -18,6 +18,10 @@ public struct RulesContext: Sendable {
     public var shapes: [String: Shape]
     /// Launch events with their real dates (events.json).
     public var events: [EventDefinition]
+    /// Room looks, by id (bundles.json).
+    public var bundles: [String: BundlesFile.Bundle]
+    /// What each level gives (levels.json); nil in rule tests, which then pay Tuning.Beans.levelUp.
+    public var levels: LevelsFile?
 
     /// A piece's footprint and layer, as PlacementRules reads it.
     public struct Shape: Sendable, Equatable {
@@ -42,9 +46,13 @@ public struct RulesContext: Sendable {
         seasons: [SeasonDefinition] = [],
         paidItems: Set<String> = [],
         events: [EventDefinition] = [],
+        bundles: [String: BundlesFile.Bundle] = [:],
+        levels: LevelsFile? = nil,
         shapes: [String: Shape] = [:]
     ) {
         self.events = events
+        self.bundles = bundles
+        self.levels = levels
         self.gifts = gifts
         self.dailyObjectives = dailyObjectives
         self.weeklyObjectives = weeklyObjectives
@@ -148,6 +156,8 @@ public struct PlacedItem: Codable, Equatable, Sendable {
 public struct DayTally: Codable, Equatable, Sendable {
     public var day: GameDay
     public var visited = false
+    /// Who visited today (actor keys).
+    public var visitors: Set<String> = []
     public var arrived = false
     /// The previous day had no visit and was not paused: sulk, and no gift today.
     public var missedYesterday = false
@@ -185,6 +195,9 @@ public struct WeekTally: Codable, Equatable, Sendable {
     public var metrics: [ObjectiveMetric: Int] = [:]
     public var objectives: [String] = []
     public var completed: Set<String> = []
+    /// Days each owner visited this week (the co-owners' shared quest).
+    public var visitsByOwner: [String: Int] = [:]
+    public var questClaimed = false
 }
 
 /// Lifetime counters for the profile and achievements, all derived from events.
@@ -231,6 +244,12 @@ public struct HouseholdState: Codable, Equatable, Sendable {
     public internal(set) var tourRewarded = false
     /// The days of each event's gift track already claimed.
     public internal(set) var eventClaims: [String: Set<Int>] = [:]
+    /// Who looks after the cat (actor keys: the owner and any co-owners; sitters are not owners).
+    public internal(set) var owners: Set<String> = []
+    /// Room looks granted, by transaction (each purchase grants once).
+    public internal(set) var grantedBundles: [String: String] = [:]
+    /// Outfits given by one owner to the cat for the other to find: outfit, from whom, when.
+    public internal(set) var outfitGifts: [OutfitGift] = []
     /// Beans earned on closed days, Cat Club bonus included.
     public internal(set) var beansEarnedClosed = 0
     public internal(set) var beansSpent = 0
@@ -377,4 +396,11 @@ public struct HouseholdState: Codable, Equatable, Sendable {
         default: 0
         }
     }
+}
+
+/// An outfit one owner bought for the cat as a present to the other (opened at their next arrival).
+public struct OutfitGift: Codable, Equatable, Sendable {
+    public var outfitID: String
+    public var from: String
+    public var at: Date
 }

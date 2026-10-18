@@ -107,6 +107,14 @@ public struct GameEvent: Codable, Hashable, Sendable, Identifiable {
         case passTierClaimed(seasonID: String, track: PassTrack, tier: Int)
         /// A launch event's present for one day of its track.
         case eventRewardClaimed(eventID: String, day: Int)
+        /// A room look bought with money: its pieces and surfaces, once per transaction.
+        case bundleGranted(bundleID: String, transactionID: String)
+        /// An outfit bought with Beans; `gift` when one owner gives it to the cat for the other to find.
+        case outfitBought(outfitID: String, beans: Int, gift: Bool)
+        /// A broken streak mended within its window, by a day with a visit, a feed and a game.
+        case streakRepaired
+        /// The co-owners' shared quest for this week, its Beans paid.
+        case questClaimed
         /// Written once a day while a verified Cat Club entitlement is live, so
         /// that day's +20% Beans and paid-track claims re-derive the same way
         /// forever. It grants nothing by itself.

@@ -211,7 +211,8 @@ public extension RoomScene {
         }
     }
 
-    /// The footprint on the floor (a wall item's strip along its wall), green where it fits, red where not.
+    /// The footprint on the floor (a wall item's strip along its wall), green where it fits, red where not, with
+    /// a ring round the piece's base that breathes while it is held (Josh, 18 Oct; Tolan's placement ring).
     private func showFootprint(_ piece: PlacementRules.Piece, fits: Bool, item _: CatalogueFile.Item, in room: RoomNode) {
         footprintNode?.removeFromParent()
         let (eu, ev) = piece.extent
@@ -224,12 +225,66 @@ public extension RoomScene {
         path.closeSubpath()
         let shape = SKShapeNode(path: path)
         let c = fits ? Tuning.Decorate.fitColor : Tuning.Decorate.blockedColor
-        shape.fillColor = SKColor(red: c[0], green: c[1], blue: c[2], alpha: CGFloat(Tuning.Decorate.footprintAlpha))
-        shape.strokeColor = SKColor(red: c[0], green: c[1], blue: c[2], alpha: 1)
+        let colour = SKColor(red: c[0], green: c[1], blue: c[2], alpha: 1)
+        shape.fillColor = colour.withAlphaComponent(CGFloat(Tuning.Decorate.footprintAlpha))
+        shape.strokeColor = colour
         shape.lineWidth = 4
         shape.zPosition = RoomNode.Layer.decals + 2
+        // The ring: an ellipse on the floor round the footprint, drawn about its centre so it swells in place.
+        let centre = grid.floor(x + u / 2, y + v / 2)
+        let reach = 1 + CGFloat(Tuning.Decorate.ringReach)
+        let ringPath = CGMutablePath()
+        for step in 0 ... 48 {
+            let t = CGFloat(step) / 48 * 2 * .pi
+            let p = grid.floor(x + u / 2 + cos(t) * u / 2 * reach, y + v / 2 + sin(t) * v / 2 * reach)
+            let local = CGPoint(x: p.x - centre.x, y: p.y - centre.y)
+            if step == 0 {
+                ringPath.move(to: local)
+            } else {
+                ringPath.addLine(to: local)
+            }
+        }
+        let ring = SKShapeNode(path: ringPath)
+        ring.position = CGPoint(x: centre.x - shape.position.x, y: centre.y - shape.position.y)
+        ring.strokeColor = colour
+        ring.fillColor = .clear
+        ring.lineWidth = 5
+        ring.glowWidth = 2
+        let half = Tuning.Decorate.ringSeconds / 2
+        let swell = SKAction.group([.scale(to: CGFloat(Tuning.Decorate.ringPulse), duration: half), .fadeAlpha(to: 0.55, duration: half)])
+        let settle = SKAction.group([.scale(to: 1, duration: half), .fadeAlpha(to: 1, duration: half)])
+        swell.timingMode = .easeInEaseOut
+        settle.timingMode = .easeInEaseOut
+        ring.run(.repeatForever(.sequence([swell, settle])), withKey: "pulse")
+        shape.addChild(ring)
         room.addChild(shape)
         footprintNode = shape
+    }
+
+    /// A room look tried in the room: its pieces where they would go, see-through, until cleared (the shop's
+    /// "Try it in your room"). Nothing is recorded.
+    func showPreview(_ placements: [RoomModel.Placement]) {
+        clearPreview()
+        guard let room = activeRoom else { return }
+        for placement in placements {
+            guard let node = room.sprite(for: placement) else { continue }
+            node.alpha = 0
+            node.name = "preview"
+            room.addChild(node)
+            node.run(.fadeAlpha(to: CGFloat(Tuning.Decorate.previewAlpha), duration: 0.35))
+            previewNodes.append(node)
+        }
+    }
+
+    func clearPreview() {
+        for node in previewNodes {
+            node.run(.sequence([.fadeOut(withDuration: 0.2), .removeFromParent()]))
+        }
+        previewNodes = []
+    }
+
+    var isPreviewing: Bool {
+        !previewNodes.isEmpty
     }
 
     private func flash(fits: Bool, piece: PlacementRules.Piece, item: CatalogueFile.Item, in room: RoomNode) {

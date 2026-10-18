@@ -11,6 +11,9 @@ public final class StoreKitEntitlementService: EntitlementService {
     public let catalog: StoreCatalog
     private let cache: EntitlementCache
     @ObservationIgnored private var updates: Task<Void, Never>?
+    @ObservationIgnored public var onGrant: (@MainActor (StoreGrant) -> Void)? {
+        didSet { deliverUnfinished() }
+    }
 
     public init(catalog: StoreCatalog, cache: EntitlementCache) {
         self.catalog = catalog
@@ -20,9 +23,34 @@ public final class StoreKitEntitlementService: EntitlementService {
         updates = Task { [weak self] in
             for await result in Transaction.updates {
                 if case let .verified(transaction) = result {
-                    await transaction.finish()
+                    await self?.deliver(transaction)
                 }
                 await self?.refresh()
+            }
+        }
+    }
+
+    /// Hands over what a verified transaction gives, then finishes it (a pack is finished only once its Beans
+    /// are in the save, so a crash in between delivers it again next launch).
+    private func deliver(_ transaction: Transaction) async {
+        if let product = catalog.product(transaction.productID), product.beans != nil || product.kind == .nonConsumable,
+           transaction.revocationDate == nil, let onGrant
+        {
+            onGrant(StoreGrant(productID: transaction.productID, transactionID: String(transaction.id)))
+        } else if onGrant == nil, catalog.product(transaction.productID)?.kind == .consumable {
+            return // nobody to give the Beans to yet: left unfinished for deliverUnfinished
+        }
+        await transaction.finish()
+    }
+
+    /// Bean packs bought while the app was closed, or not yet handed over.
+    private func deliverUnfinished() {
+        guard onGrant != nil else { return }
+        Task {
+            for await result in Transaction.unfinished {
+                if case let .verified(transaction) = result {
+                    await deliver(transaction)
+                }
             }
         }
     }
@@ -41,6 +69,12 @@ public final class StoreKitEntitlementService: EntitlementService {
         let derived = EntitlementMapper.entitlements(from: records, catalog: catalog, now: Date())
         entitlements = derived
         cache.save(derived)
+        // Room looks and the starter: their pieces and Beans reach the save on any device (the save dedupes).
+        for record in records where record.isVerified && !record.isRevoked {
+            if let product = catalog.product(record.productID), product.kind == .nonConsumable {
+                onGrant?(StoreGrant(productID: record.productID, transactionID: record.transactionID))
+            }
+        }
     }
 
     static func record(_ result: VerificationResult<Transaction>) -> PurchaseRecord {
@@ -79,7 +113,7 @@ public final class StoreKitEntitlementService: EntitlementService {
         switch try await product.purchase() {
         case let .success(verification):
             guard case let .verified(transaction) = verification else { throw StoreError.unverified }
-            await transaction.finish()
+            await deliver(transaction)
             await refresh()
             return .purchased(productID: productID, transactionID: String(transaction.id))
         case .pending:

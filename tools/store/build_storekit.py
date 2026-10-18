@@ -2,11 +2,11 @@
 """Builds Store/HouseCat.storekit, the local StoreKit configuration for the
 simulator and the StoreKit tests, from the content files.
 
-It mirrors StoreCatalog.swift (Packages/HouseCatStore): every launch product
-in SPEC.md "Monetisation and the shop" with the right type, the Cat Club
+It mirrors StoreCatalog.swift (Packages/HouseCatStore): the three kinds of
+product (Josh, 18 Oct): consumable Bean packs and the once-only starter, a
+non-consumable per room look (Content/bundles.json), and the Cat Club
 subscription group with the 7-day free trial as an introductory offer on the
-yearly plan, non-renewing season passes and consumable gifts. No rare looks.
-A test checks the two agree.
+yearly plan. A test checks the two agree.
 
 Run from the repo root: python3 -I tools/store/build_storekit.py
 """
@@ -44,49 +44,23 @@ def product(product_id: str, kind: str, price: str, name: str, description: str,
 
 
 def main() -> None:
-    outfits = json.loads((CONTENT / "outfits.json").read_text())["outfits"]
-    catalogue = json.loads((CONTENT / "catalogue.json").read_text())
-    seasons = json.loads((CONTENT / "seasons.json").read_text())["seasons"]
-    sets = catalogue["sets"]
+    bundles = json.loads((CONTENT / "bundles.json").read_text())["bundles"]
+    # The Bean packs and the starter offer: keep in step with StoreCatalog.beanPacks and Tuning.Beans.
+    packs = [("housecat.beans.handful", 500, "0.99", "A handful of Beans"), ("housecat.beans.pouch", 1200, "1.99", "A pouch of Beans"),
+             ("housecat.beans.jar", 2600, "3.99", "A jar of Beans"), ("housecat.beans.sack", 7000, "9.99", "A sack of Beans"),
+             ("housecat.beans.barrel", 15000, "19.99", "A barrel of Beans")]
 
-    products = []
-    for outfit in outfits:
-        if outfit["pool"] == "paid":
-            products.append(product(f"housecat.outfit.{outfit['id']}", "NonConsumable", "0.99", outfit["name"],
-                                    f"The {outfit['name'].lower()}, for any cat, kept forever."))
-    for s in sets:
-        products.append(product(f"housecat.set.{s['id']}", "NonConsumable", "2.99", s["name"],
-                                f"The {s['name']} set: seven pieces, a wallpaper and a floor."))
-        products.append(product(f"housecat.bundle.{s['id']}", "NonConsumable", "4.99", f"{s['name']} Bundle",
-                                f"The {s['name']} set, its outfit and {s['bundleBeans']} Beans."))
-    for slot in (2, 3, 4):
-        products.append(product(f"housecat.cat.slot{slot}", "NonConsumable", "4.99", "Adopt a Cat",
-                                "Another cat for the house, built your way, with its own personality."))
-    products += [
-        product("housecat.starter", "NonConsumable", "1.99", "Starter Pack", "An outfit, a furniture set and 500 Beans. Once only."),
-        product("housecat.season.housewarming", "NonConsumable", "4.99", "Housewarming Pack",
-                "A grand fireplace, a hi-fi, string lights, a welcome mat and more, with 300 Beans."),
-        product("housecat.lifetime", "NonConsumable", "39.99", "Forever Home", "Everything in Cat Club, forever."),
-        product("housecat.founders", "NonConsumable", "29.99", "Founders' Pack",
-                "A numbered plaque for the house, an exclusive outfit and Cat Club forever."),
-        product("housecat.gift.club.yearly", "Consumable", "19.99", "Gift: Cat Club Yearly", "A year of Cat Club for a friend."),
-        product("housecat.gift.cat", "Consumable", "4.99", "Gift: Adopt a Cat", "Another cat for a friend's house."),
-    ]
-    for s in sets:
-        products.append(product(f"housecat.gift.set.{s['id']}", "Consumable", "2.99", f"Gift: {s['name']}",
-                                f"The {s['name']} set for a friend."))
-    products.append(product("housecat.gift.pass", "Consumable", "4.99", "Gift: Season Pass", "This season's paid track for a friend."))
-
-    passes = [
-        product(f"housecat.pass.{season['id']}", "NonRenewingSubscription", "4.99", f"{season['name']} Pass",
-                f"The {season['name']} paid track, {season['startAt']} to {season['endAt']}. Everything earned is kept.")
-        for season in seasons
-    ]
+    products = [product(pid, "Consumable", price, name, f"{beans:,} Beans for furniture, outfits, rooms and presents.")
+                for pid, beans, price, name in packs]
+    products.append(product("housecat.starter", "NonConsumable", "1.99", "Starter Beans", "2,000 Beans to get you going. Once only."))
+    for b in bundles:
+        products.append(product(b["sku"], "NonConsumable", b["price"], b["name"], b["blurb"][:55]))
+    passes = []
 
     group_id = internal_id("housecat.club")
     def subscription(product_id: str, price: str, name: str, period: str, offer: dict | None) -> dict:
         entry = product(product_id, "RecurringSubscription", price, name,
-                        "Monthly outfit, an extra cat, +20% Beans, rooms at half the Beans and every season pass.", family=True)
+                        "+20% Beans, rooms for half the Beans, free moves and every season's paid track.", family=True)
         entry.update({
             "adHocOffers": [],
             "codeOffers": [],

@@ -1,0 +1,1720 @@
+{
+ "note": "Cities the world map names when zoomed in, and where a pin counts as the city biome (within Tuning.World.cityRadiusKm, or bigCityRadiusKm for big ones). Edit freely.",
+ "cities": [
+  {
+   "name": "London",
+   "country": "United Kingdom",
+   "latitude": 51.507,
+   "longitude": -0.128,
+   "big": true
+  },
+  {
+   "name": "Manchester",
+   "country": "United Kingdom",
+   "latitude": 53.481,
+   "longitude": -2.243,
+   "big": false
+  },
+  {
+   "name": "Birmingham",
+   "country": "United Kingdom",
+   "latitude": 52.486,
+   "longitude": -1.89,
+   "big": false
+  },
+  {
+   "name": "Glasgow",
+   "country": "United Kingdom",
+   "latitude": 55.864,
+   "longitude": -4.252,
+   "big": false
+  },
+  {
+   "name": "Edinburgh",
+   "country": "United Kingdom",
+   "latitude": 55.953,
+   "longitude": -3.189,
+   "big": false
+  },
+  {
+   "name": "Leeds",
+   "country": "United Kingdom",
+   "latitude": 53.801,
+   "longitude": -1.549,
+   "big": false
+  },
+  {
+   "name": "Liverpool",
+   "country": "United Kingdom",
+   "latitude": 53.408,
+   "longitude": -2.991,
+   "big": false
+  },
+  {
+   "name": "Bristol",
+   "country": "United Kingdom",
+   "latitude": 51.454,
+   "longitude": -2.588,
+   "big": false
+  },
+  {
+   "name": "Newcastle",
+   "country": "United Kingdom",
+   "latitude": 54.978,
+   "longitude": -1.618,
+   "big": false
+  },
+  {
+   "name": "Cardiff",
+   "country": "United Kingdom",
+   "latitude": 51.481,
+   "longitude": -3.179,
+   "big": false
+  },
+  {
+   "name": "Belfast",
+   "country": "United Kingdom",
+   "latitude": 54.597,
+   "longitude": -5.93,
+   "big": false
+  },
+  {
+   "name": "Sheffield",
+   "country": "United Kingdom",
+   "latitude": 53.381,
+   "longitude": -1.47,
+   "big": false
+  },
+  {
+   "name": "Nottingham",
+   "country": "United Kingdom",
+   "latitude": 52.954,
+   "longitude": -1.158,
+   "big": false
+  },
+  {
+   "name": "Brighton",
+   "country": "United Kingdom",
+   "latitude": 50.822,
+   "longitude": -0.137,
+   "big": false
+  },
+  {
+   "name": "Oxford",
+   "country": "United Kingdom",
+   "latitude": 51.752,
+   "longitude": -1.258,
+   "big": false
+  },
+  {
+   "name": "Cambridge",
+   "country": "United Kingdom",
+   "latitude": 52.205,
+   "longitude": 0.119,
+   "big": false
+  },
+  {
+   "name": "Dublin",
+   "country": "Ireland",
+   "latitude": 53.35,
+   "longitude": -6.26,
+   "big": false
+  },
+  {
+   "name": "Cork",
+   "country": "Ireland",
+   "latitude": 51.898,
+   "longitude": -8.471,
+   "big": false
+  },
+  {
+   "name": "Paris",
+   "country": "France",
+   "latitude": 48.857,
+   "longitude": 2.352,
+   "big": true
+  },
+  {
+   "name": "Lyon",
+   "country": "France",
+   "latitude": 45.764,
+   "longitude": 4.836,
+   "big": false
+  },
+  {
+   "name": "Marseille",
+   "country": "France",
+   "latitude": 43.296,
+   "longitude": 5.37,
+   "big": false
+  },
+  {
+   "name": "Bordeaux",
+   "country": "France",
+   "latitude": 44.838,
+   "longitude": -0.579,
+   "big": false
+  },
+  {
+   "name": "Nice",
+   "country": "France",
+   "latitude": 43.71,
+   "longitude": 7.262,
+   "big": false
+  },
+  {
+   "name": "Toulouse",
+   "country": "France",
+   "latitude": 43.605,
+   "longitude": 1.444,
+   "big": false
+  },
+  {
+   "name": "Brussels",
+   "country": "Belgium",
+   "latitude": 50.85,
+   "longitude": 4.352,
+   "big": false
+  },
+  {
+   "name": "Antwerp",
+   "country": "Belgium",
+   "latitude": 51.219,
+   "longitude": 4.402,
+   "big": false
+  },
+  {
+   "name": "Amsterdam",
+   "country": "Netherlands",
+   "latitude": 52.368,
+   "longitude": 4.904,
+   "big": false
+  },
+  {
+   "name": "Rotterdam",
+   "country": "Netherlands",
+   "latitude": 51.924,
+   "longitude": 4.478,
+   "big": false
+  },
+  {
+   "name": "The Hague",
+   "country": "Netherlands",
+   "latitude": 52.07,
+   "longitude": 4.3,
+   "big": false
+  },
+  {
+   "name": "Luxembourg",
+   "country": "Luxembourg",
+   "latitude": 49.612,
+   "longitude": 6.13,
+   "big": false
+  },
+  {
+   "name": "Berlin",
+   "country": "Germany",
+   "latitude": 52.52,
+   "longitude": 13.405,
+   "big": true
+  },
+  {
+   "name": "Hamburg",
+   "country": "Germany",
+   "latitude": 53.551,
+   "longitude": 9.994,
+   "big": false
+  },
+  {
+   "name": "Munich",
+   "country": "Germany",
+   "latitude": 48.135,
+   "longitude": 11.582,
+   "big": false
+  },
+  {
+   "name": "Cologne",
+   "country": "Germany",
+   "latitude": 50.938,
+   "longitude": 6.96,
+   "big": false
+  },
+  {
+   "name": "Frankfurt",
+   "country": "Germany",
+   "latitude": 50.11,
+   "longitude": 8.682,
+   "big": false
+  },
+  {
+   "name": "Stuttgart",
+   "country": "Germany",
+   "latitude": 48.776,
+   "longitude": 9.183,
+   "big": false
+  },
+  {
+   "name": "D\u00fcsseldorf",
+   "country": "Germany",
+   "latitude": 51.228,
+   "longitude": 6.774,
+   "big": false
+  },
+  {
+   "name": "Leipzig",
+   "country": "Germany",
+   "latitude": 51.34,
+   "longitude": 12.375,
+   "big": false
+  },
+  {
+   "name": "Dresden",
+   "country": "Germany",
+   "latitude": 51.05,
+   "longitude": 13.738,
+   "big": false
+  },
+  {
+   "name": "Vienna",
+   "country": "Austria",
+   "latitude": 48.208,
+   "longitude": 16.373,
+   "big": false
+  },
+  {
+   "name": "Zurich",
+   "country": "Switzerland",
+   "latitude": 47.377,
+   "longitude": 8.541,
+   "big": false
+  },
+  {
+   "name": "Geneva",
+   "country": "Switzerland",
+   "latitude": 46.204,
+   "longitude": 6.143,
+   "big": false
+  },
+  {
+   "name": "Copenhagen",
+   "country": "Denmark",
+   "latitude": 55.676,
+   "longitude": 12.568,
+   "big": false
+  },
+  {
+   "name": "Stockholm",
+   "country": "Sweden",
+   "latitude": 59.329,
+   "longitude": 18.069,
+   "big": false
+  },
+  {
+   "name": "Gothenburg",
+   "country": "Sweden",
+   "latitude": 57.709,
+   "longitude": 11.975,
+   "big": false
+  },
+  {
+   "name": "Oslo",
+   "country": "Norway",
+   "latitude": 59.914,
+   "longitude": 10.752,
+   "big": false
+  },
+  {
+   "name": "Bergen",
+   "country": "Norway",
+   "latitude": 60.391,
+   "longitude": 5.322,
+   "big": false
+  },
+  {
+   "name": "Helsinki",
+   "country": "Finland",
+   "latitude": 60.17,
+   "longitude": 24.938,
+   "big": false
+  },
+  {
+   "name": "Reykjavik",
+   "country": "Iceland",
+   "latitude": 64.147,
+   "longitude": -21.942,
+   "big": false
+  },
+  {
+   "name": "Madrid",
+   "country": "Spain",
+   "latitude": 40.417,
+   "longitude": -3.704,
+   "big": true
+  },
+  {
+   "name": "Barcelona",
+   "country": "Spain",
+   "latitude": 41.385,
+   "longitude": 2.173,
+   "big": true
+  },
+  {
+   "name": "Valencia",
+   "country": "Spain",
+   "latitude": 39.47,
+   "longitude": -0.376,
+   "big": false
+  },
+  {
+   "name": "Seville",
+   "country": "Spain",
+   "latitude": 37.389,
+   "longitude": -5.984,
+   "big": false
+  },
+  {
+   "name": "Bilbao",
+   "country": "Spain",
+   "latitude": 43.263,
+   "longitude": -2.935,
+   "big": false
+  },
+  {
+   "name": "M\u00e1laga",
+   "country": "Spain",
+   "latitude": 36.721,
+   "longitude": -4.421,
+   "big": false
+  },
+  {
+   "name": "Lisbon",
+   "country": "Portugal",
+   "latitude": 38.722,
+   "longitude": -9.139,
+   "big": false
+  },
+  {
+   "name": "Porto",
+   "country": "Portugal",
+   "latitude": 41.158,
+   "longitude": -8.629,
+   "big": false
+  },
+  {
+   "name": "Rome",
+   "country": "Italy",
+   "latitude": 41.903,
+   "longitude": 12.496,
+   "big": true
+  },
+  {
+   "name": "Milan",
+   "country": "Italy",
+   "latitude": 45.464,
+   "longitude": 9.19,
+   "big": true
+  },
+  {
+   "name": "Naples",
+   "country": "Italy",
+   "latitude": 40.852,
+   "longitude": 14.268,
+   "big": false
+  },
+  {
+   "name": "Turin",
+   "country": "Italy",
+   "latitude": 45.07,
+   "longitude": 7.687,
+   "big": false
+  },
+  {
+   "name": "Florence",
+   "country": "Italy",
+   "latitude": 43.77,
+   "longitude": 11.255,
+   "big": false
+  },
+  {
+   "name": "Venice",
+   "country": "Italy",
+   "latitude": 45.441,
+   "longitude": 12.316,
+   "big": false
+  },
+  {
+   "name": "Bologna",
+   "country": "Italy",
+   "latitude": 44.495,
+   "longitude": 11.343,
+   "big": false
+  },
+  {
+   "name": "Palermo",
+   "country": "Italy",
+   "latitude": 38.116,
+   "longitude": 13.361,
+   "big": false
+  },
+  {
+   "name": "Athens",
+   "country": "Greece",
+   "latitude": 37.984,
+   "longitude": 23.728,
+   "big": false
+  },
+  {
+   "name": "Thessaloniki",
+   "country": "Greece",
+   "latitude": 40.64,
+   "longitude": 22.944,
+   "big": false
+  },
+  {
+   "name": "Istanbul",
+   "country": "Turkey",
+   "latitude": 41.008,
+   "longitude": 28.978,
+   "big": true
+  },
+  {
+   "name": "Ankara",
+   "country": "Turkey",
+   "latitude": 39.934,
+   "longitude": 32.86,
+   "big": false
+  },
+  {
+   "name": "Izmir",
+   "country": "Turkey",
+   "latitude": 38.424,
+   "longitude": 27.143,
+   "big": false
+  },
+  {
+   "name": "Warsaw",
+   "country": "Poland",
+   "latitude": 52.23,
+   "longitude": 21.012,
+   "big": false
+  },
+  {
+   "name": "Krak\u00f3w",
+   "country": "Poland",
+   "latitude": 50.065,
+   "longitude": 19.945,
+   "big": false
+  },
+  {
+   "name": "Prague",
+   "country": "Czechia",
+   "latitude": 50.076,
+   "longitude": 14.438,
+   "big": false
+  },
+  {
+   "name": "Budapest",
+   "country": "Hungary",
+   "latitude": 47.498,
+   "longitude": 19.04,
+   "big": false
+  },
+  {
+   "name": "Bucharest",
+   "country": "Romania",
+   "latitude": 44.427,
+   "longitude": 26.103,
+   "big": false
+  },
+  {
+   "name": "Sofia",
+   "country": "Bulgaria",
+   "latitude": 42.698,
+   "longitude": 23.322,
+   "big": false
+  },
+  {
+   "name": "Belgrade",
+   "country": "Serbia",
+   "latitude": 44.787,
+   "longitude": 20.457,
+   "big": false
+  },
+  {
+   "name": "Zagreb",
+   "country": "Croatia",
+   "latitude": 45.815,
+   "longitude": 15.982,
+   "big": false
+  },
+  {
+   "name": "Kyiv",
+   "country": "Ukraine",
+   "latitude": 50.45,
+   "longitude": 30.524,
+   "big": true
+  },
+  {
+   "name": "Moscow",
+   "country": "Russia",
+   "latitude": 55.756,
+   "longitude": 37.617,
+   "big": true
+  },
+  {
+   "name": "Saint Petersburg",
+   "country": "Russia",
+   "latitude": 59.934,
+   "longitude": 30.335,
+   "big": true
+  },
+  {
+   "name": "Novosibirsk",
+   "country": "Russia",
+   "latitude": 55.008,
+   "longitude": 82.935,
+   "big": false
+  },
+  {
+   "name": "Riga",
+   "country": "Latvia",
+   "latitude": 56.95,
+   "longitude": 24.105,
+   "big": false
+  },
+  {
+   "name": "Vilnius",
+   "country": "Lithuania",
+   "latitude": 54.687,
+   "longitude": 25.28,
+   "big": false
+  },
+  {
+   "name": "Tallinn",
+   "country": "Estonia",
+   "latitude": 59.437,
+   "longitude": 24.754,
+   "big": false
+  },
+  {
+   "name": "New York",
+   "country": "United States",
+   "latitude": 40.713,
+   "longitude": -74.006,
+   "big": true
+  },
+  {
+   "name": "Los Angeles",
+   "country": "United States",
+   "latitude": 34.052,
+   "longitude": -118.244,
+   "big": true
+  },
+  {
+   "name": "Chicago",
+   "country": "United States",
+   "latitude": 41.878,
+   "longitude": -87.63,
+   "big": true
+  },
+  {
+   "name": "Houston",
+   "country": "United States",
+   "latitude": 29.76,
+   "longitude": -95.37,
+   "big": true
+  },
+  {
+   "name": "Phoenix",
+   "country": "United States",
+   "latitude": 33.448,
+   "longitude": -112.074,
+   "big": false
+  },
+  {
+   "name": "Philadelphia",
+   "country": "United States",
+   "latitude": 39.953,
+   "longitude": -75.165,
+   "big": false
+  },
+  {
+   "name": "San Antonio",
+   "country": "United States",
+   "latitude": 29.425,
+   "longitude": -98.494,
+   "big": false
+  },
+  {
+   "name": "San Diego",
+   "country": "United States",
+   "latitude": 32.716,
+   "longitude": -117.161,
+   "big": false
+  },
+  {
+   "name": "Dallas",
+   "country": "United States",
+   "latitude": 32.777,
+   "longitude": -96.797,
+   "big": true
+  },
+  {
+   "name": "San Francisco",
+   "country": "United States",
+   "latitude": 37.775,
+   "longitude": -122.419,
+   "big": true
+  },
+  {
+   "name": "Seattle",
+   "country": "United States",
+   "latitude": 47.606,
+   "longitude": -122.332,
+   "big": false
+  },
+  {
+   "name": "Boston",
+   "country": "United States",
+   "latitude": 42.36,
+   "longitude": -71.059,
+   "big": false
+  },
+  {
+   "name": "Washington",
+   "country": "United States",
+   "latitude": 38.907,
+   "longitude": -77.037,
+   "big": true
+  },
+  {
+   "name": "Miami",
+   "country": "United States",
+   "latitude": 25.762,
+   "longitude": -80.192,
+   "big": true
+  },
+  {
+   "name": "Atlanta",
+   "country": "United States",
+   "latitude": 33.749,
+   "longitude": -84.388,
+   "big": true
+  },
+  {
+   "name": "Denver",
+   "country": "United States",
+   "latitude": 39.739,
+   "longitude": -104.99,
+   "big": false
+  },
+  {
+   "name": "Las Vegas",
+   "country": "United States",
+   "latitude": 36.17,
+   "longitude": -115.14,
+   "big": false
+  },
+  {
+   "name": "Portland",
+   "country": "United States",
+   "latitude": 45.515,
+   "longitude": -122.679,
+   "big": false
+  },
+  {
+   "name": "Austin",
+   "country": "United States",
+   "latitude": 30.267,
+   "longitude": -97.743,
+   "big": false
+  },
+  {
+   "name": "Nashville",
+   "country": "United States",
+   "latitude": 36.163,
+   "longitude": -86.781,
+   "big": false
+  },
+  {
+   "name": "New Orleans",
+   "country": "United States",
+   "latitude": 29.951,
+   "longitude": -90.072,
+   "big": false
+  },
+  {
+   "name": "Detroit",
+   "country": "United States",
+   "latitude": 42.331,
+   "longitude": -83.046,
+   "big": false
+  },
+  {
+   "name": "Minneapolis",
+   "country": "United States",
+   "latitude": 44.978,
+   "longitude": -93.265,
+   "big": false
+  },
+  {
+   "name": "Salt Lake City",
+   "country": "United States",
+   "latitude": 40.761,
+   "longitude": -111.891,
+   "big": false
+  },
+  {
+   "name": "Honolulu",
+   "country": "United States",
+   "latitude": 21.307,
+   "longitude": -157.858,
+   "big": false
+  },
+  {
+   "name": "Anchorage",
+   "country": "United States",
+   "latitude": 61.218,
+   "longitude": -149.9,
+   "big": false
+  },
+  {
+   "name": "Toronto",
+   "country": "Canada",
+   "latitude": 43.653,
+   "longitude": -79.383,
+   "big": true
+  },
+  {
+   "name": "Montreal",
+   "country": "Canada",
+   "latitude": 45.502,
+   "longitude": -73.567,
+   "big": true
+  },
+  {
+   "name": "Vancouver",
+   "country": "Canada",
+   "latitude": 49.283,
+   "longitude": -123.121,
+   "big": false
+  },
+  {
+   "name": "Calgary",
+   "country": "Canada",
+   "latitude": 51.045,
+   "longitude": -114.072,
+   "big": false
+  },
+  {
+   "name": "Ottawa",
+   "country": "Canada",
+   "latitude": 45.421,
+   "longitude": -75.697,
+   "big": false
+  },
+  {
+   "name": "Edmonton",
+   "country": "Canada",
+   "latitude": 53.546,
+   "longitude": -113.494,
+   "big": false
+  },
+  {
+   "name": "Quebec City",
+   "country": "Canada",
+   "latitude": 46.814,
+   "longitude": -71.208,
+   "big": false
+  },
+  {
+   "name": "Halifax",
+   "country": "Canada",
+   "latitude": 44.649,
+   "longitude": -63.575,
+   "big": false
+  },
+  {
+   "name": "Mexico City",
+   "country": "Mexico",
+   "latitude": 19.433,
+   "longitude": -99.133,
+   "big": true
+  },
+  {
+   "name": "Guadalajara",
+   "country": "Mexico",
+   "latitude": 20.659,
+   "longitude": -103.35,
+   "big": false
+  },
+  {
+   "name": "Monterrey",
+   "country": "Mexico",
+   "latitude": 25.686,
+   "longitude": -100.316,
+   "big": false
+  },
+  {
+   "name": "Canc\u00fan",
+   "country": "Mexico",
+   "latitude": 21.162,
+   "longitude": -86.851,
+   "big": false
+  },
+  {
+   "name": "Havana",
+   "country": "Cuba",
+   "latitude": 23.113,
+   "longitude": -82.366,
+   "big": false
+  },
+  {
+   "name": "San Juan",
+   "country": "Puerto Rico",
+   "latitude": 18.466,
+   "longitude": -66.106,
+   "big": false
+  },
+  {
+   "name": "Panama City",
+   "country": "Panama",
+   "latitude": 8.983,
+   "longitude": -79.517,
+   "big": false
+  },
+  {
+   "name": "Bogot\u00e1",
+   "country": "Colombia",
+   "latitude": 4.711,
+   "longitude": -74.072,
+   "big": true
+  },
+  {
+   "name": "Medell\u00edn",
+   "country": "Colombia",
+   "latitude": 6.244,
+   "longitude": -75.581,
+   "big": false
+  },
+  {
+   "name": "Lima",
+   "country": "Peru",
+   "latitude": -12.046,
+   "longitude": -77.043,
+   "big": true
+  },
+  {
+   "name": "Quito",
+   "country": "Ecuador",
+   "latitude": -0.18,
+   "longitude": -78.468,
+   "big": false
+  },
+  {
+   "name": "Caracas",
+   "country": "Venezuela",
+   "latitude": 10.481,
+   "longitude": -66.904,
+   "big": false
+  },
+  {
+   "name": "Santiago",
+   "country": "Chile",
+   "latitude": -33.449,
+   "longitude": -70.669,
+   "big": true
+  },
+  {
+   "name": "Buenos Aires",
+   "country": "Argentina",
+   "latitude": -34.604,
+   "longitude": -58.382,
+   "big": true
+  },
+  {
+   "name": "C\u00f3rdoba",
+   "country": "Argentina",
+   "latitude": -31.42,
+   "longitude": -64.188,
+   "big": false
+  },
+  {
+   "name": "Montevideo",
+   "country": "Uruguay",
+   "latitude": -34.901,
+   "longitude": -56.165,
+   "big": false
+  },
+  {
+   "name": "S\u00e3o Paulo",
+   "country": "Brazil",
+   "latitude": -23.551,
+   "longitude": -46.633,
+   "big": true
+  },
+  {
+   "name": "Rio de Janeiro",
+   "country": "Brazil",
+   "latitude": -22.907,
+   "longitude": -43.173,
+   "big": true
+  },
+  {
+   "name": "Bras\u00edlia",
+   "country": "Brazil",
+   "latitude": -15.794,
+   "longitude": -47.882,
+   "big": false
+  },
+  {
+   "name": "Salvador",
+   "country": "Brazil",
+   "latitude": -12.978,
+   "longitude": -38.501,
+   "big": false
+  },
+  {
+   "name": "Recife",
+   "country": "Brazil",
+   "latitude": -8.048,
+   "longitude": -34.877,
+   "big": false
+  },
+  {
+   "name": "Manaus",
+   "country": "Brazil",
+   "latitude": -3.119,
+   "longitude": -60.022,
+   "big": false
+  },
+  {
+   "name": "Porto Alegre",
+   "country": "Brazil",
+   "latitude": -30.035,
+   "longitude": -51.218,
+   "big": false
+  },
+  {
+   "name": "La Paz",
+   "country": "Bolivia",
+   "latitude": -16.49,
+   "longitude": -68.119,
+   "big": false
+  },
+  {
+   "name": "Cairo",
+   "country": "Egypt",
+   "latitude": 30.044,
+   "longitude": 31.236,
+   "big": true
+  },
+  {
+   "name": "Alexandria",
+   "country": "Egypt",
+   "latitude": 31.2,
+   "longitude": 29.919,
+   "big": false
+  },
+  {
+   "name": "Casablanca",
+   "country": "Morocco",
+   "latitude": 33.573,
+   "longitude": -7.59,
+   "big": false
+  },
+  {
+   "name": "Marrakesh",
+   "country": "Morocco",
+   "latitude": 31.629,
+   "longitude": -7.981,
+   "big": false
+  },
+  {
+   "name": "Tunis",
+   "country": "Tunisia",
+   "latitude": 36.806,
+   "longitude": 10.182,
+   "big": false
+  },
+  {
+   "name": "Algiers",
+   "country": "Algeria",
+   "latitude": 36.754,
+   "longitude": 3.059,
+   "big": false
+  },
+  {
+   "name": "Lagos",
+   "country": "Nigeria",
+   "latitude": 6.524,
+   "longitude": 3.379,
+   "big": true
+  },
+  {
+   "name": "Abuja",
+   "country": "Nigeria",
+   "latitude": 9.077,
+   "longitude": 7.399,
+   "big": false
+  },
+  {
+   "name": "Accra",
+   "country": "Ghana",
+   "latitude": 5.604,
+   "longitude": -0.187,
+   "big": false
+  },
+  {
+   "name": "Dakar",
+   "country": "Senegal",
+   "latitude": 14.716,
+   "longitude": -17.467,
+   "big": false
+  },
+  {
+   "name": "Nairobi",
+   "country": "Kenya",
+   "latitude": -1.292,
+   "longitude": 36.822,
+   "big": true
+  },
+  {
+   "name": "Addis Ababa",
+   "country": "Ethiopia",
+   "latitude": 9.03,
+   "longitude": 38.74,
+   "big": true
+  },
+  {
+   "name": "Kampala",
+   "country": "Uganda",
+   "latitude": 0.348,
+   "longitude": 32.582,
+   "big": false
+  },
+  {
+   "name": "Dar es Salaam",
+   "country": "Tanzania",
+   "latitude": -6.792,
+   "longitude": 39.208,
+   "big": true
+  },
+  {
+   "name": "Kinshasa",
+   "country": "DR Congo",
+   "latitude": -4.441,
+   "longitude": 15.266,
+   "big": true
+  },
+  {
+   "name": "Luanda",
+   "country": "Angola",
+   "latitude": -8.839,
+   "longitude": 13.289,
+   "big": false
+  },
+  {
+   "name": "Johannesburg",
+   "country": "South Africa",
+   "latitude": -26.204,
+   "longitude": 28.047,
+   "big": true
+  },
+  {
+   "name": "Cape Town",
+   "country": "South Africa",
+   "latitude": -33.925,
+   "longitude": 18.424,
+   "big": false
+  },
+  {
+   "name": "Durban",
+   "country": "South Africa",
+   "latitude": -29.858,
+   "longitude": 31.022,
+   "big": false
+  },
+  {
+   "name": "Harare",
+   "country": "Zimbabwe",
+   "latitude": -17.825,
+   "longitude": 31.034,
+   "big": false
+  },
+  {
+   "name": "Antananarivo",
+   "country": "Madagascar",
+   "latitude": -18.879,
+   "longitude": 47.508,
+   "big": false
+  },
+  {
+   "name": "Dubai",
+   "country": "United Arab Emirates",
+   "latitude": 25.205,
+   "longitude": 55.271,
+   "big": true
+  },
+  {
+   "name": "Abu Dhabi",
+   "country": "United Arab Emirates",
+   "latitude": 24.454,
+   "longitude": 54.377,
+   "big": false
+  },
+  {
+   "name": "Doha",
+   "country": "Qatar",
+   "latitude": 25.286,
+   "longitude": 51.533,
+   "big": false
+  },
+  {
+   "name": "Riyadh",
+   "country": "Saudi Arabia",
+   "latitude": 24.713,
+   "longitude": 46.675,
+   "big": true
+  },
+  {
+   "name": "Jeddah",
+   "country": "Saudi Arabia",
+   "latitude": 21.486,
+   "longitude": 39.192,
+   "big": false
+  },
+  {
+   "name": "Tel Aviv",
+   "country": "Israel",
+   "latitude": 32.085,
+   "longitude": 34.782,
+   "big": false
+  },
+  {
+   "name": "Jerusalem",
+   "country": "Israel",
+   "latitude": 31.768,
+   "longitude": 35.214,
+   "big": false
+  },
+  {
+   "name": "Amman",
+   "country": "Jordan",
+   "latitude": 31.954,
+   "longitude": 35.911,
+   "big": false
+  },
+  {
+   "name": "Beirut",
+   "country": "Lebanon",
+   "latitude": 33.894,
+   "longitude": 35.502,
+   "big": false
+  },
+  {
+   "name": "Baghdad",
+   "country": "Iraq",
+   "latitude": 33.315,
+   "longitude": 44.366,
+   "big": true
+  },
+  {
+   "name": "Tehran",
+   "country": "Iran",
+   "latitude": 35.689,
+   "longitude": 51.389,
+   "big": true
+  },
+  {
+   "name": "Karachi",
+   "country": "Pakistan",
+   "latitude": 24.861,
+   "longitude": 67.01,
+   "big": true
+  },
+  {
+   "name": "Lahore",
+   "country": "Pakistan",
+   "latitude": 31.52,
+   "longitude": 74.359,
+   "big": true
+  },
+  {
+   "name": "Islamabad",
+   "country": "Pakistan",
+   "latitude": 33.684,
+   "longitude": 73.048,
+   "big": false
+  },
+  {
+   "name": "Delhi",
+   "country": "India",
+   "latitude": 28.614,
+   "longitude": 77.209,
+   "big": true
+  },
+  {
+   "name": "Mumbai",
+   "country": "India",
+   "latitude": 19.076,
+   "longitude": 72.878,
+   "big": true
+  },
+  {
+   "name": "Bengaluru",
+   "country": "India",
+   "latitude": 12.972,
+   "longitude": 77.595,
+   "big": true
+  },
+  {
+   "name": "Kolkata",
+   "country": "India",
+   "latitude": 22.573,
+   "longitude": 88.364,
+   "big": true
+  },
+  {
+   "name": "Chennai",
+   "country": "India",
+   "latitude": 13.083,
+   "longitude": 80.271,
+   "big": true
+  },
+  {
+   "name": "Hyderabad",
+   "country": "India",
+   "latitude": 17.385,
+   "longitude": 78.487,
+   "big": true
+  },
+  {
+   "name": "Pune",
+   "country": "India",
+   "latitude": 18.52,
+   "longitude": 73.857,
+   "big": false
+  },
+  {
+   "name": "Ahmedabad",
+   "country": "India",
+   "latitude": 23.023,
+   "longitude": 72.571,
+   "big": false
+  },
+  {
+   "name": "Jaipur",
+   "country": "India",
+   "latitude": 26.912,
+   "longitude": 75.787,
+   "big": false
+  },
+  {
+   "name": "Kathmandu",
+   "country": "Nepal",
+   "latitude": 27.717,
+   "longitude": 85.324,
+   "big": false
+  },
+  {
+   "name": "Dhaka",
+   "country": "Bangladesh",
+   "latitude": 23.81,
+   "longitude": 90.413,
+   "big": true
+  },
+  {
+   "name": "Colombo",
+   "country": "Sri Lanka",
+   "latitude": 6.927,
+   "longitude": 79.861,
+   "big": false
+  },
+  {
+   "name": "Bangkok",
+   "country": "Thailand",
+   "latitude": 13.756,
+   "longitude": 100.502,
+   "big": true
+  },
+  {
+   "name": "Chiang Mai",
+   "country": "Thailand",
+   "latitude": 18.788,
+   "longitude": 98.985,
+   "big": false
+  },
+  {
+   "name": "Hanoi",
+   "country": "Vietnam",
+   "latitude": 21.028,
+   "longitude": 105.854,
+   "big": true
+  },
+  {
+   "name": "Ho Chi Minh City",
+   "country": "Vietnam",
+   "latitude": 10.823,
+   "longitude": 106.63,
+   "big": true
+  },
+  {
+   "name": "Phnom Penh",
+   "country": "Cambodia",
+   "latitude": 11.556,
+   "longitude": 104.928,
+   "big": false
+  },
+  {
+   "name": "Yangon",
+   "country": "Myanmar",
+   "latitude": 16.841,
+   "longitude": 96.173,
+   "big": false
+  },
+  {
+   "name": "Kuala Lumpur",
+   "country": "Malaysia",
+   "latitude": 3.139,
+   "longitude": 101.687,
+   "big": true
+  },
+  {
+   "name": "Singapore",
+   "country": "Singapore",
+   "latitude": 1.352,
+   "longitude": 103.82,
+   "big": true
+  },
+  {
+   "name": "Jakarta",
+   "country": "Indonesia",
+   "latitude": -6.209,
+   "longitude": 106.846,
+   "big": true
+  },
+  {
+   "name": "Bali",
+   "country": "Indonesia",
+   "latitude": -8.65,
+   "longitude": 115.217,
+   "big": false
+  },
+  {
+   "name": "Surabaya",
+   "country": "Indonesia",
+   "latitude": -7.258,
+   "longitude": 112.752,
+   "big": false
+  },
+  {
+   "name": "Manila",
+   "country": "Philippines",
+   "latitude": 14.6,
+   "longitude": 120.984,
+   "big": true
+  },
+  {
+   "name": "Cebu",
+   "country": "Philippines",
+   "latitude": 10.316,
+   "longitude": 123.885,
+   "big": false
+  },
+  {
+   "name": "Hong Kong",
+   "country": "China",
+   "latitude": 22.32,
+   "longitude": 114.169,
+   "big": true
+  },
+  {
+   "name": "Shanghai",
+   "country": "China",
+   "latitude": 31.23,
+   "longitude": 121.474,
+   "big": true
+  },
+  {
+   "name": "Beijing",
+   "country": "China",
+   "latitude": 39.904,
+   "longitude": 116.407,
+   "big": true
+  },
+  {
+   "name": "Guangzhou",
+   "country": "China",
+   "latitude": 23.129,
+   "longitude": 113.264,
+   "big": true
+  },
+  {
+   "name": "Shenzhen",
+   "country": "China",
+   "latitude": 22.543,
+   "longitude": 114.058,
+   "big": true
+  },
+  {
+   "name": "Chengdu",
+   "country": "China",
+   "latitude": 30.573,
+   "longitude": 104.067,
+   "big": true
+  },
+  {
+   "name": "Chongqing",
+   "country": "China",
+   "latitude": 29.563,
+   "longitude": 106.551,
+   "big": true
+  },
+  {
+   "name": "Wuhan",
+   "country": "China",
+   "latitude": 30.593,
+   "longitude": 114.305,
+   "big": true
+  },
+  {
+   "name": "Xi'an",
+   "country": "China",
+   "latitude": 34.342,
+   "longitude": 108.94,
+   "big": true
+  },
+  {
+   "name": "Hangzhou",
+   "country": "China",
+   "latitude": 30.274,
+   "longitude": 120.155,
+   "big": true
+  },
+  {
+   "name": "Nanjing",
+   "country": "China",
+   "latitude": 32.06,
+   "longitude": 118.797,
+   "big": true
+  },
+  {
+   "name": "Tianjin",
+   "country": "China",
+   "latitude": 39.343,
+   "longitude": 117.362,
+   "big": true
+  },
+  {
+   "name": "Harbin",
+   "country": "China",
+   "latitude": 45.803,
+   "longitude": 126.535,
+   "big": false
+  },
+  {
+   "name": "Taipei",
+   "country": "Taiwan",
+   "latitude": 25.033,
+   "longitude": 121.565,
+   "big": true
+  },
+  {
+   "name": "Seoul",
+   "country": "South Korea",
+   "latitude": 37.567,
+   "longitude": 126.978,
+   "big": true
+  },
+  {
+   "name": "Busan",
+   "country": "South Korea",
+   "latitude": 35.18,
+   "longitude": 129.076,
+   "big": false
+  },
+  {
+   "name": "Tokyo",
+   "country": "Japan",
+   "latitude": 35.676,
+   "longitude": 139.65,
+   "big": true
+  },
+  {
+   "name": "Osaka",
+   "country": "Japan",
+   "latitude": 34.694,
+   "longitude": 135.502,
+   "big": true
+  },
+  {
+   "name": "Kyoto",
+   "country": "Japan",
+   "latitude": 35.012,
+   "longitude": 135.768,
+   "big": false
+  },
+  {
+   "name": "Yokohama",
+   "country": "Japan",
+   "latitude": 35.444,
+   "longitude": 139.638,
+   "big": false
+  },
+  {
+   "name": "Nagoya",
+   "country": "Japan",
+   "latitude": 35.181,
+   "longitude": 136.906,
+   "big": false
+  },
+  {
+   "name": "Sapporo",
+   "country": "Japan",
+   "latitude": 43.062,
+   "longitude": 141.354,
+   "big": false
+  },
+  {
+   "name": "Fukuoka",
+   "country": "Japan",
+   "latitude": 33.59,
+   "longitude": 130.402,
+   "big": false
+  },
+  {
+   "name": "Ulaanbaatar",
+   "country": "Mongolia",
+   "latitude": 47.886,
+   "longitude": 106.906,
+   "big": false
+  },
+  {
+   "name": "Almaty",
+   "country": "Kazakhstan",
+   "latitude": 43.222,
+   "longitude": 76.851,
+   "big": false
+  },
+  {
+   "name": "Tashkent",
+   "country": "Uzbekistan",
+   "latitude": 41.299,
+   "longitude": 69.24,
+   "big": false
+  },
+  {
+   "name": "Tbilisi",
+   "country": "Georgia",
+   "latitude": 41.716,
+   "longitude": 44.783,
+   "big": false
+  },
+  {
+   "name": "Baku",
+   "country": "Azerbaijan",
+   "latitude": 40.409,
+   "longitude": 49.867,
+   "big": false
+  },
+  {
+   "name": "Yerevan",
+   "country": "Armenia",
+   "latitude": 40.179,
+   "longitude": 44.499,
+   "big": false
+  },
+  {
+   "name": "Sydney",
+   "country": "Australia",
+   "latitude": -33.869,
+   "longitude": 151.209,
+   "big": true
+  },
+  {
+   "name": "Melbourne",
+   "country": "Australia",
+   "latitude": -37.814,
+   "longitude": 144.963,
+   "big": true
+  },
+  {
+   "name": "Brisbane",
+   "country": "Australia",
+   "latitude": -27.47,
+   "longitude": 153.026,
+   "big": false
+  },
+  {
+   "name": "Perth",
+   "country": "Australia",
+   "latitude": -31.95,
+   "longitude": 115.86,
+   "big": false
+  },
+  {
+   "name": "Adelaide",
+   "country": "Australia",
+   "latitude": -34.929,
+   "longitude": 138.601,
+   "big": false
+  },
+  {
+   "name": "Canberra",
+   "country": "Australia",
+   "latitude": -35.281,
+   "longitude": 149.13,
+   "big": false
+  },
+  {
+   "name": "Hobart",
+   "country": "Australia",
+   "latitude": -42.882,
+   "longitude": 147.327,
+   "big": false
+  },
+  {
+   "name": "Darwin",
+   "country": "Australia",
+   "latitude": -12.463,
+   "longitude": 130.842,
+   "big": false
+  },
+  {
+   "name": "Auckland",
+   "country": "New Zealand",
+   "latitude": -36.849,
+   "longitude": 174.763,
+   "big": false
+  },
+  {
+   "name": "Wellington",
+   "country": "New Zealand",
+   "latitude": -41.287,
+   "longitude": 174.776,
+   "big": false
+  },
+  {
+   "name": "Christchurch",
+   "country": "New Zealand",
+   "latitude": -43.532,
+   "longitude": 172.637,
+   "big": false
+  },
+  {
+   "name": "Queenstown",
+   "country": "New Zealand",
+   "latitude": -45.031,
+   "longitude": 168.663,
+   "big": false
+  },
+  {
+   "name": "Suva",
+   "country": "Fiji",
+   "latitude": -18.124,
+   "longitude": 178.45,
+   "big": false
+  }
+ ]
+}

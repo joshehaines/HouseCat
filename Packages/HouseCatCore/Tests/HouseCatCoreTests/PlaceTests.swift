@@ -41,7 +41,9 @@ private func cities() throws -> CitiesFile {
     let lisbon = HomePlace(name: "Lisbon", latitude: 38.722, longitude: -9.139, timeZoneID: "Europe/Lisbon", biome: .coast)
     let sydney = HomePlace(name: "Sydney", latitude: -33.869, longitude: 151.209, timeZoneID: "Australia/Sydney", biome: .city)
     #expect(fixture.state.home.place == nil)
+    #expect(fixture.state.moveCost == 0)
     fixture.add(.homePlaced(paris), day: 0)
+    #expect(fixture.state.moveCost == 0, "the first move is free")
     #expect(fixture.state.home.place == paris)
     // Moving needs a move first.
     fixture.add(.homePlaced(lisbon), day: 0)
@@ -50,6 +52,7 @@ private func cities() throws -> CitiesFile {
     fixture.add(.homePlaced(lisbon), day: 0)
     #expect(fixture.state.home.place == lisbon)
     #expect(fixture.state.lifetime.homeMoves == 1)
+    #expect(fixture.state.moveCost == Tuning.Beans.moveHome)
     // The free move is used: the next one costs Beans, which this player does not have.
     fixture.add(.homeMoved(beans: 0), day: 0)
     fixture.add(.homePlaced(sydney), day: 0)
@@ -95,4 +98,28 @@ private func cities() throws -> CitiesFile {
     let a = WeatherRules.simulated(biome: .coast, season: .autumn, day: start, household: 3, tables: content.weather)
     let b = WeatherRules.simulated(biome: .coast, season: .autumn, day: start, household: 3, tables: content.weather)
     #expect(a == b)
+}
+
+@Test func theHomeKeepsItsOwnTimeSeasonAndWeather() throws {
+    let tables = try ContentBundle.load(from: repo.appendingPathComponent("Content")).weather
+    var fixture = Fixture()
+    // Noon in London on 2 November is past ten at night in Sydney, where it is spring.
+    let noonLondon = fixture.at(0, 12)
+    var now = fixture.state.homeNow(at: noonLondon, weather: tables)
+    #expect(now.place == .london)
+    #expect(now.sky == .day)
+    #expect(now.season == .autumn)
+    let sydney = HomePlace(name: "Sydney", latitude: -33.869, longitude: 151.209, timeZoneID: "Australia/Sydney", biome: .coast)
+    fixture.add(.homePlaced(sydney), day: 0, hour: 9)
+    now = fixture.state.homeNow(at: noonLondon, weather: tables)
+    #expect(now.sky == .night)
+    #expect(now.season == .spring)
+    #expect(now.biome == .coast)
+    #expect(now.localMinutes == 23 * 60)
+    // A season fixed by the player wins over the calendar.
+    fixture.add(.seasonSet(.fixed(.winter)), day: 0, hour: 9)
+    #expect(fixture.state.homeNow(at: noonLondon, weather: tables).season == .winter)
+    // The weather is the biome's seasonal table, the same all day.
+    let morning = fixture.state.homeNow(at: fixture.at(0, 7), weather: tables).weather
+    #expect(fixture.state.homeNow(at: fixture.at(0, 20), weather: tables).weather == morning)
 }

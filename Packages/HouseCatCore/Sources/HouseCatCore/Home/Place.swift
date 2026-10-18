@@ -106,6 +106,10 @@ public struct WeatherFile: Codable, Sendable {
     /// biome → season → weather → weight.
     public var tables: [String: [String: [String: Int]]]
 
+    public init(tables: [String: [String: [String: Int]]]) {
+        self.tables = tables
+    }
+
     public func weights(biome: Biome, season: NatureSeason) -> [(Weather, Int)] {
         let row = tables[biome.rawValue]?[season.rawValue] ?? [:]
         return Weather.allCases.compactMap { weather in row[weather.rawValue].map { (weather, $0) } }.filter { $0.1 > 0 }
@@ -136,4 +140,55 @@ public struct HomeSettings: Codable, Equatable, Sendable {
     public var moving = false
 
     public init() {}
+}
+
+/// The home right now (SPEC "Sky, season, weather and windows: one layered scene"): its place, the season
+/// there, the sky at its local time and today's weather. Everything outside and in every window follows this.
+public struct HomeNow: Equatable, Sendable {
+    public var place: HomePlace
+    public var biome: Biome
+    public var season: NatureSeason
+    public var sky: SkyPhase
+    public var weather: Weather
+    /// Minutes past midnight at the home.
+    public var localMinutes: Int
+
+    public init(place: HomePlace, biome: Biome, season: NatureSeason, sky: SkyPhase, weather: Weather, localMinutes: Int) {
+        self.place = place
+        self.biome = biome
+        self.season = season
+        self.sky = sky
+        self.weather = weather
+        self.localMinutes = localMinutes
+    }
+}
+
+public extension HouseholdState {
+    func homeNow(at date: Date, weather tables: WeatherFile) -> HomeNow {
+        let place = home.place ?? .london
+        let zone = place.timeZone
+        let season = home.season.season(at: date, timeZone: zone, southernHemisphere: place.southernHemisphere)
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = zone
+        let parts = calendar.dateComponents([.hour, .minute], from: date)
+        let minutes = (parts.hour ?? 12) * 60 + (parts.minute ?? 0)
+        let weather = WeatherRules.simulated(biome: place.biome, season: season, day: clock.day(of: date), household: seed, tables: tables)
+        return HomeNow(
+            place: place,
+            biome: place.biome,
+            season: season,
+            sky: .at(localMinutes: minutes),
+            weather: weather,
+            localMinutes: minutes
+        )
+    }
+}
+
+public extension HouseholdState {
+    /// What pinning a new home costs now: nothing for the first pin or the free move (or on a Cat Club day),
+    /// then Tuning.Beans.moveHome.
+    var moveCost: Int {
+        guard home.place != nil else { return 0 }
+        return homeMovesUsed < Tuning.Beans.freeHomeMoves || today?.clubDay == true ? 0 : Tuning.Beans.moveHome
+    }
 }

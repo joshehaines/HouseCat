@@ -172,7 +172,11 @@ final class Visit {
 
     init(size: CGSize, now: Date = Date(), lastActive: Date?) {
         self.size = size
-        if ArrivalRules.showsExterior(lastActive: lastActive, now: now), let exterior = GameWorld.exteriorScene(size: size, at: now) {
+        if ArrivalRules.showsExterior(lastActive: lastActive, now: now), let exterior = GameWorld.exteriorScene(
+            size: size,
+            at: now,
+            state: GameSession.shared.state(at: now)
+        ) {
             scene = exterior
             exterior.onDoorOpens = { Sound.play("door_open", volume: Tuning.Sound.door) }
             exterior.onEnter = { [weak self, weak exterior] in

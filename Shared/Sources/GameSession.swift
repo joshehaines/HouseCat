@@ -78,7 +78,7 @@ final class GameSession {
         var mood: Mood
     }
 
-    func arrive(weather: Weather = .sun) -> Arrival {
+    func arrive() -> Arrival {
         let date = now()
         let before = state(at: date)
         let cat = before.cat(Self.catID)
@@ -87,7 +87,8 @@ final class GameSession {
         let after = state(at: date)
         let day = after.clock.day(of: date)
         let mood = after.mood(of: Self.catID, at: date)
-        let sky = GameWorld.skyPhase(at: date)
+        let home = GameWorld.now(state: after, at: date)
+        let sky = home.sky, weather = home.weather
         let offers = RoomChoice.offers(in: after, catalogue: content?.affordances ?? [:])
         let time = TimeOfDay.at(localMinutes: after.clock.localMinutes(of: date), clock: after.clock)
         let context = BehaviourContext(
@@ -113,11 +114,12 @@ final class GameSession {
 
     /// The cat's next activity while you watch (no event: activities are not game state). Same rule as the
     /// arrival, drawn afresh each time so it wanders, in whichever open room has what it wants.
-    func nextActivity(catRoom: RoomID, viewing: RoomID, weather: Weather = .sun) -> BehaviourChoice? {
+    func nextActivity(catRoom: RoomID, viewing: RoomID) -> BehaviourChoice? {
         let date = now()
         let state = state(at: date)
         guard let cat = state.cat(Self.catID) else { return nil }
-        let sky = GameWorld.skyPhase(at: date)
+        let home = GameWorld.now(state: state, at: date)
+        let sky = home.sky, weather = home.weather
         let offers = RoomChoice.offers(in: state, catalogue: content?.affordances ?? [:])
         let time = TimeOfDay.at(localMinutes: state.clock.localMinutes(of: date), clock: state.clock)
         let context = BehaviourContext(
@@ -302,6 +304,22 @@ final class GameSession {
         }
         if let look, look != cat.look {
             append(.catLookSet(catID: Self.catID, look: look), at: date)
+        }
+    }
+
+    // MARK: Home
+
+    /// The pin from the world map, and the season setting: the first pin free, later ones a move (free once,
+    /// then Beans).
+    func placeHome(_ place: HomePlace, season: SeasonSetting) {
+        let date = now()
+        let state = state(at: date)
+        if state.home.place != nil {
+            append(.homeMoved(beans: state.moveCost), at: date)
+        }
+        append(.homePlaced(place), at: date)
+        if season != state.home.season {
+            append(.seasonSet(season), at: date)
         }
     }
 

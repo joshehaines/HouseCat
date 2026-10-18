@@ -8,5 +8,5 @@
  "6": "tropical",
  "7": "snow",
  "8": "city",
- "note": "index image; 8=city is assigned by the app near listed cities"
+ "note": "index image; 8=city is assigned by the app near listed cities (cities.json); made by tools/asset-pipeline/biomes.py"
 }

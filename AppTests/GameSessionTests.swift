@@ -1,3 +1,4 @@
+import CoreGraphics
 import Foundation
 @testable import HouseCat
 import HouseCatCore
@@ -52,6 +53,23 @@ struct GameSessionTests {
         #expect(profile.name == "Pip")
         #expect(CatScreens.portrait(profile.look) != nil)
         #expect(CatScreens.book().count == session.content?.gifts.gifts.count)
+    }
+
+    @Test func theHomeIsPlacedThenMovedAndTheHouseFollowsIt() throws {
+        try adopt()
+        let lisbon = HomePlace(name: "Lisbon", latitude: 38.72, longitude: -9.14, timeZoneID: "Europe/Lisbon", biome: .city)
+        session.placeHome(lisbon, season: .auto)
+        var state = session.state(at: session.now())
+        #expect(state.home.place == lisbon)
+        let desert = HomePlace(name: "Djado", latitude: 21, longitude: 12.3, timeZoneID: "Africa/Niamey", biome: .desert)
+        session.placeHome(desert, season: .fixed(.summer))
+        state = session.state(at: session.now())
+        #expect(state.home.place == desert, "the free move")
+        #expect(state.home.season == .fixed(.summer))
+        let house = try #require(GameWorld.house(at: session.now(), state: state))
+        let windows = house.rooms.compactMap { $0.model.window == nil ? nil : $0.model.terrain }
+        #expect(!windows.isEmpty && windows.allSatisfy { $0 == "world/terrain/terr_desert_summer.png" })
+        #expect(GameWorld.exteriorScene(size: CGSize(width: 1024, height: 768), at: session.now(), state: state) != nil)
     }
 
     @Test func theFirstArrivalIsRecordedAndGreetsAsTheFirstEver() throws {

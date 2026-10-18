@@ -40,12 +40,16 @@ SETS = [
     ('fx/reactions/fx_reactions_*.png', 0.5),
     # The gifts the cat brings, for the room and the book.
     ('gifts/gift_*.png', 0.3),
-    # The exterior: the demo home's painted scenes (every season, door closed and open) and the city
-    # terrain seen through the room's window.
-    ('world/scenes/london_terrace_city_*', 0.75),
-    ('world/terrain/terr_city_*.png', 0.4),
+    # The exterior: the demo home's painted scenes in every biome and season (door closed and open), and every
+    # terrain seen through the rooms' windows.
+    ('world/scenes/london_terrace_*', 0.75),
+    ('world/terrain/terr_*.png', 0.25),
+    # The world map: the painting and the biome mask under the pin.
+    ('world/map/map_painted.png', 1.0),
+    ('world/map/map_biome.png', 1.0),
 ]
-DATA = ['cat/rig.json', 'rooms/layout_living_demo.json', 'rooms/houses.json', 'fx/anchors.json', 'fx/fx.json', 'world/scenes/scenes.json']
+DATA = ['cat/rig.json', 'rooms/layout_living_demo.json', 'rooms/houses.json', 'fx/anchors.json', 'fx/fx.json', 'world/scenes/scenes.json',
+        'world/map/cities.json', 'world/map/map_biome_legend.json']
 
 
 def size(path):
@@ -85,8 +89,9 @@ def main():
         if pattern in seen:
             continue
         seen.add(pattern)
+        # Wildcards skip the furniture's *_painted.png originals; a file named outright is always taken.
         found = sorted(f for f in glob.glob(os.path.join(ASSETS, pattern))
-                       if not f.endswith('_painted.png') and f.endswith(('.png', '.jpg')))
+                       if (not f.endswith('_painted.png') or '*' not in pattern) and f.endswith(('.png', '.jpg')))
         assert found, pattern
         files = [f for f in found if os.path.relpath(f, ASSETS) not in index]
         for src in files:
@@ -96,7 +101,7 @@ def main():
             w, h = size(src)
             if factor < 1.0:
                 fmt = 'jpeg' if src.endswith('.jpg') else 'png'
-                quality = ['-s', 'formatOptions', '90'] if fmt == 'jpeg' else []
+                quality = ['-s', 'formatOptions', '85'] if fmt == 'jpeg' else []
                 subprocess.run(['sips', '-s', 'format', fmt, *quality, '-z', str(max(1, round(h * factor))), str(max(1, round(w * factor))),
                                 src, '--out', dst], capture_output=True, check=True)
             else:

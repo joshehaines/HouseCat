@@ -221,6 +221,8 @@ public enum Tuning {
         public static let maxZoom = 12.0
         public static let cityNamesZoom = 3.0
         public static let bigCityNamesZoom = 1.8
+        /// A place found by search is shown at this zoom.
+        public static let searchZoom = 4.0
     }
 
     /// Debug launches only (HOUSECAT_HOUSE=full).

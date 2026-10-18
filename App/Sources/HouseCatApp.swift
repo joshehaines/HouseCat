@@ -9,21 +9,35 @@ import SwiftUI
 struct HouseCatApp: App {
     @State private var store = Self.makeStore()
     @State private var visit: Visit?
-    /// Adoption (onboarding's cat creation) when the save has no cat yet.
+    /// Adoption (onboarding's cat creation) when the save has no cat yet, then where you live.
     @State private var adopting: CatBuilderModel?
+    @State private var placing: WorldMapModel?
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
         WindowGroup {
             Group {
                 if let visit {
-                    RoomScreen(visit: visit, store: store)
+                    RoomScreen(visit: visit, store: store) {
+                        // Moved home: the cold open at the new place.
+                        self.visit = Visit(size: CGSize(width: 1024, height: 768), lastActive: nil)
+                    }
+                    // A new visit is a new screen: SpriteView keeps showing its first scene otherwise.
+                    .id(ObjectIdentifier(visit))
+                } else if let placing {
+                    WorldMapView(model: placing, cost: 0, canAfford: true, cancel: nil) { place, season in
+                        GameSession.shared.placeHome(place, season: season)
+                        self.placing = nil
+                        visit = Visit(size: CGSize(width: 1024, height: 768), lastActive: nil)
+                    }
                 } else if let adopting {
                     CatBuilderView(model: adopting) { model in
                         guard let name = model.checkedName else { return }
                         GameSession.shared.adopt(name: name, personality: model.personality, look: model.look)
                         self.adopting = nil
-                        visit = Visit(size: CGSize(width: 1024, height: 768), lastActive: nil)
+                        // Then where you live (SPEC onboarding: cat, geography, house, first arrival).
+                        let session = GameSession.shared
+                        placing = WorldMapModel(mode: .first, current: session.state(at: session.now()))
                     }
                 } else {
                     Color.black.ignoresSafeArea()
@@ -138,6 +152,9 @@ enum CatScreens {
 struct RoomScreen: View {
     @Bindable var visit: Visit
     let store: (any EntitlementService)?
+    /// Starts a new visit (after moving home).
+    let restart: () -> Void
+    @State private var moving: WorldMapModel?
     @State private var showShop = false
     @State private var showProfile = false
     @State private var showBook = false
@@ -203,6 +220,10 @@ struct RoomScreen: View {
                 if !visit.decorating {
                     HStack(spacing: 10) {
                         if visit.scene is RoomScene {
+                            roundButton("map", label: "Where you live") {
+                                let session = GameSession.shared
+                                moving = WorldMapModel(mode: .move, current: session.state(at: session.now()))
+                            }
                             roundButton("pawprint", label: "Your cat") { showProfile = true }
                             roundButton("book", label: "The book") { showBook = true }
                         }
@@ -268,6 +289,19 @@ struct RoomScreen: View {
             }
             .sheet(isPresented: $showBook) {
                 GiftBookView(entries: CatScreens.book()) { showBook = false }
+            }
+            .fullScreenCover(item: $moving) { model in
+                let state = GameSession.shared.state(at: GameSession.shared.now())
+                WorldMapView(
+                    model: model,
+                    cost: state.moveCost,
+                    canAfford: state.beans >= state.moveCost,
+                    cancel: { moving = nil }
+                ) { place, season in
+                    GameSession.shared.placeHome(place, season: season)
+                    moving = nil
+                    restart()
+                }
             }
             .fullScreenCover(item: $editing) { model in
                 CatBuilderView(model: model, cancel: { editing = nil }) { model in

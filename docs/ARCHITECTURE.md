@@ -92,6 +92,11 @@ Care and idle: `GameSession.feed()` / `pet(taps:)` append `fed` / `petted` and p
 
 `Shared/Sources` holds the app-side glue: `GameSession` (the save: load, append with trusted time, derive), `Visit` (which scene is on screen, the greeting bubble) and `GameWorld` (builds scenes from the art and the state). Scenes receive finished values (`RoomModel`, `ExteriorScene.Model`, a `BehaviourChoice`) and decide nothing.
 
+### The world (step 4)
+- HouseCatCore: `HomePlace`, `HomeSettings` (in the save), `HomeNow` (the home right now), `WorldMap` (projection and distances), `CitiesFile`, `BiomeRules`, `WeatherFile` and `WeatherRules` (simulated weather), `moveCost`.
+- HouseCatGame: `HouseBuilder` builds the `HouseModel` from the save and `HomeNow` (window terrain, sky, light map, ground) and names the exterior scene for a home, biome and season.
+- The app: `GameWorld.now(state:at:)` (with debug overrides), `WorldMapView` and `WorldMapModel` (MapKit search and reverse geocoding, the biome under the pin from the bundled mask), `GameSession.placeHome`.
+
 ### Rooms (step 3)
 - `RoomScene` builds a `RoomNode` for every room of the plan and puts the shown storey's in the world. `house.active` is the room you are in (`show(room:)`; the app's `Visit.go(to:)`), `catRoom` the cat's. `HouseModel.links`/`route` give the doorways between rooms side by side and the way through open ones; `RoomScene.route(to:)` turns that into director steps (walk to the doorway, `.enter` the next room's node, on) or, across storeys, out by the stairs with a fade.
 - HouseCatCore decides which room an activity happens in (`RoomChoice`, from what each open room's furniture offers) and what the Bean shop sells (`BeanShop`); the app asks for both through `GameSession` (`nextActivity(catRoom:viewing:)`, `placed`, `shop(for:)`, `buy`).

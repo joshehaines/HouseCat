@@ -156,6 +156,20 @@ Where the spec is silent, these are set in `Tuning.swift` and HouseCatCore (tune
 - New rooms open empty, as SPEC "Home and furniture" has it: opening one takes you into it with the decorate tray on Shop. The tray's Shop lists the Bean catalogue, the room's own pieces first, each with its price or the level it needs (`BeanShop`); a tap buys it (`itemBought`) straight into the room, picked up. Any piece can go in any room. Every free and Bean piece's art is now bundled (`build_app_art.py` `catalogue_sets`).
 - Debug: `HOUSECAT_HOUSE=full` with `HOUSECAT_CAT=<preset>` seeds sixty days of play (level 13), opens every room and furnishes each as its closed silhouette shows; `HOUSECAT_ROOM=<room>` goes there once the room is up and sends the cat to use a piece of its furniture.
 
+## Decisions during step 4, map, seasons and windows (18 Oct 2026)
+- The home's place is in the save: `homePlaced(HomePlace)` (name, coordinates, time zone, biome) and `seasonSet(SeasonSetting)`. The first pin is free (onboarding, right after the builder); a later one needs a `homeMoved` first (free once, then 500 Beans, free on a Cat Club day: `HouseholdState.moveCost`). Saves with no pin are in London (`HomePlace.london`), as the demo home always was.
+- `HouseholdState.homeNow(at:weather:)` is the home right now: its biome, the season there (Auto by its hemisphere, or fixed), the sky at its own local time and today's weather. The exterior painting, the ground tile, every window's terrain and sky, and the rooms' light maps all follow it (`HouseBuilder` in HouseCatGame now builds the house from it).
+- Weather is simulated from `Content/weather.json` (per biome and season, one weather a game day, the same on every device). SPEC has WeatherKit drive Auto; that and the weather particles are step 5. For now only the rooms' light map shows it (overcast on grey days).
+- The map screen (`App/Sources/WorldMap.swift`): the painted map fills the screen; pinch, drag, tap to drop the pin; MapKit search suggestions as you type (a chosen place flies in at 4×); the pin is named by MapKit's reverse geocoding (or by its coordinates), its time zone comes from MapKit (or the longitude). City names are drawn by code as you zoom. No device location is read. It opens after the builder for a new player, and from the map button in the room (bottom right) to move.
+- The biome is the painted mask's (`tools/asset-pipeline/biomes.py` regenerates `map_biome.png` from the land mask with rules by latitude and hand-drawn regions; the painted map is untouched) unless the pin is within 18 km of a listed city (35 km for big ones; `assets/world/map/cities.json`, 245 cities, which the map also labels). A pin on the sea is coast.
+- The London terrace's exterior is bundled in every biome and season (32 scenes, about 85 MB with JPEG at 85) and every terrain at quarter size for the windows. Other homes fall back to the city scenes until their own are bundled. Debug: `HOUSECAT_TIME=dawn|day|dusk|night` and `HOUSECAT_SEASON` override the clock and season (with `HOUSECAT_BIOME`).
+
+## Known gaps after step 4
+- WeatherKit and the weather particles (rain, snow, fog, blossom, leaves) are step 5; the weather in the save is simulated even on Auto.
+- App size: App/Art is about 190 MB. Shipping every home in every biome needs On-Demand Resources or Background Assets (about 2.7 MB a scene).
+- The biome mask is rule-based (boxes for deserts, ranges and forests), good to a few hundred km; the city list decides most pins people pick.
+- The snapshot of the save (`HouseholdState` is Codable) is not tolerant of new fields; compaction is not switched on yet, but must be before the first release that compacts.
+
 ## Known gaps after milestone 1
 - Only the living room has a window and a door; other rooms show none yet. Stairs are a fixture (not in the catalogue), the L sprite mirrored from the R one.
 - The app bundles only the demo home's exterior scenes; shipping every home × biome × season needs On-Demand Resources or Background Assets (about 5 MB a scene with its door-open edit and masks).

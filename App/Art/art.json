@@ -2272,6 +2272,20 @@
    ],
    "scale": 0.4
   },
+  "world/map/map_biome.png": {
+   "master": [
+    4096,
+    2048
+   ],
+   "scale": 1.0
+  },
+  "world/map/map_painted.png": {
+   "master": [
+    4096,
+    2048
+   ],
+   "scale": 1.0
+  },
   "world/scenes/london_terrace_city_autumn.jpg": {
    "master": [
     2688,
@@ -2440,33 +2454,1405 @@
    ],
    "scale": 0.75
   },
+  "world/scenes/london_terrace_coast_autumn.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_coast_autumn_dooropen.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_coast_autumn_dooropen_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_coast_autumn_dooropen_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_coast_autumn_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_coast_autumn_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_coast_spring.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_coast_spring_dooropen.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_coast_spring_dooropen_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_coast_spring_dooropen_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_coast_spring_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_coast_spring_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_coast_summer.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_coast_summer_dooropen.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_coast_summer_dooropen_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_coast_summer_dooropen_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_coast_summer_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_coast_summer_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_coast_winter.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_coast_winter_dooropen.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_coast_winter_dooropen_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_coast_winter_dooropen_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_coast_winter_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_coast_winter_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_countryside_autumn.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_countryside_autumn_dooropen.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_countryside_autumn_dooropen_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_countryside_autumn_dooropen_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_countryside_autumn_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_countryside_autumn_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_countryside_spring.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_countryside_spring_dooropen.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_countryside_spring_dooropen_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_countryside_spring_dooropen_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_countryside_spring_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_countryside_spring_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_countryside_summer.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_countryside_summer_dooropen.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_countryside_summer_dooropen_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_countryside_summer_dooropen_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_countryside_summer_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_countryside_summer_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_countryside_winter.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_countryside_winter_dooropen.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_countryside_winter_dooropen_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_countryside_winter_dooropen_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_countryside_winter_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_countryside_winter_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_desert_autumn.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_desert_autumn_dooropen.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_desert_autumn_dooropen_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_desert_autumn_dooropen_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_desert_autumn_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_desert_autumn_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_desert_spring.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_desert_spring_dooropen.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_desert_spring_dooropen_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_desert_spring_dooropen_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_desert_spring_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_desert_spring_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_desert_summer.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_desert_summer_dooropen.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_desert_summer_dooropen_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_desert_summer_dooropen_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_desert_summer_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_desert_summer_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_desert_winter.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_desert_winter_dooropen.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_desert_winter_dooropen_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_desert_winter_dooropen_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_desert_winter_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_desert_winter_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_forest_autumn.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_forest_autumn_dooropen.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_forest_autumn_dooropen_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_forest_autumn_dooropen_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_forest_autumn_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_forest_autumn_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_forest_spring.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_forest_spring_dooropen.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_forest_spring_dooropen_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_forest_spring_dooropen_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_forest_spring_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_forest_spring_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_forest_summer.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_forest_summer_dooropen.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_forest_summer_dooropen_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_forest_summer_dooropen_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_forest_summer_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_forest_summer_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_forest_winter.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_forest_winter_dooropen.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_forest_winter_dooropen_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_forest_winter_dooropen_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_forest_winter_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_forest_winter_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_mountain_autumn.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_mountain_autumn_dooropen.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_mountain_autumn_dooropen_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_mountain_autumn_dooropen_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_mountain_autumn_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_mountain_autumn_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_mountain_spring.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_mountain_spring_dooropen.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_mountain_spring_dooropen_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_mountain_spring_dooropen_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_mountain_spring_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_mountain_spring_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_mountain_summer.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_mountain_summer_dooropen.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_mountain_summer_dooropen_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_mountain_summer_dooropen_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_mountain_summer_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_mountain_summer_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_mountain_winter.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_mountain_winter_dooropen.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_mountain_winter_dooropen_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_mountain_winter_dooropen_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_mountain_winter_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_mountain_winter_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_snow_autumn.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_snow_autumn_dooropen.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_snow_autumn_dooropen_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_snow_autumn_dooropen_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_snow_autumn_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_snow_autumn_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_snow_spring.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_snow_spring_dooropen.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_snow_spring_dooropen_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_snow_spring_dooropen_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_snow_spring_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_snow_spring_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_snow_summer.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_snow_summer_dooropen.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_snow_summer_dooropen_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_snow_summer_dooropen_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_snow_summer_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_snow_summer_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_snow_winter.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_snow_winter_dooropen.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_snow_winter_dooropen_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_snow_winter_dooropen_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_snow_winter_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_snow_winter_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_tropical_autumn.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_tropical_autumn_dooropen.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_tropical_autumn_dooropen_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_tropical_autumn_dooropen_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_tropical_autumn_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_tropical_autumn_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_tropical_spring.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_tropical_spring_dooropen.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_tropical_spring_dooropen_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_tropical_spring_dooropen_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_tropical_spring_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_tropical_spring_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_tropical_summer.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_tropical_summer_dooropen.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_tropical_summer_dooropen_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_tropical_summer_dooropen_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_tropical_summer_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_tropical_summer_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_tropical_winter.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_tropical_winter_dooropen.jpg": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_tropical_winter_dooropen_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_tropical_winter_dooropen_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_tropical_winter_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/london_terrace_tropical_winter_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
   "world/terrain/terr_city_autumn.png": {
    "master": [
     2688,
     1520
    ],
-   "scale": 0.4
+   "scale": 0.25
   },
   "world/terrain/terr_city_spring.png": {
    "master": [
     2688,
     1520
    ],
-   "scale": 0.4
+   "scale": 0.25
   },
   "world/terrain/terr_city_summer.png": {
    "master": [
     2688,
     1520
    ],
-   "scale": 0.4
+   "scale": 0.25
   },
   "world/terrain/terr_city_winter.png": {
    "master": [
     2688,
     1520
    ],
-   "scale": 0.4
+   "scale": 0.25
+  },
+  "world/terrain/terr_coast_autumn.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.25
+  },
+  "world/terrain/terr_coast_spring.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.25
+  },
+  "world/terrain/terr_coast_summer.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.25
+  },
+  "world/terrain/terr_coast_winter.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.25
+  },
+  "world/terrain/terr_countryside_autumn.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.25
+  },
+  "world/terrain/terr_countryside_spring.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.25
+  },
+  "world/terrain/terr_countryside_summer.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.25
+  },
+  "world/terrain/terr_countryside_winter.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.25
+  },
+  "world/terrain/terr_desert_autumn.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.25
+  },
+  "world/terrain/terr_desert_spring.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.25
+  },
+  "world/terrain/terr_desert_summer.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.25
+  },
+  "world/terrain/terr_desert_winter.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.25
+  },
+  "world/terrain/terr_forest_autumn.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.25
+  },
+  "world/terrain/terr_forest_spring.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.25
+  },
+  "world/terrain/terr_forest_summer.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.25
+  },
+  "world/terrain/terr_forest_winter.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.25
+  },
+  "world/terrain/terr_mountain_autumn.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.25
+  },
+  "world/terrain/terr_mountain_spring.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.25
+  },
+  "world/terrain/terr_mountain_summer.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.25
+  },
+  "world/terrain/terr_mountain_winter.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.25
+  },
+  "world/terrain/terr_snow_autumn.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.25
+  },
+  "world/terrain/terr_snow_spring.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.25
+  },
+  "world/terrain/terr_snow_summer.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.25
+  },
+  "world/terrain/terr_snow_winter.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.25
+  },
+  "world/terrain/terr_tropical_autumn.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.25
+  },
+  "world/terrain/terr_tropical_spring.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.25
+  },
+  "world/terrain/terr_tropical_summer.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.25
+  },
+  "world/terrain/terr_tropical_winter.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.25
   }
  },
  "note": "Generated by tools/app-assets/build_app_art.py; master = the master's size in pixels, scale = this copy's downscale, ref = the reference room furniture was painted in."

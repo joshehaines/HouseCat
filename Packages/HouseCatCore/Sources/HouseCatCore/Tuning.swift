@@ -667,8 +667,7 @@ public enum Tuning {
         public static let groundShade = 0.82
         /// A touch that travels less than this (points) is a tap, not a pan.
         public static let tapSlop = 12.0
-        /// How far the view may pan past the house, and how long a drag stops it following the cat.
-        public static let margin = 200.0
+        /// How long a drag stops the view settling back on the room (the middle of the view stays over the house).
         public static let panHoldSeconds = 4.0
     }
 

@@ -106,17 +106,19 @@ public final class RoomScene: SKScene {
         attachStorey()
     }
 
-    /// Goes to another room: the view settles on it (on its storey) and decorating acts on it.
+    /// Goes to another room: the view glides to it (or moves to its storey) and decorating acts on it.
     public func show(room id: RoomID) {
         guard let room = house.room(id), room.lockLabel == nil else { return }
         setDecorating(false)
         house.active = id
         roomChosenAt = lastUpdate ?? 0
-        focus = nil
+        // A drag a moment ago no longer holds the view.
+        heldUntil = 0
         if room.storey != storey {
+            focus = nil
             storey = room.storey
             attachStorey()
-        } else {
+        } else if focus == nil {
             fit()
         }
     }
@@ -363,7 +365,7 @@ public final class RoomScene: SKScene {
             scale = min(scale * Tuning.Stage.portraitZoom, height * Tuning.Stage.fitHeight / bounds.height)
         }
         world.setScale(scale)
-        look(at: focus ?? CGPoint(x: catWorldPosition?.x ?? bounds.midX, y: bounds.midY))
+        look(at: focus ?? restingPoint)
     }
 
     /// Slides each closed room's badge along so it stays readable when its room runs off the side of the view.
@@ -395,25 +397,35 @@ public final class RoomScene: SKScene {
         return world.convert(cat.position, from: room)
     }
 
-    /// Centres a world point, without panning past the house.
+    /// Centres a world point; the middle of the view stays over the house, so any room can come to the centre
+    /// and the house never leaves the view (the garden and street are drawn around it).
     private func look(at point: CGPoint) {
-        let scale = world.xScale, house = houseBounds.insetBy(dx: -CGFloat(Tuning.House.margin), dy: -CGFloat(Tuning.House.margin))
+        let scale = world.xScale, house = houseBounds
         var target = point
         let shown = max(1, size.height - bottomInset)
-        let halfWidth = size.width / 2 / scale, halfHeight = shown / 2 / scale
-        target.x = house.width > halfWidth * 2 ? min(max(target.x, house.minX + halfWidth), house.maxX - halfWidth) : house.midX
-        target.y = house.height > halfHeight * 2 ? min(max(target.y, house.minY + halfHeight), house.maxY - halfHeight) : house.midY
+        target.x = min(max(target.x, house.minX), house.maxX)
+        target.y = min(max(target.y, house.minY), house.maxY)
         focus = target
         // Centred in the part of the view the controls leave open.
         world.position = CGPoint(x: size.width / 2 - target.x * scale, y: bottomInset + shown / 2 - target.y * scale)
         keepBadgesInView()
     }
 
+    /// Where the view rests: the active room's middle (a room picked with the arrows comes to the centre); a room
+    /// wider than the view follows the cat across while it is in there.
+    private var restingPoint: CGPoint {
+        let bounds = activeBounds
+        let wide = bounds.width * world.xScale > size.width
+        let catX = wide && catRoom == house.active ? catWorldPosition?.x : nil
+        return CGPoint(x: catX.map { min(max($0, bounds.minX), bounds.maxX) } ?? bounds.midX, y: bounds.midY)
+    }
+
+    /// The view eases towards where it rests (unless a drag holds it).
     private func follow(_ dt: TimeInterval) {
-        guard let focus, let cat = catWorldPosition, lastUpdate ?? 0 >= heldUntil else { return }
+        guard let focus, lastUpdate ?? 0 >= heldUntil else { return }
+        let target = restingPoint
+        guard hypot(target.x - focus.x, target.y - focus.y) > 0.5 else { return }
         let rate = min(1, CGFloat(dt * Tuning.Stage.followRate))
-        // Follow across; up and down only as far as keeps the active room centred.
-        let target = CGPoint(x: cat.x, y: activeBounds.midY)
         look(at: CGPoint(x: focus.x + (target.x - focus.x) * rate, y: focus.y + (target.y - focus.y) * rate))
     }
 

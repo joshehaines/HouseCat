@@ -26,7 +26,7 @@ public final class CatNode: SKNode {
     /// One puppet per view; only the current one is shown. Each is an effect node so it
     /// can fade as one flat picture: faded part by part, the joints would show through.
     private var puppets: [View: SKEffectNode] = [:]
-    private var parts: [View: [String: SKSpriteNode]] = [:]
+    private(set) var parts: [View: [String: SKSpriteNode]] = [:]
     private var restAngles: [View: [String: CGFloat]] = [:]
     private var restPositions: [View: [String: CGPoint]] = [:]
     private let poseNode = SKSpriteNode()

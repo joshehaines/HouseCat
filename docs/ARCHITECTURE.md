@@ -92,6 +92,12 @@ Care and idle: `GameSession.feed()` / `pet(taps:)` append `fed` / `petted` and p
 
 `Shared/Sources` holds the app-side glue: `GameSession` (the save: load, append with trusted time, derive), `Visit` (which scene is on screen, the greeting bubble) and `GameWorld` (builds scenes from the art and the state). Scenes receive finished values (`RoomModel`, `ExteriorScene.Model`, a `BehaviourChoice`) and decide nothing.
 
+### The cat builder and the coat recipe (step 2)
+- `HouseCatCore`: `CatLook` (catbuilder.json's `look_fields` plus the weight slider; colours are palette names or picked "#rrggbb"), `CatBuilder` (the options a body allows, the weight slider, colours, which sprite draws each part and pose), `CatNames` and `NameFilter`, `CatProfile` (together days, age, trust, badges, anniversaries, lifetime stats). The builder's options come from `App/Art/cat/custom/builder.json`, the ordered copy of catbuilder.json that `build_cat_art.py` writes.
+- `HouseCatGame`: `CatArt` loads a sprite's white painting and masks (`Raster` reads pixels as stored, no colour management) and `CoatRecipe` tints them with Accelerate; `CatNode` draws any look (and `apply(look:)` redraws it); `CatPreviewScene` is the builder's sofa-and-rug preview.
+- `HouseCatUI`: `CatBuilderModel` and `CatBuilderView` (adopt and edit modes), `CatProfileView`, `GiftBookView`.
+- The app: `HouseCatApp` shows the builder when the save has no cat, then the visit; `RoomScreen` holds the room's controls and the profile, book, shop and Edit look sheets; `Visit` drops and collects the gift (`RoomScene+Gift`), and plays the level and trust moments.
+
 ## 5. Persistence
 
 `EventStore` (HouseCatModels) keeps `StoredEvent` (the event as JSON, with its id, time and day index for queries) and `StoredSnapshot`. Every attribute has a default and nothing is unique, as CloudKit mirroring requires. The store lives in the App Group container so the widget reads it; mirroring uses the CloudKit private database `iCloud.com.housecatgame.housecat` once the iCloud capability is on the App ID (needs the developer account). No accounts, no login, no backend.

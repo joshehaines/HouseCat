@@ -95,6 +95,12 @@ Beans play the role gems play in Clash of Clans, earned through objectives and s
 - `rooms/houses.json`: each home's room plan for the house view (storey and back corner of every room, which is outdoors, the staircase), and the ground tile per biome. `furniture/living/furn_living_stairs_R.png` (and its mirror, `_L`): the staircase, class `fixture` in the manifest.
 - `cat/rig.json`: the puppet rig (pivots, joints, draw order, walk swing) for `short_slim` in the side, three-quarter-front and front views. `rooms/layout_living_demo.json`: the demo living room (surfaces, window, door, items, scales, the cat's start and activity spots).
 
+## 6c. Added in step 2 (18 Oct 2026)
+- `assets/cat/rig.json` holds a rig for every body (`tools/asset-pipeline/rigfit.py`; breeds without the separate ear parts, siamese and sphynx tail roots moved onto their cut faces).
+- The app's copy of the cat builder art (`App/Art/cat/custom`, `tools/app-assets/build_cat_art.py`): parts at 0.35 and poses at 0.4 of the masters, colour as JPEG with a PNG alpha, masks as listed in the script, `index.json` (sizes and masks per sprite) and `builder.json` (the builder's options in order). The tail's cut face is erased and the rump's furred over there (`tools/asset-pipeline/caps.py`); the masters keep theirs.
+- `App/Art/gifts` (all 60 at 0.3) for the room and the book; `App/Audio` adds the hungry and soft meows, the Bean chime, the level-up, the four gift-opening sounds and the streak milestone.
+- `Content/names.json`: the word filter for cat names (for Josh to review).
+
 ## 7. Known gaps and things for Josh's eye
 
 - **Small items were painted at furniture size.** The model draws whatever it is asked for large, so tabletop and small floor items (mug, kettle, alarm clock, slippers, snow globe, candle, cat bed, laundry basket…) come out as big as a chest of drawers. The sprites are high-resolution, so scaling down in code loses nothing: `assets/manifest.json` carries a `suggested_scale` for 78 such files (from `tools/asset-pipeline/scales.py`); carry it into `catalogue.json` and check each by eye in the room view.

@@ -19,27 +19,44 @@ public struct CatBuilderView: View {
 
     public var body: some View {
         GeometryReader { geometry in
-            HStack(spacing: 0) {
-                VStack(spacing: 10) {
-                    preview
-                    presets
-                }
-                .padding(.vertical, 12)
-                .frame(width: geometry.size.width * 0.46)
+            // Side by side in landscape (the game's way round); stacked on an iPad held upright.
+            if geometry.size.height > geometry.size.width {
                 VStack(spacing: 0) {
-                    header
-                    ScrollView {
-                        fields
-                            .padding(.horizontal, 18)
-                            .padding(.vertical, 14)
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                    VStack(spacing: 10) {
+                        preview
+                        presets
                     }
-                    footer
+                    .padding(.vertical, 12)
+                    .frame(height: geometry.size.height * 0.48)
+                    panel
                 }
-                .background(.regularMaterial)
+            } else {
+                HStack(spacing: 0) {
+                    VStack(spacing: 10) {
+                        preview
+                        presets
+                    }
+                    .padding(.vertical, 12)
+                    .frame(width: geometry.size.width * 0.46)
+                    panel
+                }
             }
         }
         .background(Color(red: 0.95, green: 0.9, blue: 0.86))
+    }
+
+    private var panel: some View {
+        VStack(spacing: 0) {
+            header
+            ScrollView {
+                fields
+                    .padding(.horizontal, 18)
+                    .padding(.vertical, 14)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            footer
+        }
+        .background(.regularMaterial)
     }
 
     // MARK: Left: the cat and the presets

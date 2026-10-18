@@ -58,8 +58,8 @@ public final class CatPreviewScene: SKScene {
     /// The rug and sofa behind the cat, all scaled to fit the view with the cat at the bottom third.
     private func layoutStage() {
         let height = CGFloat(Tuning.Builder.catHeight)
-        // The cat standing would be half the view's height; the sofa behind it may run off the sides.
-        stage.setScale(max(0.1, size.height * 0.5 / height))
+        // The cat standing would be half the view's height (less in a narrow view); the sofa may run off the sides.
+        stage.setScale(max(0.1, min(size.height * 0.5, size.width * 0.42) / height))
         stage.position = CGPoint(x: 0, y: size.height * 0.14)
         func fit(_ name: String, width: CGFloat, at point: CGPoint) {
             guard let node = stage.childNode(withName: name) as? SKSpriteNode, let texture = node.texture else { return }

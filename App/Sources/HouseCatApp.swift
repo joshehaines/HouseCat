@@ -87,6 +87,9 @@ struct HouseCatApp: App {
             }
             .onAppear(perform: start)
             // Everything was deleted: back to the very first screen, as a fresh install.
+            // Text grows with the player's text size, up to the largest a landscape game can lay out (the HUD's
+            // buttons keep their own size).
+            .dynamicTypeSize(...DynamicTypeSize.accessibility2)
             .onReceive(NotificationCenter.default.publisher(for: .houseCatErased)) { _ in
                 visit = nil
                 adopting = nil
@@ -985,13 +988,19 @@ struct RoomScreen: View {
     }
 
     /// A card over the room, dimming it; a tap outside closes it when `close` is given.
+    /// Too tall for the screen (large text sizes), it scrolls rather than cut its words short.
     private func card(_ shown: Bool, close: (() -> Void)?, @ViewBuilder content: () -> some View) -> some View {
         ZStack {
             if shown {
                 Color.black.opacity(0.4).ignoresSafeArea().onTapGesture { close?() }
-                content()
-                    .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
-                    .padding(24)
+                let inside = content().environment(\.controlFeedback, ControlFeedback { Sound.tap() })
+                ViewThatFits(in: .vertical) {
+                    inside.padding(24)
+                    ScrollView {
+                        inside.padding(24)
+                    }
+                    .scrollBounceBehavior(.basedOnSize)
+                }
             }
         }
         .animation(.easeOut(duration: 0.25), value: shown)

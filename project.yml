@@ -82,6 +82,8 @@ targets:
         ITSAppUsesNonExemptEncryption: false
         # Co-owning through CloudKit (Shared/Sources/HouseholdSync.swift): on once the iCloud container is on the App ID.
         HouseCatCloudKit: false
+        # Empty until the PostHog project exists: analytics stay off (Shared/Sources/Analytics.swift).
+        PostHogAPIKey: ""
         NSHealthShareUsageDescription: "Your cat notices your steps, sleep and workouts and gives you extra XP when you meet a goal. HouseCat only reads them, on this phone."
         # An invite link opens in the app.
         CKSharingSupported: true

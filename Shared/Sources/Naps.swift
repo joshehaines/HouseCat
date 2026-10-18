@@ -58,6 +58,7 @@ final class Naps {
     func check(at date: Date = Date()) -> Bool {
         guard let start = startedAt, NapRules.isComplete(startedAt: start, at: date) else { return false }
         let paid = GameSession.shared.completeNap(endedAt: NapRules.end(of: start))
+        Analytics.track(.napFinished)
         finish(completed: true)
         return paid
     }

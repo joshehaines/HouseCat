@@ -70,3 +70,22 @@ struct HealthSettingsCard: View {
         }
     }
 }
+
+/// In the cat's settings: anonymous usage counts, off until switched on (UK AADC: high privacy by default).
+struct AnalyticsCard: View {
+    @State private var on = Analytics.on
+
+    var body: some View {
+        Toggle(isOn: $on) {
+            VStack(alignment: .leading, spacing: 1) {
+                Text("Help improve HouseCat").font(.headline)
+                Text("Sends anonymous counts, such as how many people finish the tour. No names, places or anything you type.")
+                    .font(.caption).foregroundStyle(Theme.inkSoft)
+            }
+        }
+        .tint(Theme.accent)
+        .padding(16)
+        .paper(RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .onChange(of: on) { _, on in Analytics.on = on }
+    }
+}

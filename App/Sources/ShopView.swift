@@ -160,6 +160,7 @@ struct ShopView: View {
         .animation(.spring(duration: 0.35), value: detail)
         .animation(.easeOut(duration: 0.3), value: celebrating)
         .task {
+            Analytics.track(.shopOpened)
             owned = store?.entitlements ?? .none
             await loadProducts()
             #if DEBUG
@@ -232,6 +233,7 @@ struct ShopView: View {
             do {
                 switch try await store.purchase(id) {
                 case .purchased:
+                    Analytics.track(.purchased, detail: id)
                     owned = store.entitlements
                     detail = nil
                     celebrate(offer)
@@ -906,18 +908,22 @@ struct Celebration: View {
     let done: () -> Void
     @State private var shown = false
     @State private var start = Date()
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
         ZStack {
             Color.black.opacity(0.76).ignoresSafeArea()
-            // Drawn over a clear layer so its size never reaches the layout.
+            // Drawn over a clear layer so its size never reaches the layout. With Reduce Motion: the sunburst still,
+            // no confetti.
             Color.clear
                 .overlay {
-                    TimelineView(.animation) { timeline in
+                    TimelineView(.animation(paused: reduceMotion)) { timeline in
                         let t = timeline.date.timeIntervalSince(start)
                         ZStack {
-                            sunburst.rotationEffect(.degrees(t * 10))
-                            confetti(t)
+                            sunburst.rotationEffect(.degrees(reduceMotion ? 0 : t * 10))
+                            if !reduceMotion {
+                                confetti(t)
+                            }
                         }
                     }
                 }

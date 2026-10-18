@@ -307,7 +307,14 @@ struct RoomScreen: View {
     }
 
     var body: some View {
-        RoomView(scene: visit.scene) { visit.sceneIsReady() }
+        RoomView(
+            scene: visit.scene,
+            label: visit.accessibilityDescription,
+            actions: visit.scene is RoomScene ? [
+                RoomView.Action("Pet \(visit.catName ?? "your cat")") { visit.petCat() },
+                RoomView.Action("Feed \(visit.catName ?? "your cat")") { visit.feed() },
+            ] : [RoomView.Action("Go inside") { (visit.scene as? ExteriorScene)?.enter() }]
+        ) { visit.sceneIsReady() }
             .ignoresSafeArea()
             .overlay(alignment: .top) {
                 // At the top in landscape: the cat runs to the bottom edge to rub.

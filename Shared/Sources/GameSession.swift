@@ -233,6 +233,9 @@ final class GameSession {
         let date = now()
         let before = state(at: date)
         let context = CareLines.feed(before: before, catID: Self.catID)
+        if before.cats.first?.lastFedDay == nil {
+            Analytics.track(.firstFeed)
+        }
         append(.fed(catID: Self.catID), at: date)
         return line(context, before: before, date: date)
     }
@@ -317,6 +320,7 @@ final class GameSession {
 
     /// A finished game: the `miniGamePlayed` event, and what it paid (nothing once the day's plays are used).
     func playMiniGame(_ gameID: String, stars: Int) -> Reward {
+        Analytics.track(.gamePlayed, detail: gameID)
         let date = now()
         let before = state(at: date)
         append(.miniGamePlayed(game: gameID, stars: stars), at: date)
@@ -445,6 +449,7 @@ final class GameSession {
 
     /// Adoption from the builder (SPEC "Cat builder"): the cat's own name, its personality and its look.
     func adopt(name: String, personality: Personality, look: CatLook) {
+        Analytics.track(.catMade)
         let date = now()
         append(.catAdopted(catID: Self.catID, name: name, personality: personality, isKitten: look.age.isKitten), at: date)
         append(.catLookSet(catID: Self.catID, look: look), at: date)
@@ -483,6 +488,7 @@ final class GameSession {
 
     /// The house step: which home it is. Its exteriors are fetched if they are not in the app.
     func chooseHome(_ style: HouseStyle) {
+        Analytics.track(.homeChosen, detail: style.rawValue)
         append(.homeStyleChosen(style), at: now())
         HomePacks.prepare(style)
     }

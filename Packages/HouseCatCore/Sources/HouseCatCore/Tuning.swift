@@ -196,6 +196,11 @@ public enum Tuning {
         ]
     }
 
+    /// Anonymous usage counts (Shared Analytics): PostHog's EU capture endpoint.
+    public enum Analytics {
+        public static let endpoint = URL(string: "https://eu.i.posthog.com/capture/")!
+    }
+
     /// The intro (Content/intro.json): how close the globe comes to each home, and the pause before it opens.
     public enum Intro {
         public static let stopZoom = 2.4

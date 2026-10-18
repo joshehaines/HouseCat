@@ -19,6 +19,16 @@ final class Visit {
         GameSession.shared.cat?.name
     }
 
+    /// What VoiceOver says for the scene: the home and the room, or where the cat is and what it last said.
+    var accessibilityDescription: String {
+        guard scene is RoomScene else { return "Your home, from outside. Double-tap to go in." }
+        let name = catName ?? "Your cat"
+        if let greeting {
+            return "\(roomTitle). \(name) says: \(greeting)"
+        }
+        return "\(roomTitle). \(name) is here."
+    }
+
     /// Debug screenshot runs open the shop (HOUSECAT_SCREEN=shop).
     var openShop = false
 

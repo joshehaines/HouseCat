@@ -7,7 +7,20 @@ public struct RoomView: View {
     private let scene: SKScene
     private let fade: TimeInterval
     private let onFirstFrame: (() -> Void)?
+    private let label: String
+    private let actions: [Action]
     @State private var drawn = FirstFrame()
+
+    /// Something VoiceOver can do in the scene (pet the cat).
+    public struct Action {
+        public var name: String
+        public var run: () -> Void
+
+        public init(_ name: String, run: @escaping () -> Void) {
+            self.name = name
+            self.run = run
+        }
+    }
 
     /// Whether the first frame has been reported (a class, so the render callback can flip it once).
     private final class FirstFrame: @unchecked Sendable {
@@ -15,7 +28,15 @@ public struct RoomView: View {
     }
 
     /// `onFirstFrame` runs once the view has drawn its first scene.
-    public init(scene: SKScene, fade: TimeInterval = 0.5, onFirstFrame: (() -> Void)? = nil) {
+    public init(
+        scene: SKScene,
+        fade: TimeInterval = 0.5,
+        label: String = "Your home. Your cat is here.",
+        actions: [Action] = [],
+        onFirstFrame: (() -> Void)? = nil
+    ) {
+        self.label = label
+        self.actions = actions
         self.scene = scene
         self.fade = fade
         self.onFirstFrame = onFirstFrame
@@ -36,6 +57,12 @@ public struct RoomView: View {
             }
         )
         .accessibilityElement()
-        .accessibilityLabel("Your home. Your cat is here.")
+        .accessibilityLabel(label)
+        // VoiceOver: the cat is a picture in a game scene, so what a tap on it does is an action here.
+        .accessibilityActions {
+            ForEach(Array(actions.enumerated()), id: \.offset) { _, action in
+                Button(action.name, action: action.run)
+            }
+        }
     }
 }

@@ -27,6 +27,9 @@ struct SettingsView: View {
                 if HealthLayer.isAvailable {
                     HealthSettingsCard()
                 }
+                if Analytics.isAvailable {
+                    AnalyticsCard()
+                }
                 CoOwnCard(catName: catName)
                 WidgetGuide(catName: catName)
                     .frame(maxWidth: .infinity, alignment: .leading)

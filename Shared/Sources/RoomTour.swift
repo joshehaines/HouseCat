@@ -72,6 +72,7 @@ final class RoomTour {
     }
 
     func skip() {
+        Analytics.track(.tourSkipped)
         finish()
     }
 
@@ -89,6 +90,7 @@ final class RoomTour {
 
     /// The welcome Beans, once (the reducer pays `tourFinished` once a household).
     private func reward() {
+        Analytics.track(.tourFinished)
         let session = GameSession.shared
         let before = session.state(at: session.now()).beans
         session.append(.tourFinished, at: session.now())

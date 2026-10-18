@@ -41,7 +41,10 @@ struct IntroView: View {
                 HStack {
                     Spacer()
                     if phase != .landing {
-                        HUDButton("Skip", symbol: "forward.end") { done() }
+                        HUDButton("Skip", symbol: "forward.end") {
+                            Analytics.track(.introSkipped)
+                            done()
+                        }
                     }
                 }
                 Spacer()
@@ -107,6 +110,7 @@ struct IntroView: View {
                     .multilineTextAlignment(.center)
                     .opacity(logoShown ? 1 : 0)
                 ChunkyButton("Begin") {
+                    Analytics.track(.introStarted)
                     phase = .hello(0)
                     camera.spins = true
                 }
@@ -146,8 +150,11 @@ struct IntroView: View {
             }
             .id("visit\(index)")
         case .outro:
-            HostBubble(name: intro.host, text: intro.outro, button: "Make my cat") { done() }
-                .id("outro")
+            HostBubble(name: intro.host, text: intro.outro, button: "Make my cat") {
+                Analytics.track(.introFinished)
+                done()
+            }
+            .id("outro")
         }
     }
 

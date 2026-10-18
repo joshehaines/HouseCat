@@ -2272,6 +2272,216 @@
    ],
    "scale": 0.4
   },
+  "ui/icon_bean_coin.png": {
+   "master": [
+    340,
+    361
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_bell_for_notifications.png": {
+   "master": [
+    372,
+    410
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_calendar.png": {
+   "master": [
+    392,
+    429
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_camera_for_photos.png": {
+   "master": [
+    406,
+    344
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_cat_face.png": {
+   "master": [
+    923,
+    952
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_clock.png": {
+   "master": [
+    394,
+    397
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_collection_book.png": {
+   "master": [
+    388,
+    454
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_decorate_paintbrush.png": {
+   "master": [
+    400,
+    420
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_feed_bowl.png": {
+   "master": [
+    423,
+    324
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_floorboards.png": {
+   "master": [
+    453,
+    396
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_gift_box_with_a_ribbon.png": {
+   "master": [
+    396,
+    430
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_group_of_three_paw_prints.png": {
+   "master": [
+    414,
+    424
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_house.png": {
+   "master": [
+    428,
+    422
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_level_up_arrow.png": {
+   "master": [
+    365,
+    407
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_map_pin.png": {
+   "master": [
+    426,
+    452
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_nap_moon.png": {
+   "master": [
+    436,
+    403
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_objectives_clipboard_with_a_tick.png": {
+   "master": [
+    387,
+    439
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_padlock.png": {
+   "master": [
+    323,
+    432
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_petting_hand.png": {
+   "master": [
+    983,
+    887
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_play_laser_dot.png": {
+   "master": [
+    426,
+    437
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_season_pass_ticket.png": {
+   "master": [
+    449,
+    366
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_settings_cog.png": {
+   "master": [
+    387,
+    388
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_share_arrow.png": {
+   "master": [
+    391,
+    326
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_shop_bag.png": {
+   "master": [
+    391,
+    439
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_sofa_for_furniture.png": {
+   "master": [
+    464,
+    381
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_streak_paw_print_with_a_small_flame.png": {
+   "master": [
+    366,
+    380
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_trust_heart_with_a_paw_print.png": {
+   "master": [
+    396,
+    357
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_wallpaper_roll.png": {
+   "master": [
+    419,
+    437
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_weather_sun_and_cloud.png": {
+   "master": [
+    436,
+    413
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_xp_star.png": {
+   "master": [
+    391,
+    392
+   ],
+   "scale": 0.4
+  },
   "world/map/map_biome.png": {
    "master": [
     4096,

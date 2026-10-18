@@ -419,7 +419,14 @@ public enum Tuning {
         /// A closed room's veil and its price label.
         public static let veilColor = [0.12, 0.12, 0.2]
         public static let veilAlpha = 0.55
-        public static let lockFontSize = 64.0
+        public static let lockFontSize = 34.0
+        /// The lock badge's paper and ink (the controls' cream and plum).
+        public static let lockPaper = [0.995, 0.97, 0.925]
+        public static let lockInk = [0.24, 0.18, 0.22]
+        /// Along the axis shared with the room you are in, the badge sits this many cells from the back.
+        public static let labelBack = 2.0
+        /// …and this high over the floor, in room units.
+        public static let labelLift = 170.0
         /// A closed room's price label leans this many cells from its middle towards the room you are in.
         public static let labelLean = 3.0
         /// On a portrait screen the active room fills this share of the width, the house showing either side.
@@ -465,6 +472,10 @@ public enum Tuning {
 
     /// How a room is framed on screen.
     public enum Stage {
+        /// The room's controls are drawn this much larger on an iPad.
+        public static let iPadHUDScale = 1.3
+        /// The room slides up over this long when the decorate tray opens.
+        public static let insetSeconds = 0.25
         /// The share of the view the room may fill.
         public static let fitWidth = 0.96
         public static let fitHeight = 0.8
@@ -510,6 +521,10 @@ public enum Tuning {
     public enum Save {
         /// Events older than this are folded into the snapshot.
         public static let compactionHorizonDays = 30
+        /// The shape of `HouseholdState` in a stored snapshot. Bump it whenever the state gains, loses or
+        /// changes a field: an older snapshot is then ignored and the state refolded from the events, which
+        /// are always kept (the snapshot is only a cache).
+        public static let snapshotVersion = 4
     }
 
     /// The stray (SPEC "The stray").

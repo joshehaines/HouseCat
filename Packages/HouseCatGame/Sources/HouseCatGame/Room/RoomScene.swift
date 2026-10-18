@@ -164,11 +164,12 @@ public final class RoomScene: SKScene {
                 node.addStairs(at: CGFloat(stairs.at[0]), CGFloat(stairs.at[1]), facing: stairs.facing)
             }
             if let label = room.lockLabel {
-                // The label sits on the side nearest the room you are in, so it stays in view.
+                // The badge sits towards the room you are in, near the back of the closed room, so it stays
+                // in view and clear of the controls along the bottom of the screen.
                 let active = house.rooms.first { $0.id == house.active && $0.storey == room.storey }
-                let lean = CGFloat(Tuning.House.labelLean)
+                let lean = CGFloat(Tuning.House.labelLean), back = CGFloat(Tuning.House.labelBack)
                 func toward(_ delta: Double) -> CGFloat {
-                    cells / 2 + (delta == 0 ? 0 : delta < 0 ? -lean : lean)
+                    delta == 0 ? back : delta < 0 ? cells / 2 - lean : cells / 2 + lean
                 }
                 let cell = active.map { (u: toward($0.u - room.u), v: toward($0.v - room.v)) }
                 node.veil(label: label, at: cell)
@@ -287,6 +288,15 @@ public final class RoomScene: SKScene {
         director.run(steps(to: spot, in: target))
     }
 
+    /// Screen points along the bottom covered by the app's controls (the decorate tray): the room is framed
+    /// in the space above them.
+    public var bottomInset: CGFloat = 0 {
+        didSet {
+            guard bottomInset != oldValue else { return }
+            run(.customAction(withDuration: Tuning.Stage.insetSeconds) { [weak self] _, _ in self?.fit() }, withKey: "inset")
+        }
+    }
+
     /// Where the view looks, in world units; it follows the cat unless the player has just panned.
     private var focus: CGPoint?
     private var heldUntil: TimeInterval = 0
@@ -314,9 +324,10 @@ public final class RoomScene: SKScene {
         guard size.width > 0, size.height > 0, bounds.width > 0, !rooms.isEmpty else { return }
         // On a screen taller than the room, leave room at the sides for the house around it.
         let widthShare = size.height > size.width ? Tuning.House.portraitFitWidth : Tuning.Stage.fitWidth
-        var scale = min(size.width * widthShare / bounds.width, size.height * Tuning.Stage.fitHeight / bounds.height)
+        let height = max(1, size.height - bottomInset)
+        var scale = min(size.width * widthShare / bounds.width, height * Tuning.Stage.fitHeight / bounds.height)
         if size.height > size.width * CGFloat(Tuning.Stage.portraitZoomAspect) {
-            scale = min(scale * Tuning.Stage.portraitZoom, size.height * Tuning.Stage.fitHeight / bounds.height)
+            scale = min(scale * Tuning.Stage.portraitZoom, height * Tuning.Stage.fitHeight / bounds.height)
         }
         world.setScale(scale)
         look(at: focus ?? CGPoint(x: catWorldPosition?.x ?? bounds.midX, y: bounds.midY))
@@ -332,11 +343,13 @@ public final class RoomScene: SKScene {
     private func look(at point: CGPoint) {
         let scale = world.xScale, house = houseBounds.insetBy(dx: -CGFloat(Tuning.House.margin), dy: -CGFloat(Tuning.House.margin))
         var target = point
-        let halfWidth = size.width / 2 / scale, halfHeight = size.height / 2 / scale
+        let shown = max(1, size.height - bottomInset)
+        let halfWidth = size.width / 2 / scale, halfHeight = shown / 2 / scale
         target.x = house.width > halfWidth * 2 ? min(max(target.x, house.minX + halfWidth), house.maxX - halfWidth) : house.midX
         target.y = house.height > halfHeight * 2 ? min(max(target.y, house.minY + halfHeight), house.maxY - halfHeight) : house.midY
         focus = target
-        world.position = CGPoint(x: size.width / 2 - target.x * scale, y: size.height / 2 - target.y * scale)
+        // Centred in the part of the view the controls leave open.
+        world.position = CGPoint(x: size.width / 2 - target.x * scale, y: bottomInset + shown / 2 - target.y * scale)
     }
 
     private func follow(_ dt: TimeInterval) {

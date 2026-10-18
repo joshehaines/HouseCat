@@ -39,31 +39,25 @@ public struct DecorateBar: View {
     public var body: some View {
         HStack(spacing: 10) {
             if decorating, hasSelection {
-                button("Turn", systemImage: "arrow.triangle.2.circlepath", action: turn)
-                button("Store", systemImage: "tray.and.arrow.down", action: store)
+                HUDButton("Turn", symbol: "arrow.triangle.2.circlepath", action: turn)
+                HUDButton("Store", icon: "sofa_for_furniture", action: store)
             }
             if !decorating, let storeyTitle {
-                button(storeyTitle, systemImage: storeyTitle == "Upstairs" ? "arrow.up.square" : "arrow.down.square", action: changeStorey)
+                HUDButton(storeyTitle, symbol: storeyTitle == "Upstairs" ? "arrow.up" : "arrow.down", action: changeStorey)
             }
             if canDecorate || decorating {
-                button(decorating ? "Done" : "Decorate", systemImage: decorating ? "checkmark" : "hammer", action: toggle)
+                if decorating {
+                    HUDButton("Done", symbol: "checkmark", prominent: true, action: toggle)
+                } else {
+                    HUDButton("Decorate", icon: "decorate_paintbrush", action: toggle)
+                }
             }
             if !decorating, canDecorate, let feed {
-                button("Feed", systemImage: "fork.knife", action: feed)
+                HUDButton("Feed", icon: "feed_bowl", action: feed)
             }
         }
         .animation(.easeOut(duration: 0.2), value: hasSelection)
-    }
-
-    private func button(_ title: String, systemImage: String, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            Label(title, systemImage: systemImage)
-                .font(.subheadline.weight(.semibold))
-                .padding(.horizontal, 14)
-                .padding(.vertical, 10)
-                .background(.thinMaterial, in: Capsule())
-        }
-        .buttonStyle(.plain)
+        .animation(.easeOut(duration: 0.2), value: decorating)
     }
 }
 
@@ -79,32 +73,37 @@ public struct RoomSwitcher: View {
         self.step = step
     }
 
+    @Environment(\.hudScale) private var scale
+
     public var body: some View {
-        HStack(spacing: 4) {
+        HStack(spacing: 2 * scale) {
             if canStep {
                 arrow("chevron.left", label: "Previous room") { step(-1) }
             }
             Text(title)
-                .font(.subheadline.weight(.semibold))
-                .padding(.horizontal, canStep ? 2 : 14)
+                .font(Theme.title(16 * scale))
+                .foregroundStyle(Theme.ink)
+                .padding(.horizontal, canStep ? 2 : 16 * scale)
                 .contentTransition(.opacity)
             if canStep {
                 arrow("chevron.right", label: "Next room") { step(1) }
             }
         }
-        .padding(.vertical, 6)
-        .padding(.horizontal, 4)
-        .background(.thinMaterial, in: Capsule())
+        .padding(.vertical, 6 * scale)
+        .padding(.horizontal, 4 * scale)
+        .paper(Capsule())
         .animation(.easeOut(duration: 0.2), value: title)
     }
 
     private func arrow(_ systemImage: String, label: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Image(systemName: systemImage)
-                .font(.subheadline.weight(.bold))
-                .frame(width: 34, height: 30)
+                .font(.system(size: 15 * scale, weight: .bold))
+                .foregroundStyle(Theme.accent)
+                .frame(width: 36 * scale, height: 32 * scale)
+                .contentShape(Rectangle())
         }
-        .buttonStyle(.plain)
+        .buttonStyle(PressStyle())
         .accessibilityLabel(label)
     }
 }

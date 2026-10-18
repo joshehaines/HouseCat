@@ -410,15 +410,40 @@ final class RoomNode: SKNode {
         veil.zPosition = Layer.veil
         veil.name = "veil"
         addChild(veil)
+        // Held up at eye height over the floor, like a sign, so it clears the controls along the bottom.
+        let floor = grid.floor(cell?.u ?? n / 2, cell?.v ?? n / 2)
+        addChild(lockBadge(label, at: CGPoint(x: floor.x, y: floor.y + CGFloat(Tuning.House.labelLift))))
+    }
+
+    /// What opening a closed room takes, as a cream badge with the painted padlock (the game's controls' look).
+    private func lockBadge(_ label: String, at point: CGPoint) -> SKNode {
+        let size = CGFloat(Tuning.House.lockFontSize)
         let text = SKLabelNode(text: label)
-        text.fontName = "AvenirNext-DemiBold"
-        text.fontSize = CGFloat(Tuning.House.lockFontSize)
-        text.fontColor = .white
+        text.fontName = "AvenirNext-Bold"
+        text.fontSize = size
+        let ink = Tuning.House.lockInk
+        text.fontColor = SKColor(red: ink[0], green: ink[1], blue: ink[2], alpha: 1)
         text.verticalAlignmentMode = .center
-        text.position = grid.floor(cell?.u ?? n / 2, cell?.v ?? n / 2)
-        text.zPosition = Layer.veil + 1
-        text.name = "lock"
-        addChild(text)
+        text.horizontalAlignmentMode = .left
+        let icon = SKSpriteNode(texture: art.texture("ui/icon_padlock.png"))
+        let iconSize = size * 1.5
+        icon.size = CGSize(width: iconSize * icon.texture!.size().width / max(1, icon.texture!.size().height), height: iconSize)
+        let pad = size * 0.5, gap = size * 0.3
+        let width = pad + icon.size.width + gap + text.frame.width + pad * 1.4
+        let height = iconSize + pad
+        let badge = SKShapeNode(rect: CGRect(x: -width / 2, y: -height / 2, width: width, height: height), cornerRadius: height / 2)
+        let c = Tuning.House.lockPaper
+        badge.fillColor = SKColor(red: c[0], green: c[1], blue: c[2], alpha: 0.95)
+        badge.strokeColor = SKColor(red: 0.6, green: 0.45, blue: 0.38, alpha: 0.3)
+        badge.lineWidth = 2
+        icon.position = CGPoint(x: -width / 2 + pad + icon.size.width / 2, y: 0)
+        text.position = CGPoint(x: icon.position.x + icon.size.width / 2 + gap, y: 0)
+        badge.addChild(icon)
+        badge.addChild(text)
+        badge.position = point
+        badge.zPosition = Layer.veil + 1
+        badge.name = "lock"
+        return badge
     }
 
     // MARK: Effects

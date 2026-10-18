@@ -1,7 +1,8 @@
 import SwiftUI
 
-/// Level, Beans and the visit streak at a glance (a stand-in until the UI design pass).
+/// Level, Beans and the visit streak at a glance, each with its painted icon.
 public struct StatusPill: View {
+    @Environment(\.hudScale) private var scale
     private let level: Int
     private let beans: Int
     private let streak: Int
@@ -13,16 +14,25 @@ public struct StatusPill: View {
     }
 
     public var body: some View {
-        HStack(spacing: 12) {
-            Label("Level \(level)", systemImage: "star.fill")
-            Label("\(beans)", systemImage: "circle.hexagongrid.fill")
-            Label("\(streak)", systemImage: "pawprint.fill")
+        HStack(spacing: 12 * scale) {
+            item("xp_star", "\(level)")
+            item("bean_coin", beans.formatted())
+            item("streak_paw_print_with_a_small_flame", "\(streak)")
         }
-        .font(.subheadline.weight(.semibold).monospacedDigit())
-        .padding(.horizontal, 14)
-        .padding(.vertical, 10)
-        .background(.thinMaterial, in: Capsule())
+        .padding(.horizontal, 12 * scale)
+        .padding(.vertical, 4 * scale)
+        .paper(Capsule())
         .accessibilityElement(children: .ignore)
         .accessibilityLabel("Level \(level), \(beans) Beans, \(streak) day streak")
+    }
+
+    private func item(_ icon: String, _ value: String) -> some View {
+        HStack(spacing: 4 * scale) {
+            PaintedIcon(icon, size: 30 * scale)
+            Text(value)
+                .font(.system(size: 16 * scale, weight: .bold).monospacedDigit())
+                .foregroundStyle(Theme.ink)
+                .contentTransition(.numericText())
+        }
     }
 }

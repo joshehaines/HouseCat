@@ -1,6 +1,7 @@
 import Foundation
 import HouseCatCore
 @testable import HouseCatModels
+import SwiftData
 import Testing
 
 @MainActor
@@ -56,7 +57,28 @@ struct EventStoreTests {
         try store.compact(today: today, context: .empty)
         let after = try store.load()
         #expect(after.snapshotBoundary == SaveLog.compactionBoundary(today: today))
-        #expect(after.events.allSatisfy { $0.day >= SaveLog.compactionBoundary(today: today) })
+        #expect(after.events.allSatisfy { $0.day >= SaveLog.compactionBoundary(today: today) }, "loading folds only the recent ones")
         #expect(after.derive(through: today, context: .empty) == before)
+    }
+
+    @Test func aSnapshotOfAnOlderShapeIsPassedOverAndNothingIsLost() throws {
+        let store = try EventStore(inMemory: true)
+        for event in history() {
+            try store.append(event)
+        }
+        let today = start.advanced(by: 45)
+        let before = try store.load().derive(through: today, context: .empty)
+        try store.compact(today: today, context: .empty)
+        // A build that changed the state's shape finds a snapshot it cannot trust.
+        let snapshot = try #require(try store.container.mainContext.fetch(FetchDescriptor<StoredSnapshot>()).first)
+        snapshot.version = Tuning.Save.snapshotVersion - 1
+        let refolded = try store.load()
+        #expect(refolded.snapshot == nil)
+        #expect(refolded.events.count == history().count, "the events were kept")
+        #expect(refolded.derive(through: today, context: .empty) == before)
+        // And one that no longer decodes is passed over the same way.
+        snapshot.version = Tuning.Save.snapshotVersion
+        snapshot.payload = Data("{}".utf8)
+        #expect(try store.load().derive(through: today, context: .empty) == before)
     }
 }

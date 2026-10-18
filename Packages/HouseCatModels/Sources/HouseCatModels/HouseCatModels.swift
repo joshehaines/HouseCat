@@ -24,14 +24,17 @@ public final class StoredEvent {
     }
 }
 
-/// The compaction snapshot: the derived state through `boundaryDay`.
+/// The compaction snapshot: the derived state through `boundaryDay`, a cache over the events (which are
+/// never deleted): one of another `version`, or one that no longer decodes, is passed over.
 @Model
 public final class StoredSnapshot {
     public var boundaryDay = 0
+    public var version = 0
     public var payload = Data()
 
     public init(boundaryDay: GameDay, state: HouseholdState) throws {
         self.boundaryDay = boundaryDay.index
+        version = Tuning.Save.snapshotVersion
         payload = try JSONEncoder().encode(state)
     }
 
@@ -85,25 +88,26 @@ public final class EventStore {
         try context.save()
     }
 
-    /// The whole save as a log: the newest snapshot plus every event after it.
+    /// The whole save as a log: the newest usable snapshot plus every event after it, or every event when
+    /// there is no snapshot of this build's shape. An event that no longer decodes is skipped, not fatal.
     public func load() throws -> SaveLog {
         let snapshots = try context.fetch(FetchDescriptor<StoredSnapshot>(sortBy: [SortDescriptor(\.boundaryDay, order: .reverse)]))
-        let snapshot = try snapshots.first?.decoded()
-        let boundary = snapshots.first?.boundaryDay ?? Int.min
+        let usable = snapshots.first { $0.version == Tuning.Save.snapshotVersion }
+        let snapshot = try? usable?.decoded()
+        let boundary = snapshot == nil ? Int.min : usable?.boundaryDay ?? Int.min
         let stored = try context.fetch(FetchDescriptor<StoredEvent>(predicate: #Predicate { $0.dayIndex >= boundary }))
-        return try SaveLog(snapshot: snapshot, events: stored.map { try $0.decoded() })
+        return SaveLog(snapshot: snapshot, events: stored.compactMap { try? $0.decoded() })
     }
 
-    /// Folds events older than the horizon into a snapshot and deletes them.
+    /// Folds events older than the horizon into a snapshot, so loading folds only the recent ones. The events
+    /// stay: the snapshot is a cache, rebuilt from them whenever the state's shape changes.
     public func compact(today: GameDay, context rules: RulesContext) throws {
         let boundary = SaveLog.compactionBoundary(today: today)
         let log = try load()
         let compacted = log.compacted(before: boundary, context: rules)
         guard let snapshot = compacted.snapshot, compacted.snapshotBoundary != log.snapshotBoundary else { return }
+        try context.delete(model: StoredSnapshot.self)
         try context.insert(StoredSnapshot(boundaryDay: boundary, state: snapshot))
-        let index = boundary.index
-        try context.delete(model: StoredEvent.self, where: #Predicate { $0.dayIndex < index })
-        try context.delete(model: StoredSnapshot.self, where: #Predicate { $0.boundaryDay < index })
         try context.save()
     }
 }

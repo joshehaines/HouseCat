@@ -34,8 +34,20 @@ public struct DecorateTray: View {
         }
     }
 
+    /// A tray tab: its word and its painted icon.
+    public struct Mode: Hashable {
+        public var title: String
+        public var icon: String
+
+        public init(_ title: String, icon: String) {
+            self.title = title
+            self.icon = icon
+        }
+    }
+
+    @Environment(\.hudScale) private var scale
     private let entries: [Entry]
-    private let modes: [String]
+    private let modes: [Mode]
     private let mode: Int
     private let selectMode: (Int) -> Void
     private let place: (String) -> Void
@@ -43,7 +55,7 @@ public struct DecorateTray: View {
 
     public init(
         entries: [Entry],
-        modes: [String] = [],
+        modes: [Mode] = [],
         mode: Int = 0,
         selectMode: @escaping (Int) -> Void = { _ in },
         empty: String = "Everything you own is out. Store a piece to move it here.",
@@ -57,64 +69,108 @@ public struct DecorateTray: View {
         self.place = place
     }
 
+    /// The tray's height on screen, for the scene to frame the room above it.
+    public static func height(scale: CGFloat) -> CGFloat {
+        (cardHeight + 20) * scale
+    }
+
+    static let cardHeight: CGFloat = 96
+
     public var body: some View {
-        VStack(spacing: 8) {
+        HStack(alignment: .center, spacing: 6 * scale) {
             if modes.count > 1 {
-                Picker("Tray", selection: Binding(get: { mode }, set: selectMode)) {
-                    ForEach(Array(modes.enumerated()), id: \.offset) { index, title in
-                        Text(title).tag(index)
+                // The tabs as a column of painted icons down the tray's left edge.
+                VStack(spacing: 2 * scale) {
+                    ForEach(Array(modes.enumerated()), id: \.offset) { index, tab in
+                        Button {
+                            selectMode(index)
+                        } label: {
+                            HStack(spacing: 3 * scale) {
+                                PaintedIcon(tab.icon, size: 20 * scale)
+                                Text(tab.title).font(.system(size: 12 * scale, weight: .semibold))
+                                Spacer(minLength: 0)
+                            }
+                            .foregroundStyle(index == mode ? Theme.ink : Theme.inkSoft)
+                            .padding(.horizontal, 6 * scale)
+                            .frame(width: 84 * scale, height: 22 * scale)
+                            .background(Capsule().fill(index == mode ? Theme.cream : Color.clear))
+                            .overlay(Capsule().strokeBorder(index == mode ? Theme.rim : .clear, lineWidth: 1))
+                            .contentShape(Capsule())
+                        }
+                        .buttonStyle(PressStyle())
+                        .accessibilityAddTraits(index == mode ? .isSelected : [])
                     }
                 }
-                .pickerStyle(.segmented)
-                .frame(maxWidth: 320)
+                .padding(.leading, 10 * scale)
             }
             items
+        }
+        .frame(height: Self.height(scale: scale))
+        // A dock: the paper runs on under the home indicator and out to the screen's edges.
+        .background {
+            UnevenRoundedRectangle(topLeadingRadius: 22 * scale, topTrailingRadius: 22 * scale)
+                .fill(Theme.paper)
+                .overlay(UnevenRoundedRectangle(topLeadingRadius: 22 * scale, topTrailingRadius: 22 * scale).strokeBorder(
+                    Theme.rim,
+                    lineWidth: 1
+                ))
+                .shadow(color: Theme.shadow, radius: 8, y: -2)
+                .ignoresSafeArea(edges: [.bottom, .horizontal])
         }
     }
 
     private var items: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 10) {
+            HStack(spacing: 8 * scale) {
                 if entries.isEmpty {
                     Text(empty)
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
-                        .padding(.horizontal, 8)
+                        .font(.system(size: 14 * scale))
+                        .foregroundStyle(Theme.inkSoft)
+                        .padding(.horizontal, 8 * scale)
+                        .frame(height: Self.cardHeight * scale)
                 }
                 ForEach(entries) { entry in
                     Button {
                         place(entry.id)
                     } label: {
-                        VStack(spacing: 4) {
+                        VStack(spacing: 2 * scale) {
                             (entry.image ?? Image(systemName: "shippingbox"))
                                 .resizable()
+                                .interpolation(.high)
                                 .scaledToFit()
-                                .frame(width: 56, height: 48)
+                                .frame(width: 60 * scale, height: 50 * scale)
                             Text(entry.count > 1 ? "\(entry.name) ×\(entry.count)" : entry.name)
-                                .font(.caption2.weight(.semibold))
+                                .font(.system(size: 11 * scale, weight: .semibold))
+                                .foregroundStyle(Theme.ink)
                                 .lineLimit(1)
                             if let price = entry.price {
-                                Text(price)
-                                    .font(.caption2.weight(.bold))
-                                    .foregroundStyle(entry.enabled ? Color.accentColor : .secondary)
+                                HStack(spacing: 2 * scale) {
+                                    if price.hasSuffix("Beans") {
+                                        PaintedIcon("bean_coin", size: 14 * scale)
+                                    } else {
+                                        PaintedIcon("padlock", size: 14 * scale)
+                                    }
+                                    Text(price.replacingOccurrences(of: " Beans", with: ""))
+                                        .font(.system(size: 12 * scale, weight: .bold).monospacedDigit())
+                                        .foregroundStyle(entry.enabled ? Theme.accent : Theme.inkSoft)
+                                }
                             }
                         }
-                        .opacity(entry.enabled ? 1 : 0.5)
-                        .frame(width: 84)
-                        .padding(.vertical, 8)
-                        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                        .frame(width: 86 * scale, height: Self.cardHeight * scale)
+                        .opacity(entry.enabled ? 1 : 0.55)
+                        .paper(RoundedRectangle(cornerRadius: 14 * scale, style: .continuous))
                         .overlay(
-                            RoundedRectangle(cornerRadius: 14, style: .continuous)
-                                .stroke(Color.accentColor, lineWidth: entry.selected ? 3 : 0)
+                            RoundedRectangle(cornerRadius: 14 * scale, style: .continuous)
+                                .strokeBorder(Theme.accent, lineWidth: entry.selected ? 3 : 0)
                         )
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(PressStyle())
                     .disabled(!entry.enabled)
                     .accessibilityLabel(entry.price.map { "Buy \(entry.name), \($0)" } ?? "Place \(entry.name)")
                 }
             }
-            .padding(.horizontal, 16)
+            .padding(.horizontal, 8 * scale)
+            .padding(.vertical, 10 * scale)
         }
-        .frame(height: 112)
     }
 }

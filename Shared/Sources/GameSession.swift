@@ -15,7 +15,42 @@ final class GameSession {
     let content: ContentBundle?
     private let rules: RulesContext
     private let store: EventStore?
-    private(set) var log: SaveLog
+    private(set) var log: SaveLog {
+        didSet {
+            // Events normally land at the end of the log: fold just those onto what is cached. Anything
+            // else (a late event from another device) refolds from the start next time.
+            if let cached = folded, log.events.count > cached.count, log.snapshot == oldValue.snapshot,
+               log.events.prefix(cached.count).last?.id == oldValue.events.prefix(cached.count).last?.id
+            {
+                return
+            }
+            folded = nil
+        }
+    }
+
+    /// The log folded through its last event, and how many events that took.
+    private var folded: (count: Int, state: HouseholdState)?
+
+    /// The derived state through the last event, kept up to date as events are appended (a full refold of a
+    /// long save on every read made a sixty-day household slow to use).
+    private func fold() -> HouseholdState {
+        if let cached = folded, cached.count == log.events.count {
+            return cached.state
+        }
+        var state: HouseholdState
+        var start = 0
+        if let cached = folded, cached.count < log.events.count {
+            state = cached.state
+            start = cached.count
+        } else {
+            state = log.snapshot ?? HouseholdState()
+        }
+        for event in log.events[start...] {
+            state.apply(event, context: rules)
+        }
+        folded = (log.events.count, state)
+        return state
+    }
 
     /// - Parameter store: the save; nil uses the App Group store when the app is entitled to it (the widget
     ///   reads the same save), else the app's container. Tests pass an in-memory store.
@@ -44,14 +79,14 @@ final class GameSession {
 
     /// The state with every day before `date`'s game day closed.
     func state(at date: Date) -> HouseholdState {
-        let clock = log.derive(context: rules).clock
-        return log.derive(through: clock.day(of: date), context: rules)
+        let state = fold()
+        return state.resolved(through: state.clock.day(of: date), context: rules)
     }
 
     @discardableResult
     func append(_ kind: GameEvent.Kind, at date: Date, source: GameEvent.Source = .app) -> GameEvent {
         let at = log.timestamp(for: date)
-        let clock = log.derive(context: rules).clock
+        let clock = fold().clock
         let event = GameEvent(at: at, day: clock.day(of: at), source: source, kind: kind)
         log.append(event)
         try? store?.append(event)
@@ -409,7 +444,7 @@ final class GameSession {
         /// silhouette shows (assets/rooms/houses.json roomStyles).
         private func seedFullHouse(from start: Date) {
             // Appended in one batch on the household's clock: deriving the save for every event would take a minute.
-            let clock = log.derive(context: rules).clock
+            let clock = fold().clock
             var batch: [GameEvent] = []
             func append(_ kind: GameEvent.Kind, at date: Date) {
                 let at = log.timestamp(for: date)

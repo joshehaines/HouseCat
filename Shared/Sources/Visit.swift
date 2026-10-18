@@ -14,6 +14,20 @@ final class Visit {
     private(set) var scene: SKScene
     /// The cat's greeting, shown for a few seconds once the room is on screen.
     private(set) var greeting: String?
+    /// The cat's name, over its lines.
+    var catName: String? {
+        GameSession.shared.cat?.name
+    }
+
+    /// The first frame of the scene has been drawn (the launch curtain lifts).
+    private(set) var ready = false
+
+    func sceneIsReady() {
+        if !ready {
+            ready = true
+        }
+    }
+
     /// Decorate mode, and the piece picked up in it.
     private(set) var decorating = false
     private(set) var selected: UUID?
@@ -33,7 +47,7 @@ final class Visit {
         stats = Stats(level: state.level, beans: state.beans, streak: state.streak.current)
         if statsRead, stats.level > before.level {
             Sound.play("ui_level_up", volume: Tuning.Sound.levelUp)
-            show(toast: "Level \(stats.level)")
+            show(toast: "Level \(stats.level)", icon: "level_up_arrow")
             say(GameSession.shared.line("progress.level_up"))
         }
         statsRead = true
@@ -43,9 +57,12 @@ final class Visit {
 
     /// A short note over the room ("+10 Beans", "Level 3"), gone after a moment.
     private(set) var toast: String?
+    /// The painted icon that goes with the toast.
+    private(set) var toastIcon: String?
 
-    private func show(toast text: String) {
+    private func show(toast text: String, icon: String? = nil) {
         toast = text
+        toastIcon = icon
         Task { @MainActor [weak self] in
             try? await Task.sleep(for: .seconds(Tuning.Care.toastSeconds))
             if self?.toast == text {
@@ -77,7 +94,7 @@ final class Visit {
         Sound.play("ui_gift_open_\(gift.draw.rarity.rawValue)", volume: Tuning.Sound.gift)
         refreshStats()
         let earned = stats.beans - beans
-        show(toast: "\(gift.name) · +\(earned) Beans")
+        show(toast: "\(gift.name) · +\(earned) Beans", icon: "gift_box_with_a_ribbon")
         say(line)
         // Another may have dropped while this one waited.
         Task { @MainActor [weak self] in
@@ -293,6 +310,16 @@ final class Visit {
             case .floors: "Floors"
             }
         }
+
+        /// Its painted icon.
+        var icon: String {
+            switch self {
+            case .furniture: "sofa_for_furniture"
+            case .shop: "shop_bag"
+            case .walls: "wallpaper_roll"
+            case .floors: "floorboards"
+            }
+        }
     }
 
     var trayMode = TrayMode.furniture
@@ -385,7 +412,7 @@ final class Visit {
             Task { @MainActor [weak self] in
                 try? await Task.sleep(for: .seconds(Tuning.Care.lineSeconds))
                 self?.say(GameSession.shared.line("progress.trust_\(String(describing: after))"))
-                self?.show(toast: "Trust: \(String(describing: after).capitalized)")
+                self?.show(toast: "Trust: \(String(describing: after).capitalized)", icon: "trust_heart_with_a_paw_print")
             }
         }
         // Fed: the day's gift is drawn and drops later; one may already be waiting.

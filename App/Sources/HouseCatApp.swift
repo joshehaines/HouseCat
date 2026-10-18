@@ -160,30 +160,32 @@ struct RoomScreen: View {
     @State private var showBook = false
     @State private var editing: CatBuilderModel?
     @State private var profileVersion = 0
+    @Environment(\.horizontalSizeClass) private var sizeClass
+
+    /// Larger controls on an iPad.
+    private var hudScale: CGFloat {
+        sizeClass == .regular ? Tuning.Stage.iPadHUDScale : 1
+    }
 
     var body: some View {
-        RoomView(scene: visit.scene)
+        RoomView(scene: visit.scene) { visit.sceneIsReady() }
             .ignoresSafeArea()
             .overlay(alignment: .top) {
                 // At the top in landscape: the cat runs to the bottom edge to rub.
                 VStack(spacing: 8) {
                     if let line = visit.greeting {
-                        GreetingBubble(line)
+                        GreetingBubble(line, name: visit.catName)
                             .padding(.horizontal, 90)
                             .transition(.move(edge: .top).combined(with: .opacity))
                             .onTapGesture { visit.dismissGreeting() }
                     }
                     if let toast = visit.toast {
-                        Text(toast)
-                            .font(.headline)
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 8)
-                            .background(.thinMaterial, in: Capsule())
-                            .transition(.scale.combined(with: .opacity))
+                        Toast(toast, icon: visit.toastIcon)
+                            .transition(.scale(scale: 0.8).combined(with: .opacity))
                     }
                 }
                 // Below the room controls and the status along the top.
-                .padding(.top, 76)
+                .padding(.top, 74 * hudScale)
             }
             .animation(.easeOut(duration: 0.3), value: visit.greeting)
             .animation(.spring(duration: 0.35), value: visit.toast)
@@ -217,17 +219,16 @@ struct RoomScreen: View {
                 }
             }
             .overlay(alignment: .bottomTrailing) {
-                if !visit.decorating {
+                // Nothing over the cold open: the exterior is the picture.
+                if !visit.decorating, visit.scene is RoomScene {
                     HStack(spacing: 10) {
-                        if visit.scene is RoomScene {
-                            roundButton("map", label: "Where you live") {
-                                let session = GameSession.shared
-                                moving = WorldMapModel(mode: .move, current: session.state(at: session.now()))
-                            }
-                            roundButton("pawprint", label: "Your cat") { showProfile = true }
-                            roundButton("book", label: "The book") { showBook = true }
+                        RoundIconButton("map_pin", label: "Where you live") {
+                            let session = GameSession.shared
+                            moving = WorldMapModel(mode: .move, current: session.state(at: session.now()))
                         }
-                        roundButton("bag", label: "Shop") { showShop = true }
+                        RoundIconButton("cat_face", label: "Your cat") { showProfile = true }
+                        RoundIconButton("collection_book", label: "The book") { showBook = true }
+                        RoundIconButton("shop_bag", label: "Shop") { showShop = true }
                     }
                     .padding(20)
                     .transition(.opacity)
@@ -237,7 +238,7 @@ struct RoomScreen: View {
                 if visit.decorating {
                     DecorateTray(
                         entries: trayEntries(),
-                        modes: Visit.TrayMode.allCases.map(\.title),
+                        modes: Visit.TrayMode.allCases.map { DecorateTray.Mode($0.title, icon: $0.icon) },
                         mode: visit.trayMode.rawValue,
                         selectMode: { visit.trayMode = Visit.TrayMode(rawValue: $0) ?? .furniture },
                         empty: visit.trayMode == .furniture
@@ -250,11 +251,24 @@ struct RoomScreen: View {
                         case .walls, .floors: visit.chooseSurface(id)
                         }
                     }
-                    .padding(.bottom, 12)
+                    .frame(maxWidth: 900 * hudScale)
                     .transition(.move(edge: .bottom).combined(with: .opacity))
                 }
             }
             .animation(.easeOut(duration: 0.25), value: visit.decorating)
+            .onChange(of: visit.decorating) { _, decorating in
+                (visit.scene as? RoomScene)?.bottomInset = decorating ? DecorateTray.height(scale: hudScale) : 0
+            }
+            .overlay {
+                // The launch screen stays up until the first picture is drawn, then lifts.
+                if !visit.ready {
+                    LaunchCurtain().transition(.opacity)
+                }
+            }
+            .animation(.easeOut(duration: 0.45), value: visit.ready)
+            .environment(\.hudScale, hudScale)
+            .statusBarHidden()
+            .persistentSystemOverlays(.hidden)
             .alert(item: $visit.roomOffer) { offer in
                 roomAlert(offer)
             }
@@ -310,16 +324,6 @@ struct RoomScreen: View {
                     visit.refreshCat()
                 }
             }
-    }
-
-    private func roundButton(_ systemImage: String, label: String, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            Image(systemName: systemImage)
-                .font(.title2)
-                .padding(12)
-                .background(.thinMaterial, in: Circle())
-        }
-        .accessibilityLabel(label)
     }
 
     private func trayEntries() -> [DecorateTray.Entry] {
@@ -386,5 +390,16 @@ struct RoomScreen: View {
         case .open:
             return Alert(title: Text("The \(name) is open"))
         }
+    }
+}
+
+/// The launch screen's look (the logo on cream), kept over the first scene while it loads.
+struct LaunchCurtain: View {
+    var body: some View {
+        ZStack {
+            Color("LaunchBackground").ignoresSafeArea()
+            Image("LaunchLogo")
+        }
+        .accessibilityHidden(true)
     }
 }

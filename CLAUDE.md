@@ -147,9 +147,23 @@ Where the spec is silent, these are set in `Tuning.swift` and HouseCatCore (tune
 - The profile shows the cat's portrait, "Together N days" (streak days since adoption; a missed day, a lost streak or pause never touch it), its age, trust and the days to the next tier, XP to the next level, badges at 100 days and each year, and the lifetime stats (`HouseholdState.profile(of:on:)`). The book lists all 60 gifts, found ones in colour with their count.
 - Profile, book and shop sit bottom right; the top bar is the room controls and the status. Debug launches: `HOUSECAT_CAT=<preset id>` skips the builder with that look (a velcro cat called Pip), `HOUSECAT_GIFT=1` with it starts the save yesterday with the cat fed, so a gift is waiting.
 
+## Decisions during step 3, rooms and furniture (18 Oct 2026)
+- Run in this session (the app would not start a parallel one from a Remote Control message), straight after step 2.
+- Every room of the home is built (`RoomScene.rooms`); the storey on screen is put in the world, the others wait off screen, so the cat can be in a room you are not looking at. The active room is the one you are in: tap an open room, use the room arrows (bottom left) or go Upstairs (into that storey's first open room); decorating, walls and floors, the shop and every placement act on it, and each visit to a room records `roomVisited`. The cat has its own room (`catRoom`).
+- Rooms side by side on a storey join through a doorway cut halfway along their partition (`HouseModel.links`, `Tuning.House.doorwayAlong`/`doorwayWidth`); the cat walks through it (`CatDirector.Step.enter`) by the shortest way through open rooms. To another storey (or with no open way) it walks to the stairs where they stand, fades out and fades in on the other side.
+- Which room the cat goes to is a Core rule (`RoomChoice`): only open rooms; each room type is for something (the bed at night, the bowl in the kitchen, the garden to watch from: `Tuning.CatRooms.preferred`, taken 70% of the time when that room has it), else it often stays where it is, else any open room that has what it wants; "near you" comes to the room you are looking at. The behaviour table now sees what every open room offers.
+- The view goes with the cat into another room unless you are decorating or picked a room in the last 30 s (`Tuning.House.roomHoldSeconds`).
+- New rooms open empty, as SPEC "Home and furniture" has it: opening one takes you into it with the decorate tray on Shop. The tray's Shop lists the Bean catalogue, the room's own pieces first, each with its price or the level it needs (`BeanShop`); a tap buys it (`itemBought`) straight into the room, picked up. Any piece can go in any room. Every free and Bean piece's art is now bundled (`build_app_art.py` `catalogue_sets`).
+- Debug: `HOUSECAT_HOUSE=full` with `HOUSECAT_CAT=<preset>` seeds sixty days of play (level 13), opens every room and furnishes each as its closed silhouette shows; `HOUSECAT_ROOM=<room>` goes there once the room is up and sends the cat to use a piece of its furniture.
+
 ## Known gaps after milestone 1
 - Only the living room has a window and a door; other rooms show none yet. Stairs are a fixture (not in the catalogue), the L sprite mirrored from the R one.
 - The app bundles only the demo home's exterior scenes; shipping every home × biome × season needs On-Demand Resources or Background Assets (about 5 MB a scene with its door-open edit and masks).
+
+## Known gaps after step 3
+- Doorways are gaps in the low partitions, not painted door frames; the cat fades on the stairs rather than climbing them. Rooms on another storey have no doorway between them unless the plan puts them side by side.
+- Opening a room gives no furniture: until the player buys some, the cat only loafs there (the `home.empty_room` line is not spoken yet).
+- `RoomChoice` reads the time of day but not the weather (the window weather already comes through the behaviour table).
 
 ## Known gaps after step 2
 - Not drawn yet from the builder art: the expression heads (slow blink, content, sleepy...), the three-quarter-back view, the curled and low tails, and outfits over a look. A kitten is the adult art drawn smaller.

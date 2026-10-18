@@ -176,7 +176,7 @@ struct RoomScreen: View {
                         decorating: visit.decorating,
                         hasSelection: visit.selected != nil,
                         storeyTitle: visit.storeyTitle,
-                        canDecorate: visit.storey == 0,
+                        canDecorate: visit.canDecorate,
                         toggle: { visit.toggleDecorating() },
                         turn: { visit.turnSelection() },
                         store: { visit.storeSelection() },
@@ -190,6 +190,13 @@ struct RoomScreen: View {
                 if visit.scene is RoomScene {
                     StatusPill(level: visit.stats.level, beans: visit.stats.beans, streak: visit.stats.streak)
                         .padding(20)
+                }
+            }
+            .overlay(alignment: .bottomLeading) {
+                if !visit.decorating, visit.scene is RoomScene {
+                    RoomSwitcher(title: visit.roomTitle, canStep: visit.openRooms.count > 1) { visit.stepRoom($0) }
+                        .padding(20)
+                        .transition(.opacity)
                 }
             }
             .overlay(alignment: .bottomTrailing) {
@@ -208,15 +215,18 @@ struct RoomScreen: View {
             .overlay(alignment: .bottom) {
                 if visit.decorating {
                     DecorateTray(
-                        entries: visit.trayMode == .furniture ? visit.inventory.map(trayEntry) : surfaceEntries(),
+                        entries: trayEntries(),
                         modes: Visit.TrayMode.allCases.map(\.title),
                         mode: visit.trayMode.rawValue,
-                        selectMode: { visit.trayMode = Visit.TrayMode(rawValue: $0) ?? .furniture }
+                        selectMode: { visit.trayMode = Visit.TrayMode(rawValue: $0) ?? .furniture },
+                        empty: visit.trayMode == .furniture
+                            ? "Everything you own is out. Store a piece, or buy one in the shop."
+                            : "Nothing here yet."
                     ) { id in
-                        if visit.trayMode == .furniture {
-                            visit.placeFromInventory(id)
-                        } else {
-                            visit.chooseSurface(id)
+                        switch visit.trayMode {
+                        case .furniture: visit.placeFromInventory(id)
+                        case .shop: visit.buy(id)
+                        case .walls, .floors: visit.chooseSurface(id)
                         }
                     }
                     .padding(.bottom, 12)
@@ -276,6 +286,26 @@ struct RoomScreen: View {
                 .background(.thinMaterial, in: Circle())
         }
         .accessibilityLabel(label)
+    }
+
+    private func trayEntries() -> [DecorateTray.Entry] {
+        switch visit.trayMode {
+        case .furniture: visit.inventory.map(trayEntry)
+        case .shop: visit.shopEntries.map(shopEntry)
+        case .walls, .floors: surfaceEntries()
+        }
+    }
+
+    /// A Bean-shop piece with its price (or the level it needs).
+    private func shopEntry(_ entry: GameSession.ShopEntry) -> DecorateTray.Entry {
+        let url = Bundle.main.url(forResource: "Art/" + entry.sprite, withExtension: nil)
+        let image = url.flatMap { UIImage(contentsOfFile: $0.path) }.map { Image(uiImage: $0) }
+        let (price, enabled) = switch entry.status {
+        case let .buyable(price): ("\(price) Beans", true)
+        case let .needsBeans(price): ("\(price) Beans", false)
+        case let .needsLevel(level): ("Level \(level)", false)
+        }
+        return DecorateTray.Entry(id: entry.id, name: entry.name, count: 1, image: image, price: price, enabled: enabled)
     }
 
     /// The room's wallpapers or floors as tray entries, the one up now marked.

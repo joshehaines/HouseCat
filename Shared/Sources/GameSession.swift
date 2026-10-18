@@ -88,12 +88,14 @@ final class GameSession {
         let day = after.clock.day(of: date)
         let mood = after.mood(of: Self.catID, at: date)
         let sky = GameWorld.skyPhase(at: date)
+        let offers = RoomChoice.offers(in: after, catalogue: content?.affordances ?? [:])
+        let time = TimeOfDay.at(localMinutes: after.clock.localMinutes(of: date), clock: after.clock)
         let context = BehaviourContext(
             mood: mood,
             weather: weather,
             personality: cat?.personality ?? .velcro,
-            timeOfDay: TimeOfDay.at(localMinutes: after.clock.localMinutes(of: date), clock: after.clock),
-            available: after.affordances(in: .living, catalogue: content?.affordances ?? [:]),
+            timeOfDay: time,
+            available: offers.values.reduce(into: Set<Affordance>()) { $0.formUnion($1) },
             sunlit: sky == .day && weather.isSunny
         )
         let visits = after.lifetime.visits
@@ -102,22 +104,28 @@ final class GameSession {
         let greeting = cat.flatMap { cat in content.flatMap { Greeting.line(greetingContext, cat: cat, lines: $0.lines, rng: &words) } }
         let meow = cat
             .flatMap { cat in content?.lines.lines.first { $0.context == greetingContext && $0.personality == cat.personality }?.meow }
-        return Arrival(greeting: greeting, meow: meow, choice: BehaviourTable.choose(context, rng: &brain), mood: mood)
+        let choice = RoomChoice.placed(
+            BehaviourTable.choose(context, rng: &brain),
+            current: .living, viewing: .living, offers: offers, timeOfDay: time, rng: &brain
+        )
+        return Arrival(greeting: greeting, meow: meow, choice: choice, mood: mood)
     }
 
     /// The cat's next activity while you watch (no event: activities are not game state). Same rule as the
-    /// arrival, drawn afresh each time so it wanders.
-    func nextActivity(weather: Weather = .sun) -> BehaviourChoice? {
+    /// arrival, drawn afresh each time so it wanders, in whichever open room has what it wants.
+    func nextActivity(catRoom: RoomID, viewing: RoomID, weather: Weather = .sun) -> BehaviourChoice? {
         let date = now()
         let state = state(at: date)
         guard let cat = state.cat(Self.catID) else { return nil }
         let sky = GameWorld.skyPhase(at: date)
+        let offers = RoomChoice.offers(in: state, catalogue: content?.affordances ?? [:])
+        let time = TimeOfDay.at(localMinutes: state.clock.localMinutes(of: date), clock: state.clock)
         let context = BehaviourContext(
             mood: state.mood(of: Self.catID, at: date),
             weather: weather,
             personality: cat.personality,
-            timeOfDay: TimeOfDay.at(localMinutes: state.clock.localMinutes(of: date), clock: state.clock),
-            available: state.affordances(in: .living, catalogue: content?.affordances ?? [:]),
+            timeOfDay: time,
+            available: offers.values.reduce(into: Set<Affordance>()) { $0.formUnion($1) },
             sunlit: sky == .day && weather.isSunny
         )
         var rng = DaySeed(
@@ -126,7 +134,23 @@ final class GameSession {
             purpose: "brain",
             salt: "idle\(Int(date.timeIntervalSince1970))"
         )
-        return BehaviourTable.choose(context, rng: &rng)
+        let choice = BehaviourTable.choose(context, rng: &rng)
+        return RoomChoice.placed(choice, current: catRoom, viewing: viewing, offers: offers, timeOfDay: time, rng: &rng)
+    }
+
+    /// An activity sent now (fed: the bowl) in the room that has what it needs.
+    func placed(_ choice: BehaviourChoice, catRoom: RoomID, viewing: RoomID) -> BehaviourChoice {
+        let date = now()
+        let state = state(at: date)
+        var rng = DaySeed(household: state.seed, day: state.clock.day(of: date), purpose: "brain", salt: "send\(log.events.count)")
+        return RoomChoice.placed(
+            choice,
+            current: catRoom,
+            viewing: viewing,
+            offers: RoomChoice.offers(in: state, catalogue: content?.affordances ?? [:]),
+            timeOfDay: TimeOfDay.at(localMinutes: state.clock.localMinutes(of: date), clock: state.clock),
+            rng: &rng
+        )
     }
 
     // MARK: Care
@@ -182,6 +206,38 @@ final class GameSession {
             guard let item = items[id], let sprite = item.sprites["R"] ?? item.sprites.values.first else { return nil }
             return InventoryEntry(id: id, name: item.name, count: count, sprite: sprite)
         }.sorted { $0.name < $1.name }
+    }
+
+    /// The Bean catalogue for a room (its own pieces first), with what each needs.
+    struct ShopEntry: Identifiable, Equatable {
+        var id: String
+        var name: String
+        var sprite: String
+        var status: BeanShop.Status
+    }
+
+    func shop(for room: RoomID) -> [ShopEntry] {
+        guard let catalogue = content?.catalogue else { return [] }
+        let state = state(at: now())
+        return BeanShop.stock(for: room, catalogue: catalogue).compactMap { item in
+            guard let sprite = item.sprites["R"] ?? item.sprites.values.first else { return nil }
+            return ShopEntry(
+                id: item.id,
+                name: item.name,
+                sprite: sprite,
+                status: BeanShop.status(of: item, level: state.level, beans: state.beans)
+            )
+        }
+    }
+
+    /// Buys a piece with Beans into the inventory; false if it is not for sale to you now.
+    @discardableResult
+    func buy(_ itemID: String) -> Bool {
+        guard let entry = shop(for: .living).first(where: { $0.id == itemID }),
+              case let .buyable(price) = entry.status else { return false }
+        append(.itemBought(itemID: itemID, beans: price), at: now())
+        Sound.play("ui_bean_chime", volume: Tuning.Sound.place)
+        return true
     }
 
     /// Places a piece from the inventory where it first fits among the room's pieces; returns the placement (with
@@ -292,6 +348,11 @@ final class GameSession {
             if gift {
                 date = date.addingTimeInterval(-26 * 3600)
             }
+            // HOUSECAT_HOUSE=full (with HOUSECAT_CAT): sixty days of play, every room open and furnished.
+            let full = ProcessInfo.processInfo.environment["HOUSECAT_HOUSE"] == "full"
+            if full {
+                date = date.addingTimeInterval(-Double(Tuning.Debug.fullHouseDays + 1) * 86400)
+            }
         #endif
         append(.householdCreated(seed: UInt64.random(in: 1 ... UInt64.max), clock: DayClock()), at: date)
         #if DEBUG
@@ -317,5 +378,55 @@ final class GameSession {
         for spare in ["living_armchair", "living_coffee"] {
             append(.itemGranted(itemID: spare), at: date)
         }
+        #if DEBUG
+            if full, cat != nil {
+                seedFullHouse(from: date)
+            }
+        #endif
     }
+
+    #if DEBUG
+        /// A well-loved cat's two months: a visit, a meal, a pet, the day's games, a nap and the health goals
+        /// every day (enough XP for every room), Beans to open them all, and each furnished as its closed
+        /// silhouette shows (assets/rooms/houses.json roomStyles).
+        private func seedFullHouse(from start: Date) {
+            // Appended in one batch on the household's clock: deriving the save for every event would take a minute.
+            let clock = log.derive(context: rules).clock
+            var batch: [GameEvent] = []
+            func append(_ kind: GameEvent.Kind, at date: Date) {
+                let at = log.timestamp(for: date)
+                let event = GameEvent(at: at, day: clock.day(of: at), kind: kind)
+                log.append(event)
+                batch.append(event)
+            }
+            defer { try? store?.append(contentsOf: batch) }
+            for day in 1 ... Tuning.Debug.fullHouseDays {
+                let morning = start.addingTimeInterval(Double(day) * 86400 + 3 * 3600)
+                append(.arrived, at: morning)
+                append(.fed(catID: Self.catID), at: morning.addingTimeInterval(60))
+                append(.petted(catID: Self.catID), at: morning.addingTimeInterval(120))
+                for play in 0 ..< 5 {
+                    append(.miniGamePlayed(game: "laser_pointer", stars: 3), at: morning.addingTimeInterval(Double(180 + play * 30)))
+                }
+                append(.napCompleted, at: morning.addingTimeInterval(600))
+                for goal in GameEvent.HealthGoal.allCases {
+                    append(.healthGoalMet(goal), at: morning.addingTimeInterval(700))
+                }
+            }
+            let now = Date()
+            append(.purchaseBeansGranted(transactionID: "debug-full-house", beans: Tuning.Debug.fullHouseBeans), at: now)
+            guard let plans = try? GameWorld.art?.data("rooms/houses.json", as: HousePlans.self) else { return }
+            for room in RoomID.allCases where room != .living {
+                append(.roomOpened(room, beans: RoomRules.cost(of: room, clubActive: false)), at: now)
+                for piece in plans.roomStyles[room.rawValue]?.preview ?? [] {
+                    append(.itemGranted(itemID: piece.id), at: now)
+                    let facing: GameEvent.Facing = piece.facing == "L" ? .left : .right
+                    append(
+                        .itemPlaced(itemID: piece.id, room: room, x: Int(piece.u.rounded()), y: Int(piece.v.rounded()), facing: facing),
+                        at: now
+                    )
+                }
+            }
+        }
+    #endif
 }

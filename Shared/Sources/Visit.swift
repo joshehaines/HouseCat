@@ -114,6 +114,58 @@ final class Visit {
     /// The storey on screen, and whether the house has one above it.
     private(set) var storey = 0
     private(set) var storeys: [Int] = [0]
+    /// The room you are in (decorating, walls and floors, and the shop act on it).
+    private(set) var activeRoom: RoomID = .living
+    /// Whether the room you are in is on the storey on screen (decorating needs it).
+    private(set) var canDecorate = true
+
+    /// The open rooms, ground floor first, for moving between them.
+    var openRooms: [RoomID] {
+        guard let house = (scene as? RoomScene)?.house else { return [.living] }
+        return house.rooms.filter { $0.lockLabel == nil }.sorted { ($0.storey, $0.id) < ($1.storey, $1.id) }.map(\.id)
+    }
+
+    /// The room's name as the player sees it (the garden is a balcony upstairs).
+    var roomTitle: String {
+        Self.title(of: activeRoom, upstairs: ((scene as? RoomScene)?.house.room(activeRoom)?.storey ?? 0) > 0)
+    }
+
+    static func title(of room: RoomID, upstairs: Bool) -> String {
+        switch room {
+        case .living: "Living room"
+        case .bedroom: "Bedroom"
+        case .kitchen: "Kitchen"
+        case .garden: upstairs ? "Balcony" : "Garden"
+        case .study: "Study"
+        case .attic: "Attic"
+        }
+    }
+
+    /// Goes to another open room (a tap on it, or the room arrows).
+    func go(to room: RoomID) {
+        guard let house = scene as? RoomScene, house.house.room(room)?.lockLabel == nil else { return }
+        decorating = false
+        selected = nil
+        house.show(room: room)
+        roomShown(room)
+        GameSession.shared.append(.roomVisited(room), at: GameSession.shared.now())
+    }
+
+    /// The next or previous open room.
+    func stepRoom(_ step: Int) {
+        let rooms = openRooms
+        guard rooms.count > 1, let index = rooms.firstIndex(of: activeRoom) else { return }
+        go(to: rooms[(index + step + rooms.count) % rooms.count])
+    }
+
+    private func roomShown(_ room: RoomID) {
+        guard let house = scene as? RoomScene else { return }
+        activeRoom = room
+        storey = house.storey
+        canDecorate = house.storey == house.house.storey
+        inventory = decorating ? GameSession.shared.inventory() : []
+    }
+
     @ObservationIgnored private var arrival: GameSession.Arrival?
     @ObservationIgnored private let size: CGSize
     @ObservationIgnored private var room: SKScene?
@@ -158,6 +210,18 @@ final class Visit {
     #if DEBUG
         /// Screenshot runs from the command line (HOUSECAT_SCREEN=decorate or upstairs): opens that state once the room is up.
         func applyScreenshotState() {
+            // HOUSECAT_ROOM=<room>: go to that room and send the cat to use a piece of its furniture.
+            if let name = ProcessInfo.processInfo.environment["HOUSECAT_ROOM"], let room = RoomID(rawValue: name),
+               let house = scene as? RoomScene
+            {
+                go(to: room)
+                let state = GameSession.shared.state(at: GameSession.shared.now())
+                let offers = state.affordances(in: room, catalogue: GameSession.shared.content?.affordances ?? [:])
+                let activities: [Activity] = [.sleep, .sit, .perch, .windowWatch, .hide, .bowlNag]
+                if let activity = activities.first(where: { $0.affordance.map(offers.contains) ?? false }) {
+                    house.send(BehaviourChoice(activity: activity, room: room))
+                }
+            }
             guard let wanted = ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"], let house = scene as? RoomScene else { return }
             switch wanted {
             case "decorate":
@@ -213,12 +277,14 @@ final class Visit {
     /// What the decorate tray shows: furniture to put out, or the room's wallpapers or floors.
     enum TrayMode: Int, CaseIterable {
         case furniture
+        case shop
         case walls
         case floors
 
         var title: String {
             switch self {
-            case .furniture: "Furniture"
+            case .furniture: "Yours"
+            case .shop: "Shop"
             case .walls: "Walls"
             case .floors: "Floors"
             }
@@ -230,17 +296,30 @@ final class Visit {
     /// The surfaces for the tray's walls or floors mode, with the one up now.
     var surfaceOptions: (options: [CatalogueFile.Surface], current: String?) {
         switch trayMode {
-        case .furniture: ([], nil)
-        case .walls: GameSession.shared.surfaces(.wall)
-        case .floors: GameSession.shared.surfaces(.floor)
+        case .furniture, .shop: ([], nil)
+        case .walls: GameSession.shared.surfaces(.wall, in: activeRoom)
+        case .floors: GameSession.shared.surfaces(.floor, in: activeRoom)
         }
+    }
+
+    /// The Bean catalogue for the room you are in.
+    var shopEntries: [GameSession.ShopEntry] {
+        GameSession.shared.shop(for: activeRoom)
+    }
+
+    /// Buys a piece and puts it straight into the room, picked up, ready to drag.
+    func buy(_ itemID: String) {
+        guard GameSession.shared.buy(itemID) else { return }
+        refreshStats()
+        trayMode = .furniture
+        placeFromInventory(itemID)
     }
 
     /// Puts up a wallpaper or floor and rebuilds the house, staying in decorate mode.
     func chooseSurface(_ surfaceID: String) {
         guard let house = scene as? RoomScene, decorating else { return }
         let session = GameSession.shared
-        session.changeSurface(surfaceID)
+        session.changeSurface(surfaceID, in: activeRoom)
         if let model = GameWorld.house(at: session.now(), state: session.state(at: session.now())) {
             house.update(house: model)
             house.setDecorating(true)
@@ -251,7 +330,7 @@ final class Visit {
     /// Puts a piece from the tray into the room, picked up and ready to drag.
     func placeFromInventory(_ itemID: String) {
         guard let house = scene as? RoomScene, decorating,
-              let placement = GameSession.shared.placeFromInventory(itemID, among: house.pieces())
+              let placement = GameSession.shared.placeFromInventory(itemID, among: house.pieces(), room: activeRoom)
         else { return }
         house.place(placement)
         inventory = GameSession.shared.inventory()
@@ -280,6 +359,12 @@ final class Visit {
             house.update(house: model)
         }
         refreshStats()
+        // Into the new room, with the shop open: it starts empty.
+        go(to: offer.room)
+        if !decorating {
+            toggleDecorating()
+        }
+        trayMode = .shop
     }
 
     /// Feed: the cat goes to its bowl and says its line.
@@ -287,7 +372,7 @@ final class Visit {
         guard let house = scene as? RoomScene, !decorating else { return }
         let trust = GameSession.shared.cat?.trust
         let line = GameSession.shared.feed()
-        house.send(BehaviourChoice(activity: .bowlNag))
+        house.send(GameSession.shared.placed(BehaviourChoice(activity: .bowlNag), catRoom: house.catRoom, viewing: activeRoom))
         house.react("notes")
         say(line)
         refreshStats()
@@ -316,7 +401,7 @@ final class Visit {
         house.react(walksOff ? "exclaim" : "heart")
         if walksOff {
             petTaps = 0
-            house.send(GameSession.shared.nextActivity() ?? BehaviourChoice(activity: .hide))
+            house.send(GameSession.shared.nextActivity(catRoom: house.catRoom, viewing: activeRoom) ?? BehaviourChoice(activity: .hide))
         } else {
             GameWorld.purr()
         }
@@ -336,14 +421,20 @@ final class Visit {
         }
     }
 
-    /// Up the stairs to the next storey, or back down to the ground floor from the top.
+    /// Up the stairs to the next storey, or back down to the ground floor from the top: into its first open
+    /// room, or just to look at it if none is open yet.
     func changeStorey() {
         guard let house = scene as? RoomScene, storeys.count > 1 else { return }
         let next = storeys.first { $0 > storey } ?? storeys[0]
         decorating = false
         selected = nil
-        house.showStorey(next)
-        storey = house.storey
+        if let room = house.house.rooms.filter({ $0.storey == next && $0.lockLabel == nil }).min(by: { $0.id < $1.id }) {
+            go(to: room.id)
+        } else {
+            house.showStorey(next)
+            storey = house.storey
+            canDecorate = house.storey == house.house.storey
+        }
     }
 
     /// The label for the stairs button, if the house has more than one storey.
@@ -384,10 +475,14 @@ final class Visit {
         if let house = built as? RoomScene {
             storeys = house.storeys
             storey = house.storey
-            house.onDecorate = { GameSession.shared.record($0) }
+            house.onDecorate = { [weak self] in GameSession.shared.record($0, in: self?.activeRoom ?? .living) }
             house.onSelect = { [weak self] in self?.selected = $0 }
             house.onClosedRoomTapped = { [weak self] in self?.offer($0) }
-            house.nextActivity = { GameSession.shared.nextActivity() }
+            house.nextActivity = { [weak self] catRoom in
+                GameSession.shared.nextActivity(catRoom: catRoom, viewing: self?.activeRoom ?? .living)
+            }
+            house.onRoomTapped = { [weak self] in self?.go(to: $0) }
+            house.onActiveRoomChanged = { [weak self] in self?.roomShown($0) }
             house.onCatTapped = { [weak self] in self?.petCat() }
             house.onGiftTapped = { [weak self] in self?.collectGift() }
         }

@@ -2,6 +2,7 @@ import SwiftUI
 
 /// The room controls: Feed, Decorate (and while decorating Done plus, with a piece picked up, Turn
 /// and Store; SPEC "The session loop" 5 and 7), and the stairs between storeys. Pet is a tap on the cat.
+/// `RoomSwitcher` moves between the open rooms.
 public struct DecorateBar: View {
     private let decorating: Bool
     private let hasSelection: Bool
@@ -63,5 +64,47 @@ public struct DecorateBar: View {
                 .background(.thinMaterial, in: Capsule())
         }
         .buttonStyle(.plain)
+    }
+}
+
+/// The room you are in, with arrows to the next and previous open rooms (a tap on a room goes there too).
+public struct RoomSwitcher: View {
+    private let title: String
+    private let canStep: Bool
+    private let step: (Int) -> Void
+
+    public init(title: String, canStep: Bool, step: @escaping (Int) -> Void) {
+        self.title = title
+        self.canStep = canStep
+        self.step = step
+    }
+
+    public var body: some View {
+        HStack(spacing: 4) {
+            if canStep {
+                arrow("chevron.left", label: "Previous room") { step(-1) }
+            }
+            Text(title)
+                .font(.subheadline.weight(.semibold))
+                .padding(.horizontal, canStep ? 2 : 14)
+                .contentTransition(.opacity)
+            if canStep {
+                arrow("chevron.right", label: "Next room") { step(1) }
+            }
+        }
+        .padding(.vertical, 6)
+        .padding(.horizontal, 4)
+        .background(.thinMaterial, in: Capsule())
+        .animation(.easeOut(duration: 0.2), value: title)
+    }
+
+    private func arrow(_ systemImage: String, label: String, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Image(systemName: systemImage)
+                .font(.subheadline.weight(.bold))
+                .frame(width: 34, height: 30)
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(label)
     }
 }

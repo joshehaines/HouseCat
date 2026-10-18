@@ -77,6 +77,14 @@ public final class EventStore {
         try context.save()
     }
 
+    /// Many events in one save (seeding a household).
+    public func append(contentsOf events: [GameEvent]) throws {
+        for event in events {
+            try context.insert(StoredEvent(event))
+        }
+        try context.save()
+    }
+
     /// The whole save as a log: the newest snapshot plus every event after it.
     public func load() throws -> SaveLog {
         let snapshots = try context.fetch(FetchDescriptor<StoredSnapshot>(sortBy: [SortDescriptor(\.boundaryDay, order: .reverse)]))

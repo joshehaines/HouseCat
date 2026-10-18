@@ -212,6 +212,12 @@ public enum Tuning {
         public static let shortestWhiskers = 0.35
     }
 
+    /// Debug launches only (HOUSECAT_HOUSE=full).
+    public enum Debug {
+        public static let fullHouseDays = 60
+        public static let fullHouseBeans = 20000
+    }
+
     /// Which room the cat goes to (RoomChoice).
     public enum CatRooms {
         /// "<affordance>.<time of day>" or "<affordance>" → the room type that is for it.

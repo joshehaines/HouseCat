@@ -92,6 +92,10 @@ Care and idle: `GameSession.feed()` / `pet(taps:)` append `fed` / `petted` and p
 
 `Shared/Sources` holds the app-side glue: `GameSession` (the save: load, append with trusted time, derive), `Visit` (which scene is on screen, the greeting bubble) and `GameWorld` (builds scenes from the art and the state). Scenes receive finished values (`RoomModel`, `ExteriorScene.Model`, a `BehaviourChoice`) and decide nothing.
 
+### Rooms (step 3)
+- `RoomScene` builds a `RoomNode` for every room of the plan and puts the shown storey's in the world. `house.active` is the room you are in (`show(room:)`; the app's `Visit.go(to:)`), `catRoom` the cat's. `HouseModel.links`/`route` give the doorways between rooms side by side and the way through open ones; `RoomScene.route(to:)` turns that into director steps (walk to the doorway, `.enter` the next room's node, on) or, across storeys, out by the stairs with a fade.
+- HouseCatCore decides which room an activity happens in (`RoomChoice`, from what each open room's furniture offers) and what the Bean shop sells (`BeanShop`); the app asks for both through `GameSession` (`nextActivity(catRoom:viewing:)`, `placed`, `shop(for:)`, `buy`).
+
 ### The cat builder and the coat recipe (step 2)
 - `HouseCatCore`: `CatLook` (catbuilder.json's `look_fields` plus the weight slider; colours are palette names or picked "#rrggbb"), `CatBuilder` (the options a body allows, the weight slider, colours, which sprite draws each part and pose), `CatNames` and `NameFilter`, `CatProfile` (together days, age, trust, badges, anniversaries, lifetime stats). The builder's options come from `App/Art/cat/custom/builder.json`, the ordered copy of catbuilder.json that `build_cat_art.py` writes.
 - `HouseCatGame`: `CatArt` loads a sprite's white painting and masks (`Raster` reads pixels as stored, no colour management) and `CoatRecipe` tints them with Accelerate; `CatNode` draws any look (and `apply(look:)` redraws it); `CatPreviewScene` is the builder's sofa-and-rug preview.

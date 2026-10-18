@@ -448,6 +448,22 @@
    ],
    "scale": 0.6
   },
+  "furniture/bedroom/furn_bedroom_drawers_L.png": {
+   "master": [
+    366,
+    463
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/bedroom/furn_bedroom_drawers_R.png": {
+   "master": [
+    371,
+    470
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
   "furniture/bedroom/furn_bedroom_wardrobe_L.png": {
    "master": [
     341,
@@ -491,6 +507,22 @@
    "master": [
     323,
     681
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/garden/furn_garden_fence_L.png": {
+   "master": [
+    417,
+    418
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/garden/furn_garden_fence_R.png": {
+   "master": [
+    475,
+    424
    ],
    "ref": "grey",
    "scale": 0.6
@@ -543,6 +575,38 @@
    "ref": "grey",
    "scale": 0.6
   },
+  "furniture/garden/furn_garden_sunpatch_L.png": {
+   "master": [
+    773,
+    434
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/garden/furn_garden_sunpatch_R.png": {
+   "master": [
+    703,
+    372
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/garden/furn_garden_wateringcan_L.png": {
+   "master": [
+    383,
+    328
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/garden/furn_garden_wateringcan_R.png": {
+   "master": [
+    427,
+    368
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
   "furniture/kitchen/furn_kitchen_bowl_L.png": {
    "master": [
     401,
@@ -555,6 +619,22 @@
    "master": [
     420,
     240
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/kitchen/furn_kitchen_catflap_L.png": {
+   "master": [
+    120,
+    200
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/kitchen/furn_kitchen_catflap_R.png": {
+   "master": [
+    111,
+    194
    ],
    "ref": "grey",
    "scale": 0.6
@@ -619,6 +699,22 @@
    "master": [
     291,
     515
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/kitchen/furn_kitchen_radio_L.png": {
+   "master": [
+    291,
+    281
+   ],
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/kitchen/furn_kitchen_radio_R.png": {
+   "master": [
+    295,
+    270
    ],
    "ref": "grey",
    "scale": 0.6

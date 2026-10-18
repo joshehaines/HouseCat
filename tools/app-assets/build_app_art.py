@@ -61,6 +61,14 @@ def preview_sets():
     return [(f'furniture/{i.split("_", 1)[0]}/furn_{i}_*.png', 0.6) for i in ids if not i.startswith('living_')]
 
 
+def catalogue_sets():
+    """Every piece the player can own without paying money (the free and Bean catalogue), both facings: the
+    decorate tray's shop lists them for every room."""
+    catalogue = json.load(open(os.path.join(ROOT, 'Content', 'catalogue.json')))
+    paths = sorted({path for item in catalogue['items'] if item['pool'] in ('free', 'beans') for path in item['sprites'].values()})
+    return [(path, 0.6) for path in paths]
+
+
 def main():
     # Start clean, except the cat builder's sprites (build_cat_art.py, which needs numpy and scipy).
     keep = os.path.join(OUT, 'cat', 'custom')
@@ -72,10 +80,15 @@ def main():
             os.remove(os.path.join(dirpath, name))
     manifest = json.load(open(os.path.join(ASSETS, 'manifest.json')))['files']
     index = {}
-    for pattern, factor in SETS + preview_sets():
-        files = sorted(f for f in glob.glob(os.path.join(ASSETS, pattern))
+    seen = set()
+    for pattern, factor in SETS + preview_sets() + catalogue_sets():
+        if pattern in seen:
+            continue
+        seen.add(pattern)
+        found = sorted(f for f in glob.glob(os.path.join(ASSETS, pattern))
                        if not f.endswith('_painted.png') and f.endswith(('.png', '.jpg')))
-        assert files, pattern
+        assert found, pattern
+        files = [f for f in found if os.path.relpath(f, ASSETS) not in index]
         for src in files:
             rel = os.path.relpath(src, ASSETS)
             dst = os.path.join(OUT, rel)

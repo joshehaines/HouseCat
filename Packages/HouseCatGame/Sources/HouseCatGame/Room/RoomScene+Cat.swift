@@ -19,10 +19,19 @@ public extension RoomScene {
         static let rub = CGFloat(Tuning.Puppet.rubSpeed)
     }
 
-    /// Puts the cat in the room, settled in a pose at a floor cell.
+    /// Puts the cat in the room, settled in a pose at a floor cell: in its look from the builder when the
+    /// builder's art is given, else the plain painted set.
     @discardableResult
-    func addCat(rig: PuppetRig, at u: CGFloat, _ v: CGFloat, pose: CatPose) -> CatDirector {
-        let cat = CatNode(art: art, rig: rig, height: CGFloat(model.catHeight))
+    func addCat(
+        rig: PuppetRig,
+        catArt: CatArt? = nil,
+        look: CatLook? = nil,
+        isKitten: Bool = false,
+        at u: CGFloat,
+        _ v: CGFloat,
+        pose: CatPose
+    ) -> CatDirector {
+        let cat = CatNode(art: art, rig: rig, catArt: catArt, look: look, isKitten: isKitten, height: CGFloat(model.catHeight))
         if let room = activeRoom {
             room.addChild(cat)
         } else {

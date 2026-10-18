@@ -26,10 +26,76 @@ final class Visit {
 
     private(set) var stats = Stats()
 
-    /// Reads the level, Beans and streak again after anything that changes them.
+    /// Reads the level, Beans and streak again after anything that changes them; a new level gets its fanfare.
     func refreshStats() {
         let state = GameSession.shared.state(at: GameSession.shared.now())
+        let before = stats
         stats = Stats(level: state.level, beans: state.beans, streak: state.streak.current)
+        if statsRead, stats.level > before.level {
+            Sound.play("ui_level_up", volume: Tuning.Sound.levelUp)
+            show(toast: "Level \(stats.level)")
+            say(GameSession.shared.line("progress.level_up"))
+        }
+        statsRead = true
+    }
+
+    @ObservationIgnored private var statsRead = false
+
+    /// A short note over the room ("+10 Beans", "Level 3"), gone after a moment.
+    private(set) var toast: String?
+
+    private func show(toast text: String) {
+        toast = text
+        Task { @MainActor [weak self] in
+            try? await Task.sleep(for: .seconds(Tuning.Care.toastSeconds))
+            if self?.toast == text {
+                self?.toast = nil
+            }
+        }
+    }
+
+    // MARK: The gift
+
+    /// The gift the cat dropped, waiting to be tapped.
+    private(set) var gift: GameSession.WaitingGift?
+
+    /// If a gift is waiting, the cat drops it at your feet (SPEC "The session loop" 4).
+    private func offerGift() {
+        guard let house = scene as? RoomScene, let waiting = GameSession.shared.waitingGift(), let art = GameWorld.art,
+              !house.hasGift else { return }
+        gift = waiting
+        house.dropGift(art.texture(waiting.sprite))
+    }
+
+    /// Tap on the gift: into the book, with its Beans and XP.
+    func collectGift() {
+        guard let house = scene as? RoomScene, let gift else { return }
+        let beans = GameSession.shared.state(at: GameSession.shared.now()).beans
+        let line = GameSession.shared.collect(gift)
+        self.gift = nil
+        house.removeGift(collected: true)
+        Sound.play("ui_gift_open_\(gift.draw.rarity.rawValue)", volume: Tuning.Sound.gift)
+        refreshStats()
+        let earned = stats.beans - beans
+        show(toast: "\(gift.name) · +\(earned) Beans")
+        say(line)
+        // Another may have dropped while this one waited.
+        Task { @MainActor [weak self] in
+            try? await Task.sleep(for: .seconds(Tuning.Care.lineSeconds))
+            self?.offerGift()
+        }
+    }
+
+    // MARK: The cat's look
+
+    /// Draws the cat in its look again after an edit from the profile.
+    func refreshCat() {
+        guard let house = scene as? RoomScene, let cat = GameSession.shared.cat else { return }
+        let session = GameSession.shared
+        house.director?.cat.apply(
+            look: cat.look,
+            isKitten: cat.isKittenStage(on: session.state(at: session.now()).clock.day(of: session.now()))
+        )
     }
 
     /// A closed room the player tapped, with what opening it takes (Core's `RoomRules.availability`).
@@ -117,6 +183,7 @@ final class Visit {
         if let house = scene as? RoomScene {
             Sound.ambience(for: house.house.sky, fire: house.furniture.values.contains { $0.childNode(withName: "fx.fire") != nil })
         }
+        offerGift()
         guard let line = arrival?.greeting else { return }
         let meow = Sound.meow(arrival?.meow)
         Task { @MainActor [weak self] in
@@ -219,11 +286,22 @@ final class Visit {
     /// Feed: the cat goes to its bowl and says its line.
     func feed() {
         guard let house = scene as? RoomScene, !decorating else { return }
+        let trust = GameSession.shared.cat?.trust
         let line = GameSession.shared.feed()
         house.send(BehaviourChoice(activity: .bowlNag))
         house.react("notes")
         say(line)
         refreshStats()
+        // A new trust tier gets its own line once the feeding line has been read.
+        if let after = GameSession.shared.cat?.trust, let trust, after > trust {
+            Task { @MainActor [weak self] in
+                try? await Task.sleep(for: .seconds(Tuning.Care.lineSeconds))
+                self?.say(GameSession.shared.line("progress.trust_\(String(describing: after))"))
+                self?.show(toast: "Trust: \(String(describing: after).capitalized)")
+            }
+        }
+        // Fed: the day's gift is drawn and drops later; one may already be waiting.
+        offerGift()
     }
 
     @ObservationIgnored private var petTaps = 0
@@ -248,7 +326,7 @@ final class Visit {
     }
 
     /// Shows a line in the bubble for a few seconds.
-    private func say(_ line: String?) {
+    func say(_ line: String?) {
         guard let line else { return }
         greeting = line
         Task { @MainActor [weak self] in
@@ -305,6 +383,7 @@ final class Visit {
             house.onClosedRoomTapped = { [weak self] in self?.offer($0) }
             house.nextActivity = { GameSession.shared.nextActivity() }
             house.onCatTapped = { [weak self] in self?.petCat() }
+            house.onGiftTapped = { [weak self] in self?.collectGift() }
         }
         room = built
         refreshStats()

@@ -13,10 +13,15 @@ public final class CatNode: SKNode {
         case front
     }
 
-    public let body: String
-    /// The standing height in the parent's units.
-    public let height: CGFloat
+    public private(set) var body: String
+    /// The look, when the cat is drawn from the builder's white sprites (nil: the plain painted set).
+    public private(set) var look: CatLook?
+    /// The standing height in the parent's units (the breed's size and a kitten's taken in).
+    public private(set) var height: CGFloat
+    private let baseHeight: CGFloat
+    private var isKitten: Bool
     private let art: ArtLibrary
+    private let catArt: CatArt?
     private let rig: PuppetRig
     /// One puppet per view; only the current one is shown. Each is an effect node so it
     /// can fade as one flat picture: faded part by part, the joints would show through.
@@ -35,21 +40,75 @@ public final class CatNode: SKNode {
         case run
     }
 
-    public init(art: ArtLibrary, rig: PuppetRig, body: String = "short_slim", height: CGFloat) {
+    /// A cat in a look from the builder (`catArt` given), or the plain painted short_slim set.
+    public init(
+        art: ArtLibrary,
+        rig: PuppetRig,
+        catArt: CatArt? = nil,
+        look: CatLook? = nil,
+        isKitten: Bool = false,
+        body: String = "short_slim",
+        height: CGFloat
+    ) {
         self.art = art
         self.rig = rig
-        self.body = body
+        self.catArt = catArt
+        self.look = catArt == nil ? nil : (look ?? .midnight)
+        self.body = catArt == nil ? body : (look ?? .midnight).body
+        self.isKitten = isKitten
+        baseHeight = height
         self.height = height
         super.init()
         name = "Cat"
-        for view in View.allCases {
-            build(view)
-        }
         poseNode.anchorPoint = CGPoint(x: 0.5, y: 0)
         poseNode.alpha = 0
         poseNode.zPosition = 0.05
         addChild(poseNode)
-        show(.tqfront, facingRight: false)
+        rebuild()
+    }
+
+    /// Draws the cat in another look (the builder's live preview, an edit from the profile): the puppet is
+    /// rebuilt in the view and pose it was in.
+    public func apply(look newLook: CatLook, isKitten kitten: Bool? = nil) {
+        guard catArt != nil else { return }
+        look = newLook
+        body = newLook.body
+        if let kitten {
+            isKitten = kitten
+        }
+        rebuild()
+    }
+
+    private func rebuild() {
+        let keepView = view, keepFacing = facingRight, keepPose = pose
+        stopCycle()
+        for puppet in puppets.values {
+            puppet.removeFromParent()
+        }
+        puppets = [:]
+        parts = [:]
+        restAngles = [:]
+        restPositions = [:]
+        let breedScale = look.flatMap { catArt?.builder.body($0.body)?.scale } ?? 1
+        height = baseHeight * CGFloat(breedScale) * CGFloat(isKitten ? Tuning.Cat.kittenScale : 1)
+        for view in View.allCases {
+            build(view)
+        }
+        pose = nil
+        show(keepView, facingRight: keepFacing)
+        if let keepPose {
+            settle(into: keepPose, duration: 0)
+        }
+    }
+
+    /// A part's or pose's texture and its master size.
+    private func sprite(part name: String, view: View) -> (SKTexture, CGSize) {
+        if let catArt, let look {
+            let sprite = catArt.builder.part(name, view: view.rawValue, look: look)
+            return (catArt.texture(sprite, look: look), catArt.paintedSize(sprite.path))
+        }
+        let path = "cat/base/\(body)/cat_\(body)_\(view.rawValue)_\(name).png"
+        return (art.texture(path), art.paintedSize(path))
     }
 
     @available(*, unavailable)
@@ -72,13 +131,12 @@ public final class CatNode: SKNode {
         let root = SKNode()
         var nodes: [String: SKSpriteNode] = [:]
         var rests: [String: CGFloat] = [:]
+        // A heavier or lighter cat on the weight slider: the torso is drawn wider or narrower, the legs follow.
+        let stretch = look.flatMap { catArt?.builder.torsoStretch($0) } ?? 1
         for (name, part) in spec.parts {
-            let path = "cat/base/\(body)/cat_\(body)_\(view.rawValue)_\(name).png"
-            let painted = art.paintedSize(path)
-            let node = SKSpriteNode(
-                texture: art.texture(path),
-                size: CGSize(width: painted.width * partScale, height: painted.height * partScale)
-            )
+            let (texture, painted) = sprite(part: name, view: view)
+            let width = painted.width * partScale * (name == "torso" ? CGFloat(stretch) : 1)
+            let node = SKSpriteNode(texture: texture, size: CGSize(width: width, height: painted.height * partScale))
             node.anchorPoint = CGPoint(x: part.pivot[0], y: 1 - part.pivot[1])
             node.name = name
             let rest = -CGFloat(part.angle ?? 0) * .pi / 180
@@ -184,20 +242,26 @@ public final class CatNode: SKNode {
         ]), withKey: "fade")
     }
 
-    /// The painted resting pose's art, if the set has it.
-    private func posePath(_ pose: CatPose) -> String {
-        "cat/poses/plain/cat_\(body)_\(pose.rawValue).png"
+    /// The painted resting pose's texture and master size, if the set has it.
+    private func poseSprite(_ pose: CatPose) -> (SKTexture, CGSize)? {
+        if let catArt, let look {
+            let sprite = catArt.builder.pose(pose.rawValue, look: look)
+            guard catArt.has(sprite.path) else { return nil }
+            return (catArt.texture(sprite, look: look), catArt.paintedSize(sprite.path))
+        }
+        let path = "cat/poses/plain/cat_\(body)_\(pose.rawValue).png"
+        guard art.has(path) else { return nil }
+        return (art.texture(path), art.paintedSize(path))
     }
 
     /// Cross-fades from the puppet into a painted resting pose (the hand-over the arrival rests on).
     public func settle(into pose: CatPose, duration: TimeInterval = Tuning.Puppet.settleSeconds) {
         stopCycle()
-        let path = posePath(pose)
-        guard art.has(path) else { return }
-        let painted = art.paintedSize(path)
+        guard let (texture, painted) = poseSprite(pose) else { return }
         let s = wholeScale(view)
-        poseNode.texture = art.texture(path)
-        poseNode.size = CGSize(width: painted.width * s, height: painted.height * s)
+        let stretch = look.flatMap { catArt?.builder.torsoStretch($0) } ?? 1
+        poseNode.texture = texture
+        poseNode.size = CGSize(width: painted.width * s * CGFloat(stretch), height: painted.height * s)
         self.pose = pose
         poseNode.removeAllActions()
         poseNode.run(.fadeIn(withDuration: duration * Self.overlap))

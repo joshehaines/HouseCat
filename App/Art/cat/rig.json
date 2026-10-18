@@ -1,59 +1,2854 @@
 {
-  "version": 1,
-  "note": "The cat puppet rig, set by eye with tools/asset-pipeline/puppet.py. pivot = where a part joins its parent, as a fraction of its own image (0,0 top-left); at = the point on the parent it joins, as a fraction of the parent's image; z = draw order (higher in front); angle = rest angle in degrees, clockwise. The torso is the root. Read by HouseCatGame CatNode. assembled = the rest pose's size in part pixels and whole = the painted standing reference's size, so painted poses (which share the reference's scale) can be matched to the puppet.",
-  "sets": {
-    "short_slim": {
-      "side": {
-        "facing": "left",
-        "parts": {
-          "torso": {"pivot": [0.5, 0.5], "parent": null, "at": [0, 0], "z": 0},
-          "leg_back_far": {"pivot": [0.32, 0.05], "parent": "torso", "at": [0.74, 0.55], "z": -4},
-          "leg_front_far": {"pivot": [0.45, 0.04], "parent": "torso", "at": [0.26, 0.6], "z": -4},
-          "leg_back_near": {"pivot": [0.32, 0.05], "parent": "torso", "at": [0.8, 0.6], "z": -3},
-          "leg_front_near": {"pivot": [0.45, 0.04], "parent": "torso", "at": [0.2, 0.62], "z": -3},
-          "tail_up": {"pivot": [0.13, 0.95], "parent": "torso", "at": [0.965, 0.72], "z": 1},
-          "ear_far": {"pivot": [0.5, 0.92], "parent": "head", "at": [0.42, 0.12], "z": 2},
-          "ear_near": {"pivot": [0.55, 0.92], "parent": "head", "at": [0.62, 0.1], "z": 2.5},
-          "head": {"pivot": [0.68, 0.8], "parent": "torso", "at": [0.08, 0.25], "z": 3}
-        },
-        "walk": {"legSwing": 22, "tailSway": 6, "headBob": 2},
-        "assembled": [1399, 1211],
-        "whole": [660, 990]
-      },
-      "tqfront": {
-        "facing": "left",
-        "parts": {
-          "torso": {"pivot": [0.5, 0.5], "parent": null, "at": [0, 0], "z": 0},
-          "leg_back_far": {"pivot": [0.45, 0.04], "parent": "torso", "at": [0.86, 0.62], "z": -4},
-          "leg_front_far": {"pivot": [0.5, 0.04], "parent": "torso", "at": [0.3, 0.68], "z": -4},
-          "leg_back_near": {"pivot": [0.4, 0.05], "parent": "torso", "at": [0.76, 0.7], "z": -3},
-          "leg_front_near": {"pivot": [0.5, 0.04], "parent": "torso", "at": [0.17, 0.72], "z": -3},
-          "tail_up": {"pivot": [0.05, 0.93], "parent": "torso", "at": [0.93, 0.5], "z": -1},
-          "ear_near": {"pivot": [0.42, 0.9], "parent": "head", "at": [0.7, 0.15], "z": 2},
-          "ear_far": {"pivot": [0.58, 0.9], "parent": "head", "at": [0.3, 0.15], "z": 2},
-          "head": {"pivot": [0.5, 0.86], "parent": "torso", "at": [0.12, 0.28], "z": 3}
-        },
-        "walk": {"legSwing": 18, "tailSway": 6, "headBob": 2},
-        "assembled": [1385, 1411],
-        "whole": [703, 976]
-      },
-      "front": {
-        "facing": "front",
-        "parts": {
-          "torso": {"pivot": [0.5, 0.5], "parent": null, "at": [0, 0], "z": 0},
-          "leg_back_far": {"pivot": [0.5, 0.04], "parent": "torso", "at": [0.8, 0.86], "z": -4},
-          "leg_back_near": {"pivot": [0.5, 0.04], "parent": "torso", "at": [0.2, 0.86], "z": -4},
-          "leg_front_far": {"pivot": [0.5, 0.04], "parent": "torso", "at": [0.63, 0.8], "z": -2},
-          "leg_front_near": {"pivot": [0.5, 0.04], "parent": "torso", "at": [0.37, 0.8], "z": -2},
-          "tail_up": {"pivot": [0.1, 0.96], "parent": "torso", "at": [0.95, 0.82], "z": -5},
-          "ear_near": {"pivot": [0.42, 0.9], "parent": "head", "at": [0.7, 0.15], "z": 2},
-          "ear_far": {"pivot": [0.58, 0.9], "parent": "head", "at": [0.3, 0.15], "z": 2},
-          "head": {"pivot": [0.5, 0.88], "parent": "torso", "at": [0.5, 0.08], "z": 3}
-        },
-        "walk": {"legSwing": 0, "tailSway": 6, "headBob": 2},
-        "assembled": [687, 1605],
-        "whole": [584, 983]
-      }
-    }
+ "version": 1,
+ "note": "The cat puppet rig, set by eye with tools/asset-pipeline/puppet.py. pivot = where a part joins its parent, as a fraction of its own image (0,0 top-left); at = the point on the parent it joins, as a fraction of the parent's image; z = draw order (higher in front); angle = rest angle in degrees, clockwise. The torso is the root. Read by HouseCatGame CatNode. assembled = the rest pose's size in part pixels and whole = the painted standing reference's size, so painted poses (which share the reference's scale) can be matched to the puppet.",
+ "sets": {
+  "short_slim": {
+   "side": {
+    "facing": "left",
+    "parts": {
+     "torso": {
+      "pivot": [
+       0.5,
+       0.5
+      ],
+      "parent": null,
+      "at": [
+       0,
+       0
+      ],
+      "z": 0
+     },
+     "leg_back_far": {
+      "pivot": [
+       0.32,
+       0.05
+      ],
+      "parent": "torso",
+      "at": [
+       0.74,
+       0.55
+      ],
+      "z": -4
+     },
+     "leg_front_far": {
+      "pivot": [
+       0.45,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.26,
+       0.6
+      ],
+      "z": -4
+     },
+     "leg_back_near": {
+      "pivot": [
+       0.32,
+       0.05
+      ],
+      "parent": "torso",
+      "at": [
+       0.8,
+       0.6
+      ],
+      "z": -3
+     },
+     "leg_front_near": {
+      "pivot": [
+       0.45,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.2,
+       0.62
+      ],
+      "z": -3
+     },
+     "tail_up": {
+      "pivot": [
+       0.13,
+       0.95
+      ],
+      "parent": "torso",
+      "at": [
+       0.965,
+       0.72
+      ],
+      "z": 1
+     },
+     "ear_far": {
+      "pivot": [
+       0.5,
+       0.92
+      ],
+      "parent": "head",
+      "at": [
+       0.42,
+       0.12
+      ],
+      "z": 2
+     },
+     "ear_near": {
+      "pivot": [
+       0.55,
+       0.92
+      ],
+      "parent": "head",
+      "at": [
+       0.62,
+       0.1
+      ],
+      "z": 2.5
+     },
+     "head": {
+      "pivot": [
+       0.68,
+       0.8
+      ],
+      "parent": "torso",
+      "at": [
+       0.08,
+       0.25
+      ],
+      "z": 3
+     }
+    },
+    "walk": {
+     "legSwing": 22,
+     "tailSway": 6,
+     "headBob": 2
+    },
+    "assembled": [
+     1414,
+     1234
+    ],
+    "whole": [
+     660,
+     990
+    ]
+   },
+   "tqfront": {
+    "facing": "left",
+    "parts": {
+     "torso": {
+      "pivot": [
+       0.5,
+       0.5
+      ],
+      "parent": null,
+      "at": [
+       0,
+       0
+      ],
+      "z": 0
+     },
+     "leg_back_far": {
+      "pivot": [
+       0.45,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.86,
+       0.62
+      ],
+      "z": -4
+     },
+     "leg_front_far": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.3,
+       0.68
+      ],
+      "z": -4
+     },
+     "leg_back_near": {
+      "pivot": [
+       0.4,
+       0.05
+      ],
+      "parent": "torso",
+      "at": [
+       0.76,
+       0.7
+      ],
+      "z": -3
+     },
+     "leg_front_near": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.17,
+       0.72
+      ],
+      "z": -3
+     },
+     "tail_up": {
+      "pivot": [
+       0.05,
+       0.93
+      ],
+      "parent": "torso",
+      "at": [
+       0.93,
+       0.5
+      ],
+      "z": -1
+     },
+     "ear_near": {
+      "pivot": [
+       0.42,
+       0.9
+      ],
+      "parent": "head",
+      "at": [
+       0.7,
+       0.15
+      ],
+      "z": 2
+     },
+     "ear_far": {
+      "pivot": [
+       0.58,
+       0.9
+      ],
+      "parent": "head",
+      "at": [
+       0.3,
+       0.15
+      ],
+      "z": 2
+     },
+     "head": {
+      "pivot": [
+       0.5,
+       0.86
+      ],
+      "parent": "torso",
+      "at": [
+       0.12,
+       0.28
+      ],
+      "z": 3
+     }
+    },
+    "walk": {
+     "legSwing": 18,
+     "tailSway": 6,
+     "headBob": 2
+    },
+    "assembled": [
+     1397,
+     1437
+    ],
+    "whole": [
+     703,
+     976
+    ]
+   },
+   "front": {
+    "facing": "front",
+    "parts": {
+     "torso": {
+      "pivot": [
+       0.5,
+       0.5
+      ],
+      "parent": null,
+      "at": [
+       0,
+       0
+      ],
+      "z": 0
+     },
+     "leg_back_far": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.8,
+       0.86
+      ],
+      "z": -4
+     },
+     "leg_back_near": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.2,
+       0.86
+      ],
+      "z": -4
+     },
+     "leg_front_far": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.63,
+       0.8
+      ],
+      "z": -2
+     },
+     "leg_front_near": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.37,
+       0.8
+      ],
+      "z": -2
+     },
+     "tail_up": {
+      "pivot": [
+       0.1,
+       0.96
+      ],
+      "parent": "torso",
+      "at": [
+       0.95,
+       0.82
+      ],
+      "z": -5
+     },
+     "ear_near": {
+      "pivot": [
+       0.42,
+       0.9
+      ],
+      "parent": "head",
+      "at": [
+       0.7,
+       0.15
+      ],
+      "z": 2
+     },
+     "ear_far": {
+      "pivot": [
+       0.58,
+       0.9
+      ],
+      "parent": "head",
+      "at": [
+       0.3,
+       0.15
+      ],
+      "z": 2
+     },
+     "head": {
+      "pivot": [
+       0.5,
+       0.88
+      ],
+      "parent": "torso",
+      "at": [
+       0.5,
+       0.08
+      ],
+      "z": 3
+     }
+    },
+    "walk": {
+     "legSwing": 0,
+     "tailSway": 6,
+     "headBob": 2
+    },
+    "assembled": [
+     709,
+     1623
+    ],
+    "whole": [
+     584,
+     983
+    ]
+   }
+  },
+  "short_chunky": {
+   "side": {
+    "facing": "left",
+    "parts": {
+     "torso": {
+      "pivot": [
+       0.5,
+       0.5
+      ],
+      "parent": null,
+      "at": [
+       0,
+       0
+      ],
+      "z": 0
+     },
+     "leg_back_far": {
+      "pivot": [
+       0.32,
+       0.05
+      ],
+      "parent": "torso",
+      "at": [
+       0.74,
+       0.55
+      ],
+      "z": -4
+     },
+     "leg_front_far": {
+      "pivot": [
+       0.45,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.26,
+       0.6
+      ],
+      "z": -4
+     },
+     "leg_back_near": {
+      "pivot": [
+       0.32,
+       0.05
+      ],
+      "parent": "torso",
+      "at": [
+       0.8,
+       0.6
+      ],
+      "z": -3
+     },
+     "leg_front_near": {
+      "pivot": [
+       0.45,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.2,
+       0.62
+      ],
+      "z": -3
+     },
+     "tail_up": {
+      "pivot": [
+       0.13,
+       0.95
+      ],
+      "parent": "torso",
+      "at": [
+       0.965,
+       0.72
+      ],
+      "z": 1
+     },
+     "ear_far": {
+      "pivot": [
+       0.5,
+       0.92
+      ],
+      "parent": "head",
+      "at": [
+       0.42,
+       0.12
+      ],
+      "z": 2
+     },
+     "ear_near": {
+      "pivot": [
+       0.55,
+       0.92
+      ],
+      "parent": "head",
+      "at": [
+       0.62,
+       0.1
+      ],
+      "z": 2.5
+     },
+     "head": {
+      "pivot": [
+       0.68,
+       0.8
+      ],
+      "parent": "torso",
+      "at": [
+       0.08,
+       0.25
+      ],
+      "z": 3
+     }
+    },
+    "walk": {
+     "legSwing": 22,
+     "tailSway": 6,
+     "headBob": 2
+    },
+    "assembled": [
+     1332,
+     1302
+    ],
+    "whole": [
+     747,
+     827
+    ]
+   },
+   "tqfront": {
+    "facing": "left",
+    "parts": {
+     "torso": {
+      "pivot": [
+       0.5,
+       0.5
+      ],
+      "parent": null,
+      "at": [
+       0,
+       0
+      ],
+      "z": 0
+     },
+     "leg_back_far": {
+      "pivot": [
+       0.45,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.86,
+       0.62
+      ],
+      "z": -4
+     },
+     "leg_front_far": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.3,
+       0.68
+      ],
+      "z": -4
+     },
+     "leg_back_near": {
+      "pivot": [
+       0.4,
+       0.05
+      ],
+      "parent": "torso",
+      "at": [
+       0.76,
+       0.7
+      ],
+      "z": -3
+     },
+     "leg_front_near": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.17,
+       0.72
+      ],
+      "z": -3
+     },
+     "tail_up": {
+      "pivot": [
+       0.05,
+       0.93
+      ],
+      "parent": "torso",
+      "at": [
+       0.93,
+       0.5
+      ],
+      "z": -1
+     },
+     "ear_near": {
+      "pivot": [
+       0.42,
+       0.9
+      ],
+      "parent": "head",
+      "at": [
+       0.7,
+       0.15
+      ],
+      "z": 2
+     },
+     "ear_far": {
+      "pivot": [
+       0.58,
+       0.9
+      ],
+      "parent": "head",
+      "at": [
+       0.3,
+       0.15
+      ],
+      "z": 2
+     },
+     "head": {
+      "pivot": [
+       0.5,
+       0.86
+      ],
+      "parent": "torso",
+      "at": [
+       0.12,
+       0.28
+      ],
+      "z": 3
+     }
+    },
+    "walk": {
+     "legSwing": 18,
+     "tailSway": 6,
+     "headBob": 2
+    },
+    "assembled": [
+     1251,
+     1290
+    ],
+    "whole": [
+     585,
+     817
+    ]
+   },
+   "front": {
+    "facing": "front",
+    "parts": {
+     "torso": {
+      "pivot": [
+       0.5,
+       0.5
+      ],
+      "parent": null,
+      "at": [
+       0,
+       0
+      ],
+      "z": 0
+     },
+     "leg_back_far": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.8,
+       0.86
+      ],
+      "z": -4
+     },
+     "leg_back_near": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.2,
+       0.86
+      ],
+      "z": -4
+     },
+     "leg_front_far": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.63,
+       0.8
+      ],
+      "z": -2
+     },
+     "leg_front_near": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.37,
+       0.8
+      ],
+      "z": -2
+     },
+     "tail_up": {
+      "pivot": [
+       0.1,
+       0.96
+      ],
+      "parent": "torso",
+      "at": [
+       0.95,
+       0.82
+      ],
+      "z": -5
+     },
+     "ear_near": {
+      "pivot": [
+       0.42,
+       0.9
+      ],
+      "parent": "head",
+      "at": [
+       0.7,
+       0.15
+      ],
+      "z": 2
+     },
+     "ear_far": {
+      "pivot": [
+       0.58,
+       0.9
+      ],
+      "parent": "head",
+      "at": [
+       0.3,
+       0.15
+      ],
+      "z": 2
+     },
+     "head": {
+      "pivot": [
+       0.5,
+       0.88
+      ],
+      "parent": "torso",
+      "at": [
+       0.5,
+       0.08
+      ],
+      "z": 3
+     }
+    },
+    "walk": {
+     "legSwing": 0,
+     "tailSway": 6,
+     "headBob": 2
+    },
+    "assembled": [
+     946,
+     1603
+    ],
+    "whole": [
+     509,
+     826
+    ]
+   }
+  },
+  "long_slim": {
+   "side": {
+    "facing": "left",
+    "parts": {
+     "torso": {
+      "pivot": [
+       0.5,
+       0.5
+      ],
+      "parent": null,
+      "at": [
+       0,
+       0
+      ],
+      "z": 0
+     },
+     "leg_back_far": {
+      "pivot": [
+       0.32,
+       0.05
+      ],
+      "parent": "torso",
+      "at": [
+       0.74,
+       0.55
+      ],
+      "z": -4
+     },
+     "leg_front_far": {
+      "pivot": [
+       0.45,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.26,
+       0.6
+      ],
+      "z": -4
+     },
+     "leg_back_near": {
+      "pivot": [
+       0.32,
+       0.05
+      ],
+      "parent": "torso",
+      "at": [
+       0.8,
+       0.6
+      ],
+      "z": -3
+     },
+     "leg_front_near": {
+      "pivot": [
+       0.45,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.2,
+       0.62
+      ],
+      "z": -3
+     },
+     "tail_up": {
+      "pivot": [
+       0.13,
+       0.95
+      ],
+      "parent": "torso",
+      "at": [
+       0.965,
+       0.72
+      ],
+      "z": 1
+     },
+     "ear_far": {
+      "pivot": [
+       0.5,
+       0.92
+      ],
+      "parent": "head",
+      "at": [
+       0.42,
+       0.12
+      ],
+      "z": 2
+     },
+     "ear_near": {
+      "pivot": [
+       0.55,
+       0.92
+      ],
+      "parent": "head",
+      "at": [
+       0.62,
+       0.1
+      ],
+      "z": 2.5
+     },
+     "head": {
+      "pivot": [
+       0.68,
+       0.8
+      ],
+      "parent": "torso",
+      "at": [
+       0.08,
+       0.25
+      ],
+      "z": 3
+     }
+    },
+    "walk": {
+     "legSwing": 22,
+     "tailSway": 6,
+     "headBob": 2
+    },
+    "assembled": [
+     1450,
+     1428
+    ],
+    "whole": [
+     784,
+     1065
+    ]
+   },
+   "tqfront": {
+    "facing": "left",
+    "parts": {
+     "torso": {
+      "pivot": [
+       0.5,
+       0.5
+      ],
+      "parent": null,
+      "at": [
+       0,
+       0
+      ],
+      "z": 0
+     },
+     "leg_back_far": {
+      "pivot": [
+       0.45,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.86,
+       0.62
+      ],
+      "z": -4
+     },
+     "leg_front_far": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.3,
+       0.68
+      ],
+      "z": -4
+     },
+     "leg_back_near": {
+      "pivot": [
+       0.4,
+       0.05
+      ],
+      "parent": "torso",
+      "at": [
+       0.76,
+       0.7
+      ],
+      "z": -3
+     },
+     "leg_front_near": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.17,
+       0.72
+      ],
+      "z": -3
+     },
+     "tail_up": {
+      "pivot": [
+       0.05,
+       0.93
+      ],
+      "parent": "torso",
+      "at": [
+       0.93,
+       0.5
+      ],
+      "z": -1
+     },
+     "ear_near": {
+      "pivot": [
+       0.42,
+       0.9
+      ],
+      "parent": "head",
+      "at": [
+       0.7,
+       0.15
+      ],
+      "z": 2
+     },
+     "ear_far": {
+      "pivot": [
+       0.58,
+       0.9
+      ],
+      "parent": "head",
+      "at": [
+       0.3,
+       0.15
+      ],
+      "z": 2
+     },
+     "head": {
+      "pivot": [
+       0.5,
+       0.86
+      ],
+      "parent": "torso",
+      "at": [
+       0.12,
+       0.28
+      ],
+      "z": 3
+     }
+    },
+    "walk": {
+     "legSwing": 18,
+     "tailSway": 6,
+     "headBob": 2
+    },
+    "assembled": [
+     1277,
+     1488
+    ],
+    "whole": [
+     541,
+     1068
+    ]
+   },
+   "front": {
+    "facing": "front",
+    "parts": {
+     "torso": {
+      "pivot": [
+       0.5,
+       0.5
+      ],
+      "parent": null,
+      "at": [
+       0,
+       0
+      ],
+      "z": 0
+     },
+     "leg_back_far": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.8,
+       0.86
+      ],
+      "z": -4
+     },
+     "leg_back_near": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.2,
+       0.86
+      ],
+      "z": -4
+     },
+     "leg_front_far": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.63,
+       0.8
+      ],
+      "z": -2
+     },
+     "leg_front_near": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.37,
+       0.8
+      ],
+      "z": -2
+     },
+     "tail_up": {
+      "pivot": [
+       0.1,
+       0.96
+      ],
+      "parent": "torso",
+      "at": [
+       0.95,
+       0.82
+      ],
+      "z": -5
+     },
+     "ear_near": {
+      "pivot": [
+       0.42,
+       0.9
+      ],
+      "parent": "head",
+      "at": [
+       0.7,
+       0.15
+      ],
+      "z": 2
+     },
+     "ear_far": {
+      "pivot": [
+       0.58,
+       0.9
+      ],
+      "parent": "head",
+      "at": [
+       0.3,
+       0.15
+      ],
+      "z": 2
+     },
+     "head": {
+      "pivot": [
+       0.5,
+       0.88
+      ],
+      "parent": "torso",
+      "at": [
+       0.5,
+       0.08
+      ],
+      "z": 3
+     }
+    },
+    "walk": {
+     "legSwing": 0,
+     "tailSway": 6,
+     "headBob": 2
+    },
+    "assembled": [
+     841,
+     1649
+    ],
+    "whole": [
+     537,
+     1076
+    ]
+   }
+  },
+  "long_chunky": {
+   "side": {
+    "facing": "left",
+    "parts": {
+     "torso": {
+      "pivot": [
+       0.5,
+       0.5
+      ],
+      "parent": null,
+      "at": [
+       0,
+       0
+      ],
+      "z": 0
+     },
+     "leg_back_far": {
+      "pivot": [
+       0.32,
+       0.05
+      ],
+      "parent": "torso",
+      "at": [
+       0.74,
+       0.55
+      ],
+      "z": -4
+     },
+     "leg_front_far": {
+      "pivot": [
+       0.45,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.26,
+       0.6
+      ],
+      "z": -4
+     },
+     "leg_back_near": {
+      "pivot": [
+       0.32,
+       0.05
+      ],
+      "parent": "torso",
+      "at": [
+       0.8,
+       0.6
+      ],
+      "z": -3
+     },
+     "leg_front_near": {
+      "pivot": [
+       0.45,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.2,
+       0.62
+      ],
+      "z": -3
+     },
+     "tail_up": {
+      "pivot": [
+       0.13,
+       0.95
+      ],
+      "parent": "torso",
+      "at": [
+       0.965,
+       0.72
+      ],
+      "z": 1
+     },
+     "ear_far": {
+      "pivot": [
+       0.5,
+       0.92
+      ],
+      "parent": "head",
+      "at": [
+       0.42,
+       0.12
+      ],
+      "z": 2
+     },
+     "ear_near": {
+      "pivot": [
+       0.55,
+       0.92
+      ],
+      "parent": "head",
+      "at": [
+       0.62,
+       0.1
+      ],
+      "z": 2.5
+     },
+     "head": {
+      "pivot": [
+       0.68,
+       0.8
+      ],
+      "parent": "torso",
+      "at": [
+       0.08,
+       0.25
+      ],
+      "z": 3
+     }
+    },
+    "walk": {
+     "legSwing": 22,
+     "tailSway": 6,
+     "headBob": 2
+    },
+    "assembled": [
+     1518,
+     1308
+    ],
+    "whole": [
+     708,
+     802
+    ]
+   },
+   "tqfront": {
+    "facing": "left",
+    "parts": {
+     "torso": {
+      "pivot": [
+       0.5,
+       0.5
+      ],
+      "parent": null,
+      "at": [
+       0,
+       0
+      ],
+      "z": 0
+     },
+     "leg_back_far": {
+      "pivot": [
+       0.45,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.86,
+       0.62
+      ],
+      "z": -4
+     },
+     "leg_front_far": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.3,
+       0.68
+      ],
+      "z": -4
+     },
+     "leg_back_near": {
+      "pivot": [
+       0.4,
+       0.05
+      ],
+      "parent": "torso",
+      "at": [
+       0.76,
+       0.7
+      ],
+      "z": -3
+     },
+     "leg_front_near": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.17,
+       0.72
+      ],
+      "z": -3
+     },
+     "tail_up": {
+      "pivot": [
+       0.05,
+       0.93
+      ],
+      "parent": "torso",
+      "at": [
+       0.93,
+       0.5
+      ],
+      "z": -1
+     },
+     "ear_near": {
+      "pivot": [
+       0.42,
+       0.9
+      ],
+      "parent": "head",
+      "at": [
+       0.7,
+       0.15
+      ],
+      "z": 2
+     },
+     "ear_far": {
+      "pivot": [
+       0.58,
+       0.9
+      ],
+      "parent": "head",
+      "at": [
+       0.3,
+       0.15
+      ],
+      "z": 2
+     },
+     "head": {
+      "pivot": [
+       0.5,
+       0.86
+      ],
+      "parent": "torso",
+      "at": [
+       0.12,
+       0.28
+      ],
+      "z": 3
+     }
+    },
+    "walk": {
+     "legSwing": 18,
+     "tailSway": 6,
+     "headBob": 2
+    },
+    "assembled": [
+     1336,
+     1408
+    ],
+    "whole": [
+     626,
+     792
+    ]
+   },
+   "front": {
+    "facing": "front",
+    "parts": {
+     "torso": {
+      "pivot": [
+       0.5,
+       0.5
+      ],
+      "parent": null,
+      "at": [
+       0,
+       0
+      ],
+      "z": 0
+     },
+     "leg_back_far": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.8,
+       0.86
+      ],
+      "z": -4
+     },
+     "leg_back_near": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.2,
+       0.86
+      ],
+      "z": -4
+     },
+     "leg_front_far": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.63,
+       0.8
+      ],
+      "z": -2
+     },
+     "leg_front_near": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.37,
+       0.8
+      ],
+      "z": -2
+     },
+     "tail_up": {
+      "pivot": [
+       0.1,
+       0.96
+      ],
+      "parent": "torso",
+      "at": [
+       0.95,
+       0.82
+      ],
+      "z": -5
+     },
+     "ear_near": {
+      "pivot": [
+       0.42,
+       0.9
+      ],
+      "parent": "head",
+      "at": [
+       0.7,
+       0.15
+      ],
+      "z": 2
+     },
+     "ear_far": {
+      "pivot": [
+       0.58,
+       0.9
+      ],
+      "parent": "head",
+      "at": [
+       0.3,
+       0.15
+      ],
+      "z": 2
+     },
+     "head": {
+      "pivot": [
+       0.5,
+       0.88
+      ],
+      "parent": "torso",
+      "at": [
+       0.5,
+       0.08
+      ],
+      "z": 3
+     }
+    },
+    "walk": {
+     "legSwing": 0,
+     "tailSway": 6,
+     "headBob": 2
+    },
+    "assembled": [
+     1157,
+     1668
+    ],
+    "whole": [
+     579,
+     802
+    ]
+   }
+  },
+  "persian": {
+   "side": {
+    "facing": "left",
+    "parts": {
+     "torso": {
+      "pivot": [
+       0.5,
+       0.5
+      ],
+      "parent": null,
+      "at": [
+       0,
+       0
+      ],
+      "z": 0
+     },
+     "leg_back_far": {
+      "pivot": [
+       0.32,
+       0.05
+      ],
+      "parent": "torso",
+      "at": [
+       0.74,
+       0.55
+      ],
+      "z": -4
+     },
+     "leg_front_far": {
+      "pivot": [
+       0.45,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.26,
+       0.6
+      ],
+      "z": -4
+     },
+     "leg_back_near": {
+      "pivot": [
+       0.32,
+       0.05
+      ],
+      "parent": "torso",
+      "at": [
+       0.8,
+       0.6
+      ],
+      "z": -3
+     },
+     "leg_front_near": {
+      "pivot": [
+       0.45,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.2,
+       0.62
+      ],
+      "z": -3
+     },
+     "tail_up": {
+      "pivot": [
+       0.13,
+       0.95
+      ],
+      "parent": "torso",
+      "at": [
+       0.965,
+       0.72
+      ],
+      "z": 1
+     },
+     "head": {
+      "pivot": [
+       0.68,
+       0.8
+      ],
+      "parent": "torso",
+      "at": [
+       0.08,
+       0.25
+      ],
+      "z": 3
+     }
+    },
+    "walk": {
+     "legSwing": 22,
+     "tailSway": 6,
+     "headBob": 2
+    },
+    "assembled": [
+     1609,
+     1084
+    ],
+    "whole": [
+     714,
+     759
+    ]
+   },
+   "tqfront": {
+    "facing": "left",
+    "parts": {
+     "torso": {
+      "pivot": [
+       0.5,
+       0.5
+      ],
+      "parent": null,
+      "at": [
+       0,
+       0
+      ],
+      "z": 0
+     },
+     "leg_back_far": {
+      "pivot": [
+       0.45,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.86,
+       0.62
+      ],
+      "z": -4
+     },
+     "leg_front_far": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.3,
+       0.68
+      ],
+      "z": -4
+     },
+     "leg_back_near": {
+      "pivot": [
+       0.4,
+       0.05
+      ],
+      "parent": "torso",
+      "at": [
+       0.76,
+       0.7
+      ],
+      "z": -3
+     },
+     "leg_front_near": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.17,
+       0.72
+      ],
+      "z": -3
+     },
+     "tail_up": {
+      "pivot": [
+       0.05,
+       0.93
+      ],
+      "parent": "torso",
+      "at": [
+       0.93,
+       0.5
+      ],
+      "z": -1
+     },
+     "head": {
+      "pivot": [
+       0.5,
+       0.86
+      ],
+      "parent": "torso",
+      "at": [
+       0.12,
+       0.28
+      ],
+      "z": 3
+     }
+    },
+    "walk": {
+     "legSwing": 18,
+     "tailSway": 6,
+     "headBob": 2
+    },
+    "assembled": [
+     1362,
+     1185
+    ],
+    "whole": [
+     649,
+     746
+    ]
+   },
+   "front": {
+    "facing": "front",
+    "parts": {
+     "torso": {
+      "pivot": [
+       0.5,
+       0.5
+      ],
+      "parent": null,
+      "at": [
+       0,
+       0
+      ],
+      "z": 0
+     },
+     "leg_back_far": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.8,
+       0.86
+      ],
+      "z": -4
+     },
+     "leg_back_near": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.2,
+       0.86
+      ],
+      "z": -4
+     },
+     "leg_front_far": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.63,
+       0.8
+      ],
+      "z": -2
+     },
+     "leg_front_near": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.37,
+       0.8
+      ],
+      "z": -2
+     },
+     "tail_up": {
+      "pivot": [
+       0.1,
+       0.96
+      ],
+      "parent": "torso",
+      "at": [
+       0.95,
+       0.82
+      ],
+      "z": -5
+     },
+     "head": {
+      "pivot": [
+       0.5,
+       0.88
+      ],
+      "parent": "torso",
+      "at": [
+       0.5,
+       0.08
+      ],
+      "z": 3
+     }
+    },
+    "walk": {
+     "legSwing": 0,
+     "tailSway": 6,
+     "headBob": 2
+    },
+    "assembled": [
+     1193,
+     1463
+    ],
+    "whole": [
+     602,
+     742
+    ]
+   }
+  },
+  "siamese": {
+   "side": {
+    "facing": "left",
+    "parts": {
+     "torso": {
+      "pivot": [
+       0.5,
+       0.5
+      ],
+      "parent": null,
+      "at": [
+       0,
+       0
+      ],
+      "z": 0
+     },
+     "leg_back_far": {
+      "pivot": [
+       0.32,
+       0.05
+      ],
+      "parent": "torso",
+      "at": [
+       0.74,
+       0.55
+      ],
+      "z": -4
+     },
+     "leg_front_far": {
+      "pivot": [
+       0.45,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.26,
+       0.6
+      ],
+      "z": -4
+     },
+     "leg_back_near": {
+      "pivot": [
+       0.32,
+       0.05
+      ],
+      "parent": "torso",
+      "at": [
+       0.8,
+       0.6
+      ],
+      "z": -3
+     },
+     "leg_front_near": {
+      "pivot": [
+       0.45,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.2,
+       0.62
+      ],
+      "z": -3
+     },
+     "tail_up": {
+      "pivot": [
+       0.06,
+       0.92
+      ],
+      "parent": "torso",
+      "at": [
+       0.975,
+       0.79
+      ],
+      "z": 1
+     },
+     "ear_far": {
+      "pivot": [
+       0.5,
+       0.92
+      ],
+      "parent": "head",
+      "at": [
+       0.42,
+       0.12
+      ],
+      "z": 2
+     },
+     "ear_near": {
+      "pivot": [
+       0.55,
+       0.92
+      ],
+      "parent": "head",
+      "at": [
+       0.62,
+       0.1
+      ],
+      "z": 2.5
+     },
+     "head": {
+      "pivot": [
+       0.68,
+       0.8
+      ],
+      "parent": "torso",
+      "at": [
+       0.08,
+       0.25
+      ],
+      "z": 3
+     }
+    },
+    "walk": {
+     "legSwing": 22,
+     "tailSway": 6,
+     "headBob": 2
+    },
+    "assembled": [
+     1417,
+     1219
+    ],
+    "whole": [
+     657,
+     1025
+    ]
+   },
+   "tqfront": {
+    "facing": "left",
+    "parts": {
+     "torso": {
+      "pivot": [
+       0.5,
+       0.5
+      ],
+      "parent": null,
+      "at": [
+       0,
+       0
+      ],
+      "z": 0
+     },
+     "leg_back_far": {
+      "pivot": [
+       0.45,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.86,
+       0.62
+      ],
+      "z": -4
+     },
+     "leg_front_far": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.3,
+       0.68
+      ],
+      "z": -4
+     },
+     "leg_back_near": {
+      "pivot": [
+       0.4,
+       0.05
+      ],
+      "parent": "torso",
+      "at": [
+       0.76,
+       0.7
+      ],
+      "z": -3
+     },
+     "leg_front_near": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.17,
+       0.72
+      ],
+      "z": -3
+     },
+     "tail_up": {
+      "pivot": [
+       0.05,
+       0.93
+      ],
+      "parent": "torso",
+      "at": [
+       0.93,
+       0.5
+      ],
+      "z": -1
+     },
+     "head": {
+      "pivot": [
+       0.5,
+       0.86
+      ],
+      "parent": "torso",
+      "at": [
+       0.12,
+       0.28
+      ],
+      "z": 3
+     }
+    },
+    "walk": {
+     "legSwing": 18,
+     "tailSway": 6,
+     "headBob": 2
+    },
+    "assembled": [
+     1358,
+     1180
+    ],
+    "whole": [
+     703,
+     1029
+    ]
+   },
+   "front": {
+    "facing": "front",
+    "parts": {
+     "torso": {
+      "pivot": [
+       0.5,
+       0.5
+      ],
+      "parent": null,
+      "at": [
+       0,
+       0
+      ],
+      "z": 0
+     },
+     "leg_back_far": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.8,
+       0.86
+      ],
+      "z": -4
+     },
+     "leg_back_near": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.2,
+       0.86
+      ],
+      "z": -4
+     },
+     "leg_front_far": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.63,
+       0.8
+      ],
+      "z": -2
+     },
+     "leg_front_near": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.37,
+       0.8
+      ],
+      "z": -2
+     },
+     "tail_up": {
+      "pivot": [
+       0.1,
+       0.96
+      ],
+      "parent": "torso",
+      "at": [
+       0.95,
+       0.82
+      ],
+      "z": -5
+     },
+     "head": {
+      "pivot": [
+       0.5,
+       0.88
+      ],
+      "parent": "torso",
+      "at": [
+       0.5,
+       0.08
+      ],
+      "z": 3
+     }
+    },
+    "walk": {
+     "legSwing": 0,
+     "tailSway": 6,
+     "headBob": 2
+    },
+    "assembled": [
+     685,
+     1421
+    ],
+    "whole": [
+     591,
+     1033
+    ]
+   }
+  },
+  "mainecoon": {
+   "side": {
+    "facing": "left",
+    "parts": {
+     "torso": {
+      "pivot": [
+       0.5,
+       0.5
+      ],
+      "parent": null,
+      "at": [
+       0,
+       0
+      ],
+      "z": 0
+     },
+     "leg_back_far": {
+      "pivot": [
+       0.32,
+       0.05
+      ],
+      "parent": "torso",
+      "at": [
+       0.74,
+       0.55
+      ],
+      "z": -4
+     },
+     "leg_front_far": {
+      "pivot": [
+       0.45,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.26,
+       0.6
+      ],
+      "z": -4
+     },
+     "leg_back_near": {
+      "pivot": [
+       0.32,
+       0.05
+      ],
+      "parent": "torso",
+      "at": [
+       0.8,
+       0.6
+      ],
+      "z": -3
+     },
+     "leg_front_near": {
+      "pivot": [
+       0.45,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.2,
+       0.62
+      ],
+      "z": -3
+     },
+     "tail_up": {
+      "pivot": [
+       0.13,
+       0.95
+      ],
+      "parent": "torso",
+      "at": [
+       0.965,
+       0.72
+      ],
+      "z": 1
+     },
+     "head": {
+      "pivot": [
+       0.68,
+       0.8
+      ],
+      "parent": "torso",
+      "at": [
+       0.08,
+       0.25
+      ],
+      "z": 3
+     }
+    },
+    "walk": {
+     "legSwing": 22,
+     "tailSway": 6,
+     "headBob": 2
+    },
+    "assembled": [
+     1617,
+     1183
+    ],
+    "whole": [
+     720,
+     886
+    ]
+   },
+   "tqfront": {
+    "facing": "left",
+    "parts": {
+     "torso": {
+      "pivot": [
+       0.5,
+       0.5
+      ],
+      "parent": null,
+      "at": [
+       0,
+       0
+      ],
+      "z": 0
+     },
+     "leg_back_far": {
+      "pivot": [
+       0.45,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.86,
+       0.62
+      ],
+      "z": -4
+     },
+     "leg_front_far": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.3,
+       0.68
+      ],
+      "z": -4
+     },
+     "leg_back_near": {
+      "pivot": [
+       0.4,
+       0.05
+      ],
+      "parent": "torso",
+      "at": [
+       0.76,
+       0.7
+      ],
+      "z": -3
+     },
+     "leg_front_near": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.17,
+       0.72
+      ],
+      "z": -3
+     },
+     "tail_up": {
+      "pivot": [
+       0.05,
+       0.93
+      ],
+      "parent": "torso",
+      "at": [
+       0.93,
+       0.5
+      ],
+      "z": -1
+     },
+     "head": {
+      "pivot": [
+       0.5,
+       0.86
+      ],
+      "parent": "torso",
+      "at": [
+       0.12,
+       0.28
+      ],
+      "z": 3
+     }
+    },
+    "walk": {
+     "legSwing": 18,
+     "tailSway": 6,
+     "headBob": 2
+    },
+    "assembled": [
+     1388,
+     1242
+    ],
+    "whole": [
+     638,
+     874
+    ]
+   },
+   "front": {
+    "facing": "front",
+    "parts": {
+     "torso": {
+      "pivot": [
+       0.5,
+       0.5
+      ],
+      "parent": null,
+      "at": [
+       0,
+       0
+      ],
+      "z": 0
+     },
+     "leg_back_far": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.8,
+       0.86
+      ],
+      "z": -4
+     },
+     "leg_back_near": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.2,
+       0.86
+      ],
+      "z": -4
+     },
+     "leg_front_far": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.63,
+       0.8
+      ],
+      "z": -2
+     },
+     "leg_front_near": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.37,
+       0.8
+      ],
+      "z": -2
+     },
+     "tail_up": {
+      "pivot": [
+       0.1,
+       0.96
+      ],
+      "parent": "torso",
+      "at": [
+       0.95,
+       0.82
+      ],
+      "z": -5
+     },
+     "head": {
+      "pivot": [
+       0.5,
+       0.88
+      ],
+      "parent": "torso",
+      "at": [
+       0.5,
+       0.08
+      ],
+      "z": 3
+     }
+    },
+    "walk": {
+     "legSwing": 0,
+     "tailSway": 6,
+     "headBob": 2
+    },
+    "assembled": [
+     1220,
+     1592
+    ],
+    "whole": [
+     606,
+     885
+    ]
+   }
+  },
+  "sphynx": {
+   "side": {
+    "facing": "left",
+    "parts": {
+     "torso": {
+      "pivot": [
+       0.5,
+       0.5
+      ],
+      "parent": null,
+      "at": [
+       0,
+       0
+      ],
+      "z": 0
+     },
+     "leg_back_far": {
+      "pivot": [
+       0.32,
+       0.05
+      ],
+      "parent": "torso",
+      "at": [
+       0.74,
+       0.55
+      ],
+      "z": -4
+     },
+     "leg_front_far": {
+      "pivot": [
+       0.45,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.26,
+       0.6
+      ],
+      "z": -4
+     },
+     "leg_back_near": {
+      "pivot": [
+       0.32,
+       0.05
+      ],
+      "parent": "torso",
+      "at": [
+       0.8,
+       0.6
+      ],
+      "z": -3
+     },
+     "leg_front_near": {
+      "pivot": [
+       0.45,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.2,
+       0.62
+      ],
+      "z": -3
+     },
+     "tail_up": {
+      "pivot": [
+       0.05,
+       0.91
+      ],
+      "parent": "torso",
+      "at": [
+       0.975,
+       0.75
+      ],
+      "z": 1
+     },
+     "ear_far": {
+      "pivot": [
+       0.5,
+       0.92
+      ],
+      "parent": "head",
+      "at": [
+       0.42,
+       0.12
+      ],
+      "z": 2
+     },
+     "ear_near": {
+      "pivot": [
+       0.55,
+       0.92
+      ],
+      "parent": "head",
+      "at": [
+       0.62,
+       0.1
+      ],
+      "z": 2.5
+     },
+     "head": {
+      "pivot": [
+       0.68,
+       0.8
+      ],
+      "parent": "torso",
+      "at": [
+       0.08,
+       0.25
+      ],
+      "z": 3
+     }
+    },
+    "walk": {
+     "legSwing": 22,
+     "tailSway": 6,
+     "headBob": 2
+    },
+    "assembled": [
+     1419,
+     1239
+    ],
+    "whole": [
+     635,
+     1053
+    ]
+   },
+   "tqfront": {
+    "facing": "left",
+    "parts": {
+     "torso": {
+      "pivot": [
+       0.5,
+       0.5
+      ],
+      "parent": null,
+      "at": [
+       0,
+       0
+      ],
+      "z": 0
+     },
+     "leg_back_far": {
+      "pivot": [
+       0.45,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.86,
+       0.62
+      ],
+      "z": -4
+     },
+     "leg_front_far": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.3,
+       0.68
+      ],
+      "z": -4
+     },
+     "leg_back_near": {
+      "pivot": [
+       0.4,
+       0.05
+      ],
+      "parent": "torso",
+      "at": [
+       0.76,
+       0.7
+      ],
+      "z": -3
+     },
+     "leg_front_near": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.17,
+       0.72
+      ],
+      "z": -3
+     },
+     "tail_up": {
+      "pivot": [
+       0.05,
+       0.93
+      ],
+      "parent": "torso",
+      "at": [
+       0.93,
+       0.5
+      ],
+      "z": -1
+     },
+     "ear_near": {
+      "pivot": [
+       0.42,
+       0.9
+      ],
+      "parent": "head",
+      "at": [
+       0.7,
+       0.15
+      ],
+      "z": 2
+     },
+     "ear_far": {
+      "pivot": [
+       0.58,
+       0.9
+      ],
+      "parent": "head",
+      "at": [
+       0.3,
+       0.15
+      ],
+      "z": 2
+     },
+     "head": {
+      "pivot": [
+       0.5,
+       0.86
+      ],
+      "parent": "torso",
+      "at": [
+       0.12,
+       0.28
+      ],
+      "z": 3
+     }
+    },
+    "walk": {
+     "legSwing": 18,
+     "tailSway": 6,
+     "headBob": 2
+    },
+    "assembled": [
+     1350,
+     1404
+    ],
+    "whole": [
+     673,
+     1054
+    ]
+   },
+   "front": {
+    "facing": "front",
+    "parts": {
+     "torso": {
+      "pivot": [
+       0.5,
+       0.5
+      ],
+      "parent": null,
+      "at": [
+       0,
+       0
+      ],
+      "z": 0
+     },
+     "leg_back_far": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.8,
+       0.86
+      ],
+      "z": -4
+     },
+     "leg_back_near": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.2,
+       0.86
+      ],
+      "z": -4
+     },
+     "leg_front_far": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.63,
+       0.8
+      ],
+      "z": -2
+     },
+     "leg_front_near": {
+      "pivot": [
+       0.5,
+       0.04
+      ],
+      "parent": "torso",
+      "at": [
+       0.37,
+       0.8
+      ],
+      "z": -2
+     },
+     "tail_up": {
+      "pivot": [
+       0.1,
+       0.96
+      ],
+      "parent": "torso",
+      "at": [
+       0.95,
+       0.82
+      ],
+      "z": -5
+     },
+     "ear_near": {
+      "pivot": [
+       0.42,
+       0.9
+      ],
+      "parent": "head",
+      "at": [
+       0.7,
+       0.15
+      ],
+      "z": 2
+     },
+     "ear_far": {
+      "pivot": [
+       0.58,
+       0.9
+      ],
+      "parent": "head",
+      "at": [
+       0.3,
+       0.15
+      ],
+      "z": 2
+     },
+     "head": {
+      "pivot": [
+       0.5,
+       0.88
+      ],
+      "parent": "torso",
+      "at": [
+       0.5,
+       0.08
+      ],
+      "z": 3
+     }
+    },
+    "walk": {
+     "legSwing": 0,
+     "tailSway": 6,
+     "headBob": 2
+    },
+    "assembled": [
+     672,
+     1625
+    ],
+    "whole": [
+     595,
+     1047
+    ]
+   }
   }
+ }
 }

@@ -12,6 +12,9 @@ enum GameWorld {
     static let content: ContentBundle? = Bundle.main.url(forResource: "Content", withExtension: nil)
         .flatMap { try? ContentBundle.load(from: $0) }
     static let art: ArtLibrary? = try? ArtLibrary(bundle: .main)
+    /// The cat builder's sprites, tinted into each cat's look.
+    static let catArt: CatArt? = art.flatMap { try? CatArt(art: $0) }
+    static let rig: PuppetRig? = try? art?.data("cat/rig.json", as: PuppetRig.self)
 
     /// The player's home until onboarding records one: the London terrace in the city, London time, seasons on Auto.
     enum DemoHome {
@@ -119,13 +122,22 @@ enum GameWorld {
 
     /// The house with the cat arriving in the living room to do what the save says, or a blank scene if the art is missing.
     static func roomScene(size: CGSize, at date: Date = Date(), state: HouseholdState, arrival: GameSession.Arrival?) -> SKScene {
-        guard let art, let content, let house = house(at: date, state: state), let rig = try? art.data("cat/rig.json", as: PuppetRig.self)
-        else {
+        guard let art, let content, let house = house(at: date, state: state), let rig else {
             return SKScene(size: size)
         }
         let scene = RoomScene(size: size, art: art, content: content, house: house)
         let start = scene.model.cat
-        scene.addCat(rig: rig, at: CGFloat(start[0]), CGFloat(start[1]), pose: .loafThreeQuarterFront)
+        let cat = state.cats.first
+        let day = state.clock.day(of: date)
+        scene.addCat(
+            rig: rig,
+            catArt: catArt,
+            look: cat?.look ?? .midnight,
+            isKitten: cat?.isKittenStage(on: day) ?? false,
+            at: CGFloat(start[0]),
+            CGFloat(start[1]),
+            pose: .loafThreeQuarterFront
+        )
         if let arrival {
             scene.playArrival(then: arrival.choice, onRub: purr, onDone: {})
         }

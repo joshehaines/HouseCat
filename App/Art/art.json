@@ -1119,6 +1119,426 @@
    ],
    "scale": 0.5
   },
+  "gifts/gift_keepsakes_acorn.png": {
+   "master": [
+    330,
+    384
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_keepsakes_blue_bird_feather.png": {
+   "master": [
+    406,
+    418
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_keepsakes_brass_key.png": {
+   "master": [
+    415,
+    409
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_keepsakes_heart_shaped_pebble.png": {
+   "master": [
+    376,
+    348
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_keepsakes_little_ceramic_fish.png": {
+   "master": [
+    456,
+    323
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_keepsakes_marble.png": {
+   "master": [
+    368,
+    370
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_keepsakes_old_coin_with_no_lettering.png": {
+   "master": [
+    385,
+    337
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_keepsakes_pearl_earring.png": {
+   "master": [
+    347,
+    341
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_keepsakes_pressed_flower.png": {
+   "master": [
+    438,
+    452
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_keepsakes_sea_glass.png": {
+   "master": [
+    374,
+    328
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_keepsakes_small_seashell.png": {
+   "master": [
+    405,
+    372
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_keepsakes_tiny_silver_bell.png": {
+   "master": [
+    315,
+    355
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_oddities_a_single_shoelace.png": {
+   "master": [
+    477,
+    481
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_oddities_autumn_leaf.png": {
+   "master": [
+    453,
+    435
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_oddities_bottle_cap.png": {
+   "master": [
+    400,
+    334
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_oddities_button.png": {
+   "master": [
+    405,
+    378
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_oddities_crumpled_receipt_with_no_writing.png": {
+   "master": [
+    474,
+    457
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_oddities_hair_bobble.png": {
+   "master": [
+    494,
+    432
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_oddities_odd_stripy_sock.png": {
+   "master": [
+    469,
+    493
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_oddities_paper_clip.png": {
+   "master": [
+    436,
+    352
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_oddities_pebble.png": {
+   "master": [
+    415,
+    321
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_oddities_pen_lid.png": {
+   "master": [
+    434,
+    400
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_oddities_twig.png": {
+   "master": [
+    532,
+    439
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_oddities_very_flat_old_toy_mouse.png": {
+   "master": [
+    547,
+    267
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_seasonal_candy_cane.png": {
+   "master": [
+    451,
+    480
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_seasonal_cherry_blossom_twig.png": {
+   "master": [
+    636,
+    668
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_seasonal_chocolate_coin_in_gold_foil_with_no_lettering.png": {
+   "master": [
+    518,
+    456
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_seasonal_conker.png": {
+   "master": [
+    398,
+    364
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_seasonal_daffodil_head.png": {
+   "master": [
+    467,
+    486
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_seasonal_easter_egg.png": {
+   "master": [
+    400,
+    453
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_seasonal_holly_sprig.png": {
+   "master": [
+    474,
+    487
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_seasonal_mini_pumpkin.png": {
+   "master": [
+    470,
+    458
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_seasonal_pine_cone.png": {
+   "master": [
+    519,
+    598
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_seasonal_snowflake_ornament.png": {
+   "master": [
+    423,
+    522
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_seasonal_sparkler.png": {
+   "master": [
+    439,
+    465
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_seasonal_tiny_paper_lantern.png": {
+   "master": [
+    506,
+    680
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_toys_ball_of_wool.png": {
+   "master": [
+    496,
+    487
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_toys_bottle_cap_spinner.png": {
+   "master": [
+    409,
+    365
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_toys_catnip_fish.png": {
+   "master": [
+    508,
+    420
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_toys_cork.png": {
+   "master": [
+    389,
+    371
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_toys_crinkle_ball.png": {
+   "master": [
+    438,
+    426
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_toys_feather_wand_tip.png": {
+   "master": [
+    514,
+    522
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_toys_jingle_ball.png": {
+   "master": [
+    344,
+    368
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_toys_little_knitted_bird.png": {
+   "master": [
+    417,
+    356
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_toys_ping_pong_ball.png": {
+   "master": [
+    340,
+    343
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_toys_ribbon_bow.png": {
+   "master": [
+    485,
+    421
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_toys_spring_coil.png": {
+   "master": [
+    426,
+    388
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_toys_toy_mouse_in_grey_felt.png": {
+   "master": [
+    560,
+    412
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_treats_butter_curl.png": {
+   "master": [
+    392,
+    387
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_treats_cat_treat_pouch.png": {
+   "master": [
+    420,
+    535
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_treats_chicken_nugget.png": {
+   "master": [
+    432,
+    375
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_treats_dollop_of_cream_on_a_saucer.png": {
+   "master": [
+    491,
+    415
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_treats_fish_shaped_biscuit.png": {
+   "master": [
+    450,
+    347
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_treats_prawn.png": {
+   "master": [
+    483,
+    360
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_treats_salmon_flake.png": {
+   "master": [
+    463,
+    367
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_treats_sardine.png": {
+   "master": [
+    503,
+    407
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_treats_single_cornflake.png": {
+   "master": [
+    385,
+    370
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_treats_slice_of_ham.png": {
+   "master": [
+    463,
+    404
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_treats_small_cube_of_cheese.png": {
+   "master": [
+    404,
+    381
+   ],
+   "scale": 0.3
+  },
+  "gifts/gift_treats_tuna_tin_lid.png": {
+   "master": [
+    457,
+    429
+   ],
+   "scale": 0.3
+  },
   "rooms/doors/door_panelled_cream.png": {
    "master": [
     1108,

@@ -323,7 +323,9 @@ public final class RoomScene: SKScene {
                 endDecorating(at: touch.location(in: self))
             } else if !decorating, touchTravel < CGFloat(Tuning.House.tapSlop) {
                 let point = touch.location(in: self)
-                if isOnCat(point) {
+                if isOnGift(point) {
+                    onGiftTapped?()
+                } else if isOnCat(point) {
                     onCatTapped?()
                 } else if let room = closedRoom(at: point) {
                     onClosedRoomTapped?(room)
@@ -382,4 +384,6 @@ public final class RoomScene: SKScene {
     public var onClosedRoomTapped: ((RoomID) -> Void)?
     /// The cat was tapped: a pet.
     public var onCatTapped: (() -> Void)?
+    /// A tap on the gift the cat dropped (RoomScene+Gift.swift).
+    public var onGiftTapped: (() -> Void)?
 }

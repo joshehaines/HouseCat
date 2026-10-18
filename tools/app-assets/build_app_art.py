@@ -38,6 +38,8 @@ SETS = [
     ('furniture/kitchen/furn_kitchen_bowl_*.png', 0.6),
     ('fx/fire/fx_fire_0*.png', 0.5),
     ('fx/reactions/fx_reactions_*.png', 0.5),
+    # The gifts the cat brings, for the room and the book.
+    ('gifts/gift_*.png', 0.3),
     # The exterior: the demo home's painted scenes (every season, door closed and open) and the city
     # terrain seen through the room's window.
     ('world/scenes/london_terrace_city_*', 0.75),

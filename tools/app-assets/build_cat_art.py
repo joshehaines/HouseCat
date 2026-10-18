@@ -3,13 +3,13 @@
 in the app (HouseCatGame CoatRenderer; reference tools/asset-pipeline/tint.py), plus builder.json, the builder's
 options and presets as ordered lists for HouseCatCore's CatBuilderData.
 
-Per sprite, at the same relative path as under assets/cat/custom (sizes kept down: about 30 MB in all):
+Per sprite, at the same relative path as under assets/cat/custom (sizes kept down: about 25 MB in all):
   base/<rel>.jpg + alpha/<rel> the white painting's colour (JPEG) and its alpha (PNG), the tail's root and the
                               torso's rump cleaned (caps.py)
   masks/fur/<rel>             tint.py's fur mask (1 = tint, 0 = keep the painting: pink inner ears, nose, pads;
                               the silhouette edge always fur), worked out at master size
   masks/<pattern|white>/<rel> pattern and white-marking masks; a mask that is 0 everywhere is left out
-     (fur, pattern and white masks are half the sprite's size in 16 levels; the app scales them up)
+     (fur, pattern and white masks are half the sprite's size in 16 levels of 8-bit grey; the app scales them up)
   masks/features/<rel>        R, G = the irises, B = the nose leather, at the sprite's size
   masks/whiskers/<rel>        the painted whiskers (thin strokes around the muzzle), for the whisker slider
 index.json gives each sprite's master size, its scale and the masks it has.
@@ -107,13 +107,20 @@ def grey(arr):
     return Image.fromarray(np.clip(np.round(arr * 255), 0, 255).astype(np.uint8))
 
 
+def bled(img, alpha):
+    """A mask with each transparent pixel given its nearest painted pixel's value, so that scaling it down and
+    back up never pulls the cat's outline towards the empty value outside it."""
+    a = np.asarray(img.convert('L'))
+    _, (iy, ix) = ndimage.distance_transform_edt(alpha == 0, return_indices=True)
+    return Image.fromarray(a[iy, ix])
+
+
 def save_levels(img, dst):
-    """A greyscale mask in 16 levels as a 4-bit palette PNG (a third of the size of 8-bit)."""
+    """A greyscale mask in 16 levels (half the size of 256 once compressed), kept as plain 8-bit grey so the
+    app reads the bytes as they are, with no colour management."""
     a = np.asarray(img.convert('L')).astype(np.float32)
     step = 255 / (LEVELS - 1)
-    p = Image.fromarray(np.round(a / step).astype(np.uint8)).convert('P')
-    p.putpalette([round(i * step) for i in range(LEVELS) for _ in range(3)])
-    p.save(dst, optimize=True, bits=4)
+    Image.fromarray(np.round(np.round(a / step) * step).astype(np.uint8)).save(dst, optimize=True)
 
 
 def builder_json():
@@ -153,13 +160,14 @@ def main():
             base = caps.erase(base, [tuple(RIG['sets']['short_slim'][view]['parts']['tail_up']['pivot'])])
         masks = {}
         size = (max(1, round(base.width * scale)), max(1, round(base.height * scale)))
+        alpha = np.asarray(base)[..., 3]
 
         def save(name, img, half=True):
             dst = os.path.join(OUT, 'masks', name, rel)
             os.makedirs(os.path.dirname(dst), exist_ok=True)
             if half:
                 small = (max(1, round(size[0] * MASK_SCALE)), max(1, round(size[1] * MASK_SCALE)))
-                save_levels(img.convert('L').resize(small, Image.BOX), dst)
+                save_levels(bled(img, alpha).resize(small, Image.BOX), dst)
             elif img.mode == '1':
                 img.resize(size, Image.NEAREST).save(dst, optimize=True)
             else:

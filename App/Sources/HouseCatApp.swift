@@ -8,98 +8,266 @@ import SwiftUI
 @main
 struct HouseCatApp: App {
     @State private var store = Self.makeStore()
-    @State private var showShop = false
-    @State private var visit = Visit(size: CGSize(width: 1024, height: 768), lastActive: Visit.lastActive)
+    @State private var visit: Visit?
+    /// Adoption (onboarding's cat creation) when the save has no cat yet.
+    @State private var adopting: CatBuilderModel?
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
         WindowGroup {
-            RoomView(scene: visit.scene)
-                .ignoresSafeArea()
-                .overlay(alignment: .top) {
-                    // At the top in landscape: the cat runs to the bottom edge to rub.
+            Group {
+                if let visit {
+                    RoomScreen(visit: visit, store: store)
+                } else if let adopting {
+                    CatBuilderView(model: adopting) { model in
+                        guard let name = model.checkedName else { return }
+                        GameSession.shared.adopt(name: name, personality: model.personality, look: model.look)
+                        self.adopting = nil
+                        visit = Visit(size: CGSize(width: 1024, height: 768), lastActive: nil)
+                    }
+                } else {
+                    Color.black.ignoresSafeArea()
+                }
+            }
+            .onAppear(perform: start)
+            .task {
+                await store?.refresh()
+            }
+            .onChange(of: scenePhase) { old, new in
+                if new == .active, old == .background, visit != nil, ArrivalRules.showsExterior(lastActive: Visit.lastActive, now: Date()) {
+                    visit = Visit(size: CGSize(width: 1024, height: 768), lastActive: Visit.lastActive)
+                }
+                if new != .active {
+                    Visit.lastActive = Date()
+                }
+            }
+        }
+    }
+
+    /// The builder for a new player, else the visit.
+    private func start() {
+        guard visit == nil, adopting == nil else { return }
+        if GameSession.shared.cat == nil, let model = CatScreens.builder(mode: .adopt) {
+            adopting = model
+        } else {
+            visit = Visit(size: CGSize(width: 1024, height: 768), lastActive: Visit.lastActive)
+        }
+    }
+
+    /// RevenueCat once an API key is set in Info.plist (`RevenueCatAPIKey`), StoreKit 2 directly until then.
+    @MainActor
+    private static func makeStore() -> (any EntitlementService)? {
+        // When the app hosts the StoreKit tests, StoreKit must not start before the
+        // test session loads Store/HouseCat.storekit, or every request goes to the sandbox.
+        // HOUSECAT_SKIP_STORE: launches from the command line for screenshots, where StoreKit would ask for a sandbox sign-in.
+        let environment = ProcessInfo.processInfo.environment
+        guard environment["XCTestConfigurationFilePath"] == nil, environment["HOUSECAT_SKIP_STORE"] == nil, let folder = Bundle.main.url(
+            forResource: "Content",
+            withExtension: nil
+        ),
+            let content = try? ContentBundle.load(from: folder) else { return nil }
+        let catalog = StoreCatalog(content: content)
+        let cache = KeychainEntitlementCache()
+        if let key = Bundle.main.object(forInfoDictionaryKey: "RevenueCatAPIKey") as? String, !key.isEmpty {
+            return RevenueCatEntitlementService(apiKey: key, catalog: catalog, cache: cache)
+        }
+        return StoreKitEntitlementService(catalog: catalog, cache: cache)
+    }
+}
+
+/// The builder, the profile and the book, made from the save and the bundled art.
+@MainActor
+enum CatScreens {
+    static func builder(mode: CatBuilderModel.Mode) -> CatBuilderModel? {
+        guard let art = GameWorld.art, let catArt = GameWorld.catArt else { return nil }
+        let cat = GameSession.shared.cat
+        return CatBuilderModel(
+            mode: mode,
+            look: cat?.look ?? .midnight,
+            name: cat?.name ?? "",
+            personality: cat?.personality ?? .velcro,
+            art: art,
+            catArt: catArt,
+            rig: GameWorld.rig,
+            names: GameWorld.content?.names ?? NameFilter()
+        )
+    }
+
+    static func profile() -> (profile: CatProfile, xp: Int)? {
+        let session = GameSession.shared
+        let now = session.now()
+        let state = session.state(at: now)
+        return state.profile(of: GameSession.catID, on: state.clock.day(of: now)).map { ($0, state.xp) }
+    }
+
+    static func portrait(_ look: CatLook) -> CGImage? {
+        guard let catArt = GameWorld.catArt else { return nil }
+        return catArt.image(catArt.builder.pose(CatPose.sitThreeQuarterFront.rawValue, look: look), look: look)
+    }
+
+    static func book() -> [GiftBookView.Entry] {
+        let session = GameSession.shared
+        let collected = session.state(at: session.now()).giftsCollected
+        return (session.content?.gifts.gifts ?? []).map { gift in
+            GiftBookView.Entry(
+                id: gift.id,
+                name: gift.name,
+                description: gift.description,
+                rarity: gift.rarity,
+                count: collected[gift.id] ?? 0,
+                image: GameWorld.art?.image(gift.sprite)
+            )
+        }
+    }
+
+    /// Renames the cat; returns what is wrong with the name, or nil once it is taken.
+    static func rename(_ name: String) -> String? {
+        switch CatNames.check(name, filter: GameWorld.content?.names ?? NameFilter()) {
+        case let .ok(checked):
+            GameSession.shared.edit(name: checked)
+            return nil
+        case .empty: return "A name needs a letter or two."
+        case .tooLong: return "Up to \(Tuning.Cat.nameMaxLength) characters."
+        case .blocked: return "Try another name."
+        }
+    }
+}
+
+/// The room with its controls: the greeting, Decorate and Feed, the status, the cat's profile, the book and
+/// the shop.
+struct RoomScreen: View {
+    @Bindable var visit: Visit
+    let store: (any EntitlementService)?
+    @State private var showShop = false
+    @State private var showProfile = false
+    @State private var showBook = false
+    @State private var editing: CatBuilderModel?
+    @State private var profileVersion = 0
+
+    var body: some View {
+        RoomView(scene: visit.scene)
+            .ignoresSafeArea()
+            .overlay(alignment: .top) {
+                // At the top in landscape: the cat runs to the bottom edge to rub.
+                VStack(spacing: 8) {
                     if let line = visit.greeting {
                         GreetingBubble(line)
                             .padding(.horizontal, 90)
-                            // Below the room controls and the status along the top.
-                            .padding(.top, 76)
                             .transition(.move(edge: .top).combined(with: .opacity))
                             .onTapGesture { visit.dismissGreeting() }
                     }
+                    if let toast = visit.toast {
+                        Text(toast)
+                            .font(.headline)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
+                            .background(.thinMaterial, in: Capsule())
+                            .transition(.scale.combined(with: .opacity))
+                    }
                 }
-                .animation(.easeOut(duration: 0.3), value: visit.greeting)
-                .overlay(alignment: .topLeading) {
+                // Below the room controls and the status along the top.
+                .padding(.top, 76)
+            }
+            .animation(.easeOut(duration: 0.3), value: visit.greeting)
+            .animation(.spring(duration: 0.35), value: visit.toast)
+            .overlay(alignment: .topLeading) {
+                if visit.scene is RoomScene {
+                    DecorateBar(
+                        decorating: visit.decorating,
+                        hasSelection: visit.selected != nil,
+                        storeyTitle: visit.storeyTitle,
+                        canDecorate: visit.storey == 0,
+                        toggle: { visit.toggleDecorating() },
+                        turn: { visit.turnSelection() },
+                        store: { visit.storeSelection() },
+                        changeStorey: { visit.changeStorey() },
+                        feed: { visit.feed() }
+                    )
+                    .padding(20)
+                }
+            }
+            .overlay(alignment: .topTrailing) {
+                HStack(spacing: 10) {
                     if visit.scene is RoomScene {
-                        DecorateBar(
-                            decorating: visit.decorating,
-                            hasSelection: visit.selected != nil,
-                            storeyTitle: visit.storeyTitle,
-                            canDecorate: visit.storey == 0,
-                            toggle: { visit.toggleDecorating() },
-                            turn: { visit.turnSelection() },
-                            store: { visit.storeSelection() },
-                            changeStorey: { visit.changeStorey() },
-                            feed: { visit.feed() }
-                        )
-                        .padding(20)
+                        StatusPill(level: visit.stats.level, beans: visit.stats.beans, streak: visit.stats.streak)
+                        roundButton("pawprint", label: "Your cat") { showProfile = true }
+                        roundButton("book", label: "The book") { showBook = true }
                     }
+                    roundButton("bag", label: "Shop") { showShop = true }
                 }
-                .overlay(alignment: .topTrailing) {
-                    HStack(spacing: 10) {
-                        if visit.scene is RoomScene {
-                            StatusPill(level: visit.stats.level, beans: visit.stats.beans, streak: visit.stats.streak)
+                .padding()
+            }
+            .overlay(alignment: .bottom) {
+                if visit.decorating {
+                    DecorateTray(
+                        entries: visit.trayMode == .furniture ? visit.inventory.map(trayEntry) : surfaceEntries(),
+                        modes: Visit.TrayMode.allCases.map(\.title),
+                        mode: visit.trayMode.rawValue,
+                        selectMode: { visit.trayMode = Visit.TrayMode(rawValue: $0) ?? .furniture }
+                    ) { id in
+                        if visit.trayMode == .furniture {
+                            visit.placeFromInventory(id)
+                        } else {
+                            visit.chooseSurface(id)
                         }
-                        Button {
-                            showShop = true
-                        } label: {
-                            Image(systemName: "bag")
-                                .font(.title2)
-                                .padding(12)
-                                .background(.thinMaterial, in: Circle())
-                        }
-                        .accessibilityLabel("Shop")
                     }
-                    .padding()
+                    .padding(.bottom, 12)
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
                 }
-                .overlay(alignment: .bottom) {
-                    if visit.decorating {
-                        DecorateTray(
-                            entries: visit.trayMode == .furniture ? visit.inventory.map(trayEntry) : surfaceEntries(),
-                            modes: Visit.TrayMode.allCases.map(\.title),
-                            mode: visit.trayMode.rawValue,
-                            selectMode: { visit.trayMode = Visit.TrayMode(rawValue: $0) ?? .furniture }
-                        ) { id in
-                            if visit.trayMode == .furniture {
-                                visit.placeFromInventory(id)
-                            } else {
-                                visit.chooseSurface(id)
-                            }
-                        }
-                        .padding(.bottom, 12)
-                        .transition(.move(edge: .bottom).combined(with: .opacity))
-                    }
+            }
+            .animation(.easeOut(duration: 0.25), value: visit.decorating)
+            .alert(item: $visit.roomOffer) { offer in
+                roomAlert(offer)
+            }
+            .sheet(isPresented: $showShop) {
+                if let store {
+                    ShopView(store: store)
                 }
-                .animation(.easeOut(duration: 0.25), value: visit.decorating)
-                .alert(item: $visit.roomOffer) { offer in
-                    roomAlert(offer)
+            }
+            .sheet(isPresented: $showProfile) {
+                if let info = CatScreens.profile() {
+                    CatProfileView(
+                        profile: info.profile,
+                        portrait: CatScreens.portrait(info.profile.look),
+                        xp: info.xp,
+                        editLook: {
+                            showProfile = false
+                            editing = CatScreens.builder(mode: .edit)
+                        },
+                        rename: { name in
+                            let problem = CatScreens.rename(name)
+                            profileVersion += 1
+                            return problem
+                        },
+                        setPersonality: { personality in
+                            GameSession.shared.edit(personality: personality)
+                            profileVersion += 1
+                        },
+                        close: { showProfile = false }
+                    )
+                    .id(profileVersion)
                 }
-                .sheet(isPresented: $showShop) {
-                    if let store {
-                        ShopView(store: store)
-                    }
+            }
+            .sheet(isPresented: $showBook) {
+                GiftBookView(entries: CatScreens.book()) { showBook = false }
+            }
+            .fullScreenCover(item: $editing) { model in
+                CatBuilderView(model: model, cancel: { editing = nil }) { model in
+                    GameSession.shared.edit(look: model.look)
+                    editing = nil
+                    visit.refreshCat()
                 }
-                .task {
-                    await store?.refresh()
-                }
-                .onChange(of: scenePhase) { old, new in
-                    if new == .active, old == .background, ArrivalRules.showsExterior(lastActive: Visit.lastActive, now: Date()) {
-                        visit = Visit(size: CGSize(width: 1024, height: 768), lastActive: Visit.lastActive)
-                    }
-                    if new != .active {
-                        Visit.lastActive = Date()
-                    }
-                }
+            }
+    }
+
+    private func roundButton(_ systemImage: String, label: String, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Image(systemName: systemImage)
+                .font(.title2)
+                .padding(12)
+                .background(.thinMaterial, in: Circle())
         }
+        .accessibilityLabel(label)
     }
 
     /// The room's wallpapers or floors as tray entries, the one up now marked.
@@ -146,25 +314,5 @@ struct HouseCatApp: App {
         case .open:
             return Alert(title: Text("The \(name) is open"))
         }
-    }
-
-    /// RevenueCat once an API key is set in Info.plist (`RevenueCatAPIKey`), StoreKit 2 directly until then.
-    @MainActor
-    private static func makeStore() -> (any EntitlementService)? {
-        // When the app hosts the StoreKit tests, StoreKit must not start before the
-        // test session loads Store/HouseCat.storekit, or every request goes to the sandbox.
-        // HOUSECAT_SKIP_STORE: launches from the command line for screenshots, where StoreKit would ask for a sandbox sign-in.
-        let environment = ProcessInfo.processInfo.environment
-        guard environment["XCTestConfigurationFilePath"] == nil, environment["HOUSECAT_SKIP_STORE"] == nil, let folder = Bundle.main.url(
-            forResource: "Content",
-            withExtension: nil
-        ),
-            let content = try? ContentBundle.load(from: folder) else { return nil }
-        let catalog = StoreCatalog(content: content)
-        let cache = KeychainEntitlementCache()
-        if let key = Bundle.main.object(forInfoDictionaryKey: "RevenueCatAPIKey") as? String, !key.isEmpty {
-            return RevenueCatEntitlementService(apiKey: key, catalog: catalog, cache: cache)
-        }
-        return StoreKitEntitlementService(catalog: catalog, cache: cache)
     }
 }

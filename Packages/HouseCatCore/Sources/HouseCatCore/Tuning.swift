@@ -113,6 +113,10 @@ public enum Tuning {
 
     /// The daily gift (SPEC "Gifts", CONTENT.md §3).
     public enum Gifts {
+        /// The gift on the floor, as a fraction of the cat's standing height, and how long after the greeting
+        /// starts it lands at the cat's feet.
+        public static let dropSize = 0.34
+        public static let dropDelay = 1.4
         /// Draw weights in percent: common, uncommon, rare, legendary.
         public static let baseWeights = [60, 28, 10, 2]
         /// Each trust tier moves 3 points from common: +2 to rare and +1 to legendary (Josh, 17 Oct).
@@ -169,6 +173,8 @@ public enum Tuning {
         /// Taps in a row before the cat walks off (never a Velcro cat).
         public static let overPetTaps = 6
         /// Pets closer together than this count as in a row.
+        /// A note over the room ("+10 Beans", "Level 3") stays this long.
+        public static let toastSeconds = 2.4
         public static let petRowSeconds = 3.0
         /// How long a care line stays up.
         public static let lineSeconds = 3.0
@@ -193,6 +199,8 @@ public enum Tuning {
         public static let chunkyDefaultWeight = 0.75
         public static let weightStretch = 0.06
         public static let maxAdultYears = 20
+        /// Below this coat luminance (0–255) a new pattern defaults to a lighter colour, above it a darker one.
+        public static let darkCoatLuminance = 80.0
         /// A picked coat or pattern colour's luminance (0–255) is held inside this range.
         public static let pickerMinLuminance = 40.0
         public static let pickerMaxLuminance = 250.0
@@ -200,6 +208,25 @@ public enum Tuning {
         public static let eyeSizeRange = 0.18
         /// Whisker slider at 0: the whiskers are trimmed to this fraction of their painted reach.
         public static let shortestWhiskers = 0.35
+    }
+
+    /// The cat's profile (SPEC "Age and time together").
+    public enum Together {
+        /// The together-count milestone with its own badge and line (then each year).
+        public static let hundredDays = 100
+    }
+
+    /// The cat builder's live preview.
+    public enum Builder {
+        /// The cat's standing height in the preview's units (the room's demo cat is 150).
+        public static let catHeight = 150.0
+        /// The cat gets up and walks across the rug after this long, then every so often.
+        public static let firstStrollSeconds = 3.0
+        public static let strollEverySeconds = 14.0
+        /// The presets row's thumbnails, in points.
+        public static let presetThumbnail = 64.0
+        /// The preview redraws this long after the last change (a slider drag redraws as it settles).
+        public static let redrawDelay = 0.12
     }
 
     /// Personality sliders: affection, energy, mischief, independence (0–1).
@@ -382,6 +409,8 @@ public enum Tuning {
         public static let ambience = 0.25
         public static let fire = 0.3
         public static let place = 0.6
+        public static let gift = 0.7
+        public static let levelUp = 0.7
         public static let fadeSeconds = 0.8
     }
 

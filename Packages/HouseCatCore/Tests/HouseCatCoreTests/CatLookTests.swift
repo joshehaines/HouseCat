@@ -206,3 +206,15 @@ private func builder() throws -> CatBuilder {
     #expect(first == again)
     #expect(Set(first).isDisjoint(with: next))
 }
+
+@Test func aNewPatternShowsOnTheCoat() throws {
+    let builder = try builder()
+    var ginger = CatLook(coat: .named("ginger"))
+    ginger.pattern = "tabby_mackerel"
+    #expect(builder.normalized(ginger).patternColour == .named("chocolate"))
+    var black = CatLook.midnight
+    black.pattern = "tabby_classic"
+    let colour = try #require(builder.normalized(black).patternColour)
+    #expect(colour != black.coat)
+    #expect(builder.rgb(colour, in: builder.data.coats).luminance > builder.rgb(black.coat, in: builder.data.coats).luminance)
+}

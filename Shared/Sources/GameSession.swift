@@ -9,7 +9,7 @@ import HouseCatModels
 final class GameSession {
     static let shared = GameSession()
 
-    /// The mascot until onboarding adopts the player's own cat.
+    /// The player's first cat (the id the save has used since the mascot was the only cat).
     static let catID = "midnight"
 
     let content: ContentBundle?
@@ -151,6 +151,12 @@ final class GameSession {
         return (speaks ? line(context, before: before, date: date) : nil, context == "pet.too_many")
     }
 
+    /// A line for a context from the cat's pack, now.
+    func line(_ context: String) -> String? {
+        let date = now()
+        return line(context, before: state(at: date), date: date)
+    }
+
     private func line(_ context: String, before state: HouseholdState, date: Date) -> String? {
         guard let cat = state.cat(Self.catID), let content else { return nil }
         var rng = DaySeed(household: state.seed, day: state.clock.day(of: date), purpose: "line", salt: "\(context)\(log.events.count)")
@@ -214,14 +220,79 @@ final class GameSession {
         }
     }
 
+    // MARK: The cat
+
+    /// The player's cat, once adopted.
+    var cat: CatState? {
+        state(at: now()).cat(Self.catID)
+    }
+
+    /// Adoption from the builder (SPEC "Cat builder"): the cat's own name, its personality and its look.
+    func adopt(name: String, personality: Personality, look: CatLook) {
+        let date = now()
+        append(.catAdopted(catID: Self.catID, name: name, personality: personality, isKitten: look.age.isKitten), at: date)
+        append(.catLookSet(catID: Self.catID, look: look), at: date)
+    }
+
+    /// An edit from the profile: every field can be changed again, free.
+    func edit(name: String? = nil, personality: Personality? = nil, look: CatLook? = nil) {
+        guard let cat else { return }
+        let date = now()
+        if let name, name != cat.name {
+            append(.catRenamed(catID: Self.catID, name: name), at: date)
+        }
+        if let personality, personality != cat.personality {
+            append(.personalityChanged(catID: Self.catID, personality: personality), at: date)
+        }
+        if let look, look != cat.look {
+            append(.catLookSet(catID: Self.catID, look: look), at: date)
+        }
+    }
+
+    // MARK: Gifts
+
+    /// A gift the cat has dropped and the player has not picked up, with its book entry.
+    struct WaitingGift: Equatable {
+        var draw: GiftDraw
+        var name: String
+        var description: String
+        var sprite: String
+    }
+
+    func waitingGift() -> WaitingGift? {
+        let date = now()
+        guard let draw = state(at: date).waitingGifts(at: date).first else { return nil }
+        let entry = content?.gifts.gifts.first { $0.id == draw.giftID }
+        return WaitingGift(
+            draw: draw,
+            name: entry?.name ?? draw.giftID,
+            description: entry?.description ?? "",
+            sprite: entry?.sprite ?? ""
+        )
+    }
+
+    /// Picks the gift up: into the book, with its Beans and XP. Returns the line the cat says about it.
+    func collect(_ gift: WaitingGift) -> String? {
+        let date = now()
+        let before = state(at: date)
+        append(.giftCollected(catID: gift.draw.catID, giftID: gift.draw.giftID, rarity: gift.draw.rarity), at: date)
+        return line("gift.\(gift.draw.rarity.rawValue)", before: before, date: date)
+    }
+
     // MARK: The demo household
 
-    /// Until onboarding exists: a household with Midnight, the free living-room furniture of the demo
-    /// layout granted and placed (cells rounded from the layout's hand-tuned positions), and two more in the inventory.
+    /// Until onboarding's later steps exist: a household with the free living-room furniture of the demo layout
+    /// granted and placed (cells rounded from the layout's hand-tuned positions), and two more in the inventory.
+    /// The cat comes from the builder; debug runs can skip it with HOUSECAT_CAT=<preset id> (Midnight, velcro).
     private func seedDemoHousehold() {
         let date = Date()
         append(.householdCreated(seed: UInt64.random(in: 1 ... UInt64.max), clock: DayClock()), at: date)
-        append(.catAdopted(catID: Self.catID, name: "Midnight", personality: .velcro, isKitten: false), at: date)
+        #if DEBUG
+            if let id = ProcessInfo.processInfo.environment["HOUSECAT_CAT"], let preset = GameWorld.catArt?.builder.preset(id) {
+                append(.catAdopted(catID: Self.catID, name: "Midnight", personality: .velcro, isKitten: false), at: date)
+                append(.catLookSet(catID: Self.catID, look: preset.look), at: date)
+            }
+        #endif
         guard let art = GameWorld.art, let layout = try? art.data("rooms/layout_living_demo.json", as: RoomModel.self) else { return }
         for item in layout.items {
             append(.itemGranted(itemID: item.id), at: date)

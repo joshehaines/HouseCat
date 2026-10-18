@@ -156,7 +156,7 @@ public struct CatBuilder: Sendable {
         if look.pattern == nil {
             look.patternColour = nil
         } else if look.patternColour == nil {
-            look.patternColour = look.coat
+            look.patternColour = defaultPatternColour(for: look.coat)
         }
         look.coat = valid(look.coat, in: data.coats, fallback: CatLook.midnight.coat, picked: true)
         look.patternColour = look.patternColour.map { valid($0, in: data.coats, fallback: look.coat, picked: true) }
@@ -184,6 +184,22 @@ public struct CatBuilder: Sendable {
     }
 
     // MARK: Colours
+
+    /// A pattern colour that shows on the coat: the palette colour nearest a darker shade of it (a lighter one
+    /// on a dark coat), never the coat itself.
+    public func defaultPatternColour(for coat: LookColour) -> LookColour {
+        let base = rgb(coat, in: data.coats)
+        let factor = base.luminance < Tuning.Cat.darkCoatLuminance ? 1.8 : 0.55
+        let target = (Double(base.r) * factor, Double(base.g) * factor, Double(base.b) * factor)
+        let nearest = data.coats.filter { LookColour.named($0.id) != coat }.min { a, b in
+            func distance(_ c: RGB) -> Double {
+                let dr = Double(c.r) - target.0, dg = Double(c.g) - target.1, db = Double(c.b) - target.2
+                return dr * dr + dg * dg + db * db
+            }
+            return distance(a.rgb) < distance(b.rgb)
+        }
+        return nearest.map { .named($0.id) } ?? coat
+    }
 
     /// A picked coat or pattern colour, its luminance held to 40–250 so the painted shading still reads.
     public static func pickerClamped(_ rgb: RGB) -> RGB {

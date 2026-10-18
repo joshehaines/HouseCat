@@ -42,6 +42,9 @@ enum WidgetBridge {
         makeKitIfNeeded(state: state)
         Reminders.reschedule()
         WidgetCenter.shared.reloadAllTimelines()
+        #if os(iOS)
+            WatchLink.shared.send(state)
+        #endif
     }
 
     /// The widget's taps since the app was last open go into the save (they count as those days' visits).
@@ -146,6 +149,9 @@ enum WidgetBridge {
             await MainActor.run {
                 making = nil
                 WidgetCenter.shared.reloadAllTimelines()
+                #if os(iOS)
+                    WatchLink.shared.sendKit()
+                #endif
             }
         }
     }

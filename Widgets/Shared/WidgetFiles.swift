@@ -157,11 +157,11 @@ struct WidgetWorld {
     }
 
     /// A widget button: the event it appends (in the inbox, for the app), or nil when there is nothing to do.
-    func perform(_ action: WidgetAction, at date: Date = Date()) throws -> GameEvent? {
+    func perform(_ action: WidgetAction, at date: Date = Date(), source: GameEvent.Source = .widget) throws -> GameEvent? {
         guard let kind = WidgetRules.event(for: action, at: date, save: state, context: context) else { return nil }
         // Never before the newest event, as in the app (the trusted-time rule).
         let at = max(date, (state.lastEventAt ?? .distantPast).addingTimeInterval(0.001))
-        let event = GameEvent(at: at, day: state.clock.day(of: at), source: .widget, kind: kind)
+        let event = GameEvent(at: at, day: state.clock.day(of: at), source: source, kind: kind)
         try WidgetInbox.add(event)
         return event
     }

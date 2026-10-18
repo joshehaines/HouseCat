@@ -199,17 +199,30 @@ targets:
         TARGETED_DEVICE_FAMILY: "1,2"
         SKIP_INSTALL: YES
 
-  # Apple Watch app, embedded in the iPhone app (universal purchase).
+  # Apple Watch app, embedded in the iPhone app (universal purchase). It keeps what the iPhone sends in its
+  # own App Group in the widget's layout, so it reads it with the widget's files; the Content folder gives it
+  # the same rules and lines.
   HouseCatWatch:
     type: application
     platform: watchOS
     sources:
       - Watch/Sources
+      - Watch/Shared
+      - Widgets/Shared/WidgetFiles.swift
+      - Widgets/Shared/WatchMessages.swift
       - path: Shared/AppIcon.icon
         type: file
         buildPhase: resources
+      - path: Content
+        type: folder
+        buildPhase: resources
     dependencies:
       - package: HouseCatCore
+      - target: HouseCatWatchComplication
+    entitlements:
+      path: Watch/HouseCatWatch.entitlements
+      properties:
+        com.apple.security.application-groups: [group.com.housecatgame.housecat]
     info:
       path: Watch/Info.plist
       properties:
@@ -221,6 +234,34 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.housecatgame.housecat.watchkitapp
         PRODUCT_NAME: HouseCatWatch
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        SKIP_INSTALL: YES
+
+  # The Watch complication: the streak and how the cat is, read from the Watch app's App Group.
+  HouseCatWatchComplication:
+    type: app-extension
+    platform: watchOS
+    sources:
+      - Watch/Complication
+      - Watch/Shared
+      - Widgets/Shared/WidgetFiles.swift
+    dependencies:
+      - package: HouseCatCore
+      - sdk: WidgetKit.framework
+      - sdk: SwiftUI.framework
+    entitlements:
+      path: Watch/HouseCatWatchComplication.entitlements
+      properties:
+        com.apple.security.application-groups: [group.com.housecatgame.housecat]
+    info:
+      path: Watch/Complication/Info.plist
+      properties:
+        CFBundleDisplayName: HouseCat
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.housecatgame.housecat.watchkitapp.complication
+        PRODUCT_NAME: HouseCatWatchComplication
         SKIP_INSTALL: YES
 
   # Mac menu-bar cat: a MenuBarExtra app with App Sandbox on.

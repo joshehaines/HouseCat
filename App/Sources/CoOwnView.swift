@@ -158,6 +158,12 @@ struct JoinView: View {
     }
 
     final class HouseCatAppDelegate: NSObject, UIApplicationDelegate {
+        /// The Watch link starts at launch, so a tap on the Watch can wake the app in the background.
+        func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+            WatchLink.shared.start()
+            return true
+        }
+
         func application(
             _: UIApplication,
             configurationForConnecting session: UISceneSession,

@@ -50,7 +50,7 @@ struct FeedCatShortcut: AppIntent {
         if before.state.fedToday {
             return .result(dialog: "\(before.name) has had breakfast already today.")
         }
-        try WidgetActions.run(.feed)
+        try WidgetActions.run(.feed, source: .siri)
         let streak = CatNews.now()?.state.streak ?? before.state.streak
         return .result(dialog: "\(before.name) is tucking in. That's \(CatNews.days(streak)) in a row.")
     }
@@ -65,7 +65,7 @@ struct PetCatShortcut: AppIntent {
 
     func perform() async throws -> some IntentResult & ProvidesDialog {
         guard let before = CatNews.now() else { return .result(dialog: "Open HouseCat first to meet your cat.") }
-        try WidgetActions.run(.pet)
+        try WidgetActions.run(.pet, source: .siri)
         return .result(dialog: "\(before.name) purrs.")
     }
 }

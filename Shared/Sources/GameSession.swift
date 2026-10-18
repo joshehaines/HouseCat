@@ -108,8 +108,17 @@ final class GameSession {
         return state.resolved(through: state.clock.day(of: date), context: rules)
     }
 
+    /// Where this save's own taps are made (the menu-bar cat's count as Mac visits).
+    static let device: GameEvent.Source = {
+        #if os(macOS)
+            return .mac
+        #else
+            return .app
+        #endif
+    }()
+
     @discardableResult
-    func append(_ kind: GameEvent.Kind, at date: Date, source: GameEvent.Source = .app) -> GameEvent {
+    func append(_ kind: GameEvent.Kind, at date: Date, source: GameEvent.Source = GameSession.device) -> GameEvent {
         let at = log.timestamp(for: date)
         let clock = fold().clock
         let event = GameEvent(at: at, day: clock.day(of: at), actor: HouseholdSync.actor, source: source, kind: kind)
@@ -125,7 +134,7 @@ final class GameSession {
         fold()
     }
 
-    /// Events made elsewhere on this device (the widget's Feed and Pet), into the save once each.
+    /// Events made outside the app (the widget's Feed and Pet, Siri's, the Watch's), into the save once each.
     func importEvents(_ events: [GameEvent]) {
         let known = Set(log.events.map(\.id))
         let horizon = log.snapshot?.lastEventAt ?? .distantPast
@@ -134,8 +143,8 @@ final class GameSession {
         log.merge(new)
         try? store?.append(contentsOf: new)
         WidgetBridge.changed()
-        // The widget's taps go up to the co-owner too (events from CloudKit are already there).
-        for event in new where event.source == .widget {
+        // These taps go up to the co-owner too (events from CloudKit are already there).
+        for event in new where [.widget, .siri, .watch].contains(event.source) {
             HouseholdSync.queue(event)
         }
     }

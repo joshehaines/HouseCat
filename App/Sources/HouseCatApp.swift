@@ -296,6 +296,7 @@ struct RoomScreen: View {
     @State private var offering = false
     @State private var track: EventDefinition?
     @State private var askingHealth = false
+    @State private var askingWidget = false
     @State private var editing: CatBuilderModel?
     @State private var profileVersion = 0
     @State private var shopOpening: ShopView.Section?
@@ -692,13 +693,17 @@ struct RoomScreen: View {
                         visit.say(session.line(HealthRules.line(goal)))
                         visit.refreshStats()
                     }
+                    await askForWidget()
                 }
             }
             .overlay {
                 if askingHealth {
                     ZStack {
                         Color.black.opacity(0.35).ignoresSafeArea()
-                        HealthCard(catName: visit.catName ?? "Your cat") { askingHealth = false }
+                        HealthCard(catName: visit.catName ?? "Your cat") {
+                            askingHealth = false
+                            Task { await askForWidget() }
+                        }
                             .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
                             .padding(24)
                     }
@@ -709,6 +714,12 @@ struct RoomScreen: View {
             .onChange(of: tour.step?.id) { _, id in
                 if id == "pet" {
                     visit.callCatForTour()
+                }
+            }
+            // After the first feed's reminders card: the add-widget card.
+            .onChange(of: visit.askReminders) { was, asking in
+                if was, !asking {
+                    Task { await askForWidget() }
                 }
             }
             .onChange(of: tour.isRunning) { was, running in
@@ -807,6 +818,17 @@ struct RoomScreen: View {
             }
     }
 
+    /// The add-widget card, when it is due and nothing else is on screen (after the first feed, on day 3).
+    private func askForWidget() async {
+        try? await Task.sleep(for: .seconds(1.2))
+        guard visit.ready, visit.scene is RoomScene, !tour.isRunning, !visit.askReminders, !askingHealth, !offering,
+              visit.levelReached == nil, !askingWidget else { return }
+        let session = GameSession.shared
+        if await WidgetPrompt.take(session.state(at: session.now())) != nil {
+            askingWidget = true
+        }
+    }
+
     private func openShop(_ section: ShopView.Section?) {
         shopOpening = section
         showShop = true
@@ -838,6 +860,7 @@ struct RoomScreen: View {
                 case "road": showRoad = true
                 case "streak": showStreak = true
                 case "pass": showPass = true
+                case "addwidget": await askForWidget()
                 default: break
                 }
             }
@@ -852,6 +875,11 @@ struct RoomScreen: View {
                             visit.levelReached = nil
                         }
                     }
+                }
+            }
+            .overlay {
+                card(askingWidget, close: { askingWidget = false }) {
+                    WidgetPromptCard(catName: visit.catName ?? "Your cat") { askingWidget = false }
                 }
             }
             .overlay {

@@ -184,6 +184,44 @@ struct WidgetTests {
         #expect(pose(f, 2, 10, 30) == .content)
     }
 
+    @Test func theMoodEscalatesGentlyThroughTheDay() {
+        var f = Fixture()
+        f.visit(days: [0, 1, 2])
+        func state(_ day: Int, _ hour: Int) -> WidgetState {
+            WidgetRules.state(at: f.at(day, hour), save: f.state, context: f.context)
+        }
+        #expect(state(3, 9).mood == .waiting)
+        #expect(state(3, 15).mood == .waiting)
+        // From the evening, a streak to keep: the last chance, with the hours left until the day ends at waking.
+        let evening = state(3, 21)
+        #expect(evening.mood == .lastChance)
+        let wake = f.state.clock.wakeMinutes / 60
+        #expect(evening.hoursLeft == 24 - 21 + wake)
+        #expect(state(3, 2).mood == .lastChance) // after midnight, the same game day
+        // The sulk comes only the next morning, and a visit makes the cat glad again.
+        #expect(state(4, 9).mood == .sulking)
+        f.add(.arrived, day: 4, hour: 10)
+        #expect(state(4, 11).mood == .content)
+        #expect(state(4, 11).hoursLeft == nil)
+    }
+
+    @Test func theAddWidgetCardAsksAfterTheFirstFeedAndOnDayThreeOnly() {
+        var f = Fixture()
+        #expect(WidgetPromptRules.due(f.state, asked: [], installed: false) == nil)
+        f.visit(days: [0])
+        #expect(WidgetPromptRules.due(f.state, asked: [], installed: false) == .firstFeed)
+        #expect(WidgetPromptRules.due(f.state, asked: [], installed: true) == nil)
+        #expect(WidgetPromptRules.due(f.state, asked: ["firstFeed"], installed: false) == nil)
+        f.visit(days: [1, 2])
+        #expect(WidgetPromptRules.due(f.state, asked: ["firstFeed"], installed: false) == .thirdDay)
+        #expect(WidgetPromptRules.due(f.state, asked: ["firstFeed", "thirdDay"], installed: false) == nil)
+    }
+
+    @Test func withNothingAtStakeTheEveningIsJustWaiting() {
+        let f = Fixture()
+        #expect(WidgetRules.state(at: f.at(0, 21), save: f.state, context: f.context).mood == .waiting)
+    }
+
     @Test func theStreakAndFedFlagAreOnEveryEntry() {
         var f = Fixture()
         f.visit(days: [0, 1, 2])

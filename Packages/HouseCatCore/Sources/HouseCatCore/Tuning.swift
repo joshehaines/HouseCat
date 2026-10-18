@@ -681,6 +681,14 @@ public enum Tuning {
         /// its feet this far below the glass, the wide window's cat this far across its glass.
         public static let catHeight = 0.5
         public static let catHeightWide = 0.62
+        /// The peeking head (the evening's last chance, the Lock Screen circle): the sitting-front picture this
+        /// wide for the space, its top this much shown above the bottom edge.
+        public static let peekWidth = 1.05
+        public static let peekWidthCircular = 0.86
+        public static let peekCrop = 0.5
+        public static let peekCropCircular = 0.3
+        /// The add-widget card's second ask comes on this day of care (the first follows the first feed).
+        public static let promptCareDay = 3
         /// Where the cat's feet go on each window (set by eye from the paintings): the sill's top as a fraction of
         /// the frame's height, square then wide.
         public static let sill: [String: [Double]] = [

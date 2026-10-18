@@ -18,10 +18,54 @@ struct WidgetEntry: TimelineEntry {
     var status: String {
         guard let state = scene?.state else { return "Open HouseCat" }
         let day = "Day \(state.streak)"
+        if let hours = state.hoursLeft {
+            return day + " · \(hours) h left today"
+        }
         if state.fedToday {
             return day + " · fed"
         }
-        return day + (state.visitedToday ? " · visited" : " · waiting")
+        return day + (state.visitedToday ? " · visited" : state.mood == .sulking ? " · missed you" : " · waiting")
+    }
+
+    /// A word on the small widget for how the cat feels (none when all is well).
+    var moodNote: String? {
+        guard let state = scene?.state else { return nil }
+        switch state.mood {
+        case .content: return nil
+        case .waiting: return "Waiting for you"
+        case .lastChance: return state.hoursLeft.map { $0 == 1 ? "An hour left today" : "\($0) hours left today" }
+        case .sulking: return "Missed you"
+        }
+    }
+}
+
+/// The cat's head and shoulders rising from the bottom edge, looking at you (the evening's last chance, and the
+/// Lock Screen's circle): the top of the sitting-front picture from the kit, cropped.
+struct PeekingCat: View {
+    let entry: WidgetEntry
+    /// The picture's width as a fraction of the space.
+    var width = Tuning.Widget.peekWidth
+    /// How much of the picture's height shows (the top of it).
+    var crop = Tuning.Widget.peekCrop
+    var template = false
+
+    var body: some View {
+        GeometryReader { geometry in
+            if let picture = WidgetPictures.image(WidgetFiles.catFile(.sitFront)),
+               let pixels = entry.kit?.poses[CatPose.sitFront.rawValue], pixels[0] > 0
+            {
+                let w = geometry.size.width * width
+                let h = w * pixels[1] / pixels[0]
+                let shown = h * crop
+                (template ? picture.renderingMode(.template) : picture)
+                    .resizable()
+                    .frame(width: w, height: h)
+                    .frame(width: w, height: shown, alignment: .top)
+                    .clipped()
+                    .position(x: geometry.size.width / 2, y: geometry.size.height - shown / 2)
+            }
+        }
+        .accessibilityHidden(true)
     }
 }
 
@@ -246,6 +290,23 @@ struct WidgetStreak: View {
     }
 }
 
+/// A short note on cream ("Waiting for you", "3 hours left today").
+struct WidgetNote: View {
+    let text: String
+
+    var body: some View {
+        Text(text)
+            .font(.system(size: 11, weight: .bold, design: .rounded))
+            .foregroundStyle(Theme.ink)
+            .lineLimit(1)
+            .minimumScaleFactor(0.8)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 3)
+            .background(Capsule().fill(Theme.cream.opacity(0.94)))
+            .shadow(color: .black.opacity(0.15), radius: 2, y: 1)
+    }
+}
+
 /// A round painted button on the widget (Feed, Pet) or a link (Visit).
 struct WidgetButton<Label: View>: View {
     let label: Label
@@ -278,11 +339,27 @@ struct HouseCatWidgetView: View {
         entry.scene?.state.streak ?? 0
     }
 
-    /// The window and the streak. In StandBy (no container background) the room is at night.
+    /// The window and the streak, with a word when the cat is waiting or missed you. On an evening with a streak
+    /// to keep, the cat comes right up to the glass instead: its head over the bottom edge, looking at you, and
+    /// the hours left (Josh, 18 Oct; Duolingo's last chance, without the shame). In StandBy (no container
+    /// background) the room is at night.
+    @ViewBuilder
     private var small: some View {
         ZStack(alignment: .topLeading) {
-            WidgetWindow(entry: entry, wide: false, night: !showsBackground)
-            WidgetStreak(streak: streak, size: showsBackground ? 15 : 12).padding(10)
+            if entry.scene?.state.mood == .lastChance, showsBackground {
+                LinearGradient(colors: [Color(red: 0.99, green: 0.9, blue: 0.78), Color(red: 0.95, green: 0.74, blue: 0.62)], startPoint: .top, endPoint: .bottom)
+                PeekingCat(entry: entry)
+            } else {
+                WidgetWindow(entry: entry, wide: false, night: !showsBackground)
+            }
+            VStack(alignment: .leading) {
+                WidgetStreak(streak: streak, size: showsBackground ? 15 : 12)
+                Spacer(minLength: 0)
+                if showsBackground, let note = entry.moodNote {
+                    WidgetNote(text: note)
+                }
+            }
+            .padding(10)
         }
         .widgetURL(URL(string: "housecat://visit"))
         .accessibilityElement(children: .combine)
@@ -293,7 +370,13 @@ struct HouseCatWidgetView: View {
     private var medium: some View {
         ZStack(alignment: .topLeading) {
             WidgetWindow(entry: entry, wide: true)
-            WidgetStreak(streak: streak).padding(10)
+            HStack(spacing: 5) {
+                WidgetStreak(streak: streak)
+                if let hours = entry.scene?.state.hoursLeft {
+                    WidgetNote(text: hours == 1 ? "An hour left today" : "\(hours) hours left today")
+                }
+            }
+            .padding(10)
             VStack(spacing: 7) {
                 Button(intent: FeedCatIntent()) {
                     WidgetButton(label: WidgetPictures.image("icon_feed_bowl.png")?.resizable().frame(width: 28, height: 28))
@@ -325,16 +408,21 @@ struct HouseCatWidgetView: View {
         }
     }
 
+    /// The streak over the cat's head peeking up from the bottom of the circle.
     private var circular: some View {
         ZStack {
             AccessoryWidgetBackground()
-            VStack(spacing: 0) {
-                Image(systemName: "pawprint.fill").font(.system(size: 14, weight: .bold))
-                Text("\(streak)").font(.system(size: 20, weight: .heavy, design: .rounded))
+            if entry.kit != nil {
+                PeekingCat(entry: entry, width: Tuning.Widget.peekWidthCircular, crop: Tuning.Widget.peekCropCircular, template: true)
+                    .clipShape(Circle())
             }
+            Text("\(streak)")
+                .font(.system(size: 18, weight: .heavy, design: .rounded))
+                .frame(maxHeight: .infinity, alignment: .top)
+                .padding(.top, 7)
         }
         .widgetAccentable()
-        .accessibilityLabel("Visit streak, \(streak) days")
+        .accessibilityLabel("Visit streak, \(streak) days. \(entry.status)")
     }
 
     private var rectangular: some View {

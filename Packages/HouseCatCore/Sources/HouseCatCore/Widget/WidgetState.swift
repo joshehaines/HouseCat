@@ -21,6 +21,16 @@ public enum WidgetPose: String, CaseIterable, Codable, Sendable {
     case sulk
 }
 
+/// How the widget feels about you today (Josh, 18 Oct; Duolingo's escalating widget, without the shame): glad
+/// after a visit, waiting before one, a gentle last chance in the evening while there is a streak to keep, and
+/// a sulk only the next morning after a missed day.
+public enum WidgetMood: String, CaseIterable, Codable, Sendable {
+    case content
+    case waiting
+    case lastChance
+    case sulking
+}
+
 public struct WidgetState: Codable, Equatable, Sendable {
     public var date: Date
     public var streak: Int
@@ -29,6 +39,22 @@ public struct WidgetState: Codable, Equatable, Sendable {
     public var pose: WidgetPose
     /// A line context for the caption, from Content/lines.json (never hard-coded text).
     public var lineContext: String?
+    /// Minutes until the game day ends (the next wake time).
+    public var minutesLeftToday = 0
+
+    public var mood: WidgetMood {
+        switch pose {
+        case .sulk: .sulking
+        case .stillWaiting: streak > 0 ? .lastChance : .waiting
+        case .waitingByDoor, .lookingOutWindow: .waiting
+        default: .content
+        }
+    }
+
+    /// "3 hours left today" for the last chance (whole hours, at least one), nil otherwise.
+    public var hoursLeft: Int? {
+        mood == .lastChance ? max(1, minutesLeftToday / 60) : nil
+    }
 }
 
 public enum WidgetRules {
@@ -71,7 +97,8 @@ public enum WidgetRules {
             visitedToday: now.visitedToday,
             fedToday: fed,
             pose: pose,
-            lineContext: line
+            lineContext: line,
+            minutesLeftToday: max(0, Int(now.clock.start(of: day.advanced(by: 1)).timeIntervalSince(date) / 60))
         )
     }
 
@@ -204,5 +231,25 @@ public extension WidgetRules {
         case .feed: return now.isFedToday(cat.id) ? nil : .fed(catID: cat.id)
         case .pet: return .petted(catID: cat.id)
         }
+    }
+}
+
+/// When to ask the player to put the cat on the Home Screen (Josh, 18 Oct; Liven's add-widget prompt): once after
+/// the first feed, and once more on the third day of care, never when the widget is already there.
+public enum WidgetPromptRules {
+    public enum Ask: String, CaseIterable, Sendable {
+        case firstFeed
+        case thirdDay
+    }
+
+    public static func due(_ state: HouseholdState, asked: Set<String>, installed: Bool) -> Ask? {
+        guard !installed else { return nil }
+        if (state.cats.first?.careDays ?? 0) >= Tuning.Widget.promptCareDay, !asked.contains(Ask.thirdDay.rawValue) {
+            return .thirdDay
+        }
+        if state.lifetime.feeds > 0, !asked.contains(Ask.firstFeed.rawValue), !asked.contains(Ask.thirdDay.rawValue) {
+            return .firstFeed
+        }
+        return nil
     }
 }

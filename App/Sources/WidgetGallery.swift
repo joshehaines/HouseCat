@@ -17,6 +17,7 @@
                     switch page {
                     case "poses": poses(world, now)
                     case "weather": weather(world, now)
+                    case "moods": moods(world, now)
                     default: sizes(world, now)
                     }
                 } else {
@@ -75,6 +76,30 @@
                     VStack(spacing: 3) {
                         card(entry(world, scene), .systemSmall, width: 118, height: 118)
                         Text(pose.rawValue).font(.caption2).foregroundStyle(.white)
+                    }
+                }
+            }
+        }
+
+        /// Each mood (content, waiting, the last chance, a sulk) in the small and medium sizes and the circle.
+        private func moods(_ world: WidgetWorld, _ now: WidgetScene) -> some View {
+            let moods: [(WidgetPose, SkyPhase)] = [(.content, .day), (.lookingOutWindow, .day), (.stillWaiting, .dusk), (.sulk, .dawn)]
+            return VStack(alignment: .leading, spacing: 10) {
+                ForEach(moods, id: \.0) { pose, sky in
+                    let scene = with(now) {
+                        $0.state.pose = pose
+                        $0.catPose = pose.catPose
+                        $0.sky = sky
+                        $0.state.streak = max(12, $0.state.streak)
+                        $0.state.visitedToday = pose == .content
+                        $0.state.minutesLeftToday = pose == .stillWaiting ? 190 : 0
+                        $0.state.lineContext = pose == .stillWaiting ? WidgetRules.stillWaitingLine : pose == .sulk ? WidgetRules.sulkLine : nil
+                    }
+                    HStack(spacing: 12) {
+                        card(entry(world, scene), .systemSmall, width: 120, height: 120)
+                        card(entry(world, scene), .systemMedium, width: 257, height: 120)
+                        card(entry(world, scene), .accessoryCircular, width: 64, height: 64)
+                        Text(scene.state.mood.rawValue).font(.caption).foregroundStyle(.white)
                     }
                 }
             }

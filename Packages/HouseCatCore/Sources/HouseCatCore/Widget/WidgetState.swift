@@ -197,8 +197,14 @@ public enum WidgetAction: String, Codable, Sendable {
 
 public extension WidgetRules {
     /// The entry at a widget state's moment: the pose's painting, the home's window and what is outside it.
-    static func scene(for state: WidgetState, save: HouseholdState, weather tables: WeatherFile, report: WeatherReport?) -> WidgetScene {
-        let home = save.homeNow(at: state.date, weather: tables, report: report)
+    static func scene(
+        for state: WidgetState,
+        save: HouseholdState,
+        weather tables: WeatherFile,
+        report: WeatherReport?,
+        context: RulesContext = .empty
+    ) -> WidgetScene {
+        let home = save.homeNow(at: state.date, weather: tables, report: report, context: context)
         let real = save.home.season == .auto && report?.isFor(home.place) == true ? report?.hour(at: state.date) : nil
         return WidgetScene(
             state: state,
@@ -220,7 +226,7 @@ public extension WidgetRules {
         weather tables: WeatherFile,
         report: WeatherReport?
     ) -> [WidgetScene] {
-        timeline(from: date, save: save, context: context).map { scene(for: $0, save: save, weather: tables, report: report) }
+        timeline(from: date, save: save, context: context).map { scene(for: $0, save: save, weather: tables, report: report, context: context) }
     }
 
     /// The event a widget button appends, or nil when there is nothing to do (the bowl is already full).

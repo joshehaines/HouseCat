@@ -171,6 +171,21 @@ public enum Tuning {
     }
 
     /// Season pass (SPEC "Season pass", CONTENT.md §7).
+    public enum Lines {
+        /// Days the first arrival greets with their own lines (month-day, the home's local date).
+        public static let eventDays = [
+            "10-27": "event.black_cat_day",
+            "08-17": "event.black_cat_day",
+            "10-31": "event.halloween",
+            "01-01": "event.new_year",
+        ]
+    }
+
+    public enum Events {
+        /// How many years of a yearly event (the Christmas one) the rules know about ahead.
+        public static let yearsAhead = 6
+    }
+
     public enum Pass {
         public static let seasonLengthDays = 28
         /// December is always the Christmas season: four weeks from 1 December (Josh, 18 Oct).

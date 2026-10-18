@@ -2,8 +2,8 @@ import HouseCatCore
 import HouseCatUI
 import SwiftUI
 
-/// The launch's gift track (SPEC "Launch": a 14-day Housewarming track with a real end date): every day's
-/// present on show from the first day, today's and any missed ones to open, the last day as a real date.
+/// A gift track (SPEC "Launch": the 14-day Housewarming track at launch, the advent every December): every
+/// day's present on show from the first day, today's and any missed ones to open, the last day as a real date.
 struct GiftTrackView: View {
     let event: EventDefinition
     let close: () -> Void
@@ -18,7 +18,7 @@ struct GiftTrackView: View {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(event.name).font(Theme.title(28))
                     Text(
-                        "A present for the new house every day, until \(event.lastDay.date.day) \(ShopView.monthName(event.lastDay.month)). Missed one? Open it any day before then."
+                        "\(event.blurb) Missed one? Open it any day until \(event.lastDay.date.day) \(ShopView.monthName(event.lastDay.month))."
                     )
                     .font(.subheadline).foregroundStyle(Theme.inkSoft)
                     .fixedSize(horizontal: false, vertical: true)
@@ -26,9 +26,21 @@ struct GiftTrackView: View {
                 Spacer()
                 CloseButton(action: close)
             }
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: 7), spacing: 10) {
-                ForEach(event.rewards, id: \.day) { reward in
-                    cell(reward)
+            // A long track (the advent's 25 doors) scrolls, opening at today's door.
+            ScrollViewReader { reader in
+                ScrollView {
+                    LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: 7), spacing: 10) {
+                        ForEach(event.rewards, id: \.day) { reward in
+                            cell(reward).id(reward.day)
+                        }
+                    }
+                    .padding(4)
+                }
+                .scrollBounceBehavior(.basedOnSize)
+                .onAppear {
+                    if let today = progress.today ?? GameSession.shared.trackProgress(event).today, today > 7 {
+                        reader.scrollTo(today, anchor: .center)
+                    }
                 }
             }
         }
@@ -41,6 +53,13 @@ struct GiftTrackView: View {
 
     private func refresh() {
         progress = GameSession.shared.trackProgress(event)
+    }
+
+    /// "Day 3", or the date on a dated track ("24 Dec").
+    private func label(_ day: Int) -> String {
+        guard event.dated else { return "Day \(day)" }
+        let date = event.date(ofDay: day)
+        return "\(date.date.day) \(ShopView.monthName(date.month).prefix(3))"
     }
 
     @ViewBuilder
@@ -56,7 +75,7 @@ struct GiftTrackView: View {
             refresh()
         } label: {
             VStack(spacing: 3) {
-                Text("Day \(reward.day)").font(.system(size: 11, weight: .heavy, design: .rounded)).foregroundStyle(Theme.inkSoft)
+                Text(label(reward.day)).font(.system(size: 11, weight: .heavy, design: .rounded)).foregroundStyle(Theme.inkSoft)
                 ZStack {
                     if let item = reward.item,
                        let sprite = GameWorld.content?.catalogue.items.first(where: { $0.id == item })?.sprites["R"],

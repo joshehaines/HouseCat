@@ -76,6 +76,25 @@ Personality changes the cat's chase speed and reaction lines only.
 
 Four-week seasons back to back from launch: `id`, `name`, `theme`, `startAt`, `endAt` (real, shown), `freeTrack[20]`, `paidTrack[20]`, `sku`. First three: Housewarming (the launch season), Midwinter, First Light. December is always the Christmas season, Midwinter: it runs 1–28 December every year, the following seasons run four weeks each, and the one that meets 1 December runs a day longer (two in a leap year) (Josh, 18 Oct; `SeasonCalendar` in HouseCatCore). The Santa hat and antlers are Midwinter's outfits.
 
+**2027, to paint** (dates from `SeasonCalendar`; each needs 8 pieces of furniture, a wallpaper and a floor, `pass_<id>_<item>`, then its tracks in `seasons.json` and a `housecat.pass.<id>` product; no alcohol, no witches):
+
+| Dates | Season | Pieces |
+|---|---|---|
+| 26 Jan – 22 Feb | Snug | knitted pouffe, cocoa tray, book stack, sausage-dog draught excluder, patchwork quilt, tea cosy, slipper rack, paper lantern |
+| 23 Feb – 22 Mar | Kite Weather | kite, pinwheel pot, wind chime, weather vane, umbrella stand, barometer, jigsaw table, paper boats |
+| 23 Mar – 19 Apr | Blossom | blossom branch jug, painted-egg basket, nest box, seed packets, potted cherry tree, bunting, robin feeder, spring wreath |
+| 20 Apr – 17 May | Allotment | raised bed, scarecrow, wheelbarrow, veg trug, compost bin, potting bench, sweet-pea wigwam, tomato planter |
+| 18 May – 14 Jun | Seaside | striped deckchair, bucket and spade, windbreak, sandcastle, lighthouse lamp, shell jar, rock pool, ice-cream cart |
+| 15 Jun – 12 Jul | Midsummer | paddling pool, desk fan, lolly freezer, sun lounger, parasol, lemonade jug, strawberry punnet, fairy-light jar |
+| 13 Jul – 9 Aug | Camping | tent, campfire ring, camp lantern, rucksack, map table, sleeping bag, postcard rack, binoculars |
+| 10 Aug – 6 Sep | Harvest | hay bale, sunflower pot, jam jars, apple crate, owl box, harvest basket, plum tree, cider-free apple press |
+| 7 Sep – 4 Oct | Back to School | satchel, chalkboard, pencil pot, school bell, lunchbox, conker string, leaf basket, tidy desk caddy |
+| 5 Oct – 1 Nov | Spooky | pumpkin lanterns, bat bunting, cauldron of sweets, toffee-apple stand, candle stack, cobweb hammock, ghost sheet, black-cat lantern |
+| 2 Nov – 30 Nov | Firelight | sparkler bucket, toasting fork and marshmallows, conker bowl, lantern-walk lantern, fleece blanket, woolly hat stand, hot-chocolate flask, firework poster |
+| 1 Dec – 28 Dec | Midwinter 2027 (the Christmas pack's 12: stockings, gingerbread house, nutcracker, present pile, pudding, sleigh bed, candy canes, crackers, garland, poinsettia, carol lantern, advent house) |
+
+The Christmas event needs no new art: the Advent track in `events.json` (dated `12-01`, 37 days, a fresh one every year) gives Beans most days and a piece of furniture every fourth day, the fridge and 300 Beans on Christmas Day, and snow falls past every window while it runs. Special days greet the first arrival with their `event.*` lines (Black Cat Day, Halloween, the Christmas event, New Year's Day, the Housewarming).
+
 ## 8. Audio (25 files, `Audio/`)
 
 Cat: meow short, meow long, chirp, trill, grumble, question meow, purr loop, sleep breathing, zoomies thumps. World: door open, door close, rain loop, wind loop, fire crackle, dawn birds, night crickets, snow hush. UI: tap, place item, Bean chime, gift open (one per rarity, 4), level up, streak milestone, pass tier, purchase confirm. Generated in Higgsfield (`generate_audio`) or CC0 libraries; stored in the Cat App folder under `audio/`; every file logged with its source.

@@ -30,7 +30,12 @@ enum GameWorld {
     /// The home right now: its pin, season, sky at its local time and today's weather. Debug builds can
     /// override what the save says with HOUSECAT_BIOME, HOUSECAT_SEASON and HOUSECAT_TIME (dawn, day, dusk, night).
     static func now(state: HouseholdState, at date: Date) -> HomeNow {
-        var now = state.homeNow(at: date, weather: content?.weather ?? WeatherFile(tables: [:]), report: RealWeather.report)
+        var now = state.homeNow(
+            at: date,
+            weather: content?.weather ?? WeatherFile(tables: [:]),
+            report: RealWeather.report,
+            context: GameSession.shared.rules
+        )
         #if DEBUG
             let environment = ProcessInfo.processInfo.environment
             if let name = environment["HOUSECAT_BIOME"], let biome = Biome(rawValue: name) {

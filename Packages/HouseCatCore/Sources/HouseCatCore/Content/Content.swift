@@ -426,27 +426,50 @@ public struct EventsFile: Codable, Sendable {
         public var id: String
         public var name: String
         public var kind: Kind
-        public var startDay: Int
+        /// Days from launch (the Housewarming events), or:
+        public var startDay: Int?
+        /// The same date every year ("12-01"): a fresh event each year the app is live, its id ending in the year.
+        public var date: String?
         public var days: Int
         public var sku: String?
         public var blurb: String
         public var rewards: [EventReward]?
+        public var snow: Bool?
+        /// A line context for the first arrival of each of its days.
+        public var lines: String?
     }
 
     public var version: Int
     public var events: [Event]
 
     func definitions(launch: GameDay) -> [EventDefinition] {
-        events.map {
-            EventDefinition(
-                id: $0.id,
-                name: $0.name,
-                kind: $0.kind,
-                startDay: launch.advanced(by: $0.startDay),
-                endDay: launch.advanced(by: $0.startDay + $0.days),
-                sku: $0.sku,
-                rewards: $0.rewards ?? []
-            )
+        events.flatMap { event -> [EventDefinition] in
+            func definition(id: String, start: GameDay, dated: Bool) -> EventDefinition {
+                EventDefinition(
+                    id: id,
+                    name: event.name,
+                    kind: event.kind,
+                    startDay: start,
+                    endDay: start.advanced(by: event.days),
+                    sku: event.sku,
+                    rewards: event.rewards ?? [],
+                    blurb: event.blurb,
+                    snow: event.snow ?? false,
+                    dated: dated,
+                    lines: event.lines
+                )
+            }
+            guard let date = event.date else {
+                return [definition(id: event.id, start: launch.advanced(by: event.startDay ?? 0), dated: false)]
+            }
+            let parts = date.split(separator: "-").compactMap { Int($0) }
+            guard parts.count == 2 else { return [] }
+            // Each year from launch's, while it is still to come or running at launch.
+            let first = launch.date.year
+            return (first ..< first + Tuning.Events.yearsAhead).compactMap { year in
+                let start = GameDay(year: year, month: parts[0], day: parts[1])
+                return start.advanced(by: event.days) > launch ? definition(id: "\(event.id)_\(year)", start: start, dated: true) : nil
+            }
         }
     }
 }

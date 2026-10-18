@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "note": "Launch events (SPEC 'Launch': a 14-day Housewarming gift track with a real end date; the Housewarming pack on sale for the first 31 days). Days count from launch, the first season's start in seasons.json, so the dates shown are always true. Every reward is fixed and visible from the first day; a day's present can be claimed on that day or any later day until the track ends.",
+  "note": "Launch events (SPEC 'Launch': a 14-day Housewarming gift track with a real end date; the Housewarming pack on sale for the first 31 days). Days count from launch, the first season's start in seasons.json, so the dates shown are always true. Every reward is fixed and visible from the first day; a day's present can be claimed on that day or any later day until the track ends. The Advent track is dated instead (\"date\": month-day): it comes back every December, a fresh one each year (its id ends in the year), and snow falls past every window while it runs.",
   "events": [
     {
       "id": "housewarming_track",
@@ -10,21 +10,65 @@
       "days": 14,
       "blurb": "A present for the new house every day for two weeks.",
       "rewards": [
-        { "day": 1, "beans": 50 },
-        { "day": 2, "item": "living_clock" },
-        { "day": 3, "beans": 60 },
-        { "day": 4, "item": "living_windowseat" },
-        { "day": 5, "beans": 70 },
-        { "day": 6, "item": "bedroom_catbed" },
-        { "day": 7, "beans": 100 },
-        { "day": 8, "item": "living_bookcase" },
-        { "day": 9, "beans": 80 },
-        { "day": 10, "item": "living_cattree" },
-        { "day": 11, "beans": 90 },
-        { "day": 12, "item": "kitchen_radio" },
-        { "day": 13, "beans": 120 },
-        { "day": 14, "item": "garden_birdfeeder", "beans": 150 }
-      ]
+        {
+          "day": 1,
+          "beans": 50
+        },
+        {
+          "day": 2,
+          "item": "living_clock"
+        },
+        {
+          "day": 3,
+          "beans": 60
+        },
+        {
+          "day": 4,
+          "item": "living_windowseat"
+        },
+        {
+          "day": 5,
+          "beans": 70
+        },
+        {
+          "day": 6,
+          "item": "bedroom_catbed"
+        },
+        {
+          "day": 7,
+          "beans": 100
+        },
+        {
+          "day": 8,
+          "item": "living_bookcase"
+        },
+        {
+          "day": 9,
+          "beans": 80
+        },
+        {
+          "day": 10,
+          "item": "living_cattree"
+        },
+        {
+          "day": 11,
+          "beans": 90
+        },
+        {
+          "day": 12,
+          "item": "kitchen_radio"
+        },
+        {
+          "day": 13,
+          "beans": 120
+        },
+        {
+          "day": 14,
+          "item": "garden_birdfeeder",
+          "beans": 150
+        }
+      ],
+      "lines": "event.housewarming"
     },
     {
       "id": "housewarming_pack",
@@ -34,6 +78,119 @@
       "days": 31,
       "sku": "housecat.season.housewarming",
       "blurb": "On sale for the first month only, then gone for good."
+    },
+    {
+      "id": "advent",
+      "name": "Advent",
+      "kind": "track",
+      "date": "12-01",
+      "days": 37,
+      "snow": true,
+      "blurb": "A present behind a door every day to Christmas Eve, a bigger one on Christmas Day, and snow past every window.",
+      "rewards": [
+        {
+          "day": 1,
+          "beans": 30
+        },
+        {
+          "day": 2,
+          "beans": 30
+        },
+        {
+          "day": 3,
+          "beans": 35
+        },
+        {
+          "day": 4,
+          "item": "living_armchair"
+        },
+        {
+          "day": 5,
+          "beans": 35
+        },
+        {
+          "day": 6,
+          "beans": 40
+        },
+        {
+          "day": 7,
+          "beans": 40
+        },
+        {
+          "day": 8,
+          "item": "living_coffee"
+        },
+        {
+          "day": 9,
+          "beans": 45
+        },
+        {
+          "day": 10,
+          "beans": 45
+        },
+        {
+          "day": 11,
+          "beans": 50
+        },
+        {
+          "day": 12,
+          "item": "bedroom_bedside"
+        },
+        {
+          "day": 13,
+          "beans": 50
+        },
+        {
+          "day": 14,
+          "beans": 55
+        },
+        {
+          "day": 15,
+          "beans": 55
+        },
+        {
+          "day": 16,
+          "item": "bedroom_drawers"
+        },
+        {
+          "day": 17,
+          "beans": 60
+        },
+        {
+          "day": 18,
+          "beans": 60
+        },
+        {
+          "day": 19,
+          "beans": 65
+        },
+        {
+          "day": 20,
+          "item": "kitchen_cooker"
+        },
+        {
+          "day": 21,
+          "beans": 65
+        },
+        {
+          "day": 22,
+          "beans": 70
+        },
+        {
+          "day": 23,
+          "beans": 70
+        },
+        {
+          "day": 24,
+          "item": "bedroom_wardrobe"
+        },
+        {
+          "day": 25,
+          "item": "kitchen_fridge",
+          "beans": 300
+        }
+      ],
+      "lines": "event.christmas"
     }
   ]
 }

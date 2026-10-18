@@ -58,8 +58,12 @@ final class GameSession {
         content = GameWorld.content
         var rules = (try? content?.rulesContext()) ?? RulesContext()
         #if DEBUG
-            // HOUSECAT_TRACK_DAY=<n>: the launch moved so that today is day n of the gift track.
-            if let n = ProcessInfo.processInfo.environment["HOUSECAT_TRACK_DAY"].flatMap(Int.init), let first = rules.events.first {
+            // HOUSECAT_TRACK_DAY=<n>: the events moved so that today is day n of the gift track (HOUSECAT_TRACK=<id>
+            // picks another, e.g. advent_2026).
+            let environment = ProcessInfo.processInfo.environment
+            if let n = environment["HOUSECAT_TRACK_DAY"].flatMap(Int.init),
+               let first = environment["HOUSECAT_TRACK"].flatMap({ id in rules.events.first { $0.id == id } }) ?? rules.events.first
+            {
                 let today = DayClock().day(of: Date())
                 let shift = first.startDay.distance(to: today.advanced(by: -(n - 1)))
                 rules.events = rules.events.map { event in
@@ -173,7 +177,7 @@ final class GameSession {
         let date = now()
         let before = state(at: date)
         let cat = before.cat(Self.catID)
-        let greetingContext = Greeting.context(before: before, at: date)
+        let greetingContext = Greeting.context(before: before, at: date, rules: rules)
         append(.arrived, at: date)
         let after = state(at: date)
         let day = after.clock.day(of: date)

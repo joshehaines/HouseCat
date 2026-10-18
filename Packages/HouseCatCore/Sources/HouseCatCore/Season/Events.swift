@@ -23,6 +23,14 @@ public struct EventDefinition: Hashable, Sendable {
     public var endDay: GameDay
     public var sku: String?
     public var rewards: [EventReward]
+    /// What it is, in a line (from events.json).
+    public var blurb: String
+    /// Snow falls past every window while it runs (the Christmas event, SPEC "Sky, season, weather").
+    public var snow: Bool
+    /// It falls on the same dates every year, so its days are shown as dates.
+    public var dated: Bool
+    /// The line context the day's first arrival greets it with (`event.christmas`).
+    public var lines: String?
 
     public init(
         id: String,
@@ -31,7 +39,11 @@ public struct EventDefinition: Hashable, Sendable {
         startDay: GameDay,
         endDay: GameDay,
         sku: String? = nil,
-        rewards: [EventReward] = []
+        rewards: [EventReward] = [],
+        blurb: String = "",
+        snow: Bool = false,
+        dated: Bool = false,
+        lines: String? = nil
     ) {
         self.id = id
         self.name = name
@@ -40,6 +52,10 @@ public struct EventDefinition: Hashable, Sendable {
         self.endDay = endDay
         self.sku = sku
         self.rewards = rewards
+        self.blurb = blurb
+        self.snow = snow
+        self.dated = dated
+        self.lines = lines
     }
 
     public func isLive(on day: GameDay) -> Bool {
@@ -49,6 +65,11 @@ public struct EventDefinition: Hashable, Sendable {
     /// The last day it runs (shown as a real date, never a countdown).
     public var lastDay: GameDay {
         endDay.advanced(by: -1)
+    }
+
+    /// The date of a track's present (`day` 1 is its first day).
+    public func date(ofDay day: Int) -> GameDay {
+        startDay.advanced(by: day - 1)
     }
 
     /// Which day of a track `day` is (1 on its first day), or nil outside it.
@@ -70,6 +91,11 @@ public enum EventRules {
         guard let today = event.trackDay(on: day) else { return [] }
         let claimed = state.eventClaims[event.id] ?? []
         return event.rewards.map(\.day).filter { $0 <= today && !claimed.contains($0) }
+    }
+
+    /// Whether snow falls past the windows today whatever the weather (the Christmas event).
+    public static func snowing(on day: GameDay, context: RulesContext) -> Bool {
+        live(on: day, context: context).contains(where: \.snow)
     }
 
     /// Whether a sale (the Housewarming pack) is on.

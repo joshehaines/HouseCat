@@ -1022,6 +1022,7 @@ struct RoomScreen: View {
                 case "road": showRoad = true
                 case "streak": showStreak = true
                 case "pass": showPass = true
+                case "gifts": track = GameSession.shared.liveTrack()
                 case "addwidget": await askForWidget()
                 case "together": showTogether = true
                 case "profile": showProfile = true

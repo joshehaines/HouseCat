@@ -5,7 +5,14 @@ import Foundation
 public enum Greeting {
     /// The line context for an arrival, read from the state before the arrival is appended
     /// (resolved through the arrival's day).
-    public static func context(before state: HouseholdState, at date: Date, source: GameEvent.Source = .app) -> String {
+    /// The first arrival of a special day greets it (Content/lines.json `event.*`): a date in
+    /// `Tuning.Lines.eventDays`, else a live event that names its lines (the Christmas one, the Housewarming).
+    public static func context(
+        before state: HouseholdState,
+        at date: Date,
+        source: GameEvent.Source = .app,
+        rules: RulesContext = .empty
+    ) -> String {
         if state.lifetime.visits == 0 {
             return "arrival.first_ever"
         }
@@ -34,7 +41,15 @@ public enum Greeting {
         if minutes < Tuning.Day.earlyMinutes {
             return "arrival.early"
         }
-        return state.visitedToday ? "arrival.second_visit" : "arrival.first_of_day"
+        if state.visitedToday {
+            return "arrival.second_visit"
+        }
+        let day = state.clock.day(of: date)
+        let monthDay = String(format: "%02d-%02d", day.date.month, day.date.day)
+        if let special = Tuning.Lines.eventDays[monthDay] ?? EventRules.live(on: day, context: rules).compactMap(\.lines).first {
+            return special
+        }
+        return "arrival.first_of_day"
     }
 
     /// One variant for the context in the cat's personality, the same all day for the same visit

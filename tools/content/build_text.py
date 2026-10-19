@@ -1820,7 +1820,7 @@ ACHIEVEMENTS = [
     obj('home_level_1', "Finding your feet", "Reach level 5.", 'level', 5, 50, 0, 'home_level'),
     obj('home_level_2', "Well established", "Reach level 10.", 'level', 10, 150, 0, 'home_level'),
     obj('home_level_3', "Pillar of the house", "Reach level 20.", 'level', 20, 400, 0, 'home_level'),
-    obj('home_level_4', "Part of the furniture", "Reach level 30.", 'level', 30, 750, 0, 'home_level'),
+    obj('home_level_4', "Part of the furniture", "Reach level 30.", 'level', 30, 500, 0, 'home_level'),
     # social (8)
     obj('social_group_1', "In good company", "Join a group of friends.", 'groups_joined', 1, 50, 0),
     obj('social_group_2', "Well connected", "Be part of three groups.", 'groups_joined', 3, 100, 0),

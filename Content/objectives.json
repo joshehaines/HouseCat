@@ -631,7 +631,7 @@
       "text": "Reach level 30.",
       "metric": "level",
       "target": 30,
-      "beans": 750,
+      "beans": 500,
       "passPoints": 0,
       "ladder": "home_level"
     },

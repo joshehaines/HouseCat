@@ -215,11 +215,13 @@ struct GoalsView: View {
                 }
                 .font(.system(size: 12 * scale, weight: .heavy, design: .rounded).monospacedDigit())
                 .foregroundStyle(Theme.ink)
+                .fixedSize()
                 Text("\(goal.progress)/\(goal.target)")
                     .font(.system(size: 10 * scale, weight: .bold, design: .rounded).monospacedDigit())
                     .foregroundStyle(Theme.inkSoft)
             }
-            .frame(width: 48 * scale, alignment: .trailing)
+            // Wide enough for a present beside the Beans.
+            .frame(minWidth: 48 * scale, alignment: .trailing)
         }
         .padding(.horizontal, 8 * scale)
         .padding(.vertical, 6 * scale)

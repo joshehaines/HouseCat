@@ -257,7 +257,7 @@ enum CatScreens {
         let session = GameSession.shared
         let now = session.now()
         let state = session.state(at: now)
-        return state.profile(of: GameSession.catID, on: state.clock.day(of: now)).map { ($0, state.xp) }
+        return state.profile(of: GameSession.catID, on: state.clock.day(of: now), catalogue: session.content?.affordances).map { ($0, state.xp) }
     }
 
     /// A picture from the app's art by its master path (whatever format it is stored in).

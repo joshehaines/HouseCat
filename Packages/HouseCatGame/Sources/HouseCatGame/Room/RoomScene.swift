@@ -324,6 +324,10 @@ public final class RoomScene: SKScene {
     /// (and so the behaviour table) what to do next, saying which room it is in; the choice says which room it
     /// happens in. In between it fidgets: glances, slow blinks, a stretch.
     public var nextActivity: ((RoomID) -> BehaviourChoice?)?
+    /// The cat has set off to something new by itself (for a line about it).
+    public var onActivityChosen: ((BehaviourChoice) -> Void)?
+    /// A tap on the cat's thought bubble, with its tag (the piece it would love).
+    public var onThoughtTapped: ((String) -> Void)?
 
     private func idle(_ dt: TimeInterval) {
         guard let director, !decorating else { return }
@@ -352,6 +356,7 @@ public final class RoomScene: SKScene {
             return
         }
         spot.pose = Self.variety(spot.pose)
+        onActivityChosen?(choice)
         if choice.activity == .zoomies {
             director.run(zoomies())
         } else if choice.activity == .explore {
@@ -670,6 +675,8 @@ public final class RoomScene: SKScene {
                 let point = touch.location(in: self)
                 if isOnGift(point) {
                     onGiftTapped?()
+                } else if let tag = thought(at: point) {
+                    onThoughtTapped?(tag)
                 } else if isOnCat(point) {
                     onCatTapped?()
                 } else if let room = closedRoom(at: point) {

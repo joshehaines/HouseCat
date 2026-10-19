@@ -46,11 +46,17 @@ public struct CatProfile: Equatable, Sendable {
     public var roomsOpened: Int
     public var currentStreak: Int
     public var longestStreak: Int
+    /// The cat's own ways in words (`CatIdentity.ways`).
+    public var ways: [String] = []
+    /// How content it is, and the thing it would love most next (`Wellbeing`), when the catalogue is known.
+    public var contentment: Contentment?
+    public var wouldLove: Want?
 }
 
 public extension HouseholdState {
-    /// The profile of a cat on a game day (the state resolved through that day).
-    func profile(of catID: String, on day: GameDay) -> CatProfile? {
+    /// The profile of a cat on a game day (the state resolved through that day); with the catalogue's affordances,
+    /// how content it is and what it would love next.
+    func profile(of catID: String, on day: GameDay, catalogue: [String: Set<Affordance>]? = nil) -> CatProfile? {
         guard let cat = cat(catID) else { return nil }
         let together = cat.togetherDays(on: day)
         let next = TrustTier(rawValue: cat.trust.rawValue + 1)
@@ -61,6 +67,11 @@ public extension HouseholdState {
         let years = Self.wholeYears(from: cat.adoptedOn, to: day)
         if years >= 1 {
             badges += (1 ... years).map(CatProfile.Badge.years)
+        }
+        let identity = CatIdentity.of(cat, household: seed)
+        let wellbeing = catalogue.map { catalogue in
+            let offers = RoomChoice.offers(in: self, catalogue: catalogue).values.reduce(into: Set<Affordance>()) { $0.formUnion($1) }
+            return Wellbeing.of(cat, identity: identity, offers: offers, today: today?.day == day ? today : nil)
         }
         return CatProfile(
             catID: catID,
@@ -81,7 +92,10 @@ public extension HouseholdState {
             giftsFound: lifetime.gifts,
             roomsOpened: openedRooms.count - 1,
             currentStreak: streak.current,
-            longestStreak: streak.longest
+            longestStreak: streak.longest,
+            ways: identity.ways,
+            contentment: wellbeing?.level,
+            wouldLove: wellbeing?.wants.first
         )
     }
 

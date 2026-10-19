@@ -21,6 +21,7 @@ public enum RoomChoice {
     ///   - viewing: the room the player is looking at (where "near you" is).
     public static func room(
         for activity: Activity,
+        need: Affordance? = nil,
         current: RoomID,
         viewing: RoomID,
         offers: [RoomID: Set<Affordance>],
@@ -29,7 +30,7 @@ public enum RoomChoice {
     ) -> RoomID {
         let open = Set(offers.keys).union([.living])
         let here = open.contains(current) ? current : .living
-        guard let need = activity.affordance else {
+        guard let need = need ?? activity.affordance else {
             // Nothing to use: near you comes to the room you are looking at; a wander sometimes goes next door;
             // the rest happens where it is.
             if activity == .nearPlayer, open.contains(viewing) {
@@ -62,7 +63,7 @@ public enum RoomChoice {
         rng: inout DaySeed
     ) -> BehaviourChoice {
         var choice = choice
-        choice.room = room(for: choice.activity, current: current, viewing: viewing, offers: offers, timeOfDay: timeOfDay, rng: &rng)
+        choice.room = room(for: choice.activity, need: choice.use, current: current, viewing: viewing, offers: offers, timeOfDay: timeOfDay, rng: &rng)
         return choice
     }
 }

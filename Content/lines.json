@@ -450,6 +450,38 @@
     {
       "id": "event.housewarming",
       "condition": "the Housewarming launch event"
+    },
+    {
+      "id": "want.bed",
+      "condition": "the home has nowhere soft to sleep: the cat would love a bed (it sleeps on the floor meanwhile)"
+    },
+    {
+      "id": "want.seat",
+      "condition": "nothing comfy to sit on: the cat would love a seat"
+    },
+    {
+      "id": "want.scratcher",
+      "condition": "no scratching post: the cat would love one (the sofa gets it meanwhile)"
+    },
+    {
+      "id": "want.hideaway",
+      "condition": "no box or nook to hide in: the cat would love one"
+    },
+    {
+      "id": "want.perch",
+      "condition": "nowhere up high: the cat would love a perch"
+    },
+    {
+      "id": "want.window",
+      "condition": "nowhere to watch the world from: the cat would love a window seat or the like"
+    },
+    {
+      "id": "want.toy",
+      "condition": "nothing to bat about: the cat would love something to play with"
+    },
+    {
+      "id": "want.met",
+      "condition": "the home has just got something the cat wanted"
     }
   ],
   "lines": [
@@ -4878,6 +4910,326 @@
         "Housewarming. Warm house. Very good.",
         "New home. Comfy home. Party? No thanks.",
         "Party? I'll be the loaf in the corner."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "want.bed",
+      "personality": "aloof",
+      "variants": [
+        "The floor again. I'm sure a bed is on its way.",
+        "I sleep on the boards. Like a monk. A neglected monk.",
+        "A bed would not go amiss. I'm only saying."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "want.bed",
+      "personality": "velcro",
+      "variants": [
+        "Can we have a bed? A big one? For both of us?",
+        "I'll sleep on the floor by you. A bed would be lovely, though.",
+        "Floor's fine! Bed would be finer. With you near."
+      ],
+      "meow": "long"
+    },
+    {
+      "context": "want.bed",
+      "personality": "gremlin",
+      "variants": [
+        "No bed. I'll sleep wherever annoys you most.",
+        "A bed is a fort with pillows. I want a fort.",
+        "I've claimed the floor. I'd rather claim a bed."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "want.bed",
+      "personality": "loaf",
+      "variants": [
+        "Floor's hard. Bed's soft. Just saying.",
+        "I could sleep anywhere. I'd like to sleep on a bed.",
+        "Dreaming of a bed. Asleep on the floor."
+      ],
+      "meow": "grumble"
+    },
+    {
+      "context": "want.seat",
+      "personality": "aloof",
+      "variants": [
+        "There's nothing worth sitting on. I'll stand. Judgingly.",
+        "A chair would give me somewhere to ignore you from.",
+        "No seat. I'll sit on the floor and make a point of it."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "want.seat",
+      "personality": "velcro",
+      "variants": [
+        "A sofa! For us to sit on together!",
+        "Nowhere to snuggle up. Get a sofa and I'll show you.",
+        "If we had a seat, I'd sit on it. Next to you."
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "want.seat",
+      "personality": "gremlin",
+      "variants": [
+        "Nothing to sit on, nothing to shred. Dull.",
+        "A sofa would be a fine thing to destroy. I mean sit on.",
+        "Get a chair. I promise very little."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "want.seat",
+      "personality": "loaf",
+      "variants": [
+        "Something comfy to sit on. That's all I ask.",
+        "A cushion. Even a small one.",
+        "Seat. Comfy. One day."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "want.scratcher",
+      "personality": "aloof",
+      "variants": [
+        "The sofa will do for my claws. Unless offered better.",
+        "I'm sharpening on what's here. You know what you could do.",
+        "No post. My claws must be kept somehow."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "want.scratcher",
+      "personality": "velcro",
+      "variants": [
+        "I'm sorry about the sofa! A post would help!",
+        "If I had a post, I'd only scratch that. Promise!",
+        "Can I have a scratching post? Pretty please?"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "want.scratcher",
+      "personality": "gremlin",
+      "variants": [
+        "No post. The sofa it is. Your choice, really.",
+        "Get me a post or the sofa gets it.",
+        "I scratched the sofa. Then I scratched it again."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "want.scratcher",
+      "personality": "loaf",
+      "variants": [
+        "Big stretch. On the sofa. Sorry.",
+        "A post would be a good stretch.",
+        "Claws need a scratch. Sofa's handy."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "want.hideaway",
+      "personality": "aloof",
+      "variants": [
+        "Nowhere to be alone. In my own home.",
+        "A box. Somewhere to not be seen. Is that so much?",
+        "I need somewhere to disappear to. Occasionally."
+      ],
+      "meow": "silent"
+    },
+    {
+      "context": "want.hideaway",
+      "personality": "velcro",
+      "variants": [
+        "A box would be fun! You could find me in it!",
+        "Somewhere cosy to hide, then pop out at you!",
+        "Hide and seek needs somewhere to hide!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "want.hideaway",
+      "personality": "gremlin",
+      "variants": [
+        "Nowhere to lie in wait. This is a problem.",
+        "A box. A base. A hiding place. Now.",
+        "How can I ambush you with nowhere to hide?"
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "want.hideaway",
+      "personality": "loaf",
+      "variants": [
+        "A box. To sit in. All day.",
+        "Somewhere snug and dark. For naps.",
+        "A cosy nook. That's the dream."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "want.perch",
+      "personality": "aloof",
+      "variants": [
+        "Nothing high to sit on. I'm on your level. Unbearable.",
+        "I need somewhere up high to look down from.",
+        "A shelf. A cat tree. Anything above it all."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "want.perch",
+      "personality": "velcro",
+      "variants": [
+        "Somewhere high so I can see you from everywhere!",
+        "If I were up high, I could see you all the time!",
+        "A cat tree! I'd climb it and wave at you!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "want.perch",
+      "personality": "gremlin",
+      "variants": [
+        "Nothing to climb. Nothing to knock off. Tragic.",
+        "I need high ground. For strategy.",
+        "Get me something tall and I'll show you a trick."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "want.perch",
+      "personality": "loaf",
+      "variants": [
+        "Up high is warm. I'd nap up high.",
+        "A shelf to snooze on. That's nice.",
+        "Somewhere above the floor. For naps."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "want.window",
+      "personality": "aloof",
+      "variants": [
+        "Nowhere to watch the world from. I'll watch you instead.",
+        "I'd like a window seat. The view in here is limited.",
+        "The birds go unwatched. Someone should see to it."
+      ],
+      "meow": "silent"
+    },
+    {
+      "context": "want.window",
+      "personality": "velcro",
+      "variants": [
+        "Somewhere to watch for you coming home!",
+        "A window seat! I could wait for you there!",
+        "I want to see outside! And then see you!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "want.window",
+      "personality": "gremlin",
+      "variants": [
+        "No lookout post. The birds go unwatched.",
+        "I need somewhere to plot against the pigeons.",
+        "A window seat. For surveillance purposes."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "want.window",
+      "personality": "loaf",
+      "variants": [
+        "A sunny window spot would be perfect.",
+        "Watching the world from somewhere warm. One day.",
+        "Window. Sun. Nap. That's the plan."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "want.toy",
+      "personality": "aloof",
+      "variants": [
+        "Nothing to bat about. I'll bat at the air, I suppose.",
+        "I'm above toys. Mostly. Something small, perhaps.",
+        "I don't play. But if I did, I'd need something."
+      ],
+      "meow": "short"
+    },
+    {
+      "context": "want.toy",
+      "personality": "velcro",
+      "variants": [
+        "Can we have something to play with? Together?",
+        "I need a toy! Then you can watch me play!",
+        "Something to bat about! Then we can play!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "want.toy",
+      "personality": "gremlin",
+      "variants": [
+        "Nothing to knock over. I'll find something of yours.",
+        "I'm bored. Get me something to bat or I'll improvise.",
+        "No toys. Your things will have to do."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "want.toy",
+      "personality": "loaf",
+      "variants": [
+        "A toy. To bat once. Then nap.",
+        "Something small to bat about. Gently.",
+        "Play? Maybe. With something soft."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "want.met",
+      "personality": "aloof",
+      "variants": [
+        "Oh. That's actually what I wanted. Well done.",
+        "I'll accept this. Graciously.",
+        "You noticed. I'm almost touched."
+      ],
+      "meow": "purr"
+    },
+    {
+      "context": "want.met",
+      "personality": "velcro",
+      "variants": [
+        "You got it for me! You're the best!",
+        "Exactly what I wanted! You know me so well!",
+        "For me? I love it! I love you!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "want.met",
+      "personality": "gremlin",
+      "variants": [
+        "Yes. This. Now I can begin.",
+        "Finally. You're learning.",
+        "Excellent. The plan proceeds."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "want.met",
+      "personality": "loaf",
+      "variants": [
+        "Ooh. Mine. Trying it now.",
+        "Lovely. Just what I wanted.",
+        "Perfect. Settling in."
       ],
       "meow": "purr"
     }

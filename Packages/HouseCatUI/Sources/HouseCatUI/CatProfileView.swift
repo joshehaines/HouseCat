@@ -150,6 +150,7 @@ public struct CatProfileView: View {
                 VStack(alignment: .leading, spacing: 14) {
                     header
                     trust
+                    nature
                     if !profile.badges.isEmpty {
                         HStack {
                             ForEach(profile.badges, id: \.self) { badge in
@@ -237,6 +238,36 @@ public struct CatProfileView: View {
                 .tint(Theme.accent)
             Text("\(level.toNext) XP to level \(level.level + 1)").font(.caption).foregroundStyle(Theme.inkSoft)
         }
+    }
+
+    /// How the cat is, what it would love next, and its own ways.
+    @ViewBuilder
+    private var nature: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            if let contentment = profile.contentment {
+                HStack(spacing: 8) {
+                    PaintedIcon("trust_heart_with_a_paw_print", size: 22)
+                    Text("\(profile.name) \(contentment.phrase)").font(.headline)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                if let want = profile.wouldLove {
+                    Text("Would love \(want.phrase) at home.").font(.footnote).foregroundStyle(Theme.inkSoft)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+            if !profile.ways.isEmpty {
+                Text("\(profile.name)'s ways").font(.headline).padding(.top, 4)
+                ForEach(profile.ways, id: \.self) { way in
+                    HStack(alignment: .firstTextBaseline, spacing: 6) {
+                        Text("·").font(.headline).foregroundStyle(Theme.accent)
+                        Text(way).font(.subheadline).fixedSize(horizontal: false, vertical: true)
+                    }
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(12)
+        .paper(RoundedRectangle(cornerRadius: 16, style: .continuous))
     }
 
     private var stats: some View {

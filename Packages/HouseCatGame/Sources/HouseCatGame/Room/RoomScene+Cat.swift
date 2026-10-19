@@ -62,7 +62,8 @@ public extension RoomScene {
         {
             let (w, d) = room.footprint(item, facing: placement.facing)
             let u = CGFloat(placement.u), v = CGFloat(placement.v)
-            switch need {
+            // Scratching the sofa (no post) is done beside it, like any post.
+            switch choice.activity == .scratch ? .scratch : need {
             case .sit, .sleep, .perch where !item.decal:
                 // On top: the middle of the footprint, raised to the seat (or the top for a perch), jumped up to
                 // from the floor in front.
@@ -506,6 +507,60 @@ public extension RoomScene {
                 .removeFromParent(),
             ]))
         }
+    }
+
+    /// A thought bubble over the cat with a picture in it (what it would love), popping up, bobbing a little and
+    /// fading after a while; a tap on it calls `onThoughtTapped` with its tag. It moves with the cat.
+    func think(about sprite: String, tag: String, for seconds: TimeInterval = Tuning.Wellbeing.bubbleSeconds) {
+        guard let cat = director?.cat, art.has(sprite) else { return }
+        cat.childNode(withName: "thought")?.removeFromParent()
+        let size = CGFloat(Tuning.Wellbeing.bubbleSize)
+        let bubble = SKNode()
+        bubble.name = "thought"
+        bubble.userData = ["tag": tag]
+        let paper = SKColor(red: 0.995, green: 0.97, blue: 0.925, alpha: 0.97)
+        let ink = SKColor(red: 0.24, green: 0.18, blue: 0.22, alpha: 0.35)
+        func puff(_ rect: CGRect, corner: CGFloat) -> SKShapeNode {
+            let node = SKShapeNode(rect: rect, cornerRadius: corner)
+            node.fillColor = paper
+            node.strokeColor = ink
+            node.lineWidth = 3
+            return node
+        }
+        bubble.addChild(puff(CGRect(x: -size / 2, y: -size * 0.41, width: size, height: size * 0.82), corner: size * 0.32))
+        for (x, y, r) in [(-0.2, -0.56, 0.085), (-0.31, -0.73, 0.05)] {
+            let dot = SKShapeNode(circleOfRadius: size * CGFloat(r))
+            dot.fillColor = paper
+            dot.strokeColor = ink
+            dot.lineWidth = 2.5
+            dot.position = CGPoint(x: size * CGFloat(x), y: size * CGFloat(y))
+            bubble.addChild(dot)
+        }
+        let painted = art.paintedSize(sprite)
+        let fit = size * 0.66 / max(1, max(painted.width, painted.height * 1.2))
+        let picture = SKSpriteNode(texture: art.texture(sprite), size: CGSize(width: painted.width * fit, height: painted.height * fit))
+        picture.zPosition = 1
+        bubble.addChild(picture)
+        let top = cat.bodyFrame.maxY - cat.position.y
+        bubble.position = CGPoint(x: size * 0.42, y: top + size * 0.62)
+        bubble.zPosition = Layer.reaction
+        bubble.setScale(0.2)
+        bubble.alpha = 0
+        cat.addChild(bubble)
+        let pop = SKAction.sequence([.scale(to: 1.08, duration: 0.18), .scale(to: 1, duration: 0.1)])
+        pop.timingMode = .easeOut
+        let bob = SKAction.repeatForever(.sequence([.moveBy(x: 0, y: 5, duration: 0.9), .moveBy(x: 0, y: -5, duration: 0.9)]))
+        bubble.run(.group([.fadeIn(withDuration: 0.15), pop, bob]))
+        bubble.run(.sequence([.wait(forDuration: seconds), .fadeOut(withDuration: 0.3), .removeFromParent()]), withKey: "life")
+    }
+
+    /// The tag of the thought bubble under a scene point, if there is one.
+    func thought(at point: CGPoint) -> String? {
+        guard let cat = director?.cat, let bubble = cat.childNode(withName: "thought"), let room = cat.parent, isShown(room) else { return nil }
+        let local = convert(point, to: bubble)
+        let size = CGFloat(Tuning.Wellbeing.bubbleSize)
+        guard CGRect(x: -size * 0.6, y: -size * 0.8, width: size * 1.2, height: size * 1.3).contains(local) else { return nil }
+        return bubble.userData?["tag"] as? String
     }
 
     /// Whether a scene point is on the cat.

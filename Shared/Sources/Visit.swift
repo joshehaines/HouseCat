@@ -347,6 +347,20 @@ final class Visit {
                 openGame = "picker"
             case "nap":
                 startNap()
+            case "think":
+                // The thought bubble: what the cat would love, or (a home with everything) a scratching post.
+                if GameSession.shared.wantedPiece(in: activeRoom) != nil {
+                    thinkAboutWants(after: Tuning.Care.lineSeconds)
+                } else if let post = GameSession.shared.shop(for: activeRoom).first(where: { $0.id.contains("cattree") })
+                    ?? GameSession.shared.shop(for: activeRoom).first
+                {
+                    self.wanted = GameSession.WantedPiece(want: .perch, itemID: post.id, sprite: post.sprite, owned: false)
+                    Task { @MainActor [weak house] in
+                        try? await Task.sleep(for: .seconds(Tuning.Care.lineSeconds))
+                        house?.think(about: post.sprite, tag: post.id, for: 30)
+                    }
+                }
+                say(GameSession.shared.line(Want.perch.lineContext))
             case "offer":
                 trustRose = Tuning.Store.offerTrustTier
             case let screen where screen.hasPrefix("game:"):
@@ -388,8 +402,12 @@ final class Visit {
         decorating.toggle()
         greeting = nil
         house.setDecorating(decorating)
-        inventory = decorating ? GameSession.shared.inventory() : []
+        inventory = decorating ? focused(GameSession.shared.inventory()) : []
         RoomTour.shared.heard(.decorating(decorating))
+        if !decorating {
+            wantedFocus = nil
+            delight()
+        }
     }
 
     /// Pieces owned but not placed, shown in a tray while decorating.
@@ -433,9 +451,114 @@ final class Visit {
         }
     }
 
-    /// The Bean catalogue for the room you are in.
+    /// The Bean catalogue for the room you are in (what the cat would love first, when you came from its thought).
     var shopEntries: [GameSession.ShopEntry] {
-        GameSession.shared.shop(for: activeRoom)
+        let entries = GameSession.shared.shop(for: activeRoom)
+        guard let focus = wantedFocus, let index = entries.firstIndex(where: { $0.id == focus }) else { return entries }
+        return [entries[index]] + entries.enumerated().filter { $0.offset != index }.map(\.element)
+    }
+
+    /// Your pieces, with the one the cat would love first.
+    private func focused(_ entries: [GameSession.InventoryEntry]) -> [GameSession.InventoryEntry] {
+        guard let focus = wantedFocus, let index = entries.firstIndex(where: { $0.id == focus }) else { return entries }
+        return [entries[index]] + entries.enumerated().filter { $0.offset != index }.map(\.element)
+    }
+
+    // MARK: What the cat would love
+
+    /// The piece in the cat's thought bubble, and the one the tray puts first after a tap on it.
+    @ObservationIgnored private var wanted: GameSession.WantedPiece?
+    private(set) var wantedFocus: String?
+    /// What the cat got while you were decorating: it says so and goes to use it when you are done.
+    @ObservationIgnored private var gotWant: Want?
+    @ObservationIgnored private var quietUntil = Date.distantPast
+
+    /// The cat thinks about the piece it would love most (a bubble over it with its picture), once anything it is
+    /// saying has gone (the two would overlap).
+    func thinkAboutWants(after delay: TimeInterval = 0) {
+        Task { @MainActor [weak self] in
+            if delay > 0 {
+                try? await Task.sleep(for: .seconds(delay))
+            }
+            guard let self, let house = self.scene as? RoomScene, !self.decorating,
+                  let piece = GameSession.shared.wantedPiece(in: self.activeRoom) else { return }
+            self.wanted = piece
+            house.think(about: piece.sprite, tag: piece.itemID)
+        }
+    }
+
+    /// A tap on the bubble: the decorate tray opens on that piece (yours to put out, or in the shop).
+    func openWanted() {
+        guard let piece = wanted else { return }
+        wantedFocus = piece.itemID
+        if !decorating {
+            toggleDecorating()
+        }
+        trayMode = piece.owned ? .furniture : .shop
+        inventory = focused(GameSession.shared.inventory())
+    }
+
+    /// The cat set off to something by itself: now and then it says something about it (or about what it would
+    /// love, with the bubble), never over another line and not too often.
+    private func catChose(_ choice: BehaviourChoice) {
+        guard !decorating, greeting == nil, Date() >= quietUntil else { return }
+        let chatty = GameSession.shared.identity?.has(.chatty) == true
+        if let context = choice.lineContext, context.hasPrefix("want.") {
+            say(GameSession.shared.line(context))
+            thinkAboutWants(after: Tuning.Care.lineSeconds)
+        } else if let context = choice.lineContext ?? Self.activityLine(choice.activity),
+                  Int.random(in: 0 ..< 100) < Tuning.Wellbeing.chatterPercent * (chatty ? 2 : 1)
+        {
+            say(GameSession.shared.line(context))
+        } else {
+            return
+        }
+        quietUntil = Date().addingTimeInterval(Tuning.Wellbeing.chatterSeconds)
+    }
+
+    /// The line about an activity the cat has set off to (Content/lines.json `behaviour.*`).
+    static func activityLine(_ activity: Activity) -> String? {
+        switch activity {
+        case .windowWatch: "behaviour.window_watch"
+        case .sunbeamLoaf: "behaviour.sunbeam"
+        case .zoomies: "behaviour.zoomies"
+        case .scratch: "behaviour.scratching"
+        case .hide: "behaviour.hiding"
+        case .explore: "behaviour.idle"
+        default: nil
+        }
+    }
+
+    /// Before and after you put something out: what the cat wanted that it now has.
+    private func noteWantsMet(since before: [Want]) {
+        let after = Set(GameSession.shared.wellbeing()?.wants ?? [])
+        if let met = before.first(where: { !after.contains($0) }) {
+            gotWant = met
+        }
+    }
+
+    /// Done decorating, with something new it wanted: it says so, hearts, and off it goes to use it.
+    private func delight() {
+        guard let want = gotWant, let house = scene as? RoomScene else { return }
+        gotWant = nil
+        say(GameSession.shared.line(Want.metLine))
+        house.react("heart", count: 3)
+        house.lookCloser()
+        let activity: Activity = switch want {
+        case .bed: .sleep
+        case .seat: .sit
+        case .scratcher: .scratch
+        case .hideaway: .hide
+        case .perch: .perch
+        case .window: .windowWatch
+        case .toy: .knockOff
+        }
+        let room = activeRoom
+        Task { @MainActor [weak self] in
+            try? await Task.sleep(for: .seconds(1.2))
+            guard let self, !self.decorating, let house = self.scene as? RoomScene else { return }
+            house.send(BehaviourChoice(activity: activity, room: room), pace: .trot)
+        }
     }
 
     /// Buys a piece and puts it straight into the room, picked up, ready to drag.
@@ -509,7 +632,12 @@ final class Visit {
         }
         guard activeRoom == bundle.room else { return }
         let session = GameSession.shared
+        let wantedBefore = session.wellbeing()?.wants ?? []
         let placed = session.addWholeRoom(bundle, among: house.pieces())
+        noteWantsMet(since: wantedBefore)
+        if !decorating {
+            delight()
+        }
         if let model = GameWorld.house(at: session.now(), state: session.state(at: session.now())) {
             house.update(house: model)
             house.setDecorating(decorating)
@@ -536,9 +664,11 @@ final class Visit {
 
     /// Puts a piece from the tray into the room, picked up and ready to drag.
     func placeFromInventory(_ itemID: String) {
+        let wantedBefore = GameSession.shared.wellbeing()?.wants ?? []
         guard let house = scene as? RoomScene, decorating,
               let placement = GameSession.shared.placeFromInventory(itemID, among: house.pieces(), room: activeRoom)
         else { return }
+        noteWantsMet(since: wantedBefore)
         house.place(placement)
         inventory = GameSession.shared.inventory()
         refreshStats()
@@ -754,7 +884,15 @@ final class Visit {
             state: GameSession.shared.state(at: GameSession.shared.now()),
             arrival: arrival,
             onRub: { [weak self] in self?.offerGift(after: Tuning.Gifts.rubDropDelay) },
-            onArrived: { [weak self] in self?.offerGift(after: 0) }
+            onArrived: { [weak self] in
+                self?.offerGift(after: 0)
+                // Settled after the greeting, it may think about what it would love.
+                guard Int.random(in: 0 ..< 100) < Tuning.Wellbeing.arrivalThoughtPercent else { return }
+                Task { @MainActor [weak self] in
+                    try? await Task.sleep(for: .seconds(Tuning.Wellbeing.arrivalThoughtDelay))
+                    self?.thinkAboutWants()
+                }
+            }
         )
         if let house = built as? RoomScene {
             storeys = house.storeys
@@ -768,6 +906,8 @@ final class Visit {
             house.onRoomTapped = { [weak self] in self?.go(to: $0) }
             house.onActiveRoomChanged = { [weak self] in self?.roomShown($0) }
             house.onCatTapped = { [weak self] in self?.petCat() }
+            house.onActivityChosen = { [weak self] in self?.catChose($0) }
+            house.onThoughtTapped = { [weak self] _ in self?.openWanted() }
             house.onGiftTapped = { [weak self] in self?.collectGift() }
             house.dress(GameSession.shared.wornOutfit)
             // The zoom you last pinched to (on this device).

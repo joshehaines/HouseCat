@@ -141,6 +141,10 @@ public struct BehaviourContext: Equatable, Sendable {
     public var available: Set<Affordance>
     /// Whether sun is shining into the room through its window.
     public var sunlit: Bool
+    /// The cat's own ways (favourite spot, quirks, its hours), when known.
+    public var identity: CatIdentity?
+    /// What the home lacks that the cat would love, most wanted first (`Wellbeing.wants`).
+    public var wants: [Want]
 
     public init(
         mood: Mood,
@@ -148,7 +152,9 @@ public struct BehaviourContext: Equatable, Sendable {
         personality: Personality,
         timeOfDay: TimeOfDay,
         available: Set<Affordance>,
-        sunlit: Bool
+        sunlit: Bool,
+        identity: CatIdentity? = nil,
+        wants: [Want] = []
     ) {
         self.mood = mood
         self.weather = weather
@@ -156,6 +162,8 @@ public struct BehaviourContext: Equatable, Sendable {
         self.timeOfDay = timeOfDay
         self.available = available
         self.sunlit = sunlit
+        self.identity = identity
+        self.wants = wants
     }
 }
 
@@ -165,15 +173,18 @@ public struct BehaviourChoice: Equatable, Sendable {
     public var lineContext: String?
     /// The room it happens in (`RoomChoice`); nil: wherever the cat is.
     public var room: RoomID?
+    /// The furniture it uses instead of the activity's own (no scratching post: it scratches the sofa).
+    public var use: Affordance?
 
-    public init(activity: Activity, lineContext: String? = nil, room: RoomID? = nil) {
+    public init(activity: Activity, lineContext: String? = nil, room: RoomID? = nil, use: Affordance? = nil) {
         self.activity = activity
         self.lineContext = lineContext
         self.room = room
+        self.use = use
     }
 
     public var affordance: Affordance? {
-        activity.affordance
+        use ?? activity.affordance
     }
 
     public var pose: CatPose? {
@@ -261,6 +272,13 @@ public enum BehaviourTable {
         if context.mood == .hungry, context.available.contains(.eat) {
             return BehaviourChoice(activity: .bowlNag)
         }
+        let w = Tuning.Wellbeing.self
+        // No bed anywhere: at night (or sleepy) it curls up on the floor, and would love a bed.
+        if context.wants.contains(.bed), !context.available.contains(.sleep),
+           context.timeOfDay == .night || context.mood == .sleepy, rng.below(100) < w.floorSleepPercent
+        {
+            return BehaviourChoice(activity: .sleep, lineContext: Want.bed.lineContext)
+        }
 
         // A room with nothing to sit on: the cat loafs on the floor and a line says so.
         if context.available.isDisjoint(with: [.sit, .sleep, .perch]) {
@@ -268,7 +286,7 @@ public enum BehaviourTable {
         }
 
         let favourites = context.personality.favourites
-        let weighted = options(for: context).map { activity, weight in
+        var weighted: [(BehaviourChoice, Int)] = options(for: context).map { activity, weight in
             var weight = weight
             if favourites.contains(activity) {
                 weight *= Tuning.Personality.favouriteMultiplier
@@ -279,12 +297,26 @@ public enum BehaviourTable {
             if context.mood == .playful, [.zoomies, .knockOff].contains(activity) {
                 weight *= 2
             }
-            return (activity, weight)
+            // Nothing to bat about: a lively cat makes its own fun.
+            if activity == .zoomies, context.wants.contains(.toy), context.mood == .playful || context.personality == .gremlin {
+                weight *= 2
+            }
+            weight *= context.identity?.weight(for: activity, at: context.timeOfDay) ?? 1
+            return (BehaviourChoice(activity: activity), weight)
+        }
+        // No scratching post: the sofa (or whatever it sits on) gets it instead.
+        if context.wants.contains(.scratcher), let seat = [Affordance.sit, .sleep].first(where: context.available.contains) {
+            weighted.append((BehaviourChoice(activity: .scratch, lineContext: Want.scratcher.lineContext, use: seat), Tuning.Behaviour.background * 2))
         }
         guard let index = rng.pick(weights: weighted.map(\.1)) else {
             return BehaviourChoice(activity: .floorLoaf, lineContext: emptyRoomLine)
         }
-        return BehaviourChoice(activity: weighted[index].0)
+        var choice = weighted[index].0
+        // Now and then it mentions what it would love.
+        if choice.lineContext == nil, let want = context.wants.first, rng.below(100) < w.wantLinePercent {
+            choice.lineContext = want.lineContext
+        }
+        return choice
     }
 }
 

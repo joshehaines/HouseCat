@@ -305,3 +305,32 @@ func eachGreetingComesToYouOrNotAndSettles(style: GreetingStyle) throws {
     room.zoom = 0.01
     #expect(room.zoom == CGFloat(Tuning.Camera.minZoom))
 }
+
+// MARK: What the cat would love
+
+@MainActor
+@Test func aThoughtBubbleShowsWhatTheCatWouldLoveAndATapOnItIsHeard() throws {
+    let world = try World()
+    let room = world.room()
+    let director = room.addCat(rig: world.rig, at: 5, 5, pose: .sitSide)
+    let post = try #require(world.content.catalogue.items.first { $0.affordances.contains(.scratch) })
+    let sprite = try #require(post.sprites["R"] ?? post.sprites.values.first)
+    room.think(about: sprite, tag: post.id)
+    let bubble = try #require(director.cat.childNode(withName: "thought"))
+    #expect(bubble.position.y > 0, "over the cat")
+    let middle = room.convert(CGPoint.zero, from: bubble)
+    #expect(room.thought(at: middle) == post.id)
+    // Away from it, nothing.
+    #expect(room.thought(at: CGPoint(x: middle.x + 4000, y: middle.y)) == nil)
+}
+
+@MainActor
+@Test func withNoPostTheCatScratchesBesideTheSofa() throws {
+    let world = try World()
+    let room = world.room()
+    _ = room.addCat(rig: world.rig, at: 5, 5, pose: .sitSide)
+    let spot = room.spot(for: BehaviourChoice(activity: .scratch, use: .sit))
+    #expect(spot.itemID == "living_sofa")
+    #expect(spot.lift == 0, "beside it, on the floor")
+    #expect(spot.pose == .stretchSide)
+}

@@ -421,6 +421,58 @@ public enum Tuning {
         public static let exploreElsewherePercent = 40
     }
 
+    /// The cat's own ways (CatIdentity): how likely each favourite spot is by personality, how many quirks, how
+    /// likely a night owl, and how much they weigh in what it does.
+    public enum Identity {
+        public static let spotWeights: [String: [String: Int]] = [
+            "aloof": ["high": 4, "window": 4, "hidden": 2, "sunny": 2, "soft": 1, "nearYou": 1],
+            "velcro": ["nearYou": 5, "soft": 3, "sunny": 2, "window": 1, "high": 1, "hidden": 1],
+            "gremlin": ["hidden": 4, "high": 4, "window": 2, "nearYou": 2, "soft": 1, "sunny": 1],
+            "loaf": ["soft": 5, "sunny": 4, "nearYou": 2, "window": 1, "high": 1, "hidden": 1],
+        ]
+        public static let quirks = 2
+        public static let nightOwlPercent: [String: Int] = ["aloof": 55, "velcro": 35, "gremlin": 75, "loaf": 45]
+        public static let favouriteSpotMultiplier = 3
+        public static let quirkMultiplier = 2
+    }
+
+    /// How the cat is doing (Wellbeing): what it cares about having, by personality; today's fuss; the mix; and
+    /// where each word starts (Settling in, Comfortable, Happy, Couldn't be happier).
+    public enum Wellbeing {
+        public static let wantWeight: [String: Double] = [
+            "bed": 3, "seat": 2, "scratcher": 2, "hideaway": 1.5, "perch": 1.5, "window": 1.5, "toy": 1.5,
+        ]
+        public static let personalityWant: [String: [String: Double]] = [
+            "loaf": ["bed": 2, "seat": 1.5],
+            "gremlin": ["hideaway": 2, "toy": 2, "scratcher": 1.5],
+            "aloof": ["perch": 2, "window": 2],
+            "velcro": ["seat": 2, "bed": 1.2],
+        ]
+        public static let favouriteSpotWant = 1.5
+        public static let fedCare = 0.5
+        public static let strokeCare = 0.3
+        public static let playCare = 0.2
+        public static let strokesForFullCare = 3.0
+        public static let homeShare = 0.5
+        public static let careShare = 0.3
+        public static let trustShare = 0.2
+        public static let levelFrom = [0.0, 0.35, 0.6, 0.82]
+        /// While it lacks something, a choice now and then comes with the line about it (percent).
+        public static let wantLinePercent = 20
+        /// No bed: at night or sleepy, it sleeps on the floor this often (percent) and says so.
+        public static let floorSleepPercent = 70
+        /// The thought bubble with what it would love: how long it stays and how big it is (room units).
+        public static let bubbleSeconds = 6.0
+        public static let bubbleSize = 160.0
+        /// A line about what it sets off to do, this often (percent; twice for a chatty cat), never closer together
+        /// than this (seconds).
+        public static let chatterPercent = 30
+        public static let chatterSeconds = 40.0
+        /// After a visit's greeting, it thinks about what it would love this often (percent), this long after.
+        public static let arrivalThoughtPercent = 60
+        public static let arrivalThoughtDelay = 3.5
+    }
+
     /// The cat's profile (SPEC "Age and time together").
     public enum Together {
         /// The together-count milestone with its own badge and line (then each year).

@@ -200,13 +200,17 @@ final class GameSession {
                 trust = tier
             }
         #endif
+        let available = offers.values.reduce(into: Set<Affordance>()) { $0.formUnion($1) }
+        let identity = cat.map { CatIdentity.of($0, household: after.seed) }
         let context = BehaviourContext(
             mood: mood,
             weather: weather,
             personality: personality,
             timeOfDay: time,
-            available: offers.values.reduce(into: Set<Affordance>()) { $0.formUnion($1) },
-            sunlit: sky == .day && weather.isSunny
+            available: available,
+            sunlit: sky == .day && weather.isSunny,
+            identity: identity,
+            wants: cat.flatMap { cat in identity.map { Wellbeing.of(cat, identity: $0, offers: available, today: after.today).wants } } ?? []
         )
         let visits = after.lifetime.visits
         var brain = DaySeed(household: after.seed, day: day, purpose: "brain", salt: "arrival\(visits)-\(log.events.count)")
@@ -245,9 +249,54 @@ final class GameSession {
         return Arrival(greeting: greeting, meow: meow, choice: choice, mood: mood, start: start, style: style)
     }
 
-    /// Whether the cat follows you from room to room (a Velcro cat does).
+    /// Whether the cat follows you from room to room (a Velcro cat does, and one with that quirk).
     var followsYou: Bool {
-        cat?.personality == .velcro
+        cat?.personality == .velcro || identity?.has(.followsYou) == true
+    }
+
+    // MARK: The cat's ways and wants
+
+    /// The cat's own ways (the same on every device, every day).
+    var identity: CatIdentity? {
+        let state = state(at: now())
+        return state.cat(Self.catID).map { CatIdentity.of($0, household: state.seed) }
+    }
+
+    /// What every open room's furniture lets the cat do, together.
+    private func offered(in state: HouseholdState) -> Set<Affordance> {
+        RoomChoice.offers(in: state, catalogue: content?.affordances ?? [:]).values.reduce(into: Set<Affordance>()) { $0.formUnion($1) }
+    }
+
+    /// How the cat is doing now: what it would love, and how content it is.
+    func wellbeing() -> Wellbeing? {
+        let state = state(at: now())
+        guard let cat = state.cat(Self.catID) else { return nil }
+        return Wellbeing.of(cat, identity: CatIdentity.of(cat, household: state.seed), offers: offered(in: state), today: state.today)
+    }
+
+    /// A piece the cat would love, for its thought bubble.
+    struct WantedPiece: Equatable {
+        var want: Want
+        var itemID: String
+        var sprite: String
+        /// You have it and have not put it out (else it is in the shop).
+        var owned: Bool
+    }
+
+    /// The piece for what the cat would love most: one you have but have not put out, else the cheapest in the shop
+    /// you can have now (else the next you can).
+    func wantedPiece(in room: RoomID) -> WantedPiece? {
+        guard let want = wellbeing()?.wants.first, let content else { return nil }
+        let items = Dictionary(uniqueKeysWithValues: content.catalogue.items.map { ($0.id, $0) })
+        let answers = { (id: String) in items[id]?.affordances.contains(want.affordance) == true }
+        if let owned = inventory().first(where: { answers($0.id) }) {
+            return WantedPiece(want: want, itemID: owned.id, sprite: owned.sprite, owned: true)
+        }
+        let stock = shop(for: room).filter { answers($0.id) }
+        let pick = stock.first { if case .buyable = $0.status { true } else { false } }
+            ?? stock.first { if case .needsBeans = $0.status { true } else { false } }
+            ?? stock.first
+        return pick.map { WantedPiece(want: want, itemID: $0.id, sprite: $0.sprite, owned: false) }
     }
 
     /// The cat's next activity while you watch (no event: activities are not game state). Same rule as the
@@ -260,13 +309,17 @@ final class GameSession {
         let sky = home.sky, weather = home.weather
         let offers = RoomChoice.offers(in: state, catalogue: content?.affordances ?? [:])
         let time = TimeOfDay.at(localMinutes: state.clock.localMinutes(of: date), clock: state.clock)
+        let available = offers.values.reduce(into: Set<Affordance>()) { $0.formUnion($1) }
+        let identity = CatIdentity.of(cat, household: state.seed)
         let context = BehaviourContext(
             mood: state.mood(of: Self.catID, at: date),
             weather: weather,
             personality: cat.personality,
             timeOfDay: time,
-            available: offers.values.reduce(into: Set<Affordance>()) { $0.formUnion($1) },
-            sunlit: sky == .day && weather.isSunny
+            available: available,
+            sunlit: sky == .day && weather.isSunny,
+            identity: identity,
+            wants: Wellbeing.of(cat, identity: identity, offers: available, today: state.today).wants
         )
         var rng = DaySeed(
             household: state.seed,

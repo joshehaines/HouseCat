@@ -573,6 +573,7 @@ final class Visit {
         let trust = GameSession.shared.cat?.trust
         let line = GameSession.shared.feed()
         house.send(GameSession.shared.placed(BehaviourChoice(activity: .bowlNag), catRoom: house.catRoom, viewing: activeRoom))
+        house.lookCloser(for: Tuning.Camera.closeUpSeconds + 2)
         house.react("notes")
         say(line)
         refreshStats()
@@ -608,11 +609,15 @@ final class Visit {
         petTaps = now.timeIntervalSince(lastPet) < Tuning.Care.petRowSeconds ? petTaps + 1 : 1
         lastPet = now
         let (line, walksOff) = GameSession.shared.pet(taps: petTaps)
-        house.react(walksOff ? "exclaim" : "heart")
         if walksOff {
+            house.react("exclaim")
             petTaps = 0
             house.send(GameSession.shared.nextActivity(catRoom: house.catRoom, viewing: activeRoom) ?? BehaviourChoice(activity: .hide))
         } else {
+            // A stroke: the camera leans in, a few hearts, and a slow blink back (a cat's "I trust you").
+            house.lookCloser()
+            house.react("heart", count: petTaps == 1 ? 3 : 1)
+            house.director?.cat.blink(slow: true)
             GameWorld.purr()
         }
         say(line)
@@ -757,10 +762,21 @@ final class Visit {
             house.onCatTapped = { [weak self] in self?.petCat() }
             house.onGiftTapped = { [weak self] in self?.collectGift() }
             house.dress(GameSession.shared.wornOutfit)
+            // The zoom you last pinched to (on this device).
+            if let zoom = Self.roomZoom {
+                house.zoom = zoom
+            }
+            house.onZoomChanged = { Self.roomZoom = $0 }
         }
         room = built
         refreshStats()
         return built
+    }
+
+    /// How close the room view was last pinched to, on this device (a view setting, not game state).
+    static var roomZoom: CGFloat? {
+        get { (UserDefaults.standard.object(forKey: "roomZoom") as? Double).map { CGFloat($0) } }
+        set { UserDefaults.standard.set(newValue.map(Double.init), forKey: "roomZoom") }
     }
 
     /// When the app was last in the foreground, kept on this device only (it decides the cold open, not game state).

@@ -27,6 +27,7 @@ public final class CatArt: @unchecked Sendable {
     private var images: [Key: CGImage] = [:]
     private var textures: [Key: SKTexture] = [:]
     private var faces: [String: CatFace] = [:]
+    private var blinks: [Key: BlinkEntry] = [:]
 
     private struct Key: Hashable {
         var path: String
@@ -134,11 +135,29 @@ public final class CatArt: @unchecked Sendable {
         return face
     }
 
+    /// A sprite's blink picture in a look (CatArt+Blink.swift), made once.
+    func blinkEntry(_ sprite: CatBuilder.Sprite, look: CatLook, make: () -> BlinkEntry) -> BlinkEntry {
+        let entry = entries[sprite.path]
+        let key = Key(
+            path: sprite.path,
+            look: recipeLook(look),
+            pattern: look.pattern.flatMap { entry?.masks.contains($0) == true ? $0 : nil },
+            white: sprite.takesWhite ? look.white.flatMap { entry?.masks.contains($0) == true ? $0 : nil } : nil
+        )
+        if let cached = lock.withLock({ blinks[key] }) {
+            return cached
+        }
+        let made = make()
+        lock.withLock { blinks[key] = made }
+        return made
+    }
+
     /// Forgets every tinted sprite (after the look changes, the old ones are not drawn again).
     public func purge() {
         lock.withLock {
             images.removeAll()
             textures.removeAll()
+            blinks.removeAll()
         }
     }
 

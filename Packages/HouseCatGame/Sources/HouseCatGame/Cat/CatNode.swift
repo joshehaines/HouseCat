@@ -33,16 +33,46 @@ public final class CatNode: SKNode {
     public private(set) var view: View = .tqfront
     public private(set) var facingRight = false
     public private(set) var pose: CatPose?
-    private var cycle: (kind: Cycle, phase: CGFloat)?
+    private var cycle: (gait: Gait, phase: CGFloat)?
     /// The outfit the cat wears (OutfitFit: hats, glasses, neckwear), on each view's head and on the pose on show.
     public private(set) var outfit: OutfitsFile.Outfit?
     private var outfitNodes: [SKNode] = []
     private(set) var poseOutfit: SKNode?
 
-    private enum Cycle {
+    /// How the legs go: a walk (one foot at a time), a trot (diagonal pairs) or a run (a gallop: the front pair,
+    /// then the back pair, the body rocking).
+    public enum Gait: Sendable {
         case walk
+        case trot
         case run
     }
+
+    /// The pace the cat is moving over the floor now (the parent's units a second), so its stride keeps up with
+    /// it; 0 leaves each gait at its own beat (a puppet walking on the spot).
+    public var moveSpeed: CGFloat = 0
+    /// How far below the cat its shadow is (it stays on the floor or the seat while the cat is in the air).
+    public var shadowDrop: CGFloat = 0 {
+        didSet { placeShadow() }
+    }
+
+    private let shadow = SKShapeNode(ellipseOf: CGSize(width: 1, height: 0.42))
+    /// The cat's own clock, for breathing, blinks and the idle sway.
+    private var clock: TimeInterval = 0
+    private var nextBlink: TimeInterval = 2
+    private var blinkEnds: TimeInterval?
+    private var blinkAgain = false
+    private var nextTwitch: TimeInterval = 5
+    private var twitchEnds: TimeInterval = 0
+    private var headLook: CGFloat = 0
+    private var headLookTarget: CGFloat = 0
+    private var nextLook: TimeInterval = 3
+    /// The open-eyed pictures a blink stands in for, to put back.
+    private var openPose: SKTexture?
+    private var openHead: (View, SKTexture)?
+    /// A squash or stretch on the puppet (crouching, landing), eased back to nothing.
+    private var squashAmount: CGFloat = 0
+    /// Each view's puppet's width standing (for its shadow).
+    private var puppetWidths: [View: CGFloat] = [:]
 
     /// A cat in a look from the builder (`catArt` given), or the plain painted short_slim set.
     public init(
@@ -68,6 +98,11 @@ public final class CatNode: SKNode {
         poseNode.alpha = 0
         poseNode.zPosition = 0.05
         addChild(poseNode)
+        shadow.fillColor = SKColor(white: 0, alpha: CGFloat(Tuning.Puppet.shadowAlpha))
+        shadow.strokeColor = .clear
+        shadow.zPosition = -0.02
+        shadow.name = "shadow"
+        addChild(shadow)
         rebuild()
     }
 
@@ -93,6 +128,7 @@ public final class CatNode: SKNode {
         parts = [:]
         restAngles = [:]
         restPositions = [:]
+        puppetWidths = [:]
         let breedScale = look.flatMap { catArt?.builder.body($0.body)?.scale } ?? 1
         height = baseHeight * CGFloat(breedScale) * CGFloat(isKitten ? Tuning.Cat.kittenScale : 1)
         for view in View.allCases {
@@ -284,6 +320,7 @@ public final class CatNode: SKNode {
         }
         // Stand the puppet on its feet: lowest point on the floor, centred on the origin.
         let frame = root.calculateAccumulatedFrame()
+        puppetWidths[view] = frame.width
         for child in root.children {
             child.position.x -= frame.midX
             child.position.y -= frame.minY
@@ -299,10 +336,12 @@ public final class CatNode: SKNode {
         restPositions[view] = nodes.mapValues(\.position)
     }
 
+
     // MARK: Showing
 
     /// Shows one view of the puppet, facing left or right (the side view is painted facing left).
     public func show(_ view: View, facingRight: Bool) {
+        restoreEyes()
         self.view = view
         self.facingRight = facingRight
         for (v, node) in puppets {
@@ -315,6 +354,7 @@ public final class CatNode: SKNode {
             node.xScale = facingRight ? -1 : 1
         }
         poseNode.xScale = facingRight ? -1 : 1
+        placeShadow()
     }
 
     /// Turns the moving puppet to another view with a quick cross-fade (front to side
@@ -324,8 +364,11 @@ public final class CatNode: SKNode {
             show(newView, facingRight: facingRight)
             return
         }
+        restoreEyes()
         let oldView = view
+        let keep = cycle
         stopCycle()
+        cycle = keep
         view = newView
         self.facingRight = facingRight
         new.isHidden = false
@@ -340,6 +383,7 @@ public final class CatNode: SKNode {
             new.zPosition = 0
             self?.resetPose(oldView)
         }
+        placeShadow()
     }
 
     private static let overlap = Tuning.Puppet.fadeOverlap
@@ -365,11 +409,17 @@ public final class CatNode: SKNode {
         ]), withKey: "fade")
     }
 
+    /// The builder's sprite for a resting pose in this cat's look.
+    private func poseBuilderSprite(_ pose: CatPose) -> CatBuilder.Sprite? {
+        guard let catArt, let look else { return nil }
+        let sprite = catArt.builder.pose(pose.rawValue, look: look)
+        return catArt.has(sprite.path) ? sprite : nil
+    }
+
     /// The painted resting pose's texture and master size, if the set has it.
     private func poseSprite(_ pose: CatPose) -> (SKTexture, CGSize)? {
         if let catArt, let look {
-            let sprite = catArt.builder.pose(pose.rawValue, look: look)
-            guard catArt.has(sprite.path) else { return nil }
+            guard let sprite = poseBuilderSprite(pose) else { return nil }
             return (catArt.texture(sprite, look: look), catArt.paintedSize(sprite.path))
         }
         let path = "cat/poses/plain/cat_\(body)_\(pose.rawValue).png"
@@ -377,10 +427,22 @@ public final class CatNode: SKNode {
         return (art.texture(path), art.paintedSize(path))
     }
 
-    /// Cross-fades from the puppet into a painted resting pose (the hand-over the arrival rests on).
+    /// Settles into a painted resting pose: from moving, the puppet sits down a little and the painting takes over;
+    /// from another painting (a glance, a stretch), the old one fades out over the new.
     public func settle(into pose: CatPose, duration: TimeInterval = Tuning.Puppet.settleSeconds) {
+        guard let (texture, painted) = poseSprite(pose) else {
+            stopCycle()
+            return
+        }
+        restoreEyes()
+        let was = self.pose
         stopCycle()
-        guard let (texture, painted) = poseSprite(pose) else { return }
+        if let was, was != pose, duration > 0, let old = poseNode.copy() as? SKSpriteNode {
+            old.removeAllActions()
+            old.zPosition = poseNode.zPosition + 0.01
+            addChild(old)
+            old.run(.sequence([.fadeOut(withDuration: duration), .removeFromParent()]))
+        }
         let s = wholeScale(view)
         let stretch = look.flatMap { catArt?.builder.torsoStretch($0) } ?? 1
         poseNode.texture = texture
@@ -388,34 +450,54 @@ public final class CatNode: SKNode {
         self.pose = pose
         layPoseOutfit(pose)
         poseNode.removeAllActions()
-        poseNode.run(.fadeIn(withDuration: duration * Self.overlap))
-        fade(puppets[view], to: 0, duration: duration * Self.overlap, after: duration * (1 - Self.overlap))
+        if was == nil {
+            let dip = duration > 0 ? Tuning.Puppet.sitDownSeconds : 0
+            if duration > 0 {
+                squash(CGFloat(Tuning.Puppet.sitDownDip))
+            }
+            poseNode.run(.sequence([.wait(forDuration: dip), .fadeIn(withDuration: duration * Self.overlap)]))
+            fade(puppets[view], to: 0, duration: duration * Self.overlap, after: dip + duration * (1 - Self.overlap))
+        } else {
+            poseNode.alpha = 1
+        }
+        placeShadow()
     }
 
-    /// Cross-fades from a resting pose back to the puppet, ready to move.
+    /// Cross-fades from a resting pose back to the puppet, ready to move: it comes up from a crouch.
     public func rise(to view: View, facingRight: Bool, duration: TimeInterval = Tuning.Puppet.riseSeconds) {
+        let was = pose
         show(view, facingRight: facingRight)
         let puppet = puppets[view]
-        puppet?.alpha = pose == nil ? 1 : 0
+        puppet?.alpha = was == nil ? 1 : 0
         fade(puppet, to: 1, duration: duration * Self.overlap)
+        if was != nil, duration > 0 {
+            squash(CGFloat(Tuning.Puppet.sitDownDip))
+        }
         poseNode.run(.sequence([.wait(forDuration: duration * (1 - Self.overlap)), .fadeOut(withDuration: duration * Self.overlap)]))
         pose = nil
+        placeShadow()
     }
 
     // MARK: Moving
 
-    /// Starts the walk cycle (legs swing in pairs, the body bobs, the tail sways).
+    /// Starts the walk cycle: one foot at a time, the body bobbing twice a stride, the tail swaying.
     public func walk() {
-        cycle = (.walk, cycle?.phase ?? 0)
+        move(.walk)
     }
 
-    /// Starts the run cycle: faster, bigger strides and bob.
+    /// Starts the run: a gallop, the body rocking and the tail streaming.
     public func run() {
-        cycle = (.run, cycle?.phase ?? 0)
+        move(.run)
+    }
+
+    /// Starts (or changes to) a gait, keeping the stride's place.
+    public func move(_ gait: Gait) {
+        cycle = (gait, cycle?.phase ?? 0)
     }
 
     public func stopCycle() {
         cycle = nil
+        moveSpeed = 0
         resetPose(view)
     }
 
@@ -430,34 +512,198 @@ public final class CatNode: SKNode {
         puppets[view]?.children.first?.position.y = 0
     }
 
-    /// Advances the cycle; called each frame by the scene.
+    /// Crouches (or squashes on landing) by a share of the height; it eases back by itself.
+    public func squash(_ amount: CGFloat) {
+        squashAmount = amount
+    }
+
+    /// Advances the stride and the cat's life at rest; called each frame by the scene.
     public func step(_ dt: TimeInterval) {
+        clock += dt
+        live(dt)
         guard var current = cycle, let nodes = parts[view], let rests = restAngles[view],
               let spec = rig.sets[body]?[view.rawValue] else { return }
-        let strides = CGFloat(current.kind == .run ? Tuning.Puppet.runHz : Tuning.Puppet.walkHz)
-        current.phase = (current.phase + CGFloat(dt) * strides).truncatingRemainder(dividingBy: 1)
+        let p = Tuning.Puppet.self
+        let (stride, beat, pace, swingScale) = switch current.gait {
+        case .walk: (p.walkStride, p.walkHz, p.walkSpeed, 1.0)
+        case .trot: (p.trotStride, (p.walkHz + p.runHz) / 2, p.trotSpeed, 1.15)
+        case .run: (p.runStride, p.runHz, p.runSpeed, p.runSwing)
+        }
+        // The stride keeps pace with the floor; a slow start takes short steps.
+        let hz = moveSpeed > 0 ? max(0.3, Double(moveSpeed) / (stride * Double(height))) : beat
+        let reach = moveSpeed > 0 ? CGFloat(min(1, max(0.35, Double(moveSpeed) / pace))) : 1
+        current.phase = (current.phase + CGFloat(dt * hz)).truncatingRemainder(dividingBy: 1)
         cycle = current
-        let t = current.phase * 2 * .pi
-        let swing = CGFloat(spec.walk?.legSwing ?? 20) * CGFloat(current.kind == .run ? Tuning.Puppet.runSwing : 1) * .pi / 180
-        let s = sin(t)
+        let phase = current.phase
+        let swing = CGFloat(spec.walk?.legSwing ?? 20) * CGFloat(swingScale) * .pi / 180 * reach
         func set(_ name: String, _ angle: CGFloat) {
             nodes[name]?.zRotation = (rests[name] ?? 0) - angle
         }
-        set("leg_front_near", swing * s)
-        set("leg_back_far", swing * s)
-        set("leg_front_far", -swing * s)
-        set("leg_back_near", -swing * s)
-        set("tail_up", CGFloat(spec.walk?.tailSway ?? 6) * .pi / 180 * sin(t + 1.2))
-        set("head", CGFloat(spec.walk?.headBob ?? 2) * .pi / 180 * sin(2 * t))
-        // The body bobs twice a stride; in the front view the legs cannot swing, so they lift instead.
-        let bob = abs(sin(t)) * height * CGFloat(current.kind == .run ? Tuning.Puppet.runBob : Tuning.Puppet.walkBob)
+        /// A leg's swing through its stride: forward quickly, back slowly with the foot on the floor.
+        func leg(_ offset: CGFloat) -> CGFloat {
+            let f = (phase + offset).truncatingRemainder(dividingBy: 1)
+            if f < 0.38 {
+                let k = f / 0.38
+                return -1 + 2 * k * k * (3 - 2 * k)
+            }
+            return 1 - 2 * (f - 0.38) / 0.62
+        }
+        let offsets: [(String, CGFloat)] = switch current.gait {
+        case .walk: [("leg_back_near", 0), ("leg_front_near", 0.25), ("leg_back_far", 0.5), ("leg_front_far", 0.75)]
+        case .trot: [("leg_front_near", 0), ("leg_back_far", 0), ("leg_front_far", 0.5), ("leg_back_near", 0.5)]
+        case .run: [("leg_front_near", 0), ("leg_front_far", 0.1), ("leg_back_near", 0.5), ("leg_back_far", 0.6)]
+        }
+        let t = phase * 2 * .pi
+        let tailName = nodes["tail_up"] != nil ? "tail_up" : "tail"
+        let sway = CGFloat(spec.walk?.tailSway ?? 6) * .pi / 180
+        let nod = CGFloat(spec.walk?.headBob ?? 2) * .pi / 180
+        var bob: CGFloat
+        switch current.gait {
+        case .walk, .trot:
+            bob = (0.5 - 0.5 * cos(2 * t)) * height * CGFloat(current.gait == .walk ? p.walkBob : (p.walkBob + p.runBob) / 2)
+            set(tailName, sway * sin(t - 1.1) * (current.gait == .trot ? 1.2 : 1))
+            set("head", nod * sin(2 * t) * 0.7)
+        case .run:
+            // A gallop: the body rocks, the head stays steadier, the tail streams back.
+            let pitch = CGFloat(p.gallopPitch) * .pi / 180 * reach
+            set("torso", pitch * sin(t))
+            set("head", -pitch * 0.7 * sin(t) + nod * 0.5 * sin(2 * t))
+            set(tailName, -CGFloat(p.runTailDrop) * .pi / 180 * reach + sway * 0.6 * sin(2 * t))
+            bob = max(0, sin(t)) * height * CGFloat(p.runBob)
+        }
+        bob *= reach
         puppets[view]?.children.first?.position.y = bob
         if view == .front, let rest = restPositions[view] {
             // Legs are relative to the torso, which is scaled up from the parts' pixels; lift in its units.
-            let lift = (nodes["leg_front_near"]?.size.height ?? 0) * CGFloat(Tuning.Puppet.frontLegLift)
-            for (name, phase) in [("leg_front_near", s), ("leg_front_far", -s), ("leg_back_near", -s), ("leg_back_far", s)] {
-                nodes[name]?.position.y = (rest[name]?.y ?? 0) + max(0, phase) * lift
+            let lift = (nodes["leg_front_near"]?.size.height ?? 0) * CGFloat(p.frontLegLift) * reach
+            for (name, offset) in offsets {
+                nodes[name]?.position.y = (rest[name]?.y ?? 0) + max(0, leg(offset)) * lift
+            }
+        } else {
+            for (name, offset) in offsets {
+                set(name, swing * leg(offset))
             }
         }
+    }
+
+    // MARK: Life at rest
+
+    /// Breathing (deeper and slower asleep), blinks, and standing still, the tail swaying, the head looking about,
+    /// an ear twitching now and then.
+    private func live(_ dt: TimeInterval) {
+        let p = Tuning.Puppet.self
+        if squashAmount != 0 {
+            squashAmount *= max(0, 1 - CGFloat(dt) * 7)
+            if abs(squashAmount) < 0.002 {
+                squashAmount = 0
+            }
+        }
+        let breath: [Double] = switch pose {
+        case .sleepCurl: p.breathSleep
+        case .loafSide, .loafThreeQuarterFront: p.breathLoaf
+        case .stretchSide: [0, 0]
+        case .some: p.breathSit
+        case nil: p.breathStand
+        }
+        let rise = CGFloat(breath[0] * sin(clock * 2 * .pi * breath[1]))
+        let root = puppets[view]?.children.first
+        root?.xScale = 1 + squashAmount * 0.5
+        if pose != nil {
+            poseNode.yScale = 1 + rise
+            root?.yScale = 1 - squashAmount
+        } else {
+            poseNode.yScale = 1
+            root?.yScale = (1 - squashAmount) * (cycle == nil ? 1 + rise : 1)
+        }
+        // Blinks, now and then; a double blink sometimes.
+        if let ends = blinkEnds, clock >= ends {
+            restoreEyes()
+            if blinkAgain {
+                blinkAgain = false
+                nextBlink = clock + 0.14
+            }
+        }
+        if blinkEnds == nil, clock >= nextBlink {
+            blink()
+        }
+        guard pose == nil, cycle == nil, let nodes = parts[view], let rests = restAngles[view] else { return }
+        let tailName = nodes["tail_up"] != nil ? "tail_up" : "tail"
+        let sway = CGFloat(p.idleTailSway * .pi / 180 * sin(clock * 2 * .pi * p.idleTailHz))
+        nodes[tailName]?.zRotation = (rests[tailName] ?? 0) - sway
+        if clock >= nextLook {
+            headLookTarget = CGFloat(Double.random(in: -1 ... 1) * p.idleHeadTurn * .pi / 180)
+            nextLook = clock + Double.random(in: 1.5 ... 4)
+        }
+        headLook += (headLookTarget - headLook) * min(1, CGFloat(dt) * 3)
+        nodes["head"]?.zRotation = (rests["head"] ?? 0) - headLook
+        if clock >= nextTwitch {
+            twitchEnds = clock + 0.16
+            nextTwitch = clock + Double.random(in: p.earTwitchGap[0] ... p.earTwitchGap[1])
+        }
+        let twitch = clock < twitchEnds ? CGFloat(sin((1 - (twitchEnds - clock) / 0.16) * .pi) * p.earTwitch * .pi / 180) : 0
+        nodes["ear_near"]?.zRotation = (rests["ear_near"] ?? 0) - twitch
+    }
+
+    /// Shuts the eyes for a moment: a blink, or a slow blink (a cat's way of saying it trusts you). Nothing when the
+    /// cat shows no eyes (asleep, from behind).
+    public func blink(slow: Bool = false) {
+        let p = Tuning.Puppet.self
+        nextBlink = clock + Double.random(in: p.blinkGap[0] ... p.blinkGap[1]) + (slow ? 1.5 : 0)
+        guard blinkEnds == nil || slow, let catArt, let look else { return }
+        restoreEyes()
+        if let pose {
+            guard let sprite = poseBuilderSprite(pose), let shut = catArt.blinkTexture(sprite, look: look) else { return }
+            openPose = poseNode.texture
+            poseNode.texture = shut
+        } else if let head = parts[view]?["head"], let open = head.texture {
+            guard let shut = catArt.blinkTexture(catArt.builder.part("head", view: view.rawValue, look: look), look: look) else { return }
+            openHead = (view, open)
+            head.texture = shut
+        } else {
+            return
+        }
+        blinkEnds = clock + (slow ? p.slowBlinkSeconds : p.blinkSeconds)
+        blinkAgain = !slow && Int.random(in: 0 ..< 100) < p.doubleBlinkPercent
+    }
+
+    /// Opens the eyes again (before anything else changes the picture).
+    private func restoreEyes() {
+        if let openPose {
+            poseNode.texture = openPose
+            self.openPose = nil
+        }
+        if let (shown, open) = openHead {
+            parts[shown]?["head"]?.texture = open
+            openHead = nil
+        }
+        blinkEnds = nil
+    }
+
+    /// The cat's own outline in its parent's units (the puppet or the painting on show, not its shadow).
+    public var bodyFrame: CGRect {
+        let shown: [SKNode] = (pose != nil ? [poseNode] : []) + (puppets[view].map { [$0] } ?? [])
+        let local = shown.reduce(CGRect.null) { $0.union($1.calculateAccumulatedFrame()) }
+        guard !local.isNull, let parent else { return local }
+        return CGRect(
+            origin: parent.convert(local.origin, from: self),
+            size: CGSize(width: local.width * abs(xScale), height: local.height * abs(yScale))
+        ).standardized
+    }
+
+    /// The soft shadow under the cat: as wide as the pose or the puppet, left on the floor (or seat) when the cat
+    /// is in the air, smaller and fainter the higher it goes.
+    private func placeShadow() {
+        let width: CGFloat = if pose != nil {
+            poseNode.size.width
+        } else {
+            puppetWidths[view] ?? height
+        }
+        let high = max(0, shadowDrop) / max(1, height)
+        let k = max(0.45, 1 - high * 0.6)
+        let w = width * CGFloat(Tuning.Puppet.shadowWidth) * k
+        shadow.xScale = max(1, w)
+        shadow.yScale = max(1, w)
+        shadow.position = CGPoint(x: 0, y: -shadowDrop + w * 0.04)
+        shadow.alpha = k
     }
 }

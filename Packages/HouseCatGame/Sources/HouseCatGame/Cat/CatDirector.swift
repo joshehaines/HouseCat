@@ -1,23 +1,58 @@
 import HouseCatCore
 import SpriteKit
 
-/// Moves the cat through the room one step at a time: walking and running
-/// between floor points, hopping onto furniture, settling into a painted pose.
-/// The scene calls `update` every frame. Which activity the cat chooses comes
-/// from HouseCatCore's behaviour table; this only carries it out.
+/// Moves the cat through the room one step at a time: over the floor at a pace (getting up to speed and slowing
+/// down, turning to face the way it goes, its stride keeping pace), jumping in an arc onto furniture and down,
+/// settling into a painted pose and glancing from one to another. The scene calls `update` every frame. Which
+/// activity the cat chooses comes from HouseCatCore's behaviour table; this only carries it out.
 @MainActor
 public final class CatDirector {
+    /// How fast the cat goes, and the gait it goes in.
+    public enum Pace: Sendable {
+        /// An amble about the room, sniffing round.
+        case stroll
+        case walk
+        /// Somewhere it wants to be: the bowl, you.
+        case trot
+        case run
+        /// Zoomies.
+        case dash
+
+        public var speed: CGFloat {
+            let p = Tuning.Puppet.self
+            let speed: Double = switch self {
+            case .stroll: p.strollSpeed
+            case .walk: p.walkSpeed
+            case .trot: p.trotSpeed
+            case .run: p.runSpeed
+            case .dash: p.dashSpeed
+            }
+            return CGFloat(speed)
+        }
+
+        public var gait: CatNode.Gait {
+            switch self {
+            case .stroll, .walk: .walk
+            case .trot: .trot
+            case .run, .dash: .run
+            }
+        }
+    }
+
     public enum Step {
         case wait(TimeInterval)
-        /// Cross-fade from the puppet into a painted pose.
+        /// Into a painted pose: from moving, the cat sits down into it.
         case settle(CatPose)
-        /// Cross-fade back to the puppet in a view.
+        /// From one painting to another without getting up (a glance at you, a stretch).
+        case glance(CatPose)
+        /// Back to the puppet in a view, ready to move.
         case rise(CatNode.View)
-        /// Move to a point in room units, walking or running, scaling the cat as it goes
-        /// (the run towards the camera), with an optional height off the floor (furniture).
-        case move(to: CGPoint, run: Bool, view: CatNode.View, scale: CGFloat, lift: CGFloat, speed: CGFloat)
-        /// A small hop to a height (onto a seat) without moving across the floor.
-        case hop(to: CGFloat)
+        /// Over the floor to a point (room units) at a pace; the view and facing follow the way it goes.
+        case move(to: CGPoint, pace: Pace)
+        /// A jump in an arc to a point and a height off the floor: onto a seat, or down from one (height 0).
+        case hop(to: CGPoint, lift: CGFloat)
+        /// Turns to a view where it stands (towards you, say).
+        case face(CatNode.View, right: Bool)
         /// Through a doorway (or up the stairs, out of sight): into another room's node at a floor point there.
         case enter(SKNode, at: CGPoint)
         /// Fade the cat out or in (going up or down the stairs).
@@ -30,8 +65,14 @@ public final class CatDirector {
     private var steps: [Step] = []
     private var current: Step?
     private var elapsed: TimeInterval = 0
-    private var from: (point: CGPoint, scale: CGFloat, lift: CGFloat) = (.zero, 1, 0)
     private var duration: TimeInterval = 0
+    private var from: (point: CGPoint, lift: CGFloat) = (.zero, 0)
+    /// The move under way: its speed profile along the straight line.
+    private var profile: Profile?
+    /// The speed the cat is going at the end of the last move (it runs on into the next one without stopping).
+    private var speedNow: CGFloat = 0
+    /// A move the other way waits for a turn first; set once the turn is queued.
+    private var pivoted = false
     /// Where the cat stands on the floor (its feet), in room units; `lift` raises it onto furniture.
     public private(set) var floorPoint: CGPoint = .zero
     public private(set) var lift: CGFloat = 0
@@ -47,6 +88,11 @@ public final class CatDirector {
         current == nil && steps.isEmpty
     }
 
+    /// What the cat is doing now.
+    public var currentStep: Step? {
+        current
+    }
+
     public func place(at point: CGPoint, lift: CGFloat = 0) {
         floorPoint = point
         self.lift = lift
@@ -56,6 +102,8 @@ public final class CatDirector {
     public func run(_ steps: [Step]) {
         self.steps = steps
         current = nil
+        speedNow = 0
+        pivoted = false
         next()
     }
 
@@ -66,39 +114,79 @@ public final class CatDirector {
         }
     }
 
+    /// The way a move to `target` faces: the side view across the room or away, the three-quarter view coming
+    /// towards you at a slant, the front view coming straight at you.
+    func heading(to target: CGPoint) -> (view: CatNode.View, right: Bool) {
+        let dx = target.x - floorPoint.x, dy = target.y - floorPoint.y
+        let right = dx > 0
+        if dy < 0, abs(dx) < -dy * 0.55 {
+            return (.front, false)
+        }
+        if dy < 0, -dy > abs(dx) * 0.4 {
+            return (.tqfront, right)
+        }
+        return (.side, right)
+    }
+
     private func next() {
         guard !steps.isEmpty else {
             current = nil
             return
         }
         let step = steps.removeFirst()
+        // Going the other way from the side view: turn through the three-quarter view first.
+        if case let .move(target, _) = step, !pivoted, cat.pose == nil, cat.view == .side {
+            let (view, right) = heading(to: target)
+            if view == .side, right != cat.facingRight, hypot(target.x - floorPoint.x, target.y - floorPoint.y) > 1 {
+                pivoted = true
+                speedNow = 0
+                steps.insert(contentsOf: [.face(.tqfront, right: right), .wait(Tuning.Puppet.pivotSeconds), step], at: 0)
+                next()
+                return
+            }
+        }
         current = step
         elapsed = 0
-        from = (floorPoint, cat.xScale.magnitude, lift)
+        from = (floorPoint, lift)
+        profile = nil
         switch step {
         case let .wait(t):
             duration = t
         case let .settle(pose):
             cat.settle(into: pose)
-            duration = Tuning.Puppet.settleSeconds
+            duration = Tuning.Puppet.settleSeconds + Tuning.Puppet.sitDownSeconds
+            speedNow = 0
+        case let .glance(pose):
+            cat.settle(into: pose, duration: Tuning.Puppet.glanceFadeSeconds)
+            duration = Tuning.Puppet.glanceFadeSeconds
         case let .rise(view):
             cat.rise(to: view, facingRight: cat.facingRight)
             duration = Tuning.Puppet.riseSeconds
-        case let .move(target, run, view, _, _, speed):
+        case let .move(target, pace):
+            pivoted = false
             let distance = hypot(target.x - floorPoint.x, target.y - floorPoint.y)
-            duration = max(Tuning.Puppet.minMoveSeconds, TimeInterval(distance / speed))
-            // Face the way it is going; the side view is painted facing left.
-            let right = target.x > floorPoint.x
+            // Running on into another move: no slowing down at the corner.
+            let carries: Bool = if case .move = steps.first { true } else { false }
+            let made = Profile(distance: distance, top: pace.speed, start: min(speedNow, pace.speed), end: carries ? pace.speed : 0)
+            profile = made
+            duration = max(made.duration, distance < 1 ? 0 : Tuning.Puppet.minMoveSeconds * 0.5)
             perchDepth = nil
-            cat.turn(to: view, facingRight: view == .front ? false : right)
-            if run {
-                cat.run()
-            } else {
-                cat.walk()
+            let (view, right) = heading(to: target)
+            if view != cat.view {
+                cat.turn(to: view, facingRight: right)
+            } else if right != cat.facingRight {
+                cat.show(view, facingRight: right)
             }
+            cat.move(pace.gait)
         case .hop:
-            duration = Tuning.Puppet.hopSeconds
             cat.stopCycle()
+            let p = Tuning.Puppet.self
+            duration = p.crouchSeconds + p.jumpSeconds + p.landSeconds
+            cat.squash(CGFloat(p.squash) * 1.4)
+            speedNow = 0
+        case let .face(view, right):
+            cat.turn(to: view, facingRight: right)
+            duration = Tuning.Puppet.turnSeconds
         case let .enter(room, point):
             cat.removeFromParent()
             room.addChild(cat)
@@ -121,41 +209,117 @@ public final class CatDirector {
         guard let step = current else { return }
         elapsed += dt
         let t = duration > 0 ? min(1, elapsed / duration) : 1
+        var surface = lift
         switch step {
-        case let .move(target, _, _, scale, targetLift, _):
-            let k = CGFloat(t)
+        case let .move(target, _):
+            guard let profile else { break }
+            let (s, v) = profile.at(min(elapsed, profile.duration))
+            let k = profile.distance > 0 ? s / profile.distance : 1
             floorPoint = CGPoint(x: from.point.x + (target.x - from.point.x) * k, y: from.point.y + (target.y - from.point.y) * k)
-            lift = from.lift + (targetLift - from.lift) * k
-            cat.setScale(from.scale + (scale - from.scale) * smooth(k))
+            cat.moveSpeed = v
+            speedNow = v
+            surface = lift
             if t >= 1 {
-                cat.stopCycle()
+                floorPoint = target
+                if profile.end == 0 {
+                    cat.stopCycle()
+                    speedNow = 0
+                }
             }
-        case let .hop(height):
-            let k = CGFloat(t)
-            lift = from.lift + (height - from.lift) * k + sin(k * .pi) * CGFloat(Tuning.Puppet.hopHeight)
+        case let .hop(target, height):
+            let p = Tuning.Puppet.self
+            let jumpStart = p.crouchSeconds, jumpEnd = p.crouchSeconds + p.jumpSeconds
+            if elapsed < jumpStart {
+                break
+            }
+            let k = CGFloat(min(1, (elapsed - jumpStart) / p.jumpSeconds))
+            let glide = k * k * (3 - 2 * k)
+            floorPoint = CGPoint(x: from.point.x + (target.x - from.point.x) * glide, y: from.point.y + (target.y - from.point.y) * glide)
+            let arc = CGFloat(p.jumpArc) * cat.height + max(0, height - from.lift) * 0.2
+            surface = from.lift + (height - from.lift) * k
+            lift = surface + sin(k * .pi) * arc
+            if elapsed >= jumpEnd, elapsed - dt < jumpEnd {
+                lift = height
+                surface = height
+                cat.squash(CGFloat(p.squash))
+            }
+            if t >= 1 {
+                floorPoint = target
+                lift = height
+                surface = height
+            }
         default:
             break
         }
+        cat.shadowDrop = lift - surface
         apply()
         if t >= 1 {
             next()
         }
     }
 
-    private func smooth(_ k: CGFloat) -> CGFloat {
-        k * k * (3 - 2 * k)
-    }
-
     /// Positions the cat and sorts it among the furniture by where it stands.
     private func apply() {
         cat.position = CGPoint(x: floorPoint.x, y: floorPoint.y + lift)
-        if cat.xScale.magnitude > Tuning.Puppet.nearCameraScale {
-            cat.zPosition = RoomScene.Layer.atCamera
-        } else if let perchDepth {
+        if let perchDepth {
             cat.zPosition = perchDepth
         } else {
             let cell = grid.cell(at: floorPoint)
             cat.zPosition = RoomScene.Layer.standing + grid.depth(cell.u, cell.v) * RoomScene.Layer.perDepth + RoomScene.Layer.catOverItem
+        }
+    }
+
+    /// A move's speed along its line: up to speed, steady, then slowing (to a stop, or on into the next move).
+    struct Profile {
+        var distance: CGFloat
+        var top: CGFloat
+        var start: CGFloat
+        var end: CGFloat
+        var up: TimeInterval = 0
+        var cruise: TimeInterval = 0
+        var down: TimeInterval = 0
+
+        init(distance: CGFloat, top: CGFloat, start: CGFloat, end: CGFloat) {
+            self.distance = max(0, distance)
+            self.start = start
+            self.end = end
+            let p = Tuning.Puppet.self
+            let accel = top / CGFloat(p.accelerateSeconds), decel = top / CGFloat(p.slowSeconds)
+            var peak = top
+            func reach(_ peak: CGFloat) -> CGFloat {
+                (peak * peak - start * start) / (2 * accel) + (peak * peak - end * end) / (2 * decel)
+            }
+            if reach(top) > self.distance {
+                // Too short to get up to speed: as fast as it can go and still stop in time.
+                let squared = (self.distance + start * start / (2 * accel) + end * end / (2 * decel)) / (1 / (2 * accel) + 1 / (2 * decel))
+                peak = max(max(start, end), squared.squareRoot())
+            }
+            self.top = peak
+            up = TimeInterval(max(0, peak - start) / accel)
+            down = TimeInterval(max(0, peak - end) / decel)
+            let covered = (start + peak) / 2 * CGFloat(up) + (peak + end) / 2 * CGFloat(down)
+            cruise = peak > 0 ? TimeInterval(max(0, self.distance - covered) / peak) : 0
+        }
+
+        var duration: TimeInterval {
+            up + cruise + down
+        }
+
+        /// How far along and how fast, at a time into the move.
+        func at(_ t: TimeInterval) -> (CGFloat, CGFloat) {
+            if t <= up, up > 0 {
+                let k = CGFloat(t / up)
+                let v = start + (top - start) * k
+                return ((start + v) / 2 * CGFloat(t), v)
+            }
+            let before = (start + top) / 2 * CGFloat(up)
+            if t <= up + cruise {
+                return (before + top * CGFloat(t - up), top)
+            }
+            let late = min(down, t - up - cruise)
+            let k = down > 0 ? CGFloat(late / down) : 1
+            let v = top + (end - top) * k
+            return (min(distance, before + top * CGFloat(cruise) + (top + v) / 2 * CGFloat(late)), v)
         }
     }
 }

@@ -85,7 +85,10 @@ private func run(_ director: CatDirector, seconds: Double, step: Double = 1.0 / 
     let cat = CatNode(art: world.art, rig: world.rig, height: 150)
     for view in CatNode.View.allCases {
         cat.show(view, facingRight: false)
-        let frame = cat.calculateAccumulatedFrame()
+        let scene = SKScene(size: CGSize(width: 10, height: 10))
+        scene.addChild(cat)
+        let frame = cat.bodyFrame
+        cat.removeFromParent()
         #expect(abs(frame.minY) < 1, "\(view) stands on the floor")
         #expect(abs(frame.height - 150) < 150 * 0.25, "\(view) is about the cat's height, got \(frame.height)")
     }
@@ -158,37 +161,109 @@ private func run(_ director: CatDirector, seconds: Double, step: Double = 1.0 / 
 // MARK: The cat moving
 
 @MainActor
-@Test func directorWalksToAPointInTheTimeItsPaceGives() throws {
+@Test func directorGetsUpToSpeedWalksAndSlowsToAStopAtThePoint() throws {
     let world = try World()
     let room = world.room()
     let director = room.addCat(rig: world.rig, at: 2, 2, pose: .sitSide)
-    let target = room.grid.floor(4, 2)
+    let target = room.grid.floor(6, 2)
     let distance = hypot(target.x - director.floorPoint.x, target.y - director.floorPoint.y)
-    director.run([.rise(.side), .move(to: target, run: false, view: .side, scale: 1, lift: 0, speed: 170)])
-    run(director, seconds: Tuning.Puppet.riseSeconds + Double(distance / 170) * 0.5)
+    let profile = CatDirector.Profile(distance: distance, top: CatDirector.Pace.walk.speed, start: 0, end: 0)
+    // Longer than at a steady walk: it starts and stops gently.
+    #expect(profile.duration > Double(distance / CatDirector.Pace.walk.speed))
+    #expect(profile.at(0).1 == 0)
+    #expect(abs(profile.at(profile.duration).0 - distance) < 0.5 && abs(profile.at(profile.duration).1) < 0.5)
+    #expect(abs(profile.at(profile.duration / 2).1 - CatDirector.Pace.walk.speed) < 0.5)
+    director.run([.rise(.side), .move(to: target, pace: .walk)])
+    run(director, seconds: Tuning.Puppet.riseSeconds + 0.1)
+    // Just off: still slow, the legs taking short steps.
+    #expect(director.cat.moveSpeed > 0 && director.cat.moveSpeed < CatDirector.Pace.walk.speed * 0.6)
+    run(director, seconds: profile.duration * 0.5)
     #expect(!director.isIdle)
-    run(director, seconds: Double(distance / 170))
+    run(director, seconds: profile.duration)
     #expect(director.isIdle)
     #expect(hypot(director.floorPoint.x - target.x, director.floorPoint.y - target.y) < 0.01)
+    #expect(director.cat.moveSpeed == 0)
 }
 
 @MainActor
-@Test func arrivalRunsToTheCameraRubsAndSettlesWhereTheTableSent() throws {
+@Test func aCatTurnsThroughThreeQuartersToGoTheOtherWayAndJumpsInAnArc() throws {
+    let world = try World()
+    let room = world.room()
+    let director = room.addCat(rig: world.rig, at: 5, 5, pose: .sitSide)
+    director.run([.rise(.side), .move(to: room.grid.floor(7, 3), pace: .walk)])
+    run(director, seconds: 3)
+    #expect(director.isIdle && director.cat.facingRight)
+    var views: [CatNode.View] = []
+    director.run([.move(to: room.grid.floor(3, 7), pace: .walk)])
+    for _ in 0 ..< 60 {
+        director.update(1.0 / 60)
+        views.append(director.cat.view)
+    }
+    #expect(views.contains(.tqfront), "it turned through three-quarters")
+    run(director, seconds: 4)
+    #expect(!director.cat.facingRight)
+    // A jump up: it rises above both ends on the way, and lands at the height.
+    let start = director.floorPoint
+    var highest: CGFloat = 0
+    director.run([.hop(to: start, lift: 40)])
+    for _ in 0 ..< 60 {
+        director.update(1.0 / 60)
+        highest = max(highest, director.lift)
+    }
+    #expect(highest > 40 + director.cat.height * 0.2)
+    #expect(director.isIdle && director.lift == 40)
+}
+
+@MainActor
+@Test func arrivalTrotsToYouRubsAndSettlesWhereTheTableSentAtItsOwnSize() throws {
     let world = try World()
     let room = world.room()
     let director = room.addCat(rig: world.rig, at: CGFloat(world.model.cat[0]), CGFloat(world.model.cat[1]), pose: .loafThreeQuarterFront)
     var rubs = 0, done = false
-    var biggest: CGFloat = 0
+    var biggest: CGFloat = 0, leaned = false
     let choice = BehaviourChoice(activity: .bowlNag)
     room.playArrival(then: choice, onRub: { rubs += 1 }, onDone: { done = true })
-    for _ in 0 ..< 60 * 30 where !done {
+    for _ in 0 ..< 60 * 40 where !done {
         director.update(1.0 / 60)
         biggest = max(biggest, director.cat.xScale.magnitude)
+        leaned = leaned || room.isCloseUp
     }
     #expect(done)
     #expect(rubs == 1)
-    #expect(abs(biggest - CGFloat(Tuning.Arrival.nearScale)) < 0.01)
+    // The cat stays its size; the camera leans in instead.
+    #expect(biggest == 1)
+    #expect(leaned)
     #expect(director.cat.pose == .sitFront)
-    #expect(director.cat.xScale.magnitude == 1)
     #expect(director.floorPoint == room.spot(for: choice).point)
+}
+
+// MARK: The camera
+
+@MainActor
+@Test func theCameraStartsCloseLeansInOnTheCatEasesBackAndShowsTheWholeRoomToDecorate() throws {
+    let world = try World()
+    let room = world.room()
+    _ = room.addCat(rig: world.rig, at: 5, 5, pose: .sitSide)
+    var clock = 0.0
+    func tick(_ seconds: Double) {
+        for _ in 0 ..< Int(seconds * 30) {
+            clock += 1.0 / 30
+            room.update(clock)
+        }
+    }
+    tick(2)
+    let home = room.world.xScale
+    room.lookCloser(for: 2)
+    tick(1.8)
+    #expect(room.world.xScale > home * 1.3, "leaning in on the cat")
+    tick(4)
+    #expect(abs(room.world.xScale - home) < home * 0.03, "back where it was")
+    room.setDecorating(true)
+    tick(4)
+    #expect(room.world.xScale < home * 0.9, "the whole room to decorate")
+    room.setDecorating(false)
+    room.zoom = 10
+    #expect(room.zoom == CGFloat(Tuning.Camera.maxZoom))
+    room.zoom = 0.01
+    #expect(room.zoom == CGFloat(Tuning.Camera.minZoom))
 }

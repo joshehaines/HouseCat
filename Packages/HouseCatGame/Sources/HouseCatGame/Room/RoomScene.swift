@@ -25,14 +25,22 @@ public final class RoomScene: SKScene {
     var lastUpdate: TimeInterval?
     /// When the player last picked a room: the view stays there a while rather than following the cat.
     var roomChosenAt: TimeInterval = -.infinity
+    /// What the cat is doing (the last activity sent), how long it has been settled at it, how long it stays, and
+    /// when it next fidgets (RoomScene+Cat.swift).
+    public internal(set) var catActivity: Activity?
+    var settledFor: TimeInterval = 0
+    var holdFor: TimeInterval = Tuning.Puppet.idleSeconds
+    var nextFidget: TimeInterval = 8
+    /// The cat is glancing about where it sits (not off to something new).
+    var fidgeting = false
 
     /// Draw order the cat needs across the house.
     enum Layer {
         static let standing = RoomNode.Layer.standing
         static let perDepth = RoomNode.Layer.perDepth
         static let catOverItem = RoomNode.Layer.catOverItem
-        /// The cat at the camera draws over everything on its storey.
-        static let atCamera: CGFloat = 90000
+        /// Reaction icons draw over everything on the cat's storey.
+        static let reaction: CGFloat = 90000
     }
 
     public init(size: CGSize, art: ArtLibrary, content: ContentBundle, house: HouseModel) {
@@ -294,33 +302,70 @@ public final class RoomScene: SKScene {
         let dt = lastUpdate.map { min(currentTime - $0, 1.0 / 20) } ?? 0
         lastUpdate = currentTime
         director?.update(dt)
+        ease(dt)
         follow(dt)
         idle(dt)
     }
 
-    /// After a while settled, the cat asks the app (and so the behaviour table) what to do next, saying which
-    /// room it is in; the choice says which room it happens in.
+    /// After a while at something (how long depends on what: a sleep is long, a sit short), the cat asks the app
+    /// (and so the behaviour table) what to do next, saying which room it is in; the choice says which room it
+    /// happens in. In between it fidgets: glances, slow blinks, a stretch.
     public var nextActivity: ((RoomID) -> BehaviourChoice?)?
-    private var settledFor: TimeInterval = 0
 
     private func idle(_ dt: TimeInterval) {
-        guard let director, director.isIdle, !decorating else {
-            settledFor = 0
-            return
+        guard let director, !decorating else { return }
+        if director.isIdle {
+            fidgeting = false
+            settledFor += dt
+            if settledFor >= nextFidget, settledFor < holdFor {
+                nextFidget = settledFor + TimeInterval.random(in: Tuning.Puppet.fidgetGap[0] ... Tuning.Puppet.fidgetGap[1])
+                fidget()
+                return
+            }
+        } else {
+            // A fidget is part of being settled: the time at the activity runs on, and it is broken off when up.
+            guard fidgeting else { return }
+            settledFor += dt
         }
-        settledFor += dt
-        guard settledFor >= Tuning.Puppet.idleSeconds, let choice = nextActivity?(catRoom) else { return }
-        settledFor = 0
+        guard settledFor >= holdFor, let choice = nextActivity?(catRoom) else { return }
         let target = choice.room ?? catRoom
         guard let node = rooms[target] else { return }
-        let spot = spot(for: choice, in: node)
-        // Already there doing it: stay put.
+        var spot = spot(for: choice, in: node)
+        // Already there doing it: stay put a while longer.
         if target == catRoom, hypot(spot.point.x - director.floorPoint.x, spot.point.y - director.floorPoint.y) < 1,
            director.cat.pose == spot.pose
         {
+            beganActivity(choice.activity)
             return
         }
-        director.run(steps(to: spot, in: target))
+        spot.pose = Self.variety(spot.pose)
+        if choice.activity == .zoomies {
+            director.run(zoomies())
+        } else {
+            director.run(steps(to: spot, in: target, pace: Self.pace(for: choice.activity)) + extras(for: choice))
+        }
+        beganActivity(choice.activity)
+    }
+
+    /// Sitting is not always the same sit: sometimes three-quarters on, sometimes a loaf.
+    static func variety(_ pose: CatPose) -> CatPose {
+        switch pose {
+        case .sitSide: [.sitSide, .sitSide, .sitThreeQuarterFront, .loafSide].randomElement() ?? pose
+        case .sitThreeQuarterFront: [.sitThreeQuarterFront, .sitThreeQuarterFront, .sitSide, .loafThreeQuarterFront].randomElement() ?? pose
+        case .loafSide: [.loafSide, .loafSide, .loafThreeQuarterFront].randomElement() ?? pose
+        default: pose
+        }
+    }
+
+    /// The pace an activity is gone to at: an amble for a sit, a trot to the bowl or to you.
+    static func pace(for activity: Activity) -> CatDirector.Pace {
+        switch activity {
+        case .bowlNag, .nearPlayer: .trot
+        case .sit, .perch, .windowWatch, .sunbeamLoaf, .floorLoaf: [.stroll, .walk].randomElement() ?? .walk
+        case .hide, .knockOff: .trot
+        case .zoomies: .dash
+        default: .walk
+        }
     }
 
     /// Screen points along the bottom covered by the app's controls (the decorate tray): the room is framed
@@ -351,8 +396,11 @@ public final class RoomScene: SKScene {
         rooms.values.filter(isShown).reduce(CGRect.null) { $0.union(grid.bounds.offsetBy(dx: $1.position.x, dy: $1.position.y)) }
     }
 
-    /// Scales so the active room fills the view's height (Tuning.Stage), centred on it; the rest of the house
-    /// fills the sides. On a phone-tall screen the room is zoomed in further and the view follows the cat.
+    /// The scale at which the active room fills the view's height (Tuning.Stage), centred on it, the rest of the
+    /// house filling the sides (on a phone-tall screen, zoomed in further). The camera's zoom multiplies it.
+    private var fitScale: CGFloat = 1
+
+    /// Works out `fitScale` for the view and the room, and frames it at once at the camera's zoom.
     func fit() {
         let bounds = activeBounds
         // didChangeSize can arrive from super.init, before the house is built.
@@ -364,7 +412,66 @@ public final class RoomScene: SKScene {
         if size.height > size.width * CGFloat(Tuning.Stage.portraitZoomAspect) {
             scale = min(scale * Tuning.Stage.portraitZoom, height * Tuning.Stage.fitHeight / bounds.height)
         }
-        world.setScale(scale)
+        fitScale = scale
+        world.setScale(targetScale)
+        look(at: focus ?? restingPoint)
+    }
+
+    // MARK: The camera
+
+    /// Where the camera starts: a phone's screen is small, so closer than an iPad's (Tuning.Camera).
+    var homeZoom: CGFloat {
+        #if os(iOS)
+            CGFloat(UIDevice.current.userInterfaceIdiom == .pad ? Tuning.Camera.homeZoomPad : Tuning.Camera.homeZoomPhone)
+        #else
+            CGFloat(Tuning.Camera.homeZoomPhone)
+        #endif
+    }
+
+    /// How close the view is, as a multiple of the whole room filling it: a pinch changes it; nil is where the
+    /// camera starts (`homeZoom`).
+    public var zoom: CGFloat? {
+        didSet {
+            if let zoom, zoom != oldValue {
+                let clamped = min(max(zoom, CGFloat(Tuning.Camera.minZoom)), CGFloat(Tuning.Camera.maxZoom))
+                if clamped != zoom {
+                    self.zoom = clamped
+                }
+                onZoomChanged?(clamped)
+            }
+        }
+    }
+
+    /// The zoom changed (a pinch), for the app to keep for the next visit.
+    public var onZoomChanged: ((CGFloat) -> Void)?
+    /// Until when the camera leans in on the cat.
+    private var closeUpUntil: TimeInterval = 0
+
+    /// The camera leans in on the cat for a moment (a greeting, a stroke, a meal) and eases back out after.
+    public func lookCloser(for seconds: TimeInterval = Tuning.Camera.closeUpSeconds) {
+        closeUpUntil = max(closeUpUntil, (lastUpdate ?? 0) + seconds)
+        // A drag a moment ago gives way to the cat.
+        heldUntil = 0
+    }
+
+    /// Whether the camera is leaning in on the cat now.
+    var isCloseUp: Bool {
+        !decorating && (lastUpdate ?? 0) < closeUpUntil && catWorldPosition != nil
+    }
+
+    /// The scale the camera is easing towards: the whole room while decorating.
+    private var targetScale: CGFloat {
+        guard !decorating else { return fitScale }
+        let close = isCloseUp ? CGFloat(Tuning.Camera.closeUp) : 1
+        return fitScale * min((zoom ?? homeZoom) * close, CGFloat(Tuning.Camera.maxZoom))
+    }
+
+    /// Eases the scale towards its target, keeping the point in the middle of the view where it is.
+    private func ease(_ dt: TimeInterval) {
+        let target = targetScale, now = world.xScale
+        guard abs(target - now) > now * 0.001 else { return }
+        let rate = min(1, CGFloat(dt * Tuning.Camera.zoomRate))
+        world.setScale(now + (target - now) * rate)
         look(at: focus ?? restingPoint)
     }
 
@@ -411,13 +518,36 @@ public final class RoomScene: SKScene {
         keepBadgesInView()
     }
 
-    /// Where the view rests: the active room's middle (a room picked with the arrows comes to the centre); a room
-    /// wider than the view follows the cat across while it is in there.
+    /// The middle of the cat in world units, when it is on the storey on screen.
+    private var catWorldMiddle: CGPoint? {
+        guard let cat = director?.cat, let room = cat.parent, isShown(room) else { return nil }
+        return world.convert(CGPoint(x: cat.position.x, y: cat.position.y + cat.height * cat.yScale * 0.45), from: room)
+    }
+
+    /// Where the view rests: the active room's middle (a room picked with the arrows comes to the centre). When the
+    /// room is bigger than the view, the view moves with the cat while it is in there, keeping the room filling the
+    /// view; leaning in, the cat is in the middle.
     private var restingPoint: CGPoint {
         let bounds = activeBounds
-        let wide = bounds.width * world.xScale > size.width
-        let catX = wide && catRoom == house.active ? catWorldPosition?.x : nil
-        return CGPoint(x: catX.map { min(max($0, bounds.minX), bounds.maxX) } ?? bounds.midX, y: bounds.midY)
+        let middle = CGPoint(x: bounds.midX, y: bounds.midY)
+        if isCloseUp, let cat = catWorldMiddle {
+            return cat
+        }
+        guard !decorating, catRoom == house.active, let cat = catWorldMiddle else { return middle }
+        let scale = max(world.xScale, 0.0001)
+        let half = CGSize(width: size.width / scale / 2, height: max(1, size.height - bottomInset) / scale / 2)
+        // Each way the room overflows the view, the view keeps the cat near its middle, never past the room's edge.
+        func along(_ cat: CGFloat, _ low: CGFloat, _ high: CGFloat, _ half: CGFloat, _ current: CGFloat) -> CGFloat {
+            guard high - low > half * 2 else { return (low + high) / 2 }
+            let slack = half * 2 * CGFloat(Tuning.Camera.followSlack)
+            let wanted = min(max(cat, current - slack), current + slack) == cat ? current : cat + (cat > current ? -slack : slack)
+            return min(max(wanted, low + half), high - half)
+        }
+        let current = focus ?? middle
+        return CGPoint(
+            x: along(cat.x, bounds.minX, bounds.maxX, half.width, current.x),
+            y: along(cat.y, bounds.minY, bounds.maxY, half.height, current.y)
+        )
     }
 
     /// The view eases towards where it rests (unless a drag holds it).
@@ -448,6 +578,46 @@ public final class RoomScene: SKScene {
     #if os(iOS)
         private var lastTouch: CGPoint?
         private var touchTravel: CGFloat = 0
+        private var pinch: UIPinchGestureRecognizer?
+        private var pinchFrom: CGFloat = 1
+        private var pinching = false
+
+        /// Pinching zooms from the house around the room to a close look at the cat.
+        override public func didMove(to view: SKView) {
+            guard pinch == nil else { return }
+            let recognizer = UIPinchGestureRecognizer(target: self, action: #selector(pinched(_:)))
+            recognizer.cancelsTouchesInView = false
+            view.addGestureRecognizer(recognizer)
+            pinch = recognizer
+        }
+
+        override public func willMove(from view: SKView) {
+            if let pinch {
+                view.removeGestureRecognizer(pinch)
+            }
+            pinch = nil
+        }
+
+        @objc private func pinched(_ recognizer: UIPinchGestureRecognizer) {
+            guard !decorating else { return }
+            switch recognizer.state {
+            case .began:
+                pinching = true
+                pinchFrom = zoom ?? homeZoom
+                // Pinching out of a close look keeps what you see.
+                if isCloseUp {
+                    pinchFrom *= CGFloat(Tuning.Camera.closeUp)
+                    closeUpUntil = 0
+                }
+                touchTravel = .infinity
+            case .changed:
+                zoom = pinchFrom * recognizer.scale
+                world.setScale(targetScale)
+                look(at: focus ?? restingPoint)
+            default:
+                pinching = false
+            }
+        }
 
         override public func touchesBegan(_ touches: Set<UITouch>, with _: UIEvent?) {
             guard let touch = touches.first else { return }
@@ -458,13 +628,17 @@ public final class RoomScene: SKScene {
             lastTouch = touch.location(in: view)
         }
 
-        override public func touchesMoved(_ touches: Set<UITouch>, with _: UIEvent?) {
+        override public func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
             guard let touch = touches.first else { return }
             if dragging {
                 dragDecorating(to: touch.location(in: self))
                 return
             }
             let point = touch.location(in: view)
+            if pinching || (event?.allTouches?.count ?? 1) > 1 {
+                lastTouch = point
+                return
+            }
             if let last = lastTouch {
                 touchTravel += hypot(point.x - last.x, point.y - last.y)
                 // View points have y down; the world has y up.

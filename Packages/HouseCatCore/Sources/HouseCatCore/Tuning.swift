@@ -472,13 +472,11 @@ public enum Tuning {
         /// The room choreography (ASSETS.md "Arrival in the room view"), in seconds and room units.
         public static let noticeDelay = 0.7
         public static let noticeHold = 0.35
-        /// How much bigger the cat is at the camera than across the room.
-        public static let nearScale = 2.3
-        /// The rub runs left to right just above the room's front corner.
-        public static let rubStartX = -150.0
-        public static let rubEndX = 210.0
-        public static let rubStartDrop = 20.0
-        public static let rubEndDrop = 30.0
+        /// The cat comes to the front of its room (cells; u+v near 20 is the corner nearest you) and rubs along it
+        /// from left to right while the camera leans in (Tuning.Camera.closeUp), for this long.
+        public static let rubFrom = [7.7, 9.6]
+        public static let rubTo = [9.6, 7.7]
+        public static let greetCloseUpSeconds = 6.0
         /// Walking off after the rub is a little brisker than an ordinary walk.
         public static let walkOffPace = 1.4
     }
@@ -523,8 +521,71 @@ public enum Tuning {
         /// Where the cat waits beside furniture it uses from the floor, in cells past its footprint.
         public static let besideGap = 0.4
         public static let besideForward = 0.3
-        /// Scaled past this, the cat is at the camera and draws over everything.
-        public static let nearCameraScale = 1.2
+        /// Paces between walk and run (room units a second): an amble about the room and a trot to somewhere it wants.
+        public static let strollSpeed = 120.0
+        public static let trotSpeed = 250.0
+        /// Zoomies are faster than a run.
+        public static let dashSpeed = 430.0
+        /// One stride covers this many cat heights, by gait, so the feet keep pace with the floor.
+        public static let walkStride = 0.62
+        public static let trotStride = 0.85
+        public static let runStride = 0.95
+        /// Getting up to speed and slowing down, at most (seconds).
+        public static let accelerateSeconds = 0.28
+        public static let slowSeconds = 0.34
+        /// A gallop rocks the body this far (degrees) and the tail streams back this far.
+        public static let gallopPitch = 3.5
+        public static let runTailDrop = 22.0
+        /// Before a move the other way, the cat turns through its three-quarter view.
+        public static let pivotSeconds = 0.16
+        /// Sitting down: the puppet lowers this much (share of its height) before the painting takes over.
+        public static let sitDownDip = 0.06
+        public static let sitDownSeconds = 0.14
+        /// A jump: crouch, arc, land (seconds), and how far above the higher end it rises (share of the cat's height).
+        public static let crouchSeconds = 0.13
+        public static let jumpSeconds = 0.34
+        public static let landSeconds = 0.12
+        public static let jumpArc = 0.32
+        /// Squash at the crouch and the landing (share of height).
+        public static let squash = 0.08
+        /// Breathing at rest: a share of the cat's height and breaths a second, asleep, loafing, sitting, standing.
+        public static let breathSleep = [0.022, 0.2]
+        public static let breathLoaf = [0.014, 0.26]
+        public static let breathSit = [0.01, 0.3]
+        public static let breathStand = [0.008, 0.32]
+        /// Blinks: every so often (seconds, the shortest and longest gap), how long the eyes stay shut, and a slow
+        /// blink (a cat's "I trust you") when stroked or sitting near you.
+        public static let blinkGap = [2.2, 6.5]
+        public static let blinkSeconds = 0.13
+        public static let slowBlinkSeconds = 0.75
+        /// Chance a blink is a double one (percent).
+        public static let doubleBlinkPercent = 18
+        /// Standing still: the tail sways this far (degrees) this often, the head looks about, an ear twitches.
+        public static let idleTailSway = 7.0
+        public static let idleTailHz = 0.35
+        public static let idleHeadTurn = 5.0
+        public static let earTwitch = 14.0
+        public static let earTwitchGap = [3.0, 9.0]
+        /// The soft shadow under the cat (share of its width and alpha).
+        public static let shadowWidth = 0.62
+        public static let shadowAlpha = 0.2
+        /// Changing from one painting to another (a glance) cross-fades over this long.
+        public static let glanceFadeSeconds = 0.28
+        /// The cat jumps onto furniture from this far (cells) in front of it.
+        public static let jumpFrom = 0.75
+        /// Waking from a sleep, it stretches this long before it gets up.
+        public static let stretchSeconds = 1.1
+        /// A batted or scratched piece rocks this far (degrees).
+        public static let wobbleDegrees = 3.5
+        /// How long the cat keeps at an activity once there (seconds, shortest and longest), by activity; others
+        /// take `idleSeconds`.
+        public static let hold: [String: [Double]] = [
+            "sleep": [70, 160], "sunbeamLoaf": [35, 80], "floorLoaf": [25, 50], "sit": [18, 40], "perch": [20, 45],
+            "hide": [22, 50], "windowWatch": [25, 55], "nearPlayer": [14, 28], "bowlNag": [15, 30], "sulk": [30, 60],
+            "scratch": [4, 8], "zoomies": [6, 12], "knockOff": [8, 16],
+        ]
+        /// While settled, a fidget (a glance, a slow blink) every this many seconds.
+        public static let fidgetGap = [7.0, 15.0]
     }
 
     /// The code-drawn sky over the exterior and the grade on the painted scene (SPEC "World map,
@@ -735,6 +796,25 @@ public enum Tuning {
     }
 
     /// How a room is framed on screen.
+    /// The room view's camera (Josh, 19 Oct: the cat looked tiny, then swelled up as it came to you). Zooms are
+    /// multiples of the whole active room filling the view; the view follows the cat when the room is bigger
+    /// than the screen, and leans in for a moment when you greet, stroke or feed the cat.
+    public enum Camera {
+        /// Where a visit starts: a phone's screen is small, so it starts closer than an iPad's.
+        public static let homeZoomPhone = 1.55
+        public static let homeZoomPad = 1.2
+        /// A pinch goes from the house around the room to a close look at the cat.
+        public static let minZoom = 0.6
+        public static let maxZoom = 3.0
+        /// The close look: this much closer than the zoom you are at, for this long after the last stroke or meal.
+        public static let closeUp = 1.45
+        public static let closeUpSeconds = 5.0
+        /// How quickly the zoom eases to where it is going (per second).
+        public static let zoomRate = 2.2
+        /// The view keeps the cat this far (a share of the view) from its middle before it moves with it.
+        public static let followSlack = 0.12
+    }
+
     public enum Stage {
         /// The room's controls are drawn this much larger on an iPad.
         public static let iPadHUDScale = 1.3

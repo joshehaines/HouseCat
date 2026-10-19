@@ -9,16 +9,11 @@ public struct CatSpot: Sendable {
     /// The draw order when it sits on the furniture.
     public var perchDepth: CGFloat?
     public var itemID: String?
+    /// Where it jumps up from: the floor in front of the furniture (nil when it is on the floor).
+    public var approach: CGPoint?
 }
 
 public extension RoomScene {
-    /// Speeds in room units a second.
-    internal enum Pace {
-        static let walk = CGFloat(Tuning.Puppet.walkSpeed)
-        static let run = CGFloat(Tuning.Puppet.runSpeed)
-        static let rub = CGFloat(Tuning.Puppet.rubSpeed)
-    }
-
     /// Puts the cat in the room, settled in a pose at a floor cell: in its look from the builder when the
     /// builder's art is given, else the plain painted set.
     @discardableResult
@@ -69,14 +64,16 @@ public extension RoomScene {
             let u = CGFloat(placement.u), v = CGFloat(placement.v)
             switch need {
             case .sit, .sleep, .perch where !item.decal:
-                // On top: the middle of the footprint, raised to the seat (or the top for a perch).
+                // On top: the middle of the footprint, raised to the seat (or the top for a perch), jumped up to
+                // from the floor in front.
                 let seat = CGFloat(need == .perch ? Tuning.Puppet.perchHeight : Tuning.Puppet.seatHeight)
                 return CatSpot(
                     point: grid.floor(u + w / 2, v + d / 2),
                     lift: node.size.height * seat,
                     pose: pose,
                     perchDepth: node.zPosition + 1,
-                    itemID: item.id
+                    itemID: item.id,
+                    approach: approach(toFootprint: u, v, w, d, in: room)
                 )
             default:
                 // Beside it, on the floor in front.
@@ -97,6 +94,29 @@ public extension RoomScene {
         }
     }
 
+    /// The floor in front of a footprint, where the cat jumps up from: the middle of whichever front edge has room
+    /// in front of it (inside the room, clear of other furniture), the nearer one to the cat if both do.
+    internal func approach(toFootprint u: CGFloat, _ v: CGFloat, _ w: CGFloat, _ d: CGFloat, in room: RoomNode) -> CGPoint {
+        let gap = CGFloat(Tuning.Puppet.jumpFrom)
+        let n = grid.cells, edge: CGFloat = 0.4
+        let candidates = [CGPoint(x: u + w / 2, y: v + d + gap), CGPoint(x: u + w + gap, y: v + d / 2)]
+        func clear(_ c: CGPoint) -> Bool {
+            guard c.x > edge, c.y > edge, c.x < n - edge, c.y < n - edge else { return false }
+            return !room.model.items.contains { placement in
+                guard let item = items[placement.id], item.layer != .wall, !item.decal else { return false }
+                let (pw, pd) = room.footprint(item, facing: placement.facing)
+                return c.x >= CGFloat(placement.u) && c.x <= CGFloat(placement.u) + pw && c.y >= CGFloat(placement.v) && c.y <= CGFloat(placement.v) + pd
+            }
+        }
+        let open = candidates.filter(clear)
+        let cat = director.map { grid.cell(at: $0.floorPoint) }.map { CGPoint(x: $0.u, y: $0.v) }
+        let best = (open.isEmpty ? candidates : open).min { a, b in
+            guard let cat else { return false }
+            return hypot(a.x - cat.x, a.y - cat.y) < hypot(b.x - cat.x, b.y - cat.y)
+        } ?? candidates[0]
+        return grid.floor(min(max(best.x, edge), n - edge), min(max(best.y, edge), n - edge))
+    }
+
     /// Furniture moved, turned or put away in the cat's room while the cat was up on something: when nothing
     /// is under it any more, it gets up and hops down where it is (a present it left up there drops with it).
     internal func catGetsDown(in room: RoomNode) {
@@ -110,38 +130,55 @@ public extension RoomScene {
         guard !underneath else { return }
         let lift = director.lift
         if let gift = room.childNode(withName: "gift") {
-            let drop = SKAction.moveBy(x: 0, y: -lift, duration: Tuning.Puppet.hopSeconds)
+            let drop = SKAction.moveBy(x: 0, y: -lift, duration: Tuning.Puppet.jumpSeconds)
             drop.timingMode = .easeIn
             gift.run(drop)
         }
         director.run([
             .rise(.tqfront),
-            .hop(to: 0),
+            .hop(to: director.floorPoint, lift: 0),
             .call { [weak self] in self?.director?.perchDepth = nil },
             .settle(.sitThreeQuarterFront),
         ])
     }
 
-    /// Steps that take the cat from where it is to a spot (in its room, or another) and settle it there.
-    func steps(to spot: CatSpot, in room: RoomID? = nil, run: Bool = false) -> [CatDirector.Step] {
-        var steps: [CatDirector.Step] = [.rise(.side)]
-        steps += route(to: room ?? catRoom, run: run)
-        steps.append(.move(to: spot.point, run: run, view: .side, scale: 1, lift: 0, speed: run ? Pace.run : Pace.walk))
-        if spot.lift > 0 {
-            steps.append(.hop(to: spot.lift))
+    /// The floor just in front of where the cat is (to jump down to).
+    internal func groundInFront(of point: CGPoint) -> CGPoint {
+        let cell = grid.cell(at: point), n = grid.cells, step = CGFloat(Tuning.Puppet.jumpFrom)
+        return grid.floor(min(cell.u + step, n - 0.4), min(cell.v + step, n - 0.4))
+    }
+
+    /// Steps that take the cat from where it is to a spot (in its room, or another) and settle it there: awake
+    /// from a sleep it stretches first, up on something it jumps down, and it jumps up onto furniture from in front.
+    func steps(to spot: CatSpot, in room: RoomID? = nil, pace: CatDirector.Pace = .walk) -> [CatDirector.Step] {
+        var steps: [CatDirector.Step] = []
+        let cat = director?.cat
+        if cat?.pose == .sleepCurl {
+            steps += [.glance(.stretchSide), .wait(Tuning.Puppet.stretchSeconds)]
         }
-        steps.append(.call { [weak self] in self?.director?.perchDepth = spot.perchDepth })
+        steps.append(.rise(cat?.view ?? .side))
+        if let director, director.lift > 0 {
+            steps += [.hop(to: groundInFront(of: director.floorPoint), lift: 0), .call { [weak self] in self?.director?.perchDepth = nil }]
+        }
+        steps += route(to: room ?? catRoom, pace: pace)
+        if spot.lift > 0 {
+            steps.append(.move(to: spot.approach ?? spot.point, pace: pace))
+            steps.append(.call { [weak self] in self?.director?.perchDepth = spot.perchDepth })
+            steps.append(.hop(to: spot.point, lift: spot.lift))
+        } else {
+            steps.append(.move(to: spot.point, pace: pace))
+            steps.append(.call { [weak self] in self?.director?.perchDepth = spot.perchDepth })
+        }
         steps.append(.settle(spot.pose))
         return steps
     }
 
     /// The way into another room: doorway by doorway through the open rooms of the storey, or out by the
     /// stairs (or the middle of the room, if there is no way through) and in on the other side, out of sight.
-    func route(to target: RoomID, run: Bool = false) -> [CatDirector.Step] {
+    func route(to target: RoomID, pace: CatDirector.Pace = .walk) -> [CatDirector.Step] {
         guard target != catRoom, let to = rooms[target] else { return [] }
-        let speed = run ? Pace.run : Pace.walk
         func walk(_ cell: CGPoint) -> CatDirector.Step {
-            .move(to: grid.floor(cell.x, cell.y), run: run, view: .side, scale: 1, lift: 0, speed: speed)
+            .move(to: grid.floor(cell.x, cell.y), pace: pace)
         }
         let step = CGFloat(Tuning.House.doorwayStep), n = grid.cells
         if let path = house.route(from: catRoom, to: target) {
@@ -175,65 +212,177 @@ public extension RoomScene {
         ]
     }
 
-    /// The arrival (CLAUDE.md "The arrival in the room view is live"): the cat notices
-    /// you, runs towards the camera in the front view, growing as it comes, rubs along
-    /// the bottom edge in the side view, then goes off to what the behaviour table chose.
+    /// The arrival (CLAUDE.md "The arrival in the room view is live"): the cat notices you, trots to the front of
+    /// its room while the camera leans in, rubs along the front, then goes off to what the behaviour table chose.
     func playArrival(then choice: BehaviourChoice, onRub: @escaping @MainActor () -> Void, onDone: @escaping @MainActor () -> Void) {
         guard let director else { return }
-        let bottom = grid.floor(grid.cells, grid.cells).y
-        let near = CGFloat(Tuning.Arrival.nearScale)
-        let start = CGPoint(x: Tuning.Arrival.rubStartX, y: bottom - Tuning.Arrival.rubStartDrop)
-        let end = CGPoint(x: Tuning.Arrival.rubEndX, y: bottom - Tuning.Arrival.rubEndDrop)
+        let a = Tuning.Arrival.self
+        let from = grid.floor(CGFloat(a.rubFrom[0]), CGFloat(a.rubFrom[1])), to = grid.floor(CGFloat(a.rubTo[0]), CGFloat(a.rubTo[1]))
         let spot = spot(for: choice)
         let room = choice.room ?? catRoom
-        // Off to what it chose: in this room, the walk-off from the rub; in another, the way there.
-        let walkOff: [CatDirector.Step] = room == catRoom
-            ? [.move(to: spot.point, run: false, view: .side, scale: 1, lift: 0, speed: Pace.walk * CGFloat(Tuning.Arrival.walkOffPace))]
-            + Array(steps(to: spot).dropFirst(2))
-            : [.move(to: end, run: false, view: .side, scale: 1, lift: 0, speed: Pace.walk)] + Array(steps(to: spot, in: room).dropFirst())
         director.run([
-            .wait(Tuning.Arrival.noticeDelay),
+            .wait(a.noticeDelay),
             .rise(.tqfront), // ears up, it has noticed you
-            .wait(Tuning.Arrival.noticeHold),
-            .move(to: start, run: true, view: .front, scale: near, lift: 0, speed: Pace.run),
+            .wait(a.noticeHold),
+            .call { [weak self] in self?.lookCloser(for: a.greetCloseUpSeconds) },
+            .move(to: from, pace: .trot),
             .call(onRub),
-            .move(to: end, run: false, view: .side, scale: near, lift: 0, speed: Pace.rub),
-        ] + walkOff + [.call(onDone)])
+            .move(to: to, pace: .stroll),
+        ] + steps(to: spot, in: room).filter { step in
+            if case .rise = step { return false }
+            return true
+        } + [.call(onDone)])
+        beganActivity(choice.activity)
     }
 
     /// Sends the cat off to an activity now (fed: to the bowl; petted too much: away), in the choice's room.
-    func send(_ choice: BehaviourChoice) {
+    func send(_ choice: BehaviourChoice, pace: CatDirector.Pace? = nil) {
         guard let director else { return }
-        director.run(steps(to: spot(for: choice), in: choice.room ?? catRoom))
+        let pace = pace ?? (choice.activity == .bowlNag ? .trot : .walk)
+        if choice.activity == .zoomies {
+            director.run(zoomies())
+        } else {
+            director.run(steps(to: spot(for: choice), in: choice.room ?? catRoom, pace: pace) + extras(for: choice))
+        }
+        beganActivity(choice.activity)
     }
 
-    /// A reaction icon (assets/fx/reactions: heart, zzz, notes, sparkle, question, exclaim, paw) floats up over the cat.
-    func react(_ icon: String) {
+    /// What an activity adds once the cat is there: knocking at the thing it sits by, scratching the post.
+    internal func extras(for choice: BehaviourChoice) -> [CatDirector.Step] {
+        guard [.knockOff, .scratch].contains(choice.activity), let room = rooms[choice.room ?? catRoom],
+              let id = spot(for: choice, in: room).itemID, let node = room.furniture[id] else { return [] }
+        func rock() -> CatDirector.Step {
+            .call { [weak self, weak node] in
+                if let node {
+                    self?.wobble(node)
+                }
+            }
+        }
+        return choice.activity == .knockOff
+            ? [.wait(1.2), rock(), .wait(0.9), rock(), .wait(0.5), .call { [weak self] in self?.react("exclaim") }]
+            : [rock(), .wait(0.5), rock(), .wait(0.5), rock(), .wait(0.6), .glance(.sitSide)]
+    }
+
+    /// A piece of furniture rocks where it stands (batted, scratched).
+    internal func wobble(_ node: SKNode) {
+        let angle = CGFloat(Tuning.Puppet.wobbleDegrees) * .pi / 180
+        let rock = SKAction.sequence([
+            .rotate(toAngle: angle, duration: 0.07),
+            .rotate(toAngle: -angle * 0.7, duration: 0.1),
+            .rotate(toAngle: angle * 0.35, duration: 0.09),
+            .rotate(toAngle: 0, duration: 0.08),
+        ])
+        node.run(rock, withKey: "wobble")
+    }
+
+    /// Zoomies: a burst of dashes about the room, a skid, and a flop down to catch its breath.
+    internal func zoomies() -> [CatDirector.Step] {
+        guard let director else { return [] }
+        let n = grid.cells
+        var steps: [CatDirector.Step] = [.rise(director.cat.view)]
+        if director.lift > 0 {
+            steps += [.hop(to: groundInFront(of: director.floorPoint), lift: 0), .call { [weak self] in self?.director?.perchDepth = nil }]
+        }
+        let dashes = Int.random(in: 4 ... 6)
+        var last = grid.cell(at: director.floorPoint)
+        for i in 0 ..< dashes {
+            // Somewhere well across the room each time.
+            var cell = (u: CGFloat.random(in: 1.2 ... n - 1.2), v: CGFloat.random(in: 1.2 ... n - 1.2))
+            for _ in 0 ..< 6 where hypot(cell.u - last.u, cell.v - last.v) < n * 0.35 {
+                cell = (u: CGFloat.random(in: 1.2 ... n - 1.2), v: CGFloat.random(in: 1.2 ... n - 1.2))
+            }
+            steps.append(.move(to: grid.floor(cell.u, cell.v), pace: .dash))
+            if i == dashes / 2 {
+                steps.append(.wait(0.35))
+            }
+            last = cell
+        }
+        steps.append(.settle(.loafSide))
+        return steps
+    }
+
+    /// The cat has started on something: how long it keeps at it once there (Tuning.Puppet.hold).
+    internal func beganActivity(_ activity: Activity) {
+        catActivity = activity
+        fidgeting = false
+        settledFor = 0
+        let range = Tuning.Puppet.hold[activity.rawValue] ?? [Tuning.Puppet.idleSeconds, Tuning.Puppet.idleSeconds]
+        holdFor = TimeInterval.random(in: range[0] ... max(range[0], range[1]))
+        nextFidget = TimeInterval.random(in: Tuning.Puppet.fidgetGap[0] ... Tuning.Puppet.fidgetGap[1])
+    }
+
+    /// While the cat is settled, now and then: a glance at you and back, a slow blink, a stretch of the neck to
+    /// look about, a puff of z's asleep. Only what the painted poses can show.
+    internal func fidget() {
+        guard let director, director.isIdle, let pose = director.cat.pose else { return }
+        let visible = director.cat.parent.map { isShown($0) } ?? false
+        switch pose {
+        case .sitSide:
+            fidgeting = true
+            director.run([.glance(.sitThreeQuarterFront), .wait(.random(in: 2 ... 4)), .glance(.sitSide)])
+        case .loafSide:
+            fidgeting = true
+            director.run([.glance(.loafThreeQuarterFront), .wait(.random(in: 2.5 ... 5)), .glance(.loafSide)])
+        case .sitThreeQuarterFront, .loafThreeQuarterFront, .sitFront:
+            director.cat.blink(slow: Bool.random())
+        case .sleepCurl:
+            if visible {
+                react("zzz")
+            }
+        case .sitBack, .stretchSide:
+            break
+        }
+    }
+
+    /// A reaction icon (assets/fx/reactions: heart, zzz, notes, sparkle, question, exclaim, paw) pops up over the
+    /// cat with a little overshoot, floats up swaying and fades.
+    func react(_ icon: String, count: Int = 1) {
         guard let cat = director?.cat, let room = cat.parent else { return }
         let path = "fx/reactions/fx_reactions_\(icon).png"
         guard art.has(path) else { return }
         let painted = art.paintedSize(path)
-        let width = CGFloat(Tuning.Puppet.reactionWidth)
-        let node = SKSpriteNode(
-            texture: art.texture(path),
-            size: CGSize(width: width, height: width * painted.height / max(painted.width, 1))
-        )
-        node.position = CGPoint(x: cat.position.x, y: cat.position.y + cat.calculateAccumulatedFrame().height + 10)
-        node.zPosition = Layer.atCamera + 1
-        node.alpha = 0
-        room.addChild(node)
-        let seconds = Tuning.Puppet.reactionSeconds
-        node.run(.sequence([
-            .group([.fadeIn(withDuration: seconds * 0.2), .moveBy(x: 0, y: CGFloat(Tuning.Puppet.reactionRise), duration: seconds)]),
-            .fadeOut(withDuration: seconds * 0.3),
-            .removeFromParent(),
-        ]))
+        let top = cat.bodyFrame.maxY
+        for i in 0 ..< max(1, count) {
+            let small = i > 0
+            let width = CGFloat(Tuning.Puppet.reactionWidth) * (small ? 0.6 : 1)
+            let node = SKSpriteNode(
+                texture: art.texture(path),
+                size: CGSize(width: width, height: width * painted.height / max(painted.width, 1))
+            )
+            let spread = small ? CGFloat.random(in: -40 ... 40) : 0
+            node.position = CGPoint(x: cat.position.x + spread, y: top + 10)
+            node.zPosition = Layer.reaction
+            node.alpha = 0
+            node.setScale(0.3)
+            room.addChild(node)
+            let seconds = Tuning.Puppet.reactionSeconds
+            let rise = CGFloat(Tuning.Puppet.reactionRise) * (small ? 0.8 : 1)
+            let pop = SKAction.sequence([
+                .scale(to: 1.15, duration: 0.16),
+                .scale(to: 0.95, duration: 0.08),
+                .scale(to: 1.0, duration: 0.07),
+            ])
+            pop.timingMode = .easeOut
+            let up = SKAction.moveBy(x: 0, y: rise, duration: seconds)
+            up.timingMode = .easeOut
+            let side = CGFloat.random(in: 6 ... 12) * (Bool.random() ? 1 : -1)
+            let sway = SKAction.sequence([
+                .moveBy(x: side, y: 0, duration: seconds / 3),
+                .moveBy(x: -side * 2, y: 0, duration: seconds / 3),
+                .moveBy(x: side, y: 0, duration: seconds / 3),
+            ])
+            node.run(.sequence([
+                .wait(forDuration: Double(i) * 0.14),
+                .group([.fadeIn(withDuration: 0.12), pop, up, sway, .sequence([.wait(forDuration: seconds * 0.65), .fadeOut(withDuration: seconds * 0.35)])]),
+                .removeFromParent(),
+            ]))
+        }
     }
 
     /// Whether a scene point is on the cat.
     func isOnCat(_ point: CGPoint) -> Bool {
         guard let cat = director?.cat, let room = cat.parent, isShown(room) else { return false }
-        let frame = cat.calculateAccumulatedFrame().offsetBy(dx: 0, dy: 0)
+        let frame = cat.bodyFrame
         return frame.insetBy(dx: -CGFloat(Tuning.Puppet.tapPadding), dy: -CGFloat(Tuning.Puppet.tapPadding)).contains(convert(
             point,
             to: room

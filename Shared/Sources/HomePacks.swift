@@ -23,12 +23,23 @@ enum HomePacks {
         return art.has(HouseBuilder.scene(style, .city, .summer) + ".jpg")
     }
 
+    /// Whether Background Assets can be asked at all: the app must be entitled to the App Group its Info.plist
+    /// names (`BAAppGroupID`). Without it, `AssetPackManager.shared` traps rather than throwing (Josh's iPad, 19 Oct:
+    /// a build signed without the App Group crashed the moment a home was chosen).
+    static var isAvailable: Bool {
+        guard Bundle.main.object(forInfoDictionaryKey: "BAHasManagedAssetPacks") as? Bool == true,
+              let group = Bundle.main.object(forInfoDictionaryKey: "BAAppGroupID") as? String else { return false }
+        return FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: group) != nil
+    }
+
     /// Adds the pack's art if it is already on the device, else asks for it; `ready` runs once it is here.
     static func prepare(_ style: HouseStyle, ready: (@MainActor () -> Void)? = nil) {
         guard !isReady(style) else {
             ready?()
             return
         }
+        // No App Group, no packs: the visit goes straight inside, as with no pack.
+        guard isAvailable else { return }
         // Already downloaded or not, ensureLocalAvailability returns once the pack is on the device.
         Task {
             do {

@@ -47,7 +47,7 @@
       "season": "summer",
       "weather": "sun",
       "cat": { "preset": "seal_point", "name": "Nata", "personality": "gremlin" },
-      "line": "Nata has a rooftop by the sea in Lisbon, and opinions about the gulls."
+      "line": "Nata lives on a rooftop by the sea in Lisbon and spends all day watching the gulls."
     },
     {
       "id": "amsterdam",

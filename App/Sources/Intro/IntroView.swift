@@ -176,7 +176,8 @@ struct IntroView: View {
         Task {
             try? await Task.sleep(for: .seconds(Tuning.World.globeFlightSeconds + Tuning.Intro.pauseOnArrival))
             if phase == .flying(index) {
-                Sound.play("door_open", volume: Tuning.Sound.door * 0.5)
+                // A light meow as each home comes into view (Josh, 19 Oct: the door was loud and strange).
+                Sound.play("cat_meow_soft", volume: Tuning.Sound.introMeow)
                 phase = .visiting(index)
             }
         }

@@ -22,6 +22,8 @@ public struct RulesContext: Sendable {
     public var bundles: [String: BundlesFile.Bundle]
     /// What each level gives (levels.json); nil in rule tests, which then pay Tuning.Beans.levelUp.
     public var levels: LevelsFile?
+    /// The outfits a streak earns, by its length in days (outfits.json `earnedBy` "streak_30": the hoodie).
+    public var streakOutfits: [Int: String]
 
     /// A piece's footprint and layer, as PlacementRules reads it.
     public struct Shape: Sendable, Equatable {
@@ -48,8 +50,10 @@ public struct RulesContext: Sendable {
         events: [EventDefinition] = [],
         bundles: [String: BundlesFile.Bundle] = [:],
         levels: LevelsFile? = nil,
-        shapes: [String: Shape] = [:]
+        shapes: [String: Shape] = [:],
+        streakOutfits: [Int: String] = [:]
     ) {
+        self.streakOutfits = streakOutfits
         self.events = events
         self.bundles = bundles
         self.levels = levels
@@ -217,7 +221,9 @@ public struct Lifetime: Codable, Equatable, Sendable {
     public var groupsJoined = 0
     public var sittingDays = 0
     public var giftsSent = 0
+    /// Different outfits put on (the outfits achievements ask for different ones).
     public var outfitsWorn = 0
+    public var outfitsTried: Set<String> = []
     public var surfacesChanged = 0
     public var catsAdopted = 0
     public var sundayCards = 0
@@ -372,7 +378,8 @@ public struct HouseholdState: Codable, Equatable, Sendable {
         case .distinctGifts: giftsCollected.count
         case .legendaryGifts: lifetime.legendaryGifts
         case .itemsOwned: owned.values.reduce(0, +)
-        case .roomsOpened: openedRooms.count - 1
+        // Rooms open, the living room among them ("Open a second room" is two).
+        case .roomsOpened: openedRooms.count
         case .roomsVisited: lifetime.roomsVisited.count
         case .longestStreak: streak.longest
         case .level: level

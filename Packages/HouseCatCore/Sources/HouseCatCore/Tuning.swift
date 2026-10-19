@@ -1103,7 +1103,7 @@ public enum Tuning {
         /// The shape of `HouseholdState` in a stored snapshot. Bump it whenever the state gains, loses or
         /// changes a field: an older snapshot is then ignored and the state refolded from the events, which
         /// are always kept (the snapshot is only a cache).
-        public static let snapshotVersion = 8
+        public static let snapshotVersion = 9
     }
 
     /// The stray (SPEC "The stray").

@@ -379,6 +379,9 @@ struct RoomScreen: View {
     @State private var showStreak = false
     @State private var showPass = false
     @State private var showMenu = false
+    @State private var showGoals = false
+    /// The goals met when last looked, for a note when another is met.
+    @State private var goalsMet: Set<String>?
     /// Short of Beans for something in the room: the top-up, then the purchase.
     @State private var topUp: ShopView.TopUpRequest?
     @Environment(\.horizontalSizeClass) private var sizeClass
@@ -645,6 +648,16 @@ struct RoomScreen: View {
             // Once the room itself is up (the cold open comes first on a first arrival).
             .task(id: visit.ready && visit.scene is RoomScene) { await startTour() }
             // The once-only offer, a moment after the trust toast, never during the tour.
+            // A goal met (today's, this week's or a milestone): a note over the room with what it paid.
+            .onChange(of: visit.stats, initial: true) {
+                let met = CatScreens.goalsMet()
+                defer { goalsMet = met }
+                guard let before = goalsMet, let objectives = GameSession.shared.content?.objectives else { return }
+                let all = objectives.daily + objectives.weekly + objectives.achievements
+                if let goal = all.first(where: { met.subtracting(before).contains($0.id) }) {
+                    visit.notify("\(goal.name) · +\(goal.beans) Beans", icon: "objectives_clipboard_with_a_tick")
+                }
+            }
             .onChange(of: visit.trustRose) { _, tier in
                 var due = tier.map { Offers.due(tier: $0, owned: store?.entitlements ?? .none) } ?? false
                 #if DEBUG
@@ -1032,6 +1045,11 @@ struct RoomScreen: View {
         let session = GameSession.shared
         let pass = session.passInfo(club: store?.entitlements.hasClub == true)
         var items: [RoomMenu.Item] = [
+            RoomMenu.Item(id: "goals", title: "Goals", icon: "objectives_clipboard_with_a_tick", dot: CatScreens.goalsMet().count > GoalsSeen.count) {
+                showMenu = false
+                GoalsSeen.count = CatScreens.goalsMet().count
+                showGoals = true
+            },
             RoomMenu.Item(id: "map", title: "Map", icon: "map_pin") {
                 showMenu = false
                 moving = WorldMapModel(mode: .move, current: session.state(at: session.now()))
@@ -1164,6 +1182,7 @@ struct RoomScreen: View {
                 case "addwidget": await askForWidget()
                 case "together": showTogether = true
                 case "menu": showMenu = true
+                case "goals": showGoals = true
                 case "profile": showProfile = true
                 case "settings": showSettings = true
                 case "erase": await YourData.deleteEverything()
@@ -1216,6 +1235,13 @@ struct RoomScreen: View {
                 card(present != nil, close: nil) {
                     if let present {
                         PresentCard(gift: present, catName: visit.catName ?? "Your cat") { self.present = nil }
+                    }
+                }
+            }
+            .overlay {
+                card(showGoals, close: { showGoals = false }) {
+                    if let board = CatScreens.goals() {
+                        GoalsView(board: board) { showGoals = false }
                     }
                 }
             }

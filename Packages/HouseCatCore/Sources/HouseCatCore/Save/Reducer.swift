@@ -240,7 +240,9 @@ extension HouseholdState {
             // Only what the household owns.
             guard cat(catID) != nil, ownedOutfits.contains(outfitID) else { break }
             updateCat(catID) { $0.outfitID = outfitID }
-            lifetime.outfitsWorn += 1
+            if lifetime.outfitsTried.insert(outfitID).inserted {
+                lifetime.outfitsWorn += 1
+            }
             bump(.wearOutfit, context: context)
         case let .outfitTakenOff(catID):
             updateCat(catID) { $0.outfitID = nil }
@@ -295,7 +297,7 @@ extension HouseholdState {
         case .streakRepaired:
             guard StreakRepair.canRepair(self, on: day) else { break }
             for milestone in streak.repair() {
-                earn(StreakState.beans(forMilestone: milestone))
+                reachStreak(milestone, context: context)
             }
         case .questClaimed:
             guard let progress = CoopQuest.progress(self), progress.isComplete, !progress.claimed else { break }
@@ -402,7 +404,7 @@ extension HouseholdState {
         today?.firstVisitAt = event.at
         lifetime.visits += 1
         for milestone in streak.visit(on: tally.day) {
-            earn(StreakState.beans(forMilestone: milestone))
+            reachStreak(milestone, context: context)
         }
         addPassPoints(Tuning.Pass.visit, capped: true, context: context)
         bump(.visitDay, context: context)
@@ -549,6 +551,14 @@ extension HouseholdState {
             today?.passPoints += add
         }
         passes[season.id, default: SeasonProgress()].points += add
+    }
+
+    /// A streak milestone: its Beans, and the outfit it earns, if any (the hoodie at 30 days, the bow tie at 100).
+    private mutating func reachStreak(_ days: Int, context: RulesContext) {
+        earn(StreakState.beans(forMilestone: days))
+        if let outfit = context.streakOutfits[days] {
+            ownedOutfits.insert(outfit)
+        }
     }
 
     // MARK: Objectives

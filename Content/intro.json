@@ -119,8 +119,7 @@
     { "id": "done", "target": "done", "waitFor": "decorated", "text": "Lovely. Tap Done when it looks right." },
     { "id": "play", "target": "play", "text": "Play has three games. Five plays a day pay Beans." },
     { "id": "nap", "target": "nap", "text": "The moon starts a twenty-minute nap, on your Lock Screen too." },
-    { "id": "book", "target": "book", "text": "Each day you feed {cat} there's a present. They're kept in the book." },
-    { "id": "map", "target": "map", "text": "Your home is somewhere real: its sky, seasons and weather are live." },
+    { "id": "menu", "target": "menu", "text": "Your rooms, the book of {cat}'s presents and the map of your home: all in the menu." },
     { "id": "shop", "target": "shop", "text": "The shop has sets, outfits and Cat Club. Nothing in it is needed to play." },
     { "id": "reward", "reward": true, "text": "Welcome home! Here are some Beans to get you started." }
   ]

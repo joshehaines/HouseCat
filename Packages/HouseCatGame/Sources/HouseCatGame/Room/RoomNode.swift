@@ -414,7 +414,8 @@ final class RoomNode: SKNode {
 
     // MARK: Locked rooms
 
-    /// A closed room shows as a lit silhouette with what it takes to open it (SPEC "Home and furniture").
+    /// A closed room shows bare, with what it takes to open it (SPEC "Home and furniture"). Its veil is no longer
+    /// drawn (Josh, 19 Oct: no dark see-through areas between the rooms); it is kept, clear, as the room's tap area.
     func veil(label: String, at cell: (u: CGFloat, v: CGFloat)? = nil) {
         let n = grid.cells
         let left = height(of: walls.left), right = height(of: walls.right), back = max(left, right)
@@ -427,8 +428,7 @@ final class RoomNode: SKNode {
         path.addLine(to: grid.floor(n, n))
         path.closeSubpath()
         let veil = SKShapeNode(path: path)
-        let c = Tuning.House.veilColor
-        veil.fillColor = SKColor(red: c[0], green: c[1], blue: c[2], alpha: CGFloat(Tuning.House.veilAlpha))
+        veil.fillColor = .clear
         veil.strokeColor = .clear
         veil.zPosition = Layer.veil
         veil.name = "veil"

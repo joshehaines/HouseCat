@@ -3,7 +3,7 @@ import HouseCatCore
 
 /// Builds the house the scene shows from the save and the home right now (SPEC "Sky, season, weather and
 /// windows: one layered scene"): every room of the home's plan with its wallpaper, floor and furniture, the
-/// closed ones veiled with their price, and through every window the terrain of the place you pinned in its
+/// closed ones bare with their price, and through every window the terrain of the place you pinned in its
 /// season, under the sky at the home's local time.
 public enum HouseBuilder {
     /// The terrain seen through the windows (assets/world/terrain).
@@ -72,8 +72,13 @@ public enum HouseBuilder {
             }
             let open = state.openedRooms.contains(spot.room)
             if !open {
-                // A closed room shows what it could be, under its veil.
-                model.items = plans.roomStyles[spot.room.rawValue]?.preview ?? []
+                // A closed room is bare until it is opened (Josh, 19 Oct: blank, nothing in it): no furniture, and
+                // indoors plain plaster and boards, so it reads as a room still to do up.
+                model.items = []
+                if spot.outdoor != true {
+                    model.wall = Tuning.House.bareWall
+                    model.floor = Tuning.House.bareFloor
+                }
             }
             let label = "Level \(spot.room.requiredLevel) · \(RoomRules.cost(of: spot.room, clubActive: false)) Beans"
             return HouseModel.Room(

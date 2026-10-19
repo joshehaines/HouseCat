@@ -187,3 +187,31 @@ private struct World {
     #expect(HouseBuilder.ground(.countryside, season: .autumn, weather: .rain) == "world/ground/ground_autumn.png")
     #expect(world.art.has("world/ground/ground_autumn.png") && world.art.has("world/ground/ground_snow.png"))
 }
+
+/// A closed room is bare (Josh, 19 Oct): nothing in it, plain plaster and boards indoors, its veil drawn clear (no
+/// dark shading between the rooms) but still there to be tapped; the open living room keeps its furniture.
+@MainActor
+@Test func closedRoomsAreBareAndUnshaded() throws {
+    let world = try World()
+    let place = HomePlace(name: "Elephant and Castle", latitude: 51.4946, longitude: -0.1003, timeZoneID: "Europe/London", biome: .city)
+    let now = HomeNow(place: place, biome: .city, season: .summer, sky: .day, weather: .sun, localMinutes: 720)
+    let house = try #require(HouseBuilder.house(
+        style: .londonTerrace, plans: world.plans, layout: world.layout, state: world.state(),
+        catalogue: world.content.catalogue, now: now
+    ))
+    let closed = house.rooms.filter { $0.lockLabel != nil }
+    #expect(!closed.isEmpty)
+    for room in closed {
+        #expect(room.model.items.isEmpty, "\(room.id) is bare")
+        if !room.outdoor {
+            #expect(room.model.wall == Tuning.House.bareWall && room.model.floor == Tuning.House.bareFloor, "\(room.id)")
+        }
+    }
+    #expect(world.art.has("rooms/walls/\(Tuning.House.bareWall).png") && world.art.has("rooms/floors/\(Tuning.House.bareFloor).png"))
+    let scene = RoomScene(size: CGSize(width: 1366, height: 1024), art: world.art, content: world.content, house: house)
+    for room in closed {
+        let veil = try #require(scene.rooms[room.id]?.childNode(withName: "veil") as? SKShapeNode)
+        #expect(veil.fillColor.cgColor.alpha == 0, "\(room.id) is not shaded")
+        #expect(veil.path != nil, "\(room.id) can still be tapped")
+    }
+}

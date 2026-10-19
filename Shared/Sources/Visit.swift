@@ -675,7 +675,7 @@ final class Visit {
         RoomTour.shared.heard(.placed)
     }
 
-    private func offer(_ room: RoomID) {
+    func offer(_ room: RoomID) {
         let state = GameSession.shared.state(at: GameSession.shared.now())
         let availability = RoomRules.availability(
             of: room,
@@ -910,11 +910,9 @@ final class Visit {
             house.onThoughtTapped = { [weak self] _ in self?.openWanted() }
             house.onGiftTapped = { [weak self] in self?.collectGift() }
             house.dress(GameSession.shared.wornOutfit)
-            // The zoom you last pinched to (on this device).
-            if let zoom = Self.roomZoom {
-                house.zoom = zoom
-            }
-            house.onZoomChanged = { Self.roomZoom = $0 }
+            // Every visit starts on the cat (Josh, 19 Oct: the cat is the product); a pinch lasts the visit (the
+            // zoom once kept between visits is dropped).
+            UserDefaults.standard.removeObject(forKey: "roomZoom")
         }
         room = built
         // The view starts on the room the cat is in.
@@ -923,12 +921,6 @@ final class Visit {
         }
         refreshStats()
         return built
-    }
-
-    /// How close the room view was last pinched to, on this device (a view setting, not game state).
-    static var roomZoom: CGFloat? {
-        get { (UserDefaults.standard.object(forKey: "roomZoom") as? Double).map { CGFloat($0) } }
-        set { UserDefaults.standard.set(newValue.map(Double.init), forKey: "roomZoom") }
     }
 
     /// When the app was last in the foreground, kept on this device only (it decides the cold open, not game state).

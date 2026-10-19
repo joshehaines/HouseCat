@@ -378,6 +378,7 @@ struct RoomScreen: View {
     @State private var showRoad = false
     @State private var showStreak = false
     @State private var showPass = false
+    @State private var showMenu = false
     /// Short of Beans for something in the room: the top-up, then the purchase.
     @State private var topUp: ShopView.TopUpRequest?
     @Environment(\.horizontalSizeClass) private var sizeClass
@@ -455,13 +456,14 @@ struct RoomScreen: View {
             .animation(.easeOut(duration: 0.3), value: visit.greeting)
             .animation(.spring(duration: 0.35), value: visit.toast)
             // The controls, laid out as a builder game lays out its base (Josh, 18 Oct; 19 Oct: out to the edges,
-            // as Clash of Clans does): the player's plaque top left with the map and the book under it, the Beans
-            // and streak bars top right with the season's tiles beside them, the care actions bottom left, Decorate
-            // and the Shop bottom right, the rooms bottom middle. Nothing halfway down a side, where the Dynamic
-            // Island is in landscape.
+            // as Clash of Clans does, and fewer of them): the player's plaque top left with the one menu under it
+            // (the rooms, the map, the book, the pass), the Beans and streak bars top right, the care actions bottom
+            // left, Decorate and the Shop bottom right. Nothing halfway down a side, where the Dynamic Island is in
+            // landscape.
             .overlay {
                 if visit.scene is RoomScene {
                     roomControls
+                    roomMenu
                 }
             }
             .task(id: [
@@ -882,16 +884,10 @@ struct RoomScreen: View {
                     }
                     .animation(.easeOut(duration: 0.3), value: visit.xpGain)
                     if calm {
-                        HStack(spacing: 10 * hudScale) {
-                            GameButton("Home", icon: "map_pin", size: 46) {
-                                let session = GameSession.shared
-                                moving = WorldMapModel(mode: .move, current: session.state(at: session.now()))
-                            }
-                            .tourTarget("map")
-                            GameButton("Book", icon: "collection_book", size: 46) { showBook = true }
-                                .tourTarget("book")
-                        }
-                        .transition(.opacity)
+                        // One menu for the rooms, the map, the book, the pass and the rest (Josh, 19 Oct: calmer).
+                        GameButton("Menu", icon: "house", size: 50, dot: menuWaiting) { showMenu = true }
+                            .tourTarget("menu")
+                            .transition(.opacity)
                     }
                 }
             }
@@ -899,11 +895,8 @@ struct RoomScreen: View {
             .padding(.leading, edge)
             .padding(.top, top)
 
-            // Top right: the season's tiles beside the Beans and the streak.
+            // Top right: the Beans and the streak (the season's tiles are in the menu).
             HStack(alignment: .top, spacing: 10 * hudScale) {
-                if !visit.decorating {
-                    seasonTiles
-                }
                 VStack(alignment: .trailing, spacing: 8 * hudScale) {
                     ResourceBar(
                         icon: "bean_coin",
@@ -952,21 +945,6 @@ struct RoomScreen: View {
                     .padding(.bottom, bottom)
                     .transition(.opacity)
                 }
-
-                // Bottom middle: the room you are in, and the stairs.
-                HStack(spacing: 10 * hudScale) {
-                    RoomSwitcher(title: visit.roomTitle, canStep: visit.openRooms.count > 1) { visit.stepRoom($0) }
-                    if let storeyTitle = visit.storeyTitle {
-                        GameButton(storeyTitle, symbol: storeyTitle == "Upstairs" ? "arrow.up" : "arrow.down", size: 40) {
-                            visit.changeStorey()
-                        }
-                    }
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-                // Clear of the home bar along the bottom's middle; on a screen taller than it is wide, above the
-                // corners' buttons, which take the bottom's whole width.
-                .padding(.bottom, tall ? bottom + 112 * hudScale : bottom + 14)
-                .transition(.opacity)
 
                 // Bottom right: Decorate and the Shop.
                 HStack(alignment: .bottom, spacing: 12 * hudScale) {
@@ -1031,25 +1009,102 @@ struct RoomScreen: View {
     /// The season's tiles under the bars: the pass, the launch's gift track while it runs, looking after the cat
     /// together; each with a dot when something waits.
     @ViewBuilder
-    private var seasonTiles: some View {
+    /// The menu's rooms: every room of the home, floor by floor, the closed ones bare with their price.
+    private var menuRooms: [RoomMenu.Room] {
+        guard let house = visit.scene as? RoomScene else { return [] }
+        return house.house.rooms.sorted { ($0.storey, $0.id) < ($1.storey, $1.id) }.map { room in
+            RoomMenu.Room(
+                id: room.id,
+                storey: room.storey,
+                title: Visit.title(of: room.id, upstairs: room.storey > 0),
+                lock: room.lockLabel.map { _ in
+                    "Lv \(room.id.requiredLevel) · \(RoomRules.cost(of: room.id, clubActive: false).formatted()) Beans"
+                },
+                floor: room.model.floor,
+                here: room.id == visit.activeRoom,
+                catHere: room.id == house.catRoom
+            )
+        }
+    }
+
+    /// The menu's other places: the map, the book, the pass, the gift track while it runs, the together quest.
+    private var menuItems: [RoomMenu.Item] {
         let session = GameSession.shared
         let pass = session.passInfo(club: store?.entitlements.hasClub == true)
-        GameButton(
-            "Pass",
-            icon: "season_pass_ticket",
-            size: 50,
-            dot: !(pass?.claimableFree.isEmpty ?? true) || !(pass?.claimablePaid.isEmpty ?? true)
-        ) { showPass = true }
+        var items: [RoomMenu.Item] = [
+            RoomMenu.Item(id: "map", title: "Map", icon: "map_pin") {
+                showMenu = false
+                moving = WorldMapModel(mode: .move, current: session.state(at: session.now()))
+            },
+            RoomMenu.Item(id: "book", title: "Book", icon: "collection_book") {
+                showMenu = false
+                showBook = true
+            },
+            RoomMenu.Item(
+                id: "pass",
+                title: "Pass",
+                icon: "season_pass_ticket",
+                dot: !(pass?.claimableFree.isEmpty ?? true) || !(pass?.claimablePaid.isEmpty ?? true)
+            ) {
+                showMenu = false
+                showPass = true
+            },
+        ]
         if let live = session.liveTrack() {
-            GameButton("Gifts", icon: "gift_box_with_a_ribbon", size: 50, dot: !session.trackProgress(live).waiting.isEmpty) { track = live
-            }
+            items.append(RoomMenu.Item(
+                id: "gifts",
+                title: "Gifts",
+                icon: "gift_box_with_a_ribbon",
+                dot: !session.trackProgress(live).waiting.isEmpty
+            ) {
+                showMenu = false
+                track = live
+            })
         }
         if session.isCoOwned {
             let quest = session.questProgress
-            GameButton("Together", icon: "group_of_three_paw_prints", size: 50, dot: quest.map { $0.isComplete && !$0.claimed } ?? false) {
+            items.append(RoomMenu.Item(
+                id: "together",
+                title: "Together",
+                icon: "group_of_three_paw_prints",
+                dot: quest.map { $0.isComplete && !$0.claimed } ?? false
+            ) {
+                showMenu = false
                 showTogether = true
+            })
+        }
+        return items
+    }
+
+    /// Something in the menu waits (a pass reward, a present, the quest's Beans): a dot on its button.
+    private var menuWaiting: Bool {
+        menuItems.contains(where: \.dot)
+    }
+
+    /// The menu over the room, under the player's plaque; a tap outside closes it.
+    private var roomMenu: some View {
+        ZStack(alignment: .topLeading) {
+            if showMenu {
+                Color.black.opacity(0.25).ignoresSafeArea().onTapGesture { showMenu = false }
+                RoomMenu(catName: visit.catName ?? "Your cat", rooms: menuRooms, items: menuItems) { room in
+                    showMenu = false
+                    if visit.openRooms.contains(room) {
+                        visit.go(to: room)
+                    } else {
+                        visit.offer(room)
+                    }
+                } close: {
+                    showMenu = false
+                }
+                .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
+                .padding(.leading, CGFloat(Tuning.Stage.hudEdge))
+                .padding(.top, CGFloat(Tuning.Stage.hudTop) + 74 * hudScale)
+                .transition(.opacity.combined(with: .scale(scale: 0.96, anchor: .topLeading)))
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .ignoresSafeArea()
+        .animation(.easeOut(duration: 0.2), value: showMenu)
     }
 
     private func openShop(_ section: ShopView.Section?) {
@@ -1108,6 +1163,7 @@ struct RoomScreen: View {
                 case "shop": openShop(ProcessInfo.processInfo.environment["HOUSECAT_SHOP"].flatMap(ShopView.Section.init))
                 case "addwidget": await askForWidget()
                 case "together": showTogether = true
+                case "menu": showMenu = true
                 case "profile": showProfile = true
                 case "settings": showSettings = true
                 case "erase": await YourData.deleteEverything()

@@ -891,9 +891,10 @@ public enum Tuning {
         public static let capColor = [0.42, 0.36, 0.33]
         /// Garden walls (hedge, fence, brick) stand this many cells high.
         public static let gardenWallHeight = 1.6
-        /// A closed room's veil and its price label.
-        public static let veilColor = [0.12, 0.12, 0.2]
-        public static let veilAlpha = 0.55
+        /// A closed room is bare (Josh, 19 Oct): indoors these plain finishes, no furniture, no shading over it.
+        public static let bareWall = "wall_attic_rough_plaster"
+        public static let bareFloor = "floor_attic_dusty_boards"
+        /// A closed room's price label.
         public static let lockFontSize = 34.0
         /// The lock badge's paper and ink (the controls' cream and plum).
         public static let lockPaper = [0.995, 0.97, 0.925]
@@ -904,6 +905,11 @@ public enum Tuning {
         public static let labelLift = 170.0
         /// A badge keeps at least this far (points) from the sides of the view.
         public static let badgeMargin = 12.0
+        /// A badge's text is this size on screen (points) at any zoom, and the badge keeps out of the controls'
+        /// bands this deep along the top and bottom of the view.
+        public static let badgePoints = 15.0
+        public static let badgeClearTop = 110.0
+        public static let badgeClearBottom = 120.0
         /// A closed room's price label leans this many cells from its middle towards the room you are in.
         public static let labelLean = 3.0
         /// On a portrait screen the active room fills this share of the width, the house showing either side.
@@ -962,14 +968,15 @@ public enum Tuning {
     /// multiples of the whole active room filling the view; the view follows the cat when the room is bigger
     /// than the screen, and leans in for a moment when you greet, stroke or feed the cat.
     public enum Camera {
-        /// Where a visit starts: a phone's screen is small, so it starts closer than an iPad's.
-        public static let homeZoomPhone = 1.55
-        public static let homeZoomPad = 1.2
+        /// Where a visit starts: on the cat, about a quarter of the screen's height (Josh, 19 Oct: the cat is the
+        /// product; the whole room shows only to decorate). A phone's screen is small, so closer than an iPad's.
+        public static let homeZoomPhone = 2.7
+        public static let homeZoomPad = 2.1
         /// A pinch goes from the house around the room to a close look at the cat.
         public static let minZoom = 0.6
-        public static let maxZoom = 3.0
+        public static let maxZoom = 4.5
         /// The close look: this much closer than the zoom you are at, for this long after the last stroke or meal.
-        public static let closeUp = 1.45
+        public static let closeUp = 1.35
         public static let closeUpSeconds = 5.0
         /// How quickly the zoom eases to where it is going (per second).
         public static let zoomRate = 2.2

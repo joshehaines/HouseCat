@@ -67,3 +67,44 @@ func theHouseIsNeverCroppedAndTheGroundReachesTheBottom(size: CGSize) throws {
     let night = try exterior(CGSize(width: 393, height: 852), sky: .night)
     #expect(try painting(night).childNode(withName: "glass") != nil)
 }
+
+/// The view is framed on the house where it stands in its painting (Josh, 19 Oct: the demo's chimney was cut off on
+/// a wide phone): a house high in the painting keeps its top in view, and a house off to one side comes to the
+/// middle where the painting runs past the view; the painting still covers the view.
+@MainActor
+@Test(arguments: [CGSize(width: 956, height: 440), CGSize(width: 1366, height: 1024)])
+func theViewIsFramedOnTheHouse(size: CGSize) throws {
+    let art = try #require(art)
+    let house = CGRect(x: 0.36, y: 0.05, width: 0.33, height: 0.75)
+    let model = ExteriorScene.Model(
+        scene: "world/scenes/london_terrace_city_autumn",
+        sky: .day,
+        door: CGPoint(x: 0.43, y: 0.6),
+        house: house
+    )
+    let node = try painting(ExteriorScene(size: size, art: art, model: model))
+    let top = node.position.y + (1 - house.minY) * node.size.height
+    let bottom = node.position.y + (1 - house.maxY) * node.size.height
+    #expect(top <= size.height + 0.5 && bottom >= -0.5, "the whole house is in view at \(size): \(bottom)...\(top)")
+    #expect(abs((size.height - top) - bottom) < 2 || node.position.y > -0.5 || node.position.y + node.size.height < size.height + 0.5)
+    #expect(node.position.y <= 0.5 && node.position.y + node.size.height >= size.height - 0.5, "covers the view up and down")
+    #expect(node.position.x - node.size.width / 2 <= 0.5 && node.position.x + node.size.width / 2 >= size.width - 0.5)
+}
+
+/// Every painting has where its house stands, and its door is on the house.
+@MainActor
+@Test func everyPaintingKnowsWhereItsHouseIs() throws {
+    struct Index: Decodable {
+        var doors: [String: [Double]]
+        var houses: [String: [Double]]
+    }
+    let art = try #require(art)
+    let index = try art.data("world/scenes/scenes.json", as: Index.self)
+    #expect(index.houses.count == 256)
+    for (name, box) in index.houses {
+        #expect(box.count == 4 && box[0] < box[2] && box[1] < box[3] && box.allSatisfy { (0 ... 1).contains($0) }, "\(name)")
+        if let door = index.doors[name] {
+            #expect(door[0] >= box[0] - 0.02 && door[0] <= box[2] + 0.02 && door[1] < 0.9, "\(name)'s door is on its house")
+        }
+    }
+}

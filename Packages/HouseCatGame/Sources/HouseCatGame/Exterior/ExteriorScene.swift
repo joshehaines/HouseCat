@@ -19,13 +19,24 @@ public final class ExteriorScene: SKScene {
         /// Today's weather and the season there: the particles and tint over the picture.
         public var weather: Weather
         public var season: NatureSeason
+        /// Where the house stands in the painting, a fraction of it, top-left origin (scenes.json, measured from its
+        /// window glass): the view is framed on it. Nil: the painting's middle.
+        public var house: CGRect?
 
-        public init(scene: String, sky: SkyPhase, door: CGPoint, weather: Weather = .sun, season: NatureSeason = .summer) {
+        public init(
+            scene: String,
+            sky: SkyPhase,
+            door: CGPoint,
+            weather: Weather = .sun,
+            season: NatureSeason = .summer,
+            house: CGRect? = nil
+        ) {
             self.scene = scene
             self.sky = sky
             self.door = door
             self.weather = weather
             self.season = season
+            self.house = house
         }
     }
 
@@ -214,12 +225,16 @@ public final class ExteriorScene: SKScene {
         var scale = max(size.width / painted.width, size.height / painted.height)
         scale = min(scale, size.width / (painted.width * focusWidth), size.height / (painted.height * focusHeight))
         let width = painted.width * scale, height = painted.height * scale
-        // Centred on the house; when taller than the view, kept covering it top and bottom; when shorter, on the ground.
-        var bottom = (size.height - height) / 2
+        // Centred on the house (Josh, 19 Oct: the house sat off the middle, its chimney cut off on a wide phone),
+        // where the painting runs past the view; still covering the view; when shorter, on the ground.
+        let house = model.house ?? CGRect(x: 0.5 - focusWidth / 2, y: 0.5 - focusHeight / 2, width: focusWidth, height: focusHeight)
+        var bottom = size.height / 2 - (1 - house.midY) * height
         bottom = height >= size.height ? min(0, max(size.height - height, bottom)) : 0
+        var middle = size.width / 2 + (0.5 - house.midX) * width
+        middle = width >= size.width ? min(width / 2, max(size.width - width / 2, middle)) : size.width / 2
         for node in [painting, doorOpen] {
             node.size = CGSize(width: width, height: height)
-            node.position = CGPoint(x: size.width / 2, y: bottom)
+            node.position = CGPoint(x: middle, y: bottom)
             for case let glass as SKSpriteNode in node.children {
                 glass.size = node.size
             }

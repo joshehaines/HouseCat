@@ -7,6 +7,7 @@ Sky flat magenta (keyed to alpha, the sky is drawn in code), glass flat cyan (ke
   python3 scenes.py record <batchfile> < jobs.json  store job ids in pipeline_state.json under scene:<house>_<biome>_<season>
   python3 scenes.py key <raw.png> <out_dir> <name>   key a downloaded scene into <name>.jpg, <name>_land.png and <name>_glass.png
   python3 scenes.py doors <raw_dir> <scenes.json>    measure each door from its door-open edit into scenes.json
+  python3 scenes.py houses <scene_dir> <scenes.json> measure where each house stands into scenes.json (needs numpy, scipy)
 """
 import json
 import os
@@ -149,6 +150,97 @@ def doors(raw_dir, scenes_json):
     print(len(index['doors']), 'doors')
 
 
+# Where the house stands, from its window glass (the key marks the house's own panes, and now and then a turquoise
+# sea, too big to be a window) and its door: the front wall a little past the outer windows on the left, the side
+# wall seen on the right, the roof and chimney above the top windows, the step and path below the door. Across in
+# the windows' width, up and down in their height; checked by eye on contact sheets (19 Oct).
+LEFT_WALL, SIDE_WALL, ROOF, GROUND = 0.2, 0.75, 0.8, 0.45
+# A pane is no bigger than this share of the picture's width and height, no smaller than this share of its area,
+# and fills at least this much of its own box.
+PANE_MOST = (0.12, 0.2)
+PANE_LEAST = 0.00015
+PANE_FILL = 0.55
+
+
+def house_box(glass_png, door_xy):
+    """The house's box as fractions of the picture, [left, top, right, bottom], or None without glass."""
+    import numpy as np
+    from PIL import Image
+    from scipy import ndimage
+    glass = np.array(Image.open(glass_png).convert('L')) > 128
+    height, width = glass.shape
+    labels, count = ndimage.label(glass)
+    if count == 0:
+        return None
+    door_x = door_xy[0] * width if door_xy else width / 2
+    door_y = door_xy[1] * height if door_xy else height * 0.62
+    # The house's panes: solid, window-shaped and window-sized patches (a sea's glints are ragged or huge), near the
+    # door across and from a storey or two above it to the step.
+    keep = np.zeros_like(glass)
+    areas = ndimage.sum(glass, labels, range(1, count + 1))
+    for index, box in enumerate(ndimage.find_objects(labels), start=1):
+        w, h = box[1].stop - box[1].start, box[0].stop - box[0].start
+        middle_x, middle_y = (box[1].start + box[1].stop) / 2, (box[0].start + box[0].stop) / 2
+        pane = (w < width * PANE_MOST[0] and h < height * PANE_MOST[1] and areas[index - 1] > width * height * PANE_LEAST
+                and areas[index - 1] / (w * h) > PANE_FILL and 0.2 < w / h < 5)
+        near = abs(middle_x - door_x) < width * 0.13 and door_y - height * 0.5 < middle_y < door_y + height * 0.1
+        if pane and near:
+            keep |= labels == index
+    if not keep.any():
+        return None
+    ys, xs = np.nonzero(keep & glass)
+    left, right, top, bottom = xs.min() / width, xs.max() / width, ys.min() / height, ys.max() / height
+    if door_xy:
+        left, right = min(left, door_xy[0]), max(right, door_xy[0])
+        bottom = max(bottom, door_xy[1])
+    span = max(bottom - top, 0.08)
+    across = right - left
+    return [round(max(0.0, left - across * LEFT_WALL), 4), round(max(0.0, top - span * ROOF), 4),
+            round(min(1.0, right + across * SIDE_WALL), 4), round(min(1.0, bottom + span * GROUND), 4)]
+
+
+def houses(scene_dir, scenes_json):
+    """Measures where the house stands in every scene with a glass mask and writes the boxes into scenes.json. A door
+    measured outside its house (a stray difference in the door-open edit: two Georgian townhouses) is put back where
+    that home's door usually is in its box."""
+    import glob
+    import statistics
+    index = json.load(open(scenes_json))
+    index['houses'] = {}
+    strays = []
+    for glass in sorted(glob.glob(os.path.join(scene_dir, '*_glass.png'))):
+        name = os.path.basename(glass)[:-len('_glass.png')]
+        if name.endswith('_dooropen'):
+            continue
+        door = index['doors'].get(name)
+        box = house_box(glass, door)
+        if door and box and not (box[0] - 0.02 <= door[0] <= box[2] + 0.02 and door[1] < 0.9):
+            box = house_box(glass, None)
+            strays.append(name)
+        elif door and box is None:
+            box = house_box(glass, None)
+            strays.append(name)
+        if box:
+            index['houses'][name] = box
+    # Where each home's door sits in its box, from the scenes whose doors were measured right.
+    def home(name):
+        return next(h[0] for h in HOUSES if name.startswith(h[0] + '_'))
+    usual = {}
+    for name, box in index['houses'].items():
+        door = index['doors'].get(name)
+        if door and name not in strays:
+            usual.setdefault(home(name), []).append(((door[0] - box[0]) / (box[2] - box[0]), (door[1] - box[1]) / (box[3] - box[1])))
+    for name in strays:
+        box = index['houses'].get(name)
+        if not box:
+            continue
+        fx = statistics.median(p[0] for p in usual[home(name)])
+        fy = statistics.median(p[1] for p in usual[home(name)])
+        index['doors'][name] = [round(box[0] + fx * (box[2] - box[0]), 4), round(box[1] + fy * (box[3] - box[1]), 4)]
+        print('door put back:', name, index['doors'][name])
+    json.dump(index, open(scenes_json, 'w'), indent=1, sort_keys=True)
+    print(len(index['houses']), 'houses')
+
 if __name__ == '__main__':
     cmd = sys.argv[1]
     if cmd == 'batch':
@@ -159,3 +251,5 @@ if __name__ == '__main__':
         print(key(sys.argv[2], sys.argv[3], sys.argv[4]))
     elif cmd == 'doors':
         doors(sys.argv[2], sys.argv[3])
+    elif cmd == 'houses':
+        houses(sys.argv[2], sys.argv[3])

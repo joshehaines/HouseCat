@@ -54,10 +54,12 @@ enum GameWorld {
         return now
     }
 
-    /// The door points of the painted exteriors (assets/world/scenes/scenes.json).
+    /// The door points of the painted exteriors and where each house stands in its painting
+    /// (assets/world/scenes/scenes.json, tools/asset-pipeline/scenes.py doors and houses).
     private struct SceneIndex: Decodable {
         var defaultDoor: [Double]
         var doors: [String: [Double]]
+        var houses: [String: [Double]]?
     }
 
     /// A painted scene's front door (a fraction of the picture), from scenes.json.
@@ -79,12 +81,14 @@ enum GameWorld {
         else { return nil }
         let name = String(path.dropFirst("world/scenes/".count))
         let door = index.doors[name] ?? index.defaultDoor
+        let house = index.houses?[name].flatMap { $0.count == 4 ? CGRect(x: $0[0], y: $0[1], width: $0[2] - $0[0], height: $0[3] - $0[1]) : nil }
         let model = ExteriorScene.Model(
             scene: path,
             sky: now.sky,
             door: CGPoint(x: door[0], y: door[1]),
             weather: now.weather,
-            season: now.season
+            season: now.season,
+            house: house
         )
         return ExteriorScene(size: size, art: art, model: model)
     }

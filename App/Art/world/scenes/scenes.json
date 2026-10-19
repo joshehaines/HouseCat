@@ -173,8 +173,8 @@
    0.627
   ],
   "georgian_townhouse_countryside_summer": [
-   0.2715,
-   0.998
+   0.4072,
+   0.6167
   ],
   "georgian_townhouse_countryside_winter": [
    0.4062,
@@ -193,8 +193,8 @@
    0.6113
   ],
   "georgian_townhouse_desert_winter": [
-   0.8867,
-   0.8789
+   0.4137,
+   0.6045
   ],
   "georgian_townhouse_forest_autumn": [
    0.3926,
@@ -1027,6 +1027,1544 @@
   "woodland_cabin_tropical_winter": [
    0.4297,
    0.6133
+  ]
+ },
+ "houses": {
+  "cottage_city_autumn": [
+   0.3591,
+   0.4075,
+   0.605,
+   0.6695
+  ],
+  "cottage_city_spring": [
+   0.3339,
+   0.4037,
+   0.6081,
+   0.695
+  ],
+  "cottage_city_summer": [
+   0.349,
+   0.4275,
+   0.6319,
+   0.711
+  ],
+  "cottage_city_winter": [
+   0.3374,
+   0.4055,
+   0.595,
+   0.7045
+  ],
+  "cottage_coast_autumn": [
+   0.3342,
+   0.4149,
+   0.6055,
+   0.7006
+  ],
+  "cottage_coast_spring": [
+   0.3598,
+   0.4026,
+   0.6094,
+   0.6691
+  ],
+  "cottage_coast_summer": [
+   0.3471,
+   0.4059,
+   0.6191,
+   0.6724
+  ],
+  "cottage_coast_winter": [
+   0.3553,
+   0.4401,
+   0.6237,
+   0.6992
+  ],
+  "cottage_countryside_autumn": [
+   0.3639,
+   0.3938,
+   0.6098,
+   0.6647
+  ],
+  "cottage_countryside_spring": [
+   0.3666,
+   0.4203,
+   0.6154,
+   0.6852
+  ],
+  "cottage_countryside_summer": [
+   0.3638,
+   0.3979,
+   0.6105,
+   0.6703
+  ],
+  "cottage_countryside_winter": [
+   0.3702,
+   0.4184,
+   0.6059,
+   0.6627
+  ],
+  "cottage_desert_autumn": [
+   0.351,
+   0.3842,
+   0.6216,
+   0.6729
+  ],
+  "cottage_desert_spring": [
+   0.3565,
+   0.3953,
+   0.6169,
+   0.6676
+  ],
+  "cottage_desert_summer": [
+   0.3568,
+   0.4017,
+   0.61,
+   0.68
+  ],
+  "cottage_desert_winter": [
+   0.3632,
+   0.4371,
+   0.6193,
+   0.6843
+  ],
+  "cottage_forest_autumn": [
+   0.3693,
+   0.4025,
+   0.5992,
+   0.6453
+  ],
+  "cottage_forest_spring": [
+   0.3557,
+   0.4266,
+   0.6053,
+   0.696
+  ],
+  "cottage_forest_summer": [
+   0.3648,
+   0.4234,
+   0.602,
+   0.6869
+  ],
+  "cottage_forest_winter": [
+   0.3677,
+   0.4261,
+   0.6129,
+   0.6673
+  ],
+  "cottage_mountain_autumn": [
+   0.3478,
+   0.4108,
+   0.5988,
+   0.6728
+  ],
+  "cottage_mountain_spring": [
+   0.3685,
+   0.4146,
+   0.6021,
+   0.6751
+  ],
+  "cottage_mountain_summer": [
+   0.3466,
+   0.3859,
+   0.6056,
+   0.6568
+  ],
+  "cottage_mountain_winter": [
+   0.3647,
+   0.4557,
+   0.6208,
+   0.7117
+  ],
+  "cottage_snow_autumn": [
+   0.358,
+   0.4237,
+   0.5924,
+   0.6753
+  ],
+  "cottage_snow_spring": [
+   0.3448,
+   0.4047,
+   0.5994,
+   0.6801
+  ],
+  "cottage_snow_summer": [
+   0.3476,
+   0.3978,
+   0.611,
+   0.6687
+  ],
+  "cottage_snow_winter": [
+   0.3458,
+   0.4392,
+   0.5939,
+   0.6805
+  ],
+  "cottage_tropical_autumn": [
+   0.335,
+   0.3979,
+   0.6085,
+   0.6999
+  ],
+  "cottage_tropical_spring": [
+   0.3475,
+   0.4062,
+   0.6123,
+   0.683
+  ],
+  "cottage_tropical_summer": [
+   0.3662,
+   0.4234,
+   0.6223,
+   0.6943
+  ],
+  "cottage_tropical_winter": [
+   0.3577,
+   0.4359,
+   0.6276,
+   0.7216
+  ],
+  "georgian_townhouse_city_autumn": [
+   0.37,
+   0.0,
+   0.6109,
+   0.8861
+  ],
+  "georgian_townhouse_city_spring": [
+   0.3612,
+   0.0,
+   0.6079,
+   0.8889
+  ],
+  "georgian_townhouse_city_summer": [
+   0.3608,
+   0.0,
+   0.6118,
+   0.8936
+  ],
+  "georgian_townhouse_city_winter": [
+   0.3667,
+   0.0,
+   0.6177,
+   0.8794
+  ],
+  "georgian_townhouse_coast_autumn": [
+   0.3555,
+   0.0,
+   0.6072,
+   0.8699
+  ],
+  "georgian_townhouse_coast_spring": [
+   0.3514,
+   0.0,
+   0.6285,
+   0.9312
+  ],
+  "georgian_townhouse_coast_summer": [
+   0.36,
+   0.0,
+   0.6183,
+   0.9318
+  ],
+  "georgian_townhouse_coast_winter": [
+   0.3609,
+   0.0,
+   0.6075,
+   0.8916
+  ],
+  "georgian_townhouse_countryside_autumn": [
+   0.3598,
+   0.0,
+   0.6275,
+   0.9127
+  ],
+  "georgian_townhouse_countryside_spring": [
+   0.3519,
+   0.0,
+   0.6095,
+   0.9231
+  ],
+  "georgian_townhouse_countryside_summer": [
+   0.3374,
+   0.0,
+   0.7552,
+   0.9164
+  ],
+  "georgian_townhouse_countryside_winter": [
+   0.3751,
+   0.0,
+   0.6131,
+   0.8426
+  ],
+  "georgian_townhouse_desert_autumn": [
+   0.3523,
+   0.0,
+   0.6117,
+   0.9217
+  ],
+  "georgian_townhouse_desert_spring": [
+   0.3477,
+   0.0,
+   0.6248,
+   0.9236
+  ],
+  "georgian_townhouse_desert_summer": [
+   0.3487,
+   0.0,
+   0.62,
+   0.9472
+  ],
+  "georgian_townhouse_desert_winter": [
+   0.3482,
+   0.0,
+   0.74,
+   0.8983
+  ],
+  "georgian_townhouse_forest_autumn": [
+   0.3493,
+   0.0,
+   0.622,
+   0.9518
+  ],
+  "georgian_townhouse_forest_spring": [
+   0.3636,
+   0.0,
+   0.6161,
+   0.935
+  ],
+  "georgian_townhouse_forest_summer": [
+   0.3607,
+   0.0,
+   0.6161,
+   0.9134
+  ],
+  "georgian_townhouse_forest_winter": [
+   0.3672,
+   0.0,
+   0.6175,
+   0.899
+  ],
+  "georgian_townhouse_mountain_autumn": [
+   0.368,
+   0.0,
+   0.6139,
+   0.9185
+  ],
+  "georgian_townhouse_mountain_spring": [
+   0.3608,
+   0.0,
+   0.6227,
+   0.9679
+  ],
+  "georgian_townhouse_mountain_summer": [
+   0.3487,
+   0.0,
+   0.623,
+   0.953
+  ],
+  "georgian_townhouse_mountain_winter": [
+   0.3554,
+   0.0,
+   0.6151,
+   0.9416
+  ],
+  "georgian_townhouse_snow_autumn": [
+   0.3857,
+   0.0,
+   0.6047,
+   0.9106
+  ],
+  "georgian_townhouse_snow_spring": [
+   0.3562,
+   0.0,
+   0.6189,
+   0.8962
+  ],
+  "georgian_townhouse_snow_summer": [
+   0.3583,
+   0.0,
+   0.6224,
+   0.8989
+  ],
+  "georgian_townhouse_snow_winter": [
+   0.3646,
+   0.0,
+   0.6257,
+   0.9303
+  ],
+  "georgian_townhouse_tropical_autumn": [
+   0.2214,
+   0.0,
+   0.7104,
+   0.9815
+  ],
+  "georgian_townhouse_tropical_spring": [
+   0.3464,
+   0.0,
+   0.6148,
+   0.9171
+  ],
+  "georgian_townhouse_tropical_summer": [
+   0.356,
+   0.0,
+   0.6063,
+   0.9092
+  ],
+  "georgian_townhouse_tropical_winter": [
+   0.3582,
+   0.0,
+   0.6092,
+   0.914
+  ],
+  "houseboat_city_autumn": [
+   0.2979,
+   0.3024,
+   0.6287,
+   0.7361
+  ],
+  "houseboat_city_spring": [
+   0.2999,
+   0.3266,
+   0.6517,
+   0.744
+  ],
+  "houseboat_city_summer": [
+   0.3054,
+   0.5215,
+   0.5963,
+   0.6939
+  ],
+  "houseboat_city_winter": [
+   0.3071,
+   0.3032,
+   0.6713,
+   0.7162
+  ],
+  "houseboat_coast_autumn": [
+   0.2939,
+   0.227,
+   0.6421,
+   0.6859
+  ],
+  "houseboat_coast_spring": [
+   0.3153,
+   0.2034,
+   0.6548,
+   0.6638
+  ],
+  "houseboat_coast_summer": [
+   0.2231,
+   0.2225,
+   0.6779,
+   0.6385
+  ],
+  "houseboat_coast_winter": [
+   0.276,
+   0.1846,
+   0.6569,
+   0.7145
+  ],
+  "houseboat_countryside_autumn": [
+   0.2906,
+   0.2578,
+   0.6381,
+   0.693
+  ],
+  "houseboat_countryside_spring": [
+   0.284,
+   0.4649,
+   0.6163,
+   0.6439
+  ],
+  "houseboat_countryside_summer": [
+   0.2989,
+   0.2279,
+   0.6602,
+   0.6823
+  ],
+  "houseboat_countryside_winter": [
+   0.3071,
+   0.4821,
+   0.6205,
+   0.6584
+  ],
+  "houseboat_desert_autumn": [
+   0.303,
+   0.2583,
+   0.6207,
+   0.7068
+  ],
+  "houseboat_desert_spring": [
+   0.3028,
+   0.4634,
+   0.5894,
+   0.6459
+  ],
+  "houseboat_desert_summer": [
+   0.2897,
+   0.2568,
+   0.643,
+   0.7261
+  ],
+  "houseboat_desert_winter": [
+   0.3029,
+   0.2224,
+   0.6939,
+   0.7257
+  ],
+  "houseboat_forest_autumn": [
+   0.2938,
+   0.4818,
+   0.6325,
+   0.6624
+  ],
+  "houseboat_forest_spring": [
+   0.289,
+   0.2986,
+   0.6343,
+   0.6967
+  ],
+  "houseboat_forest_summer": [
+   0.3212,
+   0.2859,
+   0.6643,
+   0.7122
+  ],
+  "houseboat_forest_winter": [
+   0.3025,
+   0.2737,
+   0.65,
+   0.7252
+  ],
+  "houseboat_mountain_autumn": [
+   0.2952,
+   0.4985,
+   0.5869,
+   0.6656
+  ],
+  "houseboat_mountain_spring": [
+   0.3062,
+   0.5024,
+   0.6175,
+   0.6814
+  ],
+  "houseboat_mountain_summer": [
+   0.3028,
+   0.2391,
+   0.6444,
+   0.7083
+  ],
+  "houseboat_mountain_winter": [
+   0.2946,
+   0.2268,
+   0.6653,
+   0.7287
+  ],
+  "houseboat_snow_autumn": [
+   0.3188,
+   0.2403,
+   0.6568,
+   0.6932
+  ],
+  "houseboat_snow_spring": [
+   0.3037,
+   0.4696,
+   0.607,
+   0.6492
+  ],
+  "houseboat_snow_summer": [
+   0.2883,
+   0.4533,
+   0.622,
+   0.6457
+  ],
+  "houseboat_snow_winter": [
+   0.283,
+   0.4755,
+   0.6109,
+   0.6472
+  ],
+  "houseboat_tropical_autumn": [
+   0.2359,
+   0.2461,
+   0.6741,
+   0.6605
+  ],
+  "houseboat_tropical_spring": [
+   0.3013,
+   0.2097,
+   0.6575,
+   0.6745
+  ],
+  "houseboat_tropical_summer": [
+   0.2909,
+   0.462,
+   0.621,
+   0.6559
+  ],
+  "houseboat_tropical_winter": [
+   0.2376,
+   0.4867,
+   0.6235,
+   0.6643
+  ],
+  "london_terrace_city_autumn": [
+   0.3781,
+   0.0557,
+   0.6711,
+   0.8446
+  ],
+  "london_terrace_city_spring": [
+   0.3625,
+   0.0417,
+   0.6258,
+   0.881
+  ],
+  "london_terrace_city_summer": [
+   0.3638,
+   0.1012,
+   0.6431,
+   0.7658
+  ],
+  "london_terrace_city_winter": [
+   0.3761,
+   0.1493,
+   0.6373,
+   0.7266
+  ],
+  "london_terrace_coast_autumn": [
+   0.3676,
+   0.0917,
+   0.6281,
+   0.82
+  ],
+  "london_terrace_coast_spring": [
+   0.3655,
+   0.0,
+   0.6216,
+   0.876
+  ],
+  "london_terrace_coast_summer": [
+   0.3695,
+   0.0649,
+   0.613,
+   0.8094
+  ],
+  "london_terrace_coast_winter": [
+   0.3672,
+   0.068,
+   0.6465,
+   0.8777
+  ],
+  "london_terrace_countryside_autumn": [
+   0.3717,
+   0.0899,
+   0.6401,
+   0.8862
+  ],
+  "london_terrace_countryside_spring": [
+   0.3722,
+   0.092,
+   0.6428,
+   0.7862
+  ],
+  "london_terrace_countryside_summer": [
+   0.3673,
+   0.0833,
+   0.6531,
+   0.7909
+  ],
+  "london_terrace_countryside_winter": [
+   0.3725,
+   0.1432,
+   0.625,
+   0.8359
+  ],
+  "london_terrace_desert_autumn": [
+   0.3757,
+   0.0846,
+   0.6351,
+   0.8144
+  ],
+  "london_terrace_desert_spring": [
+   0.3661,
+   0.0914,
+   0.649,
+   0.7872
+  ],
+  "london_terrace_desert_summer": [
+   0.3839,
+   0.0676,
+   0.6403,
+   0.8137
+  ],
+  "london_terrace_desert_winter": [
+   0.3823,
+   0.1161,
+   0.6353,
+   0.7777
+  ],
+  "london_terrace_forest_autumn": [
+   0.3769,
+   0.0687,
+   0.6337,
+   0.8488
+  ],
+  "london_terrace_forest_spring": [
+   0.3783,
+   0.1093,
+   0.654,
+   0.8213
+  ],
+  "london_terrace_forest_summer": [
+   0.3934,
+   0.0941,
+   0.6519,
+   0.8638
+  ],
+  "london_terrace_forest_winter": [
+   0.3836,
+   0.1313,
+   0.6429,
+   0.8019
+  ],
+  "london_terrace_mountain_autumn": [
+   0.3571,
+   0.115,
+   0.6292,
+   0.8018
+  ],
+  "london_terrace_mountain_spring": [
+   0.3558,
+   0.06,
+   0.6336,
+   0.8312
+  ],
+  "london_terrace_mountain_summer": [
+   0.3671,
+   0.0492,
+   0.6157,
+   0.9063
+  ],
+  "london_terrace_mountain_winter": [
+   0.3847,
+   0.1204,
+   0.6338,
+   0.8087
+  ],
+  "london_terrace_snow_autumn": [
+   0.377,
+   0.09,
+   0.6476,
+   0.7916
+  ],
+  "london_terrace_snow_spring": [
+   0.3831,
+   0.1222,
+   0.6274,
+   0.7869
+  ],
+  "london_terrace_snow_summer": [
+   0.3646,
+   0.0683,
+   0.6221,
+   0.8217
+  ],
+  "london_terrace_snow_winter": [
+   0.3706,
+   0.0867,
+   0.6274,
+   0.7958
+  ],
+  "london_terrace_tropical_autumn": [
+   0.3803,
+   0.0939,
+   0.6328,
+   0.803
+  ],
+  "london_terrace_tropical_spring": [
+   0.3794,
+   0.0822,
+   0.6219,
+   0.8076
+  ],
+  "london_terrace_tropical_summer": [
+   0.2515,
+   0.0,
+   0.6976,
+   0.8453
+  ],
+  "london_terrace_tropical_winter": [
+   0.3762,
+   0.1261,
+   0.6506,
+   0.804
+  ],
+  "mansion_flat_city_autumn": [
+   0.3327,
+   0.0062,
+   0.5961,
+   0.8677
+  ],
+  "mansion_flat_city_spring": [
+   0.3276,
+   0.0051,
+   0.6084,
+   0.914
+  ],
+  "mansion_flat_city_summer": [
+   0.338,
+   0.0342,
+   0.6151,
+   0.9224
+  ],
+  "mansion_flat_city_winter": [
+   0.3291,
+   0.0026,
+   0.6062,
+   0.8982
+  ],
+  "mansion_flat_coast_autumn": [
+   0.3235,
+   0.0,
+   0.6151,
+   0.9506
+  ],
+  "mansion_flat_coast_spring": [
+   0.3307,
+   0.0064,
+   0.6143,
+   0.9597
+  ],
+  "mansion_flat_coast_summer": [
+   0.3347,
+   0.0217,
+   0.6118,
+   0.8655
+  ],
+  "mansion_flat_coast_winter": [
+   0.3211,
+   0.0,
+   0.5568,
+   0.9044
+  ],
+  "mansion_flat_countryside_autumn": [
+   0.3238,
+   0.0,
+   0.5654,
+   0.9378
+  ],
+  "mansion_flat_countryside_spring": [
+   0.3255,
+   0.0426,
+   0.5613,
+   0.8627
+  ],
+  "mansion_flat_countryside_summer": [
+   0.3277,
+   0.0326,
+   0.615,
+   0.9326
+  ],
+  "mansion_flat_countryside_winter": [
+   0.3182,
+   0.0436,
+   0.5822,
+   0.8888
+  ],
+  "mansion_flat_desert_autumn": [
+   0.3158,
+   0.0246,
+   0.5668,
+   0.9601
+  ],
+  "mansion_flat_desert_spring": [
+   0.3286,
+   0.0293,
+   0.6137,
+   0.8849
+  ],
+  "mansion_flat_desert_summer": [
+   0.3135,
+   0.0,
+   0.5645,
+   0.9827
+  ],
+  "mansion_flat_desert_winter": [
+   0.3245,
+   0.0291,
+   0.5704,
+   0.9335
+  ],
+  "mansion_flat_forest_autumn": [
+   0.326,
+   0.0387,
+   0.6003,
+   0.8884
+  ],
+  "mansion_flat_forest_spring": [
+   0.3283,
+   0.0488,
+   0.5989,
+   0.8718
+  ],
+  "mansion_flat_forest_summer": [
+   0.3379,
+   0.0346,
+   0.6013,
+   0.9124
+  ],
+  "mansion_flat_forest_winter": [
+   0.3537,
+   0.0549,
+   0.612,
+   0.8646
+  ],
+  "mansion_flat_mountain_autumn": [
+   0.3286,
+   0.0714,
+   0.592,
+   0.9344
+  ],
+  "mansion_flat_mountain_spring": [
+   0.3395,
+   0.0428,
+   0.6094,
+   0.8791
+  ],
+  "mansion_flat_mountain_summer": [
+   0.328,
+   0.0278,
+   0.5978,
+   0.9544
+  ],
+  "mansion_flat_mountain_winter": [
+   0.3152,
+   0.0054,
+   0.5938,
+   0.9468
+  ],
+  "mansion_flat_snow_autumn": [
+   0.3299,
+   0.0061,
+   0.6099,
+   0.9549
+  ],
+  "mansion_flat_snow_spring": [
+   0.3446,
+   0.073,
+   0.6007,
+   0.8798
+  ],
+  "mansion_flat_snow_summer": [
+   0.3456,
+   0.0525,
+   0.614,
+   0.9614
+  ],
+  "mansion_flat_snow_winter": [
+   0.3271,
+   0.0271,
+   0.5948,
+   0.8871
+  ],
+  "mansion_flat_tropical_autumn": [
+   0.3246,
+   0.0018,
+   0.606,
+   1.0
+  ],
+  "mansion_flat_tropical_spring": [
+   0.3409,
+   0.0,
+   0.6043,
+   0.911
+  ],
+  "mansion_flat_tropical_summer": [
+   0.2502,
+   0.0,
+   0.6579,
+   0.9487
+  ],
+  "mansion_flat_tropical_winter": [
+   0.3202,
+   0.0097,
+   0.6148,
+   0.963
+  ],
+  "mediterranean_rooftop_city_autumn": [
+   0.3686,
+   0.5293,
+   0.5265,
+   0.7262
+  ],
+  "mediterranean_rooftop_city_spring": [
+   0.358,
+   0.4692,
+   0.5234,
+   0.6705
+  ],
+  "mediterranean_rooftop_city_summer": [
+   0.3658,
+   0.4847,
+   0.5313,
+   0.6979
+  ],
+  "mediterranean_rooftop_city_winter": [
+   0.3575,
+   0.5216,
+   0.5473,
+   0.7273
+  ],
+  "mediterranean_rooftop_coast_autumn": [
+   0.3209,
+   0.3993,
+   0.54,
+   0.725
+  ],
+  "mediterranean_rooftop_coast_spring": [
+   0.2625,
+   0.0,
+   0.5868,
+   0.8383
+  ],
+  "mediterranean_rooftop_coast_summer": [
+   0.356,
+   0.3209,
+   0.5671,
+   0.7561
+  ],
+  "mediterranean_rooftop_coast_winter": [
+   0.3515,
+   0.4668,
+   0.5233,
+   0.6711
+  ],
+  "mediterranean_rooftop_countryside_autumn": [
+   0.3567,
+   0.4632,
+   0.5352,
+   0.663
+  ],
+  "mediterranean_rooftop_countryside_spring": [
+   0.3761,
+   0.4572,
+   0.5369,
+   0.6719
+  ],
+  "mediterranean_rooftop_countryside_summer": [
+   0.3551,
+   0.4724,
+   0.5495,
+   0.6944
+  ],
+  "mediterranean_rooftop_countryside_winter": [
+   0.365,
+   0.5051,
+   0.5584,
+   0.7183
+  ],
+  "mediterranean_rooftop_desert_autumn": [
+   0.3441,
+   0.4879,
+   0.5316,
+   0.707
+  ],
+  "mediterranean_rooftop_desert_spring": [
+   0.3609,
+   0.4788,
+   0.5361,
+   0.6994
+  ],
+  "mediterranean_rooftop_desert_summer": [
+   0.331,
+   0.4732,
+   0.5125,
+   0.7041
+  ],
+  "mediterranean_rooftop_desert_winter": [
+   0.3175,
+   0.4846,
+   0.5742,
+   0.7185
+  ],
+  "mediterranean_rooftop_forest_autumn": [
+   0.3562,
+   0.4011,
+   0.5391,
+   0.7534
+  ],
+  "mediterranean_rooftop_forest_spring": [
+   0.3647,
+   0.4511,
+   0.5229,
+   0.6479
+  ],
+  "mediterranean_rooftop_forest_summer": [
+   0.3611,
+   0.4692,
+   0.5161,
+   0.6557
+  ],
+  "mediterranean_rooftop_forest_winter": [
+   0.3498,
+   0.4568,
+   0.5376,
+   0.6596
+  ],
+  "mediterranean_rooftop_mountain_autumn": [
+   0.3494,
+   0.5066,
+   0.5228,
+   0.7156
+  ],
+  "mediterranean_rooftop_mountain_spring": [
+   0.3543,
+   0.4984,
+   0.5367,
+   0.7101
+  ],
+  "mediterranean_rooftop_mountain_summer": [
+   0.354,
+   0.5139,
+   0.5212,
+   0.7005
+  ],
+  "mediterranean_rooftop_mountain_winter": [
+   0.3681,
+   0.4829,
+   0.5492,
+   0.6901
+  ],
+  "mediterranean_rooftop_snow_autumn": [
+   0.3504,
+   0.483,
+   0.5331,
+   0.6917
+  ],
+  "mediterranean_rooftop_snow_spring": [
+   0.3525,
+   0.4041,
+   0.539,
+   0.7904
+  ],
+  "mediterranean_rooftop_snow_summer": [
+   0.3562,
+   0.4743,
+   0.5204,
+   0.689
+  ],
+  "mediterranean_rooftop_snow_winter": [
+   0.331,
+   0.477,
+   0.5246,
+   0.7138
+  ],
+  "mediterranean_rooftop_tropical_autumn": [
+   0.3383,
+   0.4955,
+   0.5436,
+   0.7264
+  ],
+  "mediterranean_rooftop_tropical_spring": [
+   0.2001,
+   0.0,
+   0.6898,
+   0.852
+  ],
+  "mediterranean_rooftop_tropical_summer": [
+   0.3273,
+   0.4307,
+   0.5674,
+   0.7608
+  ],
+  "mediterranean_rooftop_tropical_winter": [
+   0.3704,
+   0.4707,
+   0.5677,
+   0.6661
+  ],
+  "newbuild_balcony_city_autumn": [
+   0.3391,
+   0.0,
+   0.5262,
+   0.8841
+  ],
+  "newbuild_balcony_city_spring": [
+   0.338,
+   0.0,
+   0.5281,
+   0.9035
+  ],
+  "newbuild_balcony_city_summer": [
+   0.3387,
+   0.0,
+   0.5295,
+   0.8999
+  ],
+  "newbuild_balcony_city_winter": [
+   0.3211,
+   0.0,
+   0.506,
+   0.8892
+  ],
+  "newbuild_balcony_coast_autumn": [
+   0.3217,
+   0.0,
+   0.5328,
+   0.949
+  ],
+  "newbuild_balcony_coast_spring": [
+   0.3362,
+   0.0,
+   0.5038,
+   0.8782
+  ],
+  "newbuild_balcony_coast_summer": [
+   0.3281,
+   0.0,
+   0.5283,
+   0.915
+  ],
+  "newbuild_balcony_coast_winter": [
+   0.3295,
+   0.0,
+   0.5014,
+   0.9083
+  ],
+  "newbuild_balcony_countryside_autumn": [
+   0.3354,
+   0.0,
+   0.5291,
+   0.9129
+  ],
+  "newbuild_balcony_countryside_spring": [
+   0.3336,
+   0.0,
+   0.5085,
+   0.9011
+  ],
+  "newbuild_balcony_countryside_summer": [
+   0.3356,
+   0.0,
+   0.5351,
+   0.9178
+  ],
+  "newbuild_balcony_countryside_winter": [
+   0.3045,
+   0.0,
+   0.7122,
+   0.9649
+  ],
+  "newbuild_balcony_desert_autumn": [
+   0.3305,
+   0.0,
+   0.514,
+   0.9331
+  ],
+  "newbuild_balcony_desert_spring": [
+   0.3352,
+   0.0,
+   0.5166,
+   0.9273
+  ],
+  "newbuild_balcony_desert_summer": [
+   0.3418,
+   0.0,
+   0.5239,
+   0.9204
+  ],
+  "newbuild_balcony_desert_winter": [
+   0.3362,
+   0.0,
+   0.5292,
+   0.9106
+  ],
+  "newbuild_balcony_forest_autumn": [
+   0.3243,
+   0.0,
+   0.5354,
+   0.9252
+  ],
+  "newbuild_balcony_forest_spring": [
+   0.3237,
+   0.0,
+   0.508,
+   0.9301
+  ],
+  "newbuild_balcony_forest_summer": [
+   0.3368,
+   0.0124,
+   0.5131,
+   0.9064
+  ],
+  "newbuild_balcony_forest_winter": [
+   0.3374,
+   0.0466,
+   0.5231,
+   0.8814
+  ],
+  "newbuild_balcony_mountain_autumn": [
+   0.31,
+   0.013,
+   0.516,
+   0.9293
+  ],
+  "newbuild_balcony_mountain_spring": [
+   0.3364,
+   0.0,
+   0.5352,
+   0.9598
+  ],
+  "newbuild_balcony_mountain_summer": [
+   0.3208,
+   0.0,
+   0.5485,
+   0.9596
+  ],
+  "newbuild_balcony_mountain_winter": [
+   0.3251,
+   0.0,
+   0.5108,
+   0.9524
+  ],
+  "newbuild_balcony_snow_autumn": [
+   0.3401,
+   0.0018,
+   0.5135,
+   0.9329
+  ],
+  "newbuild_balcony_snow_spring": [
+   0.3281,
+   0.0,
+   0.5355,
+   0.9265
+  ],
+  "newbuild_balcony_snow_summer": [
+   0.3244,
+   0.0,
+   0.542,
+   0.95
+  ],
+  "newbuild_balcony_snow_winter": [
+   0.3169,
+   0.0,
+   0.5171,
+   0.928
+  ],
+  "newbuild_balcony_tropical_autumn": [
+   0.3327,
+   0.0,
+   0.509,
+   0.9188
+  ],
+  "newbuild_balcony_tropical_spring": [
+   0.3354,
+   0.0,
+   0.5037,
+   0.9006
+  ],
+  "newbuild_balcony_tropical_summer": [
+   0.3293,
+   0.0,
+   0.5208,
+   0.9728
+  ],
+  "newbuild_balcony_tropical_winter": [
+   0.3183,
+   0.0,
+   0.5374,
+   0.9214
+  ],
+  "woodland_cabin_city_autumn": [
+   0.3872,
+   0.4467,
+   0.478,
+   0.6354
+  ],
+  "woodland_cabin_city_spring": [
+   0.3665,
+   0.1992,
+   0.4686,
+   0.6714
+  ],
+  "woodland_cabin_city_summer": [
+   0.3857,
+   0.2251,
+   0.491,
+   0.6559
+  ],
+  "woodland_cabin_city_winter": [
+   0.3834,
+   0.4617,
+   0.4912,
+   0.6248
+  ],
+  "woodland_cabin_coast_autumn": [
+   0.367,
+   0.1697,
+   0.4743,
+   0.6434
+  ],
+  "woodland_cabin_coast_spring": [
+   0.3883,
+   0.2154,
+   0.4682,
+   0.6254
+  ],
+  "woodland_cabin_coast_summer": [
+   0.3775,
+   0.4347,
+   0.4671,
+   0.6084
+  ],
+  "woodland_cabin_coast_winter": [
+   0.3652,
+   0.3853,
+   0.4609,
+   0.559
+  ],
+  "woodland_cabin_countryside_autumn": [
+   0.3556,
+   0.412,
+   0.4833,
+   0.6355
+  ],
+  "woodland_cabin_countryside_spring": [
+   0.3619,
+   0.1261,
+   0.4702,
+   0.6375
+  ],
+  "woodland_cabin_countryside_summer": [
+   0.3791,
+   0.4235,
+   0.4728,
+   0.5965
+  ],
+  "woodland_cabin_countryside_winter": [
+   0.3588,
+   0.4217,
+   0.4879,
+   0.6123
+  ],
+  "woodland_cabin_desert_autumn": [
+   0.3846,
+   0.1896,
+   0.4815,
+   0.6574
+  ],
+  "woodland_cabin_desert_spring": [
+   0.3837,
+   0.4329,
+   0.4705,
+   0.629
+  ],
+  "woodland_cabin_desert_summer": [
+   0.3881,
+   0.4328,
+   0.489,
+   0.6218
+  ],
+  "woodland_cabin_desert_winter": [
+   0.3779,
+   0.2257,
+   0.502,
+   0.6697
+  ],
+  "woodland_cabin_forest_autumn": [
+   0.3749,
+   0.2609,
+   0.4712,
+   0.6724
+  ],
+  "woodland_cabin_forest_spring": [
+   0.3798,
+   0.4255,
+   0.485,
+   0.5959
+  ],
+  "woodland_cabin_forest_summer": [
+   0.3758,
+   0.4439,
+   0.4821,
+   0.6163
+  ],
+  "woodland_cabin_forest_winter": [
+   0.3666,
+   0.4321,
+   0.4679,
+   0.5978
+  ],
+  "woodland_cabin_mountain_autumn": [
+   0.3791,
+   0.2529,
+   0.477,
+   0.6777
+  ],
+  "woodland_cabin_mountain_spring": [
+   0.3636,
+   0.4382,
+   0.4782,
+   0.638
+  ],
+  "woodland_cabin_mountain_summer": [
+   0.3766,
+   0.2199,
+   0.4749,
+   0.658
+  ],
+  "woodland_cabin_mountain_winter": [
+   0.3763,
+   0.2787,
+   0.4975,
+   0.7124
+  ],
+  "woodland_cabin_snow_autumn": [
+   0.3705,
+   0.4255,
+   0.4715,
+   0.5998
+  ],
+  "woodland_cabin_snow_spring": [
+   0.3725,
+   0.4347,
+   0.4733,
+   0.6084
+  ],
+  "woodland_cabin_snow_summer": [
+   0.3796,
+   0.4597,
+   0.487,
+   0.6298
+  ],
+  "woodland_cabin_snow_winter": [
+   0.3757,
+   0.2266,
+   0.4628,
+   0.6292
+  ],
+  "woodland_cabin_tropical_autumn": [
+   0.3456,
+   0.3975,
+   0.4834,
+   0.5988
+  ],
+  "woodland_cabin_tropical_spring": [
+   0.275,
+   0.0,
+   0.5173,
+   0.7273
+  ],
+  "woodland_cabin_tropical_summer": [
+   0.3858,
+   0.4385,
+   0.4897,
+   0.6447
+  ],
+  "woodland_cabin_tropical_winter": [
+   0.2886,
+   0.092,
+   0.7137,
+   0.7436
   ]
  },
  "note": "Door points of the painted exterior scenes as fractions of the painting (x right, y down), measured from the door-open edits by tools/asset-pipeline/scenes.py; scenes without one use defaultDoor."

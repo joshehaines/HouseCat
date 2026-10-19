@@ -1,3 +1,4 @@
+import CoreImage
 import HouseCatCore
 import SpriteKit
 
@@ -75,10 +76,29 @@ public final class ExteriorScene: SKScene {
             if art.has(path + "_glass.png") {
                 let glass = SKSpriteNode(texture: art.texture(path + "_glass.png"))
                 glass.anchorPoint = CGPoint(x: 0.5, y: 0)
-                glass.shader = glassShader()
+                glass.shader = glassShader(painting: art.texture(path + ".jpg"))
                 glass.zPosition = 0.1
                 glass.name = "glass"
                 node.addChild(glass)
+                // After dark, lamplight spills softly round the windows.
+                let glow = CGFloat(Tuning.Sky.windowGlow[model.sky] ?? 0)
+                if glow > 0.3 {
+                    let halo = SKEffectNode()
+                    halo.filter = CIFilter(name: "CIGaussianBlur", parameters: [kCIInputRadiusKey: Tuning.Sky.haloBlur])
+                    halo.shouldRasterize = true
+                    halo.blendMode = .add
+                    halo.alpha = glow * CGFloat(Tuning.Sky.haloAlpha)
+                    halo.zPosition = 0.2
+                    halo.name = "halo"
+                    let light = SKSpriteNode(texture: art.texture(path + "_glass.png"))
+                    light.anchorPoint = CGPoint(x: 0.5, y: 0)
+                    let lamp = Tuning.Sky.glassLit
+                    light.color = SKColor(red: lamp[0], green: lamp[1], blue: lamp[2], alpha: 1)
+                    light.colorBlendFactor = 1
+                    light.name = "glass"
+                    halo.addChild(light)
+                    node.addChild(halo)
+                }
             }
             addChild(node)
         }
@@ -106,19 +126,47 @@ public final class ExteriorScene: SKScene {
         return shader
     }
 
-    /// Fills the window glass: sky-pale by day, warm lamplight after dark.
-    private func glassShader() -> SKShader {
+    /// The window glass (Josh, 19 Oct: flat pale panes looked unfinished): by day the painting's own glass, cooled
+    /// towards the sky with a slow sheen drifting across; after dark warm lamplight, keeping the painting's shading.
+    private func glassShader(painting: SKTexture) -> SKShader {
         let shader = SKShader(source: """
         void main() {
             float m = texture2D(u_texture, v_tex_coord).r;
-            gl_FragColor = vec4(u_glass * m, m);
+            vec3 paint = texture2D(u_paint, v_tex_coord).rgb * u_grade;
+            float l = dot(paint, vec3(0.299, 0.587, 0.114));
+            // How deep into its pane from the top: glass above means further down the pane.
+            float below = 0.0;
+            for (int i = 1; i <= 12; i++) {
+                below += texture2D(u_texture, v_tex_coord + vec2(0.0, float(i) * u_step)).r;
+            }
+            below = smoothstep(0.0, 1.0, below / 12.0);
+            float band = fract((v_tex_coord.x * 2.2 + v_tex_coord.y * 1.4) * 4.0 - u_time * 0.015);
+            float sheen = smoothstep(0.0, 0.06, band) * (1.0 - smoothstep(0.06, 0.16, band));
+            // By day: the painted glass with the sky caught in the top of each pane.
+            vec3 sky = u_sky * (0.75 + 0.45 * l);
+            vec3 day = mix(paint, sky, u_cool + (1.0 - below) * 0.45) + vec3(sheen * 0.1);
+            // After dark: warm lamplight, brighter low in the pane where the room's lamps are.
+            vec3 lit = u_lamp * (0.72 + 0.32 * below + 0.18 * l);
+            vec3 c = mix(day, lit, smoothstep(0.0, 0.7, u_glow));
+            gl_FragColor = vec4(c * m, m);
         }
         """)
         let glow = Tuning.Sky.windowGlow[model.sky] ?? 0
         let day = Tuning.Sky.glassByDay, lit = Tuning.Sky.glassLit
         let grade = Tuning.Sky.grade[model.sky] ?? [1, 1, 1]
-        let mix = (0 ..< 3).map { Float(day[$0] * grade[$0] * (1 - glow) + lit[$0] * glow) }
-        shader.uniforms = [SKUniform(name: "u_glass", vectorFloat3: SIMD3(mix[0], mix[1], mix[2]))]
+        func v(_ c: [Double]) -> SIMD3<Float> {
+            SIMD3(Float(c[0]), Float(c[1]), Float(c[2]))
+        }
+        shader.uniforms = [
+            SKUniform(name: "u_paint", texture: painting),
+            SKUniform(name: "u_grade", vectorFloat3: v(grade)),
+            SKUniform(name: "u_sky", vectorFloat3: v(zip(day, grade).map { $0 * $1 })),
+            SKUniform(name: "u_lamp", vectorFloat3: v(lit)),
+            SKUniform(name: "u_glow", float: Float(glow)),
+            SKUniform(name: "u_cool", float: Float(Tuning.Sky.glassCool)),
+            // A pane is a few per cent of the painting tall: twelve steps up cover most of one.
+            SKUniform(name: "u_step", float: Float(Tuning.Sky.glassStep)),
+        ]
         return shader
     }
 
@@ -174,6 +222,9 @@ public final class ExteriorScene: SKScene {
             node.position = CGPoint(x: size.width / 2, y: bottom)
             for case let glass as SKSpriteNode in node.children {
                 glass.size = node.size
+            }
+            for case let light as SKSpriteNode in node.childNode(withName: "halo")?.children ?? [] {
+                light.size = node.size
             }
         }
     }

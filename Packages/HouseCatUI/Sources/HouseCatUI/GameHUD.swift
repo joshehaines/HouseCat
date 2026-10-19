@@ -72,36 +72,43 @@ public struct GameButton: View {
             feedback.tap()
             action()
         } label: {
-            VStack(spacing: 0) {
+            // The word sits on a little plaque over the button's bottom edge (as the care buttons' do), so a long
+            // one ("Decorate", "Upstairs") is never squeezed against the sides.
+            VStack(spacing: -7 * scale) {
                 Group {
                     if let icon {
-                        PaintedIcon(icon, size: s * 0.6)
+                        PaintedIcon(icon, size: s * 0.72)
                     } else if let symbol {
                         Image(systemName: symbol)
-                            .font(.system(size: s * 0.32, weight: .black))
+                            .font(.system(size: s * 0.36, weight: .black))
                             .foregroundStyle(fill.text)
-                            .frame(width: s * 0.6, height: s * 0.6)
+                            .frame(width: s * 0.72, height: s * 0.72)
                     }
                 }
                 .shadow(color: .black.opacity(0.18), radius: 1.5, y: 1.5)
-                Text(title)
-                    .font(.system(size: max(10, s * 0.19), weight: .heavy, design: .rounded))
-                    .foregroundStyle(fill.text)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.7)
-                    .padding(.horizontal, 3)
-            }
-            .frame(width: s, height: s)
-            .background {
-                ZStack {
-                    shape.fill(fill.lip).offset(y: 4 * scale)
-                    shape.fill(LinearGradient(colors: [fill.top, fill.bottom], startPoint: .top, endPoint: .bottom))
-                    shape.strokeBorder(.white.opacity(0.7), lineWidth: 1.5).padding(2)
-                    shape.strokeBorder(GameHUD.lip.opacity(0.35), lineWidth: 1)
+                .offset(y: -s * 0.04)
+                .frame(width: s, height: s)
+                .background {
+                    ZStack {
+                        shape.fill(fill.lip).offset(y: 4 * scale)
+                        shape.fill(LinearGradient(colors: [fill.top, fill.bottom], startPoint: .top, endPoint: .bottom))
+                        shape.strokeBorder(.white.opacity(0.7), lineWidth: 1.5).padding(2)
+                        shape.strokeBorder(GameHUD.lip.opacity(0.35), lineWidth: 1)
+                    }
+                    .shadow(color: Theme.shadow, radius: 5 * scale, y: 4 * scale)
                 }
-                .shadow(color: Theme.shadow, radius: 5 * scale, y: 4 * scale)
+                .overlay(alignment: .topTrailing) { corner(badge: badge, dot: dot, size: s) }
+                Text(title)
+                    .font(.system(size: max(10, min(13, size * 0.2)) * scale, weight: .heavy, design: .rounded))
+                    .foregroundStyle(Theme.ink)
+                    .lineLimit(1)
+                    .fixedSize()
+                    .padding(.horizontal, 8 * scale)
+                    .padding(.vertical, 1.5 * scale)
+                    .background(Capsule().fill(style == .gold ? GameHUD.gold : Theme.cream))
+                    .overlay(Capsule().strokeBorder(GameHUD.lip.opacity(0.35), lineWidth: 1))
+                    .shadow(color: Theme.shadow, radius: 2, y: 1)
             }
-            .overlay(alignment: .topTrailing) { corner(badge: badge, dot: dot, size: s) }
         }
         .buttonStyle(PressStyle())
         .accessibilityLabel(title)

@@ -624,7 +624,12 @@ public enum Tuning {
         public static let glassByDay = [0.62, 0.76, 0.86]
         public static let glassLit = [1.0, 0.8, 0.5]
         /// By day, how far the painted glass is cooled towards the sky's colour (0 keeps the painting's glass).
-        public static let glassCool = 0.35
+        public static let glassCool = 0.25
+        /// The step (a share of the painting's height) for finding how far down its pane a pixel of glass is.
+        public static let glassStep = 0.0033
+        /// After dark, the lamplight spilling round the windows: its blur (painting pixels) and strength.
+        public static let haloBlur = 18.0
+        public static let haloAlpha = 0.55
     }
 
     /// How the exterior painting is framed: it covers the view, except that the house's band in the
@@ -833,8 +838,14 @@ public enum Tuning {
     public enum Stage {
         /// The room's controls are drawn this much larger on an iPad.
         public static let iPadHUDScale = 1.3
-        /// The room sits this far above the bottom of the screen (points), clear of the care buttons.
-        public static let careBarInset = 92.0
+        /// The room sits this far above the bottom of the screen (points), clear of the room switcher (the
+        /// controls are in the corners, over the room, as a builder game's are).
+        public static let careBarInset = 34.0
+        /// The controls keep this far from the screen's sides, top and bottom (points): clear of the rounded
+        /// corners, inside where the safe area would put them (Josh, 19 Oct: use the screen, as Clash of Clans does).
+        public static let hudEdge = 22.0
+        public static let hudTop = 10.0
+        public static let hudBottom = 8.0
         /// The room slides up over this long when the decorate tray opens.
         public static let insetSeconds = 0.25
         /// The share of the view the room may fill.

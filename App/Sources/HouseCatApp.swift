@@ -386,9 +386,9 @@ struct RoomScreen: View {
         }
     }
 
-    /// Larger controls on an iPad.
+    /// Larger controls on an iPad (not on a big iPhone on its side, which also says its width is regular).
     private var hudScale: CGFloat {
-        sizeClass == .regular ? Tuning.Stage.iPadHUDScale : 1
+        UIDevice.current.userInterfaceIdiom == .pad ? Tuning.Stage.iPadHUDScale : 1
     }
 
     /// The room sits above the care buttons along the bottom, so the cat coming to greet you is never under them.
@@ -411,22 +411,11 @@ struct RoomScreen: View {
             ] : [RoomView.Action("Go inside") { (visit.scene as? ExteriorScene)?.enter() }]
         ) { visit.sceneIsReady() }
             .ignoresSafeArea()
-            .overlay(alignment: .top) {
-                // At the top in landscape (the cat runs to the bottom edge to rub), in the gap between the player's
-                // plaque and the bars.
-                VStack(spacing: 8) {
-                    if let line = visit.greeting {
-                        GreetingBubble(line, name: visit.catName)
-                            .frame(maxWidth: 330 * hudScale)
-                            .transition(.move(edge: .top).combined(with: .opacity))
-                            .onTapGesture { visit.dismissGreeting() }
-                    }
-                    if let toast = visit.toast {
-                        Toast(toast, icon: visit.toastIcon)
-                            .transition(.scale(scale: 0.8).combined(with: .opacity))
-                    }
+            .overlay {
+                // What the cat says, in a bubble over its head (it follows the cat); a note over the room up top.
+                if visit.scene is RoomScene {
+                    speech
                 }
-                .padding(.top, 14)
             }
             .overlay(alignment: .bottom) {
                 if let look = visit.previewing {
@@ -453,42 +442,14 @@ struct RoomScreen: View {
             }
             .animation(.easeOut(duration: 0.3), value: visit.greeting)
             .animation(.spring(duration: 0.35), value: visit.toast)
-            // The controls, laid out as a builder game's base (Josh, 18 Oct): the player's plaque top left, the
-            // Beans and streak bars top right with the season's tiles under them, the care actions along the
-            // bottom, Decorate and the Shop bottom right, the rooms bottom left.
-            .overlay(alignment: .topLeading) {
+            // The controls, laid out as a builder game lays out its base (Josh, 18 Oct; 19 Oct: out to the edges,
+            // as Clash of Clans does): the player's plaque top left with the map and the book under it, the Beans
+            // and streak bars top right with the season's tiles beside them, the care actions bottom left, Decorate
+            // and the Shop bottom right, the rooms bottom middle. Nothing halfway down a side, where the Dynamic
+            // Island is in landscape.
+            .overlay {
                 if visit.scene is RoomScene {
-                    Group {
-                        if visit.decorating {
-                            // Turn, Store and Done.
-                            DecorateBar(
-                                decorating: true,
-                                hasSelection: visit.selected != nil,
-                                canDecorate: visit.canDecorate,
-                                toggle: { visit.toggleDecorating() },
-                                turn: { visit.turnSelection() },
-                                store: { visit.storeSelection() }
-                            )
-                        } else {
-                            PlayerBadge(
-                                portrait: portrait,
-                                name: visit.catName ?? "Your cat",
-                                title: GameSession.shared.levelInfo.title,
-                                level: visit.stats.level,
-                                progress: visit.stats.progress,
-                                onPortrait: { showProfile = true },
-                                onLevel: { showRoad = true }
-                            )
-                            .overlay(alignment: .bottomLeading) {
-                                if let gain = visit.xpGain {
-                                    XPFloat(amount: gain.amount).id(gain.id).offset(x: 64 * hudScale, y: 32 * hudScale).transition(.opacity)
-                                }
-                            }
-                            .animation(.easeOut(duration: 0.3), value: visit.xpGain)
-                        }
-                    }
-                    .padding(.leading, 18)
-                    .padding(.top, 14)
+                    roomControls
                 }
             }
             .task(id: [
@@ -497,98 +458,6 @@ struct RoomScreen: View {
                 AnyHashable(profileVersion),
             ]) {
                 portrait = GameSession.shared.cat.flatMap { CatScreens.portrait($0.look) }.map { Image(decorative: $0, scale: 1) }
-            }
-            .overlay(alignment: .topTrailing) {
-                if visit.scene is RoomScene {
-                    VStack(alignment: .trailing, spacing: 9 * hudScale) {
-                        ResourceBar(
-                            icon: "bean_coin",
-                            value: visit.stats.beans.formatted(),
-                            label: "\(visit.stats.beans) Beans. Get more.",
-                            plus: true
-                        ) { openShop(.beans) }
-                        ResourceBar(
-                            icon: "streak_paw_print_with_a_small_flame",
-                            value: visit.stats.streak == 1 ? "1 day" : "\(visit.stats.streak) days",
-                            label: "\(visit.stats.streak) day streak. Shows the streak."
-                        ) { showStreak = true }
-                        if !visit.decorating {
-                            HStack(spacing: 10 * hudScale) { seasonTiles }
-                                .padding(.top, 6 * hudScale)
-                        }
-                    }
-                    .padding(.trailing, 18)
-                    .padding(.top, 14)
-                }
-            }
-            .overlay(alignment: .bottomLeading) {
-                if !visit.decorating, visit.previewing == nil, visit.scene is RoomScene {
-                    VStack(alignment: .leading, spacing: 12 * hudScale) {
-                        HStack(spacing: 10 * hudScale) {
-                            GameButton("Home", icon: "map_pin", size: 50) {
-                                let session = GameSession.shared
-                                moving = WorldMapModel(mode: .move, current: session.state(at: session.now()))
-                            }
-                            .tourTarget("map")
-                            GameButton("Book", icon: "collection_book", size: 50) { showBook = true }
-                                .tourTarget("book")
-                            if let storeyTitle = visit.storeyTitle {
-                                GameButton(storeyTitle, symbol: storeyTitle == "Upstairs" ? "arrow.up" : "arrow.down", size: 50) {
-                                    visit.changeStorey()
-                                }
-                            }
-                        }
-                        RoomSwitcher(title: visit.roomTitle, canStep: visit.openRooms.count > 1) { visit.stepRoom($0) }
-                    }
-                    .padding(.leading, 18)
-                    .padding(.bottom, 16)
-                    .transition(.opacity)
-                }
-            }
-            .overlay(alignment: .bottom) {
-                // Feed, Play and the nap: what the cat needs, with whether it is done today.
-                if !visit.decorating, visit.previewing == nil, visit.scene is RoomScene, visit.canDecorate {
-                    let session = GameSession.shared
-                    let fed = session.state(at: session.now()).isFedToday(GameSession.catID)
-                    let plays = session.playsLeft
-                    HStack(alignment: .bottom, spacing: 16 * hudScale) {
-                        CareButton("Feed", icon: "feed_bowl", badge: fed ? "✓" : nil, lit: !fed) { visit.feed() }
-                            .tourTarget("feed")
-                        CareButton("Play", icon: "play_laser_dot", badge: plays > 0 ? "\(plays)" : nil) {
-                            if visit.wantsToPlay() {
-                                choosingGame = true
-                            }
-                        }
-                        .tourTarget("play")
-                        CareButton(naps.isNapping ? "Wake" : "Nap", icon: "nap_moon", lit: naps.isNapping) {
-                            if naps.isNapping {
-                                visit.wakeFromNap()
-                            } else {
-                                offeringNap = true
-                            }
-                        }
-                        .tourTarget("nap")
-                    }
-                    .id(visit.stats)
-                    .padding(.bottom, 12)
-                    .transition(.opacity)
-                }
-            }
-            .overlay(alignment: .bottomTrailing) {
-                // Nothing over the cold open: the exterior is the picture. A look being tried has the bottom to itself.
-                if !visit.decorating, visit.previewing == nil, visit.scene is RoomScene {
-                    HStack(alignment: .bottom, spacing: 12 * hudScale) {
-                        if visit.canDecorate {
-                            GameButton("Decorate", icon: "decorate_paintbrush", size: 62) { visit.toggleDecorating() }
-                                .tourTarget("decorate")
-                        }
-                        GameButton("Shop", icon: "shop_bag", style: .gold, size: 74) { openShop(nil) }
-                            .tourTarget("shop")
-                    }
-                    .padding(.trailing, 18)
-                    .padding(.bottom, 16)
-                    .transition(.opacity)
-                }
             }
             .overlay(alignment: .bottom) {
                 if visit.decorating {
@@ -963,6 +832,187 @@ struct RoomScreen: View {
         if await WidgetPrompt.take(session.state(at: session.now())) != nil {
             askingWidget = true
         }
+    }
+
+    /// The room's controls, out at the screen's edges and corners (Tuning.Stage.hud*): see `hud`.
+    private var roomControls: some View {
+        let edge = CGFloat(Tuning.Stage.hudEdge), top = CGFloat(Tuning.Stage.hudTop), bottom = CGFloat(Tuning.Stage.hudBottom)
+        let calm = !visit.decorating && visit.previewing == nil
+        return GeometryReader { geometry in
+            let tall = geometry.size.height > geometry.size.width
+            ZStack {
+            // Top left: the plaque (or Turn, Store and Done while decorating), the map and the book under it.
+            VStack(alignment: .leading, spacing: 12 * hudScale) {
+                if visit.decorating {
+                    DecorateBar(
+                        decorating: true,
+                        hasSelection: visit.selected != nil,
+                        canDecorate: visit.canDecorate,
+                        toggle: { visit.toggleDecorating() },
+                        turn: { visit.turnSelection() },
+                        store: { visit.storeSelection() }
+                    )
+                } else {
+                    PlayerBadge(
+                        portrait: portrait,
+                        name: visit.catName ?? "Your cat",
+                        title: GameSession.shared.levelInfo.title,
+                        level: visit.stats.level,
+                        progress: visit.stats.progress,
+                        onPortrait: { showProfile = true },
+                        onLevel: { showRoad = true }
+                    )
+                    .overlay(alignment: .bottomLeading) {
+                        if let gain = visit.xpGain {
+                            XPFloat(amount: gain.amount).id(gain.id).offset(x: 64 * hudScale, y: 32 * hudScale).transition(.opacity)
+                        }
+                    }
+                    .animation(.easeOut(duration: 0.3), value: visit.xpGain)
+                    if calm {
+                        HStack(spacing: 10 * hudScale) {
+                            GameButton("Home", icon: "map_pin", size: 46) {
+                                let session = GameSession.shared
+                                moving = WorldMapModel(mode: .move, current: session.state(at: session.now()))
+                            }
+                            .tourTarget("map")
+                            GameButton("Book", icon: "collection_book", size: 46) { showBook = true }
+                                .tourTarget("book")
+                        }
+                        .transition(.opacity)
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            .padding(.leading, edge)
+            .padding(.top, top)
+
+            // Top right: the season's tiles beside the Beans and the streak.
+            HStack(alignment: .top, spacing: 10 * hudScale) {
+                if !visit.decorating {
+                    seasonTiles
+                }
+                VStack(alignment: .trailing, spacing: 8 * hudScale) {
+                    ResourceBar(
+                        icon: "bean_coin",
+                        value: visit.stats.beans.formatted(),
+                        label: "\(visit.stats.beans) Beans. Get more.",
+                        plus: true
+                    ) { openShop(.beans) }
+                    ResourceBar(
+                        icon: "streak_paw_print_with_a_small_flame",
+                        value: visit.stats.streak == 1 ? "1 day" : "\(visit.stats.streak) days",
+                        label: "\(visit.stats.streak) day streak. Shows the streak."
+                    ) { showStreak = true }
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+            .padding(.trailing, edge)
+            .padding(.top, top)
+
+            if calm {
+                // Bottom left: Feed, Play and the nap, with whether each is done today.
+                if visit.canDecorate {
+                    let session = GameSession.shared
+                    let fed = session.state(at: session.now()).isFedToday(GameSession.catID)
+                    let plays = session.playsLeft
+                    HStack(alignment: .bottom, spacing: 12 * hudScale) {
+                        CareButton("Feed", icon: "feed_bowl", badge: fed ? "✓" : nil, lit: !fed) { visit.feed() }
+                            .tourTarget("feed")
+                        CareButton("Play", icon: "play_laser_dot", badge: plays > 0 ? "\(plays)" : nil) {
+                            if visit.wantsToPlay() {
+                                choosingGame = true
+                            }
+                        }
+                        .tourTarget("play")
+                        CareButton(naps.isNapping ? "Wake" : "Nap", icon: "nap_moon", lit: naps.isNapping) {
+                            if naps.isNapping {
+                                visit.wakeFromNap()
+                            } else {
+                                offeringNap = true
+                            }
+                        }
+                        .tourTarget("nap")
+                    }
+                    .id(visit.stats)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
+                    .padding(.leading, edge)
+                    .padding(.bottom, bottom)
+                    .transition(.opacity)
+                }
+
+                // Bottom middle: the room you are in, and the stairs.
+                HStack(spacing: 10 * hudScale) {
+                    RoomSwitcher(title: visit.roomTitle, canStep: visit.openRooms.count > 1) { visit.stepRoom($0) }
+                    if let storeyTitle = visit.storeyTitle {
+                        GameButton(storeyTitle, symbol: storeyTitle == "Upstairs" ? "arrow.up" : "arrow.down", size: 40) {
+                            visit.changeStorey()
+                        }
+                    }
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+                // Clear of the home bar along the bottom's middle; on a screen taller than it is wide, above the
+                // corners' buttons, which take the bottom's whole width.
+                .padding(.bottom, tall ? bottom + 112 * hudScale : bottom + 14)
+                .transition(.opacity)
+
+                // Bottom right: Decorate and the Shop.
+                HStack(alignment: .bottom, spacing: 12 * hudScale) {
+                    if visit.canDecorate {
+                        GameButton("Decorate", icon: "decorate_paintbrush", size: 60) { visit.toggleDecorating() }
+                            .tourTarget("decorate")
+                    }
+                    GameButton("Shop", icon: "shop_bag", style: .gold, size: 72) { openShop(nil) }
+                        .tourTarget("shop")
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+                .padding(.trailing, edge)
+                .padding(.bottom, bottom)
+                .transition(.opacity)
+            }
+            }
+        }
+        .ignoresSafeArea()
+    }
+
+    /// The cat's line in a bubble over its head, following it about the room (top middle when it is out of sight),
+    /// and a note ("+10 Beans") up top.
+    private var speech: some View {
+        GeometryReader { geometry in
+            let size = geometry.size
+            ZStack {
+                if let line = visit.greeting {
+                    TimelineView(.animation(minimumInterval: 1.0 / 30)) { _ in
+                        let width = min(300 * hudScale, size.width * 0.42)
+                        let head = catHead()
+                        // Kept clear of the corners' controls and the screen's edges.
+                        let x = min(max(head?.x ?? size.width / 2, width / 2 + 24), size.width - width / 2 - 24)
+                        // Its bottom (the tail's tip) just over the head, low enough to clear the top bars.
+                        let bottom = max(head.map { $0.y - 6 * hudScale } ?? 170 * hudScale, 160 * hudScale)
+                        let room = 320 * hudScale
+                        GreetingBubble(line, name: visit.catName, pointsDown: head != nil)
+                            .onTapGesture { visit.dismissGreeting() }
+                            .frame(width: width, height: room, alignment: .bottom)
+                            .position(x: x, y: bottom - room / 2)
+                    }
+                    .transition(.scale(scale: 0.85, anchor: .bottom).combined(with: .opacity))
+                }
+                if let toast = visit.toast {
+                    Toast(toast, icon: visit.toastIcon)
+                        .transition(.scale(scale: 0.8).combined(with: .opacity))
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                        .padding(.top, 14)
+                }
+            }
+        }
+        .ignoresSafeArea()
+    }
+
+    /// The top of the cat's head in the view's points, when it is in a room on screen.
+    private func catHead() -> CGPoint? {
+        guard let scene = visit.scene as? RoomScene, scene.view != nil, let cat = scene.director?.cat, let room = cat.parent,
+              room.scene === scene else { return nil }
+        let frame = cat.bodyFrame
+        return scene.convertPoint(toView: scene.convert(CGPoint(x: frame.midX, y: frame.maxY), from: room))
     }
 
     /// The season's tiles under the bars: the pass, the launch's gift track while it runs, looking after the cat

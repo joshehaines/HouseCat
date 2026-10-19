@@ -824,7 +824,10 @@ struct ShopView: View {
                 } label: {
                     VStack(spacing: 3 * s) {
                         artView(offer.art).frame(height: 66 * s)
-                        Text(offer.title).font(font(13, .bold)).lineLimit(1).minimumScaleFactor(0.8)
+                        // A long name ("Fisherman's jumper") shrinks a little, then takes a second line, never cut short.
+                        Text(offer.title).font(font(13, .bold)).lineLimit(2).minimumScaleFactor(0.85)
+                            .multilineTextAlignment(.center)
+                            .fixedSize(horizontal: false, vertical: true)
                         Spacer(minLength: 0)
                         priceTag(offer, compact: true)
                     }

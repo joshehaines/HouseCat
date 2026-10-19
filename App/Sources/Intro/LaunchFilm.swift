@@ -29,6 +29,16 @@ enum LaunchFilm {
         return made
     }
 
+    /// The intro's film, a fresh player each time the landing page appears (nil when it is not in the app).
+    static func intro() -> AVPlayer? {
+        guard let url = Bundle.main.url(forResource: "intro_logo", withExtension: "mov") else { return nil }
+        let made = AVPlayer(url: url)
+        made.isMuted = true
+        made.preventsDisplaySleepDuringVideoPlayback = false
+        made.play()
+        return made
+    }
+
     /// The film's first frame is on screen.
     static func isShowing() {
         shown = true
@@ -56,7 +66,7 @@ enum LaunchFilm {
     }
 }
 
-/// A see-through view of the launch film (HEVC with transparency) at its own size.
+/// A see-through view of a logo film (HEVC with transparency) at its own size.
 struct LaunchFilmView: UIViewRepresentable {
     let player: AVPlayer
 

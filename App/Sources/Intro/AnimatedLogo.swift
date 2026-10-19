@@ -6,9 +6,10 @@ import SwiftUI
 
 /// The HouseCat logo with Midnight bounding onto it and curling up asleep on the letters (HouseCatGame `LogoScene`):
 /// the wordmark's picture in its box, and the cat over it, running out past the box's sides to the edge of the screen
-/// and well above it, so the cat comes in from off screen and has room to leap. The launch plays the scene's film
-/// (`LaunchFilm`: it plays on while the app is busy building the home), the intro the scene itself. With Reduce Motion
-/// the cat is already asleep there, still.
+/// and well above it, so the cat comes in from off screen and has room to leap. The launch and the intro play the
+/// scene's films (`LaunchFilm`, rendered with the generated film of the cat landing and curling up; the launch's plays
+/// on while the app is busy building the home), and once the cat is asleep it breathes. Without the films the scene
+/// plays itself; with Reduce Motion the cat is already asleep there, still.
 struct AnimatedLogo<Picture: View>: View {
     let act: LogoScene.Act
     let ink: LogoScene.Ink
@@ -18,6 +19,8 @@ struct AnimatedLogo<Picture: View>: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var scene: LogoScene?
     @State private var film: AVPlayer?
+    /// The film has ended on the cat asleep: it breathes.
+    @State private var breathing = false
 
     var body: some View {
         picture
@@ -33,8 +36,21 @@ struct AnimatedLogo<Picture: View>: View {
                         )
                         LaunchFilmView(player: film)
                             .frame(width: size.width, height: size.height)
+                            // A breath: the film drawn a little taller and back, from the cat's feet.
+                            .scaleEffect(x: 1, y: breathing ? 1 + CGFloat(Tuning.Puppet.breathSleep[0]) : 1, anchor: Self.feet)
+                            .animation(
+                                breathing ? .easeInOut(duration: 0.5 / Tuning.Puppet.breathSleep[1])
+                                    .repeatForever(autoreverses: true) : nil,
+                                value: breathing
+                            )
                             .position(x: size.width / 2 - box.width * CGFloat(logo.filmLeft), y: box.height - size.height / 2)
                             .allowsHitTesting(false)
+                            .onReceive(NotificationCenter.default.publisher(
+                                for: AVPlayerItem.didPlayToEndTimeNotification,
+                                object: film.currentItem
+                            )) { _ in
+                                breathing = true
+                            }
                     } else if let scene {
                         // Out to the screen's edges on both sides (the box is centred, or near the left on the intro).
                         let side = max(0, geometry.frame(in: .global).minX)
@@ -51,7 +67,7 @@ struct AnimatedLogo<Picture: View>: View {
             }
             .onAppear {
                 guard scene == nil, film == nil else { return }
-                if act == .launch, !reduceMotion, let player = LaunchFilm.player(dark: ink == .dark) {
+                if !reduceMotion, let player = act == .launch ? LaunchFilm.player(dark: ink == .dark) : LaunchFilm.intro() {
                     film = player
                     return
                 }
@@ -64,5 +80,14 @@ struct AnimatedLogo<Picture: View>: View {
                     act: reduceMotion ? .still : act
                 )
             }
+    }
+
+    /// Where the cat lies in the film's frame, which a breath grows from.
+    private static var feet: UnitPoint {
+        let logo = Tuning.Logo.self
+        return UnitPoint(
+            x: (logo.filmLeft + logo.bed / logo.boxSize[0]) / (logo.filmLeft + logo.filmRight),
+            y: 1 - logo.valleyTop / logo.boxSize[1] / logo.filmHeight
+        )
     }
 }

@@ -305,9 +305,16 @@ public enum Tuning {
         public static let shadowDepth = 0.18
         public static let shadowAlpha = 0.35
         public static let shadowLeast = 0.35
-        /// A painted pose's width and middle (cat heights), for the shadow and the light while it rests.
+        /// A painted pose's width and middle (cat heights), for the shadow and the light while it rests; the cat
+        /// standing side on, where the curl film starts.
         public static let restWidth = 0.45
         public static let restMiddle = 0.25
+        public static let standWidth = 0.95
+        public static let standMiddle = 0.5
+        /// The curl film's frames (tools/asset-pipeline/logo/curlkey.py): their size and the cat's standing height in
+        /// them (pixels), its feet at the bottom middle.
+        public static let curlFrameSize = [1200.0, 720.0]
+        public static let curlFrameCatHeight = 620.0
         /// Over a dark background, a soft light behind the cat: its size (cat heights), strength, and how quickly
         /// it follows the cat (a share of the way a second).
         public static let glowSize = 1.6

@@ -84,3 +84,26 @@ func theCatEndsCurledUpOnTheLetters(act: LogoScene.Act) throws {
     let baseline = lowest.sorted()[lowest.count / 2]
     #expect(abs(Double(baseline) - Tuning.Logo.baseline) < 6, "baseline at \(baseline)")
 }
+
+/// With the curl film's frames, they play in the cat's place from the landing, and it ends asleep on its spot.
+@MainActor
+@Test(arguments: [LogoScene.Act.launch, .intro])
+func theCurlFilmTakesOverFromTheLanding(act: LogoScene.Act) throws {
+    let scene = try logo(act)
+    let frame = SKTexture(image: .init(size: CGSize(width: 4, height: 4)))
+    scene.curlFrames = Array(repeating: frame, count: 12)
+    scene.curlFrameRate = 24
+    var time = 0.0
+    while time < 15, !scene.asleep {
+        scene.update(time)
+        time += 1.0 / 30
+    }
+    #expect(scene.asleep)
+    #expect(scene.cat.isHidden, "the film stands in for the puppet")
+    #expect(scene.cat.pose == nil, "the puppet never sat down")
+    let film = try #require(scene.children.first?.children.first { $0 is SKSpriteNode && ($0 as? SKSpriteNode)?.texture === frame })
+    let feet = scene.convert(film.position, from: film.parent ?? scene)
+    let scale = scene.box.width / Tuning.Logo.boxSize[0]
+    #expect(abs((feet.x - scene.box.minX) / scale - Tuning.Logo.bed) < 1)
+    #expect(abs((feet.y - scene.box.minY) / scale - Tuning.Logo.valleyTop) < 1)
+}

@@ -39,6 +39,12 @@ public final class LogoScene: SKScene {
     /// The cat has curled up (it breathes from then on).
     public private(set) var asleep = false
 
+    /// The landing and curling up as a generated film's frames (Higgsfield, Kling 3.0, keyed off green by
+    /// tools/asset-pipeline/logo/curlkey.py), played in place of the puppet sitting and curling when given (set before
+    /// the scene first updates): they start on the puppet standing as it lands and end on the curl painting.
+    public var curlFrames: [SKTexture] = []
+    public var curlFrameRate = 24.0
+
     public let cat: CatNode
     private let act: Act
     /// The box's pixels, scaled and placed over the box.
@@ -48,6 +54,10 @@ public final class LogoScene: SKScene {
     private let pivot = SKNode()
     private let shadow: SKSpriteNode
     private let glow: SKSpriteNode?
+    /// The curl film's frame on show, standing in for the cat (its feet at the bottom middle).
+    private let filmCat = SKSpriteNode()
+    /// How far through the curl film (0 to 1), while it plays and after.
+    private var filmProgress: CGFloat?
     private var feet = CGPoint.zero
     private var beats: [Beat] = []
     private var current: Beat?
@@ -74,6 +84,8 @@ public final class LogoScene: SKScene {
         /// Into a painted pose: from the puppet it sits down into it, from another painting it cross-fades; growing
         /// to a scale as it goes.
         case settle(CatPose, scale: CGFloat)
+        /// The curl film in the cat's place.
+        case film
         case call(@MainActor () -> Void)
     }
 
@@ -106,6 +118,9 @@ public final class LogoScene: SKScene {
         stage.addChild(pivot)
         cat.position = CGPoint(x: 0, y: -height * CGFloat(Logo.pivotHeight))
         pivot.addChild(cat)
+        filmCat.anchorPoint = CGPoint(x: 0.5, y: 0)
+        filmCat.isHidden = true
+        stage.addChild(filmCat)
         if act == .still {
             curlUp()
         } else {
@@ -178,6 +193,14 @@ public final class LogoScene: SKScene {
                 .run(to: CGFloat(Logo.bed), speed: CGFloat(Logo.trotSpeed) * h, gait: .trot, stopping: true),
             ]
         }
+        if !curlFrames.isEmpty {
+            // The film takes over from the cat standing side on, facing the way it came (it sniffs the letters, turns
+            // and sits looking at you, and curls up).
+            story += [.film, .call { [weak self] in self?.asleep = true }]
+            beats = story
+            next()
+            return
+        }
         if act == .intro {
             // A look round at you first.
             story += [.face(.front, right: false), .wait(Logo.lookSeconds)]
@@ -243,6 +266,14 @@ public final class LogoScene: SKScene {
             let grow = SKAction.scale(to: scale, duration: duration)
             grow.timingMode = .easeInEaseOut
             pivot.run(grow)
+        case .film:
+            let k = CGFloat(Logo.catHeight / Logo.curlFrameCatHeight)
+            filmCat.size = CGSize(width: CGFloat(Logo.curlFrameSize[0]) * k, height: CGFloat(Logo.curlFrameSize[1]) * k)
+            filmCat.texture = curlFrames.first
+            filmCat.isHidden = false
+            cat.isHidden = true
+            filmProgress = 0
+            duration = Double(curlFrames.count) / curlFrameRate
         case let .call(action):
             action()
             duration = 0
@@ -304,6 +335,10 @@ public final class LogoScene: SKScene {
                 // It lands still going: the trot after takes it on to its spot.
                 speedNow = CGFloat(Logo.trotSpeed * Logo.catHeight)
             }
+        case .film:
+            let frame = min(curlFrames.count - 1, Int(elapsed * curlFrameRate))
+            filmCat.texture = curlFrames[max(0, frame)]
+            filmProgress = CGFloat(t)
         default:
             break
         }
@@ -319,9 +354,15 @@ public final class LogoScene: SKScene {
         let scale = pivot.xScale
         // The feet stay on the letters however big the cat is drawn.
         pivot.position = CGPoint(x: feet.x, y: feet.y + h * CGFloat(Logo.pivotHeight) * scale)
-        // Resting, the cat is a painting (its outline would still count the faded puppet standing behind it).
-        let body = cat.pose == nil ? cat.bodyFrame : .null
-        let width = body.isNull ? h * CGFloat(Logo.restWidth) * scale : body.width * scale
+        filmCat.position = feet
+        // Resting, the cat is a painting (its outline would still count the faded puppet standing behind it); in the
+        // curl film it goes from standing to curled.
+        let body = cat.pose == nil && filmProgress == nil ? cat.bodyFrame : .null
+        let resting = h * CGFloat(Logo.restWidth * Logo.curlScale)
+        var width = body.isNull ? h * CGFloat(Logo.restWidth) * scale : body.width * scale
+        if let film = filmProgress {
+            width = h * CGFloat(Logo.standWidth) + (resting - h * CGFloat(Logo.standWidth)) * film
+        }
         // Smaller and fainter the higher the cat is above what is under it.
         let ground = surface(under: feet.x)
         let fade = max(CGFloat(Logo.shadowLeast), 1 - (feet.y - ground) / h)
@@ -332,9 +373,13 @@ public final class LogoScene: SKScene {
         shadow.position = CGPoint(x: feet.x, y: ground)
         shadow.alpha = CGFloat(Logo.shadowAlpha) * fade
         if let glow {
-            let middle = body.isNull
+            var middle = body.isNull
                 ? CGPoint(x: feet.x, y: feet.y + h * CGFloat(Logo.restMiddle) * scale)
                 : stage.convert(CGPoint(x: body.midX, y: body.midY), from: pivot)
+            if let film = filmProgress {
+                let rest = CGFloat(Logo.restMiddle * Logo.curlScale)
+                middle = CGPoint(x: feet.x, y: feet.y + h * (CGFloat(Logo.standMiddle) + (rest - CGFloat(Logo.standMiddle)) * film))
+            }
             let k = dt > 0 ? min(1, CGFloat(dt * Logo.glowFollow)) : 1
             glow.position = CGPoint(
                 x: glow.position.x + (middle.x - glow.position.x) * k,

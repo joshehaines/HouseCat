@@ -22,7 +22,7 @@ public struct RoomView: View {
         }
     }
 
-    /// Whether the first frame has been reported (a class, so the render callback can flip it once).
+    /// Whether the first frame has been reported (a class, so the scene's action can flip it once).
     private final class FirstFrame: @unchecked Sendable {
         var reported = false
     }
@@ -47,15 +47,23 @@ public struct RoomView: View {
             scene: scene,
             transition: .crossFade(withDuration: fade),
             preferredFramesPerSecond: 60,
-            options: [.ignoresSiblingOrder],
-            shouldRender: { [drawn] _ in
-                if !drawn.reported, let onFirstFrame {
-                    drawn.reported = true
-                    DispatchQueue.main.async(execute: onFirstFrame)
-                }
-                return true
-            }
+            options: [.ignoresSiblingOrder]
         )
+        // The first frame is the first time SpriteKit runs the scene's actions, which it does as it draws it. (It was
+        // SpriteView's shouldRender, which on some launches is never called, so the launch curtain never lifted:
+        // 19 Oct, a new player's first visit.)
+        .task(id: ObjectIdentifier(scene)) {
+            guard let onFirstFrame, !drawn.reported else { return }
+            let (frames, frame) = AsyncStream.makeStream(of: Void.self)
+            scene.run(.run {
+                frame.yield()
+                frame.finish()
+            }, withKey: "firstFrame")
+            for await _ in frames {}
+            guard !Task.isCancelled, !drawn.reported else { return }
+            drawn.reported = true
+            onFirstFrame()
+        }
         .accessibilityElement()
         .accessibilityLabel(label)
         // VoiceOver: the cat is a picture in a game scene, so what a tap on it does is an action here.

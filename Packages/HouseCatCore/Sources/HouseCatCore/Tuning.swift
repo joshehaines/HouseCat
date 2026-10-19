@@ -859,14 +859,6 @@ public enum Tuning {
         public static let hipRaise = 0.8
         /// How far (degrees) a hind leg's hock folds, at the top of its swing, bringing the paw forward under it.
         public static let hockFold = 30.0
-        /// The bodies whose side head is a true profile, which take the profile ears in the side view; the others
-        /// keep the cupped ears (the long-haired chunky body's side head looks round at you). A side head painted with
-        /// its own ear takes no ear parts over it.
-        public static let profileEarBodies: Set<String> = ["short_slim", "short_chunky", "siamese", "sphynx"]
-        public static let sideHeadsWithEars: Set<String> = ["long_slim"]
-        /// Settling into a painted pose, getting up from one and turning between views (one drawing at a time: the
-        /// new one takes over at once, under a squash).
-        public static let settleSeconds = 0.35
         /// The bending puppet (CatSkin, Josh 19 Oct: the join between body and legs looked strange and the walk
         /// robotic, "full rebuild"). A near leg is drawn over the body, its top faded into the fur: whole from this far
         /// above the body's lower edge, over this length (shares of the leg's height); without an edge found, the leg
@@ -913,6 +905,14 @@ public enum Tuning {
         /// filmed at half speed): a film plays quicker or slower as the cat goes faster or slower than that.
         public static let filmWalkPace = 0.9
         public static let filmRunPace = 1.8
+        /// The bodies whose side head is a true profile, which take the profile ears in the side view; the others
+        /// keep the cupped ears (the long-haired chunky body's side head looks round at you). A side head painted with
+        /// its own ear takes no ear parts over it.
+        public static let profileEarBodies: Set<String> = ["short_slim", "short_chunky", "siamese", "sphynx"]
+        public static let sideHeadsWithEars: Set<String> = ["long_slim"]
+        /// Settling into a painted pose, getting up from one and turning between views (one drawing at a time: the
+        /// new one takes over at once, under a squash).
+        public static let settleSeconds = 0.35
         public static let riseSeconds = 0.25
         public static let turnSeconds = 0.18
         public static let minMoveSeconds = 0.25

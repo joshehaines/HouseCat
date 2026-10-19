@@ -278,6 +278,11 @@ Where the spec is silent, these are set in `Tuning.swift` and HouseCatCore (tune
 - Painted with Ideogram 4.5 masked edits of a sheet of the cat's nine paintings (tinted dark, white or ginger so the garment stands out), cut out where the edit changed the cat inside the mask: `tools/asset-pipeline/garments/` (sheet.py, requests.py, process.py, defringe.py, install.py; README in requests.py). Ginger-tinted runs leave a sliver of ginger fur on the edges: `defringe.py` clears it (hairless cats only have the warm light recoloured). Jobs in `pipeline_state.json` (`garment:<id>:<body>`).
 - Checked with `HOUSECAT_SCREEN=puppets HOUSECAT_GALLERY_KIND=rest|stand HOUSECAT_GALLERY=<body>`, `HOUSECAT_OUTFIT=<id>` (the room, the plaque and the widget's poses) and the shop.
 
+## Decisions during the screen layout pass (19 Oct 2026)
+- The room's controls are one layer laid out to the screen's edges, as Clash of Clans lays out its base (Josh: they felt in the middle of the screen): `RoomScreen.roomControls`, margins `Tuning.Stage.hudEdge/hudTop/hudBottom`, corners only (plaque with Home and Book top left; Beans, streak and the season's tiles top right; Feed, Play, Nap bottom left; Decorate and Shop bottom right; the room switcher bottom middle). Nothing halfway down a side (the Dynamic Island). `hudScale` is for an iPad only: a Max iPhone on its side reports a regular width.
+- A `GameButton`'s name sits on a plaque over its bottom edge, never squeezed inside it. The cat's line hangs in a bubble over its head (`speech`, following the cat via `CatNode.bodyFrame`).
+- The exterior's window glass: by day the painting's own glass with the sky in the top of each pane and a sheen, after dark lamplight and (night) a soft halo (`ExteriorScene.glassShader`, `Tuning.Sky.glass*`, `halo*`). The scenes stay at 0.75 (full size would add about 28 MB).
+
 ## Known gaps after the economy pass
 - No real purchase has gone through App Store Connect: the 17 products exist only in `Store/HouseCat.storekit` until the developer team creates them (same IDs). The StoreKit tests prove a pack is handed over once and a look survives a relaunch and a refund.
 - Co-owning, presents, paw prints and friend codes can only be seen with the debug screens until CloudKit is on; nothing has crossed between two real phones.

@@ -141,10 +141,11 @@ struct PuzzleScreen: View {
                 .frame(width: width, height: height)
                 .clipShape(RoundedRectangle(cornerRadius: 4))
                 .shadow(color: Color(red: 0.3, green: 0.15, blue: 0.05).opacity(0.2), radius: 4, y: 3)
-                .offset(x: left, y: top)
+                // Before the offset, so a touch is measured from the grid's own corner.
                 .gesture(DragGesture(minimumDistance: 0)
                     .onChanged { value in paint(at: value.location, cell: cell) }
                     .onEnded { _ in endStroke() })
+                .offset(x: left, y: top)
             }
             .frame(width: left + width, height: top + height)
             .position(x: proxy.size.width / 2, y: proxy.size.height / 2)

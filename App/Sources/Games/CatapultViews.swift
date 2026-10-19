@@ -169,7 +169,7 @@ struct CatapultPlay: View {
                 hud
                 Spacer()
                 if hint, progress.pouncesLeft == level.pounces, finished == nil {
-                    Text("Drag back from \(catName), aim, and let go")
+                    Text("Drag back anywhere, aim, and let go")
                         .font(.system(size: 15, weight: .bold)).foregroundStyle(.white)
                         .padding(.horizontal, 16).padding(.vertical, 8)
                         .background(Capsule().fill(Theme.ink.opacity(0.75)))

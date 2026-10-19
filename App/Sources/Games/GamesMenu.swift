@@ -5,7 +5,7 @@ import SwiftUI
 /// The Games menu (Josh, 19 Oct: "build out the games section massively - this needs to be the retention angle and
 /// daily use"; CLAUDE.md "The Games menu"). The room's Play button opens it: today along the top (Pat's daily
 /// puzzle with its week, the three challenges), the games along the bottom (Zoomies, Catapult, Purrfect Match, Cats
-/// in a Row, and the three quick games with the cat), each opening its own screen in here.
+/// in a Row, and the quick games with the cat), each opening its own screen in here.
 struct GamesMenu: View {
     enum Screen: Equatable {
         case menu, quick, zoomies, catapult, match, row, puzzle
@@ -256,7 +256,9 @@ struct GamesMenu: View {
                     PaintedIcon("play_laser_dot", size: 44).padding(.trailing, 4).padding(.bottom, 6)
                 }
                 .frame(maxHeight: .infinity)
-                Text("Laser · Knock It Off · String").font(.system(size: 12, weight: .bold)).lineLimit(1).minimumScaleFactor(0.7)
+                // However many quick games Content/minigames.json has (their names are in the picker).
+                Text("\(GameWorld.content?.minigames.games.count ?? 0) quick games").font(.system(size: 12, weight: .bold))
+                    .lineLimit(1).minimumScaleFactor(0.7)
                     .padding(.horizontal, 6)
                 HStack(spacing: 3) {
                     PaintedIcon("clock", size: 15)

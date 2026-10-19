@@ -1608,15 +1608,18 @@ public extension Tuning {
             /// Drawn (CatapultScene): the level framed from `frameLeft` metres to its furthest thing and `frameMargin`
             /// past it, `frameHeadroom` above its highest, the ground `frameGroundShare` of the height up and the top
             /// `frameTopShare` left for the controls; the place's painting has its ground `paintingGround` up. Aiming:
-            /// a full pull is `pullMetres` back from the cat, less than `leastPull` puts the cat down again; the dots
-            /// show the first `aimDots` steps of `aimDotSeconds` of the arc.
-            public static let frameLeft = 2.5
+            /// the finger pulls back from wherever it first touches (the cat sits near the screen's edge, with no room
+            /// to pull back from it), a full pull `pullMetres` or `pullShare` of the screen's height, whichever is
+            /// less; less than `leastPull` puts the cat down again; the dots show the first `aimDots` steps of
+            /// `aimDotSeconds` of the arc.
+            public static let frameLeft = 2.0
             public static let frameMargin = 0.9
             public static let frameHeadroom = 1.4
             public static let frameGroundShare = 0.14
             public static let frameTopShare = 0.12
             public static let paintingGround = 0.14
             public static let pullMetres = 2.2
+            public static let pullShare = 0.4
             public static let leastPull = 0.12
             public static let aimDots = 12
             public static let aimDotSeconds = 0.06

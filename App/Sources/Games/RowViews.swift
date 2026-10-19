@@ -238,8 +238,9 @@ struct RowPlay: View {
                 Text(name).font(Theme.title(19)).lineLimit(1).minimumScaleFactor(0.7)
                 HStack(spacing: 4) {
                     Circle().fill(colour).frame(width: 10, height: 10)
+                    // Waiting: the other cat says how it plays, the player is "You" (and two players, nothing).
                     Text(turn ? (side == .second && opponent != nil ? (thinking ? "Thinking…" : "Their turn") : "Your turn")
-                        : (opponent?.style ?? " "))
+                        : opponent == nil ? " " : side == .second ? opponent?.style ?? " " : "You")
                         .font(.system(size: 12, weight: .semibold)).foregroundStyle(Theme.inkSoft)
                 }
             }

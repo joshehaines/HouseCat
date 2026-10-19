@@ -40,6 +40,8 @@ public final class CatapultScene: SKScene {
     private var ppm: CGFloat = 50
     private var origin = CGPoint.zero
     private var aim: (angle: Double, power: Double)?
+    /// Where the finger first touched: the pull is measured from here.
+    private var pullStart: CGPoint?
     private var lastUpdate: TimeInterval?
     private var finished = false
     private var autoplayShot = 0
@@ -291,25 +293,27 @@ public final class CatapultScene: SKScene {
         cat.squash(CGFloat(0.08 + 0.18 * power))
     }
 
-    /// The pull from the cat to the finger: the pounce goes the other way, the harder the further back.
-    private func aim(from finger: CGPoint) -> (angle: Double, power: Double) {
-        let launch = point(Tuning.Arcade.Catapult.launch)
-        let dx = Double(launch.x - finger.x), dy = Double(launch.y - finger.y)
-        let reach = Double(Tuning.Arcade.Catapult.pullMetres) * Double(ppm)
+    /// The pull from where the finger first touched to where it is now: the pounce goes the other way, the harder the
+    /// further back. (Measured from the touch, not the cat, as the cat sits too near the screen's edge to pull back from.)
+    private func aim(from finger: CGPoint, start: CGPoint) -> (angle: Double, power: Double) {
+        let c = Tuning.Arcade.Catapult.self
+        let dx = Double(start.x - finger.x), dy = Double(start.y - finger.y)
+        let reach = min(Double(c.pullMetres) * Double(ppm), Double(size.height) * c.pullShare)
         let power = min(1, (dx * dx + dy * dy).squareRoot() / reach)
         let angle = atan2(dy, max(0.001, dx)) * 180 / .pi
-        return (min(max(angle, Tuning.Arcade.Catapult.lowestAngle), Tuning.Arcade.Catapult.highestAngle), power)
+        return (min(max(angle, c.lowestAngle), c.highestAngle), power)
     }
 
     #if os(iOS)
         override public func touchesBegan(_ touches: Set<UITouch>, with _: UIEvent?) {
             guard !game.flying, !game.over, let touch = touches.first else { return }
-            aim = aim(from: touch.location(in: self))
+            pullStart = touch.location(in: self)
+            aim = (0, 0)
         }
 
         override public func touchesMoved(_ touches: Set<UITouch>, with _: UIEvent?) {
-            guard aim != nil, let touch = touches.first else { return }
-            let next = aim(from: touch.location(in: self))
+            guard aim != nil, let start = pullStart, let touch = touches.first else { return }
+            let next = aim(from: touch.location(in: self), start: start)
             aim = next
             showAim(angle: next.angle, power: next.power)
         }
@@ -317,6 +321,7 @@ public final class CatapultScene: SKScene {
         override public func touchesEnded(_: Set<UITouch>, with _: UIEvent?) {
             guard let shot = aim else { return }
             aim = nil
+            pullStart = nil
             if shot.power >= Tuning.Arcade.Catapult.leastPull {
                 pounce(angle: shot.angle, power: shot.power)
             } else {
@@ -326,6 +331,7 @@ public final class CatapultScene: SKScene {
 
         override public func touchesCancelled(_: Set<UITouch>, with _: UIEvent?) {
             aim = nil
+            pullStart = nil
             dots.removeAllChildren()
         }
     #endif

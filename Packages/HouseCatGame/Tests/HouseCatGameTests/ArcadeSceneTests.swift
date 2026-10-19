@@ -75,7 +75,9 @@ private func stills(_ scene: SKScene, size: CGSize, at seconds: [Double], name: 
     try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
     let only = ProcessInfo.processInfo.environment["HOUSECAT_RENDER_ONLY"]
     let (art, catArt, rig) = try kit()
-    let phone = CGSize(width: 956, height: 440)
+    // HOUSECAT_RENDER_SIZE=1376x1032 draws them at another screen's size (that one the 13-inch iPad on its side).
+    let sized = ProcessInfo.processInfo.environment["HOUSECAT_RENDER_SIZE"]?.split(separator: "x").compactMap { Double($0) }
+    let phone = sized?.count == 2 ? CGSize(width: sized![0], height: sized![1]) : CGSize(width: 956, height: 440)
     let look = CatLook.midnight
     if only == nil || only == "zoomies" {
         let scene = ZoomiesScene(size: phone, seed: DaySeed(household: 3, day: GameDay(index: 20380), purpose: "zoomies"), art: art,
@@ -92,7 +94,7 @@ private func stills(_ scene: SKScene, size: CGSize, at seconds: [Double], name: 
         }
     }
     if only == nil || only == "match" {
-        let board = CGSize(width: 520, height: 440)
+        let board = CGSize(width: phone.height * 520 / 440, height: phone.height)
         for id in [0, 14, 26, 31, 59] {
             let scene = MatchScene(size: board, level: arcade.match.levels[id], seed: DaySeed(household: 3, day: GameDay(index: id), purpose: "m"),
                                    art: art)

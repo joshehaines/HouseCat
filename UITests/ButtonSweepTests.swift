@@ -26,7 +26,8 @@ final class ButtonSweepTests: XCTestCase {
     // MARK: The tour
 
     /// The tour from the top: each control it points at is tapped (as Josh did) and must open, and once the tour is
-    /// over Play, the nap and the shop work in the same visit.
+    /// over Play, the nap and the shop work in the same visit. It follows the host's lines, so new steps are passed
+    /// with Next. Best on a fresh install: its "Tap a piece" needs a spare piece in the tray, as a first visit has.
     func testTheTourAndTheControlsAfterIt() throws {
         app.launchEnvironment["HOUSECAT_SCREEN"] = "tour"
         app.launch()
@@ -77,8 +78,15 @@ final class ButtonSweepTests: XCTestCase {
         case let text where text.contains("Tap Decorate"):
             app.buttons["Decorate"].tapInFront()
         case let text where text.contains("Tap a piece"):
-            app.buttons.matching(NSPredicate(format: "label BEGINSWITH 'Place '")).firstMatch.tapInFront()
-            sleep(2)
+            let piece = app.buttons.matching(NSPredicate(format: "label BEGINSWITH 'Place '")).firstMatch
+            if piece.shows(within: 3) {
+                piece.tapInFront()
+                sleep(2)
+            } else {
+                // A save whose spare pieces are all out (a first visit has two): the tour cannot go on.
+                XCTFail("nothing in the tray to place: run the tour on a fresh install")
+                app.buttons["Skip the tour"].tapInFront()
+            }
         case let text where text.contains("Tap Done"):
             app.buttons["Done"].tapInFront()
         case let text where text.hasPrefix("Play "):
@@ -106,13 +114,12 @@ final class ButtonSweepTests: XCTestCase {
         }
     }
 
-    /// What the tour's host says now (its bubble is labelled "<host>: <line>"; the cat's own lines are "<cat>: …").
+    /// What the tour's host says now: its bubble is labelled "<host>: <line>" (Pat, Soot before 19 Oct). The cat's
+    /// own lines and the goal cards are labelled the same way, so only the host's name counts.
     private func tourLine() -> String? {
-        let plaque = app.buttons.matching(NSPredicate(format: "label ENDSWITH ', your cat'")).firstMatch
-        let cat = plaque.exists ? String(plaque.label.dropLast(", your cat".count)) : "Pip"
-        let bubble = app.descendants(matching: .any).matching(NSPredicate(format: "label MATCHES %@", "^[A-Z][a-z]+: .+"))
-            .allElementsBoundByIndex.first { $0.exists && !$0.label.hasPrefix(cat + ": ") }
-        return bubble.map { String($0.label.drop { $0 != ":" }.dropFirst(2)) }
+        let bubble = app.descendants(matching: .any).matching(NSPredicate(format: "label BEGINSWITH 'Pat: ' OR label BEGINSWITH 'Soot: '"))
+            .firstMatch
+        return bubble.exists ? String(bubble.label.drop { $0 != ":" }.dropFirst(2)) : nil
     }
 
     private func waitForTourLine(other line: String, timeout: TimeInterval) -> Bool {
@@ -168,6 +175,12 @@ final class ButtonSweepTests: XCTestCase {
 
         // The switches turn and turn back. One that asks iOS first (reminders, Health) is answered Don't Allow.
         for toggle in app.switches.allElementsBoundByIndex where toggle.isHittable {
+            // Health's switch hands over to iOS's own permission sheet, and a switch without a name may be part of
+            // it: only checked they are there. The rest turn and turn back.
+            if toggle.label.isEmpty || toggle.label.hasPrefix("Steps, sleep and workouts") {
+                XCTAssertTrue(toggle.isEnabled, "\(toggle.label.isEmpty ? "a switch" : "Health's switch") can be used")
+                continue
+            }
             let before = toggle.value as? String
             // The switch itself, at the row's right end (a tap on a switch's words does nothing).
             let knob = toggle.coordinate(withNormalizedOffset: CGVector(dx: 1, dy: 0.5)).withOffset(CGVector(dx: -26, dy: 0))
@@ -909,8 +922,39 @@ final class ButtonSweepTests: XCTestCase {
                 if stroked.shows(within: 1.5) {
                     return true
                 }
+            } else if torsos.isEmpty {
+                break
             } else {
                 sleep(1)
+            }
+        }
+        // A cat drawn without named parts (a film): taps round the middle of the room, nearest first, clear of bubbles.
+        var spots: [CGVector] = []
+        for dy in stride(from: 0.3, through: 0.75, by: 0.075) {
+            for dx in stride(from: 0.25, through: 0.75, by: 0.05) {
+                spots.append(CGVector(dx: dx, dy: dy))
+            }
+        }
+        spots.sort { hypot($0.dx - 0.5, $0.dy - 0.55) < hypot($1.dx - 0.5, $1.dy - 0.55) }
+        let window = app.windows.firstMatch.frame
+        // Clear of the speech bubbles first; then everywhere (a bubble's frame is taller than what it draws).
+        for pass in 0 ..< 2 {
+            for spot in spots {
+                let point = CGPoint(x: window.minX + window.width * spot.dx, y: window.minY + window.height * spot.dy)
+                let bubbles = pass == 1 ? [] :
+                    app.staticTexts.matching(NSPredicate(format: "label CONTAINS ': '")).allElementsBoundByIndex.map(\.frame)
+                if bubbles.contains(where: { $0.insetBy(dx: -10, dy: -10).contains(point) }) {
+                    continue
+                }
+                app.coordinate(withNormalizedOffset: spot).tapInFront()
+                if stroked.shows(within: 0.8) {
+                    return true
+                }
+                // A closed room or a thought bubble tapped by mistake: back out of it.
+                dismissCards()
+                if app.buttons["Done"].exists, !careButton("Feed").exists {
+                    app.buttons["Done"].tapInFront()
+                }
             }
         }
         return stroked.exists
@@ -935,10 +979,15 @@ final class ButtonSweepTests: XCTestCase {
         repeat {
             for place in [app!, springboard] {
                 let no = place.buttons.matching(NSPredicate(format: "label IN {\"Don't Allow\", \"Don’t Allow\"}")).firstMatch
-                // Read once (a sheet sliding in or out would fail a tap that looks it up again).
-                if let seen = try? no.snapshot(), !seen.frame.isEmpty {
-                    place.coordinate(withNormalizedOffset: .zero)
-                        .withOffset(CGVector(dx: seen.frame.midX, dy: seen.frame.midY)).tap()
+                if no.exists {
+                    // Let a sheet sliding in settle before the tap looks it up again. Health's sheet is another
+                    // process's view: when it says it cannot be tapped, a tap where it is.
+                    sleep(1)
+                    if no.exists, no.isHittable {
+                        no.tap()
+                    } else if let seen = try? no.snapshot(), !seen.frame.isEmpty {
+                        app.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: seen.frame.midX, dy: seen.frame.midY)).tap()
+                    }
                     sleep(1)
                     return true
                 }

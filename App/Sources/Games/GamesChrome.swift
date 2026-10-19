@@ -260,6 +260,22 @@ struct GamesResultCard: View {
     }
 }
 
+/// What sits over a full-screen game (its HUD and cards): laid out for a phone on its side and scaled to the screen
+/// as `GamesFrame` is, with nothing behind it, so the game shows through and takes the touches.
+struct GamesScaled<Content: View>: View {
+    @ViewBuilder var content: () -> Content
+
+    var body: some View {
+        GeometryReader { proxy in
+            let scale = GamesLook.scale(proxy.size)
+            content()
+                .frame(width: proxy.size.width / scale, height: proxy.size.height / scale)
+                .scaleEffect(scale)
+                .frame(width: proxy.size.width, height: proxy.size.height)
+        }
+    }
+}
+
 /// The Games screens' frame: the paper, scaled to the screen, status bar and home indicator hidden.
 struct GamesFrame<Content: View>: View {
     @ViewBuilder var content: () -> Content

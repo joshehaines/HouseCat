@@ -165,23 +165,26 @@ struct CatapultPlay: View {
             } else {
                 GamesPaper()
             }
-            VStack {
-                hud
-                Spacer()
-                if hint, progress.pouncesLeft == level.pounces, finished == nil {
-                    Text("Drag back anywhere, aim, and let go")
-                        .font(.system(size: 15, weight: .bold)).foregroundStyle(.white)
-                        .padding(.horizontal, 16).padding(.vertical, 8)
-                        .background(Capsule().fill(Theme.ink.opacity(0.75)))
-                        .padding(.bottom, 10)
-                        .allowsHitTesting(false)
+            // The HUD and cards scale with the screen (an iPad's are larger), the level itself fills it.
+            GamesScaled {
+                VStack {
+                    hud
+                    Spacer()
+                    if hint, progress.pouncesLeft == level.pounces, finished == nil {
+                        Text("Drag back anywhere, aim, and let go")
+                            .font(.system(size: 15, weight: .bold)).foregroundStyle(.white)
+                            .padding(.horizontal, 16).padding(.vertical, 8)
+                            .background(Capsule().fill(Theme.ink.opacity(0.75)))
+                            .padding(.bottom, 10)
+                            .allowsHitTesting(false)
+                    }
                 }
+                .padding(.horizontal, 22)
+                .padding(.top, 10)
             }
-            .padding(.horizontal, 22)
-            .padding(.top, 10)
             if let finished {
                 Color.black.opacity(0.35).ignoresSafeArea()
-                results(finished)
+                GamesScaled { results(finished) }
             }
         }
         .statusBarHidden()

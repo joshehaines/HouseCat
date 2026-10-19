@@ -88,7 +88,7 @@ struct GamesMenu: View {
             GamesPlank(title: "Games", icon: "arcade/ui/icon_game_games.png") {
                 HStack(spacing: 10) {
                     GamesPill(icon: "ui/icon_streak_paw_print_with_a_small_flame.png", value: "\(arcade.puzzleStreak(on: day))",
-                              label: "puzzle days")
+                              label: arcade.puzzleStreak(on: day) == 1 ? "puzzle day" : "puzzle days")
                     GamesPill(icon: "ui/icon_bean_coin.png", value: session.state(at: session.now()).beans.formatted())
                     CloseButton(action: close)
                 }

@@ -28,21 +28,26 @@ struct ZoomiesView: View {
             } else {
                 GamesPaper()
             }
-            VStack {
-                hud
-                Spacer()
-            }
-            .padding(.horizontal, 22)
-            .padding(.top, 10)
-            if countdown > 0, !finished {
-                countIn
-            }
-            if paused, !finished {
-                pauseCard
+            // The HUD and cards scale with the screen (an iPad's are larger), the run itself fills it.
+            GamesScaled {
+                ZStack {
+                    VStack {
+                        hud
+                        Spacer()
+                    }
+                    .padding(.horizontal, 22)
+                    .padding(.top, 10)
+                    if countdown > 0, !finished {
+                        countIn
+                    }
+                    if paused, !finished {
+                        pauseCard
+                    }
+                }
             }
             if finished, let result {
                 Color.black.opacity(0.35).ignoresSafeArea()
-                results(result)
+                GamesScaled { results(result) }
             }
         }
         .statusBarHidden()

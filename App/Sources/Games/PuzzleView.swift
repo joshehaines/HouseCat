@@ -34,8 +34,9 @@ struct PuzzleScreen: View {
                     GamesPlank(title: "Pawcross · No. \(number)", icon: "arcade/ui/tile_puzzle.png", back: leave) {
                         HStack(spacing: 10) {
                             GamesPill(icon: "ui/icon_clock.png", value: String(format: "%d:%02d", seconds / 60, seconds % 60))
-                            GamesPill(icon: "ui/icon_streak_paw_print_with_a_small_flame.png",
-                                      value: "\(GameSession.shared.arcade.puzzleStreak(on: GameSession.shared.arcadeDay))", label: "days")
+                            let streak = GameSession.shared.arcade.puzzleStreak(on: GameSession.shared.arcadeDay)
+                            GamesPill(icon: "ui/icon_streak_paw_print_with_a_small_flame.png", value: "\(streak)",
+                                      label: streak == 1 ? "day" : "days")
                         }
                     }
                     if let board {

@@ -82,10 +82,11 @@ public final class CatNode: SKNode {
     /// way it faces.
     public var moveDirection: CGVector?
 
-    /// A jointed leg: its pieces (the leg's own node from the shoulder to the wrist or the hip to the hock, the
-    /// piece from the hock to the ankle on a hind leg, and the paw), its joints (each in the frame of the piece it
-    /// hangs from, about that piece's pivot), the paw's sole and toe tip (in the paw's frame, about the ankle), and
-    /// where it stands at rest in the puppet's frame.
+    /// A jointed leg: its pieces (the leg's own node, from the hip to the hock on a hind leg or the whole of a front
+    /// leg; the piece from the hock to the ankle and the paw on a hind leg), where its end is (the ankle, or a front
+    /// leg's sole) in the frame of the piece it ends, about that piece's pivot, the hock likewise, the paw's sole and
+    /// toe tip (in the paw's frame), and where it stands at rest in the puppet's frame. A front leg's paw is the leg
+    /// itself.
     private struct Limb {
         let upper: SKSpriteNode
         let middle: SKSpriteNode?
@@ -450,11 +451,15 @@ public final class CatNode: SKNode {
         for (name, node) in nodes where name.hasPrefix("leg_") {
             let hind = name.hasPrefix("leg_back")
             guard let image = partImage(name, view: view), let found = CatLimb.joints(of: image, hind: hind) else { continue }
+            // A front leg stays one straight piece to its paw (Josh, 19 Oct: "no wrist please, that looks very
+            // unnatural"); a hind leg bends at the hock and the ankle.
             var cuts: [CatLimb.Cut] = []
             if let hock = found.hock {
                 cuts.append(CatLimb.Cut(centre: hock, radius: found.hockRadius))
             }
-            cuts.append(CatLimb.Cut(centre: found.ankle, radius: found.ankleRadius))
+            if hind {
+                cuts.append(CatLimb.Cut(centre: found.ankle, radius: found.ankleRadius))
+            }
             guard let pieces = CatLimb.split(image, at: cuts), pieces.count == cuts.count + 1 else { continue }
             let size = node.size
             // From one point of the picture to another (fractions, origin top left), in a piece's frame.
@@ -482,16 +487,19 @@ public final class CatNode: SKNode {
                 parent = piece
                 parentPivot = cut.centre
             }
-            guard let paw = hung.last else { continue }
+            let paw = hung.last ?? node
             let nodePivot = CGPoint(x: node.anchorPoint.x, y: 1 - node.anchorPoint.y)
-            let ankle = offset(found.hock ?? nodePivot, found.ankle)
-            let sole = offset(found.ankle, found.sole), toe = offset(found.ankle, found.toe)
+            // The paw's frame is about the ankle on a hind leg, about the leg's pivot on a front leg (which ends at
+            // its sole).
+            let pawPivot = hind ? found.ankle : nodePivot
+            let end = hind ? found.ankle : found.sole
+            let sole = offset(pawPivot, found.sole), toe = offset(pawPivot, found.toe)
             made[name] = Limb(
                 upper: node,
                 middle: hung.count > 1 ? hung[0] : nil,
                 paw: paw,
                 hock: found.hock.map { offset(nodePivot, $0) },
-                ankle: ankle,
+                ankle: offset(found.hock ?? nodePivot, end),
                 sole: sole,
                 toe: toe,
                 hip: node.position,
@@ -499,7 +507,7 @@ public final class CatNode: SKNode {
                 level: torsoRest + node.zRotation,
                 restSole: paw.convert(sole, to: root),
                 restToe: paw.convert(toe, to: root),
-                restAnkle: paw.convert(.zero, to: root)
+                restAnkle: paw.convert(hind ? .zero : sole, to: root)
             )
         }
         limbs[view] = made
@@ -520,9 +528,10 @@ public final class CatNode: SKNode {
         return art.image("cat/base/\(body)/cat_\(body)_\(view.rawValue)_\(name).png")
     }
 
-    /// Where a jointed leg is in its stride: where its ankle (or wrist) goes, in the puppet's frame; how far its paw
-    /// turns off flat (anticlockwise, painted facing left: the heel up, the toes down); and, in the air, how high its
-    /// hip rides and the ankle's places at lift-off and landing with how far it has come (`swing`, 0 to 1).
+    /// Where a jointed leg is in its stride: where its ankle (or a front leg's sole) goes, in the puppet's frame; how
+    /// far a hind paw turns off flat (anticlockwise, painted facing left: the heel up, the toes down); and, in the
+    /// air, how high its hip rides and the ankle's places at lift-off and landing with how far it has come (`swing`,
+    /// 0 to 1).
     private struct Step {
         var ankle: CGPoint
         var angle: CGFloat
@@ -530,7 +539,7 @@ public final class CatNode: SKNode {
         var swing: (from: CGPoint, to: CGPoint, u: Double)?
     }
 
-    /// Puts a jointed leg where `step` says. A front leg, straight, points at its wrist's place and slides up into
+    /// Puts a jointed leg where `step` says. A front leg, straight, points at its paw's place and slides up into
     /// the body (hidden behind it) when that is nearer than the leg is long, as a cat's shoulder blade rides up. A
     /// hind leg on the floor bends at the hock to reach it; in the air, it eases from how it left the floor to how it
     /// will land, its hip riding up and its hock folding the paw forward under it, as a cat's does.
@@ -574,7 +583,9 @@ public final class CatNode: SKNode {
             let slide = min(length * CGFloat(Tuning.Puppet.shoulderDrop), max(-length * 0.3, distance - length))
             limb.upper.position = CGPoint(x: hip.x + dx / distance * slide, y: hip.y + dy / distance * slide)
         }
-        limb.paw.zRotation = limb.level + step.angle - torso.zRotation - turned
+        if limb.hind {
+            limb.paw.zRotation = limb.level + step.angle - torso.zRotation - turned
+        }
     }
 
     /// A gait's paw path: the share of a stride a paw is in the air, how far it travels under the body while down
@@ -595,9 +606,11 @@ public final class CatNode: SKNode {
         let (swingShare, sweep, lift, way, drop) = (path.swingShare, path.sweep, path.lift, path.way, path.drop)
         let p = Tuning.Puppet.self
         let rad = CGFloat.pi / 180
-        let roll = CGFloat(limb.hind ? p.hindPawRoll : p.frontPawRoll) * rad
-        let fold = CGFloat(limb.hind ? p.hindPawFold : p.frontPawFold) * rad
-        let reach = CGFloat(p.pawReach) * rad
+        // A front leg's paw turns with the leg (it has no wrist): it lands on its heel and leaves on its toes as the
+        // leg swings over it.
+        let roll = limb.hind ? CGFloat(p.hindPawRoll) * rad : 0
+        let fold = limb.hind ? CGFloat(p.hindPawFold) * rad : 0
+        let reach = limb.hind ? CGFloat(p.pawReach) * rad : 0
         func ease(_ t: Double) -> CGFloat {
             let k = max(0, min(1, t))
             return CGFloat(k * k * (3 - 2 * k))
@@ -789,7 +802,9 @@ public final class CatNode: SKNode {
         for limb in (limbs[view] ?? [:]).values {
             limb.upper.position = limb.hip
             limb.middle?.zRotation = 0
-            limb.paw.zRotation = 0
+            if limb.hind {
+                limb.paw.zRotation = 0
+            }
         }
         if let root = puppets[view]?.children.first {
             root.position = .zero

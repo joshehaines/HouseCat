@@ -665,16 +665,15 @@ public enum Tuning {
         public static let slantStride = 0.75
         /// The far legs, behind the body, this much darker.
         public static let farLegShade = 0.18
-        /// The paws (degrees, the heel up): how far one rolls onto its toes as it leaves the floor, over the last
-        /// `pawRollShare` of its time there; how far it folds back in the air (a front paw tucks right under, as a
-        /// cat's wrist does; a hind paw hangs toes down); and how far its toes tip up reaching to land.
-        public static let frontPawRoll = 25.0
-        public static let frontPawFold = 80.0
-        public static let hindPawRoll = 20.0
-        public static let hindPawFold = 40.0
-        public static let pawReach = 6.0
+        /// A hind paw (degrees, the heel up): how far it rolls onto its toes as it leaves the floor, over the last
+        /// `pawRollShare` of its time there; how far it hangs toes down in the air; and how far its toes tip up
+        /// reaching to land. Kept small (Josh, 19 Oct: a front paw folding back at the wrist looked very unnatural;
+        /// a front leg is now one piece).
+        public static let hindPawRoll = 12.0
+        public static let hindPawFold = 18.0
+        public static let pawReach = 4.0
         public static let pawRollShare = 0.25
-        /// A front leg is one straight piece from the shoulder to the wrist: when its paw is further off than the leg
+        /// A front leg is one straight piece from the shoulder to the paw: when its paw is further off than the leg
         /// is long, it comes down out of the body by up to this share of its length (the rest of the way, the paw
         /// falls short).
         public static let shoulderDrop = 0.03

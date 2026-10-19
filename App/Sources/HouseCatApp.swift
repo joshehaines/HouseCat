@@ -418,6 +418,8 @@ struct RoomScreen: View {
     /// A present the other owner left, opened at this visit.
     @State private var present: OutfitGift?
     @State private var editing: CatBuilderModel?
+    /// The outfit catalogue, trying outfits on the cat in the dressing room.
+    @State private var tryingOn: OutfitCatalogueModel?
     @State private var profileVersion = 0
     @State private var shopOpening: ShopView.Section?
     /// The cat's own look, for the player's plaque.
@@ -617,6 +619,7 @@ struct RoomScreen: View {
                     tryLook: { visit.preview($0) },
                     addLook: { visit.addWholeRoom($0) },
                     openPass: { showPass = true },
+                    tryOutfits: { tryOutfits($0) },
                     opening: shopOpening
                 )
                 .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
@@ -927,6 +930,15 @@ struct RoomScreen: View {
                     editing = nil
                     visit.refreshCat()
                 }
+            }
+            .fullScreenCover(item: $tryingOn) { model in
+                OutfitCatalogueView(model: model, store: store) {
+                    tryingOn = nil
+                    // What it now wears (bought and put on in the catalogue), in the room too.
+                    visit.dressCat()
+                    profileVersion += 1
+                }
+                .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
             }
     }
 
@@ -1283,6 +1295,17 @@ struct RoomScreen: View {
         showShop = true
     }
 
+    /// The outfit catalogue (the shop's Try them on), on an outfit if one is given. The cover or sheet it is called
+    /// from (the shop dismissing itself) is let go first, and gone before the catalogue comes up.
+    func tryOutfits(_ outfitID: String?) {
+        Task { @MainActor in
+            showShop = false
+            showProfile = false
+            try? await Task.sleep(for: .seconds(0.5))
+            tryingOn = OutfitCatalogueModel(opening: outfitID)
+        }
+    }
+
     /// A card over the room, dimming it; a tap outside closes it when `close` is given.
     /// Too tall for the screen (large text sizes), it scrolls rather than cut its words short. On an iPad it is drawn
     /// larger as a whole, at the controls' scale.
@@ -1340,6 +1363,8 @@ struct RoomScreen: View {
                 case "goals": showGoals = true
                 case "profile": showProfile = true
                 case "editlook": editing = CatScreens.builder(mode: .edit)
+                // HOUSECAT_TRY=<outfit id> opens the catalogue on that outfit.
+                case "catalogue": tryOutfits(ProcessInfo.processInfo.environment["HOUSECAT_TRY"])
                 case "settings": showSettings = true
                 case "erase": await YourData.deleteEverything()
                 case "trylook":

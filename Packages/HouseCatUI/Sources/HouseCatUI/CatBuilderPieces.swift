@@ -60,11 +60,16 @@ struct OptionCard<Picture: View>: View {
 }
 
 /// A card's paper: cream to warm paper, a cream edge and a hairline rim; ringed in orange when chosen.
-struct CardBackground: View {
+public struct CardBackground: View {
     let selected: Bool
     let s: CGFloat
 
-    var body: some View {
+    public init(selected: Bool, s: CGFloat) {
+        self.selected = selected
+        self.s = s
+    }
+
+    public var body: some View {
         let shape = RoundedRectangle(cornerRadius: 14 * s, style: .continuous)
         shape
             .fill(LinearGradient(
@@ -80,10 +85,14 @@ struct CardBackground: View {
 }
 
 /// A wooden clothes hanger: its bar along the card's top and a brass hook.
-struct Hanger: View {
+public struct Hanger: View {
     let s: CGFloat
 
-    var body: some View {
+    public init(s: CGFloat) {
+        self.s = s
+    }
+
+    public var body: some View {
         VStack(spacing: -2 * s) {
             Hook()
                 .stroke(

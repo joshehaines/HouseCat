@@ -8,7 +8,7 @@ import SpriteKit
 ///
 /// The cat turns as on a turntable (drag across it, or `turn(by:)`), sits or stands and comes closer for the
 /// part being changed (`present`), and reacts to each change with a little bounce and sparkles; a preset or a
-/// random look gets a whole twirl.
+/// random look gets a whole twirl. The outfit catalogue dresses it in what is being tried on (`dress`).
 @MainActor
 public final class DressingRoomScene: SKScene {
     /// Where the cat faces, round the podium; the paintings face left, so the right-hand angles are mirrored.
@@ -239,6 +239,15 @@ public final class DressingRoomScene: SKScene {
             sparkle(count: 6)
         })
         cat.run(.sequence(actions), withKey: "twirl")
+    }
+
+    /// Puts an outfit on the cat (nil takes it off), with a bounce and sparkles: the outfit catalogue's trying on.
+    public func dress(_ outfit: OutfitsFile.Outfit?, react: Bool = true) {
+        guard let cat else { return }
+        cat.wear(outfit)
+        if react {
+            bounce(sparkles: 4)
+        }
     }
 
     /// A tap on the cat: it bobs and a heart rises.

@@ -339,6 +339,10 @@ public enum Tuning {
         public static let filmQuality = 0.45
         /// The home is built once the film is on screen, or after this long at most (seconds).
         public static let filmWait = 0.03
+        /// The whole film plays every launch (Josh, 19 Oct): the home is built this long before it ends (seconds), and
+        /// the launch goes on after this long whatever the film is doing.
+        public static let launchBuildLead = 1.5
+        public static let launchHoldMost = 14.0
     }
 
     /// The nap (SPEC "Care"): a wind-down timer as a Live Activity.

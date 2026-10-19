@@ -9,6 +9,13 @@ import UIKit
 /// on from the first frame's curtain into the room's.
 @MainActor
 enum LaunchFilm {
+    /// Whether the launch is still showing the film (the curtain stays until it ends or is tapped).
+    @MainActor @Observable
+    final class State {
+        var holding = false
+    }
+
+    static let state = State()
     private static var player: AVPlayer?
     private static var shown = false
     private static var waiting: [CheckedContinuation<Void, Never>] = []
@@ -26,7 +33,41 @@ enum LaunchFilm {
         made.preventsDisplaySleepDuringVideoPlayback = false
         made.play()
         player = made
+        state.holding = true
+        NotificationCenter.default.addObserver(
+            forName: AVPlayerItem.didPlayToEndTimeNotification,
+            object: made.currentItem,
+            queue: .main
+        ) { _ in
+            Task { @MainActor in release() }
+        }
+        // However the film fares (paused in the background, say), the launch goes on.
+        Task { @MainActor in
+            try? await Task.sleep(for: .seconds(Tuning.Logo.launchHoldMost))
+            release()
+        }
         return made
+    }
+
+    /// The launch's film is done with: it ended, or a tap skipped it.
+    static func release() {
+        state.holding = false
+    }
+
+    /// Returns when the home should start being built: `lead` seconds before the launch film ends, so it is ready as
+    /// the film finishes; at once when there is no film or it was skipped.
+    static func buildTime(lead: TimeInterval) async {
+        while let player, state.holding {
+            if player.currentItem?.status == .failed {
+                release()
+                return
+            }
+            let length = player.currentItem?.duration.seconds ?? .nan
+            if length.isFinite, length - player.currentTime().seconds <= lead {
+                return
+            }
+            try? await Task.sleep(for: .seconds(0.1))
+        }
     }
 
     /// The intro's film, a fresh player each time the landing page appears (nil when it is not in the app).

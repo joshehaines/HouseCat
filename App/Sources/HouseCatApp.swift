@@ -208,9 +208,11 @@ struct HouseCatApp: App {
         if GameSession.shared.cat == nil {
             introducing = true
         } else {
-            // The launch film is on screen first, so it plays on while the home is built (a moment at most).
+            // The whole logo animation plays every launch (Josh, 19 Oct): the home is built under it near its end, so
+            // it is ready as the curtain lifts (a tap on the curtain skips to it).
             Task { @MainActor in
                 await LaunchFilm.onScreen(within: Tuning.Logo.filmWait)
+                await LaunchFilm.buildTime(lead: Tuning.Logo.launchBuildLead)
                 guard visit == nil else { return }
                 visit = Visit(size: CGSize(width: 1024, height: 768), lastActive: Visit.lastActive)
             }
@@ -504,11 +506,12 @@ struct RoomScreen: View {
             }
             .overlay {
                 // The launch screen stays up until the first picture is drawn, then lifts.
-                if !visit.ready {
+                if !visit.ready || LaunchFilm.state.holding {
                     LaunchCurtain().transition(.opacity)
                 }
             }
             .animation(.easeOut(duration: 0.45), value: visit.ready)
+            .animation(.easeOut(duration: 0.45), value: LaunchFilm.state.holding)
             .environment(\.hudScale, hudScale)
             .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
             .statusBarHidden()
@@ -1268,9 +1271,8 @@ struct RoomScreen: View {
 }
 
 /// The launch screen's look (the wordmark on cream, centred on the whole screen as the launch screen draws it), from
-/// the app's first frame until the first scene is drawn, with Midnight bounding onto the letters and curling up asleep
-/// (`AnimatedLogo`, the launch film, which plays on while the home is built). It lifts the moment the scene is drawn,
-/// wherever the cat has got to.
+/// the app's first frame until the cat has curled up asleep on the letters (`AnimatedLogo`, the launch film; Josh,
+/// 19 Oct: the whole animation every launch) and the first scene is drawn. A tap skips to the home.
 struct LaunchCurtain: View {
     @Environment(\.colorScheme) private var scheme
 
@@ -1282,6 +1284,11 @@ struct LaunchCurtain: View {
             }
         }
         .ignoresSafeArea()
-        .accessibilityHidden(true)
+        // A tap skips the rest of the animation.
+        .contentShape(Rectangle())
+        .onTapGesture { LaunchFilm.release() }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("HouseCat")
+        .accessibilityAction(named: "Skip") { LaunchFilm.release() }
     }
 }

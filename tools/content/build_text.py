@@ -1782,7 +1782,7 @@ WEEKLY = [
 ]
 
 ACHIEVEMENTS = [
-    # care (10)
+    # care (15)
     obj('care_feeds_1', "First ten meals", "Feed your cat 10 times.", 'total_feeds', 10, 25, 0, 'care_feeds'),
     obj('care_feeds_2', "Head chef", "Feed your cat 100 times.", 'total_feeds', 100, 100, 0, 'care_feeds'),
     obj('care_feeds_3', "A year of meals", "Feed your cat 365 times.", 'total_feeds', 365, 300, 0, 'care_feeds'),
@@ -1792,14 +1792,27 @@ ACHIEVEMENTS = [
     obj('care_trust_1', "Curious", "Reach the Curious trust tier with a cat.", 'trust_tier', 2, 50, 0, 'care_trust'),
     obj('care_trust_2', "Bonded", "Reach the Bonded trust tier with a cat.", 'trust_tier', 4, 150, 0, 'care_trust'),
     obj('care_trust_3', "Soulmates", "Reach the Soulmate trust tier with a cat.", 'trust_tier', 6, 500, 0, 'care_trust'),
-    obj('care_naps', "Nap enthusiast", "Settle your cat down for 20 naps.", 'naps', 20, 75, 0),
-    # home (12)
+    obj('care_naps_1', "Catnap", "Settle your cat down for 5 naps.", 'naps', 5, 25, 0, 'care_naps'),
+    obj('care_naps', "Nap enthusiast", "Settle your cat down for 20 naps.", 'naps', 20, 75, 0, 'care_naps'),
+    obj('care_naps_3', "Professional napper", "Settle your cat down for 100 naps.", 'naps', 100, 250, 0, 'care_naps'),
+    obj('care_loves_1', "Well chosen", "Your cat uses 5 different pieces you put out.", 'cat_used_items', 5, 50, 0,
+        'care_loves'),
+    obj('care_loves_2', "Just what they wanted", "Your cat uses 15 different pieces you put out.", 'cat_used_items', 15,
+        150, 0, 'care_loves'),
+    obj('care_loves_3', "Loved, every bit", "Your cat uses 40 different pieces you put out.", 'cat_used_items', 40, 300,
+        0, 'care_loves'),
+    # home (16)
     obj('home_items_1', "Settling in", "Own 10 pieces of furniture.", 'items_owned', 10, 50, 0, 'home_items'),
     obj('home_items_2', "Furnished", "Own 20 pieces of furniture.", 'items_owned', 20, 150, 0, 'home_items'),
     obj('home_items_3', "Well appointed", "Own 35 pieces of furniture.", 'items_owned', 35, 300, 0, 'home_items'),
     obj('home_rooms_1', "Room to grow", "Open a second room.", 'rooms_opened', 2, 50, 0, 'home_rooms'),
     obj('home_rooms_2', "Spreading out", "Have four rooms open.", 'rooms_opened', 4, 200, 0, 'home_rooms'),
     obj('home_rooms_3', "The whole house", "Open all six rooms.", 'rooms_opened', 6, 500, 0, 'home_rooms'),
+    obj('home_furnished_1', "A room done", "Furnish a room: five pieces or more in it.", 'rooms_furnished', 1, 50, 0,
+        'home_furnished'),
+    obj('home_furnished_2', "Half the house", "Furnish three rooms.", 'rooms_furnished', 3, 200, 0, 'home_furnished'),
+    obj('home_furnished_3', "Every room furnished", "Furnish all six rooms.", 'rooms_furnished', 6, 500, 0,
+        'home_furnished'),
     obj('home_surfaces_1', "New look", "Change a wallpaper or floor.", 'surfaces_changed', 1, 25, 0, 'home_surfaces'),
     obj('home_surfaces_2', "Decorator", "Change wallpapers or floors 10 times.", 'surfaces_changed', 10, 75, 0, 'home_surfaces'),
     obj('home_surfaces_3', "Never quite finished", "Change wallpapers or floors 30 times.", 'surfaces_changed', 30, 150, 0,
@@ -1807,6 +1820,7 @@ ACHIEVEMENTS = [
     obj('home_level_1', "Finding your feet", "Reach level 5.", 'level', 5, 50, 0, 'home_level'),
     obj('home_level_2', "Well established", "Reach level 10.", 'level', 10, 150, 0, 'home_level'),
     obj('home_level_3', "Pillar of the house", "Reach level 20.", 'level', 20, 400, 0, 'home_level'),
+    obj('home_level_4', "Part of the furniture", "Reach level 30.", 'level', 30, 750, 0, 'home_level'),
     # social (8)
     obj('social_group_1', "In good company", "Join a group of friends.", 'groups_joined', 1, 50, 0),
     obj('social_group_2', "Well connected", "Be part of three groups.", 'groups_joined', 3, 100, 0),
@@ -1817,14 +1831,17 @@ ACHIEVEMENTS = [
     obj('social_sit_1', "Cat-sitter", "Feed a friend's cat while they're away.", 'sitting_days', 1, 50, 0),
     obj('social_sit_2', "Trusted sitter", "Feed friends' cats on 14 days.", 'sitting_days', 14, 150, 0),
     obj('social_sunday', "Weekly news", "Open your cat's Sunday card.", 'sunday_cards', 1, 25, 0),
-    # streak (6): celebrations of the longest streak, never a demand
+    # streak (9): celebrations of the longest streak, never a demand
     obj('streak_3', "Three in a row", "Three days of visits in a row.", 'longest_streak', 3, 25, 0, 'streak_short'),
     obj('streak_7', "A week of visits", "Seven days of visits in a row.", 'longest_streak', 7, 50, 0, 'streak_short'),
     obj('streak_14', "A fortnight", "Fourteen days of visits in a row.", 'longest_streak', 14, 100, 0, 'streak_short'),
     obj('streak_30', "A month of visits", "Thirty days of visits in a row.", 'longest_streak', 30, 200, 0, 'streak_long'),
     obj('streak_100', "Hundred-day run", "A hundred days of visits in a row.", 'longest_streak', 100, 400, 0, 'streak_long'),
     obj('streak_365', "A whole year", "A full year of visits in a row.", 'longest_streak', 365, 500, 0, 'streak_long'),
-    # collection (10)
+    obj('streak_days_1', "Familiar face", "Visit on 30 days.", 'days_visited', 30, 75, 0, 'streak_days'),
+    obj('streak_days_2', "Part of the family", "Visit on 100 days.", 'days_visited', 100, 250, 0, 'streak_days'),
+    obj('streak_days_3', "Every season", "Visit on 365 days.", 'days_visited', 365, 500, 0, 'streak_days'),
+    # collection (11)
     obj('collection_gifts_1', "First finds", "Collect 10 gifts.", 'total_gifts', 10, 25, 0, 'collection_gifts'),
     obj('collection_gifts_2', "Magpie", "Collect 50 gifts.", 'total_gifts', 50, 100, 0, 'collection_gifts'),
     obj('collection_gifts_3', "Curator", "Collect 200 gifts.", 'total_gifts', 200, 300, 0, 'collection_gifts'),
@@ -1834,15 +1851,30 @@ ACHIEVEMENTS = [
     obj('collection_kinds_3', "Complete collection", "Find all 60 gifts.", 'distinct_gifts', 60, 500, 0, 'collection_kinds'),
     obj('collection_legendary_1', "Something special", "Find a legendary gift.", 'legendary_gifts', 1, 100, 0),
     obj('collection_legendary_2', "Legendary hoard", "Find four legendary gifts.", 'legendary_gifts', 4, 300, 0),
-    obj('collection_outfits_1', "Dressed up", "Put an outfit on your cat.", 'outfits_worn', 1, 25, 0),
-    obj('collection_outfits_2', "Wardrobe", "Try three different outfits on your cat.", 'outfits_worn', 3, 100, 0),
-    # explore (6)
+    obj('collection_outfits_1', "Dressed up", "Put an outfit on your cat.", 'outfits_worn', 1, 25, 0,
+        'collection_outfits'),
+    obj('collection_outfits_2', "Wardrobe", "Try three different outfits on your cat.", 'outfits_worn', 3, 100, 0,
+        'collection_outfits'),
+    obj('collection_outfits_3', "Fashion plate", "Try ten different outfits on your cat.", 'outfits_worn', 10, 250, 0,
+        'collection_outfits'),
+    # explore (8)
     obj('explore_season_1', "Change of scene", "Change the season at home.", 'season_changed', 1, 25, 0),
     obj('explore_season_2', "All weathers", "Change the season four times.", 'season_changed', 4, 75, 0),
     obj('explore_move', "New address", "Move your home somewhere new.", 'home_moved', 1, 50, 0),
+    obj('explore_homes_1', "Neighbours", "Visit three other cats' homes on the map.", 'homes_visited', 3, 50, 0,
+        'explore_homes'),
+    obj('explore_homes_2', "Seen the world", "Visit all seven cats' homes on the map.", 'homes_visited', 7, 150, 0,
+        'explore_homes'),
     obj('explore_rooms_1', "Room to room", "Visit two different rooms.", 'rooms_visited', 2, 25, 0, 'explore_rooms'),
     obj('explore_rooms_2', "Grand tour", "Visit four different rooms.", 'rooms_visited', 4, 100, 0, 'explore_rooms'),
     obj('explore_rooms_3', "Every corner", "Visit all six rooms.", 'rooms_visited', 6, 250, 0, 'explore_rooms'),
+    # play (6)
+    obj('play_games_1', "Game on", "Play 10 games with your cat.", 'games_played', 10, 25, 0, 'play_games'),
+    obj('play_games_2', "Playful", "Play 100 games with your cat.", 'games_played', 100, 100, 0, 'play_games'),
+    obj('play_games_3', "Never bored", "Play 500 games with your cat.", 'games_played', 500, 250, 0, 'play_games'),
+    obj('play_stars_1', "Sharp claws", "Earn three stars in 5 games.", 'three_star_games', 5, 50, 0, 'play_stars'),
+    obj('play_stars_2', "Star pupil", "Earn three stars in 25 games.", 'three_star_games', 25, 150, 0, 'play_stars'),
+    obj('play_stars_3', "Perfect paws", "Earn three stars in 100 games.", 'three_star_games', 100, 400, 0, 'play_stars'),
     # seasons (8)
     obj('seasons_tiers_1', "First rewards", "Claim 5 season rewards.", 'pass_tiers_claimed', 5, 50, 0, 'seasons_tiers'),
     obj('seasons_tiers_2', "Seasoned", "Claim 20 season rewards.", 'pass_tiers_claimed', 20, 150, 0, 'seasons_tiers'),
@@ -1856,6 +1888,70 @@ ACHIEVEMENTS = [
         'seasons_together'),
     obj('seasons_together_3', "A year together", "Reach a year together with a cat.", 'together_days', 365, 500, 0,
         'seasons_together'),
+]
+
+
+# The path: chapters of steps in order, each step paying once (docs/CONTENT.md section 5).
+def step(sid, name, text, metric, target, beans, xp, pp, optional=None, room=None, item=None, outfit=None,
+         screen=None):
+    s = {"id": sid, "name": name, "text": text, "metric": metric, "target": target}
+    for k, v in (("optional", optional), ("room", room), ("item", item), ("outfit", outfit), ("screen", screen)):
+        if v is not None:
+            s[k] = v
+    s.update({"beans": beans, "xp": xp, "passPoints": pp})
+    return s
+
+
+def chapter(cid, name, when, done, beans, xp, steps, outfit=None, item=None):
+    c = {"id": cid, "name": name, "when": when, "done": done, "beans": beans, "xp": xp}
+    for k, v in (("outfit", outfit), ("item", item)):
+        if v is not None:
+            c[k] = v
+    c["steps"] = steps
+    return c
+
+
+PATH = [
+    chapter('path_moving_in', "Moving in", "The first hour", "{cat} feels at home.", 100, 30, item='living_scratch',
+            steps=[
+        step('path_feed', "Breakfast", "Feed {cat}.", 'total_feeds', 1, 15, 10, 5),
+        step('path_stroke', "Hello, you", "Give {cat} a stroke.", 'total_pets', 1, 15, 10, 5),
+        step('path_cosy', "Make it cosy", "Put 3 pieces in the living room.", 'room_pieces', 3, 30, 15, 5,
+             room='living', item='living_rug'),
+        step('path_play', "Playtime", "Play a game with {cat}.", 'games_played', 1, 20, 15, 5),
+        step('path_nap', "Forty winks", "Settle {cat} down for a nap.", 'naps', 1, 20, 15, 5),
+        step('path_level', "Level 2", "Everything you do earns XP. Reach level 2.", 'level', 2, 25, 0, 5),
+        step('path_bedroom', "The bedroom", "Open the bedroom. It comes with a nightcap.", 'rooms_opened', 2, 0, 20, 5,
+             outfit='nightcap'),
+        step('path_dress', "Dress-up", "Put the nightcap on {cat}.", 'outfits_worn', 1, 20, 10, 5),
+        step('path_map', "Home on the map", "Find your home on the map.", 'screen_seen', 1, 20, 10, 5, screen='map'),
+    ]),
+    chapter('path_settling_in', "Getting to know you", "The first week", "{cat} has settled in.", 150, 40,
+            outfit='beret', item='living_lamp', steps=[
+        step('path_tomorrow', "See you tomorrow", "Visit on two different days.", 'days_visited', 2, 20, 10, 5),
+        step('path_present', "A present", "Collect a present {cat} brings you.", 'total_gifts', 1, 20, 10, 5),
+        step('path_trust', "A little trust", "Feed {cat} on three days.", 'care_days', 3, 30, 15, 5),
+        step('path_bedtime', "Bedtime", "Put 2 pieces in the bedroom.", 'room_pieces', 2, 30, 15, 5, room='bedroom'),
+        step('path_stars', "Three stars", "Earn three stars in a game.", 'three_star_games', 1, 30, 15, 5),
+        step('path_loves', "Something they love", "{cat} tries out 3 pieces you put out.", 'cat_used_items', 3, 30, 15, 5,
+             item='living_plant'),
+        step('path_kitchen', "The kitchen", "Open the kitchen at level 3.", 'rooms_opened', 3, 0, 30, 5),
+        step('path_book', "Collector", "Find 4 different presents for the book.", 'distinct_gifts', 4, 30, 15, 5),
+    ]),
+    chapter('path_making_home', "Making it home", "The first month", "This is {cat}'s home now.", 300, 80,
+            item='living_picture', steps=[
+        step('path_fresh', "Fresh look", "Change a wallpaper and a floor.", 'surfaces_changed', 2, 30, 15, 5),
+        step('path_level6', "Level 6", "Reach level 6, when the garden opens.", 'level', 6, 40, 0, 5),
+        step('path_wardrobe', "Dress-up again", "Try two different outfits on {cat}.", 'outfits_worn', 2, 40, 15, 5),
+        step('path_furnished', "Furnished", "Own 15 pieces of furniture.", 'items_owned', 15, 50, 20, 5),
+        step('path_comfortable', "Comfortable", "Feed {cat} on 14 days.", 'care_days', 14, 60, 30, 5),
+        step('path_wins', "Star player", "Earn a star in 20 games.", 'minigame_wins', 20, 40, 20, 5),
+        step('path_regular', "Regular", "Visit on 20 different days.", 'days_visited', 20, 50, 30, 5),
+        step('path_homes', "Next door", "Visit 3 other cats' homes on the map.", 'homes_visited', 3, 40, 20, 5,
+             optional=True),
+        step('path_pass', "Season rewards", "Claim 3 rewards on the season pass.", 'pass_tiers_claimed', 3, 40, 15, 5,
+             optional=True),
+    ]),
 ]
 
 MINIGAMES = {
@@ -1900,7 +1996,8 @@ def main():
             meow, variants = per[p]
             lines.append({"context": cid, "personality": p, "variants": variants, "meow": meow})
     files = [('lines.json', {"version": 1, "placeholders": PLACEHOLDERS, "contexts": contexts, "lines": lines}),
-             ('objectives.json', {"version": 1, "daily": DAILY, "weekly": WEEKLY, "achievements": ACHIEVEMENTS}),
+             ('objectives.json', {"version": 1, "daily": DAILY, "weekly": WEEKLY, "achievements": ACHIEVEMENTS,
+                                  "path": PATH}),
              ('minigames.json', MINIGAMES)]
     names = [name for name, _ in files]
     force = [os.path.basename(a) for a in sys.argv[sys.argv.index('--force') + 1:]] if '--force' in sys.argv else []

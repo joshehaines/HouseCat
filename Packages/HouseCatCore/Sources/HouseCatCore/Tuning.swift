@@ -257,6 +257,62 @@ public enum Tuning {
         public static let globeSlideSeconds = 0.9
     }
 
+    /// The animated logo (HouseCatGame `LogoScene`): Midnight runs in, leaps onto the wordmark and curls up asleep on
+    /// it. Lengths are in the pixels of the wordmark's box (assets/brand/logo/wordmark_on_*.png) from its bottom left.
+    public enum Logo {
+        /// The box: the letters along its bottom, clear room above them for the sleeping cat.
+        public static let boxSize = [1647.0, 480.0]
+        /// The letters' baseline (the ground the cat runs in on) and the top of the lowercase "ouse" it curls up on.
+        public static let baseline = 24.0
+        public static let valleyTop = 221.0
+        /// The letters' tops, [from x, to x, top]: the H, "ouse", the C, the a, the t (for the shadow).
+        public static let tops: [[Double]] = [[20, 300, 292], [310, 1040, 221], [1060, 1290, 300], [1300, 1470, 222], [1480, 1630, 270]]
+        /// The cat standing; the curl it ends in is drawn this much bigger, to be about a letter's size.
+        public static let catHeight = 560.0
+        public static let curlScale = 1.3
+        /// Where it leans and grows about, up from its feet (cat heights); how far out of sight it starts.
+        public static let pivotHeight = 0.35
+        public static let offscreen = 0.8
+        /// Where it springs from the ground, lands among the letters (clear of the H), and curls up.
+        public static let takeOff = -360.0
+        public static let landing = 640.0
+        public static let bed = 690.0
+        /// The leap: how high its feet go, the crouch on the run and the time in the air (seconds), its squash (on
+        /// the puppet's), and how far it leans into the climb and the fall (share of the arc's angle).
+        public static let leapTop = 470.0
+        public static let crouchSeconds = 0.1
+        public static let leapSeconds = 0.55
+        public static let leapSquash = 1.5
+        public static let lean = 0.3
+        /// Paces (cat heights a second): running in on the intro and the launch, trotting to its spot.
+        public static let runSpeed = 3.0
+        public static let launchRunSpeed = 4.0
+        public static let trotSpeed = 1.4
+        /// The intro: the wordmark alone first, then a look round at you before it sleeps. Seconds sitting before it
+        /// curls up (intro, launch); the fade from the puppet into sitting, and the cross-fade into the curl.
+        public static let introHold = 0.6
+        public static let lookSeconds = 1.1
+        public static let sitSeconds = 0.7
+        public static let launchSitSeconds = 0.25
+        public static let sitFadeSeconds = 0.1
+        public static let curlSeconds = 0.3
+        /// Its soft shadow: width and depth (shares of the cat's width), strength, and least share left in the air.
+        public static let shadowWidth = 0.75
+        public static let shadowDepth = 0.18
+        public static let shadowAlpha = 0.35
+        public static let shadowLeast = 0.35
+        /// A painted pose's width and middle (cat heights), for the shadow and the light while it rests.
+        public static let restWidth = 0.45
+        public static let restMiddle = 0.25
+        /// Over a dark background, a soft light behind the cat: its size (cat heights), strength, and how quickly
+        /// it follows the cat (a share of the way a second).
+        public static let glowSize = 1.6
+        public static let glowAlpha = 0.24
+        public static let glowFollow = 6.0
+        /// How far the scene reaches above the box (box heights): the cat standing on the letters, its leap.
+        public static let headroom = 2.2
+    }
+
     /// The nap (SPEC "Care"): a wind-down timer as a Live Activity.
     public enum Nap {
         public static let minutes = 20.0

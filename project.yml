@@ -102,7 +102,8 @@ targets:
         UILaunchScreen:
           UIImageName: LaunchLogo
           UIColorName: LaunchBackground
-          UIImageRespectsSafeAreaInsets: true
+          # Centred on the whole screen, as the launch curtain draws it after (the safe area moved it 24 points).
+          UIImageRespectsSafeAreaInsets: false
         UIApplicationSceneManifest:
           UIApplicationSupportsMultipleScenes: true
         # A landscape game on iPhone (Josh, 17 Oct); the iPad keeps every orientation for multitasking.

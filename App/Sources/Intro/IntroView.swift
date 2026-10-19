@@ -98,11 +98,16 @@ struct IntroView: View {
     private var landing: some View {
         HStack {
             VStack(spacing: 14) {
-                if let logo = CatScreens.picture("brand/logo/logo_stacked_on_dark.png") {
-                    logo.resizable().scaledToFit()
-                        .frame(maxWidth: 300, maxHeight: 230)
-                        .scaleEffect(logoShown ? 1 : 0.6)
-                        .opacity(logoShown ? 1 : 0)
+                if let logo = CatScreens.picture("brand/logo/wordmark_on_dark.png") {
+                    // The wordmark, with Midnight running in from the edge and curling up asleep on it.
+                    AnimatedLogo(act: .intro, ink: .dark) {
+                        logo.resizable().scaledToFit()
+                    }
+                    .frame(width: 330)
+                    .opacity(logoShown ? 1 : 0)
+                    .accessibilityElement(children: .ignore)
+                    .accessibilityLabel("HouseCat")
+                    .accessibilityAddTraits(.isImage)
                 }
                 Text(intro.tagline)
                     .font(Theme.title(20))

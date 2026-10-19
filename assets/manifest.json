@@ -17,7 +17,7 @@
   "widget": "widget_<id>[_wide].png frame with transparent glass + _glass.png mask; draw sky/weather behind, the cat on the sill.",
   "audio": "44.1 kHz 16-bit WAV. Cat voices and the purr are real recordings (public domain / CC0, from Wikimedia Commons, credited in audio/CREDITS_cat_sounds.json and each manifest entry); UI, ambience, sleep breathing and zoomies are synthesised in code (synth.py). Loops are seamless.",
   "brand/icon": "AppIcon_1024.png is the flattened icon. For the iOS 26 layered icon (Icon Composer) use AppIcon_layer1_background.png behind AppIcon_layer2_cat.png; the system makes the dark, tinted and clear looks from the layers. alt_AppIcon_* are the other three concepts.",
-  "brand/logo": "logo_<horizontal|stacked>_on_light.png (dark ink) and _on_dark.png (cream ink), transparent backgrounds. The stacked logo is the launch-screen mark.",
+  "brand/logo": "logo_<horizontal|stacked>_on_light.png (dark ink) and _on_dark.png (cream ink), transparent backgrounds. wordmark_on_<light|dark>.png: the letters alone, cut from the horizontal logos by tools/asset-pipeline/wordmark.py, along the bottom of a 1647 x 480 box with clear room above them for the cat that curls up on them (the animated logo, HouseCatGame LogoScene; Tuning.Logo measures the letters in the box's pixels). The wordmark box is the launch-screen mark.",
   "cat/poses": "cat_<set>_<pose>.png per coat (plain, tuxedo, locket, socks): whole-cat paintings for the resting poses the puppet cannot make well: sit (side, tqfront, front, back), loaf (side, tqfront), sleep_curl, stretch_side. sit_back is the widget pose (the cat looking out of the window). Use the puppet for moving, these for resting; cross-fade between them.",
   "cat/custom/base": "The cat builder art, painted WHITE: parts/cat_<body>_<view>_<part>.png (8 bodies: short_slim, short_chunky, long_slim, long_chunky, persian, siamese, mainecoon, sphynx; parts as cat/base), poses/cat_<body>_<pose>[__<ears>|__bobtail|__<ears>_bobtail].png, expr/head_<stdnoear|persian|siamese|mainecoon|sphynx|std>_<view>_<expression>.png (stdnoear = the standard bodies, ears come from the parts), ears/ear_<rounded|folded|tufted|oriental>_<view>_<far|near>.png, tails/bobtail_<view>_<up|curl|low>.png, whole/cat_<breed>_<view>_whole.png (assembly reference for the breeds). Tint in code with the coat recipe; catbuilder.json has the data and presets.",
   "cat/custom/mask": "masks/<mask>/<same path as the base sprite>: 8-bit greyscale, same size as the sprite. tabby_mackerel, tabby_classic, spotted, tortie, colourpoint: 255 = pattern colour. white_mitts, white_tuxedo, white_bicolour, white_van: 255 = the fur stays white. features (RGB): R = iris of the eye on the image left (the only eye in a side view), G = the other iris, B = nose leather. A missing mask = 0 everywhere.",
@@ -93072,6 +93072,20 @@
    "px": [
     1695,
     1567
+   ]
+  },
+  "brand/logo/wordmark_on_dark.png": {
+   "class": "brand/logo",
+   "px": [
+    1647,
+    480
+   ]
+  },
+  "brand/logo/wordmark_on_light.png": {
+   "class": "brand/logo",
+   "px": [
+    1647,
+    480
    ]
   },
   "cat/poses/plain/cat_long_chunky_loaf_side.png": {

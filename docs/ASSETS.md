@@ -35,7 +35,7 @@ Decision (Josh, 17 Oct): every asset class is generated in Higgsfield and finish
 | `ui/` | 30 icons (Beans, XP, trust, streak, pass, objectives, shop, actions, rooms…) | 30 |
 | `widget/` | 8 window-sill frames, square and wide, each with a `_glass` mask | 32 |
 | `cat/poses/<coat>/` | Whole-cat resting poses for every body set and coat (plain, tuxedo, locket, socks): sit side / three-quarter / front / back (the widget pose), loaf side / three-quarter, curled asleep, stretch | 128 |
-| `brand/icon`, `brand/logo` | App icon: flattened 1024 + iOS 26 layers (background, cat) + three alternate concepts; logo horizontal and stacked, each for light and dark backgrounds | 10 |
+| `brand/icon`, `brand/logo` | App icon: flattened 1024 + iOS 26 layers (background, cat) + three alternate concepts; logo horizontal and stacked, each for light and dark backgrounds; the wordmark alone in a box with room above it for the cat (the launch screen and the animated logo, cut from the horizontal logos by `tools/asset-pipeline/wordmark.py`), light and dark | 12 |
 | `fx/<effect>/` | Animated effects: fire, candle flame, steam, chimney smoke, fountain trickle, ripple, butterfly (8-frame loops with strips); robin (8 poses); reaction icons (heart, Zzz, notes, sparkle, ?, !, paw); `fx.json` and `anchors.json` (where flames and steam attach on the moving furniture) | 70 |
 | `audio/` | 32 WAVs: cat (13: real recordings for every meow, chirp, trill, grumble, hiss and the purr; synthesised sleep breathing and zoomies), world loops (8), UI (11) | 32 |
 

@@ -61,8 +61,8 @@ SETS = [
     # The widget's window frames, square and wide, one pair per home (their glass is transparent; the masks
     # are not needed). The app copies the home's pair into the App Group for the widget.
     ('widget/widget_*[!s].png', 0.32),
-    # The intro's logo and its host, the mascot.
-    ('brand/logo/logo_stacked_on_dark.png', 0.5),
+    # The intro's logo (the wordmark the cat curls up on, App/Sources/Intro/AnimatedLogo.swift) and its host, the mascot.
+    ('brand/logo/wordmark_on_dark.png', 0.75),
     ('brand/icon/AppIcon_layer2_cat.png', 0.5),
     # The world map: the painting and the biome mask under the pin.
     ('world/map/map_painted.png', 1.0),

@@ -31,6 +31,9 @@ struct HouseCatApp: App {
                             OutfitGallery()
                         } else if ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"] == "puppets" {
                             PuppetGallery()
+                        } else if ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"] == "logo" {
+                            // The launch curtain held, to watch the cat curl up on the logo.
+                            LaunchCurtain()
                         } else {
                             WidgetGallery()
                         }
@@ -82,7 +85,9 @@ struct HouseCatApp: App {
                         adopting = CatScreens.builder(mode: .adopt)
                     }
                 } else {
-                    Color.black.ignoresSafeArea()
+                    // The first frame, before anything is built: the launch screen's own look, so it hands over
+                    // without a flash.
+                    LaunchCurtain(cat: false)
                 }
             }
             .onAppear(perform: start)
@@ -152,7 +157,7 @@ struct HouseCatApp: App {
         WidgetBridge.importInbox()
         #if DEBUG
             // HOUSECAT_SCREEN=widgets: every widget size and pose, drawn as the widget draws them.
-            if ["outfits", "puppets"].contains(ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"]) {
+            if ["outfits", "puppets", "logo"].contains(ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"]) {
                 gallery = true
                 return
             }
@@ -1257,13 +1262,26 @@ struct RoomScreen: View {
     }
 }
 
-/// The launch screen's look (the logo on cream), kept over the first scene while it loads.
+/// The launch screen's look (the wordmark on cream, centred on the whole screen as the launch screen draws it), kept
+/// over the first scene while it loads, with Midnight bounding onto the letters and curling up asleep (`AnimatedLogo`).
+/// It lifts the moment the scene is drawn, wherever the cat has got to.
 struct LaunchCurtain: View {
+    /// The cat runs in (false: the wordmark alone, still, as the launch screen draws it).
+    var cat = true
+    @Environment(\.colorScheme) private var scheme
+
     var body: some View {
         ZStack {
-            Color("LaunchBackground").ignoresSafeArea()
-            Image("LaunchLogo")
+            Color("LaunchBackground")
+            if cat {
+                AnimatedLogo(act: .launch, ink: scheme == .dark ? .dark : .light) {
+                    Image("LaunchLogo")
+                }
+            } else {
+                Image("LaunchLogo")
+            }
         }
+        .ignoresSafeArea()
         .accessibilityHidden(true)
     }
 }

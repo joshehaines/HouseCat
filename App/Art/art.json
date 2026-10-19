@@ -7,12 +7,12 @@
    ],
    "scale": 0.5
   },
-  "brand/logo/logo_stacked_on_dark.png": {
+  "brand/logo/wordmark_on_dark.png": {
    "master": [
-    1696,
-    1569
+    1647,
+    480
    ],
-   "scale": 0.5
+   "scale": 0.75
   },
   "cat/base/short_slim/cat_short_slim_front_ear_far.png": {
    "master": [

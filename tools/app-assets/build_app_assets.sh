@@ -61,13 +61,17 @@ cat > $icon/icon.json <<'JSON'
 }
 JSON
 
-# Launch screen: the stacked logo, dark ink on cream (light) and cream ink on navy (dark).
+# Launch screen: the wordmark in its box (room above the letters for the cat that curls up on them once the app is
+# running: App/Sources/Intro/AnimatedLogo.swift), dark ink on cream (light) and cream ink on navy (dark). 400 points
+# wide on a phone, 560 on an iPad; the launch screen centres it on the whole screen, and so does the curtain after it.
 logo=$catalog/LaunchLogo.imageset
 rm -rf $logo
 mkdir -p $logo
-for scale in 2 3; do
-  sips -s format png --resampleWidth $((200 * scale)) $brand/logo/logo_stacked_on_light.png --out $logo/logo_light@${scale}x.png >/dev/null
-  sips -s format png --resampleWidth $((200 * scale)) $brand/logo/logo_stacked_on_dark.png --out $logo/logo_dark@${scale}x.png >/dev/null
+for ink in light dark; do
+  for scale in 2 3; do
+    sips -s format png --resampleWidth $((400 * scale)) $brand/logo/wordmark_on_$ink.png --out $logo/logo_${ink}@${scale}x.png >/dev/null
+  done
+  sips -s format png --resampleWidth $((560 * 2)) $brand/logo/wordmark_on_$ink.png --out $logo/logo_${ink}_ipad@2x.png >/dev/null
 done
 cat > $logo/Contents.json <<'JSON'
 {
@@ -75,7 +79,9 @@ cat > $logo/Contents.json <<'JSON'
     { "filename" : "logo_light@2x.png", "idiom" : "universal", "scale" : "2x" },
     { "appearances" : [ { "appearance" : "luminosity", "value" : "dark" } ], "filename" : "logo_dark@2x.png", "idiom" : "universal", "scale" : "2x" },
     { "filename" : "logo_light@3x.png", "idiom" : "universal", "scale" : "3x" },
-    { "appearances" : [ { "appearance" : "luminosity", "value" : "dark" } ], "filename" : "logo_dark@3x.png", "idiom" : "universal", "scale" : "3x" }
+    { "appearances" : [ { "appearance" : "luminosity", "value" : "dark" } ], "filename" : "logo_dark@3x.png", "idiom" : "universal", "scale" : "3x" },
+    { "filename" : "logo_light_ipad@2x.png", "idiom" : "ipad", "scale" : "2x" },
+    { "appearances" : [ { "appearance" : "luminosity", "value" : "dark" } ], "filename" : "logo_dark_ipad@2x.png", "idiom" : "ipad", "scale" : "2x" }
   ],
   "info" : { "author" : "xcode", "version" : 1 }
 }

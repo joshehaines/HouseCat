@@ -328,6 +328,10 @@
     266,
     491
    ],
+   "pad": {
+    "asset": "furniture.attic.furn_attic_boxes_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -337,6 +341,10 @@
     241,
     454
    ],
+   "pad": {
+    "asset": "furniture.attic.furn_attic_boxes_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -346,6 +354,10 @@
     1945,
     1972
    ],
+   "pad": {
+    "asset": "furniture.attic.furn_attic_cobweb_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -355,6 +367,10 @@
     1945,
     1972
    ],
+   "pad": {
+    "asset": "furniture.attic.furn_attic_cobweb_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -364,6 +380,10 @@
     218,
     721
    ],
+   "pad": {
+    "asset": "furniture.attic.furn_attic_dummy_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -373,6 +393,10 @@
     210,
     732
    ],
+   "pad": {
+    "asset": "furniture.attic.furn_attic_dummy_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -382,6 +406,10 @@
     460,
     546
    ],
+   "pad": {
+    "asset": "furniture.attic.furn_attic_dustyarmchair_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -391,6 +419,10 @@
     381,
     488
    ],
+   "pad": {
+    "asset": "furniture.attic.furn_attic_dustyarmchair_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -400,6 +432,10 @@
     238,
     567
    ],
+   "pad": {
+    "asset": "furniture.attic.furn_attic_oillamp_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -409,6 +445,10 @@
     275,
     562
    ],
+   "pad": {
+    "asset": "furniture.attic.furn_attic_oillamp_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -418,6 +458,10 @@
     516,
     478
    ],
+   "pad": {
+    "asset": "furniture.attic.furn_attic_rockinghorse_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -427,6 +471,10 @@
     616,
     536
    ],
+   "pad": {
+    "asset": "furniture.attic.furn_attic_rockinghorse_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -436,6 +484,10 @@
     764,
     497
    ],
+   "pad": {
+    "asset": "furniture.attic.furn_attic_rolledrug_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -445,6 +497,10 @@
     721,
     460
    ],
+   "pad": {
+    "asset": "furniture.attic.furn_attic_rolledrug_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -454,6 +510,10 @@
     895,
     480
    ],
+   "pad": {
+    "asset": "furniture.attic.furn_attic_skylightpatch_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -463,6 +523,10 @@
     1037,
     562
    ],
+   "pad": {
+    "asset": "furniture.attic.furn_attic_skylightpatch_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -472,6 +536,10 @@
     355,
     403
    ],
+   "pad": {
+    "asset": "furniture.attic.furn_attic_suitcase_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -481,6 +549,10 @@
     383,
     435
    ],
+   "pad": {
+    "asset": "furniture.attic.furn_attic_suitcase_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -490,6 +562,10 @@
     482,
     636
    ],
+   "pad": {
+    "asset": "furniture.attic.furn_attic_telescope_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -499,6 +575,10 @@
     462,
     632
    ],
+   "pad": {
+    "asset": "furniture.attic.furn_attic_telescope_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -508,6 +588,10 @@
     380,
     404
    ],
+   "pad": {
+    "asset": "furniture.attic.furn_attic_trunk_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -517,6 +601,10 @@
     391,
     410
    ],
+   "pad": {
+    "asset": "furniture.attic.furn_attic_trunk_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -526,6 +614,10 @@
     620,
     602
    ],
+   "pad": {
+    "asset": "furniture.attic.furn_attic_wireless_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -535,6 +627,10 @@
     641,
     647
    ],
+   "pad": {
+    "asset": "furniture.attic.furn_attic_wireless_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -544,6 +640,10 @@
     184,
     252
    ],
+   "pad": {
+    "asset": "furniture.bedroom.furn_bedroom_alarmclock_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -553,6 +653,10 @@
     194,
     274
    ],
+   "pad": {
+    "asset": "furniture.bedroom.furn_bedroom_alarmclock_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -562,6 +666,10 @@
     809,
     689
    ],
+   "pad": {
+    "asset": "furniture.bedroom.furn_bedroom_bed_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -571,6 +679,10 @@
     780,
     633
    ],
+   "pad": {
+    "asset": "furniture.bedroom.furn_bedroom_bed_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -580,6 +692,10 @@
     1120,
     608
    ],
+   "pad": {
+    "asset": "furniture.bedroom.furn_bedroom_bedrug_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -589,6 +705,10 @@
     1088,
     586
    ],
+   "pad": {
+    "asset": "furniture.bedroom.furn_bedroom_bedrug_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -598,6 +718,10 @@
     227,
     359
    ],
+   "pad": {
+    "asset": "furniture.bedroom.furn_bedroom_bedside_L",
+    "scale": 1.0
+   },
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_bedside_R.png": {
@@ -606,6 +730,10 @@
     201,
     339
    ],
+   "pad": {
+    "asset": "furniture.bedroom.furn_bedroom_bedside_R",
+    "scale": 1.0
+   },
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_catbed_L.png": {
@@ -614,6 +742,10 @@
     426,
     312
    ],
+   "pad": {
+    "asset": "furniture.bedroom.furn_bedroom_catbed_L",
+    "scale": 1.0
+   },
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_catbed_R.png": {
@@ -622,6 +754,10 @@
     483,
     344
    ],
+   "pad": {
+    "asset": "furniture.bedroom.furn_bedroom_catbed_R",
+    "scale": 1.0
+   },
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_curtains_L.png": {
@@ -630,6 +766,10 @@
     366,
     644
    ],
+   "pad": {
+    "asset": "furniture.bedroom.furn_bedroom_curtains_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -639,6 +779,10 @@
     329,
     569
    ],
+   "pad": {
+    "asset": "furniture.bedroom.furn_bedroom_curtains_R",
+    "scale": 1.0
+   },
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_drawers_L.png": {
@@ -647,6 +791,10 @@
     366,
     463
    ],
+   "pad": {
+    "asset": "furniture.bedroom.furn_bedroom_drawers_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -656,6 +804,10 @@
     371,
     470
    ],
+   "pad": {
+    "asset": "furniture.bedroom.furn_bedroom_drawers_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -665,6 +817,10 @@
     153,
     436
    ],
+   "pad": {
+    "asset": "furniture.bedroom.furn_bedroom_gownhook_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -674,6 +830,10 @@
     150,
     415
    ],
+   "pad": {
+    "asset": "furniture.bedroom.furn_bedroom_gownhook_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -683,6 +843,10 @@
     429,
     417
    ],
+   "pad": {
+    "asset": "furniture.bedroom.furn_bedroom_hammock_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -692,6 +856,10 @@
     481,
     443
    ],
+   "pad": {
+    "asset": "furniture.bedroom.furn_bedroom_hammock_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -701,6 +869,10 @@
     329,
     382
    ],
+   "pad": {
+    "asset": "furniture.bedroom.furn_bedroom_laundry_L",
+    "scale": 1.0
+   },
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_laundry_R.png": {
@@ -709,6 +881,10 @@
     383,
     383
    ],
+   "pad": {
+    "asset": "furniture.bedroom.furn_bedroom_laundry_R",
+    "scale": 1.0
+   },
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_mirror_L.png": {
@@ -717,6 +893,10 @@
     163,
     404
    ],
+   "pad": {
+    "asset": "furniture.bedroom.furn_bedroom_mirror_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -726,6 +906,10 @@
     131,
     367
    ],
+   "pad": {
+    "asset": "furniture.bedroom.furn_bedroom_mirror_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -735,6 +919,10 @@
     155,
     344
    ],
+   "pad": {
+    "asset": "furniture.bedroom.furn_bedroom_readinglamp_L",
+    "scale": 1.0
+   },
    "scale": 0.6
   },
   "furniture/bedroom/furn_bedroom_readinglamp_R.png": {
@@ -743,6 +931,10 @@
     188,
     415
    ],
+   "pad": {
+    "asset": "furniture.bedroom.furn_bedroom_readinglamp_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -752,6 +944,10 @@
     252,
     202
    ],
+   "pad": {
+    "asset": "furniture.bedroom.furn_bedroom_slippers_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -761,6 +957,10 @@
     389,
     257
    ],
+   "pad": {
+    "asset": "furniture.bedroom.furn_bedroom_slippers_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -770,6 +970,10 @@
     341,
     655
    ],
+   "pad": {
+    "asset": "furniture.bedroom.furn_bedroom_wardrobe_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -779,6 +983,10 @@
     335,
     618
    ],
+   "pad": {
+    "asset": "furniture.bedroom.furn_bedroom_wardrobe_R",
+    "scale": 1.0
+   },
    "scale": 0.6
   },
   "furniture/founders/furn_founders_plaque_brass_L.png": {
@@ -787,6 +995,10 @@
     168,
     174
    ],
+   "pad": {
+    "asset": "furniture.founders.furn_founders_plaque_brass_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -796,6 +1008,10 @@
     185,
     193
    ],
+   "pad": {
+    "asset": "furniture.founders.furn_founders_plaque_brass_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -805,6 +1021,10 @@
     197,
     209
    ],
+   "pad": {
+    "asset": "furniture.founders.furn_founders_plaque_oak_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -814,6 +1034,10 @@
     197,
     207
    ],
+   "pad": {
+    "asset": "furniture.founders.furn_founders_plaque_oak_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -823,6 +1047,10 @@
     182,
     199
    ],
+   "pad": {
+    "asset": "furniture.founders.furn_founders_plaque_slate_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -832,6 +1060,10 @@
     208,
     221
    ],
+   "pad": {
+    "asset": "furniture.founders.furn_founders_plaque_slate_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -841,6 +1073,10 @@
     453,
     449
    ],
+   "pad": {
+    "asset": "furniture.garden.furn_garden_bench_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -850,6 +1086,10 @@
     467,
     473
    ],
+   "pad": {
+    "asset": "furniture.garden.furn_garden_bench_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -859,6 +1099,10 @@
     400,
     669
    ],
+   "pad": {
+    "asset": "furniture.garden.furn_garden_birdfeeder_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -868,6 +1112,10 @@
     323,
     681
    ],
+   "pad": {
+    "asset": "furniture.garden.furn_garden_birdfeeder_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -877,6 +1125,10 @@
     473,
     577
    ],
+   "pad": {
+    "asset": "furniture.garden.furn_garden_deckchair_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -886,6 +1138,10 @@
     538,
     609
    ],
+   "pad": {
+    "asset": "furniture.garden.furn_garden_deckchair_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -895,6 +1151,10 @@
     417,
     418
    ],
+   "pad": {
+    "asset": "furniture.garden.furn_garden_fence_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -904,6 +1164,10 @@
     475,
     424
    ],
+   "pad": {
+    "asset": "furniture.garden.furn_garden_fence_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -913,6 +1177,10 @@
     571,
     307
    ],
+   "pad": {
+    "asset": "furniture.garden.furn_garden_festoon_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -922,6 +1190,10 @@
     740,
     377
    ],
+   "pad": {
+    "asset": "furniture.garden.furn_garden_festoon_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -931,6 +1203,10 @@
     520,
     544
    ],
+   "pad": {
+    "asset": "furniture.garden.furn_garden_flowerpots_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -940,6 +1216,10 @@
     533,
     461
    ],
+   "pad": {
+    "asset": "furniture.garden.furn_garden_flowerpots_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -949,6 +1229,10 @@
     761,
     598
    ],
+   "pad": {
+    "asset": "furniture.garden.furn_garden_gardenhammock_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -958,6 +1242,10 @@
     729,
     614
    ],
+   "pad": {
+    "asset": "furniture.garden.furn_garden_gardenhammock_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -967,6 +1255,10 @@
     555,
     367
    ],
+   "pad": {
+    "asset": "furniture.garden.furn_garden_pond_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -976,6 +1268,10 @@
     593,
     367
    ],
+   "pad": {
+    "asset": "furniture.garden.furn_garden_pond_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -985,6 +1281,10 @@
     464,
     574
    ],
+   "pad": {
+    "asset": "furniture.garden.furn_garden_shed_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -994,6 +1294,10 @@
     407,
     532
    ],
+   "pad": {
+    "asset": "furniture.garden.furn_garden_shed_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1003,6 +1307,10 @@
     773,
     434
    ],
+   "pad": {
+    "asset": "furniture.garden.furn_garden_sunpatch_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1012,6 +1320,10 @@
     703,
     372
    ],
+   "pad": {
+    "asset": "furniture.garden.furn_garden_sunpatch_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1021,6 +1333,10 @@
     720,
     728
    ],
+   "pad": {
+    "asset": "furniture.garden.furn_garden_washingline_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1030,6 +1346,10 @@
     620,
     685
    ],
+   "pad": {
+    "asset": "furniture.garden.furn_garden_washingline_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1039,6 +1359,10 @@
     383,
     328
    ],
+   "pad": {
+    "asset": "furniture.garden.furn_garden_wateringcan_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1048,6 +1372,10 @@
     427,
     368
    ],
+   "pad": {
+    "asset": "furniture.garden.furn_garden_wateringcan_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1057,6 +1385,10 @@
     564,
     371
    ],
+   "pad": {
+    "asset": "furniture.housewarming_pack.furn_housewarming_pack_bulbstring_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1066,6 +1398,10 @@
     653,
     385
    ],
+   "pad": {
+    "asset": "furniture.housewarming_pack.furn_housewarming_pack_bulbstring_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1075,6 +1411,10 @@
     363,
     483
    ],
+   "pad": {
+    "asset": "furniture.housewarming_pack.furn_housewarming_pack_grandfireplace_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1084,6 +1424,10 @@
     444,
     568
    ],
+   "pad": {
+    "asset": "furniture.housewarming_pack.furn_housewarming_pack_grandfireplace_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1093,6 +1437,10 @@
     523,
     499
    ],
+   "pad": {
+    "asset": "furniture.housewarming_pack.furn_housewarming_pack_hifi_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1102,6 +1450,10 @@
     473,
     491
    ],
+   "pad": {
+    "asset": "furniture.housewarming_pack.furn_housewarming_pack_hifi_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1111,6 +1463,10 @@
     187,
     360
    ],
+   "pad": {
+    "asset": "furniture.housewarming_pack.furn_housewarming_pack_houseportrait_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1120,6 +1476,10 @@
     259,
     353
    ],
+   "pad": {
+    "asset": "furniture.housewarming_pack.furn_housewarming_pack_houseportrait_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1129,6 +1489,10 @@
     582,
     330
    ],
+   "pad": {
+    "asset": "furniture.housewarming_pack.furn_housewarming_pack_welcomemat_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1138,6 +1502,10 @@
     593,
     345
    ],
+   "pad": {
+    "asset": "furniture.housewarming_pack.furn_housewarming_pack_welcomemat_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1147,6 +1515,10 @@
     401,
     232
    ],
+   "pad": {
+    "asset": "furniture.kitchen.furn_kitchen_bowl_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1156,6 +1528,10 @@
     420,
     240
    ],
+   "pad": {
+    "asset": "furniture.kitchen.furn_kitchen_bowl_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1165,6 +1541,10 @@
     482,
     413
    ],
+   "pad": {
+    "asset": "furniture.kitchen.furn_kitchen_breadbin_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1174,6 +1554,10 @@
     433,
     392
    ],
+   "pad": {
+    "asset": "furniture.kitchen.furn_kitchen_breadbin_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1183,6 +1567,10 @@
     120,
     200
    ],
+   "pad": {
+    "asset": "furniture.kitchen.furn_kitchen_catflap_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1192,6 +1580,10 @@
     111,
     194
    ],
+   "pad": {
+    "asset": "furniture.kitchen.furn_kitchen_catflap_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1201,6 +1593,10 @@
     317,
     538
    ],
+   "pad": {
+    "asset": "furniture.kitchen.furn_kitchen_chair_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1210,6 +1606,10 @@
     318,
     481
    ],
+   "pad": {
+    "asset": "furniture.kitchen.furn_kitchen_chair_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1219,6 +1619,10 @@
     385,
     491
    ],
+   "pad": {
+    "asset": "furniture.kitchen.furn_kitchen_cooker_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1228,6 +1632,10 @@
     351,
     459
    ],
+   "pad": {
+    "asset": "furniture.kitchen.furn_kitchen_cooker_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1237,6 +1645,10 @@
     544,
     322
    ],
+   "pad": {
+    "asset": "furniture.kitchen.furn_kitchen_doormat_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1246,6 +1658,10 @@
     560,
     316
    ],
+   "pad": {
+    "asset": "furniture.kitchen.furn_kitchen_doormat_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1255,6 +1671,10 @@
     302,
     253
    ],
+   "pad": {
+    "asset": "furniture.kitchen.furn_kitchen_fountain_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1264,6 +1684,10 @@
     291,
     281
    ],
+   "pad": {
+    "asset": "furniture.kitchen.furn_kitchen_fountain_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1273,6 +1697,10 @@
     267,
     489
    ],
+   "pad": {
+    "asset": "furniture.kitchen.furn_kitchen_fridge_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1282,6 +1710,10 @@
     291,
     515
    ],
+   "pad": {
+    "asset": "furniture.kitchen.furn_kitchen_fridge_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1291,6 +1723,10 @@
     528,
     350
    ],
+   "pad": {
+    "asset": "furniture.kitchen.furn_kitchen_fruitbowl_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1300,6 +1736,10 @@
     512,
     355
    ],
+   "pad": {
+    "asset": "furniture.kitchen.furn_kitchen_fruitbowl_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1309,6 +1749,10 @@
     322,
     315
    ],
+   "pad": {
+    "asset": "furniture.kitchen.furn_kitchen_herbshelf_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1318,6 +1762,10 @@
     316,
     280
    ],
+   "pad": {
+    "asset": "furniture.kitchen.furn_kitchen_herbshelf_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1327,6 +1775,10 @@
     241,
     319
    ],
+   "pad": {
+    "asset": "furniture.kitchen.furn_kitchen_kettle_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1336,6 +1788,10 @@
     326,
     316
    ],
+   "pad": {
+    "asset": "furniture.kitchen.furn_kitchen_kettle_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1345,6 +1801,10 @@
     291,
     281
    ],
+   "pad": {
+    "asset": "furniture.kitchen.furn_kitchen_radio_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1354,6 +1814,10 @@
     295,
     270
    ],
+   "pad": {
+    "asset": "furniture.kitchen.furn_kitchen_radio_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1363,6 +1827,10 @@
     277,
     408
    ],
+   "pad": {
+    "asset": "furniture.kitchen.furn_kitchen_sink_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1372,6 +1840,10 @@
     257,
     405
    ],
+   "pad": {
+    "asset": "furniture.kitchen.furn_kitchen_sink_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1381,6 +1853,10 @@
     491,
     482
    ],
+   "pad": {
+    "asset": "furniture.kitchen.furn_kitchen_table_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1390,6 +1866,10 @@
     457,
     437
    ],
+   "pad": {
+    "asset": "furniture.kitchen.furn_kitchen_table_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1399,6 +1879,10 @@
     527,
     586
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_armchair_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1408,6 +1892,10 @@
     589,
     673
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_armchair_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1417,6 +1905,10 @@
     373,
     755
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_bookcase_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1426,6 +1918,10 @@
     342,
     694
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_bookcase_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1435,6 +1931,10 @@
     579,
     554
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_box_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1444,6 +1944,10 @@
     512,
     507
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_box_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1453,6 +1957,10 @@
     333,
     634
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_cattree_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1462,6 +1970,10 @@
     316,
     609
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_cattree_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1471,6 +1983,10 @@
     155,
     204
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_clock_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1480,6 +1996,10 @@
     169,
     225
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_clock_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1489,6 +2009,10 @@
     578,
     447
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_coffee_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1498,6 +2022,10 @@
     515,
     396
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_coffee_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1507,6 +2035,10 @@
     347,
     461
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_fireplace_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1516,6 +2048,10 @@
     381,
     509
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_fireplace_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1525,6 +2061,10 @@
     245,
     735
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_lamp_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1534,6 +2074,10 @@
     239,
     705
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_lamp_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1543,6 +2087,10 @@
     204,
     383
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_picture_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1552,6 +2100,10 @@
     226,
     397
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_picture_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1561,6 +2113,10 @@
     774,
     820
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_plant_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1570,6 +2126,10 @@
     796,
     833
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_plant_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1579,6 +2139,10 @@
     314,
     413
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_radiator_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1588,6 +2152,10 @@
     330,
     450
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_radiator_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1597,6 +2165,10 @@
     547,
     479
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_record_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1606,6 +2178,10 @@
     544,
     461
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_record_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1615,6 +2191,10 @@
     748,
     425
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_rug_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1624,6 +2204,10 @@
     802,
     427
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_rug_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1633,6 +2217,10 @@
     344,
     584
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_scratch_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1642,6 +2230,10 @@
     366,
     661
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_scratch_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1651,6 +2243,10 @@
     713,
     582
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_sofa_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1660,6 +2256,10 @@
     682,
     571
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_sofa_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1669,6 +2269,10 @@
     430,
     880
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_stairs_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1678,6 +2282,10 @@
     430,
     880
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_stairs_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1687,6 +2295,10 @@
     756,
     634
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_windowseat_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1696,6 +2308,10 @@
     713,
     608
    ],
+   "pad": {
+    "asset": "furniture.living.furn_living_windowseat_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1705,6 +2321,10 @@
     143,
     198
    ],
+   "pad": {
+    "asset": "furniture.pass_firstlight.furn_pass_firstlight_birdbox_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1714,6 +2334,10 @@
     117,
     185
    ],
+   "pad": {
+    "asset": "furniture.pass_firstlight.furn_pass_firstlight_birdbox_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1723,6 +2347,10 @@
     229,
     439
    ],
+   "pad": {
+    "asset": "furniture.pass_firstlight.furn_pass_firstlight_butterflyjar_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1732,6 +2360,10 @@
     246,
     467
    ],
+   "pad": {
+    "asset": "furniture.pass_firstlight.furn_pass_firstlight_butterflyjar_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1741,6 +2373,10 @@
     279,
     434
    ],
+   "pad": {
+    "asset": "furniture.pass_firstlight.furn_pass_firstlight_daffodils_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1750,6 +2386,10 @@
     316,
     517
    ],
+   "pad": {
+    "asset": "furniture.pass_firstlight.furn_pass_firstlight_daffodils_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1759,6 +2399,10 @@
     387,
     458
    ],
+   "pad": {
+    "asset": "furniture.pass_firstlight.furn_pass_firstlight_hamper_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1768,6 +2412,10 @@
     399,
     490
    ],
+   "pad": {
+    "asset": "furniture.pass_firstlight.furn_pass_firstlight_hamper_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1777,6 +2425,10 @@
     119,
     369
    ],
+   "pad": {
+    "asset": "furniture.pass_firstlight.furn_pass_firstlight_pegbag_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1786,6 +2438,10 @@
     115,
     350
    ],
+   "pad": {
+    "asset": "furniture.pass_firstlight.furn_pass_firstlight_pegbag_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1795,6 +2451,10 @@
     579,
     420
    ],
+   "pad": {
+    "asset": "furniture.pass_firstlight.furn_pass_firstlight_seedtrays_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1804,6 +2464,10 @@
     624,
     467
    ],
+   "pad": {
+    "asset": "furniture.pass_firstlight.furn_pass_firstlight_seedtrays_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1813,6 +2477,10 @@
     320,
     425
    ],
+   "pad": {
+    "asset": "furniture.pass_firstlight.furn_pass_firstlight_tulips_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1822,6 +2490,10 @@
     353,
     439
    ],
+   "pad": {
+    "asset": "furniture.pass_firstlight.furn_pass_firstlight_tulips_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1831,6 +2503,10 @@
     226,
     328
    ],
+   "pad": {
+    "asset": "furniture.pass_firstlight.furn_pass_firstlight_wellies_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1840,6 +2516,10 @@
     244,
     335
    ],
+   "pad": {
+    "asset": "furniture.pass_firstlight.furn_pass_firstlight_wellies_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1849,6 +2529,10 @@
     198,
     288
    ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_candle_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1858,6 +2542,10 @@
     177,
     237
    ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_candle_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1867,6 +2555,10 @@
     496,
     310
    ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_fairylights_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1876,6 +2568,10 @@
     713,
     347
    ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_fairylights_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1885,6 +2581,10 @@
     377,
     513
    ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_movingboxes_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1894,6 +2594,10 @@
     444,
     554
    ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_movingboxes_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1903,6 +2607,10 @@
     402,
     428
    ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_painttins_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1912,6 +2620,10 @@
     415,
     439
    ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_painttins_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1921,6 +2633,10 @@
     1057,
     584
    ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_picnicblanket_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1930,6 +2646,10 @@
     1073,
     551
    ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_picnicblanket_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1939,6 +2659,10 @@
     487,
     779
    ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_stepladder_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1948,6 +2672,10 @@
     504,
     766
    ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_stepladder_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1957,6 +2685,10 @@
     241,
     384
    ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_takeaway_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1966,6 +2698,10 @@
     255,
     395
    ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_takeaway_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1975,6 +2711,10 @@
     575,
     530
    ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_teachest_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1984,6 +2724,10 @@
     539,
     492
    ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_teachest_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -1993,6 +2737,10 @@
     400,
     769
    ],
+   "pad": {
+    "asset": "furniture.pass_midwinter.furn_pass_midwinter_firtree_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2002,6 +2750,10 @@
     439,
     764
    ],
+   "pad": {
+    "asset": "furniture.pass_midwinter.furn_pass_midwinter_firtree_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2011,6 +2763,10 @@
     193,
     406
    ],
+   "pad": {
+    "asset": "furniture.pass_midwinter.furn_pass_midwinter_hotwaterbottle_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2020,6 +2776,10 @@
     210,
     346
    ],
+   "pad": {
+    "asset": "furniture.pass_midwinter.furn_pass_midwinter_hotwaterbottle_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2029,6 +2789,10 @@
     584,
     417
    ],
+   "pad": {
+    "asset": "furniture.pass_midwinter.furn_pass_midwinter_knitblanket_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2038,6 +2802,10 @@
     618,
     441
    ],
+   "pad": {
+    "asset": "furniture.pass_midwinter.furn_pass_midwinter_knitblanket_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2047,6 +2815,10 @@
     446,
     400
    ],
+   "pad": {
+    "asset": "furniture.pass_midwinter.furn_pass_midwinter_logbasket_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2056,6 +2828,10 @@
     486,
     463
    ],
+   "pad": {
+    "asset": "furniture.pass_midwinter.furn_pass_midwinter_logbasket_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2065,6 +2841,10 @@
     217,
     537
    ],
+   "pad": {
+    "asset": "furniture.pass_midwinter.furn_pass_midwinter_sledge_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2074,6 +2854,10 @@
     224,
     508
    ],
+   "pad": {
+    "asset": "furniture.pass_midwinter.furn_pass_midwinter_sledge_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2083,6 +2867,10 @@
     263,
     343
    ],
+   "pad": {
+    "asset": "furniture.pass_midwinter.furn_pass_midwinter_snowglobe_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2092,6 +2880,10 @@
     243,
     322
    ],
+   "pad": {
+    "asset": "furniture.pass_midwinter.furn_pass_midwinter_snowglobe_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2101,6 +2893,10 @@
     239,
     344
    ],
+   "pad": {
+    "asset": "furniture.pass_midwinter.furn_pass_midwinter_wreath_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2110,6 +2906,10 @@
     240,
     310
    ],
+   "pad": {
+    "asset": "furniture.pass_midwinter.furn_pass_midwinter_wreath_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2119,6 +2919,10 @@
     350,
     435
    ],
+   "pad": {
+    "asset": "furniture.study.furn_study_blind_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2128,6 +2932,10 @@
     372,
     431
    ],
+   "pad": {
+    "asset": "furniture.study.furn_study_blind_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2137,6 +2945,10 @@
     440,
     633
    ],
+   "pad": {
+    "asset": "furniture.study.furn_study_bookshelf_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2146,6 +2958,10 @@
     477,
     673
    ],
+   "pad": {
+    "asset": "furniture.study.furn_study_bookshelf_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2155,6 +2971,10 @@
     464,
     449
    ],
+   "pad": {
+    "asset": "furniture.study.furn_study_desk_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2164,6 +2984,10 @@
     442,
     446
    ],
+   "pad": {
+    "asset": "furniture.study.furn_study_desk_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2173,6 +2997,10 @@
     259,
     352
    ],
+   "pad": {
+    "asset": "furniture.study.furn_study_desklamp_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2182,6 +3010,10 @@
     279,
     359
    ],
+   "pad": {
+    "asset": "furniture.study.furn_study_desklamp_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2191,6 +3023,10 @@
     277,
     445
    ],
+   "pad": {
+    "asset": "furniture.study.furn_study_filing_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2200,6 +3036,10 @@
     288,
     406
    ],
+   "pad": {
+    "asset": "furniture.study.furn_study_filing_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2209,6 +3049,10 @@
     303,
     452
    ],
+   "pad": {
+    "asset": "furniture.study.furn_study_globe_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2218,6 +3062,10 @@
     293,
     466
    ],
+   "pad": {
+    "asset": "furniture.study.furn_study_globe_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2227,6 +3075,10 @@
     323,
     298
    ],
+   "pad": {
+    "asset": "furniture.study.furn_study_laptop_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2236,6 +3088,10 @@
     338,
     325
    ],
+   "pad": {
+    "asset": "furniture.study.furn_study_laptop_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2245,6 +3101,10 @@
     454,
     442
    ],
+   "pad": {
+    "asset": "furniture.study.furn_study_mug_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2254,6 +3114,10 @@
     464,
     441
    ],
+   "pad": {
+    "asset": "furniture.study.furn_study_mug_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2263,6 +3127,10 @@
     311,
     398
    ],
+   "pad": {
+    "asset": "furniture.study.furn_study_noticeboard_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2272,6 +3140,10 @@
     276,
     398
    ],
+   "pad": {
+    "asset": "furniture.study.furn_study_noticeboard_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2281,6 +3153,10 @@
     412,
     568
    ],
+   "pad": {
+    "asset": "furniture.study.furn_study_officechair_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2290,6 +3166,10 @@
     392,
     545
    ],
+   "pad": {
+    "asset": "furniture.study.furn_study_officechair_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2299,6 +3179,10 @@
     476,
     428
    ],
+   "pad": {
+    "asset": "furniture.study.furn_study_papertray_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2308,6 +3192,10 @@
     463,
     390
    ],
+   "pad": {
+    "asset": "furniture.study.furn_study_papertray_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2317,6 +3205,10 @@
     348,
     325
    ],
+   "pad": {
+    "asset": "furniture.study.furn_study_printer_L",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },
@@ -2326,6 +3218,10 @@
     317,
     300
    ],
+   "pad": {
+    "asset": "furniture.study.furn_study_printer_R",
+    "scale": 1.0
+   },
    "ref": "grey",
    "scale": 0.6
   },

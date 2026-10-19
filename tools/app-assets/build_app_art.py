@@ -89,6 +89,15 @@ HEIC_QUALITY = '70'
 HEIC_ALPHA = ('world/props/', 'furniture/', 'outfits/', 'world/terrain/', 'ui/shop/')
 HEIC_ALPHA_QUALITY = '82'
 PREVIEW_WIDTH = 720
+# The iPad's sharper copies (Josh, 19 Oct: "The iPad quality seems poor"). A 13-inch iPad draws the room with about
+# 1.3 times a phone's pixels at the home zoom (and pinches in to 2.5 times), so furniture from its 0.6 copy was
+# magnified 1.3-2.4 times and looked soft. These get a second, larger copy as iPad-only data sets in
+# App/Resources/ArtPad.xcassets: App Store thinning leaves them out of an iPhone's download, and ArtLibrary draws
+# them on an iPad (art.json `pad`). (prefix of the master's path, the iPad's scale)
+PAD = [
+    ('furniture/', 1.0),
+]
+PAD_CATALOG = os.path.join(ROOT, 'App', 'Resources', 'ArtPad.xcassets')
 
 
 def heic(rel):
@@ -98,6 +107,30 @@ def heic(rel):
     if not rel.startswith(HEIC):
         return False
     return not rel.endswith(('_land.png', '_glass.png'))
+
+
+def pad_scale(rel, factor):
+    """The iPad's scale for a file that has a sharper copy there, else None."""
+    for prefix, scale in PAD:
+        if rel.startswith(prefix) and scale > factor:
+            return scale
+    return None
+
+
+def write_pad(src, rel, w, h, scale, quality):
+    """The iPad's copy of a file, a data set in the iPad's catalog; returns its name."""
+    name = os.path.splitext(rel)[0].replace('/', '.')
+    folder = os.path.join(PAD_CATALOG, name + '.dataset')
+    os.makedirs(folder, exist_ok=True)
+    file = os.path.basename(os.path.splitext(rel)[0]) + '.heic'
+    resize = ['-z', str(max(1, round(h * scale))), str(max(1, round(w * scale)))] if scale < 1.0 else []
+    subprocess.run(['sips', '-s', 'format', 'heic', '-s', 'formatOptions', quality, *resize, src, '--out',
+                    os.path.join(folder, file)], capture_output=True, check=True)
+    with open(os.path.join(folder, 'Contents.json'), 'w') as f:
+        json.dump({"data": [{"filename": file, "idiom": "ipad", "universal-type-identifier": "public.heic"}],
+                   "info": {"author": "xcode", "version": 1}}, f, indent=2)
+        f.write('\n')
+    return name
 
 
 def size(path):
@@ -130,6 +163,11 @@ def main():
             continue
         for name in filenames:
             os.remove(os.path.join(dirpath, name))
+    shutil.rmtree(PAD_CATALOG, ignore_errors=True)
+    os.makedirs(PAD_CATALOG)
+    with open(os.path.join(PAD_CATALOG, 'Contents.json'), 'w') as f:
+        json.dump({"info": {"author": "xcode", "version": 1}}, f, indent=2)
+        f.write('\n')
     manifest = json.load(open(os.path.join(ASSETS, 'manifest.json')))['files']
     index = {}
     seen = set()
@@ -156,6 +194,9 @@ def main():
                                 '-z', str(max(1, round(h * factor))), str(max(1, round(w * factor))), src, '--out', dst],
                                capture_output=True, check=True)
                 entry["file"] = file
+                pad = pad_scale(rel, factor)
+                if pad:
+                    entry["pad"] = {"asset": write_pad(src, rel, w, h, pad, quality), "scale": pad}
             elif factor < 1.0:
                 fmt = 'jpeg' if src.endswith('.jpg') else 'png'
                 quality = ['-s', 'formatOptions', '85'] if fmt == 'jpeg' else []
@@ -210,6 +251,8 @@ def main():
         f.write('\n')
     total = sum(os.path.getsize(os.path.join(dp, n)) for dp, _, ns in os.walk(OUT) for n in ns)
     print(f'{len(index)} images into App/Art ({total / 1e6:.1f} MB)')
+    pads = sum(os.path.getsize(os.path.join(dp, n)) for dp, _, ns in os.walk(PAD_CATALOG) for n in ns if n.endswith('.heic'))
+    print(f'{sum(1 for e in index.values() if "pad" in e)} sharper iPad copies into App/Resources/ArtPad.xcassets ({pads / 1e6:.1f} MB)')
 
 
 if __name__ == '__main__':

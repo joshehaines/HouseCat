@@ -83,7 +83,7 @@ public final class ExteriorScene: SKScene {
             node.anchorPoint = CGPoint(x: 0.5, y: 0)
             guard art.has(path + ".jpg") else { continue }
             node.texture = art.texture(path + ".jpg")
-            node.shader = paintingShader(land: art.texture(path + "_land.png"))
+            node.shader = paintingShader(land: art.texture(path + "_land.png"), pixels: art.texture(path + ".jpg").size())
             if art.has(path + "_glass.png") {
                 let glass = SKSpriteNode(texture: art.texture(path + "_glass.png"))
                 glass.anchorPoint = CGPoint(x: 0.5, y: 0)
@@ -121,10 +121,23 @@ public final class ExteriorScene: SKScene {
     }
 
     /// The noon painting, cut out by its land mask so the code sky shows above it, and multiplied by the sky's grade.
-    private func paintingShader(land: SKTexture) -> SKShader {
+    /// Where it is drawn larger than its pixels it is sharpened (`u_sharp`, set by `sharpen()`): contrast-adaptive,
+    /// each pixel pushed away from its four neighbours by how much room it has before clipping.
+    private func paintingShader(land: SKTexture, pixels: CGSize) -> SKShader {
         let shader = SKShader(source: """
         void main() {
             vec3 c = texture2D(u_texture, v_tex_coord).rgb;
+            if (u_sharp > 0.0) {
+                vec3 n = texture2D(u_texture, v_tex_coord + vec2(0.0, u_texel.y)).rgb;
+                vec3 s = texture2D(u_texture, v_tex_coord - vec2(0.0, u_texel.y)).rgb;
+                vec3 e = texture2D(u_texture, v_tex_coord + vec2(u_texel.x, 0.0)).rgb;
+                vec3 w = texture2D(u_texture, v_tex_coord - vec2(u_texel.x, 0.0)).rgb;
+                vec3 lo = min(c, min(min(n, s), min(e, w)));
+                vec3 hi = max(c, max(max(n, s), max(e, w)));
+                vec3 room = sqrt(clamp(min(lo, vec3(1.0) - hi) / max(hi, vec3(0.00001)), 0.0, 1.0));
+                vec3 lobe = room * (-1.0 / (8.0 - 3.0 * u_sharp));
+                c = clamp((c + lobe * (n + s + e + w)) / (vec3(1.0) + 4.0 * lobe), 0.0, 1.0);
+            }
             float a = texture2D(u_land, v_tex_coord).r;
             gl_FragColor = vec4(c * u_grade * a, a);
         }
@@ -133,8 +146,27 @@ public final class ExteriorScene: SKScene {
         shader.uniforms = [
             SKUniform(name: "u_land", texture: land),
             SKUniform(name: "u_grade", vectorFloat3: SIMD3(Float(grade[0]), Float(grade[1]), Float(grade[2]))),
+            SKUniform(name: "u_texel", vectorFloat2: SIMD2(Float(1 / max(pixels.width, 1)), Float(1 / max(pixels.height, 1)))),
+            SKUniform(name: "u_sharp", float: 0),
         ]
         return shader
+    }
+
+    /// Sharpens the painting while it is drawn more than `Tuning.Exterior.sharpenFrom` times its pixels (a big
+    /// screen; the full-size masters would add 33 MB to the download).
+    private func sharpen() {
+        #if os(iOS)
+            let screen = view?.contentScaleFactor ?? 2
+        #elseif os(macOS)
+            let screen = view?.window?.backingScaleFactor ?? 2
+        #else
+            let screen: CGFloat = 2
+        #endif
+        for node in [painting, doorOpen] {
+            guard let pixels = node.texture?.size(), pixels.width > 1 else { continue }
+            let magnified = node.size.width * screen / pixels.width
+            node.shader?.uniformNamed("u_sharp")?.floatValue = magnified > Tuning.Exterior.sharpenFrom ? Float(Tuning.Exterior.sharpen) : 0
+        }
     }
 
     /// The window glass (Josh, 19 Oct: flat pale panes looked unfinished): by day the painting's own glass, cooled
@@ -242,6 +274,7 @@ public final class ExteriorScene: SKScene {
                 light.size = node.size
             }
         }
+        sharpen()
     }
 
     /// The door in scene coordinates.
@@ -255,6 +288,8 @@ public final class ExteriorScene: SKScene {
     // MARK: Entering
 
     override public func didMove(to _: SKView) {
+        // Now the screen's scale is known.
+        sharpen()
         // A showcase (the intro's homes round the world) never opens its door: the camera drifts in slowly.
         if showcase {
             cameraNode.run(.group([

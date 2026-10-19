@@ -906,6 +906,11 @@ public enum Tuning {
         public static let doorOpenSeconds = 0.3
         /// The room is built this long after the exterior appears, so the first frame is not held up.
         public static let roomBuildDelay = 0.4
+        /// The painting is drawn larger than its pixels on a big screen (1.8 times on a 13-inch iPad, 2.4 upright;
+        /// 1.4 on a wide phone): past `sharpenFrom` times, it is sharpened this much (contrast-adaptive, 0–1) so
+        /// its edges stay crisp. The full-size masters would cost 33 MB more (Josh, 19 Oct: the iPad looked soft).
+        public static let sharpenFrom = 1.2
+        public static let sharpen = 0.6
     }
 
     /// The house view: the room you are in with the rest of the home around it (room units unless noted).

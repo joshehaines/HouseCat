@@ -3,506 +3,458 @@ import HouseCatGame
 import SpriteKit
 import SwiftUI
 
-/// The cat builder (SPEC "Cat builder"; onboarding's second screen, and Edit look from the profile): the cat
-/// live on the left with the presets under it, the fields on the right in builder order, then, when adopting,
-/// the cat's own name and its personality. Landscape, like the game.
-public struct CatBuilderView: View {
+/// The cat creator (SPEC "Cat builder"; onboarding's cat, and Edit look from the profile), a dressing room (Josh,
+/// 19 Oct: "a design wardrobe kind of creation"): the cat on a podium in front of an open wardrobe, a chest of
+/// painted drawers down the left (one for each part of the look), and the open drawer on the right with the
+/// options, each drawn from the cat itself. Undo and Surprise me sit under the cat. Landscape on a phone, scaled up
+/// to fill an iPad, and stacked on an iPad held upright.
+public struct CatBuilderView<Hint: View>: View {
     @Bindable private var model: CatBuilderModel
+    private let hint: Hint
     private let done: (CatBuilderModel) -> Void
     private let cancel: (() -> Void)?
+    /// Laid out for a landscape phone and scaled to the screen, like the shop.
+    @State private var s: CGFloat = 1
+    @State private var sceneOrigin: CGPoint = .zero
+    @State private var stageFrame: CGRect = .zero
+    @ScaledMetric(relativeTo: .body) private var textScale: CGFloat = 100
+    @Environment(\.controlFeedback) private var feedback
 
-    public init(model: CatBuilderModel, cancel: (() -> Void)? = nil, done: @escaping (CatBuilderModel) -> Void) {
+    /// `hint` floats over the top of the screen (the host's line during the intro).
+    public init(
+        model: CatBuilderModel,
+        cancel: (() -> Void)? = nil,
+        @ViewBuilder hint: () -> Hint,
+        done: @escaping (CatBuilderModel) -> Void
+    ) {
         self.model = model
         self.cancel = cancel
+        self.hint = hint()
         self.done = done
     }
 
     public var body: some View {
-        GeometryReader { geometry in
-            // Side by side in landscape (the game's way round); stacked on an iPad held upright.
-            if geometry.size.height > geometry.size.width {
-                VStack(spacing: 0) {
-                    VStack(spacing: 10) {
-                        preview
-                        presets
-                    }
-                    .padding(.vertical, 12)
-                    .frame(height: geometry.size.height * 0.48)
-                    panel
-                }
-            } else {
-                HStack(spacing: 0) {
-                    VStack(spacing: 10) {
-                        preview
-                        presets
-                    }
-                    .padding(.vertical, 12)
-                    .frame(width: geometry.size.width * 0.46)
-                    panel
+        GeometryReader { proxy in
+            let screen = CGSize(
+                width: proxy.size.width + proxy.safeAreaInsets.leading + proxy.safeAreaInsets.trailing,
+                height: proxy.size.height + proxy.safeAreaInsets.top + proxy.safeAreaInsets.bottom
+            )
+            let upright = screen.height > screen.width
+            Group {
+                if upright {
+                    uprightLayout(proxy.size)
+                } else {
+                    landscapeLayout
                 }
             }
+            .frame(width: proxy.size.width, height: proxy.size.height)
+            .onChange(of: screen, initial: true) { _, screen in
+                let fit = screen.height > screen.width
+                    ? min(screen.width / Tuning.Builder.designUprightWidth, screen.height / (Tuning.Builder.designHeight * 2.2))
+                    : min(screen.height / Tuning.Builder.designHeight, screen.width / Tuning.Builder.designWidth)
+                s = (min(Tuning.Builder.largestScale, max(1, fit)) * 20).rounded(.down) / 20
+            }
         }
-        .background(Color(red: 0.95, green: 0.9, blue: 0.86).ignoresSafeArea())
+        .background(page.ignoresSafeArea())
         .foregroundStyle(Theme.ink)
         .tint(Theme.accent)
+        .environment(\.hudScale, s)
+        .modifier(FullScreenGame())
+        .onChange(of: stageFrame) { _, _ in tellStage() }
+        .onChange(of: sceneOrigin) { _, _ in tellStage() }
     }
+
+    private var page: LinearGradient {
+        LinearGradient(colors: [Theme.paper, Color(red: 0.95, green: 0.84, blue: 0.74)], startPoint: .top, endPoint: .bottom)
+    }
+
+    /// Text sizes grow with the player's text size.
+    private var t: CGFloat {
+        s * textScale / 100
+    }
+
+    /// The part of the room the controls leave open, for the scene to put the cat in the middle of.
+    private func tellStage() {
+        guard stageFrame.width > 1 else { return }
+        model.preview?.setOpenRect(stageFrame.offsetBy(dx: -sceneOrigin.x, dy: -sceneOrigin.y))
+    }
+
+    // MARK: Layouts
+
+    /// Side by side: the drawers, the cat, the open drawer; the room fills the whole screen behind them.
+    private var landscapeLayout: some View {
+        ZStack {
+            room.ignoresSafeArea()
+            HStack(alignment: .top, spacing: 10 * s) {
+                drawers
+                    .frame(width: 142 * s)
+                stage
+                panel
+                    .frame(width: 368 * s)
+            }
+            .padding(.horizontal, 10 * s)
+            .padding(.vertical, 8 * s)
+        }
+        // The host's line floats over the top, across the cat and the open drawer, until it is dismissed.
+        .overlay(alignment: .top) {
+            hint.frame(maxWidth: 400).zoomed(s).padding(.top, 8 * s)
+        }
+    }
+
+    /// Stacked, for an iPad held upright: the room and the cat on top, the drawers and the open drawer under it.
+    private func uprightLayout(_ size: CGSize) -> some View {
+        VStack(spacing: 0) {
+            ZStack(alignment: .top) {
+                room
+                stage.padding(12 * s)
+            }
+            .frame(height: size.height * 0.44)
+            .clipped()
+            .ignoresSafeArea(edges: .top)
+            HStack(alignment: .top, spacing: 12 * s) {
+                drawers
+                    .frame(width: 168 * s)
+                panel
+            }
+            .padding(12 * s)
+        }
+        // The host's line on the seam between the room and the drawers, clear of the cat.
+        .overlay(alignment: .top) {
+            hint.frame(maxWidth: 440).zoomed(s).padding(.top, size.height * 0.44 - 90 * s)
+        }
+    }
+
+    /// The painted dressing room with the cat on its podium.
+    @ViewBuilder
+    private var room: some View {
+        if let scene = model.preview {
+            SpriteView(scene: scene, preferredFramesPerSecond: 60)
+                .onGeometryChange(for: CGPoint.self) { $0.frame(in: .global).origin } action: { sceneOrigin = $0 }
+                .accessibilityElement()
+                .accessibilityLabel(lookDescription)
+                .accessibilityHint("Swipe up or down to turn the cat round.")
+                .accessibilityAdjustableAction { direction in
+                    model.preview?.turn(by: direction == .increment ? 1 : -1)
+                }
+        } else {
+            page
+        }
+    }
+
+    /// The open space over the podium: the look's name above the cat, Undo and Surprise me under it, and the gap
+    /// between them, where the scene puts the cat.
+    private var stage: some View {
+        VStack(spacing: 8 * s) {
+            HStack(alignment: .top, spacing: 8 * s) {
+                if let cancel {
+                    CloseButton(action: cancel)
+                        .scaleEffect(s, anchor: .topLeading)
+                        .frame(width: 36 * s, height: 36 * s, alignment: .topLeading)
+                }
+                Spacer(minLength: 0)
+                nameplate
+                Spacer(minLength: 0)
+                if cancel != nil {
+                    Color.clear.frame(width: 36 * s, height: 1)
+                }
+            }
+            // The gap the cat stands in, between the nameplate and the buttons.
+            Color.clear
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .onGeometryChange(for: CGRect.self) { $0.frame(in: .global) } action: { stageFrame = $0 }
+            HStack(spacing: 8 * s) {
+                HUDButton("Undo", symbol: "arrow.uturn.backward") { model.undo() }
+                    .disabled(!model.canUndo)
+                    .opacity(model.canUndo ? 1 : 0.45)
+                HUDButton("Surprise me", icon: "creator_dice") { model.surprise() }
+            }
+            .lineLimit(1)
+            .minimumScaleFactor(0.7)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    /// The look's name on a little paper plaque: the preset it is, or the player's own.
+    private var nameplate: some View {
+        let preset = model.presetID.flatMap(model.builder.preset)?.name
+        let named = model.mode == .adopt ? model.checkedName : nil
+        return VStack(spacing: 0) {
+            Text(named ?? preset ?? "Your own look")
+                .font(Theme.title(17 * t))
+                .lineLimit(1)
+                .minimumScaleFactor(0.7)
+            if named != nil, let preset {
+                Text(preset).font(.system(size: 11 * t, weight: .semibold)).foregroundStyle(Theme.inkSoft).lineLimit(1)
+            }
+        }
+        .padding(.horizontal, 14 * s)
+        .padding(.vertical, 5 * s)
+        .paper(Capsule())
+        .accessibilityElement(children: .combine)
+        .animation(.easeOut(duration: 0.2), value: model.presetID)
+    }
+
+    // MARK: The drawers
+
+    /// A chest of drawers, one for each part of the look; the open one is pulled out.
+    private var drawers: some View {
+        ScrollView(.vertical, showsIndicators: false) {
+            VStack(spacing: 4 * s) {
+                ForEach(model.sections) { section in
+                    Button {
+                        feedback.tap()
+                        withAnimation(.spring(duration: 0.3)) { model.section = section }
+                    } label: {
+                        drawer(section, open: model.section == section)
+                    }
+                    .buttonStyle(PressStyle())
+                    .accessibilityLabel(section.title)
+                    .accessibilityAddTraits(model.section == section ? .isSelected : [])
+                }
+            }
+            .padding(5 * s)
+            .padding(.trailing, 8 * s)
+            .background(alignment: .leading) {
+                // The chest itself, behind the drawers.
+                RoundedRectangle(cornerRadius: 14 * s, style: .continuous)
+                    .fill(Wood.carcass)
+                    .overlay(RoundedRectangle(cornerRadius: 14 * s, style: .continuous).strokeBorder(Wood.edge, lineWidth: 1.5))
+                    .padding(.trailing, 8 * s)
+                    .shadow(color: Theme.shadow, radius: 8 * s, y: 4 * s)
+            }
+        }
+        .scrollBounceBehavior(.basedOnSize)
+        .scrollClipDisabled()
+    }
+
+    private func drawer(_ section: CatBuilderModel.Section, open: Bool) -> some View {
+        HStack(spacing: 6 * s) {
+            PaintedIcon(section.icon, size: 26 * s)
+            Text(section.title)
+                .font(.system(size: 14 * t, weight: .bold, design: .rounded))
+                .lineLimit(2)
+                .minimumScaleFactor(0.55)
+                .foregroundStyle(open ? Theme.ink : Wood.label)
+                .shadow(color: open ? .clear : .black.opacity(0.3), radius: 0, y: 1)
+            Spacer(minLength: 0)
+            Wood.knob(size: 8 * s)
+        }
+        .padding(.leading, 6 * s)
+        .padding(.trailing, 8 * s)
+        .padding(.vertical, 3 * s)
+        .frame(minHeight: 30 * s)
+        .background(Wood.front(open: open, corner: 8 * s, scale: s))
+        .offset(x: open ? 8 * s : 0)
+        .animation(.spring(duration: 0.3), value: open)
+    }
+
+    // MARK: The open drawer
 
     private var panel: some View {
         VStack(spacing: 0) {
-            header
-            ScrollView {
-                fields
-                    .padding(.horizontal, 18)
-                    .padding(.vertical, 14)
-                    .frame(maxWidth: .infinity, alignment: .leading)
+            HStack(spacing: 8 * s) {
+                PaintedIcon(model.section.icon, size: 34 * s)
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(model.section.heading)
+                        .font(Theme.title(20 * t))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
+                    if let subtitle {
+                        Text(subtitle)
+                            .font(.system(size: 12 * t, weight: .semibold))
+                            .foregroundStyle(Theme.inkSoft)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.8)
+                    }
+                }
+                Spacer(minLength: 0)
+            }
+            .padding(.horizontal, 14 * s)
+            .padding(.vertical, 8 * s)
+            .accessibilityElement(children: .combine)
+            .accessibilityAddTraits(.isHeader)
+            Rectangle().fill(Theme.rim).frame(height: 1)
+            ScrollViewReader { reader in
+                ScrollView {
+                    CatBuilderDrawer(model: model, s: s, t: t)
+                        .padding(.horizontal, 12 * s)
+                        .padding(.vertical, 10 * s)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .id(model.section)
+                }
+                .onChange(of: model.section) { _, section in reader.scrollTo(section, anchor: .top) }
             }
             footer
         }
-        .background(Theme.paper)
+        .background(
+            RoundedRectangle(cornerRadius: 20 * s, style: .continuous)
+                .fill(LinearGradient(colors: [Theme.cream, Theme.paper], startPoint: .top, endPoint: .bottom))
+        )
+        .overlay(RoundedRectangle(cornerRadius: 20 * s, style: .continuous).strokeBorder(Theme.cream, lineWidth: 3 * s))
+        .overlay(RoundedRectangle(cornerRadius: 20 * s, style: .continuous).strokeBorder(Theme.rim, lineWidth: 1))
+        .clipShape(RoundedRectangle(cornerRadius: 20 * s, style: .continuous))
+        .shadow(color: Theme.shadow, radius: 10 * s, y: 5 * s)
     }
 
-    // MARK: Left: the cat and the presets
-
-    private var preview: some View {
-        ZStack(alignment: .topLeading) {
-            if let scene = model.preview {
-                SpriteView(scene: scene, options: [.allowsTransparency])
-                    .clipShape(RoundedRectangle(cornerRadius: 22))
-            } else {
-                RoundedRectangle(cornerRadius: 22).fill(.quaternary)
+    /// What the open drawer has chosen, under its heading.
+    private var subtitle: String? {
+        let data = model.builder.data
+        let look = model.look
+        func label(_ colour: LookColour, _ palette: [CatBuilderData.Swatch]) -> String {
+            if case let .named(id) = colour {
+                return palette.first { $0.id == id }?.label ?? id
             }
-            if let preset = model.presetID.flatMap(model.builder.preset) {
-                Text(preset.name)
-                    .font(.footnote.weight(.semibold))
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 5)
-                    .background(.thinMaterial, in: Capsule())
-                    .padding(12)
-            }
+            return "Your own colour"
         }
-        .padding(.horizontal, 12)
-    }
-
-    private var presets: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            LazyHStack(spacing: 8) {
-                ForEach(model.builder.data.presets) { preset in
-                    Button {
-                        model.choose(preset: preset.id)
-                    } label: {
-                        VStack(spacing: 2) {
-                            Group {
-                                if let image = model.thumbnail(preset) {
-                                    Image(decorative: image, scale: 1).resizable().scaledToFit()
-                                } else {
-                                    Color.clear
-                                }
-                            }
-                            .frame(width: Tuning.Builder.presetThumbnail, height: Tuning.Builder.presetThumbnail)
-                            Text(preset.name)
-                                .font(.caption2)
-                                .lineLimit(1)
-                                .frame(width: Tuning.Builder.presetThumbnail + 10)
-                        }
-                        .padding(4)
-                        .background(
-                            RoundedRectangle(cornerRadius: 12)
-                                .fill(model.presetID == preset.id ? Theme.accent.opacity(0.18) : Color.white.opacity(0.5))
-                        )
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel(preset.name)
-                }
-            }
-            .padding(.horizontal, 12)
-        }
-        .frame(height: Tuning.Builder.presetThumbnail + 30)
-    }
-
-    // MARK: Right: the fields
-
-    private var header: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 6) {
-                ForEach(model.sections) { section in
-                    Button(section.rawValue) {
-                        model.section = section
-                    }
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(model.section == section ? Theme.ink : Theme.inkSoft)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 7)
-                    .background(Capsule().fill(model.section == section ? Theme.cream : Color.clear))
-                    .overlay(Capsule().strokeBorder(model.section == section ? Theme.rim : .clear, lineWidth: 1))
-                    .buttonStyle(.plain)
-                }
-            }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 10)
-        }
-    }
-
-    @ViewBuilder
-    private var fields: some View {
         switch model.section {
-        case .body: bodyFields
-        case .coat: coatFields
-        case .markings: markingFields
-        case .eyes: eyeFields
-        case .age: ageFields
-        case .name: nameFields
+        case .looks: return "\(data.presets.count) looks to start from, every one free"
+        case .body: return model.kind
+            .map { kind in kind.hasWeight ? "\(kind.label), \(look.weight < 0.5 ? "slim" : "chunky")" : kind.label }
+        case .coat: return label(look.coat, data.coats)
+        case .pattern:
+            guard let pattern = look.pattern else { return "Solid" }
+            let name = data.patterns.first { $0.id == pattern }?.label ?? pattern
+            return look.patternColour.map { "\(name) in \(label($0, data.coats).lowercased())" } ?? name
+        case .white: return data.whites.first { $0.id == (look.white ?? "none") }?.label
+        case .eyes:
+            return look.hasOddEyes
+                ? "\(label(look.eyeLeft, data.eyes)) and \(label(look.eyeRight, data.eyes).lowercased())"
+                : label(look.eyeLeft, data.eyes)
+        case .nose: return label(look.nose, data.noses)
+        case .earsTail:
+            guard model.body?.earSwaps == true || model.body?.tailSwaps == true else { return "A breed keeps its own" }
+            let ears = look.ears == "own" ? "Pointed ears" : (data.ears.first { $0.id == look.ears }?.label ?? look.ears)
+            return look.tail == "bobtail" ? "\(ears), bobtail" : ears
+        case .age:
+            if case let .adult(years) = look.age {
+                return "\(years) \(years == 1 ? "year" : "years") old"
+            }
+            return "A kitten"
+        case .name: return model.checkedName.map { "\($0), \(ProfileText.personality(model.personality).lowercased())" }
         }
     }
 
-    private var bodyFields: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            row("Body") {
-                chips(model.builder.bodyKinds.map { ($0.id, $0.label) }, selected: model.kind?.id) { id in
-                    if let kind = model.builder.bodyKinds.first(where: { $0.id == id }) {
-                        model.choose(kind: kind)
-                    }
-                }
-            }
-            if model.kind?.hasWeight == true {
-                row("Weight") {
-                    HStack {
-                        Text("Slim").font(.caption)
-                        Slider(value: Binding(get: { model.look.weight }, set: { model.weigh($0) }), in: 0 ... 1)
-                        Text("Chunky").font(.caption)
-                    }
-                }
-            } else if let body = model.body {
-                Text(body.fur == "none" ? "Hairless: the coat colour is the skin colour." : "Breeds keep their own ears and tail.")
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-            }
-            if model.body?.earSwaps == true {
-                row("Ears") {
-                    chips(model.builder.data.ears.map { ($0.id, $0.id == "own" ? "Pointed" : $0.label) }, selected: model.look.ears) { id in
-                        model.change { $0.ears = id }
-                    }
-                }
-            }
-            if model.body?.tailSwaps == true {
-                row("Tail") {
-                    chips(model.builder.data.tails.map { ($0.id, $0.id == "own" ? "Long" : $0.label) }, selected: model.look.tail) { id in
-                        model.change { $0.tail = id }
-                    }
-                }
-            }
-            row("Whiskers") {
-                HStack {
-                    Text("Short").font(.caption)
-                    Slider(
-                        value: Binding(get: { model.look.whiskerLength }, set: { v in model.change { $0.whiskerLength = v } }),
-                        in: 0 ... 1
-                    )
-                    Text("Long").font(.caption)
-                }
-            }
-        }
-    }
-
-    private var coatFields: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            row("Coat colour") {
-                swatches(model.builder.data.coats, selected: model.look.coat, picker: true) { colour in
-                    model.change { $0.coat = colour }
-                }
-            }
-            row("Pattern") {
-                chips(model.builder.data.patterns.map { ($0.id, $0.label) }, selected: model.look.pattern ?? "none") { id in
-                    model.change { $0.pattern = id == "none" ? nil : id }
-                }
-            }
-            if model.look.pattern != nil {
-                row("Pattern colour") {
-                    swatches(model.builder.data.coats, selected: model.look.patternColour, picker: true) { colour in
-                        model.change { $0.patternColour = colour }
-                    }
-                }
-            }
-        }
-    }
-
-    private var markingFields: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            row("White markings") {
-                chips(model.builder.data.whites.map { ($0.id, $0.label) }, selected: model.look.white ?? "none") { id in
-                    model.change { $0.white = id == "none" ? nil : id }
-                }
-            }
-            Text("Patterns and white combine: tortoiseshell with bicolour is a calico, colourpoint with mitts a ragdoll.")
-                .font(.footnote)
-                .foregroundStyle(.secondary)
-        }
-    }
-
-    private var eyeFields: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Toggle("Odd eyes", isOn: Binding(get: { model.look.hasOddEyes }, set: { odd in
-                model.change { look in
-                    look.eyeRight = odd ? (look.eyeLeft == .named("blue") ? .named("amber") : .named("blue")) : look.eyeLeft
-                }
-            }))
-            row(model.look.hasOddEyes ? "Left eye" : "Eyes") {
-                swatches(model.builder.data.eyes, selected: model.look.eyeLeft, picker: false) { colour in
-                    model.change { look in
-                        let same = !look.hasOddEyes
-                        look.eyeLeft = colour
-                        if same {
-                            look.eyeRight = colour
-                        }
-                    }
-                }
-            }
-            if model.look.hasOddEyes {
-                row("Right eye") {
-                    swatches(model.builder.data.eyes, selected: model.look.eyeRight, picker: false) { colour in
-                        model.change { $0.eyeRight = colour }
-                    }
-                }
-            }
-            row("Eye size") {
-                HStack {
-                    Text("Small").font(.caption)
-                    Slider(value: Binding(get: { model.look.eyeSize }, set: { v in model.change { $0.eyeSize = v } }), in: 0 ... 1)
-                    Text("Big").font(.caption)
-                }
-            }
-            row("Nose") {
-                swatches(model.builder.data.noses, selected: model.look.nose, picker: false) { colour in
-                    model.change { $0.nose = colour }
-                }
-            }
-        }
-    }
-
-    private var ageFields: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            row("Age") {
-                chips([("kitten", "Kitten"), ("adult", "Adult")], selected: model.look.age.isKitten ? "kitten" : "adult") { id in
-                    model.change { $0.age = id == "kitten" ? .kitten : .defaultAdult }
-                }
-            }
-            if case let .adult(years) = model.look.age {
-                Stepper(
-                    "\(years) \(years == 1 ? "year" : "years") old",
-                    value: Binding(get: { years }, set: { v in model.change { $0.age = .adult(years: v) } }),
-                    in: 1 ... Tuning.Cat.maxAdultYears
-                )
-            } else {
-                Text("Twelve weeks old; grown up after three weeks together.")
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-            }
-        }
-    }
-
-    private var nameFields: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            row("Name") {
-                VStack(alignment: .leading, spacing: 8) {
-                    TextField("Your cat's name", text: $model.name)
-                        .textFieldStyle(.roundedBorder)
-                        .font(.title3)
-                    if let problem = model.nameProblem {
-                        Text(problem).font(.footnote).foregroundStyle(.red)
-                    }
-                    HStack(spacing: 6) {
-                        ForEach(model.suggestions, id: \.self) { name in
-                            Button(name) {
-                                model.name = name
-                            }
-                            .font(.subheadline)
-                            .buttonStyle(.bordered)
-                        }
-                        Button {
-                            model.shuffleNames()
-                        } label: {
-                            Image(systemName: "shuffle")
-                        }
-                        .buttonStyle(.bordered)
-                        .accessibilityLabel("More names")
-                    }
-                }
-            }
-            row("Personality") {
-                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 8) {
-                    ForEach(Personality.allCases, id: \.self) { personality in
-                        Button {
-                            model.personality = personality
-                        } label: {
-                            VStack(alignment: .leading, spacing: 3) {
-                                Text(ProfileText.personality(personality)).font(.subheadline.weight(.semibold))
-                                Text(ProfileText.personalityBlurb(personality)).font(.caption).foregroundStyle(.secondary)
-                                    .fixedSize(horizontal: false, vertical: true)
-                            }
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(10)
-                            .background(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .fill(model.personality == personality ? Theme.accent.opacity(0.18) : Color.white.opacity(0.4))
-                            )
-                        }
-                        .buttonStyle(.plain)
-                    }
-                }
-            }
-        }
-    }
-
+    /// Back and Next through the drawers, and Done (or, adopting, bringing the cat home from the last one).
     private var footer: some View {
-        HStack {
-            if let cancel {
-                HUDButton("Cancel", symbol: "xmark", action: cancel)
+        HStack(spacing: 8 * s) {
+            if let previous = model.previousSection {
+                Button {
+                    feedback.tap()
+                    withAnimation(.spring(duration: 0.3)) { model.section = previous }
+                } label: {
+                    Image(systemName: "chevron.left")
+                        .font(.system(size: 16 * s, weight: .bold))
+                        .foregroundStyle(Theme.ink)
+                        .frame(width: 40 * s, height: 40 * s)
+                        .paper(Circle())
+                }
+                .buttonStyle(PressStyle())
+                .accessibilityLabel("Back: \(previous.title)")
             }
-            Spacer()
-            let sections = model.sections
-            let index = sections.firstIndex(of: model.section) ?? 0
-            if index + 1 < sections.count {
-                HUDButton("Next: \(sections[index + 1].rawValue)", symbol: "arrow.right") {
-                    model.section = sections[index + 1]
+            Spacer(minLength: 0)
+            if let next = model.nextSection {
+                HUDButton("Next: \(next.title)", symbol: "chevron.right") {
+                    withAnimation(.spring(duration: 0.3)) { model.section = next }
                 }
             }
             if model.mode == .edit {
-                HUDButton("Done", symbol: "checkmark", prominent: true) {
-                    done(model)
-                }
+                ChunkyButton("Done") { done(model) }
+                    .fixedSize()
             } else if model.section == .name {
-                HUDButton(model.checkedName.map { "Bring \($0) home" } ?? "Bring them home", icon: "house", prominent: true) {
-                    done(model)
-                }
-                .disabled(!model.canAdopt)
-                .opacity(model.canAdopt ? 1 : 0.5)
+                ChunkyButton(model.checkedName.map { "Bring \($0) home" } ?? "Bring them home") { done(model) }
+                    .fixedSize()
+                    .disabled(!model.canAdopt)
+                    .opacity(model.canAdopt ? 1 : 0.5)
             }
         }
-        .padding(12)
+        .lineLimit(1)
+        .minimumScaleFactor(0.75)
+        .padding(.horizontal, 10 * s)
+        .padding(.vertical, 8 * s)
+        .background(Theme.paper.opacity(0.6))
     }
 
-    // MARK: Pieces
-
-    private func row(_ title: String, @ViewBuilder content: () -> some View) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(title).font(Theme.title(17))
-            content()
-        }
-    }
-
-    private func chips(_ options: [(String, String)], selected: String?, choose: @escaping (String) -> Void) -> some View {
-        FlowLayout(spacing: 6) {
-            ForEach(options, id: \.0) { id, label in
-                Button(label) {
-                    choose(id)
-                }
-                .font(.subheadline)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 7)
-                .background(Capsule().fill(selected == id ? Theme.cream : Theme.ink.opacity(0.05)))
-                .overlay(Capsule().strokeBorder(selected == id ? Theme.accent : .clear, lineWidth: 2))
-                .buttonStyle(.plain)
+    /// The look in words, for VoiceOver.
+    private var lookDescription: String {
+        let data = model.builder.data
+        let look = model.look
+        func label(_ colour: LookColour, _ palette: [CatBuilderData.Swatch]) -> String {
+            if case let .named(id) = colour {
+                return (palette.first { $0.id == id }?.label ?? id).lowercased()
             }
+            return "own colour"
         }
-    }
-
-    private func swatches(
-        _ palette: [CatBuilderData.Swatch],
-        selected: LookColour?,
-        picker: Bool,
-        choose: @escaping (LookColour) -> Void
-    ) -> some View {
-        FlowLayout(spacing: 8) {
-            ForEach(palette) { swatch in
-                Button {
-                    choose(.named(swatch.id))
-                } label: {
-                    Circle()
-                        .fill(Color(rgb: swatch.rgb))
-                        .frame(width: 34, height: 34)
-                        .overlay(Circle().stroke(Color.primary.opacity(0.15), lineWidth: 1))
-                        .overlay(Circle().stroke(Theme.accent, lineWidth: selected == .named(swatch.id) ? 3 : 0).padding(-4))
-                }
-                .buttonStyle(.plain)
-                .accessibilityLabel(swatch.label)
-            }
-            if picker {
-                ColorPicker("Any colour", selection: Binding(
-                    get: {
-                        if case let .picked(rgb) = selected {
-                            return Color(rgb: rgb)
-                        }
-                        return Color(rgb: selected.map { model.builder.rgb($0, in: palette) } ?? RGB(128, 128, 128))
-                    },
-                    set: { colour in
-                        if let rgb = colour.rgb {
-                            choose(.picked(CatBuilder.pickerClamped(rgb)))
-                        }
-                    }
-                ), supportsOpacity: false)
-                    .labelsHidden()
-                    .frame(width: 34, height: 34)
-                    .overlay(Circle().stroke(Theme.accent, lineWidth: {
-                        if case .picked = selected {
-                            return 3
-                        }
-                        return 0
-                    }()).padding(-4))
-            }
+        var words = [label(look.coat, data.coats)]
+        if let pattern = look.pattern, let name = data.patterns.first(where: { $0.id == pattern })?.label {
+            words.append(name.lowercased())
         }
+        words.append(model.kind?.label.lowercased() ?? "cat")
+        var text = words.joined(separator: " ")
+        if let white = look.white, let name = data.whites.first(where: { $0.id == white })?.label {
+            text += ", white: \(name.lowercased())"
+        }
+        text += look.hasOddEyes
+            ? ", odd eyes, \(label(look.eyeLeft, data.eyes)) and \(label(look.eyeRight, data.eyes))"
+            : ", \(label(look.eyeLeft, data.eyes)) eyes"
+        if look.age.isKitten {
+            text = "Kitten, " + text
+        }
+        return "Your cat on the podium: " + text
     }
 }
 
-extension Color {
-    init(rgb: RGB) {
-        self.init(.sRGB, red: Double(rgb.r) / 255, green: Double(rgb.g) / 255, blue: Double(rgb.b) / 255)
-    }
-
-    /// The colour in sRGB, 0–255.
-    var rgb: RGB? {
-        let resolved = resolve(in: EnvironmentValues())
-        guard let srgb = CGColorSpace(name: CGColorSpace.sRGB),
-              let components = resolved.cgColor.converted(to: srgb, intent: .defaultIntent, options: nil)?.components,
-              components.count >= 3 else { return nil }
-        func byte(_ v: CGFloat) -> Int {
-            Int((min(1, max(0, v)) * 255).rounded())
-        }
-        return RGB(byte(components[0]), byte(components[1]), byte(components[2]))
+public extension CatBuilderView where Hint == EmptyView {
+    init(model: CatBuilderModel, cancel: (() -> Void)? = nil, done: @escaping (CatBuilderModel) -> Void) {
+        self.init(model: model, cancel: cancel, hint: { EmptyView() }, done: done)
     }
 }
 
-/// Wraps its children onto as many rows as they need.
-struct FlowLayout: Layout {
-    var spacing: CGFloat = 6
+/// The status bar and the home indicator hidden, as in the room.
+private struct FullScreenGame: ViewModifier {
+    func body(content: Content) -> some View {
+        #if os(iOS)
+            content.statusBarHidden().persistentSystemOverlays(.hidden)
+        #else
+            content
+        #endif
+    }
+}
 
-    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache _: inout ()) -> CGSize {
-        let width = proposal.width ?? .infinity
-        var x: CGFloat = 0, y: CGFloat = 0, row: CGFloat = 0, widest: CGFloat = 0
-        for view in subviews {
-            let size = view.sizeThatFits(.unspecified)
-            if x > 0, x + size.width > width {
-                y += row + spacing
-                x = 0
-                row = 0
-            }
-            x += size.width + spacing
-            row = max(row, size.height)
-            widest = max(widest, x - spacing)
-        }
-        return CGSize(width: min(width, widest), height: y + row)
+/// The chest of drawers' honey oak, as in the painted wardrobe.
+enum Wood {
+    static let carcass = LinearGradient(
+        colors: [Color(red: 0.62, green: 0.38, blue: 0.2), Color(red: 0.5, green: 0.29, blue: 0.15)],
+        startPoint: .top, endPoint: .bottom
+    )
+    static let edge = Color(red: 0.36, green: 0.2, blue: 0.1).opacity(0.7)
+    static let label = Color(red: 1, green: 0.95, blue: 0.86)
+
+    static func front(open: Bool, corner: CGFloat, scale: CGFloat) -> some View {
+        let shape = RoundedRectangle(cornerRadius: corner, style: .continuous)
+        let colours = open
+            ? [Color(red: 1, green: 0.95, blue: 0.86), Color(red: 0.97, green: 0.88, blue: 0.74)]
+            : [Color(red: 0.86, green: 0.6, blue: 0.34), Color(red: 0.74, green: 0.48, blue: 0.25)]
+        return shape
+            .fill(LinearGradient(colors: colours, startPoint: .top, endPoint: .bottom))
+            .overlay(shape.inset(by: 3 * scale).strokeBorder(.white.opacity(open ? 0.5 : 0.18), lineWidth: 1))
+            .overlay(shape.strokeBorder(open ? Theme.accent : edge, lineWidth: open ? 2 : 1))
+            .shadow(
+                color: .black.opacity(open ? 0.28 : 0.18),
+                radius: open ? 5 * scale : 1.5 * scale,
+                x: open ? 3 * scale : 0,
+                y: 2 * scale
+            )
     }
 
-    func placeSubviews(in bounds: CGRect, proposal _: ProposedViewSize, subviews: Subviews, cache _: inout ()) {
-        var x = bounds.minX, y = bounds.minY, row: CGFloat = 0
-        for view in subviews {
-            let size = view.sizeThatFits(.unspecified)
-            if x > bounds.minX, x + size.width > bounds.maxX {
-                y += row + spacing
-                x = bounds.minX
-                row = 0
-            }
-            view.place(at: CGPoint(x: x, y: y), proposal: ProposedViewSize(size))
-            x += size.width + spacing
-            row = max(row, size.height)
-        }
+    /// A round brass knob.
+    static func knob(size: CGFloat) -> some View {
+        Circle()
+            .fill(RadialGradient(
+                colors: [Color(red: 1, green: 0.92, blue: 0.62), Color(red: 0.78, green: 0.56, blue: 0.2)],
+                center: UnitPoint(x: 0.35, y: 0.3), startRadius: 0, endRadius: size * 0.7
+            ))
+            .overlay(Circle().strokeBorder(Color(red: 0.45, green: 0.3, blue: 0.1).opacity(0.6), lineWidth: 0.75))
+            .frame(width: size, height: size)
+            .shadow(color: .black.opacity(0.3), radius: 0.5, y: 0.5)
     }
 }

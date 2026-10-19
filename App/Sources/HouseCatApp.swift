@@ -65,7 +65,12 @@ struct HouseCatApp: App {
                         }
                     }
                 } else if let adopting {
-                    CatBuilderView(model: adopting) { model in
+                    // The host's line sits over the cat, clear of the drawers.
+                    CatBuilderView(model: adopting) {
+                        if adopting.mode == .adopt {
+                            HostHint(\.builder, width: 330)
+                        }
+                    } done: { model in
                         guard let name = model.checkedName else { return }
                         GameSession.shared.adopt(name: name, personality: model.personality, look: model.look)
                         self.adopting = nil
@@ -73,11 +78,7 @@ struct HouseCatApp: App {
                         let session = GameSession.shared
                         placing = WorldMapModel(mode: .first, current: session.state(at: session.now()))
                     }
-                    .overlay(alignment: .topLeading) {
-                        if adopting.mode == .adopt {
-                            HostHint(\.builder, width: 370).padding(.top, 14).padding(.leading, 16)
-                        }
-                    }
+                    .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
                 } else if introducing, let intro = GameWorld.content?.intro {
                     // A new player: the intro, then the builder (SPEC onboarding: cat, geography, house, arrival).
                     IntroView(intro: intro) {
@@ -238,6 +239,12 @@ struct HouseCatApp: App {
                 introducing = true
                 return
             }
+            // HOUSECAT_SCREEN=creator: the cat creator as a new player meets it, without the intro before it
+            // (HOUSECAT_CREATOR=<drawer> opens a drawer: looks, body, coat, pattern, white, eyes, nose, earsTail, age, name).
+            if ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"] == "creator" {
+                adopting = CatScreens.builder(mode: .adopt)
+                return
+            }
         #endif
         if GameSession.shared.cat == nil {
             introducing = true
@@ -287,7 +294,7 @@ enum CatScreens {
     static func builder(mode: CatBuilderModel.Mode) -> CatBuilderModel? {
         guard let art = GameWorld.art, let catArt = GameWorld.catArt else { return nil }
         let cat = GameSession.shared.cat
-        return CatBuilderModel(
+        let model = CatBuilderModel(
             mode: mode,
             look: cat?.look ?? .midnight,
             name: cat?.name ?? "",
@@ -297,6 +304,12 @@ enum CatScreens {
             rig: GameWorld.rig,
             names: GameWorld.content?.names ?? NameFilter()
         )
+        #if DEBUG
+            if let drawer = ProcessInfo.processInfo.environment["HOUSECAT_CREATOR"].flatMap(CatBuilderModel.Section.init) {
+                model.section = drawer
+            }
+        #endif
+        return model
     }
 
     static func profile() -> (profile: CatProfile, xp: Int)? {
@@ -1259,6 +1272,7 @@ struct RoomScreen: View {
                 case "menu": showMenu = true
                 case "goals": showGoals = true
                 case "profile": showProfile = true
+                case "editlook": editing = CatScreens.builder(mode: .edit)
                 case "settings": showSettings = true
                 case "erase": await YourData.deleteEverything()
                 case "trylook":

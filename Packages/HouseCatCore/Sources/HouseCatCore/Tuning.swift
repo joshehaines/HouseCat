@@ -584,6 +584,41 @@ public enum Tuning {
         public static let presetThumbnail = 64.0
         /// The preview redraws this long after the last change (a slider drag redraws as it settles).
         public static let redrawDelay = 0.12
+
+        // The dressing room (HouseCatGame DressingRoomScene, Josh 19 Oct: a wardrobe, not a living room).
+        /// The painting, and where its podium's top is: the middle of the top, in the painting's pixels from its
+        /// top left, and the top's width.
+        public static let roomPainting = "ui/creator/creator_room.jpg"
+        public static let podiumTop = [922.0, 1142.0]
+        public static let podiumWidth = 805.0
+        /// The cat's standing height as a share of the podium's width.
+        public static let catOnPodium = 0.46
+        /// The room is zoomed so the cat stands this share of the open stage's height, the podium's top this far
+        /// up from the stage's bottom.
+        public static let catInStage = 0.55
+        public static let catInStageWidth = 0.6
+        public static let podiumInStage = 0.2
+        /// Close on the face for the eyes and the nose: this much nearer, the head's middle this far down the cat.
+        public static let faceZoom = 2.1
+        public static let faceFromTop = 0.2
+        /// A drag this many points across turns the cat one step round the podium.
+        public static let turnDragPoints = 46.0
+        /// One step of the twirl a preset or a surprise look gets.
+        public static let twirlStepSeconds = 0.11
+        /// The little bounce at each change, as a share of the cat's height.
+        public static let reactSquash = 0.05
+        /// A slow blink every so often while it waits.
+        public static let slowBlinkSeconds = 5.0 ... 9.0
+        /// How many changes Undo can take back.
+        public static let undoDepth = 40
+        /// The option pictures' height in pixels (drawn from the cat in each option, kept this small).
+        public static let thumbnailPixels = 220.0
+        /// The creator is laid out for a landscape phone of this size (points) and scaled up to fill bigger
+        /// screens, in steps of 0.05, to `largestScale`; upright, for a screen this wide.
+        public static let designWidth = 800.0
+        public static let designHeight = 402.0
+        public static let designUprightWidth = 620.0
+        public static let largestScale = 1.6
     }
 
     /// Personality sliders: affection, energy, mischief, independence (0–1).

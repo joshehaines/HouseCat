@@ -120231,6 +120231,104 @@
     1188,
     587
    ]
+  },
+  "ui/icon_creator_hanger.png": {
+   "class": "ui",
+   "px": [
+    463,
+    383
+   ]
+  },
+  "ui/icon_creator_tape_measure.png": {
+   "class": "ui",
+   "px": [
+    397,
+    344
+   ]
+  },
+  "ui/icon_creator_yarn.png": {
+   "class": "ui",
+   "px": [
+    429,
+    377
+   ]
+  },
+  "ui/icon_creator_tabby_fabric.png": {
+   "class": "ui",
+   "px": [
+    456,
+    388
+   ]
+  },
+  "ui/icon_creator_mittens.png": {
+   "class": "ui",
+   "px": [
+    419,
+    362
+   ]
+  },
+  "ui/icon_creator_marbles.png": {
+   "class": "ui",
+   "px": [
+    412,
+    265
+   ]
+  },
+  "ui/icon_creator_nose_whiskers.png": {
+   "class": "ui",
+   "px": [
+    546,
+    266
+   ]
+  },
+  "ui/icon_creator_cat_ears.png": {
+   "class": "ui",
+   "px": [
+    416,
+    388
+   ]
+  },
+  "ui/icon_creator_cupcake.png": {
+   "class": "ui",
+   "px": [
+    302,
+    506
+   ]
+  },
+  "ui/icon_creator_name_tag.png": {
+   "class": "ui",
+   "px": [
+    324,
+    425
+   ]
+  },
+  "ui/icon_creator_dice.png": {
+   "class": "ui",
+   "px": [
+    432,
+    348
+   ]
+  },
+  "ui/icon_creator_tail.png": {
+   "class": "ui",
+   "px": [
+    331,
+    510
+   ]
+  },
+  "ui/creator/creator_fur_swatch.png": {
+   "class": "ui/creator",
+   "px": [
+    1285,
+    1363
+   ]
+  },
+  "ui/creator/creator_room.jpg": {
+   "class": "ui/creator",
+   "px": [
+    2688,
+    1520
+   ]
   }
  }
 }

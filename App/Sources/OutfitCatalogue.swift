@@ -297,7 +297,7 @@ struct OutfitCatalogueView: View {
                 .scaleEffect(m.s, anchor: .topLeading)
                 .frame(width: 36 * m.s, height: 36 * m.s, alignment: .topLeading)
             Spacer(minLength: 0)
-            Nameplate(model.outfit(model.trying)?.name ?? "Nothing on", subtitle: model.outfit(model.trying).map(statusLine), metrics: m)
+            Nameplate(model.outfit(model.trying)?.name ?? "Nothing on", subtitle: model.outfit(model.trying).map(plateLine), metrics: m)
             Spacer(minLength: 0)
             Color.clear.frame(width: 36 * m.s, height: 1)
         }
@@ -402,7 +402,18 @@ struct OutfitCatalogueView: View {
         }
     }
 
-    /// What an outfit is for this household, in a phrase (the nameplate, VoiceOver).
+    /// What an outfit is, in a word or two, under its name above the cat (the whole phrase is at the drawer's foot).
+    private func plateLine(_ outfit: OutfitsFile.Outfit) -> String {
+        let status = model.status(of: outfit)
+        switch status {
+        case .wearing: return "Wearing it"
+        case .owned: return "Owned"
+        case let .forSale(beans: price): return "\(price) Beans"
+        case .outOfSeason, .pass, .earned: return shortLock(status)
+        }
+    }
+
+    /// What an outfit is for this household, in a phrase (the drawer's foot, VoiceOver).
     private func statusLine(_ outfit: OutfitsFile.Outfit) -> String {
         switch model.status(of: outfit) {
         case .wearing: "Your cat is wearing it"

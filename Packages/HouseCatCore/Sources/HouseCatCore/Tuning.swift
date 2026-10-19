@@ -9,6 +9,15 @@ public enum Tuning {
         public static let gridWidth = 10
         public static let gridDepth = 10
         public static let wallHeightCells = 5
+        /// Furniture is drawn this much smaller than it was painted in the grey reference room, so it sits right
+        /// beside the cat (Josh, 19 Oct: "the couches look huge as well as the scratching post"). Footprints stay
+        /// whole cells: a piece stands in the middle of its cells, its back to a wall it touches.
+        public static let furnitureScale = 0.8
+        /// A new player's home (Josh, 19 Oct: "it needs to be empty, they should want to decorate"): only these,
+        /// where the demo layout puts them.
+        public static let firstHome: Set<String> = ["kitchen_bowl", "living_box"]
+        /// Waiting in the tray for the tour's Decorate step.
+        public static let starterPieces = ["living_sofa"]
     }
 
     /// The game day and the parts of it (SPEC "Care and the visit streak", "Widgets").

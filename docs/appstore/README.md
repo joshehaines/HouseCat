@@ -50,7 +50,7 @@ Your cat lives on your Home Screen and your Apple Watch too: in your own window 
 
 Both sets were taken on 19 Oct from the current build, each screen from a fresh launch with the debug switches in `CLAUDE.md` ("Debug"): a seeded home (`HOUSECAT_HOUSE=full HOUSECAT_CAT=midnight` on a fresh install, `HOUSECAT_SKIP_STORE=1`), with any `HOUSECAT_SCREEN` value so the day-3 cards stay away. The simulator draws the Dynamic Island into iPhone screenshots, which a phone's own screenshots never include, so it is painted out from the picture round it (OpenCV inpainting). The order and captions are in the table below the checklist. On iPad the room's controls and cards are drawn 1.6× on the 13-inch (`Tuning.Stage.hudDesignWidth`), so the iPad set was retaken the same way after that change.
 
-The shop is not in the marketing set: a simulator launch from the command line has no test products, so its prices show "…". For each in-app purchase's review screenshot, use the earlier `iphone-6.9/review_cat_club.png` and `review_beans.png` (18 Oct, before the Cat Club page's button showed the price), or run from Xcode (the scheme loads `Store/HouseCat.storekit`) with `HOUSECAT_SCREEN=shop HOUSECAT_SHOP=club|beans|looks`.
+The shop is not in the marketing set: a simulator launch from the command line has no test products, so it shows the catalogue's UK prices in a debug build (`HOUSECAT_SKIP_STORE=1`) and "…" otherwise. For each in-app purchase's review screenshot, use `iphone-6.9/review_beans.png` (the five Bean packs), `review_offers.png` (the Starter Pack), `review_room_looks.png` (the room looks) and `review_cat_club.png` (both plans, with the billed price on the button), all taken 19 Oct from the redesigned shop with `HOUSECAT_SCREEN=shop HOUSECAT_SHOP=beans|offers|looks|club`; or run from Xcode (the scheme loads `Store/HouseCat.storekit`) for StoreKit's own prices.
 
 ## In-app purchases (17, matching `Store/HouseCat.storekit`)
 
@@ -107,9 +107,9 @@ If keys are added before launch, answer "Yes" and declare:
 No account or sign-in. The game opens with a short intro (skippable) and the cat builder; after that you are in the cat's home.
 
 Where things are (landscape):
-- Shop: the gold Shop button, bottom right of the room. Beans packs, Room looks, Cat Club and Outfits are in the rail on the left. Every product can be bought there. Bought Beans appear at once in the balance at the top right.
-- Cat Club page: Restore Purchases, Terms of Use and Privacy Policy are under the crowned cat; the price that will be charged is on the button.
-- Restore Purchases, Manage subscription, Request a refund, Help and support, Terms and Privacy are also at the end of the shop and in Settings (tap the cat's portrait at the top left, then Settings, then "Purchases and help").
+- Shop: the gold Shop button, bottom right of the room. Its pages are tabs along the top: Offers (the Starter Pack, a room look, the way into Cat Club), Beans (the five packs), Room looks, Outfits and Cat Club; a Season pass tab joins them while a season is on. Every product can be bought there. Bought Beans appear at once in the balance at the top right.
+- Cat Club page (the last tab): Restore Purchases, Terms of Use and Privacy Policy are at the foot of the page; the price that will be charged is on the button.
+- Restore Purchases, Request a refund, Manage subscription, Terms of Use, Privacy Policy and Help also run along the foot of every shop page, and are in Settings (tap the cat's portrait at the top left, then Settings, then "Purchases and help").
 - Menu (top left, under the portrait): Goals, Map, Book, and the Gift track while one runs. The season pass appears there when a season is on (the first starts after this review); Cat Club's paid track opens with it.
 
 Beans are the one currency: earned every day by playing and sold in fixed packs. Nothing bought is random. A room look puts a whole room's furniture, wallpaper and floor in at once, and can be tried in the room before buying.

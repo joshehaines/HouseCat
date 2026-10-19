@@ -10953,6 +10953,13 @@
    ],
    "scale": 0.4
   },
+  "ui/icon_counter_bell.png": {
+   "master": [
+    400,
+    386
+   ],
+   "scale": 0.4
+  },
   "ui/icon_creator_cat_ears.png": {
    "master": [
     416,
@@ -11037,6 +11044,13 @@
    ],
    "scale": 0.4
   },
+  "ui/icon_crown.png": {
+   "master": [
+    400,
+    342
+   ],
+   "scale": 0.4
+  },
   "ui/icon_decorate_paintbrush.png": {
    "master": [
     400,
@@ -11076,6 +11090,13 @@
    "master": [
     428,
     422
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_jumper_on_hanger.png": {
+   "master": [
+    377,
+    400
    ],
    "scale": 0.4
   },
@@ -11128,6 +11149,13 @@
    ],
    "scale": 0.4
   },
+  "ui/icon_receipt.png": {
+   "master": [
+    318,
+    400
+   ],
+   "scale": 0.4
+  },
   "ui/icon_season_pass_ticket.png": {
    "master": [
     449,
@@ -11160,6 +11188,20 @@
    "master": [
     464,
     381
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_standing_mirror.png": {
+   "master": [
+    265,
+    400
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_star_rosette.png": {
+   "master": [
+    277,
+    400
    ],
    "scale": 0.4
   },
@@ -11385,11 +11427,115 @@
    ],
    "scale": 0.4
   },
+  "ui/shop/shop_look_cabin_attic.png": {
+   "file": "ui/shop/shop_look_cabin_attic.heic",
+   "master": [
+    1800,
+    1460
+   ],
+   "scale": 0.4
+  },
+  "ui/shop/shop_look_cosy_study.png": {
+   "file": "ui/shop/shop_look_cosy_study.heic",
+   "master": [
+    1800,
+    1460
+   ],
+   "scale": 0.4
+  },
+  "ui/shop/shop_look_country_kitchen.png": {
+   "file": "ui/shop/shop_look_country_kitchen.heic",
+   "master": [
+    1800,
+    1460
+   ],
+   "scale": 0.4
+  },
+  "ui/shop/shop_look_fireside_living.png": {
+   "file": "ui/shop/shop_look_fireside_living.heic",
+   "master": [
+    1800,
+    1460
+   ],
+   "scale": 0.4
+  },
+  "ui/shop/shop_look_housewarming_living.png": {
+   "file": "ui/shop/shop_look_housewarming_living.heic",
+   "master": [
+    1800,
+    1460
+   ],
+   "scale": 0.4
+  },
+  "ui/shop/shop_look_midnight_bedroom.png": {
+   "file": "ui/shop/shop_look_midnight_bedroom.heic",
+   "master": [
+    1800,
+    1460
+   ],
+   "scale": 0.4
+  },
+  "ui/shop/shop_look_rainy_bedroom.png": {
+   "file": "ui/shop/shop_look_rainy_bedroom.heic",
+   "master": [
+    1800,
+    1460
+   ],
+   "scale": 0.4
+  },
+  "ui/shop/shop_look_riviera_garden.png": {
+   "file": "ui/shop/shop_look_riviera_garden.heic",
+   "master": [
+    1800,
+    1460
+   ],
+   "scale": 0.4
+  },
+  "ui/shop/shop_look_starlit_attic.png": {
+   "file": "ui/shop/shop_look_starlit_attic.heic",
+   "master": [
+    1800,
+    1460
+   ],
+   "scale": 0.4
+  },
+  "ui/shop/shop_paper.png": {
+   "file": "ui/shop/shop_paper.heic",
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.4
+  },
+  "ui/shop/shop_pass.png": {
+   "file": "ui/shop/shop_pass.heic",
+   "master": [
+    1978,
+    1907
+   ],
+   "scale": 0.4
+  },
+  "ui/shop/shop_plank.png": {
+   "file": "ui/shop/shop_plank.heic",
+   "master": [
+    2688,
+    489
+   ],
+   "scale": 0.4
+  },
   "ui/shop/shop_starter.png": {
    "file": "ui/shop/shop_starter.heic",
    "master": [
     1814,
     1935
+   ],
+   "scale": 0.4
+  },
+  "ui/shop/shop_tryon.png": {
+   "file": "ui/shop/shop_tryon.heic",
+   "master": [
+    1545,
+    1943
    ],
    "scale": 0.4
   },

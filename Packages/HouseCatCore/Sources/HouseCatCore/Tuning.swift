@@ -503,11 +503,20 @@ public enum Tuning {
         /// The screen height (points) the layout is drawn for, a landscape phone's; a taller screen scales
         /// everything up, in steps of 0.05, to `largestScale`.
         public static let designHeight = 402.0
-        /// The screen width (points) it needs: the rail and the whole Cat Club page side by side.
-        public static let designWidth = 790.0
+        /// The width inside the safe area (points) the pages are drawn for: the header's six tabs, or the five Bean
+        /// packs side by side. A narrower phone draws it all smaller, down to `smallestScale`.
+        public static let designWidth = 750.0
+        public static let smallestScale = 0.8
         public static let largestScale = 1.6
-        /// An offer tile's height at scale 1 (the Cat Club page and the detail panel match it).
-        public static let tileHeight = 296.0
+        /// The honey-oak header with its tabs, one tab's width, and the foot with Restore, Terms and Privacy.
+        public static let headerHeight = 62.0
+        public static let tabWidth = 74.0
+        public static let footerHeight = 26.0
+        /// A page's height at scale 1 (the detail panel matches it); on a taller screen (an iPad) a page of tiles
+        /// grows to half as tall again and the one-card pages (Cat Club, the pass) a fifth, then they sit in the middle.
+        public static let pageHeight = 288.0
+        public static let pageGrowth = 1.5
+        public static let cardGrowth = 1.2
     }
 
     /// The weather over the exterior and in the windows (HouseCatGame WeatherLayer).

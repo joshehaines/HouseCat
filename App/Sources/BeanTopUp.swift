@@ -67,6 +67,11 @@ enum BeanArt {
     static func path(_ packID: String) -> String {
         "ui/shop/shop_beans_\(packID.split(separator: ".").last ?? "handful").png"
     }
+
+    /// The pack's size in a word, for its tile's band ("Handful", "Barrel").
+    static func size(_ packID: String) -> String {
+        (packID.split(separator: ".").last.map(String.init) ?? "Beans").capitalized
+    }
 }
 
 /// Buying a product (a Bean pack, the starter, a room look, Cat Club), then telling the caller; Beans and looks
@@ -128,34 +133,50 @@ struct BeanTopUp: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 14) {
-            HStack(alignment: .top) {
-                VStack(alignment: .leading, spacing: 3) {
-                    Text("\(need.formatted()) more Beans").font(Theme.title(25))
+        VStack(spacing: 0) {
+            // A warm band with the coin, as the shop's tiles and the reminders card are headed.
+            HStack(alignment: .top, spacing: 12) {
+                PaintedIcon("bean_coin", size: 50).shadow(color: .black.opacity(0.2), radius: 3, y: 2)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("\(need.formatted()) more Beans").font(Theme.title(25)).foregroundStyle(.white)
                     Text("for \(purpose). A pack tops you up, or keep looking after your cat: Beans come every day.")
-                        .font(.subheadline)
-                        .foregroundStyle(Theme.inkSoft)
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(.white.opacity(0.92))
                         .fixedSize(horizontal: false, vertical: true)
                 }
-                Spacer()
+                Spacer(minLength: 0)
                 CloseButton { done(false) }
             }
-            HStack(spacing: 12) {
-                ForEach(Array(packs.enumerated()), id: \.element.id) { index, pack in
-                    packTile(pack, recommended: index == 0 && pack.beans >= need)
+            .padding(.horizontal, 20)
+            .padding(.vertical, 14)
+            .frame(maxWidth: .infinity)
+            .background(LinearGradient(colors: [Theme.accent, GameHUD.deepGold], startPoint: .topLeading, endPoint: .bottomTrailing))
+            VStack(alignment: .leading, spacing: 12) {
+                HStack(spacing: 12) {
+                    ForEach(Array(packs.enumerated()), id: \.element.id) { index, pack in
+                        packTile(pack, recommended: index == 0 && pack.beans >= need)
+                    }
                 }
+                .padding(.top, 6)
+                if let message {
+                    Text(message).font(.caption).foregroundStyle(Theme.inkSoft)
+                }
+                Text("Beans are kept with your cat's home and shared with anyone who looks after it with you.")
+                    .font(.caption2)
+                    .foregroundStyle(Theme.inkSoft)
             }
-            if let message {
-                Text(message).font(.caption).foregroundStyle(Theme.inkSoft)
-            }
-            Text("Beans are kept with your cat's home and shared with anyone who looks after it with you.")
-                .font(.caption2)
-                .foregroundStyle(Theme.inkSoft)
+            .padding(20)
         }
-        .padding(20)
         .frame(maxWidth: 600)
-        .paper(RoundedRectangle(cornerRadius: 24, style: .continuous))
+        .background(RoundedRectangle(cornerRadius: 26, style: .continuous).fill(Theme.cream))
+        .clipShape(RoundedRectangle(cornerRadius: 26, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 26, style: .continuous)
+                .strokeBorder(LinearGradient(colors: [GameHUD.gold, GameHUD.deepGold], startPoint: .top, endPoint: .bottom), lineWidth: 4)
+        )
+        .shadow(color: .black.opacity(0.35), radius: 22, y: 10)
         .foregroundStyle(Theme.ink)
+        .environment(\.hudScale, 1)
         .task {
             if prices.products.isEmpty {
                 await prices.load(store: store, content: GameWorld.content)
@@ -177,22 +198,19 @@ struct BeanTopUp: View {
                     Text(pack.beans.formatted()).font(.system(size: 17, weight: .heavy, design: .rounded))
                 }
                 if let bonus = prices.bonus(pack) {
-                    Text("+\(bonus)% a pound").font(.caption2.weight(.bold)).foregroundStyle(Theme.accent)
+                    Text("+\(bonus)% a pound").font(.caption2.weight(.bold)).foregroundStyle(Color(red: 0.33, green: 0.63, blue: 0.25))
                 }
                 Spacer(minLength: 0)
-                Text(buying == pack.id ? "…" : prices.price(pack.id) ?? "…")
-                    .font(.system(size: 15, weight: .heavy, design: .rounded))
-                    .foregroundStyle(.white)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 6)
-                    .background(Capsule().fill(Theme.accent))
+                PriceButton(text: buying == pack.id ? "…" : prices.price(pack.id) ?? "…", style: .money, compact: true)
             }
             .padding(10)
             .frame(maxWidth: .infinity)
-            .frame(height: 176)
-            .background(RoundedRectangle(cornerRadius: 18, style: .continuous).fill(Theme.cream))
+            .frame(height: 180)
+            .background(RoundedRectangle(cornerRadius: 18, style: .continuous).fill(
+                LinearGradient(colors: [Theme.cream, Color(red: 0.97, green: 0.89, blue: 0.76)], startPoint: .top, endPoint: .bottom)
+            ))
             .overlay(RoundedRectangle(cornerRadius: 18, style: .continuous)
-                .strokeBorder(recommended ? Theme.accent : Theme.rim, lineWidth: recommended ? 3 : 1))
+                .strokeBorder(recommended ? GameHUD.deepGold : Theme.rim, lineWidth: recommended ? 3 : 1))
             .overlay(alignment: .top) {
                 if recommended {
                     Ribbon("Covers it").scaleEffect(0.8).offset(y: -10)

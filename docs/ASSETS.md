@@ -136,6 +136,11 @@ Beans play the role gems play in Clash of Clans, earned through objectives and s
 ## 6k. The body garments (19 Oct 2026)
 - `outfits/body/outfit_<id>_<body>_<pose>.png` (9 garments x 8 bodies x 6 poses) and `outfit_<id>_<body>_<side|tqfront|front>_torso.png` (x 3 views): 648 layers painted over the cat's own paintings (Ideogram 4.5 masked edits, `tools/asset-pipeline/garments/`), bundled at 0.4 as HEIC with transparency. `outfits/body/variants.json`: where each pose's base painting sits in its ear and tail variants.
 
+## 6l. The shop redesign (19 Oct 2026)
+- `ui/shop/shop_paper.png` (the paper every shop page sits on, 2048 px, made to tile), `shop_plank.png` (the honey-oak header with gold trim, stretched across the screen), `shop_pass.png` (the season pass: a golden ticket, presents, a crown and a tea chest), `shop_tryon.png` (Try them on: a standing mirror and a rail of small jumpers). Keyed and bundled at 0.4 like the other shop pictures.
+- `ui/shop/shop_look_<bundle id>.png` (nine, 1800 x 1460): each room look in its room, drawn by the game in midday light with its pieces against the walls, see-through above the walls. Rendered by `HouseCatGameTests/LookPreviewRender.swift` (`HOUSECAT_RENDER_LOOKS=<folder> swift test --filter renderTheRoomLookPreviews` in Packages/HouseCatGame); render them again when a look's pieces, the furniture's art or its scale change.
+- `ui/icon_crown.png`, `icon_jumper_on_hanger.png`, `icon_star_rosette.png`, `icon_receipt.png`, `icon_standing_mirror.png`, `icon_counter_bell.png`: the shop's tab icons (Cat Club, Outfits, Offers) and its notices, painted on one sheet in the first UI sheet's style.
+
 ## 7. Known gaps and things for Josh's eye
 
 - **Small items were painted at furniture size.** The model draws whatever it is asked for large, so tabletop and small floor items (mug, kettle, alarm clock, slippers, snow globe, candle, cat bed, laundry basket…) come out as big as a chest of drawers. The sprites are high-resolution, so scaling down in code loses nothing: `assets/manifest.json` carries a `suggested_scale` for 78 such files (from `tools/asset-pipeline/scales.py`); carry it into `catalogue.json` and check each by eye in the room view.

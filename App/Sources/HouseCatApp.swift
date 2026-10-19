@@ -605,6 +605,7 @@ struct RoomScreen: View {
                     content: GameWorld.content,
                     tryLook: { visit.preview($0) },
                     addLook: { visit.addWholeRoom($0) },
+                    openPass: { showPass = true },
                     opening: shopOpening
                 )
                 .environment(\.controlFeedback, ControlFeedback { Sound.tap() })

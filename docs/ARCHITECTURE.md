@@ -167,6 +167,8 @@ Sharing never goes through SwiftData. It uses raw CloudKit records in custom zon
 
 Every group shows Leave, Remove member (the owner removes the participant from the share) and Report (emails safety@). No free text other than the cat's name, no leaderboards, no public map.
 
+**Co-owning as built (for 1.1).** Co-owning syncs the household's events both ways: CKSyncEngine over the owner's `Household` zone, shared zone-wide; the co-owner writes to it through their shared database. It does not use the inbox requests above. The reducer settles what each owner did (refused purchases, taken cells), and only events travel, never entitlements. Membership is in the save: `coOwnerJoined`, `coOwnerLeft` and the owner's `coOwnerRemoved`, so a former co-owner's later events count for nothing. Joining sets the joiner's own household aside on their device, and leaving brings it back; the two are never merged. The owner stops sharing by deleting the share; a co-owner leaves by deleting the shared zone from their shared database. Report opens a pre-filled mail to safety@ with the household's reference (`HouseholdReference`). Hide is a per-device preference. CLAUDE.md, "Co-owning for 1.1".
+
 ## 8. Testing
 
 - `swift test` in every package: HouseCatCore (rules, content validation), HouseCatModels (SwiftData store), HouseCatGame (grid maths, rig integrity, puppet build and hand-over, room build and draw order, cat spots, a full simulated arrival, exterior framing), HouseCatUI, HouseCatStore (entitlement mapping, product table, `.storekit` agreement). HouseCatGame's tests read the real `App/Art`.

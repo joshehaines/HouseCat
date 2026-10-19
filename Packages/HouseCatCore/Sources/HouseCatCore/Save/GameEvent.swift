@@ -127,6 +127,15 @@ public struct GameEvent: Codable, Hashable, Sendable, Identifiable {
         case groupJoined
         case giftSent
         case satForFriend
+
+        // Co-owning: who looks after the cat (`HouseholdState.owners`, CLAUDE.md "Leaving and removing")
+        /// The actor, a co-owner, joined: their first event after accepting an invite. Someone who left or was
+        /// removed counts again from here (a new invite).
+        case coOwnerJoined
+        /// The actor, a co-owner, left. The owner never leaves; they stop sharing.
+        case coOwnerLeft
+        /// The owner took a co-owner out (`key`, their actor key). From anyone but the owner it means nothing.
+        case coOwnerRemoved(key: String)
     }
 
     /// Whether this event counts as the day's visit.

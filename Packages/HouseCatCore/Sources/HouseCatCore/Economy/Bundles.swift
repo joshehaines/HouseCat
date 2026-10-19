@@ -173,7 +173,8 @@ public enum CoopQuest {
 
     /// This week's quest, or nil when only one person looks after the cat.
     public static func progress(_ state: HouseholdState) -> Progress? {
-        guard let week = state.week, week.visitsByOwner.count >= 2 || state.owners.count >= 2 else { return nil }
+        // Owners now: once a co-owner leaves the quest goes (their visits this week stay in the tally, unused).
+        guard let week = state.week, state.owners.count >= 2 else { return nil }
         var byOwner: [String: Int] = [:]
         for owner in state.owners {
             byOwner[owner] = week.visitsByOwner[owner, default: 0]
@@ -213,7 +214,11 @@ public enum FriendCode {
 
 /// How a household member is named on screen, from the actor key: a co-owner by the name they chose.
 public enum OwnerName {
-    public static func display(_ key: String, otherwise: String) -> String {
+    /// `hidden`: members this phone chose not to see by name (Hide, in the Together card); they show as `otherwise`.
+    public static func display(_ key: String, otherwise: String, hidden: Set<String> = []) -> String {
+        if hidden.contains(key) {
+            return otherwise
+        }
         if key.hasPrefix("co:") {
             return String(key.dropFirst(3))
         }

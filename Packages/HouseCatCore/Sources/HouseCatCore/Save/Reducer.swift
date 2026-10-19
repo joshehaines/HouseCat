@@ -13,6 +13,10 @@ extension HouseholdState {
             createdOn = event.day
             beansGranted += Tuning.Beans.housewarmingAllowance
         }
+        // Someone who left or was removed counts for nothing (an offline visit, a purchase) until they join again.
+        if formerOwners.contains(event.actor.key) {
+            guard case .coOwnerJoined = event.kind else { return }
+        }
         // A day already closed cannot reopen; late events land on the open day.
         let day = max(event.day, today?.day ?? event.day)
         advance(to: day, context: context)
@@ -36,6 +40,8 @@ extension HouseholdState {
             applyStreakAndPass(event, day: day, context: context)
         case .sundayCardShared, .pawPrintSent, .groupJoined, .giftSent, .satForFriend:
             applySocial(event, context: context)
+        case .coOwnerJoined, .coOwnerLeft, .coOwnerRemoved:
+            applyMembership(event)
         }
 
         checkAchievements(on: day, context: context)
@@ -341,6 +347,25 @@ extension HouseholdState {
             guard today?.satForFriend == false else { break }
             today?.satForFriend = true
             lifetime.sittingDays += 1
+        default:
+            break
+        }
+    }
+
+    /// Who looks after the cat. Leaving or being removed takes nothing away: the household keeps the streak, the
+    /// Beans, the furniture and the presents, and the visits already made still count. Only what comes after does not.
+    private mutating func applyMembership(_ event: GameEvent) {
+        switch event.kind {
+        case .coOwnerJoined:
+            formerOwners.remove(event.actor.key)
+        case .coOwnerLeft:
+            guard case .coOwner = event.actor else { break }
+            owners.remove(event.actor.key)
+            formerOwners.insert(event.actor.key)
+        case let .coOwnerRemoved(key):
+            guard event.actor == .owner, key != GameEvent.Actor.owner.key else { break }
+            owners.remove(key)
+            formerOwners.insert(key)
         default:
             break
         }

@@ -25,7 +25,8 @@ enum YourData {
 
     /// Deletes everything HouseCat keeps about the player, then starts again from the intro.
     static func deleteEverything() async {
-        // The household in iCloud (when sharing is on), then this phone's save.
+        // In iCloud, when sharing is on: out of any share this person joined (the cat they shared stays with its
+        // owner), and their own household zone. Then this phone's save, with any cat set aside while sharing.
         await HouseholdSync.deleteHousehold()
         GameSession.shared.eraseEverything()
         // What the widget reads.
@@ -122,7 +123,7 @@ struct YourDataCard: View {
                 Text("Your data").font(.headline)
             }
             Text(
-                "HouseCat has no account and no server. \(catName)'s home is kept on this device (and in your iCloud when you share it). You can take a copy or delete it all."
+                "HouseCat has no account and no server. \(catName)'s home is kept on this device\(HouseholdSync.isEnabled ? " (and in your iCloud when you share it)" : ""). You can take a copy or delete it all."
             )
             .font(.subheadline)
             .foregroundStyle(Theme.inkSoft)
@@ -159,9 +160,7 @@ struct YourDataCard: View {
             Button("Delete everything", role: .destructive) { finalCheck = true }
             Button("Keep it", role: .cancel) {}
         } message: {
-            Text(
-                "\(catName), the home, the Beans, the streak, the book and your settings on this device go, and the shared home in iCloud if you share it. Purchases stay with your Apple Account: Restore Purchases brings them back."
-            )
+            Text(deleteMessage)
         }
         .alert("This can't be undone", isPresented: $finalCheck) {
             Button("Delete", role: .destructive) {
@@ -177,6 +176,16 @@ struct YourDataCard: View {
             Text("Everything is deleted now and HouseCat starts again from the beginning.")
         }
         .sheet(isPresented: $credits) { CreditsView { credits = false } }
+    }
+
+    /// What goes; sharing is only mentioned once it is on.
+    private var deleteMessage: String {
+        let purchases = "Purchases stay with your Apple Account: Restore Purchases brings them back."
+        if HouseholdSync.isCoOwner {
+            return "You leave \(catName)'s home, which stays with its owner, and everything HouseCat keeps on this device goes: your own cat if one is waiting, your settings and your reminders. \(purchases)"
+        }
+        let shared = HouseholdSync.isEnabled ? ", and the shared home in iCloud if you share it" : ""
+        return "\(catName), the home, the Beans, the streak, the book and your settings on this device go\(shared). \(purchases)"
     }
 }
 

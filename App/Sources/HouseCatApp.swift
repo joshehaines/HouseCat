@@ -102,14 +102,34 @@ struct HouseCatApp: App {
                 choosingHome = nil
                 introducing = true
             }
-            // Someone's invite was opened on this phone.
+            // The household on this phone changed (it joined someone's cat, left it, or sharing ended): the first
+            // screen again, for the cat now in the save.
+            .onReceive(NotificationCenter.default.publisher(for: .houseCatSwitched)) { note in
+                invites.notice = note.userInfo?["notice"] as? String
+                visit = nil
+                adopting = nil
+                placing = nil
+                choosingHome = nil
+                introducing = GameSession.shared.cat == nil
+                if !introducing {
+                    visit = Visit(size: CGSize(width: 1024, height: 768), lastActive: nil)
+                }
+            }
+            // Someone's invite was opened on this phone; what happened to the household, once.
             .overlay {
                 if let metadata = invites.pending {
-                    ZStack {
-                        Color.black.opacity(0.4).ignoresSafeArea()
-                        JoinView(metadata: metadata) { invites.pending = nil }
-                            .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
-                            .padding(24)
+                    dimmed {
+                        JoinView { try await HouseholdSync.accept(metadata, as: $0) } done: { invites.pending = nil }
+                    }
+                } else if invites.debugJoin {
+                    #if DEBUG
+                        dimmed {
+                            JoinView { HouseholdSync.debugJoin(as: $0) } done: { invites.debugJoin = false }
+                        }
+                    #endif
+                } else if let notice = invites.notice {
+                    dimmed {
+                        SharingNotice(text: notice) { invites.notice = nil }
                     }
                 }
             }
@@ -150,12 +170,26 @@ struct HouseCatApp: App {
         }
     }
 
+    /// A card over everything, the screen dimmed behind it.
+    private func dimmed(@ViewBuilder _ content: () -> some View) -> some View {
+        ZStack {
+            Color.black.opacity(0.4).ignoresSafeArea()
+            content()
+                .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
+                .padding(24)
+        }
+    }
+
     /// The builder for a new player, else the visit.
     private func start() {
         guard visit == nil, adopting == nil else { return }
         HouseholdSync.start()
         WidgetBridge.importInbox()
         #if DEBUG
+            // HOUSECAT_SCREEN=join: the join card for someone else's cat (Mochi), with CloudKit off.
+            if ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"] == "join" {
+                invites.debugJoin = true
+            }
             // HOUSECAT_SCREEN=widgets: every widget size and pose, drawn as the widget draws them.
             if ["outfits", "puppets", "logo"].contains(ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"]) {
                 gallery = true

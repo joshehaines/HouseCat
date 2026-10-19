@@ -414,6 +414,8 @@ public enum Tuning {
         public static let privacyURL = URL(string: "https://housecatgame.com/privacy/")!
         public static let supportURL = URL(string: "https://housecatgame.com/support/")!
         public static let supportEmail = "support@housecatgame.com"
+        /// Where a co-owner's name or presents are reported (App Review 1.2; the Online Safety Act).
+        public static let safetyEmail = "safety@housecatgame.com"
         public static let manageSubscriptionsURL = URL(string: "https://apps.apple.com/account/subscriptions")!
         /// WeatherKit's legal page, until the service gives its own (it needs the capability).
         public static let weatherLegalURL = URL(string: "https://weatherkit.apple.com/legal-attribution.html")!
@@ -1195,7 +1197,7 @@ public enum Tuning {
         /// The shape of `HouseholdState` in a stored snapshot. Bump it whenever the state gains, loses or
         /// changes a field: an older snapshot is then ignored and the state refolded from the events, which
         /// are always kept (the snapshot is only a cache).
-        public static let snapshotVersion = 9
+        public static let snapshotVersion = 10
     }
 
     /// The stray (SPEC "The stray").

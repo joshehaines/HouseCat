@@ -252,6 +252,8 @@ public struct HouseholdState: Codable, Equatable, Sendable {
     public internal(set) var eventClaims: [String: Set<Int>] = [:]
     /// Who looks after the cat (actor keys: the owner and any co-owners; sitters are not owners).
     public internal(set) var owners: Set<String> = []
+    /// Co-owners who left or were removed: what they do afterwards is ignored until they join again.
+    public internal(set) var formerOwners: Set<String> = []
     /// Room looks granted, by transaction (each purchase grants once).
     public internal(set) var grantedBundles: [String: String] = [:]
     /// Outfits given by one owner to the cat for the other to find: outfit, from whom, when.

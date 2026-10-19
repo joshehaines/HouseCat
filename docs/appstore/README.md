@@ -152,7 +152,7 @@ The Apple Watch app and widgets show the cat, its mood and the streak; the Watch
 - **PostHog analytics**: same choice. Empty means no analytics and no switch in Settings.
 - **Season dates**: the first season (Housewarming) is set for 2 Nov 2026 to 1 Dec 2026, marked provisional. The Pass stays out of the menu until a season starts.
 - **Mac menu-bar cat**: leave it out of 1.0. It has no App Sandbox and can't reach the iPhone's cat, so review would reject it under minimum functionality. To ship it later, it needs the sandbox, the App Group and a privacy manifest.
-- **Co-owning**: to ship it later, it needs the iCloud container on the App ID, `HouseCatCloudKit` set to true, and Leave, Remove and Report controls (App Review 1.2). Co-owner names already go through the name filter.
+- **Co-owning**: left out of 1.0 and planned for 1.1. Leave, Stop sharing, Hide and Report are built (19 Oct). Co-owner names go through the name filter. To ship it, it needs the iCloud container on the App ID, `HouseCatCloudKit` set to true and two-phone testing (CLAUDE.md, "To switch sharing on"). The website and App Store Connect lines it needs are in `sharing-1.1.md`.
 
 ### Website (Hostinger)
 

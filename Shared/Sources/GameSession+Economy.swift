@@ -64,10 +64,31 @@ extension GameSession {
         state(at: now()).owners.count >= 2
     }
 
-    /// Outfits another owner gave the cat since this phone last looked (for the present at arrival).
+    /// Outfits another owner gave the cat since this phone last looked (for the present at arrival); none from
+    /// someone hidden on this phone (the outfit is still in the wardrobe).
     func unopenedGifts(since date: Date?) -> [OutfitGift] {
         let me = HouseholdSync.actor.key
-        return state(at: now()).outfitGifts.filter { $0.from != me && $0.at > (date ?? .distantPast) }
+        let hidden = HouseholdSync.hidden
+        return state(at: now()).outfitGifts.filter { $0.from != me && !hidden.contains($0.from) && $0.at > (date ?? .distantPast) }
+    }
+
+    /// The other owner, as this phone sees them (a debug run with nobody else makes up Sam).
+    var otherOwner: String? {
+        let state = state(at: now())
+        if let other = state.otherOwners(than: HouseholdSync.actor.key).first {
+            return other
+        }
+        #if DEBUG
+            if ["together", "present"].contains(ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"]) {
+                return "co:Sam"
+            }
+        #endif
+        return nil
+    }
+
+    /// The household's reference for a report (`HouseholdReference`).
+    var householdReference: String {
+        HouseholdReference.code(seed: state(at: now()).seed)
     }
 
     // MARK: Room looks
@@ -259,9 +280,10 @@ extension GameSession {
         return sent < Tuning.Coop.pawPrintsPerDay
     }
 
-    /// Who else looks after the cat, by name, for "from Sam" (the owner, seen from a co-owner's phone, by role).
+    /// Who else looks after the cat, by name, for "from Sam" (the owner, seen from a co-owner's phone, by role;
+    /// someone hidden on this phone, the same way).
     func otherOwnerName(_ key: String) -> String {
-        OwnerName.display(key, otherwise: "\(cat?.name ?? "Your cat")'s other owner")
+        OwnerName.display(key, otherwise: "\(cat?.name ?? "Your cat")'s other owner", hidden: HouseholdSync.hidden)
     }
 
     /// A paw print for the other owner: a nudge, never a nag (they see it at their next visit).
@@ -270,11 +292,13 @@ extension GameSession {
         Sound.play("cat_trill", volume: Tuning.Sound.meow)
     }
 
-    /// Paw prints the other owner sent since this phone last looked, by sender.
+    /// Paw prints the other owner sent since this phone last looked, by sender (none from someone hidden here).
     func pawPrints(since date: Date?) -> [String: Int] {
         let me = HouseholdSync.actor.key
+        // Nor from someone who has left or was removed.
+        let skip = HouseholdSync.hidden.union(state(at: now()).formerOwners)
         var from: [String: Int] = [:]
-        for event in log.events where event.at > (date ?? .distantPast) && event.actor.key != me {
+        for event in log.events where event.at > (date ?? .distantPast) && event.actor.key != me && !skip.contains(event.actor.key) {
             if case .pawPrintSent = event.kind {
                 from[event.actor.key, default: 0] += 1
             }

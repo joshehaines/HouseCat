@@ -36,6 +36,8 @@ struct TogetherCard: View {
     let close: () -> Void
     @State private var quest = Self.progress
     @State private var canSend = GameSession.shared.canSendPawPrint
+    @State private var other = GameSession.shared.otherOwner
+    @State private var hidden = HouseholdSync.hidden
     @Environment(\.controlFeedback) private var feedback
 
     var body: some View {
@@ -61,6 +63,11 @@ struct TogetherCard: View {
                 .disabled(!canSend)
                 HUDButton("Give a present", icon: "gift_box_with_a_ribbon", action: givePresent)
             }
+            if let other {
+                // Hide, Report, and Stop sharing or Leave (App Review 1.2).
+                Divider()
+                SharingControls(catName: catName, other: other, hidden: $hidden, changed: close)
+            }
         }
         .padding(20)
         .frame(maxWidth: 560)
@@ -79,7 +86,6 @@ struct TogetherCard: View {
     }
 
     private func questView(_ quest: CoopQuest.Progress) -> some View {
-        let session = GameSession.shared
         let me = HouseholdSync.actor.key
         return VStack(alignment: .leading, spacing: 8) {
             HStack {
@@ -95,7 +101,8 @@ struct TogetherCard: View {
                 HStack(spacing: 6) {
                     Image(systemName: visits >= Tuning.Coop.questMinimumEach ? "checkmark.circle.fill" : "circle")
                         .foregroundStyle(visits >= Tuning.Coop.questMinimumEach ? Theme.accent : Theme.inkSoft)
-                    Text(key == me ? "You" : session.otherOwnerName(key)).font(.subheadline.weight(.semibold))
+                    Text(key == me ? "You" : OwnerName.display(key, otherwise: "\(catName)'s other owner", hidden: hidden))
+                        .font(.subheadline.weight(.semibold))
                     Spacer()
                     Text("\(visits) \(visits == 1 ? "day" : "days")").font(.subheadline.monospacedDigit()).foregroundStyle(Theme.inkSoft)
                 }
@@ -155,6 +162,13 @@ struct PresentCard: View {
                 .foregroundStyle(Theme.inkSoft)
             if opened {
                 ChunkyButton("Lovely", action: close)
+                ReportButton(
+                    about: [.present, .other],
+                    reported: OwnerName.display(gift.from, otherwise: "\(catName)'s owner"),
+                    catName: catName,
+                    present: outfit?.name ?? gift.outfitID,
+                    compact: true
+                )
             }
         }
         .padding(22)

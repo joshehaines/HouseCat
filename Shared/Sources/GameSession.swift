@@ -138,8 +138,9 @@ final class GameSession {
         fold()
     }
 
-    /// Events made outside the app (the widget's Feed and Pet, Siri's, the Watch's), into the save once each.
-    func importEvents(_ events: [GameEvent]) {
+    /// Events made outside the app (the widget's Feed and Pet, Siri's, the Watch's), into the save once each;
+    /// `fromCloud` for the other owner's, which CloudKit already has.
+    func importEvents(_ events: [GameEvent], fromCloud: Bool = false) {
         let known = Set(log.events.map(\.id))
         let horizon = log.snapshot?.lastEventAt ?? .distantPast
         let new = events.filter { !known.contains($0.id) && $0.at > horizon }
@@ -147,10 +148,15 @@ final class GameSession {
         log.merge(new)
         try? store?.append(contentsOf: new)
         WidgetBridge.changed()
-        // These taps go up to the co-owner too (events from CloudKit are already there).
-        for event in new where [.widget, .siri, .watch].contains(event.source) {
+        // This phone's widget, Siri and Watch taps go up to the co-owner too.
+        for event in new where !fromCloud && [.widget, .siri, .watch].contains(event.source) {
             HouseholdSync.queue(event)
         }
+    }
+
+    /// One event of the save, by id (what the household's sync sends up).
+    func event(_ id: UUID) -> GameEvent? {
+        log.events.last { $0.id == id }
     }
 
     private static let bootID: String = {
@@ -682,16 +688,77 @@ final class GameSession {
         return try encoder.encode(export)
     }
 
-    /// Wipes the save on this device and starts a new, empty household ("Delete all my data").
+    /// Wipes the save on this device and starts a new, empty household ("Delete all my data"), with any household
+    /// set aside while sharing someone else's cat.
     func eraseEverything() {
         do {
             try store?.deleteEverything()
         } catch {
             NSLog("HouseCat: deleting the save failed: %@", "\(error)")
         }
+        if let url = Self.setAsideURL {
+            try? FileManager.default.removeItem(at: url)
+        }
         log = SaveLog()
         folded = nil
         seedDemoHousehold()
+    }
+
+    // MARK: Sharing someone else's cat
+
+    /// Where this phone's own household waits while its player co-owns someone else's cat (CLAUDE.md "Leaving and
+    /// removing"): the whole log as JSON, on this device only.
+    static var setAsideURL: URL? {
+        FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first?
+            .appendingPathComponent("HouseCat", isDirectory: true)
+            .appendingPathComponent("own-household.json")
+    }
+
+    /// The cat waiting on this device while its player shares another, by name.
+    var setAsideCatName: String? {
+        guard let url = Self.setAsideURL, let data = try? Data(contentsOf: url),
+              let own = try? JSONDecoder().decode(SaveLog.self, from: data) else { return nil }
+        return own.derive(context: rules).cat(Self.catID)?.name
+    }
+
+    /// Joining someone's cat: this phone's own household, if it has a cat, is set aside (never merged: both
+    /// households' cats have the same id), and the save becomes the shared household's events. Nothing is sent
+    /// anywhere; the caller switches who this phone is and starts the sync.
+    func joinShared(_ events: [GameEvent]) throws {
+        if cat != nil, let url = Self.setAsideURL, !FileManager.default.fileExists(atPath: url.path) {
+            try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+            try JSONEncoder().encode(SaveLog(events: log.events)).write(to: url, options: .atomic)
+        }
+        try store?.deleteEverything()
+        log = SaveLog()
+        folded = nil
+        log.merge(events)
+        try store?.append(contentsOf: log.events)
+        WidgetBridge.changed()
+    }
+
+    /// Back to this phone's own household after leaving someone's cat (or being removed): the shared household's
+    /// events go from this phone (they stay in the owner's iCloud) and the cat set aside comes back, its streak
+    /// as the days away left it. With none set aside the save starts empty and the intro runs, as for a new player.
+    /// Returns the cat that came back.
+    @discardableResult
+    func returnToOwnHousehold() -> String? {
+        try? store?.deleteEverything()
+        log = SaveLog()
+        folded = nil
+        var restored: String?
+        if let url = Self.setAsideURL, let data = try? Data(contentsOf: url),
+           let own = try? JSONDecoder().decode(SaveLog.self, from: data)
+        {
+            log.merge(own.events)
+            try? store?.append(contentsOf: log.events)
+            try? FileManager.default.removeItem(at: url)
+            restored = cat?.name
+        } else {
+            seedDemoHousehold()
+        }
+        WidgetBridge.changed()
+        return restored
     }
 
     private func seedDemoHousehold() {

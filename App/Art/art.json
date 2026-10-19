@@ -11184,6 +11184,90 @@
    ],
    "scale": 0.4
   },
+  "ui/icon_way_box.png": {
+   "master": [
+    450,
+    402
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_way_bun.png": {
+   "master": [
+    406,
+    387
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_way_cat_tree.png": {
+   "master": [
+    327,
+    471
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_way_chatter.png": {
+   "master": [
+    398,
+    359
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_way_cushion.png": {
+   "master": [
+    423,
+    334
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_way_loaf.png": {
+   "master": [
+    436,
+    383
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_way_owl.png": {
+   "master": [
+    446,
+    446
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_way_robin.png": {
+   "master": [
+    421,
+    411
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_way_slippers.png": {
+   "master": [
+    468,
+    391
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_way_sun.png": {
+   "master": [
+    444,
+    443
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_way_sunrise.png": {
+   "master": [
+    435,
+    398
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_way_window.png": {
+   "master": [
+    402,
+    432
+   ],
+   "scale": 0.4
+  },
   "ui/icon_weather_sun_and_cloud.png": {
    "master": [
     436,
@@ -11197,6 +11281,29 @@
     392
    ],
    "scale": 0.4
+  },
+  "ui/profile/panel_paper.jpg": {
+   "master": [
+    1024,
+    1024
+   ],
+   "scale": 0.5
+  },
+  "ui/profile/profile_corner_fire.jpg": {
+   "file": "ui/profile/profile_corner_fire.heic",
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 1.0
+  },
+  "ui/profile/profile_corner_sun.jpg": {
+   "file": "ui/profile/profile_corner_sun.heic",
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 1.0
   },
   "ui/shop/shop_adopt.png": {
    "file": "ui/shop/shop_adopt.heic",

@@ -48,6 +48,8 @@ public struct CatProfile: Equatable, Sendable {
     public var longestStreak: Int
     /// The cat's own ways in words (`CatIdentity.ways`).
     public var ways: [String] = []
+    /// The ways themselves (its favourite spot, quirks and hours), for the profile's pictures of them.
+    public var identity: CatIdentity?
     /// How content it is, and the thing it would love most next (`Wellbeing`), when the catalogue is known.
     public var contentment: Contentment?
     public var wouldLove: Want?
@@ -94,6 +96,7 @@ public extension HouseholdState {
             currentStreak: streak.current,
             longestStreak: streak.longest,
             ways: identity.ways,
+            identity: identity,
             contentment: wellbeing?.level,
             wouldLove: wellbeing?.wants.first
         )

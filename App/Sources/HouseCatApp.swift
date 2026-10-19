@@ -635,6 +635,8 @@ struct RoomScreen: View {
                         profile: info.profile,
                         portrait: CatScreens.portrait(info.profile.look),
                         xp: info.xp,
+                        corner: CatScreens.profileCorner(),
+                        levelTitle: GameSession.shared.levelInfo.title,
                         editLook: {
                             showProfile = false
                             editing = CatScreens.builder(mode: .edit)
@@ -1113,9 +1115,11 @@ struct RoomScreen: View {
                 storey: room.storey,
                 title: Visit.title(of: room.id, upstairs: room.storey > 0),
                 lock: room.lockLabel.map { _ in
-                    "Lv \(room.id.requiredLevel) · \(RoomRules.cost(of: room.id, clubActive: false).formatted()) Beans"
+                    RoomMenu.Lock(level: room.id.requiredLevel, beans: RoomRules.cost(of: room.id, clubActive: false))
                 },
+                wall: room.model.wall,
                 floor: room.model.floor,
+                outdoor: room.outdoor,
                 here: room.id == visit.activeRoom,
                 catHere: room.id == house.catRoom
             )

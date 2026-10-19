@@ -51,6 +51,10 @@ SETS = [
     # The cat creator's dressing room (the cat stands on its podium) and the fur swatch tinted to each coat colour.
     ('ui/creator/creator_room.jpg', 1.0),
     ('ui/creator/creator_fur_swatch.png', 0.25),
+    # The corner the cat sits in on its profile (the sunny window by day, the fireside from dusk) and the paper the
+    # profile's and the room menu's panels are printed on.
+    ('ui/profile/profile_corner_*.jpg', 1.0),
+    ('ui/profile/panel_paper.jpg', 0.5),
     # The gifts the cat brings, for the room and the book.
     ('gifts/gift_*.png', 0.3),
     # The exterior: the demo home's painted scenes in every biome and season (door closed and open), and every
@@ -83,7 +87,8 @@ DATA = ['cat/rig.json', 'rooms/layout_living_demo.json', 'rooms/houses.json', 'f
 
 # Opaque pictures are written as HEIC (half the size of JPEG for the same look); the index maps the master's path
 # to the file, so the data and the game keep using the masters' names.
-HEIC = ('world/scenes/', 'rooms/walls/', 'rooms/floors/', 'world/ground/', 'world/map/map_painted', 'ui/creator/creator_room')
+HEIC = ('world/scenes/', 'rooms/walls/', 'rooms/floors/', 'world/ground/', 'world/map/map_painted', 'ui/creator/creator_room',
+        'ui/profile/profile_corner')
 HEIC_QUALITY = '70'
 # Cut-outs go in as HEIC with their transparency too (four to seven times smaller than PNG; keeps the app's
 # download under 200 MB), at a higher quality for clean edges. Not the cat's sprites and masks, the light maps,

@@ -120339,6 +120339,111 @@
     2688,
     1520
    ]
+  },
+  "ui/icon_way_box.png": {
+   "class": "ui",
+   "px": [
+    450,
+    402
+   ]
+  },
+  "ui/icon_way_bun.png": {
+   "class": "ui",
+   "px": [
+    406,
+    387
+   ]
+  },
+  "ui/icon_way_cat_tree.png": {
+   "class": "ui",
+   "px": [
+    327,
+    471
+   ]
+  },
+  "ui/icon_way_chatter.png": {
+   "class": "ui",
+   "px": [
+    398,
+    359
+   ]
+  },
+  "ui/icon_way_cushion.png": {
+   "class": "ui",
+   "px": [
+    423,
+    334
+   ]
+  },
+  "ui/icon_way_loaf.png": {
+   "class": "ui",
+   "px": [
+    436,
+    383
+   ]
+  },
+  "ui/icon_way_owl.png": {
+   "class": "ui",
+   "px": [
+    446,
+    446
+   ]
+  },
+  "ui/icon_way_robin.png": {
+   "class": "ui",
+   "px": [
+    421,
+    411
+   ]
+  },
+  "ui/icon_way_slippers.png": {
+   "class": "ui",
+   "px": [
+    468,
+    391
+   ]
+  },
+  "ui/icon_way_sun.png": {
+   "class": "ui",
+   "px": [
+    444,
+    443
+   ]
+  },
+  "ui/icon_way_sunrise.png": {
+   "class": "ui",
+   "px": [
+    435,
+    398
+   ]
+  },
+  "ui/icon_way_window.png": {
+   "class": "ui",
+   "px": [
+    402,
+    432
+   ]
+  },
+  "ui/profile/panel_paper.jpg": {
+   "class": "ui/profile",
+   "px": [
+    1024,
+    1024
+   ]
+  },
+  "ui/profile/profile_corner_fire.jpg": {
+   "class": "ui/profile",
+   "px": [
+    2688,
+    1520
+   ]
+  },
+  "ui/profile/profile_corner_sun.jpg": {
+   "class": "ui/profile",
+   "px": [
+    2688,
+    1520
+   ]
   }
  }
 }

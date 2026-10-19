@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "note": "The scenery round the house, by biome (Josh, 18 Oct: the outside shows the place the player picked). Tall pieces stand only behind the house. width is cells on the ground; seasons lists the pictures a piece has besides its summer one (world/props/<biome>_<id>_<season>.png): winter on snow and in winter, autumn in autumn. Placement: OutdoorRules and Tuning.Outdoors. sprite is a picture from elsewhere (a garden piece of the catalogue's), the same all year and put away under snow; sway is how much it bends in the wind (0 to 1); blossom drops petals in spring (a tree with an autumn picture drops leaves in autumn).",
+  "note": "The scenery round the house, by biome (Josh, 18 Oct: the outside shows the place the player picked). Tall pieces stand only behind the house. width is cells on the ground; seasons lists the pictures a piece has besides its summer one (world/props/<biome>_<id>_<season>.png): winter on snow and in winter, autumn in autumn. Placement: OutdoorRules and Tuning.Outdoors. sprite is a picture from elsewhere (a garden piece of the catalogue's), the same all year and put away under snow; sway is how much it bends in the wind (0 to 1); blossom drops petals in spring (a tree with an autumn picture drops leaves in autumn). A city has a street behind the house (streets: how far behind the plot, how wide): its row of buildings across the road, cars at the far kerb and things on the near pavement (place), with traffic along it.",
   "biomes": {
     "countryside": [
       { "id": "oak", "tall": true, "weight": 4, "width": 3.2, "seasons": ["autumn", "winter"], "sway": 0.7 },
@@ -19,7 +19,15 @@
       { "id": "lamp", "tall": true, "weight": 1, "width": 0.8, "seasons": ["winter"] },
       { "id": "planter", "tall": false, "weight": 3, "width": 1.2, "seasons": ["winter"], "sway": 0.3 },
       { "id": "bench", "tall": false, "weight": 2, "width": 1.5, "seasons": [], "sprite": "furniture/garden/furn_garden_bench_R.png" },
-      { "id": "flowerpots", "tall": false, "weight": 1, "width": 1.0, "seasons": [], "sprite": "furniture/garden/furn_garden_flowerpots_R.png", "sway": 0.3 }
+      { "id": "flowerpots", "tall": false, "weight": 1, "width": 1.0, "seasons": [], "sprite": "furniture/garden/furn_garden_flowerpots_R.png", "sway": 0.3 },
+      { "id": "terraces", "tall": true, "weight": 3, "width": 6.0, "seasons": [], "place": "row" },
+      { "id": "cafe", "tall": true, "weight": 1, "width": 3.0, "seasons": [], "place": "row" },
+      { "id": "car_red", "tall": false, "weight": 2, "width": 1.8, "seasons": [], "place": "kerb" },
+      { "id": "car_blue", "tall": false, "weight": 1, "width": 2.0, "seasons": [], "place": "kerb" },
+      { "id": "car_cream", "tall": false, "weight": 2, "width": 1.7, "seasons": [], "place": "kerb" },
+      { "id": "busstop", "tall": true, "weight": 1, "width": 2.0, "seasons": [], "place": "pavement" },
+      { "id": "postbox", "tall": false, "weight": 2, "width": 0.6, "seasons": [], "place": "pavement" },
+      { "id": "phonebox", "tall": true, "weight": 1, "width": 0.9, "seasons": [], "place": "pavement" }
     ],
     "coast": [
       { "id": "pine", "tall": true, "weight": 4, "width": 3.0, "seasons": ["winter"], "sway": 0.6 },
@@ -65,5 +73,8 @@
       { "id": "snowman", "tall": false, "weight": 1, "width": 1.0, "seasons": [] },
       { "id": "rock", "tall": false, "weight": 3, "width": 1.3, "seasons": [] }
     ]
+  },
+  "streets": {
+    "city": {"offset": 5.0, "width": 3.2}
   }
 }

@@ -240,3 +240,38 @@ private struct World {
     #expect(scene.world.childNode(withName: "cloudShadows") != nil, "cloud shadows on a fine day")
     #expect(RoomScene.wind(.storm) > RoomScene.wind(.rain) && RoomScene.wind(.rain) > RoomScene.wind(.sun))
 }
+
+/// A city home has a street behind it (Josh, 19 Oct: a city should look like a city): a road the scenery keeps off,
+/// terraces and a cafe across it, cars parked at its far kerb, a bus shelter, post box or phone box on the near
+/// pavement, and the road drawn under it all; the country has none.
+@MainActor
+@Test func aCityHomeHasItsStreet() throws {
+    let world = try World()
+    let place = HomePlace(name: "Elephant and Castle", latitude: 51.4946, longitude: -0.1003, timeZoneID: "Europe/London", biome: .city)
+    let now = HomeNow(place: place, biome: .city, season: .summer, sky: .day, weather: .sun, localMinutes: 720)
+    let house = try #require(HouseBuilder.house(
+        style: .londonTerrace, plans: world.plans, layout: world.layout, state: world.state(),
+        catalogue: world.content.catalogue, now: now, outdoors: world.content.outdoors
+    ))
+    let street = try #require(house.street)
+    let places = Dictionary(uniqueKeysWithValues: world.content.outdoors.props(.city).map { ($0.id, $0.place) })
+    let row = house.scenery.filter { places[$0.prop] == "row" }
+    let kerb = house.scenery.filter { places[$0.prop] == "kerb" }
+    #expect(row.count >= 3 && row.allSatisfy { $0.v < street.v - street.width / 2 }, "buildings across the road")
+    #expect(!kerb.isEmpty && kerb.allSatisfy { abs($0.v - street.kerb) < 0.01 }, "cars at the kerb")
+    #expect(house.scenery.contains { places[$0.prop] == "pavement" })
+    for piece in house.scenery where places[piece.prop] == nil {
+        #expect(abs(piece.v - street.v) > street.width / 2, "\(piece.prop) keeps off the road")
+    }
+    for piece in house.scenery {
+        #expect(world.art.has(piece.sprite), "\(piece.sprite) is bundled")
+    }
+    let scene = RoomScene(size: CGSize(width: 1366, height: 1024), art: world.art, content: world.content, house: house)
+    #expect(scene.world.childNode(withName: "street") != nil)
+    let country = HomeNow(place: place, biome: .countryside, season: .summer, sky: .day, weather: .sun, localMinutes: 720)
+    let farm = try #require(HouseBuilder.house(
+        style: .londonTerrace, plans: world.plans, layout: world.layout, state: world.state(),
+        catalogue: world.content.catalogue, now: country, outdoors: world.content.outdoors
+    ))
+    #expect(farm.street == nil)
+}

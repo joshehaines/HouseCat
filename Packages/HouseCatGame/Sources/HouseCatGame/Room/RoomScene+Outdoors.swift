@@ -97,10 +97,11 @@ extension RoomScene {
         return emitter
     }
 
-    /// Cloud shadows on a fine day, and the odd flock of birds by day.
+    /// The street behind a city house with its traffic, cloud shadows on a fine day, and the odd flock of birds by day.
     func startSkyLife() {
         world.childNode(withName: "cloudShadows")?.removeFromParent()
         removeAction(forKey: "birds")
+        buildStreet()
         let (weather, _) = outside
         let fine = [Weather.sun, .heat, .wind].contains(weather)
         if fine, house.sky == .day {
@@ -113,6 +114,87 @@ extension RoomScene {
                 .run { [weak self] in self?.flyBirds() },
             ])), withKey: "birds")
         }
+    }
+
+    /// The sky's grade, as the scenery is graded.
+    private var grade: SKColor {
+        let rgb = Tuning.Sky.grade[house.sky] ?? [1, 1, 1]
+        return SKColor(red: rgb[0], green: rgb[1], blue: rgb[2], alpha: 1)
+    }
+
+    /// A colour in the sky's light.
+    private func graded(_ rgb: [Double], alpha: CGFloat = 1) -> SKColor {
+        let sky = Tuning.Sky.grade[house.sky] ?? [1, 1, 1]
+        return SKColor(red: rgb[0] * sky[0], green: rgb[1] * sky[1], blue: rgb[2] * sky[2], alpha: alpha)
+    }
+
+    /// A city's road behind the house (Josh, 19 Oct: a city should look like a city): asphalt between stone kerbs
+    /// with a dashed line down the middle, on the ground under everything, and cars driving along it now and then.
+    private func buildStreet() {
+        world.childNode(withName: "street")?.removeFromParent()
+        removeAction(forKey: "traffic")
+        guard let street = house.street else { return }
+        let t = Tuning.Outdoors.self
+        let layer = SKNode()
+        layer.name = "street"
+        layer.zPosition = -CGFloat(Tuning.House.storeyBand) + 5
+        world.addChild(layer)
+        func strip(_ back: Double, _ front: Double, from: Double, to: Double, color: SKColor) {
+            let path = CGMutablePath()
+            path.addLines(between: [
+                grid.floor(CGFloat(from), CGFloat(back)), grid.floor(CGFloat(to), CGFloat(back)),
+                grid.floor(CGFloat(to), CGFloat(front)), grid.floor(CGFloat(from), CGFloat(front)),
+            ])
+            path.closeSubpath()
+            let shape = SKShapeNode(path: path)
+            shape.fillColor = color
+            shape.strokeColor = .clear
+            layer.addChild(shape)
+        }
+        let half = street.width / 2
+        strip(street.v - half - t.kerbWidth, street.v + half + t.kerbWidth, from: street.from, to: street.to, color: graded(t.kerbColor))
+        strip(street.v - half, street.v + half, from: street.from, to: street.to, color: graded(t.roadColor))
+        var u = street.from
+        while u < street.to {
+            strip(street.v - 0.06, street.v + 0.06, from: u, to: u + 1, color: graded(t.lineColor, alpha: 0.85))
+            u += 2.2
+        }
+        // The traffic is the street's own cars, the ones parked along its kerb.
+        let cars = Array(Set(house.scenery.filter { $0.prop.hasPrefix("car_") }.map(\.sprite))).sorted()
+        guard !cars.isEmpty else { return }
+        run(.repeatForever(.sequence([
+            .run { [weak self] in self?.drive(cars.randomElement() ?? cars[0], along: street) },
+            .wait(forDuration: t.trafficEvery, withRange: t.trafficEvery),
+        ])), withKey: "traffic")
+    }
+
+    /// A car along the street's near lane, from one end to the other, kept in its place among the scenery.
+    private func drive(_ sprite: String, along street: OutdoorStreet) {
+        let t = Tuning.Outdoors.self
+        let painted = art.paintedSize(sprite)
+        guard painted.width > 0 else { return }
+        let width = CGFloat(t.carCells) * grid.cellHalfWidth * 2
+        let car = SKSpriteNode(texture: art.texture(sprite), size: CGSize(width: width, height: width * painted.height / painted.width))
+        car.anchorPoint = CGPoint(x: 0.5, y: 0.12)
+        car.color = grade
+        car.colorBlendFactor = 1
+        let shadow = SKShapeNode(ellipseOf: CGSize(width: width * 0.8, height: width * 0.3))
+        shadow.fillColor = SKColor(white: 0, alpha: CGFloat(Tuning.Outdoors.shadowAlpha))
+        shadow.strokeColor = .clear
+        shadow.zPosition = -1
+        car.addChild(shadow)
+        world.addChild(car)
+        let band = CGFloat(Tuning.House.storeyBand) / 2
+        let seconds = (street.to - street.from) / t.carSpeed
+        let grid = grid
+        car.run(.sequence([
+            .customAction(withDuration: seconds) { node, elapsed in
+                let u = CGFloat(street.from + (street.to - street.from) * Double(elapsed) / seconds)
+                node.position = grid.floor(u, CGFloat(street.lane))
+                node.zPosition = -band + grid.depth(u, CGFloat(street.lane))
+            },
+            .removeFromParent(),
+        ]))
     }
 
     /// A few soft shadows drifting across the ground with the wind, back round again once past the house.

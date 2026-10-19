@@ -23,13 +23,41 @@ public struct OutdoorsFile: Codable, Sendable {
         public var sway: Double?
         /// It blossoms in spring: petals drift from it, as leaves drift from a tree with an autumn picture.
         public var blossom: Bool?
+        /// Where it goes on a street (a city's): "row" the buildings across the road, "kerb" a car parked at the far
+        /// kerb, "pavement" the near pavement (a bus shelter, a post box); nil, anywhere about the plot.
+        public var place: String?
+    }
+
+    /// A street behind the house (Josh, 19 Oct: a city should look like a city): a road along the plot this many
+    /// cells behind it, this wide, with the buildings across it and the traffic along it.
+    public struct Street: Codable, Sendable, Hashable {
+        public var offset: Double
+        public var width: Double
     }
 
     public var version: Int
     public var biomes: [String: [Prop]]
+    public var streets: [String: Street]?
 
     public func props(_ biome: Biome) -> [Prop] {
         biomes[biome.rawValue] ?? []
+    }
+}
+
+/// The road behind the house: along u at `v`, `width` cells across, from `from` to `to`; traffic drives along `lane`
+/// towards larger u, cars park along `kerb`.
+public struct OutdoorStreet: Equatable, Sendable {
+    public var v: Double
+    public var width: Double
+    public var from: Double
+    public var to: Double
+
+    public var lane: Double {
+        v + width * 0.2
+    }
+
+    public var kerb: Double {
+        v - width * 0.3
     }
 }
 
@@ -68,6 +96,15 @@ public enum OutdoorRules {
         return "world/props/\(biome.rawValue)_\(prop.id)\(suffix).png"
     }
 
+    /// The street behind a plot, for a biome that has one.
+    public static func street(biome: Biome, rooms: [(u: Double, v: Double)], file: OutdoorsFile) -> OutdoorStreet? {
+        guard let street = file.streets?[biome.rawValue], !rooms.isEmpty else { return nil }
+        let cells = Double(Tuning.Room.gridWidth), reach = Tuning.Outdoors.reach
+        let minU = rooms.map(\.u).min() ?? 0, maxU = (rooms.map(\.u).max() ?? 0) + cells
+        let minV = rooms.map(\.v).min() ?? 0
+        return OutdoorStreet(v: minV - street.offset, width: street.width, from: minU - reach * 1.5, to: maxU + reach * 1.5)
+    }
+
     /// Where the scenery stands round a plot of rooms (each a square of `Tuning.Room.gridWidth` cells from its
     /// corner), laid out once from the household's seed: the same home always has the same garden. Pieces keep a
     /// margin from every room and room from each other; tall ones only behind the house.
@@ -97,14 +134,23 @@ public enum OutdoorRules {
             }
         }
         var pieces: [OutdoorPiece] = []
-        for _ in 0 ..< t.attempts where pieces.count < t.count {
+        let street = street(biome: biome, rooms: rooms, file: file)
+        if let street {
+            pieces = streetPieces(street, props: props, biome: biome, season: season, snowy: snowy, unit: unit)
+        }
+        let free = props.filter { $0.place == nil }
+        let freeTotal = free.map(\.weight).reduce(0, +)
+        let target = pieces.count + t.count
+        for _ in 0 ..< t.attempts where pieces.count < target {
             let u = minU - t.reach + unit() * (maxU - minU + 2 * t.reach)
             let v = minV - t.reach + unit() * (maxV - minV + 2 * t.reach)
-            var pick = rng.below(total)
-            guard let prop = props.first(where: { pick -= $0.weight; return pick < 0 }) else { continue }
+            guard freeTotal > 0 else { break }
+            var pick = rng.below(freeTotal)
+            guard let prop = free.first(where: { pick -= $0.weight; return pick < 0 }) else { continue }
             let width = prop.width * (1 - t.sizeVariation + 2 * t.sizeVariation * unit())
             let behind = u < minU - t.margin || v < minV - t.margin
-            guard clearOfRooms(u, v, width / 2), !prop.tall || behind else { continue }
+            let offRoad = street.map { abs(v - $0.v) > $0.width / 2 + width / 2 + 0.6 } ?? true
+            guard clearOfRooms(u, v, width / 2), !prop.tall || behind, offRoad else { continue }
             let spaced = pieces.allSatisfy { other in
                 let du = other.u - u, dv = other.v - v
                 return (du * du + dv * dv).squareRoot() >= (other.width + width) / 2 * t.spacing
@@ -132,5 +178,53 @@ public enum OutdoorRules {
         }
         // A garden piece is laid out all year, so everything else keeps its place, and put away under snow.
         return snowy ? pieces.filter { piece in props.first { $0.id == piece.prop }?.sprite == nil } : pieces
+    }
+
+    /// The street's own pieces: the buildings in a row across the road, cars parked here and there along its far kerb,
+    /// and a few things on the near pavement, each picked by weight from its place's props.
+    private static func streetPieces( // swiftlint:disable:this function_parameter_count
+        _ street: OutdoorStreet,
+        props: [OutdoorsFile.Prop],
+        biome: Biome,
+        season: NatureSeason,
+        snowy: Bool,
+        unit: () -> Double
+    ) -> [OutdoorPiece] {
+        func pick(_ place: String) -> OutdoorsFile.Prop? {
+            let choices = props.filter { $0.place == place }
+            let total = choices.map(\.weight).reduce(0, +)
+            guard total > 0 else { return nil }
+            var left = unit() * Double(total)
+            return choices.first { left -= Double($0.weight); return left < 0 } ?? choices.last
+        }
+        func piece(_ prop: OutdoorsFile.Prop, u: Double, v: Double) -> OutdoorPiece {
+            OutdoorPiece(
+                prop: prop.id,
+                sprite: sprite(prop, biome: biome, season: season, snowy: snowy),
+                u: u,
+                v: v,
+                width: prop.width,
+                tall: prop.tall,
+                behind: true,
+                sway: prop.sway ?? 0
+            )
+        }
+        var pieces: [OutdoorPiece] = []
+        var u = street.from
+        while u < street.to, let prop = pick("row") {
+            pieces.append(piece(prop, u: u + prop.width * 0.8, v: street.v - street.width / 2 - 1.2))
+            u += prop.width * 1.6 + unit()
+        }
+        u = street.from + 2 + unit() * 3
+        while u < street.to, let prop = pick("kerb") {
+            pieces.append(piece(prop, u: u, v: street.kerb))
+            u += prop.width * 2 + 1 + unit() * 6
+        }
+        u = street.from + 4 + unit() * 4
+        while u < street.to, let prop = pick("pavement") {
+            pieces.append(piece(prop, u: u, v: street.v + street.width / 2 + 0.7))
+            u += 6 + unit() * 8
+        }
+        return pieces
     }
 }

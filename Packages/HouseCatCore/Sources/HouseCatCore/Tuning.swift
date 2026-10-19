@@ -838,6 +838,15 @@ public enum Tuning {
         /// A few birds fly over about this often by day (seconds, give or take most of it), taking this long to cross.
         public static let birdsEvery = 18.0
         public static let birdSeconds = 7.0
+        /// A city's street: the road's asphalt, its stone kerbs (cells wide) and its painted line; a car along it
+        /// about this often (seconds, give or take as much again), this long (cells), this fast (cells a second).
+        public static let roadColor = [0.42, 0.41, 0.46]
+        public static let kerbColor = [0.8, 0.77, 0.72]
+        public static let kerbWidth = 0.22
+        public static let lineColor = [0.96, 0.94, 0.88]
+        public static let trafficEvery = 7.0
+        public static let carCells = 1.9
+        public static let carSpeed = 2.6
     }
 
     /// Outfits fitted to the cat (HouseCatGame OutfitFit), from the head's own outline in each sprite: a hat's

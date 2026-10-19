@@ -109,7 +109,8 @@ public enum HouseBuilder {
             sky: now.sky,
             ground: ground(now.biome, season: now.season, weather: now.weather),
             stairs: plan.stairs,
-            scenery: scenery
+            scenery: scenery,
+            street: outdoors.flatMap { OutdoorRules.street(biome: now.biome, rooms: plot, file: $0) }
         )
     }
 }

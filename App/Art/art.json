@@ -11457,6 +11457,46 @@
    ],
    "scale": 0.26785714285714285
   },
+  "world/props/city_busstop.png": {
+   "file": "world/props/city_busstop.heic",
+   "master": [
+    1409,
+    1419
+   ],
+   "scale": 0.3
+  },
+  "world/props/city_cafe.png": {
+   "file": "world/props/city_cafe.heic",
+   "master": [
+    1087,
+    1631
+   ],
+   "scale": 0.3
+  },
+  "world/props/city_car_blue.png": {
+   "file": "world/props/city_car_blue.heic",
+   "master": [
+    1793,
+    1212
+   ],
+   "scale": 0.3
+  },
+  "world/props/city_car_cream.png": {
+   "file": "world/props/city_car_cream.heic",
+   "master": [
+    1602,
+    1283
+   ],
+   "scale": 0.3
+  },
+  "world/props/city_car_red.png": {
+   "file": "world/props/city_car_red.heic",
+   "master": [
+    1527,
+    1213
+   ],
+   "scale": 0.3
+  },
   "world/props/city_lamp.png": {
    "file": "world/props/city_lamp.heic",
    "master": [
@@ -11470,6 +11510,14 @@
    "master": [
     493,
     2225
+   ],
+   "scale": 0.3
+  },
+  "world/props/city_phonebox.png": {
+   "file": "world/props/city_phonebox.heic",
+   "master": [
+    671,
+    1563
    ],
    "scale": 0.3
   },
@@ -11510,6 +11558,22 @@
    "master": [
     1642,
     1841
+   ],
+   "scale": 0.3
+  },
+  "world/props/city_postbox.png": {
+   "file": "world/props/city_postbox.heic",
+   "master": [
+    531,
+    1562
+   ],
+   "scale": 0.3
+  },
+  "world/props/city_terraces.png": {
+   "file": "world/props/city_terraces.heic",
+   "master": [
+    1540,
+    1400
    ],
    "scale": 0.3
   },

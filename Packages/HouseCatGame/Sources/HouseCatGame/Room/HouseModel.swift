@@ -39,6 +39,8 @@ public struct HouseModel: Sendable {
     public var stairs: HousePlans.Stairs?
     /// The trees, bushes and stones of the home's place round the plot (OutdoorRules).
     public var scenery: [OutdoorPiece]
+    /// A city's street behind the house, with its traffic (OutdoorRules.street).
+    public var street: OutdoorStreet?
 
     public init(
         rooms: [Room],
@@ -46,8 +48,10 @@ public struct HouseModel: Sendable {
         sky: SkyPhase,
         ground: String? = nil,
         stairs: HousePlans.Stairs? = nil,
-        scenery: [OutdoorPiece] = []
+        scenery: [OutdoorPiece] = [],
+        street: OutdoorStreet? = nil
     ) {
+        self.street = street
         self.rooms = rooms
         self.active = active
         self.sky = sky

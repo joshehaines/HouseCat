@@ -33,9 +33,11 @@ struct RoomTourOverlay: View {
                     }
                     VStack(spacing: 8) {
                         // Away from what it points at; at the top when the player must touch the room (the cat
-                        // eats at the front of it).
+                        // eats at the front of it), under the player's plaque rather than over it (the host's head
+                        // stands about 32 points above the card).
                         if frame.map({ $0.midY > proxy.size.height / 2 }) ?? (step.waitFor != nil) {
                             bubble(step)
+                                .padding(.top, targets["plaque"].map { max(0, proxy[$0].maxY + 26) } ?? 0)
                             Spacer()
                         } else {
                             Spacer()

@@ -469,7 +469,7 @@ struct RoomScreen: View {
                 AnyHashable(GameSession.shared.cat?.outfitID),
                 AnyHashable(profileVersion),
             ]) {
-                portrait = GameSession.shared.cat.flatMap { CatScreens.portrait($0.look) }.map { Image(decorative: $0, scale: 1) }
+                portrait = GameSession.shared.cat.flatMap { CatScreens.headshot($0.look) }.map { Image(decorative: $0, scale: 1) }
             }
             .overlay(alignment: .bottom) {
                 if visit.decorating {

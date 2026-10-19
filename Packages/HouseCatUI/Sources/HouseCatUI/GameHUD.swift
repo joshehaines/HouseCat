@@ -199,8 +199,8 @@ public struct CareButton: View {
     }
 }
 
-/// The player's plaque, top left: the cat's face in a ring (its profile), the level on a star over the ring's
-/// edge, the cat's name and the level's title, and the XP bar (the road ahead).
+/// The player's plaque, top left: the cat's head in a ring (its profile), the cat's name and the level's title, and
+/// the level on a star with the XP bar (the road ahead), all inside one pill.
 public struct PlayerBadge: View {
     @Environment(\.hudScale) private var scale
     @Environment(\.controlFeedback) private var feedback
@@ -231,81 +231,86 @@ public struct PlayerBadge: View {
     }
 
     public var body: some View {
-        let ring = 56 * scale
-        HStack(spacing: 0) {
+        // One cream pill holding it all (Josh, 19 Oct: the ring and the level spilled over the plaque's edges): the
+        // ring sits in its round left end, the name and title, then the level and the XP bar, the same height.
+        let ring = 54 * scale
+        let bar = 92 * scale
+        HStack(spacing: 10 * scale) {
             Button {
                 feedback.tap()
                 onPortrait()
             } label: {
                 ZStack {
-                    Circle().fill(GameHUD.lip.opacity(0.55)).offset(y: 3 * scale)
                     Circle().fill(LinearGradient(colors: [GameHUD.gold, GameHUD.deepGold], startPoint: .top, endPoint: .bottom))
-                    Circle().fill(Color(red: 0.82, green: 0.9, blue: 0.93)).padding(4 * scale)
-                    // The head and shoulders of the cat's own look.
+                    // A pale sky behind the cat, lightest round its head.
+                    Circle()
+                        .fill(RadialGradient(
+                            colors: [Color(red: 0.92, green: 0.96, blue: 0.97), Color(red: 0.76, green: 0.86, blue: 0.9)],
+                            center: UnitPoint(x: 0.5, y: 0.35),
+                            startRadius: 0,
+                            endRadius: ring * 0.55
+                        ))
+                        .padding(3 * scale)
+                    // The cat's head and shoulders (`Headshot`), the ears whole inside the ring.
                     (portrait ?? Image(systemName: "cat"))
                         .resizable()
                         .interpolation(.high)
                         .scaledToFill()
-                        .frame(width: ring * 1.25, height: ring * 1.25 * 1.3, alignment: .top)
-                        .offset(y: ring * 0.3)
-                        .frame(width: ring - 8 * scale, height: ring - 8 * scale)
+                        .frame(width: ring - 6 * scale, height: ring - 6 * scale)
                         .clipShape(Circle())
                 }
                 .frame(width: ring, height: ring)
-                .shadow(color: Theme.shadow, radius: 4 * scale, y: 3 * scale)
+                .shadow(color: Theme.shadow, radius: 1.5 * scale, y: 1 * scale)
             }
             .buttonStyle(PressStyle())
             .accessibilityLabel("\(name), your cat")
             .tourTarget("profile")
-            .zIndex(1)
             Button {
                 feedback.tap()
                 onLevel()
             } label: {
-                VStack(alignment: .leading, spacing: 3 * scale) {
-                    HStack(spacing: 5 * scale) {
-                        Text(name).font(.system(size: 15 * scale, weight: .heavy, design: .rounded)).lineLimit(1)
-                        Text(title).font(.system(size: 11 * scale, weight: .semibold, design: .rounded))
+                VStack(alignment: .leading, spacing: 5 * scale) {
+                    HStack(alignment: .firstTextBaseline, spacing: 6 * scale) {
+                        Text(name).font(.system(size: 16 * scale, weight: .heavy, design: .rounded)).lineLimit(1)
+                        Text(title).font(.system(size: 11 * scale, weight: .bold, design: .rounded))
                             .foregroundStyle(Theme.inkSoft).lineLimit(1)
                     }
                     HStack(spacing: 6 * scale) {
-                        // The level on a dark disc with the star beside it, readable on any coat.
-                        HStack(spacing: 2 * scale) {
-                            PaintedIcon("xp_star", size: 20 * scale)
+                        // The level: the star and the number on a dark chip, the star inside it.
+                        HStack(spacing: 3 * scale) {
+                            PaintedIcon("xp_star", size: 15 * scale)
                             Text("\(level)")
-                                .font(.system(size: 13 * scale, weight: .black, design: .rounded).monospacedDigit())
+                                .font(.system(size: 12 * scale, weight: .black, design: .rounded).monospacedDigit())
                                 .foregroundStyle(.white)
                         }
-                        .padding(.leading, 2 * scale)
-                        .padding(.trailing, 8 * scale)
-                        .padding(.vertical, 1 * scale)
+                        .padding(.leading, 3 * scale)
+                        .padding(.trailing, 7 * scale)
+                        .frame(height: 19 * scale)
                         .background(Capsule().fill(Theme.ink.opacity(0.85)))
                         // The XP bar: how far into this level.
-                        Capsule().fill(Theme.ink.opacity(0.14))
-                            .frame(width: 96 * scale, height: 11 * scale)
+                        Capsule().fill(Theme.ink.opacity(0.12))
+                            .frame(width: bar, height: 10 * scale)
                             .overlay(alignment: .leading) {
                                 Capsule()
                                     .fill(LinearGradient(colors: [GameHUD.gold, GameHUD.deepGold], startPoint: .top, endPoint: .bottom))
-                                    .frame(width: 96 * scale * max(0.06, min(1, progress)))
+                                    .frame(width: bar * max(0.08, min(1, progress)))
                             }
-                            .overlay(Capsule().strokeBorder(GameHUD.deepGold.opacity(0.6), lineWidth: 1))
+                            .overlay(Capsule().strokeBorder(GameHUD.deepGold.opacity(0.5), lineWidth: 1))
                             .animation(.spring(duration: 0.6), value: progress)
                     }
                 }
                 .foregroundStyle(Theme.ink)
-                .padding(.leading, 12 * scale)
-                .padding(.trailing, 12 * scale)
-                .padding(.vertical, 5 * scale)
-                .background(
-                    UnevenRoundedRectangle(bottomTrailingRadius: 16 * scale, topTrailingRadius: 16 * scale, style: .continuous)
-                        .fill(Theme.cream)
-                        .shadow(color: Theme.shadow, radius: 4 * scale, y: 2 * scale)
-                )
-                .padding(.leading, -8 * scale)
+                .padding(.trailing, 16 * scale)
+                .contentShape(Rectangle())
             }
             .buttonStyle(PressStyle())
             .accessibilityLabel("Level \(level), \(title), \(Int(progress * 100)) percent to the next. Shows the road ahead.")
         }
+        .padding(5 * scale)
+        .background(Capsule().fill(Theme.cream).shadow(color: Theme.shadow, radius: 4 * scale, y: 2 * scale))
+        .overlay(Capsule().strokeBorder(GameHUD.lip.opacity(0.3), lineWidth: 1))
+        // The room tour's card keeps below it.
+        .tourTarget("plaque")
     }
 }
 

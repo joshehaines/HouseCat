@@ -42,7 +42,8 @@ struct NapCard: View {
     }
 }
 
-/// While the cat naps: the time left, and a way to wake it.
+/// While the cat naps: the time left, and a way to wake it. Wake is never squeezed or cut short (Josh's iPad, 19 Oct:
+/// "the 'wake' button is cut off when the pet is asleep"): a long name gives way first.
 struct NapBanner: View {
     let catName: String
     let endsAt: Date
@@ -52,10 +53,15 @@ struct NapBanner: View {
         HStack(spacing: 10) {
             PaintedIcon("nap_moon", size: 28)
             Text("\(catName) is napping").font(.system(size: 15, weight: .bold))
+                .lineLimit(1)
+                .layoutPriority(-1)
             Text(timerInterval: Date() ... max(Date(), endsAt), countsDown: true)
                 .font(.system(size: 15, weight: .heavy, design: .rounded).monospacedDigit())
+                .lineLimit(1)
+                .fixedSize()
                 .frame(minWidth: 52)
             HUDButton("Wake", symbol: "sun.max", action: wake)
+                .fixedSize()
         }
         .padding(.leading, 12)
         .padding(.trailing, 6)

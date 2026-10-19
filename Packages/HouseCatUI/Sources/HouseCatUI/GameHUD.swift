@@ -184,9 +184,12 @@ public struct CareButton: View {
                             .offset(x: 4 * scale, y: -2 * scale)
                     }
                 }
+                // Whole whatever the room around it (Josh's iPad, 19 Oct: Wake was cut off while the cat napped).
                 Text(title)
                     .font(.system(size: 13 * scale, weight: .heavy, design: .rounded))
                     .foregroundStyle(Theme.ink)
+                    .lineLimit(1)
+                    .fixedSize()
                     .padding(.horizontal, 10 * scale)
                     .padding(.vertical, 2 * scale)
                     .background(Capsule().fill(Theme.cream))

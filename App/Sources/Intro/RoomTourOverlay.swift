@@ -3,8 +3,8 @@ import HouseCatUI
 import SwiftUI
 
 /// The room tour on screen: the room dimmed but for the control it is about (lit, with a paw pointing at it),
-/// and the host saying what to do. While a step waits for the player only that control can be touched; a step
-/// that is read goes on with Next. Skip ends the tour (the welcome Beans still come).
+/// and the host saying what to do. Only that control can be touched; a step that is read goes on with Next, or
+/// when the control it points at is used. Skip ends the tour (the welcome Beans still come).
 struct RoomTourOverlay: View {
     let tour: RoomTour
     let catName: String
@@ -56,13 +56,14 @@ struct RoomTourOverlay: View {
     }
 
     /// Dark all over but the hole, and the parts of the room the player may not touch now: all of it while a step
-    /// is read; round the hole while the step waits for the player there; nothing while stroking the cat or
-    /// arranging a piece just placed. The blockers are always the same four views, resized and switched on or off
+    /// with nothing to point at is read; round the hole when it points at a control (Josh's iPad, 19 Oct: Play, the
+    /// nap and the shop did nothing while the tour pointed at them); nothing while stroking the cat or arranging a
+    /// piece just placed. The blockers are always the same four views, resized and switched on or off
     /// without animation: a blocker swapped out with a fade stayed behind, invisible, over the whole room after the
     /// first step (Josh's iPad, 19 Oct: "Tap Feed" did nothing and no touch reached the room).
     private func shade(step: IntroFile.RoomStep, hole: CGRect?, in size: CGSize) -> some View {
         let full = CGRect(origin: .zero, size: size)
-        let blocked: [CGRect] = if step.waitFor == nil {
+        let blocked: [CGRect] = if step.waitFor == nil, hole == nil {
             [full]
         } else if let hole, step.waitFor != .decorated {
             Self.around(hole, in: full)

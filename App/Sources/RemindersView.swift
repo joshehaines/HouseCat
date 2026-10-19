@@ -104,7 +104,8 @@ struct SettingsView: View {
             if let minutes, on.wrappedValue {
                 DatePicker("", selection: time(minutes), displayedComponents: .hourAndMinute).labelsHidden()
             }
-            Toggle("", isOn: on).labelsHidden().tint(Theme.accent)
+            // Named for VoiceOver (it read an empty switch), the name hidden on screen beside its own words.
+            Toggle(title, isOn: on).labelsHidden().tint(Theme.accent)
         }
     }
 

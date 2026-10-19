@@ -15,6 +15,8 @@ final class RoomTour {
     enum Heard {
         case fed, petted, placed
         case decorating(Bool)
+        /// A control the tour points at was used (Play, the nap, the menu, the shop).
+        case opened(String)
     }
 
     @ObservationIgnored private let defaults = UserDefaults(suiteName: WidgetFiles.appGroup) ?? .standard
@@ -58,6 +60,14 @@ final class RoomTour {
 
     /// The player did something: the step waiting for it is done.
     func heard(_ event: Heard) {
+        // A step that is only read and points at this control: using it goes on, as Next does (Josh's iPad, 19 Oct:
+        // Play, the nap and the shop did nothing while the tour pointed at them).
+        if case let .opened(target) = event {
+            if let step, step.waitFor == nil, step.target == target {
+                next()
+            }
+            return
+        }
         guard let wait = step?.waitFor else { return }
         let matches = switch (wait, event) {
         case (.fed, .fed), (.petted, .petted), (.placed, .placed), (.decorating, .decorating(true)), (.decorated, .decorating(false)): true

@@ -744,7 +744,8 @@ struct RoomScreen: View {
             .animation(.easeOut(duration: 0.25), value: visit.askReminders)
             // The room tour, over everything in the room (Content/intro.json "room").
             .overlayPreferenceValue(TourTargets.self) { targets in
-                if tour.isRunning, visit.scene is RoomScene {
+                // Out of the way while what its control opened is up (the games, the nap card, the menu, the shop).
+                if tour.isRunning, visit.scene is RoomScene, !showGames, !choosingGame, !offeringNap, !showMenu, !showShop, playing == nil {
                     RoomTourOverlay(
                         tour: tour,
                         catName: visit.catName ?? "Your cat",
@@ -1030,7 +1031,10 @@ struct RoomScreen: View {
                     .animation(.easeOut(duration: 0.3), value: visit.xpGain)
                     if calm {
                         // One menu for the rooms, the map, the book, the pass and the rest (Josh, 19 Oct: calmer).
-                        GameButton("Menu", icon: "house", size: 50, dot: menuWaiting) { showMenu = true }
+                        GameButton("Menu", icon: "house", size: 50, dot: menuWaiting) {
+                            tour.heard(.opened("menu"))
+                            showMenu = true
+                        }
                             .tourTarget("menu")
                             .transition(.opacity)
                     }
@@ -1074,12 +1078,15 @@ struct RoomScreen: View {
                         CareButton("Feed", icon: "feed_bowl", badge: fed ? "✓" : nil, lit: !fed) { visit.feed() }
                             .tourTarget("feed")
                         CareButton("Play", icon: "play_laser_dot", badge: plays > 0 ? "\(plays)" : nil) {
-                            if visit.wantsToPlay() {
-                                showGames = true
-                            }
+                            tour.heard(.opened("play"))
+                            // Always the Games menu: after the day's five quick plays its quick games say "Just for
+                            // fun today", and the rest have their own rules (Josh's iPad, 19 Oct: Play seemed dead,
+                            // only a line from the cat once the five were used).
+                            showGames = true
                         }
                         .tourTarget("play")
                         CareButton(naps.isNapping ? "Wake" : "Nap", icon: "nap_moon", lit: naps.isNapping) {
+                            tour.heard(.opened("nap"))
                             if naps.isNapping {
                                 visit.wakeFromNap()
                             } else {
@@ -1101,7 +1108,10 @@ struct RoomScreen: View {
                         GameButton("Decorate", icon: "decorate_paintbrush", size: 60) { visit.toggleDecorating() }
                             .tourTarget("decorate")
                     }
-                    GameButton("Shop", icon: "shop_bag", style: .gold, size: 72) { openShop(nil) }
+                    GameButton("Shop", icon: "shop_bag", style: .gold, size: 72) {
+                        tour.heard(.opened("shop"))
+                        openShop(nil)
+                    }
                         .tourTarget("shop")
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)

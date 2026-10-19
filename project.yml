@@ -147,6 +147,20 @@ targets:
         GENERATE_INFOPLIST_FILE: YES
         PRODUCT_BUNDLE_IDENTIFIER: com.housecatgame.housecat.tests
 
+  # UI tests: taps as a finger does, for what the simulator panel cannot show.
+  HouseCatUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - UITests
+    dependencies:
+      - target: HouseCat
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: com.housecatgame.housecat.uitests
+        TEST_TARGET_NAME: HouseCat
+
   # WidgetKit extension: streak widgets, App Intents and the Nap Live Activity.
   HouseCatWidgets:
     type: app-extension
@@ -321,6 +335,7 @@ schemes:
       config: Debug
       targets:
         - HouseCatTests
+        - HouseCatUITests
   HouseCatMac:
     build:
       targets:

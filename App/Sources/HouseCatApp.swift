@@ -1019,9 +1019,6 @@ struct RoomScreen: View {
         return scene.convertPoint(toView: scene.convert(CGPoint(x: frame.midX, y: frame.maxY), from: room))
     }
 
-    /// The season's tiles under the bars: the pass, the launch's gift track while it runs, looking after the cat
-    /// together; each with a dot when something waits.
-    @ViewBuilder
     /// The menu's rooms: every room of the home, floor by floor, the closed ones bare with their price.
     private var menuRooms: [RoomMenu.Room] {
         guard let house = visit.scene as? RoomScene else { return [] }

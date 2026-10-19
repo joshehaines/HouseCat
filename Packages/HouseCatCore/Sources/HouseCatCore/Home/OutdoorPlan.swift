@@ -4,8 +4,8 @@ import Foundation
 /// completely at random). Behind the house, along both back sides, two staggered lines of the place's trees, with a
 /// shed or a washing line among them; along both front sides a border of its low plants (a hedge, dune grass,
 /// planters, agave) with a gap for a gate, stones at the corners; and in the front garden (the empty square of the
-/// plot the rooms leave, or the square off the house's front corner) its pieces set out: a pond in the middle, a bench
-/// beside it, the bird table, pots by the walls. A city's street side has street trees and lamps along the pavement
+/// plot the rooms leave, or the square off the house's front corner) a planted bed in the middle, pots by the walls,
+/// stones. Nature only: the shop's garden pieces (the bench, the pond, the bird table) are the player's to put out. A city's street side has street trees and lamps along the pavement
 /// instead of a tree line. Only where the pieces stand varies a little from home to home (the household's seed).
 enum OutdoorPlan {
     /// What a piece is for in the plan (outdoors.json `role`).
@@ -152,15 +152,21 @@ enum OutdoorPlan {
                     add(role, square.u + u + jitter() * 0.4, square.v + v + jitter() * 0.4)
                 }
                 if index == 0 {
-                    at(5.5, 5.5, .feature)
-                    at(2.6, 6.2, .seat)
-                    at(6.4, 2.6, .birdtable)
+                    // A planted bed round the middle (or the place's own feature, a snowman), its pots, stones.
+                    if has(.feature) {
+                        at(5.5, 5.5, .feature)
+                    } else {
+                        at(5.0, 5.0, .hedge)
+                        at(6.4, 4.2, .hedge)
+                        at(4.2, 6.4, .hedge)
+                    }
                     if !outside {
                         at(2.2, 2.2, .pots)
                     }
                     at(8.4, 2.4, .pots)
                     at(2.4, 8.4, .hedge)
                     at(8.0, 8.0, .rock)
+                    at(6.8, 6.8, .rock)
                 } else {
                     at(5, 5, .hedge)
                     at(3, 7, .rock)

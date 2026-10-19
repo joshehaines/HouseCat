@@ -20,6 +20,8 @@ struct HealthCard: View {
                 tile("nap_moon", "\(Int(Tuning.Health.sleepGoalHours)) hours' sleep", xp: Tuning.XP.sleepGoalMet, goal: .sleep)
                 tile("play_laser_dot", "A workout", xp: Tuning.XP.workoutLogged, goal: .workout)
             }
+            // As tall as its tallest tile, the three the same (on an iPad's tall screen they stretched to fill it).
+            .fixedSize(horizontal: false, vertical: true)
             Text("Only these three, read from Health on this phone. Nothing is written to Health or sent anywhere, and a day without is never held against you.")
                 .font(.caption).foregroundStyle(Theme.inkSoft)
                 .fixedSize(horizontal: false, vertical: true)
@@ -58,7 +60,7 @@ struct HealthCard: View {
             Spacer(minLength: 0)
         }
         .padding(10)
-        .frame(maxWidth: .infinity, minHeight: 132, alignment: .topLeading)
+        .frame(maxWidth: .infinity, minHeight: 132, maxHeight: .infinity, alignment: .topLeading)
         .background(RoundedRectangle(cornerRadius: 16, style: .continuous).fill(Theme.cream))
         .accessibilityElement(children: .combine)
     }

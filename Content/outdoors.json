@@ -1,15 +1,11 @@
 {
   "version": 1,
-  "note": "The scenery round the house, by biome (Josh, 18 Oct: the outside shows the place the player picked), laid out as a garden (OutdoorPlan; Josh, 19 Oct: not at random): role says what a piece is in the plan (tree lines behind, a hedge border in front, rocks at its corners, and in the front garden a feature, a seat, a bird table and pots; a shed and a washing line among the trees; lamps along a city pavement), weight how often it is picked among its role's. Tall pieces stand only behind the house. width is cells on the ground; seasons lists the pictures a piece has besides its summer one (world/props/<biome>_<id>_<season>.png): winter on snow and in winter, autumn in autumn. sprite is a picture from elsewhere (a garden piece of the catalogue's), the same all year and put away under snow; sway is how much it bends in the wind (0 to 1); blossom drops petals in spring (a tree with an autumn picture drops leaves in autumn). A city has a street behind the house (streets: how far behind the plot, how wide): its row of buildings across the road, cars at the far kerb and things on the near pavement (place), with traffic along it.",
+  "note": "The scenery round the house, by biome (Josh, 18 Oct: the outside shows the place the player picked), laid out as a garden (OutdoorPlan; Josh, 19 Oct: not at random): role says what a piece is in the plan (tree lines behind, a hedge border in front, rocks at its corners, and in the front garden a planted bed or the place's feature and pots; a shed and a washing line among the trees; lamps along a city pavement; nature only, the shop's garden pieces are the player's to put out), weight how often it is picked among its role's. Tall pieces stand only behind the house. width is cells on the ground; seasons lists the pictures a piece has besides its summer one (world/props/<biome>_<id>_<season>.png): winter on snow and in winter, autumn in autumn. sprite is a picture from elsewhere (a garden piece of the catalogue's), the same all year and put away under snow; sway is how much it bends in the wind (0 to 1); blossom drops petals in spring (a tree with an autumn picture drops leaves in autumn). A city has a street behind the house (streets: how far behind the plot, how wide): its row of buildings across the road, cars at the far kerb and things on the near pavement (place), with traffic along it.",
   "biomes": {
     "countryside": [
       { "id": "oak", "tall": true, "weight": 4, "width": 3.2, "seasons": ["autumn", "winter"], "sway": 0.7, "role": "tree" },
       { "id": "hawthorn", "tall": false, "weight": 3, "width": 1.5, "seasons": ["winter"], "sway": 0.5, "blossom": true, "role": "hedge" },
       { "id": "stone", "tall": false, "weight": 2, "width": 1.1, "seasons": ["winter"], "role": "rock" },
-      { "id": "pond", "tall": false, "weight": 1, "width": 2.0, "seasons": [], "sprite": "furniture/garden/furn_garden_pond_R.png", "role": "feature" },
-      { "id": "bench", "tall": false, "weight": 2, "width": 1.5, "seasons": [], "sprite": "furniture/garden/furn_garden_bench_R.png", "role": "seat" },
-      { "id": "birdfeeder", "tall": false, "weight": 1, "width": 0.9, "seasons": [], "sprite": "furniture/garden/furn_garden_birdfeeder_R.png", "role": "birdtable" },
-      { "id": "flowerpots", "tall": false, "weight": 3, "width": 1.0, "seasons": [], "sprite": "furniture/garden/furn_garden_flowerpots_R.png", "sway": 0.3, "role": "pots" },
       { "id": "shed", "tall": true, "weight": 1, "width": 2.0, "seasons": [], "sprite": "furniture/garden/furn_garden_shed_R.png", "role": "shed" },
       { "id": "washingline", "tall": true, "weight": 1, "width": 2.2, "seasons": [], "sprite": "furniture/garden/furn_garden_washingline_R.png", "sway": 0.4, "role": "line" }
     ],
@@ -17,8 +13,6 @@
       { "id": "plane", "tall": true, "weight": 4, "width": 2.8, "seasons": ["autumn", "winter"], "sway": 0.7, "role": "tree" },
       { "id": "lamp", "tall": true, "weight": 1, "width": 0.8, "seasons": ["winter"], "role": "lamp" },
       { "id": "planter", "tall": false, "weight": 3, "width": 1.2, "seasons": ["winter"], "sway": 0.3, "role": "hedge" },
-      { "id": "bench", "tall": false, "weight": 2, "width": 1.5, "seasons": [], "sprite": "furniture/garden/furn_garden_bench_R.png", "role": "seat" },
-      { "id": "flowerpots", "tall": false, "weight": 1, "width": 1.0, "seasons": [], "sprite": "furniture/garden/furn_garden_flowerpots_R.png", "sway": 0.3, "role": "pots" },
       { "id": "terraces", "tall": true, "weight": 3, "width": 6.0, "seasons": [], "place": "row" },
       { "id": "cafe", "tall": true, "weight": 1, "width": 3.0, "seasons": [], "place": "row" },
       { "id": "car_red", "tall": false, "weight": 2, "width": 1.8, "seasons": [], "place": "kerb" },
@@ -32,40 +26,30 @@
       { "id": "pine", "tall": true, "weight": 4, "width": 3.0, "seasons": ["winter"], "sway": 0.6, "role": "tree" },
       { "id": "dunegrass", "tall": false, "weight": 3, "width": 1.2, "seasons": ["winter"], "sway": 1.0, "role": "hedge" },
       { "id": "rocks", "tall": false, "weight": 2, "width": 1.3, "seasons": ["winter"], "role": "rock" },
-      { "id": "deckchair", "tall": false, "weight": 2, "width": 1.4, "seasons": [], "sprite": "furniture/garden/furn_garden_deckchair_R.png", "role": "seat" },
-      { "id": "bench", "tall": false, "weight": 1, "width": 1.5, "seasons": [], "sprite": "furniture/garden/furn_garden_bench_R.png", "role": "seat" },
       { "id": "washingline", "tall": true, "weight": 1, "width": 2.2, "seasons": [], "sprite": "furniture/garden/furn_garden_washingline_R.png", "sway": 0.5, "role": "line" }
     ],
     "forest": [
       { "id": "fir", "tall": true, "weight": 4, "width": 2.6, "seasons": ["winter"], "sway": 0.5, "role": "tree" },
       { "id": "birch", "tall": true, "weight": 3, "width": 2.2, "seasons": ["autumn", "winter"], "sway": 0.8, "role": "tree" },
       { "id": "stump", "tall": false, "weight": 3, "width": 1.2, "seasons": ["winter"], "role": "rock" },
-      { "id": "shed", "tall": true, "weight": 2, "width": 2.0, "seasons": [], "sprite": "furniture/garden/furn_garden_shed_R.png", "role": "shed" },
-      { "id": "birdfeeder", "tall": false, "weight": 2, "width": 0.9, "seasons": [], "sprite": "furniture/garden/furn_garden_birdfeeder_R.png", "role": "birdtable" },
-      { "id": "bench", "tall": false, "weight": 1, "width": 1.5, "seasons": [], "sprite": "furniture/garden/furn_garden_bench_R.png", "role": "seat" },
-      { "id": "flowerpots", "tall": false, "weight": 1, "width": 1.0, "seasons": [], "sprite": "furniture/garden/furn_garden_flowerpots_R.png", "sway": 0.3, "role": "pots" }
+      { "id": "shed", "tall": true, "weight": 2, "width": 2.0, "seasons": [], "sprite": "furniture/garden/furn_garden_shed_R.png", "role": "shed" }
     ],
     "mountain": [
       { "id": "pine", "tall": true, "weight": 4, "width": 2.6, "seasons": ["winter"], "sway": 0.5, "role": "tree" },
       { "id": "boulder", "tall": false, "weight": 3, "width": 1.6, "seasons": ["winter"], "role": "rock" },
       { "id": "woodpile", "tall": false, "weight": 2, "width": 1.4, "seasons": ["winter"], "role": "shed" },
-      { "id": "bench", "tall": false, "weight": 2, "width": 1.5, "seasons": [], "sprite": "furniture/garden/furn_garden_bench_R.png", "role": "seat" },
-      { "id": "birdfeeder", "tall": false, "weight": 1, "width": 0.9, "seasons": [], "sprite": "furniture/garden/furn_garden_birdfeeder_R.png", "role": "birdtable" },
       { "id": "shed", "tall": true, "weight": 1, "width": 2.0, "seasons": [], "sprite": "furniture/garden/furn_garden_shed_R.png", "role": "shed" }
     ],
     "desert": [
       { "id": "palm", "tall": true, "weight": 4, "width": 2.6, "seasons": [], "sway": 0.8, "role": "tree" },
       { "id": "agave", "tall": false, "weight": 3, "width": 1.3, "seasons": [], "sway": 0.15, "role": "hedge" },
-      { "id": "pots", "tall": false, "weight": 2, "width": 1.3, "seasons": [], "sway": 0.2, "role": "hedge" },
-      { "id": "deckchair", "tall": false, "weight": 1, "width": 1.4, "seasons": [], "sprite": "furniture/garden/furn_garden_deckchair_R.png", "role": "seat" }
+      { "id": "pots", "tall": false, "weight": 2, "width": 1.3, "seasons": [], "sway": 0.2, "role": "hedge" }
     ],
     "tropical": [
       { "id": "palm", "tall": true, "weight": 4, "width": 2.8, "seasons": [], "sway": 0.8, "role": "tree" },
       { "id": "banana", "tall": true, "weight": 3, "width": 2.0, "seasons": [], "sway": 0.7, "role": "hedge" },
       { "id": "frangipani", "tall": false, "weight": 3, "width": 1.5, "seasons": [], "sway": 0.5, "blossom": true, "role": "feature" },
-      { "id": "gardenhammock", "tall": true, "weight": 2, "width": 2.2, "seasons": [], "sprite": "furniture/garden/furn_garden_gardenhammock_R.png", "sway": 0.3, "role": "line" },
-      { "id": "deckchair", "tall": false, "weight": 2, "width": 1.4, "seasons": [], "sprite": "furniture/garden/furn_garden_deckchair_R.png", "role": "seat" },
-      { "id": "flowerpots", "tall": false, "weight": 1, "width": 1.0, "seasons": [], "sprite": "furniture/garden/furn_garden_flowerpots_R.png", "sway": 0.3, "role": "pots" }
+      { "id": "gardenhammock", "tall": true, "weight": 2, "width": 2.2, "seasons": [], "sprite": "furniture/garden/furn_garden_gardenhammock_R.png", "sway": 0.3, "role": "line" }
     ],
     "snow": [
       { "id": "spruce", "tall": true, "weight": 4, "width": 2.6, "seasons": [], "sway": 0.5, "role": "tree" },

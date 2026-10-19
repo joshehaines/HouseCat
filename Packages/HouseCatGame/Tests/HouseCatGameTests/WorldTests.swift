@@ -227,7 +227,8 @@ private struct World {
         style: .londonTerrace, plans: world.plans, layout: world.layout, state: world.state(),
         catalogue: world.content.catalogue, now: now, outdoors: world.content.outdoors
     ))
-    #expect(house.scenery.contains { $0.sprite.hasPrefix("furniture/garden/") }, "a garden round a country house")
+    #expect(house.scenery.contains { $0.prop == "hawthorn" && !$0.behind }, "a hedge round the front of a country house")
+    #expect(!house.scenery.contains { $0.sprite.hasPrefix("furniture/garden/") && !$0.behind }, "the shop's garden pieces are the player's")
     let scene = RoomScene(size: CGSize(width: 1366, height: 1024), art: world.art, content: world.content, house: house)
     let pieces = scene.world.children.compactMap { $0 as? SKSpriteNode }.filter { $0.name == "scenery" }
     #expect(pieces.count == house.scenery.count)

@@ -246,6 +246,11 @@ public struct CatBuilder: Sendable {
     public struct Sprite: Hashable, Sendable {
         public var path: String
         public var takesWhite: Bool
+
+        public init(path: String, takesWhite: Bool) {
+            self.path = path
+            self.takesWhite = takesWhite
+        }
     }
 
     /// A puppet part in a view ("side", "tqfront", "front", "tqback").

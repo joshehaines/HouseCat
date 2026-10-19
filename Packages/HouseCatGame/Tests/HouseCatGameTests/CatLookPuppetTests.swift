@@ -21,7 +21,11 @@ private let repo = URL(fileURLWithPath: #filePath)
     for (name, look) in looks {
         let cat = CatNode(art: art, rig: rig, catArt: catArt, look: look, height: 150)
         for view in CatNode.View.allCases {
-            let parts = try #require(rig.sets[look.body]?[view.rawValue]?.parts)
+            var parts = try #require(rig.sets[look.body]?[view.rawValue]?.parts)
+            if view == .side, Tuning.Puppet.sideHeadsWithEars.contains(look.body), look.ears == "own" {
+                // Its side head is painted with its own ear: no ear parts over it.
+                parts = parts.filter { !$0.key.hasPrefix("ear_") }
+            }
             #expect(Set(cat.parts[view]?.keys.map(\.self) ?? []) == Set(parts.keys), "\(name) \(view): every part")
             cat.show(view, facingRight: false)
             cat.walk()
@@ -57,4 +61,49 @@ private let repo = URL(fileURLWithPath: #filePath)
     kitten.apply(look: CatLook(body: "sphynx"), isKitten: false)
     #expect(kitten.body == "sphynx")
     #expect(abs(kitten.height - 150) < 0.01)
+}
+
+/// The legs bend at the hock and the wrist and a planted paw stays put (Josh, 19 Oct: the back legs looked strange
+/// going sideways): the cat walks across the floor at its own pace, and while a paw is down it moves less than a
+/// whisker; between plants it lifts clear of the floor.
+@MainActor
+@Test(arguments: ["midnight", "british_blue", "oriental"])
+func aPlantedPawStaysPutAsTheCatWalks(preset: String) throws {
+    let art = try ArtLibrary(root: repo.appendingPathComponent("App/Art"))
+    let catArt = try CatArt(art: art)
+    let rig = try art.data("cat/rig.json", as: PuppetRig.self)
+    let look = try #require(catArt.builder.data.presets.first { $0.id == preset }?.look)
+    let scene = SKScene(size: CGSize(width: 2000, height: 600))
+    let height: CGFloat = 300
+    let cat = CatNode(art: art, rig: rig, catArt: catArt, look: look, height: height)
+    scene.addChild(cat)
+    cat.position = CGPoint(x: 1600, y: 100)
+    cat.show(.side, facingRight: false)
+    cat.walk()
+    let speed = CGFloat(Tuning.Puppet.walkSpeed) * height / 420
+    cat.moveSpeed = speed
+    cat.moveDirection = CGVector(dx: -1, dy: 0)
+    var track: [CGPoint] = []
+    for _ in 0 ..< 120 {
+        let dt = 1.0 / 60
+        cat.position.x -= speed * CGFloat(dt)
+        cat.step(dt)
+        track.append(try #require(cat.paw("leg_back_near")))
+    }
+    let ground = track.map(\.y).min() ?? 0
+    // Runs of frames with the paw on the floor: within each, it barely moves along the floor.
+    var run: [CGPoint] = [], worst: CGFloat = 0, lifted: CGFloat = 0
+    for point in track {
+        lifted = max(lifted, point.y - ground)
+        if point.y - ground < height * 0.004 {
+            run.append(point)
+        } else {
+            if let first = run.first, let last = run.last, run.count > 4 {
+                worst = max(worst, abs(last.x - first.x))
+            }
+            run = []
+        }
+    }
+    #expect(worst < height * 0.02, "\(preset): a planted paw slid \(worst)")
+    #expect(lifted > height * 0.03, "\(preset): the paw lifts between plants (\(lifted))")
 }

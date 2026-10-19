@@ -75,6 +75,23 @@ public final class CatNode: SKNode {
     public private(set) var scratchTime: TimeInterval?
     /// Each view's puppet's width standing (for its shadow).
     private var puppetWidths: [View: CGFloat] = [:]
+    /// The legs jointed at the hock or wrist (CatLimb), in the side and three-quarter views, so a paw stays planted
+    /// as the body passes over it.
+    private var limbs: [View: [String: Limb]] = [:]
+    /// The way the cat is moving over the floor (the parent's axes), for its paws to step back along it; nil, the
+    /// way it faces.
+    public var moveDirection: CGVector?
+
+    /// A jointed leg: its two pieces, the joint and the paw in their own frames, the side it bends to, and where the
+    /// paw stands at rest in the puppet's frame.
+    private struct Limb {
+        let upper: SKSpriteNode
+        let lower: SKSpriteNode
+        let knee: CGPoint
+        let foot: CGPoint
+        let bend: CGFloat
+        let restFoot: CGPoint
+    }
 
     /// A cat in a look from the builder (`catArt` given), or the plain painted short_slim set.
     public init(
@@ -264,6 +281,9 @@ public final class CatNode: SKNode {
 
     /// A part's or pose's texture and its master size.
     private func sprite(part name: String, view: View) -> (SKTexture, CGSize) {
+        if let catArt, let look, let profile = profileEar(name, view: view) {
+            return (catArt.texture(profile, look: look), catArt.paintedSize(profile.path))
+        }
         if let catArt, let look {
             let sprite = catArt.builder.part(name, view: view.rawValue, look: look)
             return (catArt.texture(sprite, look: look), catArt.paintedSize(sprite.path))
@@ -275,6 +295,46 @@ public final class CatNode: SKNode {
     @available(*, unavailable)
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) is not supported")
+    }
+
+    /// The side view's ears painted in profile (Josh, 19 Oct: the cupped ears, pink insides facing out, looked
+    /// strange on a head seen from the side), when this body or ear shape has them; else nil, the old ones.
+    private func profileEar(_ name: String, view: View) -> CatBuilder.Sprite? {
+        guard Self.profileEars, view == .side, name.hasPrefix("ear_"), let catArt, let look,
+              Tuning.Puppet.profileEarBodies.contains(look.body) else { return nil }
+        let sprite = catArt.builder.part(name, view: view.rawValue, look: look)
+        let path = sprite.path.replacingOccurrences(of: ".png", with: "_profile.png")
+        return catArt.has(path) ? CatBuilder.Sprite(path: path, takesWhite: sprite.takesWhite) : nil
+    }
+
+    /// Off only to compare with the old cupped ears (the movement renders).
+    nonisolated(unsafe) static var profileEars = true
+
+    /// A profile ear stands on its base: the middle of its bottom rows, found from its outline.
+    private func earPivot(_ sprite: CatBuilder.Sprite) -> CGPoint? {
+        guard let catArt, let look, let image = catArt.image(sprite, look: look) else { return nil }
+        let width = image.width, height = image.height
+        var alpha = [UInt8](repeating: 0, count: width * height)
+        let drawn = alpha.withUnsafeMutableBytes { buffer -> Bool in
+            guard let context = CGContext(
+                data: buffer.baseAddress, width: width, height: height, bitsPerComponent: 8, bytesPerRow: width,
+                space: CGColorSpaceCreateDeviceGray(), bitmapInfo: CGImageAlphaInfo.alphaOnly.rawValue
+            ) else { return false }
+            context.draw(image, in: CGRect(x: 0, y: 0, width: width, height: height))
+            return true
+        }
+        guard drawn else { return nil }
+        let rows = max(2, height / 16)
+        var sum = 0.0, weight = 0.0
+        for row in (height - rows) ..< height {
+            for column in 0 ..< width {
+                let a = Double(alpha[row * width + column])
+                sum += Double(column) * a
+                weight += a
+            }
+        }
+        guard weight > 0 else { return nil }
+        return CGPoint(x: sum / weight / Double(width), y: 0.05)
     }
 
     // MARK: Building the puppet
@@ -295,11 +355,29 @@ public final class CatNode: SKNode {
         // A heavier or lighter cat on the weight slider: the torso is drawn wider or narrower, the legs follow.
         let stretch = look.flatMap { catArt?.builder.torsoStretch($0) } ?? 1
         for (name, part) in spec.parts {
+            // A side head painted with its own ear (the long-haired slim body's) takes no ear parts over it: two
+            // pairs of ears. Swap ears still go on.
+            if view == .side, name.hasPrefix("ear_"), Tuning.Puppet.sideHeadsWithEars.contains(body), (look?.ears ?? "own") == "own" {
+                continue
+            }
             let (texture, painted) = sprite(part: name, view: view)
             let width = painted.width * partScale * (name == "torso" ? CGFloat(stretch) : 1)
             let node = SKSpriteNode(texture: texture, size: CGSize(width: width, height: painted.height * partScale))
             node.anchorPoint = CGPoint(x: part.pivot[0], y: 1 - part.pivot[1])
+            if let profile = profileEar(name, view: view), let pivot = earPivot(profile) {
+                node.anchorPoint = pivot
+            }
             node.name = name
+            if name == "torso", let image = partImage(name, view: view), let soft = CatLimb.softenUnderside(image) {
+                let texture = SKTexture(cgImage: soft)
+                texture.filteringMode = .linear
+                node.texture = texture
+            }
+            if name.hasPrefix("leg_"), name.hasSuffix("_far") {
+                // The far legs a shade darker, behind the body.
+                node.color = .black
+                node.colorBlendFactor = CGFloat(Tuning.Puppet.farLegShade)
+            }
             let rest = -CGFloat(part.angle ?? 0) * .pi / 180
             node.zRotation = rest
             rests[name] = rest
@@ -327,6 +405,7 @@ public final class CatNode: SKNode {
             child.position.x -= frame.midX
             child.position.y -= frame.minY
         }
+        joint(view, nodes: nodes, root: root)
         let holder = SKEffectNode()
         holder.shouldEnableEffects = false
         holder.addChild(root)
@@ -338,6 +417,72 @@ public final class CatNode: SKNode {
         restPositions[view] = nodes.mapValues(\.position)
     }
 
+
+    /// Cuts each leg at its hock or wrist (CatLimb) in the side and three-quarter views: the upper piece stays the
+    /// leg's node, the lower one hangs from it at the joint, drawn just behind.
+    private func joint(_ view: View, nodes: [String: SKSpriteNode], root: SKNode) {
+        guard view != .front else { return }
+        var made: [String: Limb] = [:]
+        for (name, node) in nodes where name.hasPrefix("leg_") {
+            guard let image = partImage(name, view: view), let found = CatLimb.joints(of: image),
+                  let pieces = CatLimb.split(image, joints: found) else { continue }
+            let upper = SKTexture(cgImage: pieces.upper), lower = SKTexture(cgImage: pieces.lower)
+            upper.filteringMode = .linear
+            lower.filteringMode = .linear
+            node.texture = upper
+            let size = node.size, pivot = node.anchorPoint
+            let piece = SKSpriteNode(texture: lower, size: size)
+            piece.anchorPoint = CGPoint(x: found.knee.x, y: 1 - found.knee.y)
+            let knee = CGPoint(x: (found.knee.x - pivot.x) * size.width, y: (1 - found.knee.y - pivot.y) * size.height)
+            piece.position = knee
+            piece.zPosition = -0.0004
+            piece.color = node.color
+            piece.colorBlendFactor = node.colorBlendFactor
+            piece.name = name + ".lower"
+            node.addChild(piece)
+            let foot = CGPoint(x: (found.foot.x - found.knee.x) * size.width, y: -(found.foot.y - found.knee.y) * size.height)
+            // Hind legs bend back at the hock, front legs forward at the wrist (painted facing left: back is +x).
+            let bend: CGFloat = name.hasPrefix("leg_back") ? 1 : -1
+            made[name] = Limb(
+                upper: node,
+                lower: piece,
+                knee: knee,
+                foot: foot,
+                bend: bend,
+                restFoot: piece.convert(foot, to: root)
+            )
+        }
+        limbs[view] = made
+    }
+
+    /// Where a jointed leg's paw is now, in the cat's parent's frame (for checking it stays put), and whether that leg
+    /// is jointed in the view on show.
+    func paw(_ name: String) -> CGPoint? {
+        guard let limb = limbs[view]?[name], let parent else { return nil }
+        return limb.lower.convert(limb.foot, to: parent)
+    }
+
+    /// A part's picture in the cat's look (or the plain set's): a leg to cut at its joint, the torso to soften.
+    private func partImage(_ name: String, view: View) -> CGImage? {
+        if let catArt, let look {
+            return catArt.image(catArt.builder.part(name, view: view.rawValue, look: look), look: look)
+        }
+        return art.image("cat/base/\(body)/cat_\(body)_\(view.rawValue)_\(name).png")
+    }
+
+    /// Puts a jointed leg's paw at `target` (the puppet's frame): the hip turns and the joint bends to reach it.
+    private func place(_ limb: Limb, at target: CGPoint, torso: SKNode) {
+        // Into the torso's frame, where the hip is.
+        let v = CGPoint(x: target.x - torso.position.x, y: target.y - torso.position.y)
+        let c = cos(torso.zRotation), s = sin(torso.zRotation)
+        let local = CGPoint(x: v.x * c + v.y * s, y: -v.x * s + v.y * c)
+        let hip = limb.upper.position
+        let a = hypot(limb.knee.x, limb.knee.y), b = hypot(limb.foot.x, limb.foot.y)
+        let knee = CatLimb.knee(hip: hip, target: local, upper: a, lower: b, bend: limb.bend)
+        let upper = atan2(knee.y - hip.y, knee.x - hip.x) - atan2(limb.knee.y, limb.knee.x)
+        limb.upper.zRotation = upper
+        limb.lower.zRotation = atan2(local.y - knee.y, local.x - knee.x) - atan2(limb.foot.y, limb.foot.x) - upper
+    }
 
     // MARK: Showing
 
@@ -489,6 +634,9 @@ public final class CatNode: SKNode {
                 node.position = rest
             }
         }
+        for limb in (limbs[view] ?? [:]).values {
+            limb.lower.zRotation = 0
+        }
         if let root = puppets[view]?.children.first {
             root.position = .zero
             root.zRotation = 0
@@ -614,7 +762,41 @@ public final class CatNode: SKNode {
         }
         bob *= reach
         puppets[view]?.children.first?.position.y = bob
-        if view == .front, let rest = restPositions[view] {
+        if let jointed = limbs[view], !jointed.isEmpty, let torso = nodes["torso"] {
+            // Each paw on its own path: planted, it slides back under the body as fast as the cat goes forward (so it
+            // stays put on the floor); lifted, it swings forward in an arc. Hips and joints follow (CatLimb).
+            let (swingShare, liftShare, crouch) = switch current.gait {
+            case .walk: (p.walkSwing, p.walkLift, p.walkCrouch)
+            case .trot: (p.trotSwing, p.trotLift, p.walkCrouch)
+            case .run: (p.runSwingShare, p.runLift, p.runCrouch)
+            }
+            let travel = moveSpeed > 0 ? Double(moveSpeed) / hz : stride * Double(height)
+            // Coming towards you at a slant, a stride is foreshortened: shorter steps.
+            let sweep = CGFloat((1 - swingShare) * travel * (view == .side ? 1 : p.slantStride))
+            let lift = CGFloat(liftShare) * height * reach
+            let way = forward()
+            let low = CGFloat(crouch) * height * reach
+            for (name, offset) in offsets {
+                guard let limb = jointed[name] else { continue }
+                let f = Double((phase + offset).truncatingRemainder(dividingBy: 1))
+                let along: CGFloat, up: CGFloat
+                if f < swingShare {
+                    let u = f / swingShare
+                    along = sweep * (CGFloat(u * u * (3 - 2 * u)) - 0.5)
+                    up = lift * CGFloat(sin(u * .pi))
+                } else {
+                    along = sweep * (0.5 - CGFloat((f - swingShare) / (1 - swingShare)))
+                    up = 0
+                }
+                let target = CGPoint(
+                    x: limb.restFoot.x + along * way.dx,
+                    y: limb.restFoot.y + along * way.dy + up - bob + low
+                )
+                place(limb, at: target, torso: torso)
+            }
+            // The body a little lower while moving, the legs a little bent under it.
+            puppets[view]?.children.first?.position.y = bob - low
+        } else if view == .front, let rest = restPositions[view] {
             // Legs are relative to the torso, which is scaled up from the parts' pixels; lift in its units.
             let lift = (nodes["leg_front_near"]?.size.height ?? 0) * CGFloat(p.frontLegLift) * reach
             for (name, offset) in offsets {
@@ -625,6 +807,19 @@ public final class CatNode: SKNode {
                 set(name, swing * leg(offset))
             }
         }
+    }
+
+    /// The way forward in the puppet's frame (painted facing left; flipped when facing right), along the floor.
+    private func forward() -> CGVector {
+        let fallback = view == .side ? CGVector(dx: -1, dy: 0) : CGVector(dx: -0.96, dy: -0.28)
+        guard var way = moveDirection, hypot(way.dx, way.dy) > 0.01 else { return fallback }
+        // Back along the floor is up the screen: a paw that far up behind reads as a kick, so the path keeps mostly
+        // level (a flat picture of a leg cannot go back into the room).
+        way.dy *= CGFloat(Tuning.Puppet.pathRise)
+        let length = hypot(way.dx, way.dy)
+        way = CGVector(dx: way.dx / length, dy: way.dy / length)
+        // In the puppet's frame, forward is left (-x); a cat facing right is the puppet flipped.
+        return CGVector(dx: facingRight ? -way.dx : way.dx, dy: way.dy)
     }
 
     // MARK: Life at rest

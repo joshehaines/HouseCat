@@ -20,6 +20,7 @@ A features mask repaired by fix_features.py (tools/app-assets/features_fixes/<re
 master's. Only the features and whisker masks of some sprites, after a repair:
   python3 tools/app-assets/build_cat_art.py --features parts/cat_short_chunky_front_head.png ...
 """
+import glob
 import json
 import os
 import shutil
@@ -67,6 +68,10 @@ def sprites():
                 out.append((f'ears/ear_{ears}_{view}_{side}.png', PART_SCALE, None, view, f'ear_{side}'))
     for view in VIEWS:
         out.append((f'tails/bobtail_{view}_up.png', PART_SCALE, None, view, 'tail_up'))
+    # The side view's profile ears (tools/asset-pipeline/ears/profile_ears.py).
+    for folder, pattern in (('parts', '*_side_ear_*_profile.png'), ('ears', '*_side_*_profile.png')):
+        for path in sorted(glob.glob(os.path.join(CUSTOM, 'base', folder, pattern))):
+            out.append((f'{folder}/{os.path.basename(path)}', PART_SCALE, None, 'side', None))
     return out
 
 

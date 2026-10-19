@@ -228,6 +228,8 @@ public final class CatDirector {
             let k = profile.distance > 0 ? s / profile.distance : 1
             floorPoint = CGPoint(x: from.point.x + (target.x - from.point.x) * k, y: from.point.y + (target.y - from.point.y) * k)
             cat.moveSpeed = v
+            // The paws step back along the way the cat is going, so planted they stay put on the floor.
+            cat.moveDirection = CGVector(dx: target.x - from.point.x, dy: target.y - from.point.y)
             speedNow = v
             surface = lift
             if t >= 1 {

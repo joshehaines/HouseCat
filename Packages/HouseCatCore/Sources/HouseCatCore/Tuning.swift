@@ -648,6 +648,28 @@ public enum Tuning {
         public static let runBob = 0.03
         /// In the front view legs lift instead of swinging, by this fraction of a leg.
         public static let frontLegLift = 0.08
+        /// Jointed legs (CatLimb, Josh 19 Oct): the share of a stride each paw is in the air, how high it lifts and how
+        /// much lower the body goes (shares of the cat's height) for a walk, a trot and a run; the rest of the stride
+        /// the paw is planted, sliding back under the body as fast as the cat goes forward.
+        public static let walkSwing = 0.38
+        public static let walkLift = 0.07
+        public static let walkCrouch = 0.03
+        public static let trotSwing = 0.45
+        public static let trotLift = 0.09
+        public static let runSwingShare = 0.5
+        public static let runLift = 0.12
+        public static let runCrouch = 0.04
+        /// How much of the floor's slant a paw's path keeps (1: all of it), and the stride coming at a slant (a share
+        /// of the side view's).
+        public static let pathRise = 0.45
+        public static let slantStride = 0.75
+        /// The far legs, behind the body, this much darker.
+        public static let farLegShade = 0.18
+        /// The bodies whose side head is a true profile, which take the profile ears in the side view; the others
+        /// keep the cupped ears (the long-haired chunky body's side head looks round at you). A side head painted with
+        /// its own ear takes no ear parts over it.
+        public static let profileEarBodies: Set<String> = ["short_slim", "short_chunky", "siamese", "sphynx"]
+        public static let sideHeadsWithEars: Set<String> = ["long_slim"]
         /// Settling into a painted pose, getting up from one and turning between views (one drawing at a time: the
         /// new one takes over at once, under a squash).
         public static let settleSeconds = 0.35

@@ -239,6 +239,14 @@ final class Visit {
         house.show(room: room)
         roomShown(room)
         GameSession.shared.append(.roomVisited(room), at: GameSession.shared.now())
+        // A cat that follows you comes along a moment later (not from a sleep or a nap).
+        if GameSession.shared.followsYou, house.catRoom != room, house.catActivity != .sleep, !Naps.shared.isNapping {
+            Task { @MainActor [weak self] in
+                try? await Task.sleep(for: .seconds(Tuning.Care.followDelaySeconds))
+                guard let self, self.activeRoom == room, let house = self.scene as? RoomScene, house.catRoom != room else { return }
+                house.send(BehaviourChoice(activity: .nearPlayer, room: room), pace: .trot)
+            }
+        }
     }
 
     /// The next or previous open room.
@@ -248,8 +256,8 @@ final class Visit {
         go(to: rooms[(index + step + rooms.count) % rooms.count])
     }
 
-    private func roomShown(_ room: RoomID) {
-        guard let house = scene as? RoomScene else { return }
+    private func roomShown(_ room: RoomID, in built: RoomScene? = nil) {
+        guard let house = built ?? scene as? RoomScene else { return }
         activeRoom = room
         storey = house.storey
         canDecorate = house.storey == house.house.storey
@@ -769,6 +777,10 @@ final class Visit {
             house.onZoomChanged = { Self.roomZoom = $0 }
         }
         room = built
+        // The view starts on the room the cat is in.
+        if let house = built as? RoomScene {
+            roomShown(house.house.active, in: house)
+        }
         refreshStats()
         return built
     }

@@ -30,8 +30,16 @@ public enum RoomChoice {
         let open = Set(offers.keys).union([.living])
         let here = open.contains(current) ? current : .living
         guard let need = activity.affordance else {
-            // Nothing to use: near you comes to the room you are looking at; the rest happens where it is.
-            return activity == .nearPlayer && open.contains(viewing) ? viewing : here
+            // Nothing to use: near you comes to the room you are looking at; a wander sometimes goes next door;
+            // the rest happens where it is.
+            if activity == .nearPlayer, open.contains(viewing) {
+                return viewing
+            }
+            let elsewhere = open.subtracting([here]).sorted()
+            if activity == .explore, !elsewhere.isEmpty, rng.below(100) < Tuning.CatRooms.exploreElsewherePercent {
+                return elsewhere[rng.below(elsewhere.count)]
+            }
+            return here
         }
         let candidates = offers.filter { $0.value.contains(need) }.map(\.key).sorted()
         guard !candidates.isEmpty else { return here }

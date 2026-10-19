@@ -237,6 +237,44 @@ private func run(_ director: CatDirector, seconds: Double, step: Double = 1.0 / 
     #expect(director.floorPoint == room.spot(for: choice).point)
 }
 
+// MARK: Coming home
+
+/// Each greeting plays out and settles: the ones that come to you rub (the gift comes with them), the others
+/// look up, or lift a sleepy head, or turn their back, and stay or go where the table sent them.
+@MainActor
+@Test(arguments: GreetingStyle.allCases)
+func eachGreetingComesToYouOrNotAndSettles(style: GreetingStyle) throws {
+    let world = try World()
+    let room = world.room()
+    let director = room.addCat(rig: world.rig, at: 5, 5, pose: .sitSide)
+    let start: Activity = switch style {
+    case .dozes: .sleep
+    case .ambush: .hide
+    default: .sit
+    }
+    room.placeCat(for: BehaviourChoice(activity: start))
+    let startPose = director.cat.pose
+    let then = BehaviourChoice(activity: style == .ignores ? .sulk : .perch)
+    var rubs = 0, done = false
+    room.playArrival(style, then: then, onRub: { rubs += 1 }, onDone: { done = true })
+    for _ in 0 ..< 60 * 40 where !done {
+        director.update(1.0 / 60)
+    }
+    director.update(1.0 / 60)
+    #expect(done)
+    #expect(rubs == (style.comesToYou ? 1 : 0))
+    #expect(director.isIdle)
+    switch style {
+    case .runs, .walks, .ambush, .ignores:
+        // Off to what the table chose.
+        #expect(director.cat.pose == room.spot(for: then).pose)
+        #expect(director.floorPoint == room.spot(for: then).point)
+    case .glances, .dozes:
+        // Not hungry: it stays where it was, as it was.
+        #expect(director.cat.pose == startPose)
+    }
+}
+
 // MARK: The camera
 
 @MainActor

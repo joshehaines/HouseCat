@@ -131,6 +131,19 @@ public final class RoomScene: SKScene {
         }
     }
 
+    /// The view starts on the room the cat is in when you come home (not a pick of yours: it follows the cat on).
+    func startIn(room id: RoomID) {
+        guard id != house.active, let room = house.room(id), room.lockLabel == nil else { return }
+        house.active = id
+        focus = nil
+        if room.storey != storey {
+            storey = room.storey
+            attachStorey()
+        } else {
+            fit()
+        }
+    }
+
     /// The active room changed without the player picking it (the view followed the cat).
     public var onActiveRoomChanged: ((RoomID) -> Void)?
     /// A tap on an open room other than the one you are in.
@@ -341,6 +354,8 @@ public final class RoomScene: SKScene {
         spot.pose = Self.variety(spot.pose)
         if choice.activity == .zoomies {
             director.run(zoomies())
+        } else if choice.activity == .explore {
+            director.run(explore(in: target))
         } else {
             director.run(steps(to: spot, in: target, pace: Self.pace(for: choice.activity)) + extras(for: choice))
         }
@@ -378,7 +393,7 @@ public final class RoomScene: SKScene {
     }
 
     /// Where the view looks, in world units; it follows the cat unless the player has just panned.
-    private var focus: CGPoint?
+    var focus: CGPoint?
     private var heldUntil: TimeInterval = 0
 
     /// The active room's frame in the world.

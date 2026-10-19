@@ -156,3 +156,50 @@ private func settle(_ director: CatDirector, within seconds: Double = 120) {
     #expect(scene.house.active == .garden)
     #expect(followed == [.garden])
 }
+
+/// Coming home, the cat is where its day put it, in whichever room: the view starts on that room, the cat up on
+/// its furniture in the pose for it.
+@MainActor
+@Test func youFindTheCatWhereverItWasAndTheViewStartsThere() throws {
+    let home = try FullHouse()
+    let scene = home.scene()
+    let rig = try home.art.data("cat/rig.json", as: PuppetRig.self)
+    let director = scene.addCat(rig: rig, at: 5, 5, pose: .sitSide)
+    let (activity, itemID) = try #require(home.activity(in: .bedroom))
+    let choice = BehaviourChoice(activity: activity, room: .bedroom)
+    scene.placeCat(for: choice)
+    #expect(scene.catRoom == .bedroom)
+    #expect(scene.house.active == .bedroom)
+    #expect(scene.storey == home.house.room(.bedroom)?.storey)
+    #expect(director.cat.parent === scene.rooms[.bedroom])
+    let spot = scene.spot(for: choice)
+    #expect(spot.itemID == itemID)
+    #expect(director.floorPoint == spot.point && director.lift == spot.lift)
+    #expect(director.cat.pose != nil)
+    #expect(scene.catActivity == activity)
+}
+
+/// A wander goes to a few spots and sits at the last, in the room it was sent to.
+@MainActor
+@Test func aWanderStopsAtAFewSpotsAndSitsAtTheLast() throws {
+    let home = try FullHouse()
+    let scene = home.scene()
+    let rig = try home.art.data("cat/rig.json", as: PuppetRig.self)
+    let director = scene.addCat(rig: rig, at: 5, 5, pose: .sitSide)
+    scene.send(BehaviourChoice(activity: .explore, room: .kitchen))
+    var moves = 0
+    var t = 0.0
+    var last: CatDirector.Step?
+    while !director.isIdle, t < 120 {
+        director.update(1.0 / 30)
+        t += 1.0 / 30
+        if case .move = director.currentStep, !{ if case .move = last { true } else { false } }() {
+            moves += 1
+        }
+        last = director.currentStep
+    }
+    #expect(director.isIdle)
+    #expect(scene.catRoom == .kitchen)
+    #expect(moves >= 2)
+    #expect([.sitSide, .sitThreeQuarterFront, .loafSide].contains(director.cat.pose))
+}

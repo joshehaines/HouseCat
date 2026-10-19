@@ -111,7 +111,8 @@ enum GameWorld {
         )
     }
 
-    /// The house with the cat arriving in the living room to do what the save says, or a blank scene if the art is missing.
+    /// The house with the cat where its day put it, greeting you in its own way and going on to what the save says,
+    /// or a blank scene if the art is missing.
     /// `onRub` runs when the cat reaches you and rubs along the bottom edge; `onArrived` when it has gone on to what it does next.
     static func roomScene(
         size: CGSize,
@@ -138,7 +139,8 @@ enum GameWorld {
             pose: .loafThreeQuarterFront
         )
         if let arrival {
-            scene.playArrival(then: arrival.choice, onRub: {
+            scene.placeCat(for: arrival.start)
+            scene.playArrival(arrival.style, then: arrival.choice, onRub: {
                 purr()
                 onRub()
             }, onDone: onArrived)

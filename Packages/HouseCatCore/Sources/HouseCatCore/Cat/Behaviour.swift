@@ -98,6 +98,8 @@ public enum Activity: String, CaseIterable, Codable, Sendable {
     case knockOff
     /// Nothing to sit on: the cat loafs on the floor and says so.
     case floorLoaf
+    /// A wander: a few spots about the room (or the next room), a pause and a look round at each.
+    case explore
 
     /// The furniture affordance the activity needs, or nil if it happens on the floor.
     public var affordance: Affordance? {
@@ -110,7 +112,7 @@ public enum Activity: String, CaseIterable, Codable, Sendable {
         case .perch: .perch
         case .scratch: .scratch
         case .knockOff: .bat
-        case .sulk, .sunbeamLoaf, .zoomies, .nearPlayer, .floorLoaf: nil
+        case .sulk, .sunbeamLoaf, .zoomies, .nearPlayer, .floorLoaf, .explore: nil
         }
     }
 
@@ -125,7 +127,7 @@ public enum Activity: String, CaseIterable, Codable, Sendable {
         case .hide: .loafThreeQuarterFront
         case .perch: .sitThreeQuarterFront
         case .scratch: .stretchSide
-        case .zoomies, .knockOff: nil
+        case .zoomies, .knockOff, .explore: nil
         }
     }
 }
@@ -229,7 +231,26 @@ public enum BehaviourTable {
         for background in [Activity.scratch, .knockOff, .sit, .sleep, .perch, .hide] {
             add(background, w.background)
         }
+        // A wander now and then, more for a lively cat, never in the small hours.
+        if context.timeOfDay != .night {
+            add(.explore, context.personality.sliders.energy >= 0.6 ? w.exploreLively : w.explore)
+        }
         return options
+    }
+
+    /// Where the cat is resting when you come home (SPEC "The session loop" 3: "wherever its brain put it for
+    /// this time of day: sofa, box, windowsill, or asleep in the bedroom"): the day's schedule and the cat's
+    /// favourites, only the things it settles into (no wandering, no zoomies, nothing that needs you there).
+    public static func resting(_ context: BehaviourContext, rng: inout DaySeed) -> BehaviourChoice {
+        let settles: Set<Activity> = [.windowWatch, .sunbeamLoaf, .sit, .sleep, .perch, .hide]
+        let favourites = context.personality.favourites
+        let weighted = options(for: context).filter { settles.contains($0.0) }.map { activity, weight in
+            (activity, favourites.contains(activity) ? weight * Tuning.Personality.favouriteMultiplier : weight)
+        }
+        guard let index = rng.pick(weights: weighted.map(\.1)) else {
+            return BehaviourChoice(activity: .floorLoaf, lineContext: emptyRoomLine)
+        }
+        return BehaviourChoice(activity: weighted[index].0)
     }
 
     /// Chooses what the cat does next. Deterministic for a given seed.
@@ -264,5 +285,52 @@ public enum BehaviourTable {
             return BehaviourChoice(activity: .floorLoaf, lineContext: emptyRoomLine)
         }
         return BehaviourChoice(activity: weighted[index].0)
+    }
+}
+
+/// How the cat greets you when you come home (SPEC "The session loop" 3: personality × trust): "a Velcro cat runs
+/// to you from tier 1; an Aloof cat glances up until tier 3 and only ever walks; a Gremlin ambushes from behind
+/// the sofa; a Loaf lifts its head and goes back to sleep." Sulking after a missed day, it keeps its back to you.
+public enum GreetingStyle: String, CaseIterable, Sendable {
+    /// Runs to you and rubs along the front of the room.
+    case runs
+    /// Walks over and rubs.
+    case walks
+    /// Hides by something, then dashes out at you.
+    case ambush
+    /// Looks up, slow-blinks, and stays where it is.
+    case glances
+    /// Asleep: lifts its head, and goes back to sleep.
+    case dozes
+    /// Sulking: no greeting at all.
+    case ignores
+
+    /// Whether the cat comes all the way to you (the rub, and the gift it carries).
+    public var comesToYou: Bool {
+        [.runs, .walks, .ambush].contains(self)
+    }
+
+    public static func style(personality: Personality, trust: TrustTier, mood: Mood, asleep: Bool) -> GreetingStyle {
+        switch mood {
+        case .sulky:
+            return .ignores
+        case .thawing:
+            return personality == .velcro ? .walks : asleep ? .dozes : .glances
+        default:
+            break
+        }
+        switch personality {
+        case .velcro:
+            return trust >= .wary ? .runs : .walks
+        case .aloof:
+            return trust >= .comfortable ? .walks : .glances
+        case .gremlin:
+            return .ambush
+        case .loaf:
+            if asleep {
+                return trust >= .devoted ? .walks : .dozes
+            }
+            return trust >= .comfortable ? .walks : .glances
+        }
     }
 }

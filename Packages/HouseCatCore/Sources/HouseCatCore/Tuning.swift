@@ -274,6 +274,8 @@ public enum Tuning {
     public enum Care {
         /// Taps in a row before the cat walks off (never a Velcro cat).
         public static let overPetTaps = 6
+        /// A cat that follows you sets off after you this long after you go to another room.
+        public static let followDelaySeconds = 1.2
         /// Pets closer together than this count as in a row.
         /// A note over the room ("+10 Beans", "Level 3") stays this long.
         public static let toastSeconds = 2.4
@@ -415,6 +417,8 @@ public enum Tuning {
         /// The chance the cat goes to that room when it has what it wants, and else stays where it is.
         public static let preferredPercent = 70
         public static let stayPercent = 55
+        /// A wander goes into another open room this often (percent).
+        public static let exploreElsewherePercent = 40
     }
 
     /// The cat's profile (SPEC "Age and time together").
@@ -459,6 +463,9 @@ public enum Tuning {
         public static let scheduleFavourite = 25
         public static let scheduleSecond = 15
         public static let background = 5
+        /// A wander about the room (or next door): a lively cat (energy 0.6 and up) does it more.
+        public static let explore = 8
+        public static let exploreLively = 16
     }
 
     /// The arrival (SPEC "The session loop").
@@ -477,6 +484,9 @@ public enum Tuning {
         public static let rubFrom = [7.7, 9.6]
         public static let rubTo = [9.6, 7.7]
         public static let greetCloseUpSeconds = 6.0
+        /// A Gremlin crouches in ambush this long before it dashes out; a glance up at you holds this long.
+        public static let ambushWait = 1.4
+        public static let glanceHold = 1.8
         /// Walking off after the rub is a little brisker than an ordinary walk.
         public static let walkOffPace = 1.4
     }
@@ -586,6 +596,9 @@ public enum Tuning {
         ]
         /// While settled, a fidget (a glance, a slow blink) every this many seconds.
         public static let fidgetGap = [7.0, 15.0]
+        /// A wander stops at this many spots (fewest, most), pausing this long at each (seconds).
+        public static let exploreStops = [2, 3]
+        public static let explorePause = [0.8, 2.0]
     }
 
     /// The code-drawn sky over the exterior and the grade on the painted scene (SPEC "World map,
@@ -610,6 +623,8 @@ public enum Tuning {
         public static let windowGlow: [SkyPhase: Double] = [.dawn: 0.35, .day: 0, .dusk: 0.6, .night: 1]
         public static let glassByDay = [0.62, 0.76, 0.86]
         public static let glassLit = [1.0, 0.8, 0.5]
+        /// By day, how far the painted glass is cooled towards the sky's colour (0 keeps the painting's glass).
+        public static let glassCool = 0.35
     }
 
     /// How the exterior painting is framed: it covers the view, except that the house's band in the

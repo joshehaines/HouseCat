@@ -171,6 +171,9 @@ final class GameSession {
         var meow: LinesFile.Line.Meow?
         var choice: BehaviourChoice
         var mood: Mood
+        /// Where the cat is when you come in (resting where its day put it, in any open room), and how it greets you.
+        var start: BehaviourChoice
+        var style: GreetingStyle
     }
 
     func arrive() -> Arrival {
@@ -186,10 +189,21 @@ final class GameSession {
         let sky = home.sky, weather = home.weather
         let offers = RoomChoice.offers(in: after, catalogue: content?.affordances ?? [:])
         let time = TimeOfDay.at(localMinutes: after.clock.localMinutes(of: date), clock: after.clock)
+        var personality = cat?.personality ?? .velcro, trust = cat?.trust ?? .newcomer
+        #if DEBUG
+            // Screenshot runs: HOUSECAT_PERSONALITY=loaf and HOUSECAT_TRUST=3 greet as that cat would.
+            let environment = ProcessInfo.processInfo.environment
+            if let name = environment["HOUSECAT_PERSONALITY"], let chosen = Personality(rawValue: name) {
+                personality = chosen
+            }
+            if let tier = environment["HOUSECAT_TRUST"].flatMap(Int.init).flatMap(TrustTier.init(rawValue:)) {
+                trust = tier
+            }
+        #endif
         let context = BehaviourContext(
             mood: mood,
             weather: weather,
-            personality: cat?.personality ?? .velcro,
+            personality: personality,
             timeOfDay: time,
             available: offers.values.reduce(into: Set<Affordance>()) { $0.formUnion($1) },
             sunlit: sky == .day && weather.isSunny
@@ -200,11 +214,40 @@ final class GameSession {
         let greeting = cat.flatMap { cat in content.flatMap { Greeting.line(greetingContext, cat: cat, lines: $0.lines, rng: &words) } }
         let meow = cat
             .flatMap { cat in content?.lines.lines.first { $0.context == greetingContext && $0.personality == cat.personality }?.meow }
+        // Where it was resting: anywhere in the house (the first visit ever, in the living room for the tour).
+        var rest = DaySeed(household: after.seed, day: day, purpose: "rest", salt: "arrival\(visits)")
+        let open = offers.keys.sorted()
+        let firstEver = before.lifetime.visits == 0
+        let from: RoomID = firstEver || open.isEmpty ? .living : open[rest.below(open.count)]
+        var start = RoomChoice.placed(
+            BehaviourTable.resting(context, rng: &rest),
+            current: from, viewing: from, offers: offers, timeOfDay: time, rng: &rest
+        )
+        let style = GreetingStyle.style(
+            personality: personality,
+            trust: trust,
+            mood: mood,
+            asleep: start.activity == .sleep
+        )
+        // A Gremlin waits in ambush by something to hide behind, in the room it was in if it can.
+        if style == .ambush, let hideaway = offers.filter({ $0.value.contains(.hide) }).keys.sorted().first {
+            let room = offers[start.room ?? from]?.contains(.hide) == true ? start.room ?? from : hideaway
+            start = BehaviourChoice(activity: .hide, room: room)
+        }
+        if firstEver {
+            start.room = .living
+        }
+        let here = start.room ?? .living
         let choice = RoomChoice.placed(
             BehaviourTable.choose(context, rng: &brain),
-            current: .living, viewing: .living, offers: offers, timeOfDay: time, rng: &brain
+            current: here, viewing: here, offers: offers, timeOfDay: time, rng: &brain
         )
-        return Arrival(greeting: greeting, meow: meow, choice: choice, mood: mood)
+        return Arrival(greeting: greeting, meow: meow, choice: choice, mood: mood, start: start, style: style)
+    }
+
+    /// Whether the cat follows you from room to room (a Velcro cat does).
+    var followsYou: Bool {
+        cat?.personality == .velcro
     }
 
     /// The cat's next activity while you watch (no event: activities are not game state). Same rule as the

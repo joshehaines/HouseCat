@@ -100,21 +100,24 @@ public extension RoomScene {
         let gap = CGFloat(Tuning.Puppet.jumpFrom)
         let n = grid.cells, edge: CGFloat = 0.4
         let candidates = [CGPoint(x: u + w / 2, y: v + d + gap), CGPoint(x: u + w + gap, y: v + d / 2)]
-        func clear(_ c: CGPoint) -> Bool {
-            guard c.x > edge, c.y > edge, c.x < n - edge, c.y < n - edge else { return false }
-            return !room.model.items.contains { placement in
-                guard let item = items[placement.id], item.layer != .wall, !item.decal else { return false }
-                let (pw, pd) = room.footprint(item, facing: placement.facing)
-                return c.x >= CGFloat(placement.u) && c.x <= CGFloat(placement.u) + pw && c.y >= CGFloat(placement.v) && c.y <= CGFloat(placement.v) + pd
-            }
-        }
-        let open = candidates.filter(clear)
+        let open = candidates.filter { floorIsClear($0, in: room) }
         let cat = director.map { grid.cell(at: $0.floorPoint) }.map { CGPoint(x: $0.u, y: $0.v) }
         let best = (open.isEmpty ? candidates : open).min { a, b in
             guard let cat else { return false }
             return hypot(a.x - cat.x, a.y - cat.y) < hypot(b.x - cat.x, b.y - cat.y)
         } ?? candidates[0]
         return grid.floor(min(max(best.x, edge), n - edge), min(max(best.y, edge), n - edge))
+    }
+
+    /// Whether a floor cell is inside the room and clear of the furniture standing on the floor (rugs are fine).
+    internal func floorIsClear(_ c: CGPoint, in room: RoomNode, edge: CGFloat = 0.4) -> Bool {
+        let n = grid.cells
+        guard c.x > edge, c.y > edge, c.x < n - edge, c.y < n - edge else { return false }
+        return !room.model.items.contains { placement in
+            guard let item = items[placement.id], item.layer != .wall, !item.decal else { return false }
+            let (pw, pd) = room.footprint(item, facing: placement.facing)
+            return c.x >= CGFloat(placement.u) && c.x <= CGFloat(placement.u) + pw && c.y >= CGFloat(placement.v) && c.y <= CGFloat(placement.v) + pd
+        }
     }
 
     /// Furniture moved, turned or put away in the cat's room while the cat was up on something: when nothing
@@ -212,27 +215,151 @@ public extension RoomScene {
         ]
     }
 
-    /// The arrival (CLAUDE.md "The arrival in the room view is live"): the cat notices you, trots to the front of
-    /// its room while the camera leans in, rubs along the front, then goes off to what the behaviour table chose.
-    func playArrival(then choice: BehaviourChoice, onRub: @escaping @MainActor () -> Void, onDone: @escaping @MainActor () -> Void) {
+    /// Puts the cat where it was when you came in (`BehaviourTable.resting`): settled at the activity's spot in its
+    /// room, on the furniture if that is where, and the view on that room.
+    func placeCat(for choice: BehaviourChoice) {
+        guard let director, let room = rooms[choice.room ?? catRoom] else { return }
+        var spot = spot(for: choice, in: room)
+        spot.pose = Self.variety(spot.pose)
+        director.cat.removeFromParent()
+        room.addChild(director.cat)
+        catRoom = room.id
+        director.perchDepth = spot.perchDepth
+        director.place(at: spot.point, lift: spot.lift)
+        director.cat.settle(into: spot.pose, duration: 0)
+        startIn(room: room.id)
+        beganActivity(choice.activity)
+    }
+
+    /// The arrival (CLAUDE.md "The arrival in the room view is live", SPEC "The session loop" 3): the cat greets
+    /// you in its own way (`GreetingStyle`), then goes off to what the behaviour table chose. One that comes to you
+    /// notices you, comes to the front of its room while the camera leans in and rubs along it (`onRub`); one that
+    /// does not looks up, or lifts its head from its sleep, or keeps its back to you. `onDone` when it is settled.
+    func playArrival(
+        _ style: GreetingStyle = .runs,
+        then choice: BehaviourChoice,
+        onRub: @escaping @MainActor () -> Void,
+        onDone: @escaping @MainActor () -> Void
+    ) {
         guard let director else { return }
         let a = Tuning.Arrival.self
         let from = grid.floor(CGFloat(a.rubFrom[0]), CGFloat(a.rubFrom[1])), to = grid.floor(CGFloat(a.rubTo[0]), CGFloat(a.rubTo[1]))
-        let spot = spot(for: choice)
         let room = choice.room ?? catRoom
-        director.run([
-            .wait(a.noticeDelay),
-            .rise(.tqfront), // ears up, it has noticed you
-            .wait(a.noticeHold),
-            .call { [weak self] in self?.lookCloser(for: a.greetCloseUpSeconds) },
-            .move(to: from, pace: .trot),
-            .call(onRub),
-            .move(to: to, pace: .stroll),
-        ] + steps(to: spot, in: room).filter { step in
-            if case .rise = step { return false }
-            return true
-        } + [.call(onDone)])
-        beganActivity(choice.activity)
+        let spot = (rooms[room] ?? activeRoom).map { self.spot(for: choice, in: $0) } ?? self.spot(for: choice)
+        let lean: CatDirector.Step = .call { [weak self] in self?.lookCloser(for: a.greetCloseUpSeconds) }
+        let pose = director.cat.pose
+        var steps: [CatDirector.Step] = [.wait(a.noticeDelay)]
+        // Off what it is on, first.
+        func down() -> [CatDirector.Step] {
+            director.lift > 0 ? [.hop(to: groundInFront(of: director.floorPoint), lift: 0), .call { [weak self] in self?.director?.perchDepth = nil }] : []
+        }
+        /// After the greeting: off to what the table chose, or (one that stayed put, not hungry) where it is.
+        func then(going: Bool) -> [CatDirector.Step] {
+            guard going else { return [] }
+            return self.steps(to: spot, in: room)
+        }
+        let hungry = choice.activity == .bowlNag
+        switch style {
+        case .runs, .walks:
+            if pose == .sleepCurl {
+                steps += [.glance(.stretchSide), .wait(Tuning.Puppet.stretchSeconds)]
+            }
+            steps += [.rise(.tqfront), .wait(a.noticeHold)] + down() + [
+                lean,
+                .move(to: from, pace: style == .runs ? .run : .walk),
+                .call(onRub),
+                .move(to: to, pace: .stroll),
+            ] + then(going: true).filter { step in
+                if case .rise = step { return false }
+                return true
+            }
+            beganActivity(choice.activity)
+        case .ambush:
+            // Crouched by its hiding place a moment, then out at you at a dash, with a pounce at the end.
+            steps += [.wait(a.ambushWait), .rise(.tqfront), .call { [weak self] in self?.director?.cat.squash(CGFloat(Tuning.Puppet.squash) * 1.6) },
+                      .wait(Tuning.Puppet.crouchSeconds)] + down() + [
+                lean,
+                .move(to: from, pace: .dash),
+                .hop(to: from, lift: 0),
+                .call { [weak self] in self?.react("exclaim") },
+                .call(onRub),
+                .move(to: to, pace: .stroll),
+            ] + then(going: true).filter { step in
+                if case .rise = step { return false }
+                return true
+            }
+            beganActivity(choice.activity)
+        case .glances:
+            // A look up, a slow blink, and back to what it was doing (unless the bowl is empty).
+            let turned = Self.towardsYou(pose)
+            steps += [.call { [weak self] in self?.lookCloser(for: a.greetCloseUpSeconds * 0.6) }]
+            if let turned, let pose, turned != pose {
+                steps += [.glance(turned), .call { [weak director] in director?.cat.blink(slow: true) }, .wait(a.glanceHold), .glance(pose)]
+            } else {
+                steps += [.call { [weak director] in director?.cat.blink(slow: true) }, .wait(a.glanceHold)]
+            }
+            steps += then(going: hungry)
+            if hungry {
+                beganActivity(choice.activity)
+            }
+        case .dozes:
+            // Asleep: the head comes up, a slow blink, and down again (it gets up only for an empty bowl).
+            steps += [.call { [weak self] in self?.lookCloser(for: a.greetCloseUpSeconds * 0.6) }]
+            if pose == .sleepCurl {
+                steps += [.glance(.loafThreeQuarterFront), .call { [weak director] in director?.cat.blink(slow: true) },
+                          .wait(a.glanceHold), .glance(.sleepCurl)]
+            } else if let pose, let turned = Self.towardsYou(pose) {
+                steps += [.glance(turned), .wait(a.glanceHold), .glance(pose)]
+            }
+            steps += then(going: hungry)
+            if hungry {
+                beganActivity(choice.activity)
+            }
+        case .ignores:
+            // Sulking: straight off to sulk, its back to you.
+            steps += then(going: true)
+            beganActivity(choice.activity)
+        }
+        director.run(steps + [.call(onDone)])
+    }
+
+    /// The painting of the same pose turned towards you (a glance), if there is one.
+    static func towardsYou(_ pose: CatPose?) -> CatPose? {
+        switch pose {
+        case .sitSide, .sitBack: .sitThreeQuarterFront
+        case .loafSide: .loafThreeQuarterFront
+        case .sitThreeQuarterFront, .loafThreeQuarterFront, .sitFront: pose
+        case .sleepCurl: .loafThreeQuarterFront
+        case .stretchSide, nil: nil
+        }
+    }
+
+    /// A wander: a few clear spots about a room (this one or the next), a pause and a look round at each, and a
+    /// sit at the last.
+    internal func explore(in target: RoomID) -> [CatDirector.Step] {
+        guard let director, let room = rooms[target] else { return [] }
+        var steps: [CatDirector.Step] = []
+        if director.cat.pose == .sleepCurl {
+            steps += [.glance(.stretchSide), .wait(Tuning.Puppet.stretchSeconds)]
+        }
+        steps.append(.rise(director.cat.view))
+        if director.lift > 0 {
+            steps += [.hop(to: groundInFront(of: director.floorPoint), lift: 0), .call { [weak self] in self?.director?.perchDepth = nil }]
+        }
+        steps += route(to: target, pace: .stroll)
+        let n = grid.cells, stops = Int.random(in: Tuning.Puppet.exploreStops[0] ... Tuning.Puppet.exploreStops[1])
+        for i in 0 ..< stops {
+            var cell = CGPoint(x: CGFloat.random(in: 1.2 ... n - 1.2), y: CGFloat.random(in: 1.2 ... n - 1.2))
+            for _ in 0 ..< 10 where !floorIsClear(cell, in: room, edge: 1) {
+                cell = CGPoint(x: CGFloat.random(in: 1.2 ... n - 1.2), y: CGFloat.random(in: 1.2 ... n - 1.2))
+            }
+            steps.append(.move(to: grid.floor(cell.x, cell.y), pace: .stroll))
+            steps.append(.wait(TimeInterval.random(in: Tuning.Puppet.explorePause[0] ... Tuning.Puppet.explorePause[1])))
+            if i == stops - 1 {
+                steps.append(.settle([.sitSide, .sitThreeQuarterFront, .loafSide].randomElement() ?? .sitSide))
+            }
+        }
+        return steps
     }
 
     /// Sends the cat off to an activity now (fed: to the bowl; petted too much: away), in the choice's room.
@@ -241,6 +368,8 @@ public extension RoomScene {
         let pace = pace ?? (choice.activity == .bowlNag ? .trot : .walk)
         if choice.activity == .zoomies {
             director.run(zoomies())
+        } else if choice.activity == .explore {
+            director.run(explore(in: choice.room ?? catRoom))
         } else {
             director.run(steps(to: spot(for: choice), in: choice.room ?? catRoom, pace: pace) + extras(for: choice))
         }

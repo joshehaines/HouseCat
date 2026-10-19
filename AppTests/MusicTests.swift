@@ -23,13 +23,25 @@ struct MusicTests {
         #expect(player.numberOfChannels == 2)
     }
 
-    @Test func musicIsOnUntilTurnedOff() {
-        let defaults = UserDefaults.standard
-        let saved = defaults.object(forKey: Music.onKey)
-        defer { defaults.set(saved, forKey: Music.onKey) }
-        defaults.removeObject(forKey: Music.onKey)
-        #expect(Music.isOn)
+    @Test func aGameOverTheGamesMenuKeepsTheMusicHushed() {
+        Music.hush(.miniGame, true)
+        Music.hush(.miniGame, true)
+        Music.hush(.miniGame, false)
+        #expect(Music.isHushed(by: .miniGame))
+        Music.hush(.miniGame, false)
+        #expect(!Music.isHushed(by: .miniGame))
+        Music.hush(.miniGame, false)
+        Music.hush(.miniGame, true)
+        #expect(Music.isHushed(by: .miniGame))
+        Music.hush(.miniGame, false)
+    }
+
+    /// In a defaults suite of its own: the app's real setting on the simulator is never touched.
+    @Test func musicIsOnUntilTurnedOff() throws {
+        let defaults = try #require(UserDefaults(suiteName: "MusicTests"))
+        defer { defaults.removePersistentDomain(forName: "MusicTests") }
+        #expect(Music.isOn(in: defaults))
         defaults.set(false, forKey: Music.onKey)
-        #expect(!Music.isOn)
+        #expect(!Music.isOn(in: defaults))
     }
 }

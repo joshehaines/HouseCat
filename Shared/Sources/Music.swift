@@ -34,7 +34,11 @@ enum Music {
 
     /// Music on (Settings).
     static var isOn: Bool {
-        UserDefaults.standard.object(forKey: onKey) as? Bool ?? true
+        isOn(in: .standard)
+    }
+
+    static func isOn(in defaults: UserDefaults) -> Bool {
+        defaults.object(forKey: onKey) as? Bool ?? true
     }
 
     /// The player's own level, 0–1, of `Tuning.Sound.music` (Settings).
@@ -43,7 +47,8 @@ enum Music {
     }
 
     private static var wanted: Track?
-    private static var hushes: Set<Hush> = []
+    /// Game screens stack (a game over the Games menu), so `.miniGame` counts them; the others are on or off.
+    private static var hushes: [Hush: Int] = [:]
     private static var players: [Track: AVAudioPlayer] = [:]
     private static var observing = false
 
@@ -54,12 +59,22 @@ enum Music {
     }
 
     static func hush(_ reason: Hush, _ on: Bool) {
-        if on {
-            hushes.insert(reason)
-        } else {
-            hushes.remove(reason)
+        let count = hushes[reason, default: 0]
+        hushes[reason] = reason == .miniGame ? max(0, count + (on ? 1 : -1)) : (on ? 1 : 0)
+        guard !on, reason == .miniGame else {
+            refresh()
+            return
         }
-        refresh()
+        // From one game screen to the next (the menu closing as a game opens) the music waits a moment, so it does
+        // not swell up in between.
+        Task { @MainActor in
+            try? await Task.sleep(for: .seconds(Tuning.Sound.musicHandoverSeconds))
+            refresh()
+        }
+    }
+
+    static func isHushed(by reason: Hush) -> Bool {
+        hushes[reason, default: 0] > 0
     }
 
     /// Brings the music in line with what is wanted, what hushes it and the player's settings: the track playing
@@ -68,7 +83,7 @@ enum Music {
         #if os(iOS)
             Sound.configure()
             observe()
-            let playing = isOn && hushes.isEmpty ? wanted : nil
+            let playing = isOn && hushes.values.allSatisfy({ $0 == 0 }) ? wanted : nil
             for (track, player) in players where track != playing && player.isPlaying {
                 player.setVolume(0, fadeDuration: Tuning.Sound.musicFadeSeconds)
                 Task { @MainActor in
@@ -106,7 +121,7 @@ enum Music {
             observing = true
             let session = AVAudioSession.sharedInstance()
             if session.secondaryAudioShouldBeSilencedHint {
-                hushes.insert(.otherAudio)
+                hushes[.otherAudio] = 1
             }
             NotificationCenter.default.addObserver(
                 forName: AVAudioSession.silenceSecondaryAudioHintNotification,

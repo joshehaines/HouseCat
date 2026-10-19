@@ -19,6 +19,7 @@ private func miniGame(_ id: String, size: CGSize = CGSize(width: 956, height: 44
     let game: MiniGameScene.Game = switch id {
     case "knock_it_off": .knock(KnockItOff(duration: duration, personality: personality, seed: &seed))
     case "string_chase": .string(StringChase(duration: duration, personality: personality, seed: &seed))
+    case "hide_and_seek": .hide(HideAndSeek(duration: duration, personality: personality, seed: &seed))
     default: .laser(LaserChase(duration: duration, personality: personality, seed: &seed))
     }
     let scene = MiniGameScene(
@@ -40,7 +41,7 @@ private func miniGame(_ id: String, size: CGSize = CGSize(width: 956, height: 44
 /// Every game, playing itself as the steady player does, runs its 20 seconds to the end, with hits, a combo at its
 /// top and the catnip on the way, and the score the scene reports is the game's.
 @MainActor
-@Test(arguments: ["laser_pointer", "knock_it_off", "string_chase"])
+@Test(arguments: ["laser_pointer", "knock_it_off", "string_chase", "hide_and_seek"])
 func theGamesPlayThemselvesToTheEnd(_ id: String) throws {
     let scene = try miniGame(id)
     var beats: [PlayBeat] = []
@@ -66,7 +67,7 @@ func theGamesPlayThemselvesToTheEnd(_ id: String) throws {
 @Test func renderTheMiniGames() throws {
     guard let folder = ProcessInfo.processInfo.environment["HOUSECAT_RENDER_GAMES"] else { return }
     let only = ProcessInfo.processInfo.environment["HOUSECAT_RENDER_GAME"]
-    for id in ["laser_pointer", "knock_it_off", "string_chase"] where only == nil || only == id {
+    for id in ["laser_pointer", "knock_it_off", "string_chase", "hide_and_seek"] where only == nil || only == id {
         let size = CGSize(width: 1280, height: 590)
         let scene = try miniGame(id, size: size)
         try film(scene, size: size, seconds: Tuning.MiniGames.roundSeconds + 1.5, to: URL(fileURLWithPath: folder).appendingPathComponent("\(id).mp4"))

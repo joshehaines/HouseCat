@@ -135,8 +135,14 @@ public enum PlayBeat: Equatable, Sendable {
     /// Laser Pointer: the cat crouches, then springs at a spot.
     case crouched
     case sprang(to: GamePoint)
-    /// A golden target is out (Laser Pointer: the dot itself).
+    /// A golden target is out (Laser Pointer: the dot itself; Hide and Seek: a golden round).
     case goldenAppeared
+    /// Hide and Seek: the cat has hidden (a new round), peeks out from its place, a decoy place rustles, and the cat
+    /// comes out by itself, unfound.
+    case hid
+    case peeked(place: Int)
+    case rustled(place: Int)
+    case cameOut(place: Int)
 }
 
 /// A hit's points, where (on the floor; Knock It Off: `x` along the shelf), the combo it made, and what was in it.
@@ -146,7 +152,7 @@ public struct Hit: Equatable, Sendable {
     public let at: GamePoint
     public var golden = false
     public var zoomies = false
-    /// Laser Pointer: the pounce landed right on the dot.
+    /// Laser Pointer: the pounce landed right on the dot; Hide and Seek: the cat found quickly.
     public var perfect = false
 }
 

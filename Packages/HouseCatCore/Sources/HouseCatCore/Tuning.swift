@@ -285,6 +285,28 @@ public enum Tuning {
         /// A string run is mostly distance, so String Chase keeps only this share of a personality's difference
         /// in chase speed (the stars are the same for every cat).
         public static let stringSpeedShare = 0.4
+        /// Hide and Seek: the cat hides behind one of `hidePlaces` while the player's eyes are shut
+        /// (`hideSeconds`), then peeks out for `peekSeconds` every `peekEvery` (both from the first to the last value
+        /// over the game), the first peek `firstPeek` after it hides; found within `quickSeconds` is quick (twice the
+        /// points); a wrong place rests the player `missRestSeconds` and makes the cat peek; after `comeOutSeconds`
+        /// unfound it comes out by itself. Other places rustle as decoys from `rustleFrom` into the game, the first one
+        /// just before the cat's first peek, then every `rustleEvery`. It stays out, found, for `foundSeconds`.
+        public static let hidePlaces = 5
+        public static let hideSeconds = 0.55
+        public static let peekSeconds = [0.55, 0.3]
+        public static let peekEvery = [0.9, 1.6]
+        public static let firstPeek = 0.35
+        public static let quickSeconds = 1.1
+        public static let comeOutSeconds = 4.0
+        public static let rustleFrom = 0.35
+        public static let rustleEvery = 1.1
+        public static let foundSeconds = 0.6
+        /// Where the cat hides (furniture pictures), and whether it peeks over the top or out at the side.
+        public static let hidingPlaces: [(picture: String, side: Bool)] = [
+            ("furniture/living/furn_living_box_R", false), ("furniture/living/furn_living_armchair_R", false),
+            ("furniture/bedroom/furn_bedroom_laundry_R", false), ("furniture/living/furn_living_sofa_R", false),
+            ("furniture/living/furn_living_plant_R", true), ("furniture/living/furn_living_cattree_R", true),
+        ]
         /// The scene: the cat this many cells tall, the top of the screen kept for the clock and stars.
         public static let catCells = 2.6
         public static let hudShare = 0.16

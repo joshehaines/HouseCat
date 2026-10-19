@@ -7,8 +7,8 @@ import SwiftUI
     import UIKit
 #endif
 
-/// Play (SPEC "Care": the mini-games, five plays a day): the games, each with what it asks, how long it is and the
-/// player's best.
+/// Play (SPEC "Care": the mini-games, five plays a day): the four games, each with what it asks, how long it is and
+/// the player's best.
 struct PlayPicker: View {
     let games: [MinigamesFile.Game]
     let playsLeft: Int
@@ -25,15 +25,10 @@ struct PlayPicker: View {
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(Theme.inkSoft)
             }
-            HStack(alignment: .top, spacing: 14) {
-                ForEach(games, id: \.id) { game in
-                    Button {
-                        choose(game)
-                    } label: {
-                        card(game)
-                    }
-                    .buttonStyle(PressStyle())
-                }
+            // In a row; on a small phone on its side the row scrolls.
+            ViewThatFits(in: .horizontal) {
+                cards
+                ScrollView(.horizontal, showsIndicators: false) { cards }
             }
         }
         .padding(22)
@@ -41,6 +36,21 @@ struct PlayPicker: View {
         .paper(RoundedRectangle(cornerRadius: 26, style: .continuous))
         .overlay(alignment: .topTrailing) { CloseButton(action: close).offset(x: 10, y: -10) }
         .foregroundStyle(Theme.ink)
+    }
+
+    private var cards: some View {
+        HStack(alignment: .top, spacing: 14) {
+            ForEach(games, id: \.id) { game in button(game) }
+        }
+    }
+
+    private func button(_ game: MinigamesFile.Game) -> some View {
+        Button {
+            choose(game)
+        } label: {
+            card(game)
+        }
+        .buttonStyle(PressStyle())
     }
 
     private func card(_ game: MinigamesFile.Game) -> some View {
@@ -70,7 +80,7 @@ struct PlayPicker: View {
             }
         }
         .padding(14)
-        .frame(width: 220, height: 210, alignment: .topLeading)
+        .frame(width: 168, height: 232, alignment: .topLeading)
         .background(RoundedRectangle(cornerRadius: 18, style: .continuous).fill(Theme.paper))
         .overlay(RoundedRectangle(cornerRadius: 18, style: .continuous).strokeBorder(Theme.rim, lineWidth: 1))
     }
@@ -103,6 +113,7 @@ struct MiniGameView: View {
         switch id {
         case "knock_it_off": "gifts/gift_keepsakes_little_ceramic_fish.png"
         case "string_chase": "fx/reactions/fx_reactions_sparkle.png"
+        case "hide_and_seek": "furniture/living/furn_living_box_R.png"
         default: "ui/icon_play_laser_dot.png"
         }
     }
@@ -111,6 +122,7 @@ struct MiniGameView: View {
         switch id {
         case "knock_it_off": "Tap as the cat reaches something to swipe it off. Hits in a row score more."
         case "string_chase": "Draw a string through the sparkles before they fade. Chain them quickly."
+        case "hide_and_seek": "Watch for ears. Tap where the cat is hiding; quick finds score double."
         default: "Drag the dot. When the cat crouches, hold still and it pounces."
         }
     }
@@ -337,6 +349,7 @@ struct MiniGameView: View {
         let model: MiniGameScene.Game = switch game.id {
         case "knock_it_off": .knock(KnockItOff(duration: duration, personality: personality, seed: &seed))
         case "string_chase": .string(StringChase(duration: duration, personality: personality, seed: &seed))
+        case "hide_and_seek": .hide(HideAndSeek(duration: duration, personality: personality, seed: &seed))
         default: .laser(LaserChase(duration: duration, personality: personality, seed: &seed))
         }
         let tiles = session.livingRoomTiles()
@@ -399,6 +412,7 @@ struct MiniGameView: View {
             switch game.id {
             case "knock_it_off": Sound.play("ui_knock_off", volume: Tuning.Sound.place)
             case "string_chase": Sound.play("ui_sparkle", volume: Tuning.Sound.place)
+            case "hide_and_seek": Sound.play(hit.perfect ? "cat_trill" : "cat_chirp", volume: Tuning.Sound.meow)
             default: Sound.play(hit.perfect ? "ui_sparkle" : "ui_place_item", volume: Tuning.Sound.place)
             }
             #if canImport(UIKit)
@@ -422,7 +436,11 @@ struct MiniGameView: View {
             say("play.zoomies", meow: "cat_trill")
         case .goldenAppeared:
             Sound.play("ui_sparkle", volume: Tuning.Sound.levelUp)
-        case .comboLapsed, .zoomiesOver, .crouched, .sprang:
+        case .rustled:
+            Sound.play("ui_place_item", volume: Tuning.Sound.tap)
+        case .cameOut:
+            Sound.play("cat_meow_short", volume: Tuning.Sound.meow)
+        case .comboLapsed, .zoomiesOver, .crouched, .sprang, .hid, .peeked:
             break
         }
     }

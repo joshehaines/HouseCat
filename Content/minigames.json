@@ -44,6 +44,18 @@
         70
       ],
       "rules": "Draw a string with one finger and the cat runs along it. Sparkles keep appearing and fade after a few seconds; collect them quickly to build a combo. Golden sparkles score three times over; catnip gives the cat the zoomies. Personality changes chase speed and lines only."
+    },
+    {
+      "id": "hide_and_seek",
+      "name": "Hide and Seek",
+      "durationSeconds": 20,
+      "score": "points: each find scores its combo, twice over when quick",
+      "stars": [
+        5,
+        40,
+        100
+      ],
+      "rules": "The cat hides behind one of five things in the room while your eyes are shut, then peeks out now and then. Tap where it is to find it; quick finds score twice over, a wrong guess breaks the combo. Its peeks get shorter as the game goes on and the other places rustle to fool you. A golden bell some rounds; catnip gives the cat the zoomies, and it can't keep still. Personality changes lines only."
     }
   ]
 }

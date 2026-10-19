@@ -40,4 +40,14 @@ public enum MiniGameBot {
         guard let next = game.sparkles.min(by: { worth($0) < worth($1) }) else { return nil }
         return [next.at]
     }
+
+    /// Hide and Seek: the catnip while it lies out, then the cat's place a moment after it peeks (as quick as a person
+    /// sees it); nil to wait. -1 is the catnip.
+    public static func hide(_ game: HideAndSeek) -> Int? {
+        guard game.phase == .seeking, game.resting == 0 else { return nil }
+        if game.catnip.showing(game.elapsed), !game.hasZoomies {
+            return -1
+        }
+        return game.peeking && (game.peekedFor >= 0.2 || game.hasZoomies) ? game.spot : nil
+    }
 }

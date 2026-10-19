@@ -393,7 +393,7 @@ ctx('play.combo', "a mini-game's combo reaches its top score, once a game",
     ('chirp', ["Unstoppable. Fear me.", "Chaos, perfected.", "Again! Faster!"]),
     ('silent', ["Ooh. I'm on a roll.", "Look at me, doing sport.", "Rolling. Not loafing. Yet."]))
 ctx('play.zoomies', "the cat gets the catnip in a mini-game and has the zoomies",
-    ('trill', ["Catnip. How undignified. Wheee.", "I am perfectly composed. Zoom.", "This changes nothing. Zoom!"]),
+    ('trill', ["Catnip. How undignified. Wheee.", "I am perfectly composed. Zoom.", "This changes nothing. Zoom."]),
     ('trill', ["Catnip! Watch me go!", "So fast! So happy!", "Zoom zoom! For you!"]),
     ('chirp', ["CATNIP. Everything is mine!", "Maximum zoom engaged.", "Nothing is safe now!"]),
     ('silent', ["Catnip? Fine. One zoom.", "Oh. I'm fast now. Weird.", "Zoom. Then a long nap."]))
@@ -1761,6 +1761,14 @@ MINIGAMES = {
          "rules": "Draw a string with one finger and the cat runs along it. Sparkles keep appearing and fade after "
                   "a few seconds; collect them quickly to build a combo. Golden sparkles score three times over; "
                   "catnip gives the cat the zoomies. Personality changes chase speed and lines only."},
+        {"id": "hide_and_seek", "name": "Hide and Seek", "durationSeconds": 20,
+         "score": "points: each find scores its combo, twice over when quick",
+         "stars": [5, 40, 100],
+         "rules": "The cat hides behind one of five things in the room while your eyes are shut, then peeks out "
+                  "now and then. Tap where it is to find it; quick finds score twice over, a wrong guess breaks the "
+                  "combo. Its peeks get shorter as the game goes on and the other places rustle to fool you. A "
+                  "golden bell some rounds; catnip gives the cat the zoomies, and it can't keep still. Personality "
+                  "changes lines only."},
     ],
 }
 

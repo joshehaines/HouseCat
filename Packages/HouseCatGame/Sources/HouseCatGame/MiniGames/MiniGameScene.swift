@@ -6,8 +6,8 @@ import SpriteKit
     import AppKit
 #endif
 
-/// The three mini-games (SPEC "Mini-games", CONTENT.md §6), drawn with the player's own cat on the living room's
-/// own floor and wall: the dot to pounce on, the mantel to clear, the sparkles to string together. HouseCatCore's
+/// The mini-games (SPEC "Mini-games", CONTENT.md §6), drawn with the player's own cat on the living room's own floor
+/// and wall: the dot to pounce on, the mantel to clear, the sparkles to string together, the furniture it hides behind. HouseCatCore's
 /// game models keep the score; this scene moves the pieces, passes the finger on and makes something of each beat
 /// (a burst, the points floating up, a shake, the cat's reaction). The app shows the clock, the combo and the stars,
 /// and plays the sounds.
@@ -17,12 +17,14 @@ public final class MiniGameScene: SKScene {
         case laser(LaserChase)
         case knock(KnockItOff)
         case string(StringChase)
+        case hide(HideAndSeek)
 
         var elapsed: Double {
             switch self {
             case let .laser(game): game.elapsed
             case let .knock(game): game.elapsed
             case let .string(game): game.elapsed
+            case let .hide(game): game.elapsed
             }
         }
 
@@ -31,6 +33,7 @@ public final class MiniGameScene: SKScene {
             case let .laser(game): game.duration
             case let .knock(game): game.duration
             case let .string(game): game.duration
+            case let .hide(game): game.duration
             }
         }
 
@@ -39,6 +42,7 @@ public final class MiniGameScene: SKScene {
             case let .laser(game): game.score
             case let .knock(game): game.score
             case let .string(game): game.score
+            case let .hide(game): game.score
             }
         }
 
@@ -47,6 +51,7 @@ public final class MiniGameScene: SKScene {
             case let .laser(game): game.isOver
             case let .knock(game): game.isOver
             case let .string(game): game.isOver
+            case let .hide(game): game.isOver
             }
         }
 
@@ -55,6 +60,7 @@ public final class MiniGameScene: SKScene {
             case let .laser(game): game.combo
             case let .knock(game): game.combo
             case let .string(game): game.combo
+            case let .hide(game): game.combo
             }
         }
 
@@ -63,6 +69,7 @@ public final class MiniGameScene: SKScene {
             case let .laser(game): game.hasZoomies
             case let .knock(game): game.hasZoomies
             case let .string(game): game.hasZoomies
+            case let .hide(game): game.hasZoomies
             }
         }
     }
@@ -123,6 +130,15 @@ public final class MiniGameScene: SKScene {
     private var walking = false
     /// Laser Pointer: the dot drawn golden.
     private var dotGolden = false
+    /// Hide and Seek: the cat seen through a window (the space over its place's top, or beside it, or everything once
+    /// it is out); the floor's line; the cat's size sitting; what is shown now.
+    private let crop = SKCropNode()
+    private let window = SKSpriteNode(color: .white, size: CGSize(width: 1, height: 1))
+    private var floorLine: CGFloat = 0
+    private var catSize = CGSize(width: 1, height: 1)
+    private var shownRound = -1
+    private var shownPeek = false
+    private var catOut = false
 
     private static let catUnits: CGFloat = 100
     /// Knock It Off: how deep the mantel's top is, in cells.
@@ -197,6 +213,8 @@ public final class MiniGameScene: SKScene {
         let top = size.height * Tuning.MiniGames.hudShare
         if case .knock = game {
             buildShelf()
+        } else if case .hide = game {
+            buildHidingPlaces()
         } else {
             let available = CGRect(x: size.width * 0.06, y: size.height * 0.06, width: size.width * 0.88, height: size.height * 0.94 - top)
             cell = min(available.width / Tuning.MiniGames.arenaWidth, available.height / Tuning.MiniGames.arenaHeight)
@@ -237,7 +255,7 @@ public final class MiniGameScene: SKScene {
                 line.zPosition = name == "string" ? 31 : 30
                 stage.addChild(line)
             }
-        case .knock:
+        case .knock, .hide:
             break
         }
         place()
@@ -510,6 +528,12 @@ public final class MiniGameScene: SKScene {
             beats = chase.step(dt)
             game = .string(chase)
             sparkles(before: before, now: chase, beats: beats)
+        case var .hide(seek):
+            beats = seek.step(dt)
+            if autoplay, let place = MiniGameBot.hide(seek) {
+                beats += place < 0 ? seek.tapCatnip() : seek.tap(place: place)
+            }
+            game = .hide(seek)
         }
         return beats
     }
@@ -541,6 +565,9 @@ public final class MiniGameScene: SKScene {
         if case .knock = game {
             return CGPoint(x: shelfFrom + shelfLength * CGFloat(p.x), y: shelfTop + cell * 0.5)
         }
+        if case .hide = game, let place = stage.childNode(withName: "place\(Int(p.x))") as? SKSpriteNode {
+            return CGPoint(x: place.position.x, y: place.frame.maxY - cell * 0.3)
+        }
         return point(p)
     }
 
@@ -551,6 +578,8 @@ public final class MiniGameScene: SKScene {
             placeLaser(laser)
         case let .knock(shelf):
             placeShelfCat(shelf)
+        case let .hide(seek):
+            placeHidingCat(seek)
         case let .string(chase):
             let speed = chase.string.isEmpty ? 0 : chase.currentSpeed
             let next = chase.string.first ?? chase.cat
@@ -712,7 +741,8 @@ public final class MiniGameScene: SKScene {
             burst(at: at, colour: colour, count: 8 + min(hit.points, 24), speed: cell * (hit.golden ? 4.5 : 3))
             floatText("+\(hit.points)", at: CGPoint(x: at.x, y: at.y + cell * 0.6), colour: hit.golden ? gold : .white, size: cell * (0.62 + min(0.5, CGFloat(hit.points) * 0.02)))
             if hit.perfect {
-                floatText("Perfect!", at: CGPoint(x: at.x, y: at.y + cell * 1.3), colour: SKColor(red: 1, green: 0.93, blue: 0.75, alpha: 1), size: cell * 0.38)
+                let word: String = if case .hide = game { "Quick!" } else { "Perfect!" }
+                floatText(word, at: CGPoint(x: at.x, y: at.y + cell * 1.3), colour: SKColor(red: 1, green: 0.93, blue: 0.75, alpha: 1), size: cell * 0.38)
             }
             if hit.golden {
                 shake(cell * 0.18)
@@ -727,6 +757,8 @@ public final class MiniGameScene: SKScene {
             }
             if case .knock = game {
                 knockOff(at: hit.at)
+            } else if case .hide = game {
+                comeOut(found: true)
             } else if case .laser = game {
                 cat.squash(CGFloat(Tuning.Puppet.squash) * 1.6)
             }
@@ -735,6 +767,10 @@ public final class MiniGameScene: SKScene {
             puff(at: spot, count: 7)
             if lost {
                 react("question")
+            }
+            if case .hide = game {
+                rustle(Int(at.x))
+                pop("question", at: CGPoint(x: spot.x, y: spot.y + cell * 0.6))
             }
             if case .laser = game {
                 cat.squash(CGFloat(Tuning.Puppet.squash) * 1.2)
@@ -748,6 +784,9 @@ public final class MiniGameScene: SKScene {
             banner("Zoomies!", colour: SKColor(red: 0.55, green: 1, blue: 0.5, alpha: 1))
             react("notes")
             shake(cell * 0.12)
+            if case .hide = game {
+                stage.childNode(withName: "catnip")?.run(.sequence([.group([.scale(to: 1.6, duration: 0.2), .fadeOut(withDuration: 0.2)]), .removeFromParent()]))
+            }
             if case .laser = game {
                 stage.childNode(withName: "catnip")?.run(.sequence([.group([.scale(to: 1.6, duration: 0.2), .fadeOut(withDuration: 0.2)]), .removeFromParent()]))
             }
@@ -762,7 +801,24 @@ public final class MiniGameScene: SKScene {
             if let laser = laserGame {
                 face(to.x - laser.cat.x)
             }
+        case .hid:
+            eyesShut()
+        case let .peeked(place):
+            if case let .hide(seek) = game, seek.golden {
+                let spot = screen(GamePoint(x: Double(place), y: 0))
+                burst(at: CGPoint(x: spot.x, y: spot.y + cell * 0.4), colour: SKColor(red: 1, green: 0.85, blue: 0.3, alpha: 1), count: 6, speed: cell * 1.2)
+            }
+        case let .rustled(place):
+            rustle(place)
+        case let .cameOut(place):
+            comeOut(found: false)
+            let spot = screen(GamePoint(x: Double(place), y: 0))
+            floatText("Here I am!", at: CGPoint(x: spot.x, y: spot.y + cell * 0.8), colour: .white, size: cell * 0.4)
         case .goldenAppeared:
+            if case .hide = game {
+                banner("Golden bell!", colour: SKColor(red: 1, green: 0.82, blue: 0.25, alpha: 1))
+                return
+            }
             banner("Golden dot!", colour: SKColor(red: 1, green: 0.82, blue: 0.25, alpha: 1))
             if let dot = stage.childNode(withName: "dot") {
                 burst(at: dot.position, colour: SKColor(red: 1, green: 0.85, blue: 0.3, alpha: 1), count: 18, speed: cell * 3)
@@ -877,6 +933,208 @@ public final class MiniGameScene: SKScene {
             .repeatForever(.sequence([.rotate(toAngle: 0.12, duration: 0.4), .rotate(toAngle: -0.12, duration: 0.4)])),
         ]))
         stage.addChild(node)
+    }
+
+    // MARK: Hide and Seek
+
+    /// The room side on, its things along the floor, the cat seen only through the window over (or beside) where it hides.
+    private func buildHidingPlaces() {
+        guard case let .hide(seek) = game else { return }
+        cell = min(size.width / 15, size.height / 8)
+        floorLine = size.height * 0.45
+        tile(wallName, in: CGRect(x: -40, y: floorLine, width: size.width + 80, height: size.height - floorLine + 40), tile: size.height * 0.36, z: -10)
+        tile(floorName, in: CGRect(x: -40, y: -40, width: size.width + 80, height: floorLine + 40), tile: size.height * 0.3, z: -10)
+        let skirting = SKShapeNode(rect: CGRect(x: -40, y: floorLine - 2, width: size.width + 80, height: size.height * 0.025))
+        skirting.fillColor = SKColor(red: 0.96, green: 0.93, blue: 0.86, alpha: 1)
+        skirting.strokeColor = SKColor(red: 0.7, green: 0.6, blue: 0.5, alpha: 0.6)
+        skirting.zPosition = -8
+        stage.addChild(skirting)
+        let count = CGFloat(seek.places.count)
+        // Two rows, staggered: every other one further back.
+        for (index, kind) in seek.places.enumerated() {
+            let picture = Tuning.MiniGames.hidingPlaces[kind].picture + ".png"
+            let back = index % 2 == 0
+            let node = sprite(picture, side: cell * (back ? 3.2 : 3.5))
+            node.anchorPoint = CGPoint(x: 0.5, y: 0)
+            let x = size.width * (0.08 + 0.84 * (CGFloat(index) + 0.5) / count)
+            node.position = CGPoint(x: x, y: max(cell * 0.3, floorLine - cell * (back ? 0.5 : 2.6)))
+            node.name = "place\(index)"
+            node.zPosition = back ? 18 : 22
+            let shadow = SKSpriteNode(texture: Self.softDot, size: CGSize(width: node.size.width * 1.1, height: cell * 0.6))
+            shadow.color = SKColor(red: 0.2, green: 0.1, blue: 0.05, alpha: 1)
+            shadow.colorBlendFactor = 1
+            shadow.alpha = 0.3
+            shadow.position = CGPoint(x: 0, y: cell * 0.1)
+            shadow.zPosition = -0.5
+            node.addChild(shadow)
+            stage.addChild(node)
+        }
+        crop.removeAllChildren()
+        crop.removeFromParent()
+        crop.maskNode = window
+        holder.removeFromParent()
+        crop.addChild(holder)
+        stage.addChild(crop)
+        cat.setScale(cell * Tuning.MiniGames.catCells * 1.1 / Self.catUnits)
+        cat.show(.tqfront, facingRight: false)
+        cat.settle(into: .sitThreeQuarterFront, duration: 0)
+        holder.zPosition = 0
+        catSize = cat.bodyFrame.size
+        shownRound = -1
+    }
+
+    /// The cat hidden or peeking at its place (or out in front, found), and the catnip while it lies out.
+    private func placeHidingCat(_ seek: HideAndSeek) {
+        if seek.round != shownRound, seek.phase == .hiding {
+            shownRound = seek.round
+            hideAt(seek.spot)
+        }
+        if !catOut, seek.peeking != shownPeek {
+            shownPeek = seek.peeking
+            let move = SKAction.move(to: catSpot(seek.spot, peeking: shownPeek), duration: shownPeek ? 0.12 : 0.18)
+            move.timingMode = .easeOut
+            holder.removeAction(forKey: "peek")
+            holder.run(move, withKey: "peek")
+        }
+        let showing = seek.catnip.showing(seek.elapsed)
+        let shown = stage.childNode(withName: "catnip")
+        if showing, shown == nil, let place = stage.childNode(withName: "place\(seek.catnipPlace)") as? SKSpriteNode {
+            showCatnip(at: CGPoint(x: place.position.x + place.size.width * 0.4, y: max(cell * 0.5, place.position.y - cell * 0.1)))
+            stage.childNode(withName: "catnip")?.zPosition = 30
+        } else if !showing, let shown, !seek.catnip.taken, shown.action(forKey: "going") == nil {
+            shown.run(.sequence([.fadeOut(withDuration: 0.3), .removeFromParent()]), withKey: "going")
+        }
+        if seek.hasZoomies, !catOut, Int(seek.elapsed * 30) % 3 == 0 {
+            let spot = screen(GamePoint(x: Double(seek.spot), y: 0))
+            trail(at: CGPoint(x: spot.x + CGFloat.random(in: -1 ... 1) * cell * 0.6, y: spot.y + cell * 0.3), colour: SKColor(red: 0.55, green: 1, blue: 0.5, alpha: 1))
+        }
+    }
+
+    private func hidingPlace(_ index: Int) -> (node: SKSpriteNode, side: Bool)? {
+        guard case let .hide(seek) = game, seek.places.indices.contains(index),
+              let node = stage.childNode(withName: "place\(index)") as? SKSpriteNode else { return nil }
+        return (node, Tuning.MiniGames.hidingPlaces[seek.places[index]].side)
+    }
+
+    /// Where the cat sits at a place, hidden or peeking: under the top edge, or behind the side.
+    private func catSpot(_ index: Int, peeking: Bool) -> CGPoint {
+        guard let (node, side) = hidingPlace(index) else { return .zero }
+        let top = node.frame.minY + node.size.height * 0.82
+        if side {
+            let edge = node.position.x + node.size.width * 0.3
+            return CGPoint(x: edge - catSize.width * (peeking ? 0.05 : 0.6), y: node.frame.minY + cell * 0.4)
+        }
+        return CGPoint(x: node.position.x, y: top - catSize.height * (peeking ? 0.6 : 1.05))
+    }
+
+    /// A new round: the cat behind `index`, the window opened over that place only.
+    private func hideAt(_ index: Int) {
+        guard let (node, side) = hidingPlace(index) else { return }
+        catOut = false
+        shownPeek = false
+        holder.removeAllActions()
+        holder.setScale(1)
+        holder.alpha = 1
+        holder.position = catSpot(index, peeking: false)
+        cat.show(.tqfront, facingRight: node.position.x > size.width / 2)
+        cat.settle(into: .sitThreeQuarterFront, duration: 0)
+        let top = node.frame.minY + node.size.height * 0.82
+        if side {
+            let edge = node.position.x + node.size.width * 0.3
+            window.size = CGSize(width: catSize.width * 2, height: node.size.height * 1.4)
+            window.position = CGPoint(x: edge + window.size.width / 2, y: node.frame.minY + window.size.height / 2)
+        } else {
+            window.size = CGSize(width: node.size.width * 1.3, height: size.height)
+            window.position = CGPoint(x: node.position.x, y: top + window.size.height / 2)
+        }
+        crop.zPosition = node.zPosition - 1
+    }
+
+    /// Found (or tired of waiting): out from behind its place with a hop, sitting in front of it.
+    private func comeOut(found: Bool) {
+        guard case let .hide(seek) = game, let (node, _) = hidingPlace(seek.spot) else { return }
+        catOut = true
+        window.size = CGSize(width: size.width * 2, height: size.height * 2)
+        window.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        crop.zPosition = 40
+        holder.removeAllActions()
+        let landing = CGPoint(
+            x: node.position.x + (node.position.x > size.width / 2 ? -1 : 1) * node.size.width * 0.35,
+            y: max(cell * 0.15, node.position.y - cell * 0.5)
+        )
+        let up = SKAction.move(to: CGPoint(x: (holder.position.x + landing.x) / 2, y: max(holder.position.y, landing.y) + cell * 1.4), duration: 0.18)
+        up.timingMode = .easeOut
+        let down = SKAction.move(to: landing, duration: 0.18)
+        down.timingMode = .easeIn
+        holder.run(.sequence([up, down, .run { [weak self] in
+            guard let self else { return }
+            self.cat.squash(CGFloat(Tuning.Puppet.squash) * 1.5)
+            self.puff(at: landing, count: 6)
+            if found {
+                self.react("heart")
+            }
+        }]))
+    }
+
+    /// Eyes shut while the cat finds a new place: the room darkens and clears.
+    private func eyesShut() {
+        fx.childNode(withName: "eyes")?.removeFromParent()
+        let shade = SKSpriteNode(color: SKColor(red: 0.12, green: 0.07, blue: 0.1, alpha: 1), size: CGSize(width: size.width + 100, height: size.height + 100))
+        shade.name = "eyes"
+        shade.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        shade.zPosition = 30
+        shade.alpha = 0
+        let paws = sprite("fx/reactions/fx_reactions_paw.png", side: cell * 1.6)
+        paws.position = .zero
+        paws.zPosition = 1
+        shade.addChild(paws)
+        fx.addChild(shade)
+        let hold = Tuning.MiniGames.hideSeconds
+        shade.run(.sequence([
+            .fadeAlpha(to: 0.8, duration: 0.08),
+            .wait(forDuration: max(0, hold - 0.28)),
+            .fadeOut(withDuration: 0.2),
+            .removeFromParent(),
+        ]))
+    }
+
+    /// A place rocking (a decoy, or a wrong guess) with a puff off its top.
+    private func rustle(_ index: Int) {
+        guard let (node, _) = hidingPlace(index) else { return }
+        let a: CGFloat = 0.05
+        node.removeAction(forKey: "rustle")
+        node.run(.sequence([
+            .rotate(toAngle: a, duration: 0.06), .rotate(toAngle: -a, duration: 0.1),
+            .rotate(toAngle: a * 0.5, duration: 0.08), .rotate(toAngle: 0, duration: 0.06),
+        ]), withKey: "rustle")
+        puff(at: CGPoint(x: node.position.x, y: node.frame.maxY - cell * 0.4), count: 3)
+    }
+
+    /// The place a tap was on: the one whose column it falls in, nearest first.
+    private func placeTapped(at location: CGPoint) -> Int? {
+        guard case let .hide(seek) = game else { return nil }
+        let hits = seek.places.indices.compactMap { index -> (Int, CGFloat)? in
+            guard let (node, _) = hidingPlace(index) else { return nil }
+            let column = node.frame.insetBy(dx: -cell * 0.3, dy: -cell * 0.8)
+            return column.contains(location) ? (index, abs(location.x - node.position.x)) : nil
+        }
+        return hits.min { $0.1 < $1.1 }?.0
+    }
+
+    /// A reaction icon popping up at a spot (not over the cat).
+    private func pop(_ icon: String, at spot: CGPoint) {
+        let path = "fx/reactions/fx_reactions_\(icon).png"
+        guard art.has(path) else { return }
+        let node = sprite(path, side: cell * 0.8)
+        node.position = spot
+        node.zPosition = 5
+        node.setScale(0.3)
+        fx.addChild(node)
+        node.run(.sequence([
+            .scale(to: 1.1, duration: 0.14), .scale(to: 1, duration: 0.08),
+            .group([.moveBy(x: 0, y: cell * 0.6, duration: 0.7), .sequence([.wait(forDuration: 0.35), .fadeOut(withDuration: 0.35)])]),
+            .removeFromParent(),
+        ]))
     }
 
     // MARK: Juice
@@ -1122,6 +1380,22 @@ public final class MiniGameScene: SKScene {
                 guard running, !finished else { return }
                 chase.draw([gamePoint(location)])
                 game = .string(chase)
+            case var .hide(seek):
+                guard running, !finished else { return }
+                let beats: [PlayBeat]
+                if let catnip = stage.childNode(withName: "catnip"), catnip.frame.insetBy(dx: -cell * 0.3, dy: -cell * 0.3).contains(location) {
+                    beats = seek.tapCatnip()
+                } else if let place = placeTapped(at: location) {
+                    beats = seek.tap(place: place)
+                } else {
+                    beats = []
+                }
+                game = .hide(seek)
+                for beat in beats {
+                    show(beat)
+                    onBeat?(beat)
+                }
+                onProgress?(progress)
             }
         }
 
@@ -1138,7 +1412,7 @@ public final class MiniGameScene: SKScene {
                 }
                 chase.extend(gamePoint(location))
                 game = .string(chase)
-            case .knock:
+            case .knock, .hide:
                 break
             }
         }

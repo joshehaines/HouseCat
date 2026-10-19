@@ -196,6 +196,74 @@ struct MiniGameTests {
         #expect(first.isDisjoint(with: game.sparkles.map(\.id)))
     }
 
+    // MARK: Hide and Seek
+
+    @Test func theCatPeeksFromWhereItHidesAndIsFoundThere() {
+        var seed = Self.seed("hide_and_seek")
+        var game = HideAndSeek(duration: 20, personality: .velcro, seed: &seed)
+        #expect(game.places.count == Tuning.MiniGames.hidePlaces)
+        #expect(Set(game.places).count == game.places.count)
+        var beats: [PlayBeat] = []
+        var spots: [Int] = []
+        while !game.isOver {
+            beats += game.step(dt)
+            if let place = MiniGameBot.hide(game) {
+                if place < 0 {
+                    beats += game.tapCatnip()
+                } else {
+                    spots.append(place)
+                    beats += game.tap(place: place)
+                }
+            }
+        }
+        // Every peek is at the cat's place, it moves between rounds, and quick finds, golden ones and the zoomies come.
+        #expect(game.found >= 8)
+        #expect(zip(spots, spots.dropFirst()).allSatisfy { $0 != $1 })
+        #expect(beats.contains { if case let .scored(hit) = $0 { hit.perfect } else { false } })
+        #expect(beats.contains { if case let .scored(hit) = $0 { hit.golden } else { false } })
+        #expect(beats.contains { if case .zoomies = $0 { true } else { false } })
+        #expect(beats.contains { if case .rustled = $0 { true } else { false } })
+    }
+
+    @Test func aWrongPlaceBreaksTheComboAndTheCatGivesItselfAway() {
+        var seed = Self.seed("hide_and_seek")
+        var game = HideAndSeek(duration: 20, personality: .aloof, seed: &seed)
+        while game.found < 2 {
+            game.step(dt)
+            if let place = MiniGameBot.hide(game), place >= 0 {
+                game.tap(place: place)
+            }
+        }
+        while game.phase != .seeking {
+            game.step(dt)
+        }
+        let wrong = (game.spot + 1) % game.places.count
+        let beats = game.tap(place: wrong)
+        #expect(beats.first == .missed(at: GamePoint(x: Double(wrong), y: 0), lost: true))
+        #expect(beats.contains(.peeked(place: game.spot)))
+        #expect(game.peeking)
+        #expect(game.combo.count == 0)
+        // A moment's rest before the next guess.
+        let spot = game.spot
+        let resting = game.tap(place: spot)
+        #expect(resting.isEmpty)
+        game.step(Tuning.MiniGames.missRestSeconds)
+        let later = game.tap(place: spot)
+        #expect(later.contains { if case .scored = $0 { true } else { false } })
+    }
+
+    @Test func leftUnfoundTheCatComesOutByItself() {
+        var seed = Self.seed("hide_and_seek")
+        var game = HideAndSeek(duration: 20, personality: .loaf, seed: &seed)
+        var beats: [PlayBeat] = []
+        while !game.isOver {
+            beats += game.step(dt)
+        }
+        #expect(game.points == 0)
+        #expect(beats.contains { if case .cameOut = $0 { true } else { false } })
+        #expect(game.round >= 3)
+    }
+
     // MARK: Stars
 
     /// Each game played three ways: by the steady player, by a careless one, and not at all.
@@ -244,6 +312,36 @@ struct MiniGameTests {
                 }
             }
             return game.score
+        case "hide_and_seek":
+            var game = HideAndSeek(duration: Tuning.MiniGames.roundSeconds, personality: personality, seed: &seed)
+            var rng = Self.seed("careless", play)
+            var lastTap = 0.0
+            var seen: Int?
+            while !game.isOver {
+                t += dt
+                let beats = game.step(dt)
+                if beats.contains(.hid) {
+                    seen = nil
+                }
+                switch player {
+                case .steady:
+                    if let place = MiniGameBot.hide(game) {
+                        place < 0 ? game.tapCatnip() : game.tap(place: place)
+                    }
+                case .careless:
+                    // A tap now and then: where it last saw the cat peek, or a guess; never the catnip.
+                    if game.peeking {
+                        seen = game.spot
+                    }
+                    if t - lastTap > 0.8, game.phase == .seeking {
+                        lastTap = t
+                        game.tap(place: seen ?? rng.below(game.places.count))
+                    }
+                case .idle:
+                    break
+                }
+            }
+            return game.score
         default:
             var game = StringChase(duration: Tuning.MiniGames.roundSeconds, personality: personality, seed: &seed)
             var lastDraw = -10.0
@@ -271,7 +369,7 @@ struct MiniGameTests {
 
     /// The thresholds in minigames.json: the steady player earns three stars in every personality, a careless one
     /// one or two, someone who does nothing none, over a spread of plays.
-    @Test(arguments: ["laser_pointer", "knock_it_off", "string_chase"])
+    @Test(arguments: ["laser_pointer", "knock_it_off", "string_chase", "hide_and_seek"])
     func starsRewardPlayingWell(_ id: String) throws {
         let content = try ContentBundle.load(from: ContentValidationTests.repo.appendingPathComponent("Content"))
         let thresholds = try #require(content.minigames.games.first { $0.id == id }).stars

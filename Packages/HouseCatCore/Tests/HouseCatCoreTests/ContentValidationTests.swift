@@ -317,7 +317,7 @@ struct ContentValidationTests {
 
     @Test func miniGamesMatchTuning() {
         let games = content.minigames
-        #expect(games.games.map(\.id).sorted() == ["knock_it_off", "laser_pointer", "string_chase"])
+        #expect(games.games.map(\.id).sorted() == ["hide_and_seek", "knock_it_off", "laser_pointer", "string_chase"])
         #expect(games.playsPerDay == Tuning.MiniGames.playsPerDay)
         #expect(games.starBeans == Tuning.MiniGames.starBeans)
         #expect(games.xpPerPlay == Tuning.XP.play)

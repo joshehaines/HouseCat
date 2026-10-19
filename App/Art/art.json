@@ -2993,6 +2993,5190 @@
    ],
    "scale": 0.75
   },
+  "outfits/body/outfit_cardigan_long_chunky_front_torso.png": {
+   "file": "outfits/body/outfit_cardigan_long_chunky_front_torso.heic",
+   "master": [
+    1085,
+    979
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_long_chunky_loaf_side.png": {
+   "file": "outfits/body/outfit_cardigan_long_chunky_loaf_side.heic",
+   "master": [
+    614,
+    443
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_long_chunky_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_cardigan_long_chunky_loaf_tqfront.heic",
+   "master": [
+    549,
+    444
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_long_chunky_side_torso.png": {
+   "file": "outfits/body/outfit_cardigan_long_chunky_side_torso.heic",
+   "master": [
+    1343,
+    882
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_long_chunky_sit_back.png": {
+   "file": "outfits/body/outfit_cardigan_long_chunky_sit_back.heic",
+   "master": [
+    502,
+    692
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_long_chunky_sit_front.png": {
+   "file": "outfits/body/outfit_cardigan_long_chunky_sit_front.heic",
+   "master": [
+    453,
+    685
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_long_chunky_sit_side.png": {
+   "file": "outfits/body/outfit_cardigan_long_chunky_sit_side.heic",
+   "master": [
+    462,
+    696
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_long_chunky_sit_tqfront.png": {
+   "file": "outfits/body/outfit_cardigan_long_chunky_sit_tqfront.heic",
+   "master": [
+    484,
+    687
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_long_chunky_tqfront_torso.png": {
+   "file": "outfits/body/outfit_cardigan_long_chunky_tqfront_torso.heic",
+   "master": [
+    1167,
+    874
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_long_slim_front_torso.png": {
+   "file": "outfits/body/outfit_cardigan_long_slim_front_torso.heic",
+   "master": [
+    692,
+    969
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_long_slim_loaf_side.png": {
+   "file": "outfits/body/outfit_cardigan_long_slim_loaf_side.heic",
+   "master": [
+    588,
+    438
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_long_slim_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_cardigan_long_slim_loaf_tqfront.heic",
+   "master": [
+    527,
+    427
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_long_slim_side_torso.png": {
+   "file": "outfits/body/outfit_cardigan_long_slim_side_torso.heic",
+   "master": [
+    1207,
+    717
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_long_slim_sit_back.png": {
+   "file": "outfits/body/outfit_cardigan_long_slim_sit_back.heic",
+   "master": [
+    474,
+    760
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_long_slim_sit_front.png": {
+   "file": "outfits/body/outfit_cardigan_long_slim_sit_front.heic",
+   "master": [
+    413,
+    739
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_long_slim_sit_side.png": {
+   "file": "outfits/body/outfit_cardigan_long_slim_sit_side.heic",
+   "master": [
+    470,
+    777
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_long_slim_sit_tqfront.png": {
+   "file": "outfits/body/outfit_cardigan_long_slim_sit_tqfront.heic",
+   "master": [
+    449,
+    745
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_long_slim_tqfront_torso.png": {
+   "file": "outfits/body/outfit_cardigan_long_slim_tqfront_torso.heic",
+   "master": [
+    1101,
+    794
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_mainecoon_front_torso.png": {
+   "file": "outfits/body/outfit_cardigan_mainecoon_front_torso.heic",
+   "master": [
+    1161,
+    982
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_mainecoon_loaf_side.png": {
+   "file": "outfits/body/outfit_cardigan_mainecoon_loaf_side.heic",
+   "master": [
+    633,
+    462
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_mainecoon_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_cardigan_mainecoon_loaf_tqfront.heic",
+   "master": [
+    552,
+    466
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_mainecoon_side_torso.png": {
+   "file": "outfits/body/outfit_cardigan_mainecoon_side_torso.heic",
+   "master": [
+    1405,
+    909
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_mainecoon_sit_back.png": {
+   "file": "outfits/body/outfit_cardigan_mainecoon_sit_back.heic",
+   "master": [
+    536,
+    733
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_mainecoon_sit_front.png": {
+   "file": "outfits/body/outfit_cardigan_mainecoon_sit_front.heic",
+   "master": [
+    484,
+    735
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_mainecoon_sit_side.png": {
+   "file": "outfits/body/outfit_cardigan_mainecoon_sit_side.heic",
+   "master": [
+    492,
+    735
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_mainecoon_sit_tqfront.png": {
+   "file": "outfits/body/outfit_cardigan_mainecoon_sit_tqfront.heic",
+   "master": [
+    509,
+    731
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_mainecoon_tqfront_torso.png": {
+   "file": "outfits/body/outfit_cardigan_mainecoon_tqfront_torso.heic",
+   "master": [
+    1224,
+    883
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_persian_front_torso.png": {
+   "file": "outfits/body/outfit_cardigan_persian_front_torso.heic",
+   "master": [
+    1094,
+    996
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_persian_loaf_side.png": {
+   "file": "outfits/body/outfit_cardigan_persian_loaf_side.heic",
+   "master": [
+    621,
+    436
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_persian_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_cardigan_persian_loaf_tqfront.heic",
+   "master": [
+    557,
+    409
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_persian_side_torso.png": {
+   "file": "outfits/body/outfit_cardigan_persian_side_torso.heic",
+   "master": [
+    1351,
+    876
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_persian_sit_back.png": {
+   "file": "outfits/body/outfit_cardigan_persian_sit_back.heic",
+   "master": [
+    535,
+    659
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_persian_sit_front.png": {
+   "file": "outfits/body/outfit_cardigan_persian_sit_front.heic",
+   "master": [
+    475,
+    644
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_persian_sit_side.png": {
+   "file": "outfits/body/outfit_cardigan_persian_sit_side.heic",
+   "master": [
+    488,
+    649
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_persian_sit_tqfront.png": {
+   "file": "outfits/body/outfit_cardigan_persian_sit_tqfront.heic",
+   "master": [
+    513,
+    641
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_persian_tqfront_torso.png": {
+   "file": "outfits/body/outfit_cardigan_persian_tqfront_torso.heic",
+   "master": [
+    1173,
+    901
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_short_chunky_front_torso.png": {
+   "file": "outfits/body/outfit_cardigan_short_chunky_front_torso.heic",
+   "master": [
+    895,
+    832
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_short_chunky_loaf_side.png": {
+   "file": "outfits/body/outfit_cardigan_short_chunky_loaf_side.heic",
+   "master": [
+    645,
+    432
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_short_chunky_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_cardigan_short_chunky_loaf_tqfront.heic",
+   "master": [
+    521,
+    419
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_short_chunky_side_torso.png": {
+   "file": "outfits/body/outfit_cardigan_short_chunky_side_torso.heic",
+   "master": [
+    1109,
+    766
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_short_chunky_sit_back.png": {
+   "file": "outfits/body/outfit_cardigan_short_chunky_sit_back.heic",
+   "master": [
+    462,
+    701
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_short_chunky_sit_front.png": {
+   "file": "outfits/body/outfit_cardigan_short_chunky_sit_front.heic",
+   "master": [
+    453,
+    688
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_short_chunky_sit_side.png": {
+   "file": "outfits/body/outfit_cardigan_short_chunky_sit_side.heic",
+   "master": [
+    541,
+    700
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_short_chunky_sit_tqfront.png": {
+   "file": "outfits/body/outfit_cardigan_short_chunky_sit_tqfront.heic",
+   "master": [
+    512,
+    690
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_short_chunky_tqfront_torso.png": {
+   "file": "outfits/body/outfit_cardigan_short_chunky_tqfront_torso.heic",
+   "master": [
+    1141,
+    787
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_short_slim_front_torso.png": {
+   "file": "outfits/body/outfit_cardigan_short_slim_front_torso.heic",
+   "master": [
+    571,
+    857
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_short_slim_loaf_side.png": {
+   "file": "outfits/body/outfit_cardigan_short_slim_loaf_side.heic",
+   "master": [
+    588,
+    425
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_short_slim_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_cardigan_short_slim_loaf_tqfront.heic",
+   "master": [
+    453,
+    403
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_short_slim_side_torso.png": {
+   "file": "outfits/body/outfit_cardigan_short_slim_side_torso.heic",
+   "master": [
+    1238,
+    648
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_short_slim_sit_back.png": {
+   "file": "outfits/body/outfit_cardigan_short_slim_sit_back.heic",
+   "master": [
+    339,
+    720
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_short_slim_sit_front.png": {
+   "file": "outfits/body/outfit_cardigan_short_slim_sit_front.heic",
+   "master": [
+    340,
+    714
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_short_slim_sit_side.png": {
+   "file": "outfits/body/outfit_cardigan_short_slim_sit_side.heic",
+   "master": [
+    417,
+    739
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_short_slim_sit_tqfront.png": {
+   "file": "outfits/body/outfit_cardigan_short_slim_sit_tqfront.heic",
+   "master": [
+    435,
+    710
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_short_slim_tqfront_torso.png": {
+   "file": "outfits/body/outfit_cardigan_short_slim_tqfront_torso.heic",
+   "master": [
+    1199,
+    583
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_siamese_front_torso.png": {
+   "file": "outfits/body/outfit_cardigan_siamese_front_torso.heic",
+   "master": [
+    548,
+    843
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_siamese_loaf_side.png": {
+   "file": "outfits/body/outfit_cardigan_siamese_loaf_side.heic",
+   "master": [
+    582,
+    424
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_siamese_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_cardigan_siamese_loaf_tqfront.heic",
+   "master": [
+    446,
+    415
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_siamese_side_torso.png": {
+   "file": "outfits/body/outfit_cardigan_siamese_side_torso.heic",
+   "master": [
+    1238,
+    638
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_siamese_sit_back.png": {
+   "file": "outfits/body/outfit_cardigan_siamese_sit_back.heic",
+   "master": [
+    296,
+    735
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_siamese_sit_front.png": {
+   "file": "outfits/body/outfit_cardigan_siamese_sit_front.heic",
+   "master": [
+    311,
+    730
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_siamese_sit_side.png": {
+   "file": "outfits/body/outfit_cardigan_siamese_sit_side.heic",
+   "master": [
+    419,
+    752
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_siamese_sit_tqfront.png": {
+   "file": "outfits/body/outfit_cardigan_siamese_sit_tqfront.heic",
+   "master": [
+    424,
+    731
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_siamese_tqfront_torso.png": {
+   "file": "outfits/body/outfit_cardigan_siamese_tqfront_torso.heic",
+   "master": [
+    1171,
+    558
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_sphynx_front_torso.png": {
+   "file": "outfits/body/outfit_cardigan_sphynx_front_torso.heic",
+   "master": [
+    573,
+    848
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_sphynx_loaf_side.png": {
+   "file": "outfits/body/outfit_cardigan_sphynx_loaf_side.heic",
+   "master": [
+    552,
+    443
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_sphynx_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_cardigan_sphynx_loaf_tqfront.heic",
+   "master": [
+    427,
+    417
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_sphynx_side_torso.png": {
+   "file": "outfits/body/outfit_cardigan_sphynx_side_torso.heic",
+   "master": [
+    1238,
+    653
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_sphynx_sit_back.png": {
+   "file": "outfits/body/outfit_cardigan_sphynx_sit_back.heic",
+   "master": [
+    319,
+    736
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_sphynx_sit_front.png": {
+   "file": "outfits/body/outfit_cardigan_sphynx_sit_front.heic",
+   "master": [
+    299,
+    731
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_sphynx_sit_side.png": {
+   "file": "outfits/body/outfit_cardigan_sphynx_sit_side.heic",
+   "master": [
+    382,
+    738
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_sphynx_sit_tqfront.png": {
+   "file": "outfits/body/outfit_cardigan_sphynx_sit_tqfront.heic",
+   "master": [
+    404,
+    707
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_cardigan_sphynx_tqfront_torso.png": {
+   "file": "outfits/body/outfit_cardigan_sphynx_tqfront_torso.heic",
+   "master": [
+    1188,
+    587
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_long_chunky_front_torso.png": {
+   "file": "outfits/body/outfit_fisherman_long_chunky_front_torso.heic",
+   "master": [
+    1085,
+    979
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_long_chunky_loaf_side.png": {
+   "file": "outfits/body/outfit_fisherman_long_chunky_loaf_side.heic",
+   "master": [
+    614,
+    443
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_long_chunky_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_fisherman_long_chunky_loaf_tqfront.heic",
+   "master": [
+    549,
+    444
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_long_chunky_side_torso.png": {
+   "file": "outfits/body/outfit_fisherman_long_chunky_side_torso.heic",
+   "master": [
+    1343,
+    882
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_long_chunky_sit_back.png": {
+   "file": "outfits/body/outfit_fisherman_long_chunky_sit_back.heic",
+   "master": [
+    502,
+    692
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_long_chunky_sit_front.png": {
+   "file": "outfits/body/outfit_fisherman_long_chunky_sit_front.heic",
+   "master": [
+    453,
+    685
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_long_chunky_sit_side.png": {
+   "file": "outfits/body/outfit_fisherman_long_chunky_sit_side.heic",
+   "master": [
+    462,
+    696
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_long_chunky_sit_tqfront.png": {
+   "file": "outfits/body/outfit_fisherman_long_chunky_sit_tqfront.heic",
+   "master": [
+    484,
+    687
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_long_chunky_tqfront_torso.png": {
+   "file": "outfits/body/outfit_fisherman_long_chunky_tqfront_torso.heic",
+   "master": [
+    1167,
+    874
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_long_slim_front_torso.png": {
+   "file": "outfits/body/outfit_fisherman_long_slim_front_torso.heic",
+   "master": [
+    692,
+    969
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_long_slim_loaf_side.png": {
+   "file": "outfits/body/outfit_fisherman_long_slim_loaf_side.heic",
+   "master": [
+    588,
+    438
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_long_slim_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_fisherman_long_slim_loaf_tqfront.heic",
+   "master": [
+    527,
+    427
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_long_slim_side_torso.png": {
+   "file": "outfits/body/outfit_fisherman_long_slim_side_torso.heic",
+   "master": [
+    1207,
+    717
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_long_slim_sit_back.png": {
+   "file": "outfits/body/outfit_fisherman_long_slim_sit_back.heic",
+   "master": [
+    474,
+    760
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_long_slim_sit_front.png": {
+   "file": "outfits/body/outfit_fisherman_long_slim_sit_front.heic",
+   "master": [
+    413,
+    739
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_long_slim_sit_side.png": {
+   "file": "outfits/body/outfit_fisherman_long_slim_sit_side.heic",
+   "master": [
+    470,
+    777
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_long_slim_sit_tqfront.png": {
+   "file": "outfits/body/outfit_fisherman_long_slim_sit_tqfront.heic",
+   "master": [
+    449,
+    745
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_long_slim_tqfront_torso.png": {
+   "file": "outfits/body/outfit_fisherman_long_slim_tqfront_torso.heic",
+   "master": [
+    1101,
+    794
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_mainecoon_front_torso.png": {
+   "file": "outfits/body/outfit_fisherman_mainecoon_front_torso.heic",
+   "master": [
+    1161,
+    982
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_mainecoon_loaf_side.png": {
+   "file": "outfits/body/outfit_fisherman_mainecoon_loaf_side.heic",
+   "master": [
+    633,
+    462
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_mainecoon_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_fisherman_mainecoon_loaf_tqfront.heic",
+   "master": [
+    552,
+    466
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_mainecoon_side_torso.png": {
+   "file": "outfits/body/outfit_fisherman_mainecoon_side_torso.heic",
+   "master": [
+    1405,
+    909
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_mainecoon_sit_back.png": {
+   "file": "outfits/body/outfit_fisherman_mainecoon_sit_back.heic",
+   "master": [
+    536,
+    733
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_mainecoon_sit_front.png": {
+   "file": "outfits/body/outfit_fisherman_mainecoon_sit_front.heic",
+   "master": [
+    484,
+    735
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_mainecoon_sit_side.png": {
+   "file": "outfits/body/outfit_fisherman_mainecoon_sit_side.heic",
+   "master": [
+    492,
+    735
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_mainecoon_sit_tqfront.png": {
+   "file": "outfits/body/outfit_fisherman_mainecoon_sit_tqfront.heic",
+   "master": [
+    509,
+    731
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_mainecoon_tqfront_torso.png": {
+   "file": "outfits/body/outfit_fisherman_mainecoon_tqfront_torso.heic",
+   "master": [
+    1224,
+    883
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_persian_front_torso.png": {
+   "file": "outfits/body/outfit_fisherman_persian_front_torso.heic",
+   "master": [
+    1094,
+    996
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_persian_loaf_side.png": {
+   "file": "outfits/body/outfit_fisherman_persian_loaf_side.heic",
+   "master": [
+    621,
+    436
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_persian_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_fisherman_persian_loaf_tqfront.heic",
+   "master": [
+    557,
+    409
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_persian_side_torso.png": {
+   "file": "outfits/body/outfit_fisherman_persian_side_torso.heic",
+   "master": [
+    1351,
+    876
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_persian_sit_back.png": {
+   "file": "outfits/body/outfit_fisherman_persian_sit_back.heic",
+   "master": [
+    535,
+    659
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_persian_sit_front.png": {
+   "file": "outfits/body/outfit_fisherman_persian_sit_front.heic",
+   "master": [
+    475,
+    644
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_persian_sit_side.png": {
+   "file": "outfits/body/outfit_fisherman_persian_sit_side.heic",
+   "master": [
+    488,
+    649
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_persian_sit_tqfront.png": {
+   "file": "outfits/body/outfit_fisherman_persian_sit_tqfront.heic",
+   "master": [
+    513,
+    641
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_persian_tqfront_torso.png": {
+   "file": "outfits/body/outfit_fisherman_persian_tqfront_torso.heic",
+   "master": [
+    1173,
+    901
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_short_chunky_front_torso.png": {
+   "file": "outfits/body/outfit_fisherman_short_chunky_front_torso.heic",
+   "master": [
+    895,
+    832
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_short_chunky_loaf_side.png": {
+   "file": "outfits/body/outfit_fisherman_short_chunky_loaf_side.heic",
+   "master": [
+    645,
+    432
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_short_chunky_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_fisherman_short_chunky_loaf_tqfront.heic",
+   "master": [
+    521,
+    419
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_short_chunky_side_torso.png": {
+   "file": "outfits/body/outfit_fisherman_short_chunky_side_torso.heic",
+   "master": [
+    1109,
+    766
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_short_chunky_sit_back.png": {
+   "file": "outfits/body/outfit_fisherman_short_chunky_sit_back.heic",
+   "master": [
+    462,
+    701
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_short_chunky_sit_front.png": {
+   "file": "outfits/body/outfit_fisherman_short_chunky_sit_front.heic",
+   "master": [
+    453,
+    688
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_short_chunky_sit_side.png": {
+   "file": "outfits/body/outfit_fisherman_short_chunky_sit_side.heic",
+   "master": [
+    541,
+    700
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_short_chunky_sit_tqfront.png": {
+   "file": "outfits/body/outfit_fisherman_short_chunky_sit_tqfront.heic",
+   "master": [
+    512,
+    690
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_short_chunky_tqfront_torso.png": {
+   "file": "outfits/body/outfit_fisherman_short_chunky_tqfront_torso.heic",
+   "master": [
+    1141,
+    787
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_short_slim_front_torso.png": {
+   "file": "outfits/body/outfit_fisherman_short_slim_front_torso.heic",
+   "master": [
+    571,
+    857
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_short_slim_loaf_side.png": {
+   "file": "outfits/body/outfit_fisherman_short_slim_loaf_side.heic",
+   "master": [
+    588,
+    425
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_short_slim_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_fisherman_short_slim_loaf_tqfront.heic",
+   "master": [
+    453,
+    403
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_short_slim_side_torso.png": {
+   "file": "outfits/body/outfit_fisherman_short_slim_side_torso.heic",
+   "master": [
+    1238,
+    648
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_short_slim_sit_back.png": {
+   "file": "outfits/body/outfit_fisherman_short_slim_sit_back.heic",
+   "master": [
+    339,
+    720
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_short_slim_sit_front.png": {
+   "file": "outfits/body/outfit_fisherman_short_slim_sit_front.heic",
+   "master": [
+    340,
+    714
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_short_slim_sit_side.png": {
+   "file": "outfits/body/outfit_fisherman_short_slim_sit_side.heic",
+   "master": [
+    417,
+    739
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_short_slim_sit_tqfront.png": {
+   "file": "outfits/body/outfit_fisherman_short_slim_sit_tqfront.heic",
+   "master": [
+    435,
+    710
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_short_slim_tqfront_torso.png": {
+   "file": "outfits/body/outfit_fisherman_short_slim_tqfront_torso.heic",
+   "master": [
+    1199,
+    583
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_siamese_front_torso.png": {
+   "file": "outfits/body/outfit_fisherman_siamese_front_torso.heic",
+   "master": [
+    548,
+    843
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_siamese_loaf_side.png": {
+   "file": "outfits/body/outfit_fisherman_siamese_loaf_side.heic",
+   "master": [
+    582,
+    424
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_siamese_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_fisherman_siamese_loaf_tqfront.heic",
+   "master": [
+    446,
+    415
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_siamese_side_torso.png": {
+   "file": "outfits/body/outfit_fisherman_siamese_side_torso.heic",
+   "master": [
+    1238,
+    638
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_siamese_sit_back.png": {
+   "file": "outfits/body/outfit_fisherman_siamese_sit_back.heic",
+   "master": [
+    296,
+    735
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_siamese_sit_front.png": {
+   "file": "outfits/body/outfit_fisherman_siamese_sit_front.heic",
+   "master": [
+    311,
+    730
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_siamese_sit_side.png": {
+   "file": "outfits/body/outfit_fisherman_siamese_sit_side.heic",
+   "master": [
+    419,
+    752
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_siamese_sit_tqfront.png": {
+   "file": "outfits/body/outfit_fisherman_siamese_sit_tqfront.heic",
+   "master": [
+    424,
+    731
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_siamese_tqfront_torso.png": {
+   "file": "outfits/body/outfit_fisherman_siamese_tqfront_torso.heic",
+   "master": [
+    1171,
+    558
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_sphynx_front_torso.png": {
+   "file": "outfits/body/outfit_fisherman_sphynx_front_torso.heic",
+   "master": [
+    573,
+    848
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_sphynx_loaf_side.png": {
+   "file": "outfits/body/outfit_fisherman_sphynx_loaf_side.heic",
+   "master": [
+    552,
+    443
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_sphynx_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_fisherman_sphynx_loaf_tqfront.heic",
+   "master": [
+    427,
+    417
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_sphynx_side_torso.png": {
+   "file": "outfits/body/outfit_fisherman_sphynx_side_torso.heic",
+   "master": [
+    1238,
+    653
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_sphynx_sit_back.png": {
+   "file": "outfits/body/outfit_fisherman_sphynx_sit_back.heic",
+   "master": [
+    319,
+    736
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_sphynx_sit_front.png": {
+   "file": "outfits/body/outfit_fisherman_sphynx_sit_front.heic",
+   "master": [
+    299,
+    731
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_sphynx_sit_side.png": {
+   "file": "outfits/body/outfit_fisherman_sphynx_sit_side.heic",
+   "master": [
+    382,
+    738
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_sphynx_sit_tqfront.png": {
+   "file": "outfits/body/outfit_fisherman_sphynx_sit_tqfront.heic",
+   "master": [
+    404,
+    707
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_fisherman_sphynx_tqfront_torso.png": {
+   "file": "outfits/body/outfit_fisherman_sphynx_tqfront_torso.heic",
+   "master": [
+    1188,
+    587
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_long_chunky_front_torso.png": {
+   "file": "outfits/body/outfit_hawaiian_long_chunky_front_torso.heic",
+   "master": [
+    1085,
+    979
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_long_chunky_loaf_side.png": {
+   "file": "outfits/body/outfit_hawaiian_long_chunky_loaf_side.heic",
+   "master": [
+    614,
+    443
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_long_chunky_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_hawaiian_long_chunky_loaf_tqfront.heic",
+   "master": [
+    549,
+    444
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_long_chunky_side_torso.png": {
+   "file": "outfits/body/outfit_hawaiian_long_chunky_side_torso.heic",
+   "master": [
+    1343,
+    882
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_long_chunky_sit_back.png": {
+   "file": "outfits/body/outfit_hawaiian_long_chunky_sit_back.heic",
+   "master": [
+    502,
+    692
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_long_chunky_sit_front.png": {
+   "file": "outfits/body/outfit_hawaiian_long_chunky_sit_front.heic",
+   "master": [
+    453,
+    685
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_long_chunky_sit_side.png": {
+   "file": "outfits/body/outfit_hawaiian_long_chunky_sit_side.heic",
+   "master": [
+    462,
+    696
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_long_chunky_sit_tqfront.png": {
+   "file": "outfits/body/outfit_hawaiian_long_chunky_sit_tqfront.heic",
+   "master": [
+    484,
+    687
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_long_chunky_tqfront_torso.png": {
+   "file": "outfits/body/outfit_hawaiian_long_chunky_tqfront_torso.heic",
+   "master": [
+    1167,
+    874
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_long_slim_front_torso.png": {
+   "file": "outfits/body/outfit_hawaiian_long_slim_front_torso.heic",
+   "master": [
+    692,
+    969
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_long_slim_loaf_side.png": {
+   "file": "outfits/body/outfit_hawaiian_long_slim_loaf_side.heic",
+   "master": [
+    588,
+    438
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_long_slim_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_hawaiian_long_slim_loaf_tqfront.heic",
+   "master": [
+    527,
+    427
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_long_slim_side_torso.png": {
+   "file": "outfits/body/outfit_hawaiian_long_slim_side_torso.heic",
+   "master": [
+    1207,
+    717
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_long_slim_sit_back.png": {
+   "file": "outfits/body/outfit_hawaiian_long_slim_sit_back.heic",
+   "master": [
+    474,
+    760
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_long_slim_sit_front.png": {
+   "file": "outfits/body/outfit_hawaiian_long_slim_sit_front.heic",
+   "master": [
+    413,
+    739
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_long_slim_sit_side.png": {
+   "file": "outfits/body/outfit_hawaiian_long_slim_sit_side.heic",
+   "master": [
+    470,
+    777
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_long_slim_sit_tqfront.png": {
+   "file": "outfits/body/outfit_hawaiian_long_slim_sit_tqfront.heic",
+   "master": [
+    449,
+    745
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_long_slim_tqfront_torso.png": {
+   "file": "outfits/body/outfit_hawaiian_long_slim_tqfront_torso.heic",
+   "master": [
+    1101,
+    794
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_mainecoon_front_torso.png": {
+   "file": "outfits/body/outfit_hawaiian_mainecoon_front_torso.heic",
+   "master": [
+    1161,
+    982
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_mainecoon_loaf_side.png": {
+   "file": "outfits/body/outfit_hawaiian_mainecoon_loaf_side.heic",
+   "master": [
+    633,
+    462
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_mainecoon_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_hawaiian_mainecoon_loaf_tqfront.heic",
+   "master": [
+    552,
+    466
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_mainecoon_side_torso.png": {
+   "file": "outfits/body/outfit_hawaiian_mainecoon_side_torso.heic",
+   "master": [
+    1405,
+    909
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_mainecoon_sit_back.png": {
+   "file": "outfits/body/outfit_hawaiian_mainecoon_sit_back.heic",
+   "master": [
+    536,
+    733
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_mainecoon_sit_front.png": {
+   "file": "outfits/body/outfit_hawaiian_mainecoon_sit_front.heic",
+   "master": [
+    484,
+    735
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_mainecoon_sit_side.png": {
+   "file": "outfits/body/outfit_hawaiian_mainecoon_sit_side.heic",
+   "master": [
+    492,
+    735
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_mainecoon_sit_tqfront.png": {
+   "file": "outfits/body/outfit_hawaiian_mainecoon_sit_tqfront.heic",
+   "master": [
+    509,
+    731
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_mainecoon_tqfront_torso.png": {
+   "file": "outfits/body/outfit_hawaiian_mainecoon_tqfront_torso.heic",
+   "master": [
+    1224,
+    883
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_persian_front_torso.png": {
+   "file": "outfits/body/outfit_hawaiian_persian_front_torso.heic",
+   "master": [
+    1094,
+    996
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_persian_loaf_side.png": {
+   "file": "outfits/body/outfit_hawaiian_persian_loaf_side.heic",
+   "master": [
+    621,
+    436
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_persian_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_hawaiian_persian_loaf_tqfront.heic",
+   "master": [
+    557,
+    409
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_persian_side_torso.png": {
+   "file": "outfits/body/outfit_hawaiian_persian_side_torso.heic",
+   "master": [
+    1351,
+    876
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_persian_sit_back.png": {
+   "file": "outfits/body/outfit_hawaiian_persian_sit_back.heic",
+   "master": [
+    535,
+    659
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_persian_sit_front.png": {
+   "file": "outfits/body/outfit_hawaiian_persian_sit_front.heic",
+   "master": [
+    475,
+    644
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_persian_sit_side.png": {
+   "file": "outfits/body/outfit_hawaiian_persian_sit_side.heic",
+   "master": [
+    488,
+    649
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_persian_sit_tqfront.png": {
+   "file": "outfits/body/outfit_hawaiian_persian_sit_tqfront.heic",
+   "master": [
+    513,
+    641
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_persian_tqfront_torso.png": {
+   "file": "outfits/body/outfit_hawaiian_persian_tqfront_torso.heic",
+   "master": [
+    1173,
+    901
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_short_chunky_front_torso.png": {
+   "file": "outfits/body/outfit_hawaiian_short_chunky_front_torso.heic",
+   "master": [
+    895,
+    832
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_short_chunky_loaf_side.png": {
+   "file": "outfits/body/outfit_hawaiian_short_chunky_loaf_side.heic",
+   "master": [
+    645,
+    432
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_short_chunky_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_hawaiian_short_chunky_loaf_tqfront.heic",
+   "master": [
+    521,
+    419
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_short_chunky_side_torso.png": {
+   "file": "outfits/body/outfit_hawaiian_short_chunky_side_torso.heic",
+   "master": [
+    1109,
+    766
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_short_chunky_sit_back.png": {
+   "file": "outfits/body/outfit_hawaiian_short_chunky_sit_back.heic",
+   "master": [
+    462,
+    701
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_short_chunky_sit_front.png": {
+   "file": "outfits/body/outfit_hawaiian_short_chunky_sit_front.heic",
+   "master": [
+    453,
+    688
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_short_chunky_sit_side.png": {
+   "file": "outfits/body/outfit_hawaiian_short_chunky_sit_side.heic",
+   "master": [
+    541,
+    700
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_short_chunky_sit_tqfront.png": {
+   "file": "outfits/body/outfit_hawaiian_short_chunky_sit_tqfront.heic",
+   "master": [
+    512,
+    690
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_short_chunky_tqfront_torso.png": {
+   "file": "outfits/body/outfit_hawaiian_short_chunky_tqfront_torso.heic",
+   "master": [
+    1141,
+    787
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_short_slim_front_torso.png": {
+   "file": "outfits/body/outfit_hawaiian_short_slim_front_torso.heic",
+   "master": [
+    571,
+    857
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_short_slim_loaf_side.png": {
+   "file": "outfits/body/outfit_hawaiian_short_slim_loaf_side.heic",
+   "master": [
+    588,
+    425
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_short_slim_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_hawaiian_short_slim_loaf_tqfront.heic",
+   "master": [
+    453,
+    403
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_short_slim_side_torso.png": {
+   "file": "outfits/body/outfit_hawaiian_short_slim_side_torso.heic",
+   "master": [
+    1238,
+    648
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_short_slim_sit_back.png": {
+   "file": "outfits/body/outfit_hawaiian_short_slim_sit_back.heic",
+   "master": [
+    339,
+    720
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_short_slim_sit_front.png": {
+   "file": "outfits/body/outfit_hawaiian_short_slim_sit_front.heic",
+   "master": [
+    340,
+    714
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_short_slim_sit_side.png": {
+   "file": "outfits/body/outfit_hawaiian_short_slim_sit_side.heic",
+   "master": [
+    417,
+    739
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_short_slim_sit_tqfront.png": {
+   "file": "outfits/body/outfit_hawaiian_short_slim_sit_tqfront.heic",
+   "master": [
+    435,
+    710
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_short_slim_tqfront_torso.png": {
+   "file": "outfits/body/outfit_hawaiian_short_slim_tqfront_torso.heic",
+   "master": [
+    1199,
+    583
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_siamese_front_torso.png": {
+   "file": "outfits/body/outfit_hawaiian_siamese_front_torso.heic",
+   "master": [
+    548,
+    843
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_siamese_loaf_side.png": {
+   "file": "outfits/body/outfit_hawaiian_siamese_loaf_side.heic",
+   "master": [
+    582,
+    424
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_siamese_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_hawaiian_siamese_loaf_tqfront.heic",
+   "master": [
+    446,
+    415
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_siamese_side_torso.png": {
+   "file": "outfits/body/outfit_hawaiian_siamese_side_torso.heic",
+   "master": [
+    1238,
+    638
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_siamese_sit_back.png": {
+   "file": "outfits/body/outfit_hawaiian_siamese_sit_back.heic",
+   "master": [
+    296,
+    735
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_siamese_sit_front.png": {
+   "file": "outfits/body/outfit_hawaiian_siamese_sit_front.heic",
+   "master": [
+    311,
+    730
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_siamese_sit_side.png": {
+   "file": "outfits/body/outfit_hawaiian_siamese_sit_side.heic",
+   "master": [
+    419,
+    752
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_siamese_sit_tqfront.png": {
+   "file": "outfits/body/outfit_hawaiian_siamese_sit_tqfront.heic",
+   "master": [
+    424,
+    731
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_siamese_tqfront_torso.png": {
+   "file": "outfits/body/outfit_hawaiian_siamese_tqfront_torso.heic",
+   "master": [
+    1171,
+    558
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_sphynx_front_torso.png": {
+   "file": "outfits/body/outfit_hawaiian_sphynx_front_torso.heic",
+   "master": [
+    573,
+    848
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_sphynx_loaf_side.png": {
+   "file": "outfits/body/outfit_hawaiian_sphynx_loaf_side.heic",
+   "master": [
+    552,
+    443
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_sphynx_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_hawaiian_sphynx_loaf_tqfront.heic",
+   "master": [
+    427,
+    417
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_sphynx_side_torso.png": {
+   "file": "outfits/body/outfit_hawaiian_sphynx_side_torso.heic",
+   "master": [
+    1238,
+    653
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_sphynx_sit_back.png": {
+   "file": "outfits/body/outfit_hawaiian_sphynx_sit_back.heic",
+   "master": [
+    319,
+    736
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_sphynx_sit_front.png": {
+   "file": "outfits/body/outfit_hawaiian_sphynx_sit_front.heic",
+   "master": [
+    299,
+    731
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_sphynx_sit_side.png": {
+   "file": "outfits/body/outfit_hawaiian_sphynx_sit_side.heic",
+   "master": [
+    382,
+    738
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_sphynx_sit_tqfront.png": {
+   "file": "outfits/body/outfit_hawaiian_sphynx_sit_tqfront.heic",
+   "master": [
+    404,
+    707
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hawaiian_sphynx_tqfront_torso.png": {
+   "file": "outfits/body/outfit_hawaiian_sphynx_tqfront_torso.heic",
+   "master": [
+    1188,
+    587
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_long_chunky_front_torso.png": {
+   "file": "outfits/body/outfit_hoodie_long_chunky_front_torso.heic",
+   "master": [
+    1085,
+    979
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_long_chunky_loaf_side.png": {
+   "file": "outfits/body/outfit_hoodie_long_chunky_loaf_side.heic",
+   "master": [
+    614,
+    443
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_long_chunky_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_hoodie_long_chunky_loaf_tqfront.heic",
+   "master": [
+    549,
+    444
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_long_chunky_side_torso.png": {
+   "file": "outfits/body/outfit_hoodie_long_chunky_side_torso.heic",
+   "master": [
+    1343,
+    882
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_long_chunky_sit_back.png": {
+   "file": "outfits/body/outfit_hoodie_long_chunky_sit_back.heic",
+   "master": [
+    502,
+    692
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_long_chunky_sit_front.png": {
+   "file": "outfits/body/outfit_hoodie_long_chunky_sit_front.heic",
+   "master": [
+    453,
+    685
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_long_chunky_sit_side.png": {
+   "file": "outfits/body/outfit_hoodie_long_chunky_sit_side.heic",
+   "master": [
+    462,
+    696
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_long_chunky_sit_tqfront.png": {
+   "file": "outfits/body/outfit_hoodie_long_chunky_sit_tqfront.heic",
+   "master": [
+    484,
+    687
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_long_chunky_tqfront_torso.png": {
+   "file": "outfits/body/outfit_hoodie_long_chunky_tqfront_torso.heic",
+   "master": [
+    1167,
+    874
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_long_slim_front_torso.png": {
+   "file": "outfits/body/outfit_hoodie_long_slim_front_torso.heic",
+   "master": [
+    692,
+    969
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_long_slim_loaf_side.png": {
+   "file": "outfits/body/outfit_hoodie_long_slim_loaf_side.heic",
+   "master": [
+    588,
+    438
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_long_slim_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_hoodie_long_slim_loaf_tqfront.heic",
+   "master": [
+    527,
+    427
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_long_slim_side_torso.png": {
+   "file": "outfits/body/outfit_hoodie_long_slim_side_torso.heic",
+   "master": [
+    1207,
+    717
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_long_slim_sit_back.png": {
+   "file": "outfits/body/outfit_hoodie_long_slim_sit_back.heic",
+   "master": [
+    474,
+    760
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_long_slim_sit_front.png": {
+   "file": "outfits/body/outfit_hoodie_long_slim_sit_front.heic",
+   "master": [
+    413,
+    739
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_long_slim_sit_side.png": {
+   "file": "outfits/body/outfit_hoodie_long_slim_sit_side.heic",
+   "master": [
+    470,
+    777
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_long_slim_sit_tqfront.png": {
+   "file": "outfits/body/outfit_hoodie_long_slim_sit_tqfront.heic",
+   "master": [
+    449,
+    745
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_long_slim_tqfront_torso.png": {
+   "file": "outfits/body/outfit_hoodie_long_slim_tqfront_torso.heic",
+   "master": [
+    1101,
+    794
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_mainecoon_front_torso.png": {
+   "file": "outfits/body/outfit_hoodie_mainecoon_front_torso.heic",
+   "master": [
+    1161,
+    982
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_mainecoon_loaf_side.png": {
+   "file": "outfits/body/outfit_hoodie_mainecoon_loaf_side.heic",
+   "master": [
+    633,
+    462
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_mainecoon_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_hoodie_mainecoon_loaf_tqfront.heic",
+   "master": [
+    552,
+    466
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_mainecoon_side_torso.png": {
+   "file": "outfits/body/outfit_hoodie_mainecoon_side_torso.heic",
+   "master": [
+    1405,
+    909
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_mainecoon_sit_back.png": {
+   "file": "outfits/body/outfit_hoodie_mainecoon_sit_back.heic",
+   "master": [
+    536,
+    733
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_mainecoon_sit_front.png": {
+   "file": "outfits/body/outfit_hoodie_mainecoon_sit_front.heic",
+   "master": [
+    484,
+    735
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_mainecoon_sit_side.png": {
+   "file": "outfits/body/outfit_hoodie_mainecoon_sit_side.heic",
+   "master": [
+    492,
+    735
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_mainecoon_sit_tqfront.png": {
+   "file": "outfits/body/outfit_hoodie_mainecoon_sit_tqfront.heic",
+   "master": [
+    509,
+    731
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_mainecoon_tqfront_torso.png": {
+   "file": "outfits/body/outfit_hoodie_mainecoon_tqfront_torso.heic",
+   "master": [
+    1224,
+    883
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_persian_front_torso.png": {
+   "file": "outfits/body/outfit_hoodie_persian_front_torso.heic",
+   "master": [
+    1094,
+    996
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_persian_loaf_side.png": {
+   "file": "outfits/body/outfit_hoodie_persian_loaf_side.heic",
+   "master": [
+    621,
+    436
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_persian_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_hoodie_persian_loaf_tqfront.heic",
+   "master": [
+    557,
+    409
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_persian_side_torso.png": {
+   "file": "outfits/body/outfit_hoodie_persian_side_torso.heic",
+   "master": [
+    1351,
+    876
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_persian_sit_back.png": {
+   "file": "outfits/body/outfit_hoodie_persian_sit_back.heic",
+   "master": [
+    535,
+    659
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_persian_sit_front.png": {
+   "file": "outfits/body/outfit_hoodie_persian_sit_front.heic",
+   "master": [
+    475,
+    644
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_persian_sit_side.png": {
+   "file": "outfits/body/outfit_hoodie_persian_sit_side.heic",
+   "master": [
+    488,
+    649
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_persian_sit_tqfront.png": {
+   "file": "outfits/body/outfit_hoodie_persian_sit_tqfront.heic",
+   "master": [
+    513,
+    641
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_persian_tqfront_torso.png": {
+   "file": "outfits/body/outfit_hoodie_persian_tqfront_torso.heic",
+   "master": [
+    1173,
+    901
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_short_chunky_front_torso.png": {
+   "file": "outfits/body/outfit_hoodie_short_chunky_front_torso.heic",
+   "master": [
+    895,
+    832
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_short_chunky_loaf_side.png": {
+   "file": "outfits/body/outfit_hoodie_short_chunky_loaf_side.heic",
+   "master": [
+    645,
+    432
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_short_chunky_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_hoodie_short_chunky_loaf_tqfront.heic",
+   "master": [
+    521,
+    419
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_short_chunky_side_torso.png": {
+   "file": "outfits/body/outfit_hoodie_short_chunky_side_torso.heic",
+   "master": [
+    1109,
+    766
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_short_chunky_sit_back.png": {
+   "file": "outfits/body/outfit_hoodie_short_chunky_sit_back.heic",
+   "master": [
+    462,
+    701
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_short_chunky_sit_front.png": {
+   "file": "outfits/body/outfit_hoodie_short_chunky_sit_front.heic",
+   "master": [
+    453,
+    688
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_short_chunky_sit_side.png": {
+   "file": "outfits/body/outfit_hoodie_short_chunky_sit_side.heic",
+   "master": [
+    541,
+    700
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_short_chunky_sit_tqfront.png": {
+   "file": "outfits/body/outfit_hoodie_short_chunky_sit_tqfront.heic",
+   "master": [
+    512,
+    690
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_short_chunky_tqfront_torso.png": {
+   "file": "outfits/body/outfit_hoodie_short_chunky_tqfront_torso.heic",
+   "master": [
+    1141,
+    787
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_short_slim_front_torso.png": {
+   "file": "outfits/body/outfit_hoodie_short_slim_front_torso.heic",
+   "master": [
+    571,
+    857
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_short_slim_loaf_side.png": {
+   "file": "outfits/body/outfit_hoodie_short_slim_loaf_side.heic",
+   "master": [
+    588,
+    425
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_short_slim_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_hoodie_short_slim_loaf_tqfront.heic",
+   "master": [
+    453,
+    403
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_short_slim_side_torso.png": {
+   "file": "outfits/body/outfit_hoodie_short_slim_side_torso.heic",
+   "master": [
+    1238,
+    648
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_short_slim_sit_back.png": {
+   "file": "outfits/body/outfit_hoodie_short_slim_sit_back.heic",
+   "master": [
+    339,
+    720
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_short_slim_sit_front.png": {
+   "file": "outfits/body/outfit_hoodie_short_slim_sit_front.heic",
+   "master": [
+    340,
+    714
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_short_slim_sit_side.png": {
+   "file": "outfits/body/outfit_hoodie_short_slim_sit_side.heic",
+   "master": [
+    417,
+    739
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_short_slim_sit_tqfront.png": {
+   "file": "outfits/body/outfit_hoodie_short_slim_sit_tqfront.heic",
+   "master": [
+    435,
+    710
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_short_slim_tqfront_torso.png": {
+   "file": "outfits/body/outfit_hoodie_short_slim_tqfront_torso.heic",
+   "master": [
+    1199,
+    583
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_siamese_front_torso.png": {
+   "file": "outfits/body/outfit_hoodie_siamese_front_torso.heic",
+   "master": [
+    548,
+    843
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_siamese_loaf_side.png": {
+   "file": "outfits/body/outfit_hoodie_siamese_loaf_side.heic",
+   "master": [
+    582,
+    424
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_siamese_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_hoodie_siamese_loaf_tqfront.heic",
+   "master": [
+    446,
+    415
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_siamese_side_torso.png": {
+   "file": "outfits/body/outfit_hoodie_siamese_side_torso.heic",
+   "master": [
+    1238,
+    638
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_siamese_sit_back.png": {
+   "file": "outfits/body/outfit_hoodie_siamese_sit_back.heic",
+   "master": [
+    296,
+    735
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_siamese_sit_front.png": {
+   "file": "outfits/body/outfit_hoodie_siamese_sit_front.heic",
+   "master": [
+    311,
+    730
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_siamese_sit_side.png": {
+   "file": "outfits/body/outfit_hoodie_siamese_sit_side.heic",
+   "master": [
+    419,
+    752
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_siamese_sit_tqfront.png": {
+   "file": "outfits/body/outfit_hoodie_siamese_sit_tqfront.heic",
+   "master": [
+    424,
+    731
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_siamese_tqfront_torso.png": {
+   "file": "outfits/body/outfit_hoodie_siamese_tqfront_torso.heic",
+   "master": [
+    1171,
+    558
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_sphynx_front_torso.png": {
+   "file": "outfits/body/outfit_hoodie_sphynx_front_torso.heic",
+   "master": [
+    573,
+    848
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_sphynx_loaf_side.png": {
+   "file": "outfits/body/outfit_hoodie_sphynx_loaf_side.heic",
+   "master": [
+    552,
+    443
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_sphynx_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_hoodie_sphynx_loaf_tqfront.heic",
+   "master": [
+    427,
+    417
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_sphynx_side_torso.png": {
+   "file": "outfits/body/outfit_hoodie_sphynx_side_torso.heic",
+   "master": [
+    1238,
+    653
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_sphynx_sit_back.png": {
+   "file": "outfits/body/outfit_hoodie_sphynx_sit_back.heic",
+   "master": [
+    319,
+    736
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_sphynx_sit_front.png": {
+   "file": "outfits/body/outfit_hoodie_sphynx_sit_front.heic",
+   "master": [
+    299,
+    731
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_sphynx_sit_side.png": {
+   "file": "outfits/body/outfit_hoodie_sphynx_sit_side.heic",
+   "master": [
+    382,
+    738
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_sphynx_sit_tqfront.png": {
+   "file": "outfits/body/outfit_hoodie_sphynx_sit_tqfront.heic",
+   "master": [
+    404,
+    707
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_hoodie_sphynx_tqfront_torso.png": {
+   "file": "outfits/body/outfit_hoodie_sphynx_tqfront_torso.heic",
+   "master": [
+    1188,
+    587
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_long_chunky_front_torso.png": {
+   "file": "outfits/body/outfit_lifevest_long_chunky_front_torso.heic",
+   "master": [
+    1085,
+    979
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_long_chunky_loaf_side.png": {
+   "file": "outfits/body/outfit_lifevest_long_chunky_loaf_side.heic",
+   "master": [
+    614,
+    443
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_long_chunky_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_lifevest_long_chunky_loaf_tqfront.heic",
+   "master": [
+    549,
+    444
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_long_chunky_side_torso.png": {
+   "file": "outfits/body/outfit_lifevest_long_chunky_side_torso.heic",
+   "master": [
+    1343,
+    882
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_long_chunky_sit_back.png": {
+   "file": "outfits/body/outfit_lifevest_long_chunky_sit_back.heic",
+   "master": [
+    502,
+    692
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_long_chunky_sit_front.png": {
+   "file": "outfits/body/outfit_lifevest_long_chunky_sit_front.heic",
+   "master": [
+    453,
+    685
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_long_chunky_sit_side.png": {
+   "file": "outfits/body/outfit_lifevest_long_chunky_sit_side.heic",
+   "master": [
+    462,
+    696
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_long_chunky_sit_tqfront.png": {
+   "file": "outfits/body/outfit_lifevest_long_chunky_sit_tqfront.heic",
+   "master": [
+    484,
+    687
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_long_chunky_tqfront_torso.png": {
+   "file": "outfits/body/outfit_lifevest_long_chunky_tqfront_torso.heic",
+   "master": [
+    1167,
+    874
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_long_slim_front_torso.png": {
+   "file": "outfits/body/outfit_lifevest_long_slim_front_torso.heic",
+   "master": [
+    692,
+    969
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_long_slim_loaf_side.png": {
+   "file": "outfits/body/outfit_lifevest_long_slim_loaf_side.heic",
+   "master": [
+    588,
+    438
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_long_slim_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_lifevest_long_slim_loaf_tqfront.heic",
+   "master": [
+    527,
+    427
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_long_slim_side_torso.png": {
+   "file": "outfits/body/outfit_lifevest_long_slim_side_torso.heic",
+   "master": [
+    1207,
+    717
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_long_slim_sit_back.png": {
+   "file": "outfits/body/outfit_lifevest_long_slim_sit_back.heic",
+   "master": [
+    474,
+    760
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_long_slim_sit_front.png": {
+   "file": "outfits/body/outfit_lifevest_long_slim_sit_front.heic",
+   "master": [
+    413,
+    739
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_long_slim_sit_side.png": {
+   "file": "outfits/body/outfit_lifevest_long_slim_sit_side.heic",
+   "master": [
+    470,
+    777
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_long_slim_sit_tqfront.png": {
+   "file": "outfits/body/outfit_lifevest_long_slim_sit_tqfront.heic",
+   "master": [
+    449,
+    745
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_long_slim_tqfront_torso.png": {
+   "file": "outfits/body/outfit_lifevest_long_slim_tqfront_torso.heic",
+   "master": [
+    1101,
+    794
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_mainecoon_front_torso.png": {
+   "file": "outfits/body/outfit_lifevest_mainecoon_front_torso.heic",
+   "master": [
+    1161,
+    982
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_mainecoon_loaf_side.png": {
+   "file": "outfits/body/outfit_lifevest_mainecoon_loaf_side.heic",
+   "master": [
+    633,
+    462
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_mainecoon_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_lifevest_mainecoon_loaf_tqfront.heic",
+   "master": [
+    552,
+    466
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_mainecoon_side_torso.png": {
+   "file": "outfits/body/outfit_lifevest_mainecoon_side_torso.heic",
+   "master": [
+    1405,
+    909
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_mainecoon_sit_back.png": {
+   "file": "outfits/body/outfit_lifevest_mainecoon_sit_back.heic",
+   "master": [
+    536,
+    733
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_mainecoon_sit_front.png": {
+   "file": "outfits/body/outfit_lifevest_mainecoon_sit_front.heic",
+   "master": [
+    484,
+    735
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_mainecoon_sit_side.png": {
+   "file": "outfits/body/outfit_lifevest_mainecoon_sit_side.heic",
+   "master": [
+    492,
+    735
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_mainecoon_sit_tqfront.png": {
+   "file": "outfits/body/outfit_lifevest_mainecoon_sit_tqfront.heic",
+   "master": [
+    509,
+    731
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_mainecoon_tqfront_torso.png": {
+   "file": "outfits/body/outfit_lifevest_mainecoon_tqfront_torso.heic",
+   "master": [
+    1224,
+    883
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_persian_front_torso.png": {
+   "file": "outfits/body/outfit_lifevest_persian_front_torso.heic",
+   "master": [
+    1094,
+    996
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_persian_loaf_side.png": {
+   "file": "outfits/body/outfit_lifevest_persian_loaf_side.heic",
+   "master": [
+    621,
+    436
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_persian_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_lifevest_persian_loaf_tqfront.heic",
+   "master": [
+    557,
+    409
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_persian_side_torso.png": {
+   "file": "outfits/body/outfit_lifevest_persian_side_torso.heic",
+   "master": [
+    1351,
+    876
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_persian_sit_back.png": {
+   "file": "outfits/body/outfit_lifevest_persian_sit_back.heic",
+   "master": [
+    535,
+    659
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_persian_sit_front.png": {
+   "file": "outfits/body/outfit_lifevest_persian_sit_front.heic",
+   "master": [
+    475,
+    644
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_persian_sit_side.png": {
+   "file": "outfits/body/outfit_lifevest_persian_sit_side.heic",
+   "master": [
+    488,
+    649
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_persian_sit_tqfront.png": {
+   "file": "outfits/body/outfit_lifevest_persian_sit_tqfront.heic",
+   "master": [
+    513,
+    641
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_persian_tqfront_torso.png": {
+   "file": "outfits/body/outfit_lifevest_persian_tqfront_torso.heic",
+   "master": [
+    1173,
+    901
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_short_chunky_front_torso.png": {
+   "file": "outfits/body/outfit_lifevest_short_chunky_front_torso.heic",
+   "master": [
+    895,
+    832
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_short_chunky_loaf_side.png": {
+   "file": "outfits/body/outfit_lifevest_short_chunky_loaf_side.heic",
+   "master": [
+    645,
+    432
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_short_chunky_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_lifevest_short_chunky_loaf_tqfront.heic",
+   "master": [
+    521,
+    419
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_short_chunky_side_torso.png": {
+   "file": "outfits/body/outfit_lifevest_short_chunky_side_torso.heic",
+   "master": [
+    1109,
+    766
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_short_chunky_sit_back.png": {
+   "file": "outfits/body/outfit_lifevest_short_chunky_sit_back.heic",
+   "master": [
+    462,
+    701
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_short_chunky_sit_front.png": {
+   "file": "outfits/body/outfit_lifevest_short_chunky_sit_front.heic",
+   "master": [
+    453,
+    688
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_short_chunky_sit_side.png": {
+   "file": "outfits/body/outfit_lifevest_short_chunky_sit_side.heic",
+   "master": [
+    541,
+    700
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_short_chunky_sit_tqfront.png": {
+   "file": "outfits/body/outfit_lifevest_short_chunky_sit_tqfront.heic",
+   "master": [
+    512,
+    690
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_short_chunky_tqfront_torso.png": {
+   "file": "outfits/body/outfit_lifevest_short_chunky_tqfront_torso.heic",
+   "master": [
+    1141,
+    787
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_short_slim_front_torso.png": {
+   "file": "outfits/body/outfit_lifevest_short_slim_front_torso.heic",
+   "master": [
+    571,
+    857
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_short_slim_loaf_side.png": {
+   "file": "outfits/body/outfit_lifevest_short_slim_loaf_side.heic",
+   "master": [
+    588,
+    425
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_short_slim_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_lifevest_short_slim_loaf_tqfront.heic",
+   "master": [
+    453,
+    403
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_short_slim_side_torso.png": {
+   "file": "outfits/body/outfit_lifevest_short_slim_side_torso.heic",
+   "master": [
+    1238,
+    648
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_short_slim_sit_back.png": {
+   "file": "outfits/body/outfit_lifevest_short_slim_sit_back.heic",
+   "master": [
+    339,
+    720
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_short_slim_sit_front.png": {
+   "file": "outfits/body/outfit_lifevest_short_slim_sit_front.heic",
+   "master": [
+    340,
+    714
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_short_slim_sit_side.png": {
+   "file": "outfits/body/outfit_lifevest_short_slim_sit_side.heic",
+   "master": [
+    417,
+    739
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_short_slim_sit_tqfront.png": {
+   "file": "outfits/body/outfit_lifevest_short_slim_sit_tqfront.heic",
+   "master": [
+    435,
+    710
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_short_slim_tqfront_torso.png": {
+   "file": "outfits/body/outfit_lifevest_short_slim_tqfront_torso.heic",
+   "master": [
+    1199,
+    583
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_siamese_front_torso.png": {
+   "file": "outfits/body/outfit_lifevest_siamese_front_torso.heic",
+   "master": [
+    548,
+    843
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_siamese_loaf_side.png": {
+   "file": "outfits/body/outfit_lifevest_siamese_loaf_side.heic",
+   "master": [
+    582,
+    424
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_siamese_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_lifevest_siamese_loaf_tqfront.heic",
+   "master": [
+    446,
+    415
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_siamese_side_torso.png": {
+   "file": "outfits/body/outfit_lifevest_siamese_side_torso.heic",
+   "master": [
+    1238,
+    638
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_siamese_sit_back.png": {
+   "file": "outfits/body/outfit_lifevest_siamese_sit_back.heic",
+   "master": [
+    296,
+    735
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_siamese_sit_front.png": {
+   "file": "outfits/body/outfit_lifevest_siamese_sit_front.heic",
+   "master": [
+    311,
+    730
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_siamese_sit_side.png": {
+   "file": "outfits/body/outfit_lifevest_siamese_sit_side.heic",
+   "master": [
+    419,
+    752
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_siamese_sit_tqfront.png": {
+   "file": "outfits/body/outfit_lifevest_siamese_sit_tqfront.heic",
+   "master": [
+    424,
+    731
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_siamese_tqfront_torso.png": {
+   "file": "outfits/body/outfit_lifevest_siamese_tqfront_torso.heic",
+   "master": [
+    1171,
+    558
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_sphynx_front_torso.png": {
+   "file": "outfits/body/outfit_lifevest_sphynx_front_torso.heic",
+   "master": [
+    573,
+    848
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_sphynx_loaf_side.png": {
+   "file": "outfits/body/outfit_lifevest_sphynx_loaf_side.heic",
+   "master": [
+    552,
+    443
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_sphynx_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_lifevest_sphynx_loaf_tqfront.heic",
+   "master": [
+    427,
+    417
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_sphynx_side_torso.png": {
+   "file": "outfits/body/outfit_lifevest_sphynx_side_torso.heic",
+   "master": [
+    1238,
+    653
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_sphynx_sit_back.png": {
+   "file": "outfits/body/outfit_lifevest_sphynx_sit_back.heic",
+   "master": [
+    319,
+    736
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_sphynx_sit_front.png": {
+   "file": "outfits/body/outfit_lifevest_sphynx_sit_front.heic",
+   "master": [
+    299,
+    731
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_sphynx_sit_side.png": {
+   "file": "outfits/body/outfit_lifevest_sphynx_sit_side.heic",
+   "master": [
+    382,
+    738
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_sphynx_sit_tqfront.png": {
+   "file": "outfits/body/outfit_lifevest_sphynx_sit_tqfront.heic",
+   "master": [
+    404,
+    707
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_lifevest_sphynx_tqfront_torso.png": {
+   "file": "outfits/body/outfit_lifevest_sphynx_tqfront_torso.heic",
+   "master": [
+    1188,
+    587
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_long_chunky_front_torso.png": {
+   "file": "outfits/body/outfit_pyjamas_long_chunky_front_torso.heic",
+   "master": [
+    1085,
+    979
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_long_chunky_loaf_side.png": {
+   "file": "outfits/body/outfit_pyjamas_long_chunky_loaf_side.heic",
+   "master": [
+    614,
+    443
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_long_chunky_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_pyjamas_long_chunky_loaf_tqfront.heic",
+   "master": [
+    549,
+    444
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_long_chunky_side_torso.png": {
+   "file": "outfits/body/outfit_pyjamas_long_chunky_side_torso.heic",
+   "master": [
+    1343,
+    882
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_long_chunky_sit_back.png": {
+   "file": "outfits/body/outfit_pyjamas_long_chunky_sit_back.heic",
+   "master": [
+    502,
+    692
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_long_chunky_sit_front.png": {
+   "file": "outfits/body/outfit_pyjamas_long_chunky_sit_front.heic",
+   "master": [
+    453,
+    685
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_long_chunky_sit_side.png": {
+   "file": "outfits/body/outfit_pyjamas_long_chunky_sit_side.heic",
+   "master": [
+    462,
+    696
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_long_chunky_sit_tqfront.png": {
+   "file": "outfits/body/outfit_pyjamas_long_chunky_sit_tqfront.heic",
+   "master": [
+    484,
+    687
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_long_chunky_tqfront_torso.png": {
+   "file": "outfits/body/outfit_pyjamas_long_chunky_tqfront_torso.heic",
+   "master": [
+    1167,
+    874
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_long_slim_front_torso.png": {
+   "file": "outfits/body/outfit_pyjamas_long_slim_front_torso.heic",
+   "master": [
+    692,
+    969
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_long_slim_loaf_side.png": {
+   "file": "outfits/body/outfit_pyjamas_long_slim_loaf_side.heic",
+   "master": [
+    588,
+    438
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_long_slim_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_pyjamas_long_slim_loaf_tqfront.heic",
+   "master": [
+    527,
+    427
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_long_slim_side_torso.png": {
+   "file": "outfits/body/outfit_pyjamas_long_slim_side_torso.heic",
+   "master": [
+    1207,
+    717
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_long_slim_sit_back.png": {
+   "file": "outfits/body/outfit_pyjamas_long_slim_sit_back.heic",
+   "master": [
+    474,
+    760
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_long_slim_sit_front.png": {
+   "file": "outfits/body/outfit_pyjamas_long_slim_sit_front.heic",
+   "master": [
+    413,
+    739
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_long_slim_sit_side.png": {
+   "file": "outfits/body/outfit_pyjamas_long_slim_sit_side.heic",
+   "master": [
+    470,
+    777
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_long_slim_sit_tqfront.png": {
+   "file": "outfits/body/outfit_pyjamas_long_slim_sit_tqfront.heic",
+   "master": [
+    449,
+    745
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_long_slim_tqfront_torso.png": {
+   "file": "outfits/body/outfit_pyjamas_long_slim_tqfront_torso.heic",
+   "master": [
+    1101,
+    794
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_mainecoon_front_torso.png": {
+   "file": "outfits/body/outfit_pyjamas_mainecoon_front_torso.heic",
+   "master": [
+    1161,
+    982
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_mainecoon_loaf_side.png": {
+   "file": "outfits/body/outfit_pyjamas_mainecoon_loaf_side.heic",
+   "master": [
+    633,
+    462
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_mainecoon_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_pyjamas_mainecoon_loaf_tqfront.heic",
+   "master": [
+    552,
+    466
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_mainecoon_side_torso.png": {
+   "file": "outfits/body/outfit_pyjamas_mainecoon_side_torso.heic",
+   "master": [
+    1405,
+    909
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_mainecoon_sit_back.png": {
+   "file": "outfits/body/outfit_pyjamas_mainecoon_sit_back.heic",
+   "master": [
+    536,
+    733
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_mainecoon_sit_front.png": {
+   "file": "outfits/body/outfit_pyjamas_mainecoon_sit_front.heic",
+   "master": [
+    484,
+    735
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_mainecoon_sit_side.png": {
+   "file": "outfits/body/outfit_pyjamas_mainecoon_sit_side.heic",
+   "master": [
+    492,
+    735
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_mainecoon_sit_tqfront.png": {
+   "file": "outfits/body/outfit_pyjamas_mainecoon_sit_tqfront.heic",
+   "master": [
+    509,
+    731
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_mainecoon_tqfront_torso.png": {
+   "file": "outfits/body/outfit_pyjamas_mainecoon_tqfront_torso.heic",
+   "master": [
+    1224,
+    883
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_persian_front_torso.png": {
+   "file": "outfits/body/outfit_pyjamas_persian_front_torso.heic",
+   "master": [
+    1094,
+    996
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_persian_loaf_side.png": {
+   "file": "outfits/body/outfit_pyjamas_persian_loaf_side.heic",
+   "master": [
+    621,
+    436
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_persian_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_pyjamas_persian_loaf_tqfront.heic",
+   "master": [
+    557,
+    409
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_persian_side_torso.png": {
+   "file": "outfits/body/outfit_pyjamas_persian_side_torso.heic",
+   "master": [
+    1351,
+    876
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_persian_sit_back.png": {
+   "file": "outfits/body/outfit_pyjamas_persian_sit_back.heic",
+   "master": [
+    535,
+    659
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_persian_sit_front.png": {
+   "file": "outfits/body/outfit_pyjamas_persian_sit_front.heic",
+   "master": [
+    475,
+    644
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_persian_sit_side.png": {
+   "file": "outfits/body/outfit_pyjamas_persian_sit_side.heic",
+   "master": [
+    488,
+    649
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_persian_sit_tqfront.png": {
+   "file": "outfits/body/outfit_pyjamas_persian_sit_tqfront.heic",
+   "master": [
+    513,
+    641
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_persian_tqfront_torso.png": {
+   "file": "outfits/body/outfit_pyjamas_persian_tqfront_torso.heic",
+   "master": [
+    1173,
+    901
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_short_chunky_front_torso.png": {
+   "file": "outfits/body/outfit_pyjamas_short_chunky_front_torso.heic",
+   "master": [
+    895,
+    832
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_short_chunky_loaf_side.png": {
+   "file": "outfits/body/outfit_pyjamas_short_chunky_loaf_side.heic",
+   "master": [
+    645,
+    432
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_short_chunky_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_pyjamas_short_chunky_loaf_tqfront.heic",
+   "master": [
+    521,
+    419
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_short_chunky_side_torso.png": {
+   "file": "outfits/body/outfit_pyjamas_short_chunky_side_torso.heic",
+   "master": [
+    1109,
+    766
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_short_chunky_sit_back.png": {
+   "file": "outfits/body/outfit_pyjamas_short_chunky_sit_back.heic",
+   "master": [
+    462,
+    701
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_short_chunky_sit_front.png": {
+   "file": "outfits/body/outfit_pyjamas_short_chunky_sit_front.heic",
+   "master": [
+    453,
+    688
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_short_chunky_sit_side.png": {
+   "file": "outfits/body/outfit_pyjamas_short_chunky_sit_side.heic",
+   "master": [
+    541,
+    700
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_short_chunky_sit_tqfront.png": {
+   "file": "outfits/body/outfit_pyjamas_short_chunky_sit_tqfront.heic",
+   "master": [
+    512,
+    690
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_short_chunky_tqfront_torso.png": {
+   "file": "outfits/body/outfit_pyjamas_short_chunky_tqfront_torso.heic",
+   "master": [
+    1141,
+    787
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_short_slim_front_torso.png": {
+   "file": "outfits/body/outfit_pyjamas_short_slim_front_torso.heic",
+   "master": [
+    571,
+    857
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_short_slim_loaf_side.png": {
+   "file": "outfits/body/outfit_pyjamas_short_slim_loaf_side.heic",
+   "master": [
+    588,
+    425
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_short_slim_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_pyjamas_short_slim_loaf_tqfront.heic",
+   "master": [
+    453,
+    403
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_short_slim_side_torso.png": {
+   "file": "outfits/body/outfit_pyjamas_short_slim_side_torso.heic",
+   "master": [
+    1238,
+    648
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_short_slim_sit_back.png": {
+   "file": "outfits/body/outfit_pyjamas_short_slim_sit_back.heic",
+   "master": [
+    339,
+    720
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_short_slim_sit_front.png": {
+   "file": "outfits/body/outfit_pyjamas_short_slim_sit_front.heic",
+   "master": [
+    340,
+    714
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_short_slim_sit_side.png": {
+   "file": "outfits/body/outfit_pyjamas_short_slim_sit_side.heic",
+   "master": [
+    417,
+    739
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_short_slim_sit_tqfront.png": {
+   "file": "outfits/body/outfit_pyjamas_short_slim_sit_tqfront.heic",
+   "master": [
+    435,
+    710
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_short_slim_tqfront_torso.png": {
+   "file": "outfits/body/outfit_pyjamas_short_slim_tqfront_torso.heic",
+   "master": [
+    1199,
+    583
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_siamese_front_torso.png": {
+   "file": "outfits/body/outfit_pyjamas_siamese_front_torso.heic",
+   "master": [
+    548,
+    843
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_siamese_loaf_side.png": {
+   "file": "outfits/body/outfit_pyjamas_siamese_loaf_side.heic",
+   "master": [
+    582,
+    424
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_siamese_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_pyjamas_siamese_loaf_tqfront.heic",
+   "master": [
+    446,
+    415
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_siamese_side_torso.png": {
+   "file": "outfits/body/outfit_pyjamas_siamese_side_torso.heic",
+   "master": [
+    1238,
+    638
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_siamese_sit_back.png": {
+   "file": "outfits/body/outfit_pyjamas_siamese_sit_back.heic",
+   "master": [
+    296,
+    735
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_siamese_sit_front.png": {
+   "file": "outfits/body/outfit_pyjamas_siamese_sit_front.heic",
+   "master": [
+    311,
+    730
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_siamese_sit_side.png": {
+   "file": "outfits/body/outfit_pyjamas_siamese_sit_side.heic",
+   "master": [
+    419,
+    752
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_siamese_sit_tqfront.png": {
+   "file": "outfits/body/outfit_pyjamas_siamese_sit_tqfront.heic",
+   "master": [
+    424,
+    731
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_siamese_tqfront_torso.png": {
+   "file": "outfits/body/outfit_pyjamas_siamese_tqfront_torso.heic",
+   "master": [
+    1171,
+    558
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_sphynx_front_torso.png": {
+   "file": "outfits/body/outfit_pyjamas_sphynx_front_torso.heic",
+   "master": [
+    573,
+    848
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_sphynx_loaf_side.png": {
+   "file": "outfits/body/outfit_pyjamas_sphynx_loaf_side.heic",
+   "master": [
+    552,
+    443
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_sphynx_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_pyjamas_sphynx_loaf_tqfront.heic",
+   "master": [
+    427,
+    417
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_sphynx_side_torso.png": {
+   "file": "outfits/body/outfit_pyjamas_sphynx_side_torso.heic",
+   "master": [
+    1238,
+    653
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_sphynx_sit_back.png": {
+   "file": "outfits/body/outfit_pyjamas_sphynx_sit_back.heic",
+   "master": [
+    319,
+    736
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_sphynx_sit_front.png": {
+   "file": "outfits/body/outfit_pyjamas_sphynx_sit_front.heic",
+   "master": [
+    299,
+    731
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_sphynx_sit_side.png": {
+   "file": "outfits/body/outfit_pyjamas_sphynx_sit_side.heic",
+   "master": [
+    382,
+    738
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_sphynx_sit_tqfront.png": {
+   "file": "outfits/body/outfit_pyjamas_sphynx_sit_tqfront.heic",
+   "master": [
+    404,
+    707
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_pyjamas_sphynx_tqfront_torso.png": {
+   "file": "outfits/body/outfit_pyjamas_sphynx_tqfront_torso.heic",
+   "master": [
+    1188,
+    587
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_long_chunky_front_torso.png": {
+   "file": "outfits/body/outfit_raincoat_long_chunky_front_torso.heic",
+   "master": [
+    1085,
+    979
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_long_chunky_loaf_side.png": {
+   "file": "outfits/body/outfit_raincoat_long_chunky_loaf_side.heic",
+   "master": [
+    614,
+    443
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_long_chunky_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_raincoat_long_chunky_loaf_tqfront.heic",
+   "master": [
+    549,
+    444
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_long_chunky_side_torso.png": {
+   "file": "outfits/body/outfit_raincoat_long_chunky_side_torso.heic",
+   "master": [
+    1343,
+    882
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_long_chunky_sit_back.png": {
+   "file": "outfits/body/outfit_raincoat_long_chunky_sit_back.heic",
+   "master": [
+    502,
+    692
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_long_chunky_sit_front.png": {
+   "file": "outfits/body/outfit_raincoat_long_chunky_sit_front.heic",
+   "master": [
+    453,
+    685
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_long_chunky_sit_side.png": {
+   "file": "outfits/body/outfit_raincoat_long_chunky_sit_side.heic",
+   "master": [
+    462,
+    696
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_long_chunky_sit_tqfront.png": {
+   "file": "outfits/body/outfit_raincoat_long_chunky_sit_tqfront.heic",
+   "master": [
+    484,
+    687
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_long_chunky_tqfront_torso.png": {
+   "file": "outfits/body/outfit_raincoat_long_chunky_tqfront_torso.heic",
+   "master": [
+    1167,
+    874
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_long_slim_front_torso.png": {
+   "file": "outfits/body/outfit_raincoat_long_slim_front_torso.heic",
+   "master": [
+    692,
+    969
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_long_slim_loaf_side.png": {
+   "file": "outfits/body/outfit_raincoat_long_slim_loaf_side.heic",
+   "master": [
+    588,
+    438
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_long_slim_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_raincoat_long_slim_loaf_tqfront.heic",
+   "master": [
+    527,
+    427
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_long_slim_side_torso.png": {
+   "file": "outfits/body/outfit_raincoat_long_slim_side_torso.heic",
+   "master": [
+    1207,
+    717
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_long_slim_sit_back.png": {
+   "file": "outfits/body/outfit_raincoat_long_slim_sit_back.heic",
+   "master": [
+    474,
+    760
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_long_slim_sit_front.png": {
+   "file": "outfits/body/outfit_raincoat_long_slim_sit_front.heic",
+   "master": [
+    413,
+    739
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_long_slim_sit_side.png": {
+   "file": "outfits/body/outfit_raincoat_long_slim_sit_side.heic",
+   "master": [
+    470,
+    777
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_long_slim_sit_tqfront.png": {
+   "file": "outfits/body/outfit_raincoat_long_slim_sit_tqfront.heic",
+   "master": [
+    449,
+    745
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_long_slim_tqfront_torso.png": {
+   "file": "outfits/body/outfit_raincoat_long_slim_tqfront_torso.heic",
+   "master": [
+    1101,
+    794
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_mainecoon_front_torso.png": {
+   "file": "outfits/body/outfit_raincoat_mainecoon_front_torso.heic",
+   "master": [
+    1161,
+    982
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_mainecoon_loaf_side.png": {
+   "file": "outfits/body/outfit_raincoat_mainecoon_loaf_side.heic",
+   "master": [
+    633,
+    462
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_mainecoon_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_raincoat_mainecoon_loaf_tqfront.heic",
+   "master": [
+    552,
+    466
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_mainecoon_side_torso.png": {
+   "file": "outfits/body/outfit_raincoat_mainecoon_side_torso.heic",
+   "master": [
+    1405,
+    909
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_mainecoon_sit_back.png": {
+   "file": "outfits/body/outfit_raincoat_mainecoon_sit_back.heic",
+   "master": [
+    536,
+    733
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_mainecoon_sit_front.png": {
+   "file": "outfits/body/outfit_raincoat_mainecoon_sit_front.heic",
+   "master": [
+    484,
+    735
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_mainecoon_sit_side.png": {
+   "file": "outfits/body/outfit_raincoat_mainecoon_sit_side.heic",
+   "master": [
+    492,
+    735
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_mainecoon_sit_tqfront.png": {
+   "file": "outfits/body/outfit_raincoat_mainecoon_sit_tqfront.heic",
+   "master": [
+    509,
+    731
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_mainecoon_tqfront_torso.png": {
+   "file": "outfits/body/outfit_raincoat_mainecoon_tqfront_torso.heic",
+   "master": [
+    1224,
+    883
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_persian_front_torso.png": {
+   "file": "outfits/body/outfit_raincoat_persian_front_torso.heic",
+   "master": [
+    1094,
+    996
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_persian_loaf_side.png": {
+   "file": "outfits/body/outfit_raincoat_persian_loaf_side.heic",
+   "master": [
+    621,
+    436
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_persian_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_raincoat_persian_loaf_tqfront.heic",
+   "master": [
+    557,
+    409
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_persian_side_torso.png": {
+   "file": "outfits/body/outfit_raincoat_persian_side_torso.heic",
+   "master": [
+    1351,
+    876
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_persian_sit_back.png": {
+   "file": "outfits/body/outfit_raincoat_persian_sit_back.heic",
+   "master": [
+    535,
+    659
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_persian_sit_front.png": {
+   "file": "outfits/body/outfit_raincoat_persian_sit_front.heic",
+   "master": [
+    475,
+    644
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_persian_sit_side.png": {
+   "file": "outfits/body/outfit_raincoat_persian_sit_side.heic",
+   "master": [
+    488,
+    649
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_persian_sit_tqfront.png": {
+   "file": "outfits/body/outfit_raincoat_persian_sit_tqfront.heic",
+   "master": [
+    513,
+    641
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_persian_tqfront_torso.png": {
+   "file": "outfits/body/outfit_raincoat_persian_tqfront_torso.heic",
+   "master": [
+    1173,
+    901
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_short_chunky_front_torso.png": {
+   "file": "outfits/body/outfit_raincoat_short_chunky_front_torso.heic",
+   "master": [
+    895,
+    832
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_short_chunky_loaf_side.png": {
+   "file": "outfits/body/outfit_raincoat_short_chunky_loaf_side.heic",
+   "master": [
+    645,
+    432
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_short_chunky_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_raincoat_short_chunky_loaf_tqfront.heic",
+   "master": [
+    521,
+    419
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_short_chunky_side_torso.png": {
+   "file": "outfits/body/outfit_raincoat_short_chunky_side_torso.heic",
+   "master": [
+    1109,
+    766
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_short_chunky_sit_back.png": {
+   "file": "outfits/body/outfit_raincoat_short_chunky_sit_back.heic",
+   "master": [
+    462,
+    701
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_short_chunky_sit_front.png": {
+   "file": "outfits/body/outfit_raincoat_short_chunky_sit_front.heic",
+   "master": [
+    453,
+    688
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_short_chunky_sit_side.png": {
+   "file": "outfits/body/outfit_raincoat_short_chunky_sit_side.heic",
+   "master": [
+    541,
+    700
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_short_chunky_sit_tqfront.png": {
+   "file": "outfits/body/outfit_raincoat_short_chunky_sit_tqfront.heic",
+   "master": [
+    512,
+    690
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_short_chunky_tqfront_torso.png": {
+   "file": "outfits/body/outfit_raincoat_short_chunky_tqfront_torso.heic",
+   "master": [
+    1141,
+    787
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_short_slim_front_torso.png": {
+   "file": "outfits/body/outfit_raincoat_short_slim_front_torso.heic",
+   "master": [
+    571,
+    857
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_short_slim_loaf_side.png": {
+   "file": "outfits/body/outfit_raincoat_short_slim_loaf_side.heic",
+   "master": [
+    588,
+    425
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_short_slim_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_raincoat_short_slim_loaf_tqfront.heic",
+   "master": [
+    453,
+    403
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_short_slim_side_torso.png": {
+   "file": "outfits/body/outfit_raincoat_short_slim_side_torso.heic",
+   "master": [
+    1238,
+    648
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_short_slim_sit_back.png": {
+   "file": "outfits/body/outfit_raincoat_short_slim_sit_back.heic",
+   "master": [
+    339,
+    720
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_short_slim_sit_front.png": {
+   "file": "outfits/body/outfit_raincoat_short_slim_sit_front.heic",
+   "master": [
+    340,
+    714
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_short_slim_sit_side.png": {
+   "file": "outfits/body/outfit_raincoat_short_slim_sit_side.heic",
+   "master": [
+    417,
+    739
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_short_slim_sit_tqfront.png": {
+   "file": "outfits/body/outfit_raincoat_short_slim_sit_tqfront.heic",
+   "master": [
+    435,
+    710
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_short_slim_tqfront_torso.png": {
+   "file": "outfits/body/outfit_raincoat_short_slim_tqfront_torso.heic",
+   "master": [
+    1199,
+    583
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_siamese_front_torso.png": {
+   "file": "outfits/body/outfit_raincoat_siamese_front_torso.heic",
+   "master": [
+    548,
+    843
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_siamese_loaf_side.png": {
+   "file": "outfits/body/outfit_raincoat_siamese_loaf_side.heic",
+   "master": [
+    582,
+    424
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_siamese_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_raincoat_siamese_loaf_tqfront.heic",
+   "master": [
+    446,
+    415
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_siamese_side_torso.png": {
+   "file": "outfits/body/outfit_raincoat_siamese_side_torso.heic",
+   "master": [
+    1238,
+    638
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_siamese_sit_back.png": {
+   "file": "outfits/body/outfit_raincoat_siamese_sit_back.heic",
+   "master": [
+    296,
+    735
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_siamese_sit_front.png": {
+   "file": "outfits/body/outfit_raincoat_siamese_sit_front.heic",
+   "master": [
+    311,
+    730
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_siamese_sit_side.png": {
+   "file": "outfits/body/outfit_raincoat_siamese_sit_side.heic",
+   "master": [
+    419,
+    752
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_siamese_sit_tqfront.png": {
+   "file": "outfits/body/outfit_raincoat_siamese_sit_tqfront.heic",
+   "master": [
+    424,
+    731
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_siamese_tqfront_torso.png": {
+   "file": "outfits/body/outfit_raincoat_siamese_tqfront_torso.heic",
+   "master": [
+    1171,
+    558
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_sphynx_front_torso.png": {
+   "file": "outfits/body/outfit_raincoat_sphynx_front_torso.heic",
+   "master": [
+    573,
+    848
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_sphynx_loaf_side.png": {
+   "file": "outfits/body/outfit_raincoat_sphynx_loaf_side.heic",
+   "master": [
+    552,
+    443
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_sphynx_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_raincoat_sphynx_loaf_tqfront.heic",
+   "master": [
+    427,
+    417
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_sphynx_side_torso.png": {
+   "file": "outfits/body/outfit_raincoat_sphynx_side_torso.heic",
+   "master": [
+    1238,
+    653
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_sphynx_sit_back.png": {
+   "file": "outfits/body/outfit_raincoat_sphynx_sit_back.heic",
+   "master": [
+    319,
+    736
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_sphynx_sit_front.png": {
+   "file": "outfits/body/outfit_raincoat_sphynx_sit_front.heic",
+   "master": [
+    299,
+    731
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_sphynx_sit_side.png": {
+   "file": "outfits/body/outfit_raincoat_sphynx_sit_side.heic",
+   "master": [
+    382,
+    738
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_sphynx_sit_tqfront.png": {
+   "file": "outfits/body/outfit_raincoat_sphynx_sit_tqfront.heic",
+   "master": [
+    404,
+    707
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_raincoat_sphynx_tqfront_torso.png": {
+   "file": "outfits/body/outfit_raincoat_sphynx_tqfront_torso.heic",
+   "master": [
+    1188,
+    587
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_long_chunky_front_torso.png": {
+   "file": "outfits/body/outfit_skeleton_long_chunky_front_torso.heic",
+   "master": [
+    1085,
+    979
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_long_chunky_loaf_side.png": {
+   "file": "outfits/body/outfit_skeleton_long_chunky_loaf_side.heic",
+   "master": [
+    614,
+    443
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_long_chunky_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_skeleton_long_chunky_loaf_tqfront.heic",
+   "master": [
+    549,
+    444
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_long_chunky_side_torso.png": {
+   "file": "outfits/body/outfit_skeleton_long_chunky_side_torso.heic",
+   "master": [
+    1343,
+    882
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_long_chunky_sit_back.png": {
+   "file": "outfits/body/outfit_skeleton_long_chunky_sit_back.heic",
+   "master": [
+    502,
+    692
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_long_chunky_sit_front.png": {
+   "file": "outfits/body/outfit_skeleton_long_chunky_sit_front.heic",
+   "master": [
+    453,
+    685
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_long_chunky_sit_side.png": {
+   "file": "outfits/body/outfit_skeleton_long_chunky_sit_side.heic",
+   "master": [
+    462,
+    696
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_long_chunky_sit_tqfront.png": {
+   "file": "outfits/body/outfit_skeleton_long_chunky_sit_tqfront.heic",
+   "master": [
+    484,
+    687
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_long_chunky_tqfront_torso.png": {
+   "file": "outfits/body/outfit_skeleton_long_chunky_tqfront_torso.heic",
+   "master": [
+    1167,
+    874
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_long_slim_front_torso.png": {
+   "file": "outfits/body/outfit_skeleton_long_slim_front_torso.heic",
+   "master": [
+    692,
+    969
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_long_slim_loaf_side.png": {
+   "file": "outfits/body/outfit_skeleton_long_slim_loaf_side.heic",
+   "master": [
+    588,
+    438
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_long_slim_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_skeleton_long_slim_loaf_tqfront.heic",
+   "master": [
+    527,
+    427
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_long_slim_side_torso.png": {
+   "file": "outfits/body/outfit_skeleton_long_slim_side_torso.heic",
+   "master": [
+    1207,
+    717
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_long_slim_sit_back.png": {
+   "file": "outfits/body/outfit_skeleton_long_slim_sit_back.heic",
+   "master": [
+    474,
+    760
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_long_slim_sit_front.png": {
+   "file": "outfits/body/outfit_skeleton_long_slim_sit_front.heic",
+   "master": [
+    413,
+    739
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_long_slim_sit_side.png": {
+   "file": "outfits/body/outfit_skeleton_long_slim_sit_side.heic",
+   "master": [
+    470,
+    777
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_long_slim_sit_tqfront.png": {
+   "file": "outfits/body/outfit_skeleton_long_slim_sit_tqfront.heic",
+   "master": [
+    449,
+    745
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_long_slim_tqfront_torso.png": {
+   "file": "outfits/body/outfit_skeleton_long_slim_tqfront_torso.heic",
+   "master": [
+    1101,
+    794
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_mainecoon_front_torso.png": {
+   "file": "outfits/body/outfit_skeleton_mainecoon_front_torso.heic",
+   "master": [
+    1161,
+    982
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_mainecoon_loaf_side.png": {
+   "file": "outfits/body/outfit_skeleton_mainecoon_loaf_side.heic",
+   "master": [
+    633,
+    462
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_mainecoon_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_skeleton_mainecoon_loaf_tqfront.heic",
+   "master": [
+    552,
+    466
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_mainecoon_side_torso.png": {
+   "file": "outfits/body/outfit_skeleton_mainecoon_side_torso.heic",
+   "master": [
+    1405,
+    909
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_mainecoon_sit_back.png": {
+   "file": "outfits/body/outfit_skeleton_mainecoon_sit_back.heic",
+   "master": [
+    536,
+    733
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_mainecoon_sit_front.png": {
+   "file": "outfits/body/outfit_skeleton_mainecoon_sit_front.heic",
+   "master": [
+    484,
+    735
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_mainecoon_sit_side.png": {
+   "file": "outfits/body/outfit_skeleton_mainecoon_sit_side.heic",
+   "master": [
+    492,
+    735
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_mainecoon_sit_tqfront.png": {
+   "file": "outfits/body/outfit_skeleton_mainecoon_sit_tqfront.heic",
+   "master": [
+    509,
+    731
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_mainecoon_tqfront_torso.png": {
+   "file": "outfits/body/outfit_skeleton_mainecoon_tqfront_torso.heic",
+   "master": [
+    1224,
+    883
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_persian_front_torso.png": {
+   "file": "outfits/body/outfit_skeleton_persian_front_torso.heic",
+   "master": [
+    1094,
+    996
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_persian_loaf_side.png": {
+   "file": "outfits/body/outfit_skeleton_persian_loaf_side.heic",
+   "master": [
+    621,
+    436
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_persian_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_skeleton_persian_loaf_tqfront.heic",
+   "master": [
+    557,
+    409
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_persian_side_torso.png": {
+   "file": "outfits/body/outfit_skeleton_persian_side_torso.heic",
+   "master": [
+    1351,
+    876
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_persian_sit_back.png": {
+   "file": "outfits/body/outfit_skeleton_persian_sit_back.heic",
+   "master": [
+    535,
+    659
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_persian_sit_front.png": {
+   "file": "outfits/body/outfit_skeleton_persian_sit_front.heic",
+   "master": [
+    475,
+    644
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_persian_sit_side.png": {
+   "file": "outfits/body/outfit_skeleton_persian_sit_side.heic",
+   "master": [
+    488,
+    649
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_persian_sit_tqfront.png": {
+   "file": "outfits/body/outfit_skeleton_persian_sit_tqfront.heic",
+   "master": [
+    513,
+    641
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_persian_tqfront_torso.png": {
+   "file": "outfits/body/outfit_skeleton_persian_tqfront_torso.heic",
+   "master": [
+    1173,
+    901
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_short_chunky_front_torso.png": {
+   "file": "outfits/body/outfit_skeleton_short_chunky_front_torso.heic",
+   "master": [
+    895,
+    832
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_short_chunky_loaf_side.png": {
+   "file": "outfits/body/outfit_skeleton_short_chunky_loaf_side.heic",
+   "master": [
+    645,
+    432
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_short_chunky_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_skeleton_short_chunky_loaf_tqfront.heic",
+   "master": [
+    521,
+    419
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_short_chunky_side_torso.png": {
+   "file": "outfits/body/outfit_skeleton_short_chunky_side_torso.heic",
+   "master": [
+    1109,
+    766
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_short_chunky_sit_back.png": {
+   "file": "outfits/body/outfit_skeleton_short_chunky_sit_back.heic",
+   "master": [
+    462,
+    701
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_short_chunky_sit_front.png": {
+   "file": "outfits/body/outfit_skeleton_short_chunky_sit_front.heic",
+   "master": [
+    453,
+    688
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_short_chunky_sit_side.png": {
+   "file": "outfits/body/outfit_skeleton_short_chunky_sit_side.heic",
+   "master": [
+    541,
+    700
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_short_chunky_sit_tqfront.png": {
+   "file": "outfits/body/outfit_skeleton_short_chunky_sit_tqfront.heic",
+   "master": [
+    512,
+    690
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_short_chunky_tqfront_torso.png": {
+   "file": "outfits/body/outfit_skeleton_short_chunky_tqfront_torso.heic",
+   "master": [
+    1141,
+    787
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_short_slim_front_torso.png": {
+   "file": "outfits/body/outfit_skeleton_short_slim_front_torso.heic",
+   "master": [
+    571,
+    857
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_short_slim_loaf_side.png": {
+   "file": "outfits/body/outfit_skeleton_short_slim_loaf_side.heic",
+   "master": [
+    588,
+    425
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_short_slim_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_skeleton_short_slim_loaf_tqfront.heic",
+   "master": [
+    453,
+    403
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_short_slim_side_torso.png": {
+   "file": "outfits/body/outfit_skeleton_short_slim_side_torso.heic",
+   "master": [
+    1238,
+    648
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_short_slim_sit_back.png": {
+   "file": "outfits/body/outfit_skeleton_short_slim_sit_back.heic",
+   "master": [
+    339,
+    720
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_short_slim_sit_front.png": {
+   "file": "outfits/body/outfit_skeleton_short_slim_sit_front.heic",
+   "master": [
+    340,
+    714
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_short_slim_sit_side.png": {
+   "file": "outfits/body/outfit_skeleton_short_slim_sit_side.heic",
+   "master": [
+    417,
+    739
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_short_slim_sit_tqfront.png": {
+   "file": "outfits/body/outfit_skeleton_short_slim_sit_tqfront.heic",
+   "master": [
+    435,
+    710
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_short_slim_tqfront_torso.png": {
+   "file": "outfits/body/outfit_skeleton_short_slim_tqfront_torso.heic",
+   "master": [
+    1199,
+    583
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_siamese_front_torso.png": {
+   "file": "outfits/body/outfit_skeleton_siamese_front_torso.heic",
+   "master": [
+    548,
+    843
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_siamese_loaf_side.png": {
+   "file": "outfits/body/outfit_skeleton_siamese_loaf_side.heic",
+   "master": [
+    582,
+    424
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_siamese_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_skeleton_siamese_loaf_tqfront.heic",
+   "master": [
+    446,
+    415
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_siamese_side_torso.png": {
+   "file": "outfits/body/outfit_skeleton_siamese_side_torso.heic",
+   "master": [
+    1238,
+    638
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_siamese_sit_back.png": {
+   "file": "outfits/body/outfit_skeleton_siamese_sit_back.heic",
+   "master": [
+    296,
+    735
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_siamese_sit_front.png": {
+   "file": "outfits/body/outfit_skeleton_siamese_sit_front.heic",
+   "master": [
+    311,
+    730
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_siamese_sit_side.png": {
+   "file": "outfits/body/outfit_skeleton_siamese_sit_side.heic",
+   "master": [
+    419,
+    752
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_siamese_sit_tqfront.png": {
+   "file": "outfits/body/outfit_skeleton_siamese_sit_tqfront.heic",
+   "master": [
+    424,
+    731
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_siamese_tqfront_torso.png": {
+   "file": "outfits/body/outfit_skeleton_siamese_tqfront_torso.heic",
+   "master": [
+    1171,
+    558
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_sphynx_front_torso.png": {
+   "file": "outfits/body/outfit_skeleton_sphynx_front_torso.heic",
+   "master": [
+    573,
+    848
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_sphynx_loaf_side.png": {
+   "file": "outfits/body/outfit_skeleton_sphynx_loaf_side.heic",
+   "master": [
+    552,
+    443
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_sphynx_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_skeleton_sphynx_loaf_tqfront.heic",
+   "master": [
+    427,
+    417
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_sphynx_side_torso.png": {
+   "file": "outfits/body/outfit_skeleton_sphynx_side_torso.heic",
+   "master": [
+    1238,
+    653
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_sphynx_sit_back.png": {
+   "file": "outfits/body/outfit_skeleton_sphynx_sit_back.heic",
+   "master": [
+    319,
+    736
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_sphynx_sit_front.png": {
+   "file": "outfits/body/outfit_skeleton_sphynx_sit_front.heic",
+   "master": [
+    299,
+    731
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_sphynx_sit_side.png": {
+   "file": "outfits/body/outfit_skeleton_sphynx_sit_side.heic",
+   "master": [
+    382,
+    738
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_sphynx_sit_tqfront.png": {
+   "file": "outfits/body/outfit_skeleton_sphynx_sit_tqfront.heic",
+   "master": [
+    404,
+    707
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_skeleton_sphynx_tqfront_torso.png": {
+   "file": "outfits/body/outfit_skeleton_sphynx_tqfront_torso.heic",
+   "master": [
+    1188,
+    587
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_long_chunky_front_torso.png": {
+   "file": "outfits/body/outfit_xmasjumper_long_chunky_front_torso.heic",
+   "master": [
+    1085,
+    979
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_long_chunky_loaf_side.png": {
+   "file": "outfits/body/outfit_xmasjumper_long_chunky_loaf_side.heic",
+   "master": [
+    614,
+    443
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_long_chunky_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_xmasjumper_long_chunky_loaf_tqfront.heic",
+   "master": [
+    549,
+    444
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_long_chunky_side_torso.png": {
+   "file": "outfits/body/outfit_xmasjumper_long_chunky_side_torso.heic",
+   "master": [
+    1343,
+    882
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_long_chunky_sit_back.png": {
+   "file": "outfits/body/outfit_xmasjumper_long_chunky_sit_back.heic",
+   "master": [
+    502,
+    692
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_long_chunky_sit_front.png": {
+   "file": "outfits/body/outfit_xmasjumper_long_chunky_sit_front.heic",
+   "master": [
+    453,
+    685
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_long_chunky_sit_side.png": {
+   "file": "outfits/body/outfit_xmasjumper_long_chunky_sit_side.heic",
+   "master": [
+    462,
+    696
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_long_chunky_sit_tqfront.png": {
+   "file": "outfits/body/outfit_xmasjumper_long_chunky_sit_tqfront.heic",
+   "master": [
+    484,
+    687
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_long_chunky_tqfront_torso.png": {
+   "file": "outfits/body/outfit_xmasjumper_long_chunky_tqfront_torso.heic",
+   "master": [
+    1167,
+    874
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_long_slim_front_torso.png": {
+   "file": "outfits/body/outfit_xmasjumper_long_slim_front_torso.heic",
+   "master": [
+    692,
+    969
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_long_slim_loaf_side.png": {
+   "file": "outfits/body/outfit_xmasjumper_long_slim_loaf_side.heic",
+   "master": [
+    588,
+    438
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_long_slim_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_xmasjumper_long_slim_loaf_tqfront.heic",
+   "master": [
+    527,
+    427
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_long_slim_side_torso.png": {
+   "file": "outfits/body/outfit_xmasjumper_long_slim_side_torso.heic",
+   "master": [
+    1207,
+    717
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_long_slim_sit_back.png": {
+   "file": "outfits/body/outfit_xmasjumper_long_slim_sit_back.heic",
+   "master": [
+    474,
+    760
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_long_slim_sit_front.png": {
+   "file": "outfits/body/outfit_xmasjumper_long_slim_sit_front.heic",
+   "master": [
+    413,
+    739
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_long_slim_sit_side.png": {
+   "file": "outfits/body/outfit_xmasjumper_long_slim_sit_side.heic",
+   "master": [
+    470,
+    777
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_long_slim_sit_tqfront.png": {
+   "file": "outfits/body/outfit_xmasjumper_long_slim_sit_tqfront.heic",
+   "master": [
+    449,
+    745
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_long_slim_tqfront_torso.png": {
+   "file": "outfits/body/outfit_xmasjumper_long_slim_tqfront_torso.heic",
+   "master": [
+    1101,
+    794
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_mainecoon_front_torso.png": {
+   "file": "outfits/body/outfit_xmasjumper_mainecoon_front_torso.heic",
+   "master": [
+    1161,
+    982
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_mainecoon_loaf_side.png": {
+   "file": "outfits/body/outfit_xmasjumper_mainecoon_loaf_side.heic",
+   "master": [
+    633,
+    462
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_mainecoon_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_xmasjumper_mainecoon_loaf_tqfront.heic",
+   "master": [
+    552,
+    466
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_mainecoon_side_torso.png": {
+   "file": "outfits/body/outfit_xmasjumper_mainecoon_side_torso.heic",
+   "master": [
+    1405,
+    909
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_mainecoon_sit_back.png": {
+   "file": "outfits/body/outfit_xmasjumper_mainecoon_sit_back.heic",
+   "master": [
+    536,
+    733
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_mainecoon_sit_front.png": {
+   "file": "outfits/body/outfit_xmasjumper_mainecoon_sit_front.heic",
+   "master": [
+    484,
+    735
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_mainecoon_sit_side.png": {
+   "file": "outfits/body/outfit_xmasjumper_mainecoon_sit_side.heic",
+   "master": [
+    492,
+    735
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_mainecoon_sit_tqfront.png": {
+   "file": "outfits/body/outfit_xmasjumper_mainecoon_sit_tqfront.heic",
+   "master": [
+    509,
+    731
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_mainecoon_tqfront_torso.png": {
+   "file": "outfits/body/outfit_xmasjumper_mainecoon_tqfront_torso.heic",
+   "master": [
+    1224,
+    883
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_persian_front_torso.png": {
+   "file": "outfits/body/outfit_xmasjumper_persian_front_torso.heic",
+   "master": [
+    1094,
+    996
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_persian_loaf_side.png": {
+   "file": "outfits/body/outfit_xmasjumper_persian_loaf_side.heic",
+   "master": [
+    621,
+    436
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_persian_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_xmasjumper_persian_loaf_tqfront.heic",
+   "master": [
+    557,
+    409
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_persian_side_torso.png": {
+   "file": "outfits/body/outfit_xmasjumper_persian_side_torso.heic",
+   "master": [
+    1351,
+    876
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_persian_sit_back.png": {
+   "file": "outfits/body/outfit_xmasjumper_persian_sit_back.heic",
+   "master": [
+    535,
+    659
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_persian_sit_front.png": {
+   "file": "outfits/body/outfit_xmasjumper_persian_sit_front.heic",
+   "master": [
+    475,
+    644
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_persian_sit_side.png": {
+   "file": "outfits/body/outfit_xmasjumper_persian_sit_side.heic",
+   "master": [
+    488,
+    649
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_persian_sit_tqfront.png": {
+   "file": "outfits/body/outfit_xmasjumper_persian_sit_tqfront.heic",
+   "master": [
+    513,
+    641
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_persian_tqfront_torso.png": {
+   "file": "outfits/body/outfit_xmasjumper_persian_tqfront_torso.heic",
+   "master": [
+    1173,
+    901
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_short_chunky_front_torso.png": {
+   "file": "outfits/body/outfit_xmasjumper_short_chunky_front_torso.heic",
+   "master": [
+    895,
+    832
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_short_chunky_loaf_side.png": {
+   "file": "outfits/body/outfit_xmasjumper_short_chunky_loaf_side.heic",
+   "master": [
+    645,
+    432
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_short_chunky_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_xmasjumper_short_chunky_loaf_tqfront.heic",
+   "master": [
+    521,
+    419
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_short_chunky_side_torso.png": {
+   "file": "outfits/body/outfit_xmasjumper_short_chunky_side_torso.heic",
+   "master": [
+    1109,
+    766
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_short_chunky_sit_back.png": {
+   "file": "outfits/body/outfit_xmasjumper_short_chunky_sit_back.heic",
+   "master": [
+    462,
+    701
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_short_chunky_sit_front.png": {
+   "file": "outfits/body/outfit_xmasjumper_short_chunky_sit_front.heic",
+   "master": [
+    453,
+    688
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_short_chunky_sit_side.png": {
+   "file": "outfits/body/outfit_xmasjumper_short_chunky_sit_side.heic",
+   "master": [
+    541,
+    700
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_short_chunky_sit_tqfront.png": {
+   "file": "outfits/body/outfit_xmasjumper_short_chunky_sit_tqfront.heic",
+   "master": [
+    512,
+    690
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_short_chunky_tqfront_torso.png": {
+   "file": "outfits/body/outfit_xmasjumper_short_chunky_tqfront_torso.heic",
+   "master": [
+    1141,
+    787
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_short_slim_front_torso.png": {
+   "file": "outfits/body/outfit_xmasjumper_short_slim_front_torso.heic",
+   "master": [
+    571,
+    857
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_short_slim_loaf_side.png": {
+   "file": "outfits/body/outfit_xmasjumper_short_slim_loaf_side.heic",
+   "master": [
+    588,
+    425
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_short_slim_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_xmasjumper_short_slim_loaf_tqfront.heic",
+   "master": [
+    453,
+    403
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_short_slim_side_torso.png": {
+   "file": "outfits/body/outfit_xmasjumper_short_slim_side_torso.heic",
+   "master": [
+    1238,
+    648
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_short_slim_sit_back.png": {
+   "file": "outfits/body/outfit_xmasjumper_short_slim_sit_back.heic",
+   "master": [
+    339,
+    720
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_short_slim_sit_front.png": {
+   "file": "outfits/body/outfit_xmasjumper_short_slim_sit_front.heic",
+   "master": [
+    340,
+    714
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_short_slim_sit_side.png": {
+   "file": "outfits/body/outfit_xmasjumper_short_slim_sit_side.heic",
+   "master": [
+    417,
+    739
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_short_slim_sit_tqfront.png": {
+   "file": "outfits/body/outfit_xmasjumper_short_slim_sit_tqfront.heic",
+   "master": [
+    435,
+    710
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_short_slim_tqfront_torso.png": {
+   "file": "outfits/body/outfit_xmasjumper_short_slim_tqfront_torso.heic",
+   "master": [
+    1199,
+    583
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_siamese_front_torso.png": {
+   "file": "outfits/body/outfit_xmasjumper_siamese_front_torso.heic",
+   "master": [
+    548,
+    843
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_siamese_loaf_side.png": {
+   "file": "outfits/body/outfit_xmasjumper_siamese_loaf_side.heic",
+   "master": [
+    582,
+    424
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_siamese_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_xmasjumper_siamese_loaf_tqfront.heic",
+   "master": [
+    446,
+    415
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_siamese_side_torso.png": {
+   "file": "outfits/body/outfit_xmasjumper_siamese_side_torso.heic",
+   "master": [
+    1238,
+    638
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_siamese_sit_back.png": {
+   "file": "outfits/body/outfit_xmasjumper_siamese_sit_back.heic",
+   "master": [
+    296,
+    735
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_siamese_sit_front.png": {
+   "file": "outfits/body/outfit_xmasjumper_siamese_sit_front.heic",
+   "master": [
+    311,
+    730
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_siamese_sit_side.png": {
+   "file": "outfits/body/outfit_xmasjumper_siamese_sit_side.heic",
+   "master": [
+    419,
+    752
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_siamese_sit_tqfront.png": {
+   "file": "outfits/body/outfit_xmasjumper_siamese_sit_tqfront.heic",
+   "master": [
+    424,
+    731
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_siamese_tqfront_torso.png": {
+   "file": "outfits/body/outfit_xmasjumper_siamese_tqfront_torso.heic",
+   "master": [
+    1171,
+    558
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_sphynx_front_torso.png": {
+   "file": "outfits/body/outfit_xmasjumper_sphynx_front_torso.heic",
+   "master": [
+    573,
+    848
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_sphynx_loaf_side.png": {
+   "file": "outfits/body/outfit_xmasjumper_sphynx_loaf_side.heic",
+   "master": [
+    552,
+    443
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_sphynx_loaf_tqfront.png": {
+   "file": "outfits/body/outfit_xmasjumper_sphynx_loaf_tqfront.heic",
+   "master": [
+    427,
+    417
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_sphynx_side_torso.png": {
+   "file": "outfits/body/outfit_xmasjumper_sphynx_side_torso.heic",
+   "master": [
+    1238,
+    653
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_sphynx_sit_back.png": {
+   "file": "outfits/body/outfit_xmasjumper_sphynx_sit_back.heic",
+   "master": [
+    319,
+    736
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_sphynx_sit_front.png": {
+   "file": "outfits/body/outfit_xmasjumper_sphynx_sit_front.heic",
+   "master": [
+    299,
+    731
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_sphynx_sit_side.png": {
+   "file": "outfits/body/outfit_xmasjumper_sphynx_sit_side.heic",
+   "master": [
+    382,
+    738
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_sphynx_sit_tqfront.png": {
+   "file": "outfits/body/outfit_xmasjumper_sphynx_sit_tqfront.heic",
+   "master": [
+    404,
+    707
+   ],
+   "scale": 0.4
+  },
+  "outfits/body/outfit_xmasjumper_sphynx_tqfront_torso.png": {
+   "file": "outfits/body/outfit_xmasjumper_sphynx_tqfront_torso.heic",
+   "master": [
+    1188,
+    587
+   ],
+   "scale": 0.4
+  },
   "outfits/outfit_antlers_front.png": {
    "file": "outfits/outfit_antlers_front.heic",
    "master": [
@@ -3090,100 +8274,100 @@
    "scale": 0.5
   },
   "outfits/outfit_bellcollar_front.png": {
+   "file": "outfits/outfit_bellcollar_front.heic",
    "master": [
     548,
     504
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_bellcollar_front.heic"
+   "scale": 0.5
   },
   "outfits/outfit_bellcollar_side.png": {
+   "file": "outfits/outfit_bellcollar_side.heic",
    "master": [
     459,
     431
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_bellcollar_side.heic"
+   "scale": 0.5
   },
   "outfits/outfit_bellcollar_tqback.png": {
+   "file": "outfits/outfit_bellcollar_tqback.heic",
    "master": [
     543,
     370
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_bellcollar_tqback.heic"
+   "scale": 0.5
   },
   "outfits/outfit_bellcollar_tqfront.png": {
+   "file": "outfits/outfit_bellcollar_tqfront.heic",
    "master": [
     503,
     493
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_bellcollar_tqfront.heic"
+   "scale": 0.5
   },
   "outfits/outfit_beret_front.png": {
+   "file": "outfits/outfit_beret_front.heic",
    "master": [
     595,
     414
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_beret_front.heic"
+   "scale": 0.5
   },
   "outfits/outfit_beret_side.png": {
+   "file": "outfits/outfit_beret_side.heic",
    "master": [
     498,
     415
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_beret_side.heic"
+   "scale": 0.5
   },
   "outfits/outfit_beret_tqback.png": {
+   "file": "outfits/outfit_beret_tqback.heic",
    "master": [
     550,
     453
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_beret_tqback.heic"
+   "scale": 0.5
   },
   "outfits/outfit_beret_tqfront.png": {
+   "file": "outfits/outfit_beret_tqfront.heic",
    "master": [
     508,
     420
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_beret_tqfront.heic"
+   "scale": 0.5
   },
   "outfits/outfit_bowler_front.png": {
+   "file": "outfits/outfit_bowler_front.heic",
    "master": [
     521,
     384
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_bowler_front.heic"
+   "scale": 0.5
   },
   "outfits/outfit_bowler_side.png": {
+   "file": "outfits/outfit_bowler_side.heic",
    "master": [
     507,
     382
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_bowler_side.heic"
+   "scale": 0.5
   },
   "outfits/outfit_bowler_tqback.png": {
+   "file": "outfits/outfit_bowler_tqback.heic",
    "master": [
     516,
     431
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_bowler_tqback.heic"
+   "scale": 0.5
   },
   "outfits/outfit_bowler_tqfront.png": {
+   "file": "outfits/outfit_bowler_tqfront.heic",
    "master": [
     508,
     375
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_bowler_tqfront.heic"
+   "scale": 0.5
   },
   "outfits/outfit_bowtie_front.png": {
    "file": "outfits/outfit_bowtie_front.heic",
@@ -3250,36 +8434,36 @@
    "scale": 0.5
   },
   "outfits/outfit_bunnyears_front.png": {
+   "file": "outfits/outfit_bunnyears_front.heic",
    "master": [
     606,
     718
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_bunnyears_front.heic"
+   "scale": 0.5
   },
   "outfits/outfit_bunnyears_side.png": {
+   "file": "outfits/outfit_bunnyears_side.heic",
    "master": [
     312,
     796
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_bunnyears_side.heic"
+   "scale": 0.5
   },
   "outfits/outfit_bunnyears_tqback.png": {
+   "file": "outfits/outfit_bunnyears_tqback.heic",
    "master": [
     443,
     752
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_bunnyears_tqback.heic"
+   "scale": 0.5
   },
   "outfits/outfit_bunnyears_tqfront.png": {
+   "file": "outfits/outfit_bunnyears_tqfront.heic",
    "master": [
     472,
     696
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_bunnyears_tqfront.heic"
+   "scale": 0.5
   },
   "outfits/outfit_cardigan_front.png": {
    "file": "outfits/outfit_cardigan_front.heic",
@@ -3314,68 +8498,68 @@
    "scale": 0.5
   },
   "outfits/outfit_chefhat_front.png": {
+   "file": "outfits/outfit_chefhat_front.heic",
    "master": [
     484,
     432
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_chefhat_front.heic"
+   "scale": 0.5
   },
   "outfits/outfit_chefhat_side.png": {
+   "file": "outfits/outfit_chefhat_side.heic",
    "master": [
     433,
     447
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_chefhat_side.heic"
+   "scale": 0.5
   },
   "outfits/outfit_chefhat_tqback.png": {
+   "file": "outfits/outfit_chefhat_tqback.heic",
    "master": [
     472,
     467
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_chefhat_tqback.heic"
+   "scale": 0.5
   },
   "outfits/outfit_chefhat_tqfront.png": {
+   "file": "outfits/outfit_chefhat_tqfront.heic",
    "master": [
     455,
     451
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_chefhat_tqfront.heic"
+   "scale": 0.5
   },
   "outfits/outfit_cowboyhat_front.png": {
+   "file": "outfits/outfit_cowboyhat_front.heic",
    "master": [
     522,
     376
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_cowboyhat_front.heic"
+   "scale": 0.5
   },
   "outfits/outfit_cowboyhat_side.png": {
+   "file": "outfits/outfit_cowboyhat_side.heic",
    "master": [
     542,
     372
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_cowboyhat_side.heic"
+   "scale": 0.5
   },
   "outfits/outfit_cowboyhat_tqback.png": {
+   "file": "outfits/outfit_cowboyhat_tqback.heic",
    "master": [
     560,
     431
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_cowboyhat_tqback.heic"
+   "scale": 0.5
   },
   "outfits/outfit_cowboyhat_tqfront.png": {
+   "file": "outfits/outfit_cowboyhat_tqfront.heic",
    "master": [
     543,
     382
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_cowboyhat_tqfront.heic"
+   "scale": 0.5
   },
   "outfits/outfit_crown_front.png": {
    "file": "outfits/outfit_crown_front.heic",
@@ -3506,36 +8690,36 @@
    "scale": 0.5
   },
   "outfits/outfit_froghat_front.png": {
+   "file": "outfits/outfit_froghat_front.heic",
    "master": [
     566,
     530
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_froghat_front.heic"
+   "scale": 0.5
   },
   "outfits/outfit_froghat_side.png": {
+   "file": "outfits/outfit_froghat_side.heic",
    "master": [
     476,
     546
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_froghat_side.heic"
+   "scale": 0.5
   },
   "outfits/outfit_froghat_tqback.png": {
+   "file": "outfits/outfit_froghat_tqback.heic",
    "master": [
     553,
     598
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_froghat_tqback.heic"
+   "scale": 0.5
   },
   "outfits/outfit_froghat_tqfront.png": {
+   "file": "outfits/outfit_froghat_tqfront.heic",
    "master": [
     549,
     552
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_froghat_tqfront.heic"
+   "scale": 0.5
   },
   "outfits/outfit_hawaiian_front.png": {
    "file": "outfits/outfit_hawaiian_front.heic",
@@ -3570,36 +8754,36 @@
    "scale": 0.5
   },
   "outfits/outfit_heartglasses_front.png": {
+   "file": "outfits/outfit_heartglasses_front.heic",
    "master": [
     583,
     311
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_heartglasses_front.heic"
+   "scale": 0.5
   },
   "outfits/outfit_heartglasses_side.png": {
+   "file": "outfits/outfit_heartglasses_side.heic",
    "master": [
     508,
     292
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_heartglasses_side.heic"
+   "scale": 0.5
   },
   "outfits/outfit_heartglasses_tqback.png": {
+   "file": "outfits/outfit_heartglasses_tqback.heic",
    "master": [
     565,
     390
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_heartglasses_tqback.heic"
+   "scale": 0.5
   },
   "outfits/outfit_heartglasses_tqfront.png": {
+   "file": "outfits/outfit_heartglasses_tqfront.heic",
    "master": [
     585,
     309
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_heartglasses_tqfront.heic"
+   "scale": 0.5
   },
   "outfits/outfit_hoodie_front.png": {
    "file": "outfits/outfit_hoodie_front.heic",
@@ -3666,36 +8850,36 @@
    "scale": 0.5
   },
   "outfits/outfit_nightcap_front.png": {
+   "file": "outfits/outfit_nightcap_front.heic",
    "master": [
     534,
     598
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_nightcap_front.heic"
+   "scale": 0.5
   },
   "outfits/outfit_nightcap_side.png": {
+   "file": "outfits/outfit_nightcap_side.heic",
    "master": [
     462,
     559
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_nightcap_side.heic"
+   "scale": 0.5
   },
   "outfits/outfit_nightcap_tqback.png": {
+   "file": "outfits/outfit_nightcap_tqback.heic",
    "master": [
     598,
     586
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_nightcap_tqback.heic"
+   "scale": 0.5
   },
   "outfits/outfit_nightcap_tqfront.png": {
+   "file": "outfits/outfit_nightcap_tqfront.heic",
    "master": [
     473,
     583
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_nightcap_tqfront.heic"
+   "scale": 0.5
   },
   "outfits/outfit_partyhat_front.png": {
    "file": "outfits/outfit_partyhat_front.heic",
@@ -3730,36 +8914,36 @@
    "scale": 0.5
   },
   "outfits/outfit_pearls_front.png": {
+   "file": "outfits/outfit_pearls_front.heic",
    "master": [
     501,
     544
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_pearls_front.heic"
+   "scale": 0.5
   },
   "outfits/outfit_pearls_side.png": {
+   "file": "outfits/outfit_pearls_side.heic",
    "master": [
     172,
     546
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_pearls_side.heic"
+   "scale": 0.5
   },
   "outfits/outfit_pearls_tqback.png": {
+   "file": "outfits/outfit_pearls_tqback.heic",
    "master": [
     456,
     539
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_pearls_tqback.heic"
+   "scale": 0.5
   },
   "outfits/outfit_pearls_tqfront.png": {
+   "file": "outfits/outfit_pearls_tqfront.heic",
    "master": [
     441,
     516
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_pearls_tqfront.heic"
+   "scale": 0.5
   },
   "outfits/outfit_pumpkinhat_front.png": {
    "file": "outfits/outfit_pumpkinhat_front.heic",
@@ -3986,36 +9170,36 @@
    "scale": 0.5
   },
   "outfits/outfit_strawberryhat_front.png": {
+   "file": "outfits/outfit_strawberryhat_front.heic",
    "master": [
     557,
     551
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_strawberryhat_front.heic"
+   "scale": 0.5
   },
   "outfits/outfit_strawberryhat_side.png": {
+   "file": "outfits/outfit_strawberryhat_side.heic",
    "master": [
     474,
     559
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_strawberryhat_side.heic"
+   "scale": 0.5
   },
   "outfits/outfit_strawberryhat_tqback.png": {
+   "file": "outfits/outfit_strawberryhat_tqback.heic",
    "master": [
     541,
     602
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_strawberryhat_tqback.heic"
+   "scale": 0.5
   },
   "outfits/outfit_strawberryhat_tqfront.png": {
+   "file": "outfits/outfit_strawberryhat_tqfront.heic",
    "master": [
     536,
     552
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_strawberryhat_tqfront.heic"
+   "scale": 0.5
   },
   "outfits/outfit_sunglasses_front.png": {
    "file": "outfits/outfit_sunglasses_front.heic",
@@ -4050,36 +9234,36 @@
    "scale": 0.5
   },
   "outfits/outfit_sunhat_front.png": {
+   "file": "outfits/outfit_sunhat_front.heic",
    "master": [
     544,
     382
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_sunhat_front.heic"
+   "scale": 0.5
   },
   "outfits/outfit_sunhat_side.png": {
+   "file": "outfits/outfit_sunhat_side.heic",
    "master": [
     535,
     360
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_sunhat_side.heic"
+   "scale": 0.5
   },
   "outfits/outfit_sunhat_tqback.png": {
+   "file": "outfits/outfit_sunhat_tqback.heic",
    "master": [
     538,
     394
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_sunhat_tqback.heic"
+   "scale": 0.5
   },
   "outfits/outfit_sunhat_tqfront.png": {
+   "file": "outfits/outfit_sunhat_tqfront.heic",
    "master": [
     536,
     370
    ],
-   "scale": 0.5,
-   "file": "outfits/outfit_sunhat_tqfront.heic"
+   "scale": 0.5
   },
   "outfits/outfit_xmasjumper_front.png": {
    "file": "outfits/outfit_xmasjumper_front.heic",

@@ -115656,6 +115656,4542 @@
     543,
     370
    ]
+  },
+  "outfits/body/outfit_raincoat_long_chunky_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    1085,
+    979
+   ]
+  },
+  "outfits/body/outfit_raincoat_long_chunky_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    614,
+    443
+   ]
+  },
+  "outfits/body/outfit_raincoat_long_chunky_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    549,
+    444
+   ]
+  },
+  "outfits/body/outfit_raincoat_long_chunky_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1343,
+    882
+   ]
+  },
+  "outfits/body/outfit_raincoat_long_chunky_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    502,
+    692
+   ]
+  },
+  "outfits/body/outfit_raincoat_long_chunky_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    453,
+    685
+   ]
+  },
+  "outfits/body/outfit_raincoat_long_chunky_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    462,
+    696
+   ]
+  },
+  "outfits/body/outfit_raincoat_long_chunky_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    484,
+    687
+   ]
+  },
+  "outfits/body/outfit_raincoat_long_chunky_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1167,
+    874
+   ]
+  },
+  "outfits/body/outfit_raincoat_long_slim_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    692,
+    969
+   ]
+  },
+  "outfits/body/outfit_raincoat_long_slim_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    588,
+    438
+   ]
+  },
+  "outfits/body/outfit_raincoat_long_slim_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    527,
+    427
+   ]
+  },
+  "outfits/body/outfit_raincoat_long_slim_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1207,
+    717
+   ]
+  },
+  "outfits/body/outfit_raincoat_long_slim_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    474,
+    760
+   ]
+  },
+  "outfits/body/outfit_raincoat_long_slim_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    413,
+    739
+   ]
+  },
+  "outfits/body/outfit_raincoat_long_slim_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    470,
+    777
+   ]
+  },
+  "outfits/body/outfit_raincoat_long_slim_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    449,
+    745
+   ]
+  },
+  "outfits/body/outfit_raincoat_long_slim_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1101,
+    794
+   ]
+  },
+  "outfits/body/outfit_raincoat_mainecoon_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    1161,
+    982
+   ]
+  },
+  "outfits/body/outfit_raincoat_mainecoon_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    633,
+    462
+   ]
+  },
+  "outfits/body/outfit_raincoat_mainecoon_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    552,
+    466
+   ]
+  },
+  "outfits/body/outfit_raincoat_mainecoon_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1405,
+    909
+   ]
+  },
+  "outfits/body/outfit_raincoat_mainecoon_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    536,
+    733
+   ]
+  },
+  "outfits/body/outfit_raincoat_mainecoon_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    484,
+    735
+   ]
+  },
+  "outfits/body/outfit_raincoat_mainecoon_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    492,
+    735
+   ]
+  },
+  "outfits/body/outfit_raincoat_mainecoon_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    509,
+    731
+   ]
+  },
+  "outfits/body/outfit_raincoat_mainecoon_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1224,
+    883
+   ]
+  },
+  "outfits/body/outfit_raincoat_persian_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    1094,
+    996
+   ]
+  },
+  "outfits/body/outfit_raincoat_persian_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    621,
+    436
+   ]
+  },
+  "outfits/body/outfit_raincoat_persian_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    557,
+    409
+   ]
+  },
+  "outfits/body/outfit_raincoat_persian_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1351,
+    876
+   ]
+  },
+  "outfits/body/outfit_raincoat_persian_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    535,
+    659
+   ]
+  },
+  "outfits/body/outfit_raincoat_persian_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    475,
+    644
+   ]
+  },
+  "outfits/body/outfit_raincoat_persian_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    488,
+    649
+   ]
+  },
+  "outfits/body/outfit_raincoat_persian_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    513,
+    641
+   ]
+  },
+  "outfits/body/outfit_raincoat_persian_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1173,
+    901
+   ]
+  },
+  "outfits/body/outfit_raincoat_short_chunky_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    895,
+    832
+   ]
+  },
+  "outfits/body/outfit_raincoat_short_chunky_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    645,
+    432
+   ]
+  },
+  "outfits/body/outfit_raincoat_short_chunky_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    521,
+    419
+   ]
+  },
+  "outfits/body/outfit_raincoat_short_chunky_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1109,
+    766
+   ]
+  },
+  "outfits/body/outfit_raincoat_short_chunky_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    462,
+    701
+   ]
+  },
+  "outfits/body/outfit_raincoat_short_chunky_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    453,
+    688
+   ]
+  },
+  "outfits/body/outfit_raincoat_short_chunky_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    541,
+    700
+   ]
+  },
+  "outfits/body/outfit_raincoat_short_chunky_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    512,
+    690
+   ]
+  },
+  "outfits/body/outfit_raincoat_short_chunky_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1141,
+    787
+   ]
+  },
+  "outfits/body/outfit_raincoat_short_slim_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    571,
+    857
+   ]
+  },
+  "outfits/body/outfit_raincoat_short_slim_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    588,
+    425
+   ]
+  },
+  "outfits/body/outfit_raincoat_short_slim_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    453,
+    403
+   ]
+  },
+  "outfits/body/outfit_raincoat_short_slim_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1238,
+    648
+   ]
+  },
+  "outfits/body/outfit_raincoat_short_slim_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    339,
+    720
+   ]
+  },
+  "outfits/body/outfit_raincoat_short_slim_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    340,
+    714
+   ]
+  },
+  "outfits/body/outfit_raincoat_short_slim_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    417,
+    739
+   ]
+  },
+  "outfits/body/outfit_raincoat_short_slim_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    435,
+    710
+   ]
+  },
+  "outfits/body/outfit_raincoat_short_slim_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1199,
+    583
+   ]
+  },
+  "outfits/body/outfit_raincoat_siamese_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    548,
+    843
+   ]
+  },
+  "outfits/body/outfit_raincoat_siamese_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    582,
+    424
+   ]
+  },
+  "outfits/body/outfit_raincoat_siamese_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    446,
+    415
+   ]
+  },
+  "outfits/body/outfit_raincoat_siamese_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1238,
+    638
+   ]
+  },
+  "outfits/body/outfit_raincoat_siamese_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    296,
+    735
+   ]
+  },
+  "outfits/body/outfit_raincoat_siamese_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    311,
+    730
+   ]
+  },
+  "outfits/body/outfit_raincoat_siamese_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    419,
+    752
+   ]
+  },
+  "outfits/body/outfit_raincoat_siamese_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    424,
+    731
+   ]
+  },
+  "outfits/body/outfit_raincoat_siamese_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1171,
+    558
+   ]
+  },
+  "outfits/body/outfit_raincoat_sphynx_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    573,
+    848
+   ]
+  },
+  "outfits/body/outfit_raincoat_sphynx_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    552,
+    443
+   ]
+  },
+  "outfits/body/outfit_raincoat_sphynx_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    427,
+    417
+   ]
+  },
+  "outfits/body/outfit_raincoat_sphynx_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1238,
+    653
+   ]
+  },
+  "outfits/body/outfit_raincoat_sphynx_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    319,
+    736
+   ]
+  },
+  "outfits/body/outfit_raincoat_sphynx_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    299,
+    731
+   ]
+  },
+  "outfits/body/outfit_raincoat_sphynx_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    382,
+    738
+   ]
+  },
+  "outfits/body/outfit_raincoat_sphynx_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    404,
+    707
+   ]
+  },
+  "outfits/body/outfit_raincoat_sphynx_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1188,
+    587
+   ]
+  },
+  "outfits/body/outfit_hawaiian_long_chunky_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    1085,
+    979
+   ]
+  },
+  "outfits/body/outfit_hawaiian_long_chunky_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    614,
+    443
+   ]
+  },
+  "outfits/body/outfit_hawaiian_long_chunky_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    549,
+    444
+   ]
+  },
+  "outfits/body/outfit_hawaiian_long_chunky_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1343,
+    882
+   ]
+  },
+  "outfits/body/outfit_hawaiian_long_chunky_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    502,
+    692
+   ]
+  },
+  "outfits/body/outfit_hawaiian_long_chunky_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    453,
+    685
+   ]
+  },
+  "outfits/body/outfit_hawaiian_long_chunky_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    462,
+    696
+   ]
+  },
+  "outfits/body/outfit_hawaiian_long_chunky_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    484,
+    687
+   ]
+  },
+  "outfits/body/outfit_hawaiian_long_chunky_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1167,
+    874
+   ]
+  },
+  "outfits/body/outfit_hawaiian_long_slim_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    692,
+    969
+   ]
+  },
+  "outfits/body/outfit_hawaiian_long_slim_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    588,
+    438
+   ]
+  },
+  "outfits/body/outfit_hawaiian_long_slim_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    527,
+    427
+   ]
+  },
+  "outfits/body/outfit_hawaiian_long_slim_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1207,
+    717
+   ]
+  },
+  "outfits/body/outfit_hawaiian_long_slim_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    474,
+    760
+   ]
+  },
+  "outfits/body/outfit_hawaiian_long_slim_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    413,
+    739
+   ]
+  },
+  "outfits/body/outfit_hawaiian_long_slim_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    470,
+    777
+   ]
+  },
+  "outfits/body/outfit_hawaiian_long_slim_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    449,
+    745
+   ]
+  },
+  "outfits/body/outfit_hawaiian_long_slim_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1101,
+    794
+   ]
+  },
+  "outfits/body/outfit_hawaiian_mainecoon_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    1161,
+    982
+   ]
+  },
+  "outfits/body/outfit_hawaiian_mainecoon_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    633,
+    462
+   ]
+  },
+  "outfits/body/outfit_hawaiian_mainecoon_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    552,
+    466
+   ]
+  },
+  "outfits/body/outfit_hawaiian_mainecoon_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1405,
+    909
+   ]
+  },
+  "outfits/body/outfit_hawaiian_mainecoon_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    536,
+    733
+   ]
+  },
+  "outfits/body/outfit_hawaiian_mainecoon_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    484,
+    735
+   ]
+  },
+  "outfits/body/outfit_hawaiian_mainecoon_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    492,
+    735
+   ]
+  },
+  "outfits/body/outfit_hawaiian_mainecoon_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    509,
+    731
+   ]
+  },
+  "outfits/body/outfit_hawaiian_mainecoon_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1224,
+    883
+   ]
+  },
+  "outfits/body/outfit_hawaiian_persian_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    1094,
+    996
+   ]
+  },
+  "outfits/body/outfit_hawaiian_persian_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    621,
+    436
+   ]
+  },
+  "outfits/body/outfit_hawaiian_persian_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    557,
+    409
+   ]
+  },
+  "outfits/body/outfit_hawaiian_persian_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1351,
+    876
+   ]
+  },
+  "outfits/body/outfit_hawaiian_persian_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    535,
+    659
+   ]
+  },
+  "outfits/body/outfit_hawaiian_persian_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    475,
+    644
+   ]
+  },
+  "outfits/body/outfit_hawaiian_persian_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    488,
+    649
+   ]
+  },
+  "outfits/body/outfit_hawaiian_persian_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    513,
+    641
+   ]
+  },
+  "outfits/body/outfit_hawaiian_persian_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1173,
+    901
+   ]
+  },
+  "outfits/body/outfit_hawaiian_short_chunky_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    895,
+    832
+   ]
+  },
+  "outfits/body/outfit_hawaiian_short_chunky_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    645,
+    432
+   ]
+  },
+  "outfits/body/outfit_hawaiian_short_chunky_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    521,
+    419
+   ]
+  },
+  "outfits/body/outfit_hawaiian_short_chunky_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1109,
+    766
+   ]
+  },
+  "outfits/body/outfit_hawaiian_short_chunky_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    462,
+    701
+   ]
+  },
+  "outfits/body/outfit_hawaiian_short_chunky_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    453,
+    688
+   ]
+  },
+  "outfits/body/outfit_hawaiian_short_chunky_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    541,
+    700
+   ]
+  },
+  "outfits/body/outfit_hawaiian_short_chunky_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    512,
+    690
+   ]
+  },
+  "outfits/body/outfit_hawaiian_short_chunky_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1141,
+    787
+   ]
+  },
+  "outfits/body/outfit_hawaiian_short_slim_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    571,
+    857
+   ]
+  },
+  "outfits/body/outfit_hawaiian_short_slim_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    588,
+    425
+   ]
+  },
+  "outfits/body/outfit_hawaiian_short_slim_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    453,
+    403
+   ]
+  },
+  "outfits/body/outfit_hawaiian_short_slim_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1238,
+    648
+   ]
+  },
+  "outfits/body/outfit_hawaiian_short_slim_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    339,
+    720
+   ]
+  },
+  "outfits/body/outfit_hawaiian_short_slim_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    340,
+    714
+   ]
+  },
+  "outfits/body/outfit_hawaiian_short_slim_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    417,
+    739
+   ]
+  },
+  "outfits/body/outfit_hawaiian_short_slim_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    435,
+    710
+   ]
+  },
+  "outfits/body/outfit_hawaiian_short_slim_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1199,
+    583
+   ]
+  },
+  "outfits/body/outfit_hawaiian_siamese_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    548,
+    843
+   ]
+  },
+  "outfits/body/outfit_hawaiian_siamese_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    582,
+    424
+   ]
+  },
+  "outfits/body/outfit_hawaiian_siamese_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    446,
+    415
+   ]
+  },
+  "outfits/body/outfit_hawaiian_siamese_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1238,
+    638
+   ]
+  },
+  "outfits/body/outfit_hawaiian_siamese_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    296,
+    735
+   ]
+  },
+  "outfits/body/outfit_hawaiian_siamese_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    311,
+    730
+   ]
+  },
+  "outfits/body/outfit_hawaiian_siamese_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    419,
+    752
+   ]
+  },
+  "outfits/body/outfit_hawaiian_siamese_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    424,
+    731
+   ]
+  },
+  "outfits/body/outfit_hawaiian_siamese_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1171,
+    558
+   ]
+  },
+  "outfits/body/outfit_hawaiian_sphynx_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    573,
+    848
+   ]
+  },
+  "outfits/body/outfit_hawaiian_sphynx_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    552,
+    443
+   ]
+  },
+  "outfits/body/outfit_hawaiian_sphynx_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    427,
+    417
+   ]
+  },
+  "outfits/body/outfit_hawaiian_sphynx_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1238,
+    653
+   ]
+  },
+  "outfits/body/outfit_hawaiian_sphynx_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    319,
+    736
+   ]
+  },
+  "outfits/body/outfit_hawaiian_sphynx_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    299,
+    731
+   ]
+  },
+  "outfits/body/outfit_hawaiian_sphynx_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    382,
+    738
+   ]
+  },
+  "outfits/body/outfit_hawaiian_sphynx_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    404,
+    707
+   ]
+  },
+  "outfits/body/outfit_hawaiian_sphynx_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1188,
+    587
+   ]
+  },
+  "outfits/body/outfit_skeleton_long_chunky_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    1085,
+    979
+   ]
+  },
+  "outfits/body/outfit_skeleton_long_chunky_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    614,
+    443
+   ]
+  },
+  "outfits/body/outfit_skeleton_long_chunky_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    549,
+    444
+   ]
+  },
+  "outfits/body/outfit_skeleton_long_chunky_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1343,
+    882
+   ]
+  },
+  "outfits/body/outfit_skeleton_long_chunky_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    502,
+    692
+   ]
+  },
+  "outfits/body/outfit_skeleton_long_chunky_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    453,
+    685
+   ]
+  },
+  "outfits/body/outfit_skeleton_long_chunky_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    462,
+    696
+   ]
+  },
+  "outfits/body/outfit_skeleton_long_chunky_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    484,
+    687
+   ]
+  },
+  "outfits/body/outfit_skeleton_long_chunky_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1167,
+    874
+   ]
+  },
+  "outfits/body/outfit_skeleton_long_slim_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    692,
+    969
+   ]
+  },
+  "outfits/body/outfit_skeleton_long_slim_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    588,
+    438
+   ]
+  },
+  "outfits/body/outfit_skeleton_long_slim_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    527,
+    427
+   ]
+  },
+  "outfits/body/outfit_skeleton_long_slim_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1207,
+    717
+   ]
+  },
+  "outfits/body/outfit_skeleton_long_slim_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    474,
+    760
+   ]
+  },
+  "outfits/body/outfit_skeleton_long_slim_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    413,
+    739
+   ]
+  },
+  "outfits/body/outfit_skeleton_long_slim_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    470,
+    777
+   ]
+  },
+  "outfits/body/outfit_skeleton_long_slim_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    449,
+    745
+   ]
+  },
+  "outfits/body/outfit_skeleton_long_slim_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1101,
+    794
+   ]
+  },
+  "outfits/body/outfit_skeleton_mainecoon_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    1161,
+    982
+   ]
+  },
+  "outfits/body/outfit_skeleton_mainecoon_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    633,
+    462
+   ]
+  },
+  "outfits/body/outfit_skeleton_mainecoon_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    552,
+    466
+   ]
+  },
+  "outfits/body/outfit_skeleton_mainecoon_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1405,
+    909
+   ]
+  },
+  "outfits/body/outfit_skeleton_mainecoon_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    536,
+    733
+   ]
+  },
+  "outfits/body/outfit_skeleton_mainecoon_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    484,
+    735
+   ]
+  },
+  "outfits/body/outfit_skeleton_mainecoon_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    492,
+    735
+   ]
+  },
+  "outfits/body/outfit_skeleton_mainecoon_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    509,
+    731
+   ]
+  },
+  "outfits/body/outfit_skeleton_mainecoon_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1224,
+    883
+   ]
+  },
+  "outfits/body/outfit_skeleton_persian_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    1094,
+    996
+   ]
+  },
+  "outfits/body/outfit_skeleton_persian_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    621,
+    436
+   ]
+  },
+  "outfits/body/outfit_skeleton_persian_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    557,
+    409
+   ]
+  },
+  "outfits/body/outfit_skeleton_persian_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1351,
+    876
+   ]
+  },
+  "outfits/body/outfit_skeleton_persian_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    535,
+    659
+   ]
+  },
+  "outfits/body/outfit_skeleton_persian_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    475,
+    644
+   ]
+  },
+  "outfits/body/outfit_skeleton_persian_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    488,
+    649
+   ]
+  },
+  "outfits/body/outfit_skeleton_persian_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    513,
+    641
+   ]
+  },
+  "outfits/body/outfit_skeleton_persian_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1173,
+    901
+   ]
+  },
+  "outfits/body/outfit_skeleton_short_chunky_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    895,
+    832
+   ]
+  },
+  "outfits/body/outfit_skeleton_short_chunky_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    645,
+    432
+   ]
+  },
+  "outfits/body/outfit_skeleton_short_chunky_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    521,
+    419
+   ]
+  },
+  "outfits/body/outfit_skeleton_short_chunky_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1109,
+    766
+   ]
+  },
+  "outfits/body/outfit_skeleton_short_chunky_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    462,
+    701
+   ]
+  },
+  "outfits/body/outfit_skeleton_short_chunky_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    453,
+    688
+   ]
+  },
+  "outfits/body/outfit_skeleton_short_chunky_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    541,
+    700
+   ]
+  },
+  "outfits/body/outfit_skeleton_short_chunky_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    512,
+    690
+   ]
+  },
+  "outfits/body/outfit_skeleton_short_chunky_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1141,
+    787
+   ]
+  },
+  "outfits/body/outfit_skeleton_short_slim_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    571,
+    857
+   ]
+  },
+  "outfits/body/outfit_skeleton_short_slim_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    588,
+    425
+   ]
+  },
+  "outfits/body/outfit_skeleton_short_slim_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    453,
+    403
+   ]
+  },
+  "outfits/body/outfit_skeleton_short_slim_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1238,
+    648
+   ]
+  },
+  "outfits/body/outfit_skeleton_short_slim_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    339,
+    720
+   ]
+  },
+  "outfits/body/outfit_skeleton_short_slim_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    340,
+    714
+   ]
+  },
+  "outfits/body/outfit_skeleton_short_slim_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    417,
+    739
+   ]
+  },
+  "outfits/body/outfit_skeleton_short_slim_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    435,
+    710
+   ]
+  },
+  "outfits/body/outfit_skeleton_short_slim_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1199,
+    583
+   ]
+  },
+  "outfits/body/outfit_skeleton_siamese_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    548,
+    843
+   ]
+  },
+  "outfits/body/outfit_skeleton_siamese_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    582,
+    424
+   ]
+  },
+  "outfits/body/outfit_skeleton_siamese_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    446,
+    415
+   ]
+  },
+  "outfits/body/outfit_skeleton_siamese_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1238,
+    638
+   ]
+  },
+  "outfits/body/outfit_skeleton_siamese_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    296,
+    735
+   ]
+  },
+  "outfits/body/outfit_skeleton_siamese_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    311,
+    730
+   ]
+  },
+  "outfits/body/outfit_skeleton_siamese_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    419,
+    752
+   ]
+  },
+  "outfits/body/outfit_skeleton_siamese_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    424,
+    731
+   ]
+  },
+  "outfits/body/outfit_skeleton_siamese_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1171,
+    558
+   ]
+  },
+  "outfits/body/outfit_skeleton_sphynx_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    573,
+    848
+   ]
+  },
+  "outfits/body/outfit_skeleton_sphynx_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    552,
+    443
+   ]
+  },
+  "outfits/body/outfit_skeleton_sphynx_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    427,
+    417
+   ]
+  },
+  "outfits/body/outfit_skeleton_sphynx_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1238,
+    653
+   ]
+  },
+  "outfits/body/outfit_skeleton_sphynx_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    319,
+    736
+   ]
+  },
+  "outfits/body/outfit_skeleton_sphynx_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    299,
+    731
+   ]
+  },
+  "outfits/body/outfit_skeleton_sphynx_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    382,
+    738
+   ]
+  },
+  "outfits/body/outfit_skeleton_sphynx_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    404,
+    707
+   ]
+  },
+  "outfits/body/outfit_skeleton_sphynx_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1188,
+    587
+   ]
+  },
+  "outfits/body/outfit_fisherman_long_chunky_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    1085,
+    979
+   ]
+  },
+  "outfits/body/outfit_fisherman_long_chunky_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    614,
+    443
+   ]
+  },
+  "outfits/body/outfit_fisherman_long_chunky_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    549,
+    444
+   ]
+  },
+  "outfits/body/outfit_fisherman_long_chunky_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1343,
+    882
+   ]
+  },
+  "outfits/body/outfit_fisherman_long_chunky_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    502,
+    692
+   ]
+  },
+  "outfits/body/outfit_fisherman_long_chunky_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    453,
+    685
+   ]
+  },
+  "outfits/body/outfit_fisherman_long_chunky_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    462,
+    696
+   ]
+  },
+  "outfits/body/outfit_fisherman_long_chunky_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    484,
+    687
+   ]
+  },
+  "outfits/body/outfit_fisherman_long_chunky_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1167,
+    874
+   ]
+  },
+  "outfits/body/outfit_fisherman_long_slim_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    692,
+    969
+   ]
+  },
+  "outfits/body/outfit_fisherman_long_slim_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    588,
+    438
+   ]
+  },
+  "outfits/body/outfit_fisherman_long_slim_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    527,
+    427
+   ]
+  },
+  "outfits/body/outfit_fisherman_long_slim_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1207,
+    717
+   ]
+  },
+  "outfits/body/outfit_fisherman_long_slim_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    474,
+    760
+   ]
+  },
+  "outfits/body/outfit_fisherman_long_slim_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    413,
+    739
+   ]
+  },
+  "outfits/body/outfit_fisherman_long_slim_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    470,
+    777
+   ]
+  },
+  "outfits/body/outfit_fisherman_long_slim_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    449,
+    745
+   ]
+  },
+  "outfits/body/outfit_fisherman_long_slim_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1101,
+    794
+   ]
+  },
+  "outfits/body/outfit_fisherman_mainecoon_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    1161,
+    982
+   ]
+  },
+  "outfits/body/outfit_fisherman_mainecoon_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    633,
+    462
+   ]
+  },
+  "outfits/body/outfit_fisherman_mainecoon_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    552,
+    466
+   ]
+  },
+  "outfits/body/outfit_fisherman_mainecoon_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1405,
+    909
+   ]
+  },
+  "outfits/body/outfit_fisherman_mainecoon_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    536,
+    733
+   ]
+  },
+  "outfits/body/outfit_fisherman_mainecoon_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    484,
+    735
+   ]
+  },
+  "outfits/body/outfit_fisherman_mainecoon_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    492,
+    735
+   ]
+  },
+  "outfits/body/outfit_fisherman_mainecoon_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    509,
+    731
+   ]
+  },
+  "outfits/body/outfit_fisherman_mainecoon_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1224,
+    883
+   ]
+  },
+  "outfits/body/outfit_fisherman_persian_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    1094,
+    996
+   ]
+  },
+  "outfits/body/outfit_fisherman_persian_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    621,
+    436
+   ]
+  },
+  "outfits/body/outfit_fisherman_persian_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    557,
+    409
+   ]
+  },
+  "outfits/body/outfit_fisherman_persian_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1351,
+    876
+   ]
+  },
+  "outfits/body/outfit_fisherman_persian_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    535,
+    659
+   ]
+  },
+  "outfits/body/outfit_fisherman_persian_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    475,
+    644
+   ]
+  },
+  "outfits/body/outfit_fisherman_persian_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    488,
+    649
+   ]
+  },
+  "outfits/body/outfit_fisherman_persian_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    513,
+    641
+   ]
+  },
+  "outfits/body/outfit_fisherman_persian_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1173,
+    901
+   ]
+  },
+  "outfits/body/outfit_fisherman_short_chunky_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    895,
+    832
+   ]
+  },
+  "outfits/body/outfit_fisherman_short_chunky_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    645,
+    432
+   ]
+  },
+  "outfits/body/outfit_fisherman_short_chunky_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    521,
+    419
+   ]
+  },
+  "outfits/body/outfit_fisherman_short_chunky_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1109,
+    766
+   ]
+  },
+  "outfits/body/outfit_fisherman_short_chunky_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    462,
+    701
+   ]
+  },
+  "outfits/body/outfit_fisherman_short_chunky_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    453,
+    688
+   ]
+  },
+  "outfits/body/outfit_fisherman_short_chunky_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    541,
+    700
+   ]
+  },
+  "outfits/body/outfit_fisherman_short_chunky_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    512,
+    690
+   ]
+  },
+  "outfits/body/outfit_fisherman_short_chunky_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1141,
+    787
+   ]
+  },
+  "outfits/body/outfit_fisherman_short_slim_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    571,
+    857
+   ]
+  },
+  "outfits/body/outfit_fisherman_short_slim_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    588,
+    425
+   ]
+  },
+  "outfits/body/outfit_fisherman_short_slim_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    453,
+    403
+   ]
+  },
+  "outfits/body/outfit_fisherman_short_slim_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1238,
+    648
+   ]
+  },
+  "outfits/body/outfit_fisherman_short_slim_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    339,
+    720
+   ]
+  },
+  "outfits/body/outfit_fisherman_short_slim_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    340,
+    714
+   ]
+  },
+  "outfits/body/outfit_fisherman_short_slim_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    417,
+    739
+   ]
+  },
+  "outfits/body/outfit_fisherman_short_slim_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    435,
+    710
+   ]
+  },
+  "outfits/body/outfit_fisherman_short_slim_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1199,
+    583
+   ]
+  },
+  "outfits/body/outfit_fisherman_siamese_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    548,
+    843
+   ]
+  },
+  "outfits/body/outfit_fisherman_siamese_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    582,
+    424
+   ]
+  },
+  "outfits/body/outfit_fisherman_siamese_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    446,
+    415
+   ]
+  },
+  "outfits/body/outfit_fisherman_siamese_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1238,
+    638
+   ]
+  },
+  "outfits/body/outfit_fisherman_siamese_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    296,
+    735
+   ]
+  },
+  "outfits/body/outfit_fisherman_siamese_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    311,
+    730
+   ]
+  },
+  "outfits/body/outfit_fisherman_siamese_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    419,
+    752
+   ]
+  },
+  "outfits/body/outfit_fisherman_siamese_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    424,
+    731
+   ]
+  },
+  "outfits/body/outfit_fisherman_siamese_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1171,
+    558
+   ]
+  },
+  "outfits/body/outfit_fisherman_sphynx_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    573,
+    848
+   ]
+  },
+  "outfits/body/outfit_fisherman_sphynx_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    552,
+    443
+   ]
+  },
+  "outfits/body/outfit_fisherman_sphynx_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    427,
+    417
+   ]
+  },
+  "outfits/body/outfit_fisherman_sphynx_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1238,
+    653
+   ]
+  },
+  "outfits/body/outfit_fisherman_sphynx_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    319,
+    736
+   ]
+  },
+  "outfits/body/outfit_fisherman_sphynx_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    299,
+    731
+   ]
+  },
+  "outfits/body/outfit_fisherman_sphynx_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    382,
+    738
+   ]
+  },
+  "outfits/body/outfit_fisherman_sphynx_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    404,
+    707
+   ]
+  },
+  "outfits/body/outfit_fisherman_sphynx_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1188,
+    587
+   ]
+  },
+  "outfits/body/outfit_hoodie_long_chunky_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    1085,
+    979
+   ]
+  },
+  "outfits/body/outfit_hoodie_long_chunky_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    614,
+    443
+   ]
+  },
+  "outfits/body/outfit_hoodie_long_chunky_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    549,
+    444
+   ]
+  },
+  "outfits/body/outfit_hoodie_long_chunky_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1343,
+    882
+   ]
+  },
+  "outfits/body/outfit_hoodie_long_chunky_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    502,
+    692
+   ]
+  },
+  "outfits/body/outfit_hoodie_long_chunky_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    453,
+    685
+   ]
+  },
+  "outfits/body/outfit_hoodie_long_chunky_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    462,
+    696
+   ]
+  },
+  "outfits/body/outfit_hoodie_long_chunky_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    484,
+    687
+   ]
+  },
+  "outfits/body/outfit_hoodie_long_chunky_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1167,
+    874
+   ]
+  },
+  "outfits/body/outfit_hoodie_long_slim_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    692,
+    969
+   ]
+  },
+  "outfits/body/outfit_hoodie_long_slim_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    588,
+    438
+   ]
+  },
+  "outfits/body/outfit_hoodie_long_slim_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    527,
+    427
+   ]
+  },
+  "outfits/body/outfit_hoodie_long_slim_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1207,
+    717
+   ]
+  },
+  "outfits/body/outfit_hoodie_long_slim_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    474,
+    760
+   ]
+  },
+  "outfits/body/outfit_hoodie_long_slim_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    413,
+    739
+   ]
+  },
+  "outfits/body/outfit_hoodie_long_slim_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    470,
+    777
+   ]
+  },
+  "outfits/body/outfit_hoodie_long_slim_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    449,
+    745
+   ]
+  },
+  "outfits/body/outfit_hoodie_long_slim_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1101,
+    794
+   ]
+  },
+  "outfits/body/outfit_hoodie_mainecoon_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    1161,
+    982
+   ]
+  },
+  "outfits/body/outfit_hoodie_mainecoon_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    633,
+    462
+   ]
+  },
+  "outfits/body/outfit_hoodie_mainecoon_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    552,
+    466
+   ]
+  },
+  "outfits/body/outfit_hoodie_mainecoon_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1405,
+    909
+   ]
+  },
+  "outfits/body/outfit_hoodie_mainecoon_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    536,
+    733
+   ]
+  },
+  "outfits/body/outfit_hoodie_mainecoon_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    484,
+    735
+   ]
+  },
+  "outfits/body/outfit_hoodie_mainecoon_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    492,
+    735
+   ]
+  },
+  "outfits/body/outfit_hoodie_mainecoon_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    509,
+    731
+   ]
+  },
+  "outfits/body/outfit_hoodie_mainecoon_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1224,
+    883
+   ]
+  },
+  "outfits/body/outfit_hoodie_persian_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    1094,
+    996
+   ]
+  },
+  "outfits/body/outfit_hoodie_persian_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    621,
+    436
+   ]
+  },
+  "outfits/body/outfit_hoodie_persian_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    557,
+    409
+   ]
+  },
+  "outfits/body/outfit_hoodie_persian_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1351,
+    876
+   ]
+  },
+  "outfits/body/outfit_hoodie_persian_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    535,
+    659
+   ]
+  },
+  "outfits/body/outfit_hoodie_persian_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    475,
+    644
+   ]
+  },
+  "outfits/body/outfit_hoodie_persian_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    488,
+    649
+   ]
+  },
+  "outfits/body/outfit_hoodie_persian_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    513,
+    641
+   ]
+  },
+  "outfits/body/outfit_hoodie_persian_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1173,
+    901
+   ]
+  },
+  "outfits/body/outfit_hoodie_short_chunky_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    895,
+    832
+   ]
+  },
+  "outfits/body/outfit_hoodie_short_chunky_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    645,
+    432
+   ]
+  },
+  "outfits/body/outfit_hoodie_short_chunky_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    521,
+    419
+   ]
+  },
+  "outfits/body/outfit_hoodie_short_chunky_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1109,
+    766
+   ]
+  },
+  "outfits/body/outfit_hoodie_short_chunky_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    462,
+    701
+   ]
+  },
+  "outfits/body/outfit_hoodie_short_chunky_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    453,
+    688
+   ]
+  },
+  "outfits/body/outfit_hoodie_short_chunky_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    541,
+    700
+   ]
+  },
+  "outfits/body/outfit_hoodie_short_chunky_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    512,
+    690
+   ]
+  },
+  "outfits/body/outfit_hoodie_short_chunky_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1141,
+    787
+   ]
+  },
+  "outfits/body/outfit_hoodie_short_slim_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    571,
+    857
+   ]
+  },
+  "outfits/body/outfit_hoodie_short_slim_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    588,
+    425
+   ]
+  },
+  "outfits/body/outfit_hoodie_short_slim_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    453,
+    403
+   ]
+  },
+  "outfits/body/outfit_hoodie_short_slim_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1238,
+    648
+   ]
+  },
+  "outfits/body/outfit_hoodie_short_slim_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    339,
+    720
+   ]
+  },
+  "outfits/body/outfit_hoodie_short_slim_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    340,
+    714
+   ]
+  },
+  "outfits/body/outfit_hoodie_short_slim_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    417,
+    739
+   ]
+  },
+  "outfits/body/outfit_hoodie_short_slim_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    435,
+    710
+   ]
+  },
+  "outfits/body/outfit_hoodie_short_slim_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1199,
+    583
+   ]
+  },
+  "outfits/body/outfit_hoodie_siamese_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    548,
+    843
+   ]
+  },
+  "outfits/body/outfit_hoodie_siamese_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    582,
+    424
+   ]
+  },
+  "outfits/body/outfit_hoodie_siamese_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    446,
+    415
+   ]
+  },
+  "outfits/body/outfit_hoodie_siamese_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1238,
+    638
+   ]
+  },
+  "outfits/body/outfit_hoodie_siamese_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    296,
+    735
+   ]
+  },
+  "outfits/body/outfit_hoodie_siamese_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    311,
+    730
+   ]
+  },
+  "outfits/body/outfit_hoodie_siamese_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    419,
+    752
+   ]
+  },
+  "outfits/body/outfit_hoodie_siamese_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    424,
+    731
+   ]
+  },
+  "outfits/body/outfit_hoodie_siamese_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1171,
+    558
+   ]
+  },
+  "outfits/body/outfit_hoodie_sphynx_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    573,
+    848
+   ]
+  },
+  "outfits/body/outfit_hoodie_sphynx_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    552,
+    443
+   ]
+  },
+  "outfits/body/outfit_hoodie_sphynx_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    427,
+    417
+   ]
+  },
+  "outfits/body/outfit_hoodie_sphynx_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1238,
+    653
+   ]
+  },
+  "outfits/body/outfit_hoodie_sphynx_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    319,
+    736
+   ]
+  },
+  "outfits/body/outfit_hoodie_sphynx_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    299,
+    731
+   ]
+  },
+  "outfits/body/outfit_hoodie_sphynx_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    382,
+    738
+   ]
+  },
+  "outfits/body/outfit_hoodie_sphynx_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    404,
+    707
+   ]
+  },
+  "outfits/body/outfit_hoodie_sphynx_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1188,
+    587
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_long_chunky_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    1085,
+    979
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_long_chunky_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    614,
+    443
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_long_chunky_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    549,
+    444
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_long_chunky_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1343,
+    882
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_long_chunky_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    502,
+    692
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_long_chunky_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    453,
+    685
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_long_chunky_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    462,
+    696
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_long_chunky_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    484,
+    687
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_long_chunky_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1167,
+    874
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_long_slim_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    692,
+    969
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_long_slim_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    588,
+    438
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_long_slim_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    527,
+    427
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_long_slim_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1207,
+    717
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_long_slim_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    474,
+    760
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_long_slim_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    413,
+    739
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_long_slim_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    470,
+    777
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_long_slim_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    449,
+    745
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_long_slim_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1101,
+    794
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_mainecoon_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    1161,
+    982
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_mainecoon_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    633,
+    462
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_mainecoon_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    552,
+    466
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_mainecoon_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1405,
+    909
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_mainecoon_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    536,
+    733
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_mainecoon_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    484,
+    735
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_mainecoon_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    492,
+    735
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_mainecoon_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    509,
+    731
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_mainecoon_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1224,
+    883
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_persian_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    1094,
+    996
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_persian_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    621,
+    436
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_persian_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    557,
+    409
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_persian_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1351,
+    876
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_persian_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    535,
+    659
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_persian_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    475,
+    644
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_persian_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    488,
+    649
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_persian_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    513,
+    641
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_persian_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1173,
+    901
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_short_chunky_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    895,
+    832
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_short_chunky_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    645,
+    432
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_short_chunky_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    521,
+    419
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_short_chunky_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1109,
+    766
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_short_chunky_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    462,
+    701
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_short_chunky_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    453,
+    688
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_short_chunky_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    541,
+    700
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_short_chunky_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    512,
+    690
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_short_chunky_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1141,
+    787
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_short_slim_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    571,
+    857
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_short_slim_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    588,
+    425
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_short_slim_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    453,
+    403
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_short_slim_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1238,
+    648
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_short_slim_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    339,
+    720
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_short_slim_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    340,
+    714
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_short_slim_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    417,
+    739
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_short_slim_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    435,
+    710
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_short_slim_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1199,
+    583
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_siamese_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    548,
+    843
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_siamese_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    582,
+    424
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_siamese_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    446,
+    415
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_siamese_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1238,
+    638
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_siamese_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    296,
+    735
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_siamese_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    311,
+    730
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_siamese_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    419,
+    752
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_siamese_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    424,
+    731
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_siamese_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1171,
+    558
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_sphynx_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    573,
+    848
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_sphynx_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    552,
+    443
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_sphynx_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    427,
+    417
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_sphynx_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1238,
+    653
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_sphynx_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    319,
+    736
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_sphynx_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    299,
+    731
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_sphynx_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    382,
+    738
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_sphynx_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    404,
+    707
+   ]
+  },
+  "outfits/body/outfit_xmasjumper_sphynx_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1188,
+    587
+   ]
+  },
+  "outfits/body/outfit_pyjamas_long_chunky_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    1085,
+    979
+   ]
+  },
+  "outfits/body/outfit_pyjamas_long_chunky_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    614,
+    443
+   ]
+  },
+  "outfits/body/outfit_pyjamas_long_chunky_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    549,
+    444
+   ]
+  },
+  "outfits/body/outfit_pyjamas_long_chunky_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1343,
+    882
+   ]
+  },
+  "outfits/body/outfit_pyjamas_long_chunky_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    502,
+    692
+   ]
+  },
+  "outfits/body/outfit_pyjamas_long_chunky_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    453,
+    685
+   ]
+  },
+  "outfits/body/outfit_pyjamas_long_chunky_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    462,
+    696
+   ]
+  },
+  "outfits/body/outfit_pyjamas_long_chunky_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    484,
+    687
+   ]
+  },
+  "outfits/body/outfit_pyjamas_long_chunky_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1167,
+    874
+   ]
+  },
+  "outfits/body/outfit_pyjamas_long_slim_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    692,
+    969
+   ]
+  },
+  "outfits/body/outfit_pyjamas_long_slim_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    588,
+    438
+   ]
+  },
+  "outfits/body/outfit_pyjamas_long_slim_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    527,
+    427
+   ]
+  },
+  "outfits/body/outfit_pyjamas_long_slim_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1207,
+    717
+   ]
+  },
+  "outfits/body/outfit_pyjamas_long_slim_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    474,
+    760
+   ]
+  },
+  "outfits/body/outfit_pyjamas_long_slim_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    413,
+    739
+   ]
+  },
+  "outfits/body/outfit_pyjamas_long_slim_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    470,
+    777
+   ]
+  },
+  "outfits/body/outfit_pyjamas_long_slim_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    449,
+    745
+   ]
+  },
+  "outfits/body/outfit_pyjamas_long_slim_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1101,
+    794
+   ]
+  },
+  "outfits/body/outfit_pyjamas_mainecoon_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    1161,
+    982
+   ]
+  },
+  "outfits/body/outfit_pyjamas_mainecoon_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    633,
+    462
+   ]
+  },
+  "outfits/body/outfit_pyjamas_mainecoon_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    552,
+    466
+   ]
+  },
+  "outfits/body/outfit_pyjamas_mainecoon_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1405,
+    909
+   ]
+  },
+  "outfits/body/outfit_pyjamas_mainecoon_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    536,
+    733
+   ]
+  },
+  "outfits/body/outfit_pyjamas_mainecoon_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    484,
+    735
+   ]
+  },
+  "outfits/body/outfit_pyjamas_mainecoon_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    492,
+    735
+   ]
+  },
+  "outfits/body/outfit_pyjamas_mainecoon_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    509,
+    731
+   ]
+  },
+  "outfits/body/outfit_pyjamas_mainecoon_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1224,
+    883
+   ]
+  },
+  "outfits/body/outfit_pyjamas_persian_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    1094,
+    996
+   ]
+  },
+  "outfits/body/outfit_pyjamas_persian_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    621,
+    436
+   ]
+  },
+  "outfits/body/outfit_pyjamas_persian_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    557,
+    409
+   ]
+  },
+  "outfits/body/outfit_pyjamas_persian_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1351,
+    876
+   ]
+  },
+  "outfits/body/outfit_pyjamas_persian_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    535,
+    659
+   ]
+  },
+  "outfits/body/outfit_pyjamas_persian_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    475,
+    644
+   ]
+  },
+  "outfits/body/outfit_pyjamas_persian_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    488,
+    649
+   ]
+  },
+  "outfits/body/outfit_pyjamas_persian_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    513,
+    641
+   ]
+  },
+  "outfits/body/outfit_pyjamas_persian_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1173,
+    901
+   ]
+  },
+  "outfits/body/outfit_pyjamas_short_chunky_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    895,
+    832
+   ]
+  },
+  "outfits/body/outfit_pyjamas_short_chunky_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    645,
+    432
+   ]
+  },
+  "outfits/body/outfit_pyjamas_short_chunky_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    521,
+    419
+   ]
+  },
+  "outfits/body/outfit_pyjamas_short_chunky_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1109,
+    766
+   ]
+  },
+  "outfits/body/outfit_pyjamas_short_chunky_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    462,
+    701
+   ]
+  },
+  "outfits/body/outfit_pyjamas_short_chunky_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    453,
+    688
+   ]
+  },
+  "outfits/body/outfit_pyjamas_short_chunky_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    541,
+    700
+   ]
+  },
+  "outfits/body/outfit_pyjamas_short_chunky_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    512,
+    690
+   ]
+  },
+  "outfits/body/outfit_pyjamas_short_chunky_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1141,
+    787
+   ]
+  },
+  "outfits/body/outfit_pyjamas_short_slim_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    571,
+    857
+   ]
+  },
+  "outfits/body/outfit_pyjamas_short_slim_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    588,
+    425
+   ]
+  },
+  "outfits/body/outfit_pyjamas_short_slim_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    453,
+    403
+   ]
+  },
+  "outfits/body/outfit_pyjamas_short_slim_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1238,
+    648
+   ]
+  },
+  "outfits/body/outfit_pyjamas_short_slim_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    339,
+    720
+   ]
+  },
+  "outfits/body/outfit_pyjamas_short_slim_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    340,
+    714
+   ]
+  },
+  "outfits/body/outfit_pyjamas_short_slim_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    417,
+    739
+   ]
+  },
+  "outfits/body/outfit_pyjamas_short_slim_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    435,
+    710
+   ]
+  },
+  "outfits/body/outfit_pyjamas_short_slim_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1199,
+    583
+   ]
+  },
+  "outfits/body/outfit_pyjamas_siamese_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    548,
+    843
+   ]
+  },
+  "outfits/body/outfit_pyjamas_siamese_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    582,
+    424
+   ]
+  },
+  "outfits/body/outfit_pyjamas_siamese_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    446,
+    415
+   ]
+  },
+  "outfits/body/outfit_pyjamas_siamese_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1238,
+    638
+   ]
+  },
+  "outfits/body/outfit_pyjamas_siamese_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    296,
+    735
+   ]
+  },
+  "outfits/body/outfit_pyjamas_siamese_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    311,
+    730
+   ]
+  },
+  "outfits/body/outfit_pyjamas_siamese_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    419,
+    752
+   ]
+  },
+  "outfits/body/outfit_pyjamas_siamese_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    424,
+    731
+   ]
+  },
+  "outfits/body/outfit_pyjamas_siamese_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1171,
+    558
+   ]
+  },
+  "outfits/body/outfit_pyjamas_sphynx_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    573,
+    848
+   ]
+  },
+  "outfits/body/outfit_pyjamas_sphynx_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    552,
+    443
+   ]
+  },
+  "outfits/body/outfit_pyjamas_sphynx_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    427,
+    417
+   ]
+  },
+  "outfits/body/outfit_pyjamas_sphynx_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1238,
+    653
+   ]
+  },
+  "outfits/body/outfit_pyjamas_sphynx_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    319,
+    736
+   ]
+  },
+  "outfits/body/outfit_pyjamas_sphynx_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    299,
+    731
+   ]
+  },
+  "outfits/body/outfit_pyjamas_sphynx_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    382,
+    738
+   ]
+  },
+  "outfits/body/outfit_pyjamas_sphynx_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    404,
+    707
+   ]
+  },
+  "outfits/body/outfit_pyjamas_sphynx_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1188,
+    587
+   ]
+  },
+  "outfits/body/outfit_cardigan_long_chunky_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    1085,
+    979
+   ]
+  },
+  "outfits/body/outfit_cardigan_long_chunky_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    614,
+    443
+   ]
+  },
+  "outfits/body/outfit_cardigan_long_chunky_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    549,
+    444
+   ]
+  },
+  "outfits/body/outfit_cardigan_long_chunky_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1343,
+    882
+   ]
+  },
+  "outfits/body/outfit_cardigan_long_chunky_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    502,
+    692
+   ]
+  },
+  "outfits/body/outfit_cardigan_long_chunky_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    453,
+    685
+   ]
+  },
+  "outfits/body/outfit_cardigan_long_chunky_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    462,
+    696
+   ]
+  },
+  "outfits/body/outfit_cardigan_long_chunky_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    484,
+    687
+   ]
+  },
+  "outfits/body/outfit_cardigan_long_chunky_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1167,
+    874
+   ]
+  },
+  "outfits/body/outfit_cardigan_long_slim_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    692,
+    969
+   ]
+  },
+  "outfits/body/outfit_cardigan_long_slim_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    588,
+    438
+   ]
+  },
+  "outfits/body/outfit_cardigan_long_slim_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    527,
+    427
+   ]
+  },
+  "outfits/body/outfit_cardigan_long_slim_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1207,
+    717
+   ]
+  },
+  "outfits/body/outfit_cardigan_long_slim_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    474,
+    760
+   ]
+  },
+  "outfits/body/outfit_cardigan_long_slim_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    413,
+    739
+   ]
+  },
+  "outfits/body/outfit_cardigan_long_slim_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    470,
+    777
+   ]
+  },
+  "outfits/body/outfit_cardigan_long_slim_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    449,
+    745
+   ]
+  },
+  "outfits/body/outfit_cardigan_long_slim_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1101,
+    794
+   ]
+  },
+  "outfits/body/outfit_cardigan_mainecoon_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    1161,
+    982
+   ]
+  },
+  "outfits/body/outfit_cardigan_mainecoon_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    633,
+    462
+   ]
+  },
+  "outfits/body/outfit_cardigan_mainecoon_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    552,
+    466
+   ]
+  },
+  "outfits/body/outfit_cardigan_mainecoon_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1405,
+    909
+   ]
+  },
+  "outfits/body/outfit_cardigan_mainecoon_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    536,
+    733
+   ]
+  },
+  "outfits/body/outfit_cardigan_mainecoon_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    484,
+    735
+   ]
+  },
+  "outfits/body/outfit_cardigan_mainecoon_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    492,
+    735
+   ]
+  },
+  "outfits/body/outfit_cardigan_mainecoon_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    509,
+    731
+   ]
+  },
+  "outfits/body/outfit_cardigan_mainecoon_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1224,
+    883
+   ]
+  },
+  "outfits/body/outfit_cardigan_persian_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    1094,
+    996
+   ]
+  },
+  "outfits/body/outfit_cardigan_persian_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    621,
+    436
+   ]
+  },
+  "outfits/body/outfit_cardigan_persian_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    557,
+    409
+   ]
+  },
+  "outfits/body/outfit_cardigan_persian_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1351,
+    876
+   ]
+  },
+  "outfits/body/outfit_cardigan_persian_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    535,
+    659
+   ]
+  },
+  "outfits/body/outfit_cardigan_persian_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    475,
+    644
+   ]
+  },
+  "outfits/body/outfit_cardigan_persian_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    488,
+    649
+   ]
+  },
+  "outfits/body/outfit_cardigan_persian_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    513,
+    641
+   ]
+  },
+  "outfits/body/outfit_cardigan_persian_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1173,
+    901
+   ]
+  },
+  "outfits/body/outfit_cardigan_short_chunky_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    895,
+    832
+   ]
+  },
+  "outfits/body/outfit_cardigan_short_chunky_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    645,
+    432
+   ]
+  },
+  "outfits/body/outfit_cardigan_short_chunky_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    521,
+    419
+   ]
+  },
+  "outfits/body/outfit_cardigan_short_chunky_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1109,
+    766
+   ]
+  },
+  "outfits/body/outfit_cardigan_short_chunky_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    462,
+    701
+   ]
+  },
+  "outfits/body/outfit_cardigan_short_chunky_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    453,
+    688
+   ]
+  },
+  "outfits/body/outfit_cardigan_short_chunky_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    541,
+    700
+   ]
+  },
+  "outfits/body/outfit_cardigan_short_chunky_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    512,
+    690
+   ]
+  },
+  "outfits/body/outfit_cardigan_short_chunky_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1141,
+    787
+   ]
+  },
+  "outfits/body/outfit_cardigan_short_slim_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    571,
+    857
+   ]
+  },
+  "outfits/body/outfit_cardigan_short_slim_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    588,
+    425
+   ]
+  },
+  "outfits/body/outfit_cardigan_short_slim_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    453,
+    403
+   ]
+  },
+  "outfits/body/outfit_cardigan_short_slim_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1238,
+    648
+   ]
+  },
+  "outfits/body/outfit_cardigan_short_slim_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    339,
+    720
+   ]
+  },
+  "outfits/body/outfit_cardigan_short_slim_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    340,
+    714
+   ]
+  },
+  "outfits/body/outfit_cardigan_short_slim_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    417,
+    739
+   ]
+  },
+  "outfits/body/outfit_cardigan_short_slim_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    435,
+    710
+   ]
+  },
+  "outfits/body/outfit_cardigan_short_slim_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1199,
+    583
+   ]
+  },
+  "outfits/body/outfit_cardigan_siamese_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    548,
+    843
+   ]
+  },
+  "outfits/body/outfit_cardigan_siamese_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    582,
+    424
+   ]
+  },
+  "outfits/body/outfit_cardigan_siamese_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    446,
+    415
+   ]
+  },
+  "outfits/body/outfit_cardigan_siamese_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1238,
+    638
+   ]
+  },
+  "outfits/body/outfit_cardigan_siamese_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    296,
+    735
+   ]
+  },
+  "outfits/body/outfit_cardigan_siamese_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    311,
+    730
+   ]
+  },
+  "outfits/body/outfit_cardigan_siamese_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    419,
+    752
+   ]
+  },
+  "outfits/body/outfit_cardigan_siamese_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    424,
+    731
+   ]
+  },
+  "outfits/body/outfit_cardigan_siamese_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1171,
+    558
+   ]
+  },
+  "outfits/body/outfit_cardigan_sphynx_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    573,
+    848
+   ]
+  },
+  "outfits/body/outfit_cardigan_sphynx_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    552,
+    443
+   ]
+  },
+  "outfits/body/outfit_cardigan_sphynx_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    427,
+    417
+   ]
+  },
+  "outfits/body/outfit_cardigan_sphynx_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1238,
+    653
+   ]
+  },
+  "outfits/body/outfit_cardigan_sphynx_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    319,
+    736
+   ]
+  },
+  "outfits/body/outfit_cardigan_sphynx_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    299,
+    731
+   ]
+  },
+  "outfits/body/outfit_cardigan_sphynx_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    382,
+    738
+   ]
+  },
+  "outfits/body/outfit_cardigan_sphynx_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    404,
+    707
+   ]
+  },
+  "outfits/body/outfit_cardigan_sphynx_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1188,
+    587
+   ]
+  },
+  "outfits/body/outfit_lifevest_long_chunky_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    1085,
+    979
+   ]
+  },
+  "outfits/body/outfit_lifevest_long_chunky_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    614,
+    443
+   ]
+  },
+  "outfits/body/outfit_lifevest_long_chunky_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    549,
+    444
+   ]
+  },
+  "outfits/body/outfit_lifevest_long_chunky_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1343,
+    882
+   ]
+  },
+  "outfits/body/outfit_lifevest_long_chunky_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    502,
+    692
+   ]
+  },
+  "outfits/body/outfit_lifevest_long_chunky_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    453,
+    685
+   ]
+  },
+  "outfits/body/outfit_lifevest_long_chunky_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    462,
+    696
+   ]
+  },
+  "outfits/body/outfit_lifevest_long_chunky_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    484,
+    687
+   ]
+  },
+  "outfits/body/outfit_lifevest_long_chunky_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1167,
+    874
+   ]
+  },
+  "outfits/body/outfit_lifevest_long_slim_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    692,
+    969
+   ]
+  },
+  "outfits/body/outfit_lifevest_long_slim_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    588,
+    438
+   ]
+  },
+  "outfits/body/outfit_lifevest_long_slim_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    527,
+    427
+   ]
+  },
+  "outfits/body/outfit_lifevest_long_slim_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1207,
+    717
+   ]
+  },
+  "outfits/body/outfit_lifevest_long_slim_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    474,
+    760
+   ]
+  },
+  "outfits/body/outfit_lifevest_long_slim_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    413,
+    739
+   ]
+  },
+  "outfits/body/outfit_lifevest_long_slim_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    470,
+    777
+   ]
+  },
+  "outfits/body/outfit_lifevest_long_slim_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    449,
+    745
+   ]
+  },
+  "outfits/body/outfit_lifevest_long_slim_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1101,
+    794
+   ]
+  },
+  "outfits/body/outfit_lifevest_mainecoon_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    1161,
+    982
+   ]
+  },
+  "outfits/body/outfit_lifevest_mainecoon_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    633,
+    462
+   ]
+  },
+  "outfits/body/outfit_lifevest_mainecoon_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    552,
+    466
+   ]
+  },
+  "outfits/body/outfit_lifevest_mainecoon_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1405,
+    909
+   ]
+  },
+  "outfits/body/outfit_lifevest_mainecoon_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    536,
+    733
+   ]
+  },
+  "outfits/body/outfit_lifevest_mainecoon_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    484,
+    735
+   ]
+  },
+  "outfits/body/outfit_lifevest_mainecoon_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    492,
+    735
+   ]
+  },
+  "outfits/body/outfit_lifevest_mainecoon_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    509,
+    731
+   ]
+  },
+  "outfits/body/outfit_lifevest_mainecoon_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1224,
+    883
+   ]
+  },
+  "outfits/body/outfit_lifevest_persian_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    1094,
+    996
+   ]
+  },
+  "outfits/body/outfit_lifevest_persian_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    621,
+    436
+   ]
+  },
+  "outfits/body/outfit_lifevest_persian_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    557,
+    409
+   ]
+  },
+  "outfits/body/outfit_lifevest_persian_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1351,
+    876
+   ]
+  },
+  "outfits/body/outfit_lifevest_persian_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    535,
+    659
+   ]
+  },
+  "outfits/body/outfit_lifevest_persian_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    475,
+    644
+   ]
+  },
+  "outfits/body/outfit_lifevest_persian_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    488,
+    649
+   ]
+  },
+  "outfits/body/outfit_lifevest_persian_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    513,
+    641
+   ]
+  },
+  "outfits/body/outfit_lifevest_persian_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1173,
+    901
+   ]
+  },
+  "outfits/body/outfit_lifevest_short_chunky_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    895,
+    832
+   ]
+  },
+  "outfits/body/outfit_lifevest_short_chunky_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    645,
+    432
+   ]
+  },
+  "outfits/body/outfit_lifevest_short_chunky_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    521,
+    419
+   ]
+  },
+  "outfits/body/outfit_lifevest_short_chunky_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1109,
+    766
+   ]
+  },
+  "outfits/body/outfit_lifevest_short_chunky_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    462,
+    701
+   ]
+  },
+  "outfits/body/outfit_lifevest_short_chunky_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    453,
+    688
+   ]
+  },
+  "outfits/body/outfit_lifevest_short_chunky_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    541,
+    700
+   ]
+  },
+  "outfits/body/outfit_lifevest_short_chunky_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    512,
+    690
+   ]
+  },
+  "outfits/body/outfit_lifevest_short_chunky_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1141,
+    787
+   ]
+  },
+  "outfits/body/outfit_lifevest_short_slim_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    571,
+    857
+   ]
+  },
+  "outfits/body/outfit_lifevest_short_slim_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    588,
+    425
+   ]
+  },
+  "outfits/body/outfit_lifevest_short_slim_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    453,
+    403
+   ]
+  },
+  "outfits/body/outfit_lifevest_short_slim_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1238,
+    648
+   ]
+  },
+  "outfits/body/outfit_lifevest_short_slim_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    339,
+    720
+   ]
+  },
+  "outfits/body/outfit_lifevest_short_slim_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    340,
+    714
+   ]
+  },
+  "outfits/body/outfit_lifevest_short_slim_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    417,
+    739
+   ]
+  },
+  "outfits/body/outfit_lifevest_short_slim_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    435,
+    710
+   ]
+  },
+  "outfits/body/outfit_lifevest_short_slim_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1199,
+    583
+   ]
+  },
+  "outfits/body/outfit_lifevest_siamese_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    548,
+    843
+   ]
+  },
+  "outfits/body/outfit_lifevest_siamese_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    582,
+    424
+   ]
+  },
+  "outfits/body/outfit_lifevest_siamese_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    446,
+    415
+   ]
+  },
+  "outfits/body/outfit_lifevest_siamese_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1238,
+    638
+   ]
+  },
+  "outfits/body/outfit_lifevest_siamese_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    296,
+    735
+   ]
+  },
+  "outfits/body/outfit_lifevest_siamese_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    311,
+    730
+   ]
+  },
+  "outfits/body/outfit_lifevest_siamese_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    419,
+    752
+   ]
+  },
+  "outfits/body/outfit_lifevest_siamese_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    424,
+    731
+   ]
+  },
+  "outfits/body/outfit_lifevest_siamese_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1171,
+    558
+   ]
+  },
+  "outfits/body/outfit_lifevest_sphynx_front_torso.png": {
+   "class": "outfits",
+   "px": [
+    573,
+    848
+   ]
+  },
+  "outfits/body/outfit_lifevest_sphynx_loaf_side.png": {
+   "class": "outfits",
+   "px": [
+    552,
+    443
+   ]
+  },
+  "outfits/body/outfit_lifevest_sphynx_loaf_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    427,
+    417
+   ]
+  },
+  "outfits/body/outfit_lifevest_sphynx_side_torso.png": {
+   "class": "outfits",
+   "px": [
+    1238,
+    653
+   ]
+  },
+  "outfits/body/outfit_lifevest_sphynx_sit_back.png": {
+   "class": "outfits",
+   "px": [
+    319,
+    736
+   ]
+  },
+  "outfits/body/outfit_lifevest_sphynx_sit_front.png": {
+   "class": "outfits",
+   "px": [
+    299,
+    731
+   ]
+  },
+  "outfits/body/outfit_lifevest_sphynx_sit_side.png": {
+   "class": "outfits",
+   "px": [
+    382,
+    738
+   ]
+  },
+  "outfits/body/outfit_lifevest_sphynx_sit_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    404,
+    707
+   ]
+  },
+  "outfits/body/outfit_lifevest_sphynx_tqfront_torso.png": {
+   "class": "outfits",
+   "px": [
+    1188,
+    587
+   ]
   }
  }
 }

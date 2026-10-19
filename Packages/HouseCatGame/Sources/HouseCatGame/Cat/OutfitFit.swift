@@ -433,6 +433,35 @@ public enum OutfitFit {
         )
     }
 
+    // MARK: Body garments
+
+    /// A body garment is painted for each body, not fitted: over each resting pose (a picture the size of the pose's
+    /// base painting, drawn exactly over it) and over the puppet's torso in each view (the torso's size with
+    /// `Tuning.Outfits.torsoPad` of it added on every side). Nil for a pose it is not painted for (curled asleep or
+    /// mid-stretch).
+    public static func garment(_ outfit: OutfitsFile.Outfit, body: String, pose: CatPose) -> String? {
+        guard outfit.slot == .body, view(for: pose) != nil else { return nil }
+        return "outfits/body/outfit_\(outfit.id)_\(body)_\(pose.rawValue).png"
+    }
+
+    public static func garment(_ outfit: OutfitsFile.Outfit, body: String, view: String) -> String? {
+        guard outfit.slot == .body else { return nil }
+        return "outfits/body/outfit_\(outfit.id)_\(body)_\(view)_torso.png"
+    }
+
+    /// A body garment drawn over a picture of the cat, in `frame` (fractions of the picture, origin top left).
+    public static func dress(_ cat: CGImage, garment: CGImage, frame: CGRect) -> CGImage? {
+        let w = CGFloat(cat.width), h = CGFloat(cat.height)
+        guard let context = CGContext(
+            data: nil, width: cat.width, height: cat.height, bitsPerComponent: 8, bytesPerRow: 0,
+            space: CGColorSpace(name: CGColorSpace.sRGB) ?? CGColorSpaceCreateDeviceRGB(),
+            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+        ) else { return nil }
+        context.draw(cat, in: CGRect(x: 0, y: 0, width: w, height: h))
+        context.draw(garment, in: CGRect(x: frame.minX * w, y: (1 - frame.maxY) * h, width: frame.width * w, height: frame.height * h))
+        return context.makeImage()
+    }
+
     // MARK: Pictures
 
     /// A picture of the cat with its outfit drawn on (the player's plaque, the widget's poses). The canvas grows
@@ -488,6 +517,32 @@ public enum OutfitFit {
             drawOutfit(context)
         }
         return context.makeImage().map { ($0, extra) }
+    }
+}
+
+/// Where a resting pose's body garment goes on the painting drawn: the pose's ear and tail variants (folded,
+/// tufted, bobtail ...) are cropped to their own outline, so the base painting the garment was painted over sits
+/// somewhere inside them (outfits/body/variants.json, from tools/app-assets/garment_offsets.py).
+@MainActor
+public enum GarmentPlacement {
+    private struct File: Decodable {
+        var offsets: [String: [Double]]
+    }
+
+    private static var offsets: [String: [Double]]?
+
+    /// The garment's rectangle on the drawn painting `drawn`, as fractions of it (origin top left).
+    public static func frame(drawn: String, base: String, catArt: CatArt, art: ArtLibrary) -> CGRect {
+        let whole = CGRect(x: 0, y: 0, width: 1, height: 1)
+        guard drawn != base else { return whole }
+        if offsets == nil {
+            offsets = (try? art.data("outfits/body/variants.json", as: File.self))?.offsets ?? [:]
+        }
+        let d = catArt.paintedSize(drawn), b = catArt.paintedSize(base)
+        guard d.width > 0, d.height > 0 else { return whole }
+        let key = String((drawn as NSString).lastPathComponent.dropFirst(4).dropLast(4))
+        let at = offsets?[key] ?? [Double(d.width - b.width) / 2, Double(d.height - b.height)]
+        return CGRect(x: at[0] / d.width, y: at[1] / d.height, width: b.width / d.width, height: b.height / d.height)
     }
 }
 

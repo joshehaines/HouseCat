@@ -8776,5 +8776,628 @@
   "status": "downloaded",
   "ref": "surface",
   "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261018_221107_6fd9062e-6607-4166-96e3-8d27b2c68f09.png"
+ },
+ "garment:fisherman:short_slim": {
+  "job_id": "1389256e-8a3a-4ff7-adc2-560d575afccf",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_064308_1389256e-8a3a-4ff7-adc2-560d575afccf.png"
+ },
+ "garment:fisherman:short_chunky": {
+  "job_id": "ec249b21-f7ec-4495-8efc-11485af7dc7c",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_064308_ec249b21-f7ec-4495-8efc-11485af7dc7c.png"
+ },
+ "garment:fisherman:long_slim": {
+  "job_id": "b7a0d5ca-6c63-43f2-930d-bcdea14fa74f",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_064308_b7a0d5ca-6c63-43f2-930d-bcdea14fa74f.png"
+ },
+ "garment:fisherman:long_chunky": {
+  "job_id": "1638ad10-8f29-407d-9a3e-7f3eef2323d6",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_064310_1638ad10-8f29-407d-9a3e-7f3eef2323d6.png"
+ },
+ "garment:fisherman:persian": {
+  "job_id": "93d91484-cfe2-46d0-b5e2-7b25e5105bdd",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_064309_93d91484-cfe2-46d0-b5e2-7b25e5105bdd.png"
+ },
+ "garment:fisherman:siamese": {
+  "job_id": "4b7e23ad-560e-4920-8899-07fcaeb33f3f",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_064310_4b7e23ad-560e-4920-8899-07fcaeb33f3f.png"
+ },
+ "garment:fisherman:sphynx": {
+  "job_id": "c09e0f0e-590d-47af-afee-92e8b6603349",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_064311_c09e0f0e-590d-47af-afee-92e8b6603349.png"
+ },
+ "garment:fisherman:mainecoon": {
+  "job_id": "83905897-0086-4b03-b30f-44e727248da3",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_064310_83905897-0086-4b03-b30f-44e727248da3.png"
+ },
+ "garment:raincoat:short_slim": {
+  "job_id": "e9186034-12f0-4a07-909a-bd15bd1fbb6a",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_064539_e9186034-12f0-4a07-909a-bd15bd1fbb6a.png"
+ },
+ "garment:raincoat:short_chunky": {
+  "job_id": "adec8800-2b39-4e2b-a230-7bd0fa1f63eb",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_064540_adec8800-2b39-4e2b-a230-7bd0fa1f63eb.png"
+ },
+ "garment:raincoat:long_slim": {
+  "job_id": "74b26751-f073-42f8-840c-6ce145e07c95",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_064538_74b26751-f073-42f8-840c-6ce145e07c95.png"
+ },
+ "garment:raincoat:long_chunky": {
+  "job_id": "09a8d0c8-c27e-4c12-84ec-8185ed193718",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_064538_09a8d0c8-c27e-4c12-84ec-8185ed193718.png"
+ },
+ "garment:raincoat:persian": {
+  "job_id": "18231c06-c903-4ba8-aa2f-77971da185e3",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_064539_18231c06-c903-4ba8-aa2f-77971da185e3.png"
+ },
+ "garment:raincoat:siamese": {
+  "job_id": "2a52de6c-c915-4396-b665-ced671b0706d",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_064538_2a52de6c-c915-4396-b665-ced671b0706d.png"
+ },
+ "garment:raincoat:sphynx": {
+  "job_id": "2cc2974d-5acc-4b1e-8643-d0fb31400b20",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_064539_2cc2974d-5acc-4b1e-8643-d0fb31400b20.png"
+ },
+ "garment:raincoat:mainecoon": {
+  "job_id": "8ba423af-c80d-4bd7-90dd-c26c8bc8802c",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_064539_8ba423af-c80d-4bd7-90dd-c26c8bc8802c.png"
+ },
+ "garment:hoodie:short_slim": {
+  "job_id": "c49e09bd-04fc-4260-9bd2-01c7619ee28e",
+  "status": "accepted",
+  "tint": "ginger",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_070031_c49e09bd-04fc-4260-9bd2-01c7619ee28e.png"
+ },
+ "garment:hoodie:short_chunky": {
+  "job_id": "a0f3e7c0-63c3-42a0-bbf5-0c306725ed5a",
+  "status": "accepted",
+  "tint": "ginger",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_070031_a0f3e7c0-63c3-42a0-bbf5-0c306725ed5a.png"
+ },
+ "garment:hoodie:long_slim": {
+  "job_id": "5f42008e-1e8a-4f41-8d8d-d91c0b4e8a13",
+  "status": "accepted",
+  "tint": "ginger",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_070033_5f42008e-1e8a-4f41-8d8d-d91c0b4e8a13.png"
+ },
+ "garment:hoodie:long_chunky": {
+  "job_id": "016255c1-cdf2-44df-a115-4497c55ef243",
+  "status": "accepted",
+  "tint": "ginger",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_070031_016255c1-cdf2-44df-a115-4497c55ef243.png"
+ },
+ "garment:hoodie:persian": {
+  "job_id": "65d225f9-a48f-4876-87ec-af4dd1e234b1",
+  "status": "accepted",
+  "tint": "ginger",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_070032_65d225f9-a48f-4876-87ec-af4dd1e234b1.png"
+ },
+ "garment:hoodie:siamese": {
+  "job_id": "4bc88212-06b4-4508-8e1b-6c0360329ca6",
+  "status": "accepted",
+  "tint": "ginger",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_070030_4bc88212-06b4-4508-8e1b-6c0360329ca6.png"
+ },
+ "garment:hoodie:sphynx": {
+  "job_id": "876edb00-c68c-429c-9541-7cf859d62e84",
+  "status": "accepted",
+  "tint": "ginger",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_070032_876edb00-c68c-429c-9541-7cf859d62e84.png"
+ },
+ "garment:hoodie:mainecoon": {
+  "job_id": "1896d5f8-965e-4f87-8418-74ad195a0199",
+  "status": "accepted",
+  "tint": "ginger",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_070030_1896d5f8-965e-4f87-8418-74ad195a0199.png"
+ },
+ "garment:xmasjumper:short_slim": {
+  "job_id": "f81cdb11-b628-4e41-b439-b3d79e44ff0d",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_065048_f81cdb11-b628-4e41-b439-b3d79e44ff0d.png"
+ },
+ "garment:xmasjumper:short_chunky": {
+  "job_id": "ef2b3217-3f96-4762-8b2d-d0582eef6abd",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_065049_ef2b3217-3f96-4762-8b2d-d0582eef6abd.png"
+ },
+ "garment:xmasjumper:long_slim": {
+  "job_id": "21dec364-a146-4170-845f-a61b4512e7aa",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_065048_21dec364-a146-4170-845f-a61b4512e7aa.png"
+ },
+ "garment:xmasjumper:long_chunky": {
+  "job_id": "60968719-6252-444e-afbd-57d8d3de30a5",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_065048_60968719-6252-444e-afbd-57d8d3de30a5.png"
+ },
+ "garment:xmasjumper:persian": {
+  "job_id": "e4a6c30f-183c-4d21-9e49-4d5e4d12431d",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_065047_e4a6c30f-183c-4d21-9e49-4d5e4d12431d.png"
+ },
+ "garment:xmasjumper:siamese": {
+  "job_id": "77f10657-ed44-426b-bf50-1ed753f8a601",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_065049_77f10657-ed44-426b-bf50-1ed753f8a601.png"
+ },
+ "garment:xmasjumper:sphynx": {
+  "job_id": "c640a5fc-52a0-438f-a540-db8b99dcc751",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_065048_c640a5fc-52a0-438f-a540-db8b99dcc751.png"
+ },
+ "garment:xmasjumper:mainecoon": {
+  "job_id": "eea6c2a8-d2e1-47df-a85d-bd7acdd55970",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_065048_eea6c2a8-d2e1-47df-a85d-bd7acdd55970.png"
+ },
+ "garment:pyjamas:short_slim": {
+  "job_id": "b5a91bcf-665b-4a1a-8488-1ed17ec3753a",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_065336_b5a91bcf-665b-4a1a-8488-1ed17ec3753a.png"
+ },
+ "garment:pyjamas:short_chunky": {
+  "job_id": "d7f64bd3-3ac7-40df-bb37-62a3ec26dc75",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_065333_d7f64bd3-3ac7-40df-bb37-62a3ec26dc75.png"
+ },
+ "garment:pyjamas:long_slim": {
+  "job_id": "95a44e5f-9433-4615-aaff-3f56a11ce790",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_065335_95a44e5f-9433-4615-aaff-3f56a11ce790.png"
+ },
+ "garment:pyjamas:long_chunky": {
+  "job_id": "b16df093-839b-4c09-b550-589b441d59fc",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_065334_b16df093-839b-4c09-b550-589b441d59fc.png"
+ },
+ "garment:pyjamas:persian": {
+  "job_id": "1572cafc-b868-42b5-92ce-860c13ed4f81",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_065334_1572cafc-b868-42b5-92ce-860c13ed4f81.png"
+ },
+ "garment:pyjamas:siamese": {
+  "job_id": "26c70525-db64-4aba-91c5-d1fa1acc52b8",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_065334_26c70525-db64-4aba-91c5-d1fa1acc52b8.png"
+ },
+ "garment:pyjamas:sphynx": {
+  "job_id": "7aa28d95-739b-45c9-8c17-d6081e586314",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_065335_7aa28d95-739b-45c9-8c17-d6081e586314.png"
+ },
+ "garment:pyjamas:mainecoon": {
+  "job_id": "7bdb4843-d0e6-4c41-b627-7401362e0e9c",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_065334_7bdb4843-d0e6-4c41-b627-7401362e0e9c.png"
+ },
+ "garment:cardigan:short_slim": {
+  "job_id": "08fb5cd9-0562-40f4-8a97-40a8a6f7e6c5",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_070255_08fb5cd9-0562-40f4-8a97-40a8a6f7e6c5.png"
+ },
+ "garment:cardigan:short_chunky": {
+  "job_id": "bbf0b291-8f18-41f5-9eb2-df230304ffc2",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_070255_bbf0b291-8f18-41f5-9eb2-df230304ffc2.png"
+ },
+ "garment:cardigan:long_slim": {
+  "job_id": "545cd173-db27-4174-851b-0c61dc0a6fb7",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_070255_545cd173-db27-4174-851b-0c61dc0a6fb7.png"
+ },
+ "garment:cardigan:long_chunky": {
+  "job_id": "07ee372f-7f9d-488e-8e19-343ef4150d1d",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_070254_07ee372f-7f9d-488e-8e19-343ef4150d1d.png"
+ },
+ "garment:cardigan:persian": {
+  "job_id": "b426ee7d-0eea-4fec-9ea8-22acadf2a9dd",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_070256_b426ee7d-0eea-4fec-9ea8-22acadf2a9dd.png"
+ },
+ "garment:cardigan:siamese": {
+  "job_id": "b090b877-1365-4249-bd6a-ba57b35c4504",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_070254_b090b877-1365-4249-bd6a-ba57b35c4504.png"
+ },
+ "garment:cardigan:sphynx": {
+  "job_id": "560f5cb0-2c94-4f51-ba58-4c42d2f4aa74",
+  "status": "superseded",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_070256_560f5cb0-2c94-4f51-ba58-4c42d2f4aa74.png"
+ },
+ "garment:cardigan:mainecoon": {
+  "job_id": "0f4284f6-6be2-408b-adc1-c69e29aa893f",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_070255_0f4284f6-6be2-408b-adc1-c69e29aa893f.png"
+ },
+ "garment:hawaiian:short_slim": {
+  "job_id": "435b7f3c-0239-47e3-ab3b-103b6d3f5fa3",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_070940_435b7f3c-0239-47e3-ab3b-103b6d3f5fa3.png"
+ },
+ "garment:hawaiian:short_chunky": {
+  "job_id": "11e4e0a5-0161-44b7-86af-8c85bc28d46c",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_070941_11e4e0a5-0161-44b7-86af-8c85bc28d46c.png"
+ },
+ "garment:hawaiian:long_slim": {
+  "job_id": "79791700-54f5-4ad1-af67-f249c86a527c",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_070939_79791700-54f5-4ad1-af67-f249c86a527c.png"
+ },
+ "garment:hawaiian:long_chunky": {
+  "job_id": "3d3a8f68-e6f5-48cc-b7cd-554901e76ae1",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_070940_3d3a8f68-e6f5-48cc-b7cd-554901e76ae1.png"
+ },
+ "garment:hawaiian:persian": {
+  "job_id": "be9f81b9-c1ee-4c5e-b9f3-edf20d292f6a",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_070939_be9f81b9-c1ee-4c5e-b9f3-edf20d292f6a.png"
+ },
+ "garment:hawaiian:siamese": {
+  "job_id": "1a587e5d-7bb0-47f1-b252-93b0dd906e7f",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_070940_1a587e5d-7bb0-47f1-b252-93b0dd906e7f.png"
+ },
+ "garment:hawaiian:sphynx": {
+  "job_id": "9fbf07c3-3f96-4444-9e50-991727617890",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_070940_9fbf07c3-3f96-4444-9e50-991727617890.png"
+ },
+ "garment:hawaiian:mainecoon": {
+  "job_id": "3edef77e-2ae7-429a-a29d-3a488d38956c",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_070940_3edef77e-2ae7-429a-a29d-3a488d38956c.png"
+ },
+ "garment:lifevest:short_slim": {
+  "job_id": "89bad322-e9c7-4977-95e3-86915762021c",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_071124_89bad322-e9c7-4977-95e3-86915762021c.png"
+ },
+ "garment:lifevest:short_chunky": {
+  "job_id": "e6eda8ce-9f1c-4c43-a1c9-00396142f8bb",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_071124_e6eda8ce-9f1c-4c43-a1c9-00396142f8bb.png"
+ },
+ "garment:lifevest:long_slim": {
+  "job_id": "44a3a514-6b8e-48f8-9bba-f3d7d7ad9c63",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_071125_44a3a514-6b8e-48f8-9bba-f3d7d7ad9c63.png"
+ },
+ "garment:lifevest:long_chunky": {
+  "job_id": "9ed8cac7-f9c6-4dd8-ae0c-1cb646b151a1",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_071125_9ed8cac7-f9c6-4dd8-ae0c-1cb646b151a1.png"
+ },
+ "garment:lifevest:persian": {
+  "job_id": "5eedff9d-6731-437f-bae3-dba2f3d873cd",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_071123_5eedff9d-6731-437f-bae3-dba2f3d873cd.png"
+ },
+ "garment:lifevest:siamese": {
+  "job_id": "69240b44-eedb-42f4-a71c-5b03bb8fed38",
+  "status": "superseded",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_071125_69240b44-eedb-42f4-a71c-5b03bb8fed38.png"
+ },
+ "garment:lifevest:sphynx": {
+  "job_id": "1814d3e1-5c7e-4571-95d2-a4c7211b41de",
+  "status": "superseded",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_071123_1814d3e1-5c7e-4571-95d2-a4c7211b41de.png"
+ },
+ "garment:lifevest:mainecoon": {
+  "job_id": "e6c24eb7-695d-48ea-b661-3620947f0ea0",
+  "status": "superseded",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_071122_e6c24eb7-695d-48ea-b661-3620947f0ea0.png"
+ },
+ "garment:skeleton:short_slim": {
+  "job_id": "1431d9d4-6c43-488e-8e75-f378b33bed21",
+  "status": "superseded",
+  "tint": "white",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_071359_1431d9d4-6c43-488e-8e75-f378b33bed21.png"
+ },
+ "garment:skeleton:short_chunky": {
+  "job_id": "f1425e88-88b6-4762-996c-a943b2b7e1b4",
+  "status": "superseded",
+  "tint": "white",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_071400_f1425e88-88b6-4762-996c-a943b2b7e1b4.png"
+ },
+ "garment:skeleton:long_slim": {
+  "job_id": "4da2851d-58e5-45fa-9211-a0a74979f4db",
+  "status": "superseded",
+  "tint": "white",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_071400_4da2851d-58e5-45fa-9211-a0a74979f4db.png"
+ },
+ "garment:skeleton:long_chunky": {
+  "job_id": "5a89a9bc-3111-4cf0-8518-6cd1f536d5d0",
+  "status": "superseded",
+  "tint": "white",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_071359_5a89a9bc-3111-4cf0-8518-6cd1f536d5d0.png"
+ },
+ "garment:skeleton:persian": {
+  "job_id": "78674efb-1ebf-482c-9016-fdb09c72dbb2",
+  "status": "superseded",
+  "tint": "white",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_071400_78674efb-1ebf-482c-9016-fdb09c72dbb2.png"
+ },
+ "garment:skeleton:siamese": {
+  "job_id": "086db7d7-881f-41ae-b3aa-86b1f24878d4",
+  "status": "superseded",
+  "tint": "white",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_071359_086db7d7-881f-41ae-b3aa-86b1f24878d4.png"
+ },
+ "garment:skeleton:sphynx": {
+  "job_id": "a5a2ada8-e769-4aba-9040-120c6f82cc88",
+  "status": "superseded",
+  "tint": "white",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_071400_a5a2ada8-e769-4aba-9040-120c6f82cc88.png"
+ },
+ "garment:skeleton:mainecoon": {
+  "job_id": "3330ee6c-db2e-4f76-81cb-4d7aa4c76524",
+  "status": "superseded",
+  "tint": "white",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_071359_3330ee6c-db2e-4f76-81cb-4d7aa4c76524.png"
+ },
+ "garment:fisherman:mainecoon:redo107": {
+  "job_id": "6265461e-d6e2-4f5b-823c-672fa6a70f04",
+  "status": "partial: sit_back, loaf_tqfront",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_071557_6265461e-d6e2-4f5b-823c-672fa6a70f04.png"
+ },
+ "garment:hoodie:mainecoon:redo127": {
+  "job_id": "a3ec364d-f9e2-49cc-9795-81cfafe78506",
+  "status": "rejected: covered less",
+  "tint": "ginger",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_071600_a3ec364d-f9e2-49cc-9795-81cfafe78506.png"
+ },
+ "garment:xmasjumper:sphynx:redo136": {
+  "job_id": "7fd5f663-9f0f-45f5-8112-1bee73e41a9f",
+  "status": "partial: six of nine",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_071559_7fd5f663-9f0f-45f5-8112-1bee73e41a9f.png"
+ },
+ "garment:pyjamas:mainecoon:redo147": {
+  "job_id": "4509a46c-887b-45f4-8666-c3f38797feb2",
+  "status": "partial: sit_back, loaf_tqfront",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_071557_4509a46c-887b-45f4-8666-c3f38797feb2.png"
+ },
+ "garment:cardigan:sphynx:redo156": {
+  "job_id": "8d78c2f1-0a06-4cf6-82ae-d97e3abe2504",
+  "status": "accepted",
+  "tint": "ginger",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_071559_8d78c2f1-0a06-4cf6-82ae-d97e3abe2504.png"
+ },
+ "garment:lifevest:siamese:redo175": {
+  "job_id": "393e79f9-5454-4d9a-835a-c1afa9284a13",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_071558_393e79f9-5454-4d9a-835a-c1afa9284a13.png"
+ },
+ "garment:lifevest:sphynx:redo176": {
+  "job_id": "bd292033-81e0-4f42-a7ef-ad209b349b16",
+  "status": "superseded",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_071558_bd292033-81e0-4f42-a7ef-ad209b349b16.png"
+ },
+ "garment:lifevest:mainecoon:redo177": {
+  "job_id": "e8d237f2-4147-467d-90a9-ceeebcd9f949",
+  "status": "accepted",
+  "tint": "dark",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_071559_e8d237f2-4147-467d-90a9-ceeebcd9f949.png"
+ },
+ "garment:skeleton:sphynx:redo186": {
+  "job_id": "91e75b73-ded4-4ddf-a710-a26d0850ea01",
+  "status": "accepted",
+  "tint": "white",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_071928_91e75b73-ded4-4ddf-a710-a26d0850ea01.png"
+ },
+ "garment:skeleton:short_slim:redo280": {
+  "job_id": "57436cc6-de51-4314-92f7-17c77d7f442a",
+  "status": "accepted",
+  "tint": "ginger",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_072350_57436cc6-de51-4314-92f7-17c77d7f442a.png"
+ },
+ "garment:skeleton:short_chunky:redo281": {
+  "job_id": "8924d01f-99ea-441f-b6ac-d240ce26cd64",
+  "status": "accepted",
+  "tint": "ginger",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_072349_8924d01f-99ea-441f-b6ac-d240ce26cd64.png"
+ },
+ "garment:skeleton:long_slim:redo282": {
+  "job_id": "680a65c7-9429-42ed-88a3-76bf55f5fcbc",
+  "status": "accepted",
+  "tint": "ginger",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_072349_680a65c7-9429-42ed-88a3-76bf55f5fcbc.png"
+ },
+ "garment:skeleton:long_chunky:redo283": {
+  "job_id": "73b545cf-5ea9-4e0c-9aff-ff676e68c560",
+  "status": "accepted",
+  "tint": "ginger",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_072350_73b545cf-5ea9-4e0c-9aff-ff676e68c560.png"
+ },
+ "garment:skeleton:persian:redo284": {
+  "job_id": "63e56fe3-0bb0-4d08-a175-3370f4990b61",
+  "status": "accepted",
+  "tint": "ginger",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_072351_63e56fe3-0bb0-4d08-a175-3370f4990b61.png"
+ },
+ "garment:skeleton:siamese:redo285": {
+  "job_id": "5e06aeb3-95f4-47e2-bbc5-1cb002825f92",
+  "status": "accepted",
+  "tint": "ginger",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_072350_5e06aeb3-95f4-47e2-bbc5-1cb002825f92.png"
+ },
+ "garment:skeleton:sphynx:redo286": {
+  "job_id": "3f798b76-dee7-4b55-9291-6c4bf85c7e97",
+  "status": "accepted",
+  "tint": "ginger",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_072349_3f798b76-dee7-4b55-9291-6c4bf85c7e97.png"
+ },
+ "garment:skeleton:mainecoon:redo287": {
+  "job_id": "9893e5ef-6734-408a-98f5-e8208ca6c026",
+  "status": "accepted",
+  "tint": "ginger",
+  "ref": "garments",
+  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Dcc1ZJflZl7r9iZWYh62HUtZO6/hf_20261019_072349_9893e5ef-6734-408a-98f5-e8208ca6c026.png"
  }
 }

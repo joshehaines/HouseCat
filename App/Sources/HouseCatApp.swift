@@ -270,6 +270,13 @@ enum CatScreens {
         guard let catArt = GameWorld.catArt else { return nil }
         let sprite = catArt.builder.pose(CatPose.sitThreeQuarterFront.rawValue, look: look)
         guard let image = catArt.image(sprite, look: look) else { return nil }
+        if let outfit, outfit.slot == .body, let art = GameWorld.art,
+           let path = OutfitFit.garment(outfit, body: look.body, pose: .sitThreeQuarterFront), art.has(path), let garment = art.image(path)
+        {
+            let base = "poses/cat_\(look.body)_\(CatPose.sitThreeQuarterFront.rawValue).png"
+            let frame = GarmentPlacement.frame(drawn: sprite.path, base: base, catArt: catArt, art: art)
+            return OutfitFit.dress(image, garment: garment, frame: frame) ?? image
+        }
         guard let outfit, let kind = OutfitFit.kind(outfit), let path = outfit.sprites["tqfront"], let art = GameWorld.art,
               let picture = art.image(path), let shape = OutfitShapes.shape(path, art: art), let face = catArt.face(sprite.path)
         else { return image }

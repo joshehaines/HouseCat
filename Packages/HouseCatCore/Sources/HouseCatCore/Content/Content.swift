@@ -256,10 +256,10 @@ public struct OutfitsFile: Codable, Sendable {
         /// How wide it is worn against the head (hats) or the neck (neckwear); nil for the usual (Tuning.Outfits).
         public var fit: Double?
 
-        /// Whether the cat can be seen in it: hats, glasses and neckwear are fitted to the face in every pose; body
-        /// garments are painted for a standing cat only, so they are not sold or given until they are fitted.
+        /// Whether the cat can be seen in it: hats, glasses and neckwear are fitted to the face in every pose, body
+        /// garments painted for every body's torso and resting poses (outfits/body), so all of them now.
         public var wearable: Bool {
-            slot != .body
+            true
         }
     }
 

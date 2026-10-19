@@ -37,7 +37,7 @@ public final class CatNode: SKNode {
     /// The outfit the cat wears (OutfitFit: hats, glasses, neckwear), on each view's head and on the pose on show.
     public private(set) var outfit: OutfitsFile.Outfit?
     private var outfitNodes: [SKNode] = []
-    private var poseOutfit: SKNode?
+    private(set) var poseOutfit: SKNode?
 
     private enum Cycle {
         case walk
@@ -108,7 +108,8 @@ public final class CatNode: SKNode {
 
     // MARK: Outfits
 
-    /// Puts an outfit on (nil takes it off). Body garments are not drawn: they are painted for a standing cat.
+    /// Puts an outfit on (nil takes it off): hats, glasses and neckwear fitted to the face, body garments painted for
+    /// this body's torso and resting poses.
     public func wear(_ outfit: OutfitsFile.Outfit?) {
         self.outfit = outfit
         layOutfit()
@@ -127,6 +128,10 @@ public final class CatNode: SKNode {
             node.removeFromParent()
         }
         outfitNodes = []
+        if let outfit, outfit.slot == .body, let look {
+            layTorsoGarment(outfit, look: look)
+            return
+        }
         guard let outfit, let kind = OutfitFit.kind(outfit), let catArt, let look else { return }
         for view in View.allCases {
             guard let head = parts[view]?["head"], let picture = outfit.sprites[view.rawValue],
@@ -138,10 +143,48 @@ public final class CatNode: SKNode {
         }
     }
 
+    /// A body garment on each view's torso, so it moves with the walk (the legs, head and tail stay bare).
+    private func layTorsoGarment(_ outfit: OutfitsFile.Outfit, look: CatLook) {
+        let pad = CGFloat(Tuning.Outfits.torsoPad)
+        for view in View.allCases {
+            guard let torso = parts[view]?["torso"], let path = OutfitFit.garment(outfit, body: look.body, view: view.rawValue),
+                  art.has(path) else { continue }
+            let node = SKSpriteNode(
+                texture: art.texture(path),
+                size: CGSize(width: torso.size.width * (1 + 2 * pad), height: torso.size.height * (1 + 2 * pad))
+            )
+            // Centred on the torso's picture, above it and below the head.
+            node.position = CGPoint(x: (0.5 - torso.anchorPoint.x) * torso.size.width, y: (0.5 - torso.anchorPoint.y) * torso.size.height)
+            node.zPosition = CGFloat(Tuning.Outfits.torsoGarmentZ)
+            node.name = "outfit"
+            torso.addChild(node)
+            outfitNodes.append(node)
+        }
+    }
+
+    /// A body garment over the resting pose on show, where the pose's base painting sits in it.
+    private func layPoseGarment(_ outfit: OutfitsFile.Outfit, pose: CatPose, catArt: CatArt, look: CatLook) {
+        guard let path = OutfitFit.garment(outfit, body: look.body, pose: pose), art.has(path) else { return }
+        let drawn = catArt.builder.pose(pose.rawValue, look: look).path
+        let frame = GarmentPlacement.frame(drawn: drawn, base: "poses/cat_\(look.body)_\(pose.rawValue).png", catArt: catArt, art: art)
+        let size = poseNode.size
+        let node = SKSpriteNode(texture: art.texture(path), size: CGSize(width: frame.width * size.width, height: frame.height * size.height))
+        node.anchorPoint = CGPoint(x: 0, y: 1)
+        node.position = CGPoint(x: (frame.minX - poseNode.anchorPoint.x) * size.width, y: (1 - frame.minY - poseNode.anchorPoint.y) * size.height)
+        node.zPosition = CGFloat(Tuning.Outfits.zLift)
+        node.name = "outfit"
+        poseNode.addChild(node)
+        poseOutfit = node
+    }
+
     /// The outfit on the resting pose on show (its own view's picture; a curl is seen from the side).
     private func layPoseOutfit(_ pose: CatPose) {
         poseOutfit?.removeFromParent()
         poseOutfit = nil
+        if let outfit, outfit.slot == .body, let catArt, let look {
+            layPoseGarment(outfit, pose: pose, catArt: catArt, look: look)
+            return
+        }
         guard let outfit, let kind = OutfitFit.kind(outfit), let catArt, let look,
               let view = OutfitFit.view(for: pose), let picture = outfit.sprites[view],
               let shape = OutfitShapes.shape(picture, art: art),

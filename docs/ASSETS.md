@@ -131,6 +131,9 @@ Beans play the role gems play in Clash of Clans, earned through objectives and s
 ## 6j. The outfits worn (18 Oct 2026)
 - All four views of every outfit are bundled now (they were three-quarter front only, for the shop), at 0.5. No new art: hats, glasses and neckwear are fitted in code to each pose. The body garments need painting for the sitting and loafing poses before they can be sold.
 
+## 6k. The body garments (19 Oct 2026)
+- `outfits/body/outfit_<id>_<body>_<pose>.png` (9 garments x 8 bodies x 6 poses) and `outfit_<id>_<body>_<side|tqfront|front>_torso.png` (x 3 views): 648 layers painted over the cat's own paintings (Ideogram 4.5 masked edits, `tools/asset-pipeline/garments/`), bundled at 0.4 as HEIC with transparency. `outfits/body/variants.json`: where each pose's base painting sits in its ear and tail variants.
+
 ## 7. Known gaps and things for Josh's eye
 
 - **Small items were painted at furniture size.** The model draws whatever it is asked for large, so tabletop and small floor items (mug, kettle, alarm clock, slippers, snow globe, candle, cat bed, laundry basket…) come out as big as a chest of drawers. The sprites are high-resolution, so scaling down in code loses nothing: `assets/manifest.json` carries a `suggested_scale` for 78 such files (from `tools/asset-pipeline/scales.py`); carry it into `catalogue.json` and check each by eye in the room view.

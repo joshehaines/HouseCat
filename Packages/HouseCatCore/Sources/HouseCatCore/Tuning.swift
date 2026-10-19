@@ -604,6 +604,10 @@ public enum Tuning {
         public static let bandAspect = 2.0
         public static let bandHeight = 2.5
         public static let bandDrop = 0.25
+        /// A body garment on the puppet: its picture is the torso's with this much of it added on every side (the
+        /// garment sheets' TORSO_PAD), drawn over the torso and under the head.
+        public static let torsoPad = 0.15
+        public static let torsoGarmentZ = 0.0015
         /// The longest neckwear may hang, in head widths (a scarf's tassels reach about 1.5).
         public static let neckMaxHeight = 1.7
         /// A profile's head is at most this many times the eye's distance to the front of the face long (sitting

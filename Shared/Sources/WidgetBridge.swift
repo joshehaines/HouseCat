@@ -95,7 +95,16 @@ enum WidgetBridge {
         let kind = worn.flatMap(OutfitFit.kind)
         let tall = OutfitFit.tallEars(look)
         var outfitPictures: [CatPose: (CGImage, OutfitShape, String)] = [:]
-        if let worn {
+        // A body garment: its picture for each pose and where it goes on the pose's painting.
+        var garments: [CatPose: (CGImage, CGRect)] = [:]
+        if let worn, worn.slot == .body {
+            for (pose, sprite, _) in poses {
+                if let path = OutfitFit.garment(worn, body: look.body, pose: pose), art.has(path), let picture = art.image(path) {
+                    let base = "poses/cat_\(look.body)_\(pose.rawValue).png"
+                    garments[pose] = (picture, GarmentPlacement.frame(drawn: sprite.path, base: base, catArt: catArt, art: art))
+                }
+            }
+        } else if let worn {
             for pose in CatPose.allCases {
                 if let view = OutfitFit.view(for: pose), let path = worn.sprites[view], let picture = art.image(path),
                    let shape = OutfitShapes.shape(path, art: art)
@@ -133,6 +142,9 @@ enum WidgetBridge {
                 {
                     grown = Double(image.height + dressed.extra) / Double(max(1, image.height))
                     image = dressed.image
+                }
+                if let (garment, frame) = garments[pose], let dressed = OutfitFit.dress(image, garment: garment, frame: frame) {
+                    image = dressed
                 }
                 write(
                     scaled(image, height: Int((Double(Tuning.Widget.catPixels) * grown).rounded())),

@@ -40,6 +40,8 @@ SETS = [
     ('fx/reactions/fx_reactions_*.png', 0.5),
     # The outfits in every view: worn by the cat (fitted to its face) and shown in the shop (three-quarter front).
     ('outfits/outfit_*.png', 0.5),
+    # The body garments, painted onto each body's resting poses and torso views (at the cat sprites' scale).
+    ('outfits/body/outfit_*.png', 0.4),
     # The painted UI icons for the room's controls, the status and the tray.
     ('ui/icon_*.png', 0.4),
     # The shop's offer illustrations.
@@ -71,7 +73,7 @@ INTRO_SCENES = ['woodland_cabin_snow_winter', 'mediterranean_rooftop_coast_summe
                 'cottage_countryside_spring', 'newbuild_balcony_tropical_summer', 'mansion_flat_desert_summer']
 INTRO_SCALE = 0.75
 DATA = ['cat/rig.json', 'rooms/layout_living_demo.json', 'rooms/houses.json', 'fx/anchors.json', 'fx/fx.json', 'world/scenes/scenes.json',
-        'world/map/cities.json', 'world/map/map_biome_legend.json']
+        'world/map/cities.json', 'world/map/map_biome_legend.json', 'outfits/body/variants.json']
 
 
 # Opaque pictures are written as HEIC (half the size of JPEG for the same look); the index maps the master's path

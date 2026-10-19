@@ -817,6 +817,27 @@ public enum Tuning {
         public static let shadowWidthTall = 0.5
         /// Where a piece's base sits up its picture (the trunk's foot is a little above the bottom edge).
         public static let baseLift = 0.04
+        /// The outside moves (Josh, 19 Oct): the wind's strength by weather, and how far a crown sways at the top
+        /// of its picture at strength 1 (a share of its width).
+        public static let windCalm = 0.5
+        public static let windRain = 1.0
+        public static let windGusty = 1.6
+        public static let windStorm = 2.2
+        public static let swayReach = 0.012
+        /// Leaves and petals: how many a second from a tree 300 units wide, how fast they fall (units a second),
+        /// how big, and how far the wind carries them (units a second squared at strength 1).
+        public static let fallRate = 0.5
+        public static let fallSpeed = 55.0
+        public static let fallSize = 22.0
+        public static let fallDrift = 10.0
+        /// Cloud shadows on a fine day: how many, how wide (cells), how dark, how fast (cells a second at strength 1).
+        public static let cloudShadows = 3
+        public static let cloudShadowCells = 16.0
+        public static let cloudShadowAlpha = 0.13
+        public static let cloudShadowSpeed = 0.6
+        /// A few birds fly over about this often by day (seconds, give or take most of it), taking this long to cross.
+        public static let birdsEvery = 18.0
+        public static let birdSeconds = 7.0
     }
 
     /// Outfits fitted to the cat (HouseCatGame OutfitFit), from the head's own outline in each sprite: a hat's

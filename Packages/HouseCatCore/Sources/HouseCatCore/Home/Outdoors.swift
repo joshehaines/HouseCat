@@ -16,6 +16,13 @@ public struct OutdoorsFile: Codable, Sendable {
         public var width: Double
         /// The seasons it has its own picture for ("autumn", "winter"); otherwise the summer one.
         public var seasons: [String]
+        /// A picture from elsewhere in the art, the same all year (a garden piece of the catalogue's: the bench, the
+        /// pond); such a piece is left out while snow lies (Josh, 19 Oct: a garden round a house in the country).
+        public var sprite: String?
+        /// How much it bends in the wind, 0 to 1 (a tree's crown, a grass's tips; stones and lamps not at all).
+        public var sway: Double?
+        /// It blossoms in spring: petals drift from it, as leaves drift from a tree with an autumn picture.
+        public var blossom: Bool?
     }
 
     public var version: Int
@@ -38,11 +45,18 @@ public struct OutdoorPiece: Equatable, Sendable {
     public var tall: Bool
     /// Behind the house's back walls (drawn under the rooms), or in front of it (over them).
     public var behind: Bool
+    /// How much it bends in the wind, 0 to 1.
+    public var sway: Double = 0
+    /// What drifts down from it now: "leaf" from a tree in its autumn picture, "petal" from a blossom in spring.
+    public var sheds: String?
 }
 
 public enum OutdoorRules {
     /// The picture for a piece: its winter one on snow or in winter, its autumn one in autumn, else the summer one.
     public static func sprite(_ prop: OutdoorsFile.Prop, biome: Biome, season: NatureSeason, snowy: Bool) -> String {
+        if let fixed = prop.sprite {
+            return fixed
+        }
         let wanted: String? = if snowy || season == .winter {
             "winter"
         } else if season == .autumn {
@@ -96,16 +110,27 @@ public enum OutdoorRules {
                 return (du * du + dv * dv).squareRoot() >= (other.width + width) / 2 * t.spacing
             }
             guard spaced else { continue }
+            let picture = sprite(prop, biome: biome, season: season, snowy: snowy)
+            let sheds: String? = if picture.hasSuffix("_autumn.png") {
+                "leaf"
+            } else if season == .spring, prop.blossom == true, !snowy {
+                "petal"
+            } else {
+                nil
+            }
             pieces.append(OutdoorPiece(
                 prop: prop.id,
-                sprite: sprite(prop, biome: biome, season: season, snowy: snowy),
+                sprite: picture,
                 u: u,
                 v: v,
                 width: width,
                 tall: prop.tall,
-                behind: behind
+                behind: behind,
+                sway: snowy && prop.sprite == nil ? (prop.sway ?? 0) * 0.5 : prop.sway ?? 0,
+                sheds: sheds
             ))
         }
-        return pieces
+        // A garden piece is laid out all year, so everything else keeps its place, and put away under snow.
+        return snowy ? pieces.filter { piece in props.first { $0.id == piece.prop }?.sprite == nil } : pieces
     }
 }

@@ -282,6 +282,7 @@ public final class RoomScene: SKScene {
         let rgb = Tuning.Sky.grade[house.sky] ?? [1, 1, 1]
         let grade = SKColor(red: rgb[0], green: rgb[1], blue: rgb[2], alpha: 1)
         let band = CGFloat(Tuning.House.storeyBand) / 2
+        let sway = swayShaders(grade: grade)
         for piece in house.scenery {
             let texture = art.texture(piece.sprite)
             let painted = art.paintedSize(piece.sprite)
@@ -304,7 +305,9 @@ public final class RoomScene: SKScene {
             shadow.zPosition = -1
             node.addChild(shadow)
             world.addChild(node)
+            bringToLife(node, piece: piece, shaders: sway)
         }
+        startSkyLife()
     }
 
     // MARK: Framing

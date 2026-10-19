@@ -215,3 +215,28 @@ private struct World {
         #expect(veil.path != nil, "\(room.id) can still be tapped")
     }
 }
+
+/// The outside moves (Josh, 19 Oct): in a country autumn the oaks bend in the wind and drop their leaves, the field
+/// stones stand still, the garden's pieces are about the house, and on a fine day cloud shadows cross the ground.
+@MainActor
+@Test func theOutsideMovesWithTheWindAndTheSeason() throws {
+    let world = try World()
+    let place = HomePlace(name: "the Cotswolds", latitude: 51.8, longitude: -1.8, timeZoneID: "Europe/London", biome: .countryside)
+    let now = HomeNow(place: place, biome: .countryside, season: .autumn, sky: .day, weather: .sun, localMinutes: 720)
+    let house = try #require(HouseBuilder.house(
+        style: .londonTerrace, plans: world.plans, layout: world.layout, state: world.state(),
+        catalogue: world.content.catalogue, now: now, outdoors: world.content.outdoors
+    ))
+    #expect(house.scenery.contains { $0.sprite.hasPrefix("furniture/garden/") }, "a garden round a country house")
+    let scene = RoomScene(size: CGSize(width: 1366, height: 1024), art: world.art, content: world.content, house: house)
+    let pieces = scene.world.children.compactMap { $0 as? SKSpriteNode }.filter { $0.name == "scenery" }
+    #expect(pieces.count == house.scenery.count)
+    for (node, piece) in zip(pieces, house.scenery) {
+        #expect((node.shader != nil) == (piece.sway > 0), "\(piece.prop) sways only if it bends")
+        #expect((node.childNode(withName: "falling") != nil) == (piece.sprite.hasSuffix("_autumn.png")), "\(piece.prop)")
+    }
+    #expect(house.scenery.contains { $0.prop == "oak" && $0.sway > 0 && $0.sheds == "leaf" })
+    #expect(house.scenery.filter { $0.prop == "stone" }.allSatisfy { $0.sway == 0 && $0.sheds == nil })
+    #expect(scene.world.childNode(withName: "cloudShadows") != nil, "cloud shadows on a fine day")
+    #expect(RoomScene.wind(.storm) > RoomScene.wind(.rain) && RoomScene.wind(.rain) > RoomScene.wind(.sun))
+}

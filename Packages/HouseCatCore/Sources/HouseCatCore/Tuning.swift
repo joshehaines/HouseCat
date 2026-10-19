@@ -600,6 +600,8 @@ public enum Tuning {
         public static let runTailDrop = 22.0
         /// Before a move the other way, the cat turns through its three-quarter view.
         public static let pivotSeconds = 0.16
+        /// Turning to another view, the new one starts this narrow and widens to full over `turnSeconds`.
+        public static let turnSquash = 0.82
         /// Sitting down: the puppet lowers this much (share of its height) before the painting takes over.
         public static let sitDownDip = 0.06
         public static let sitDownSeconds = 0.14

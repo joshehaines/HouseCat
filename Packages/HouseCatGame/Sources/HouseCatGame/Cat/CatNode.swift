@@ -357,33 +357,24 @@ public final class CatNode: SKNode {
         placeShadow()
     }
 
-    /// Turns the moving puppet to another view with a quick cross-fade (front to side
-    /// as it reaches the camera); a change of facing alone flips at once.
+    /// Turns the moving puppet to another view: the new view takes over at once with a quick squash across, as a
+    /// body turning (a cross-fade showed both views, a second cat, for a moment); a change of facing alone flips.
     public func turn(to newView: View, facingRight: Bool, duration: TimeInterval = Tuning.Puppet.turnSeconds) {
-        guard newView != view, pose == nil, let old = puppets[view], let new = puppets[newView] else {
+        guard newView != view, pose == nil, puppets[view] != nil, let new = puppets[newView] else {
             show(newView, facingRight: facingRight)
             return
         }
-        restoreEyes()
         let oldView = view
         let keep = cycle
-        stopCycle()
+        show(newView, facingRight: facingRight)
+        resetPose(oldView)
         cycle = keep
-        view = newView
-        self.facingRight = facingRight
-        new.isHidden = false
-        new.xScale = facingRight ? -1 : 1
-        new.alpha = 0
-        new.zPosition = 0.02 // over the old one while it fades
-        poseNode.xScale = new.xScale
-        fade(new, to: 1, duration: duration * Self.overlap)
-        fade(old, to: 0, duration: duration * Self.overlap, after: duration * (1 - Self.overlap)) { [weak self] in
-            old.isHidden = true
-            old.alpha = 1
-            new.zPosition = 0
-            self?.resetPose(oldView)
-        }
-        placeShadow()
+        let flip: CGFloat = facingRight ? -1 : 1
+        new.removeAction(forKey: "turn")
+        new.xScale = flip * CGFloat(Tuning.Puppet.turnSquash)
+        let settle = SKAction.scaleX(to: flip, duration: duration)
+        settle.timingMode = .easeOut
+        new.run(settle, withKey: "turn")
     }
 
     private static let overlap = Tuning.Puppet.fadeOverlap

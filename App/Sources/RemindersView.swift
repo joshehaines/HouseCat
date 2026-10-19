@@ -172,42 +172,102 @@ struct WidgetGuide: View {
 
 /// After the first feed: may the cat send reminders? (Josh, 18 Oct: permission priming in the cat's voice.) It
 /// shows a reminder as it would arrive, with a real line from the cat, before iOS asks; Not now asks nothing.
+/// Redrawn as a card that stands out from the room (Josh, 19 Oct: it faded into the light floor and looked plain):
+/// a warm header with the bell, the sample reminder on a dusk-blue "Lock Screen", what it is for in three lines,
+/// and one big button.
 struct RemindersCard: View {
     let catName: String
     let done: () -> Void
     @State private var sample: String?
+    @State private var ringing = false
+    @Environment(\.controlFeedback) private var feedback
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack(spacing: 8) {
-                PaintedIcon("bell_for_notifications", size: 34)
-                Text("Shall \(catName) remind you?").font(Theme.title(22))
-            }
-            NotificationPreview(title: catName, message: sample ?? "Breakfast? The bowl is looking very empty from here.")
-            Text(
-                "Like this: at breakfast if the bowl is empty, and when there's a present waiting. Only at the times you pick; change them any time from \(catName)'s profile."
-            )
-            .font(.subheadline)
-            .foregroundStyle(Theme.inkSoft)
-            .fixedSize(horizontal: false, vertical: true)
-            HStack(spacing: 10) {
-                Spacer()
-                HUDButton("Not now", action: done)
-                HUDButton("Remind me", icon: "bell_for_notifications", prominent: true) {
-                    Task {
-                        await Reminders.ask()
+        VStack(spacing: 0) {
+            header
+            VStack(alignment: .leading, spacing: 14) {
+                NotificationPreview(
+                    title: catName,
+                    message: sample ?? "Breakfast? The bowl is looking very empty from here."
+                )
+                .padding(14)
+                .background(
+                    RoundedRectangle(cornerRadius: 22, style: .continuous)
+                        .fill(LinearGradient(
+                            colors: [Color(red: 0.25, green: 0.33, blue: 0.5), Color(red: 0.45, green: 0.36, blue: 0.55)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ))
+                )
+                VStack(alignment: .leading, spacing: 8) {
+                    reason("feed_bowl", "At breakfast, if the bowl is still empty")
+                    reason("gift_box_with_a_ribbon", "When \(catName) has a present waiting for you")
+                    reason("clock", "Only at the times you pick, never more")
+                }
+                HStack(spacing: 12) {
+                    Button("Not now") {
+                        feedback.tap()
                         done()
                     }
+                    .font(.headline)
+                    .foregroundStyle(Theme.inkSoft)
+                    .padding(.horizontal, 12)
+                    Spacer(minLength: 0)
+                    ChunkyButton("Remind me") {
+                        Task {
+                            await Reminders.ask()
+                            done()
+                        }
+                    }
                 }
+                .padding(.top, 4)
             }
+            .padding(20)
         }
-        .padding(20)
-        .frame(maxWidth: 480)
-        .paper(RoundedRectangle(cornerRadius: 24, style: .continuous))
+        .frame(maxWidth: 500)
+        .background(RoundedRectangle(cornerRadius: 28, style: .continuous).fill(Theme.cream))
+        .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 28, style: .continuous)
+                .strokeBorder(LinearGradient(colors: [GameHUD.gold, GameHUD.deepGold], startPoint: .top, endPoint: .bottom), lineWidth: 4)
+        )
+        .shadow(color: .black.opacity(0.35), radius: 24, y: 10)
         .onAppear {
             Reminders.asked = true
             let session = GameSession.shared
             sample = session.reminderLine("feed.nag_morning", id: "preview", at: session.now())
+            withAnimation(.easeInOut(duration: 0.12).repeatCount(5, autoreverses: true).delay(0.4)) { ringing = true }
+        }
+    }
+
+    /// The bell, swinging as the card arrives, and the question, on a warm band.
+    private var header: some View {
+        HStack(spacing: 14) {
+            PaintedIcon("bell_for_notifications", size: 56)
+                .rotationEffect(.degrees(ringing ? 14 : -10), anchor: .top)
+                .shadow(color: .black.opacity(0.2), radius: 3, y: 2)
+            VStack(alignment: .leading, spacing: 2) {
+                Text("Shall \(catName) remind you?")
+                    .font(Theme.title(26))
+                    .foregroundStyle(.white)
+                    .fixedSize(horizontal: false, vertical: true)
+                Text("A nudge now and then, in \(catName)'s own words.")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(.white.opacity(0.9))
+            }
+            Spacer(minLength: 0)
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 16)
+        .frame(maxWidth: .infinity)
+        .background(LinearGradient(colors: [Theme.accent, GameHUD.deepGold], startPoint: .topLeading, endPoint: .bottomTrailing))
+    }
+
+    private func reason(_ icon: String, _ text: String) -> some View {
+        HStack(spacing: 10) {
+            PaintedIcon(icon, size: 26)
+            Text(text).font(.subheadline.weight(.medium)).foregroundStyle(Theme.ink)
+                .fixedSize(horizontal: false, vertical: true)
         }
     }
 }

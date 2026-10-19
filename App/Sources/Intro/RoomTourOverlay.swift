@@ -55,24 +55,54 @@ struct RoomTourOverlay: View {
         .ignoresSafeArea()
     }
 
-    /// Dark all over but the hole. Touches go through the hole only while the step waits for the player there;
-    /// a step with nothing to touch (stroke the cat) leaves the room free.
-    @ViewBuilder
+    /// Dark all over but the hole, and the parts of the room the player may not touch now: all of it while a step
+    /// is read; round the hole while the step waits for the player there; nothing while stroking the cat or
+    /// arranging a piece just placed. The blockers are always the same four views, resized and switched on or off
+    /// without animation: a blocker swapped out with a fade stayed behind, invisible, over the whole room after the
+    /// first step (Josh's iPad, 19 Oct: "Tap Feed" did nothing and no touch reached the room).
     private func shade(step: IntroFile.RoomStep, hole: CGRect?, in size: CGSize) -> some View {
         let full = CGRect(origin: .zero, size: size)
-        if let hole {
-            let path = Path { p in
+        let blocked: [CGRect] = if step.waitFor == nil {
+            [full]
+        } else if let hole, step.waitFor != .decorated {
+            Self.around(hole, in: full)
+        } else {
+            []
+        }
+        let dim = Path { p in
+            if let hole {
                 p.addRect(full)
                 p.addRoundedRect(in: hole, cornerSize: CGSize(width: 16, height: 16))
+            } else if step.waitFor == nil {
+                p.addRect(full)
             }
-            path.fill(Color.black.opacity(0.5), style: FillStyle(eoFill: true))
-                .contentShape(step.waitFor == nil ? Path(full) : path, eoFill: step.waitFor != nil)
-                .onTapGesture {}
-                // Arranging the piece just placed: the room stays free to drag in.
-                .allowsHitTesting(step.waitFor != .decorated)
-        } else if step.waitFor == nil {
-            Color.black.opacity(0.35).contentShape(Rectangle()).onTapGesture {}
         }
+        return ZStack {
+            dim.fill(Color.black.opacity(hole == nil ? 0.35 : 0.5), style: FillStyle(eoFill: true))
+                .allowsHitTesting(false)
+            ForEach(0 ..< 4, id: \.self) { index in
+                let block = index < blocked.count ? blocked[index] : .zero
+                Color.clear
+                    .contentShape(Rectangle())
+                    .onTapGesture {}
+                    .frame(width: block.width, height: block.height)
+                    .position(x: block.midX, y: block.midY)
+                    .allowsHitTesting(index < blocked.count)
+            }
+        }
+        .transaction { $0.animation = nil }
+    }
+
+    /// The parts of `full` round `hole`: above, below, and either side of it.
+    static func around(_ hole: CGRect, in full: CGRect) -> [CGRect] {
+        let hole = hole.intersection(full)
+        guard !hole.isNull else { return [full] }
+        return [
+            CGRect(x: full.minX, y: full.minY, width: full.width, height: hole.minY - full.minY),
+            CGRect(x: full.minX, y: hole.maxY, width: full.width, height: full.maxY - hole.maxY),
+            CGRect(x: full.minX, y: hole.minY, width: hole.minX - full.minX, height: hole.height),
+            CGRect(x: hole.maxX, y: hole.minY, width: full.maxX - hole.maxX, height: hole.height),
+        ].filter { $0.width > 0 && $0.height > 0 }
     }
 
     private func ring(_ rect: CGRect) -> some View {

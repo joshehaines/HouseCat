@@ -684,7 +684,9 @@ struct RoomScreen: View {
             .overlay {
                 if visit.askReminders {
                     ZStack {
-                        Color.black.opacity(0.35).ignoresSafeArea()
+                        // Dark enough to read as a question over the room, and a tap outside is Not now (Josh's
+                        // iPad, 19 Oct: the room seemed frozen behind a card he hadn't noticed).
+                        Color.black.opacity(0.5).ignoresSafeArea().onTapGesture { visit.askReminders = false }
                         RemindersCard(catName: visit.catName ?? "Your cat") { visit.askReminders = false }
                             .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
                             .padding(24)

@@ -43,6 +43,11 @@ struct PassView: View {
     var body: some View {
         GeometryReader { geometry in
             let s = Self.scale(for: geometry.size)
+            let insets = geometry.safeAreaInsets
+            // Close is drawn larger than its frame (scaleEffect); what it grows by on each side.
+            let grow = max(0, 18 * (0.9 * s - 1))
+            // Room so it never leaves the screen: a phone's safe area has room to spare, an iPad on its side none.
+            let lead = max(0, grow + 4 + 14 * s - insets.leading)
             ZStack {
                 LinearGradient(colors: [Color(red: 0.98, green: 0.95, blue: 0.9), Color(red: 0.95, green: 0.88, blue: 0.78)], startPoint: .top, endPoint: .bottom)
                     .ignoresSafeArea()
@@ -56,11 +61,14 @@ struct PassView: View {
                         }
                     }
                     .padding(.vertical, 10 * s)
+                    .padding(.leading, lead)
                     .overlay(alignment: .topLeading) {
-                        CloseButton(action: close).scaleEffect(s * 0.9).offset(x: -14 * s, y: -2 * s)
+                        // Over the hero's corner (it hung half off a 13-inch iPad on its side).
+                        CloseButton(action: close).scaleEffect(s * 0.9)
+                            .offset(x: lead - 14 * s, y: grow > 0 ? max(-2 * s, grow + 4 - insets.top) : -2 * s)
                     }
                     if showPremium {
-                        premiumPanel(info, s: s)
+                        premiumPanel(info, s: s, insets: insets)
                             .transition(.opacity.combined(with: .scale(scale: 0.96)))
                     }
                     if let celebration {
@@ -542,7 +550,7 @@ struct PassView: View {
 
     // MARK: Premium (the panel before buying)
 
-    private func premiumPanel(_ info: GameSession.PassInfo, s: CGFloat) -> some View {
+    private func premiumPanel(_ info: GameSession.PassInfo, s: CGFloat, insets: EdgeInsets) -> some View {
         let contents = PassRules.contents(of: info.season.paidTrack)
         let opens = info.openAtOnce.count
         let last = info.season.lastDay
@@ -624,10 +632,11 @@ struct PassView: View {
             .background(Self.premiumFill, in: RoundedRectangle(cornerRadius: 26 * s, style: .continuous))
             .overlay(RoundedRectangle(cornerRadius: 26 * s, style: .continuous).strokeBorder(GameHUD.deepGold, lineWidth: 2.5 * s))
             .overlay(alignment: .topTrailing) {
-                CloseButton { showPremium = false }.scaleEffect(s * 0.85).offset(x: 12 * s, y: -12 * s)
+                CloseButton { showPremium = false }.scaleEffect(s * 0.85).offset(x: 6 * s, y: -6 * s)
             }
-            .padding(.vertical, 12 * s)
-            .padding(.horizontal, 8 * s)
+            // Close sits over the panel's corner, so the panel keeps clear of a screen edge with no safe area.
+            .padding(.vertical, max(12 * s, 26 * s - insets.top))
+            .padding(.horizontal, max(8 * s, 24 * s - min(insets.leading, insets.trailing)))
         }
         .accessibilityAddTraits(.isModal)
     }

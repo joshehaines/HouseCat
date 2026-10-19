@@ -3,9 +3,15 @@ sections 1, 5 and 6). Run:  python3 -I tools/content/build_text.py
 
 Each context: (id, condition, aloof, velcro, gremlin, loaf); each personality is (meow, [variants]).
 Three variants per personality, except behaviour.idle (ten).
+
+Those JSON files are also edited by hand, so a file that differs from what the tables make is left as it is
+and the difference printed. Fold the hand edits into the tables; when the difference is only your own table
+edit, name the file to overwrite:  python3 -I tools/content/build_text.py --force lines.json
 """
+import difflib
 import json
 import os
+import sys
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
 OUT = os.path.join(ROOT, 'Content')
@@ -1616,6 +1622,119 @@ ctx('event.housewarming', "the Housewarming launch event",
               "New home. Comfy home. Party? No thanks.",
               "Party? I'll be the loaf in the corner."]))
 
+# ============================================================== wants
+ctx('want.bed', "the home has nowhere soft to sleep: the cat would love a bed (it sleeps on the floor meanwhile)",
+    ('grumble', ["The floor again. I'm sure a bed is on its way.",
+                 "I sleep on the boards. Like a monk. A neglected monk.",
+                 "A bed would not go amiss. I'm only saying."]),
+    ('long', ["A bed would be lovely. A big one. For both of us.",
+              "I'll sleep on the floor by you. A bed would be lovely, though.",
+              "Floor's fine! Bed would be finer. With you near."]),
+    ('grumble', ["No bed. I'll sleep wherever annoys you most.",
+                 "A bed is a fort with pillows. I want a fort.",
+                 "I've claimed the floor. I'd rather claim a bed."]),
+    ('grumble', ["Floor's hard. Bed's soft. Just saying.",
+                 "I could sleep anywhere. I'd like to sleep on a bed.",
+                 "Dreaming of a bed. Asleep on the floor."]))
+
+ctx('want.seat', "nothing comfy to sit on: the cat would love a seat",
+    ('short', ["There's nothing worth sitting on. I'll stand. Judgingly.",
+               "A chair would give me somewhere to ignore you from.",
+               "No seat. I'll sit on the floor and make a point of it."]),
+    ('trill', ["A sofa would be lovely. For us to sit on together!",
+               "Nowhere to snuggle up. A sofa would fix that.",
+               "If we had a seat, I'd sit on it. Next to you."]),
+    ('chirp', ["Nothing to sit on, nothing to shred. Dull.",
+               "A sofa would be a fine thing to destroy. I mean sit on.",
+               "A chair would be nice. I promise very little."]),
+    ('purr', ["Something comfy to sit on. That's all I ask.",
+              "A cushion. Even a small one.",
+              "Seat. Comfy. One day."]))
+
+ctx('want.scratcher', "no scratching post: the cat would love one (the sofa gets it meanwhile)",
+    ('short', ["The sofa will do for my claws. Unless offered better.",
+               "I'm sharpening on what's here. You know what you could do.",
+               "No post. My claws must be kept somehow."]),
+    ('trill', ["I'm sorry about the sofa! A post would help!",
+               "If I had a post, I'd only scratch that. Promise!",
+               "A scratching post would be lovely. I'd use it every day!"]),
+    ('chirp', ["No post. The sofa it is. Your choice, really.",
+               "No post, so the sofa gets it. Fair's fair.",
+               "I scratched the sofa. Then I scratched it again."]),
+    ('purr', ["Big stretch. On the sofa. Sorry.",
+              "A post would be a good stretch.",
+              "Claws need a scratch. Sofa's handy."]))
+
+ctx('want.hideaway', "no box or nook to hide in: the cat would love one",
+    ('silent', ["Nowhere to be alone. In my own home.",
+                "A box. Somewhere to not be seen. Is that so much?",
+                "I need somewhere to disappear to. Occasionally."]),
+    ('trill', ["A box would be fun! You could find me in it!",
+               "Somewhere cosy to hide, then pop out at you!",
+               "Hide and seek needs somewhere to hide!"]),
+    ('chirp', ["Nowhere to lie in wait. This is a problem.",
+               "A box. A base. A hiding place. A cat can dream.",
+               "How can I ambush you with nowhere to hide?"]),
+    ('purr', ["A box. To sit in. All day.",
+              "Somewhere snug and dark. For naps.",
+              "A cosy nook. That's the dream."]))
+
+ctx('want.perch', "nowhere up high: the cat would love a perch",
+    ('short', ["Nothing high to sit on. I'm on your level. Unbearable.",
+               "I need somewhere up high to look down from.",
+               "A shelf. A cat tree. Anything above it all."]),
+    ('trill', ["Somewhere high so I can see you from everywhere!",
+               "If I were up high, I could see you all the time!",
+               "A cat tree! I'd climb it and wave at you!"]),
+    ('chirp', ["Nothing to climb. Nothing to knock off. Tragic.",
+               "I need high ground. For strategy.",
+               "Something tall to climb, and I'd show you a trick."]),
+    ('purr', ["Up high is warm. I'd nap up high.",
+              "A shelf to snooze on. That's nice.",
+              "Somewhere above the floor. For naps."]))
+
+ctx('want.window', "nowhere to watch the world from: the cat would love a window seat or the like",
+    ('silent', ["Nowhere to watch the world from. I'll watch you instead.",
+                "I'd like a window seat. The view in here is limited.",
+                "The birds go unwatched. Someone should see to it."]),
+    ('trill', ["Somewhere to watch for you coming home!",
+               "A window seat! I could wait for you there!",
+               "I want to see outside! And then see you!"]),
+    ('chirp', ["No lookout post. The birds go unwatched.",
+               "I need somewhere to plot against the pigeons.",
+               "A window seat. For surveillance purposes."]),
+    ('purr', ["A sunny window spot would be perfect.",
+              "Watching the world from somewhere warm. One day.",
+              "Window. Sun. Nap. That's the plan."]))
+
+ctx('want.toy', "nothing to bat about: the cat would love something to play with",
+    ('short', ["Nothing to bat about. I'll bat at the air, I suppose.",
+               "I'm above toys. Mostly. Something small, perhaps.",
+               "I don't play. But if I did, I'd need something."]),
+    ('trill', ["Something to play with would be fun. Together!",
+               "A toy would be fun! Then you could watch me play!",
+               "Something to bat about! Then we can play!"]),
+    ('chirp', ["Nothing to knock over. I'll find something of yours.",
+               "I'm bored. Something to bat about would help. Or I'll improvise.",
+               "No toys. Your things will have to do."]),
+    ('purr', ["A toy. To bat once. Then nap.",
+              "Something small to bat about. Gently.",
+              "Play? Maybe. With something soft."]))
+
+ctx('want.met', "the home has just got something the cat wanted",
+    ('purr', ["Oh. That's actually what I wanted. Well done.",
+              "I'll accept this. Graciously.",
+              "You noticed. I'm almost touched."]),
+    ('trill', ["You got it for me! You're the best!",
+               "Exactly what I wanted! You know me so well!",
+               "For me? I love it! I love you!"]),
+    ('chirp', ["Yes. This. Now I can begin.",
+               "Finally. You're learning.",
+               "Excellent. The plan proceeds."]),
+    ('purr', ["Ooh. Mine. Trying it now.",
+              "Lovely. Just what I wanted.",
+              "Perfect. Settling in."]))
+
 
 # ============================================================== objectives
 def obj(oid, name, text, metric, target, beans, pp, ladder=None):
@@ -1780,17 +1899,43 @@ def main():
         for p in ('aloof', 'velcro', 'gremlin', 'loaf'):
             meow, variants = per[p]
             lines.append({"context": cid, "personality": p, "variants": variants, "meow": meow})
-    write('lines.json', {"version": 1, "placeholders": PLACEHOLDERS, "contexts": contexts, "lines": lines})
-    write('objectives.json', {"version": 1, "daily": DAILY, "weekly": WEEKLY, "achievements": ACHIEVEMENTS})
-    write('minigames.json', MINIGAMES)
+    files = [('lines.json', {"version": 1, "placeholders": PLACEHOLDERS, "contexts": contexts, "lines": lines}),
+             ('objectives.json', {"version": 1, "daily": DAILY, "weekly": WEEKLY, "achievements": ACHIEVEMENTS}),
+             ('minigames.json', MINIGAMES)]
+    names = [name for name, _ in files]
+    force = [os.path.basename(a) for a in sys.argv[sys.argv.index('--force') + 1:]] if '--force' in sys.argv else []
+    if '--force' in sys.argv and not force or any(n not in names for n in force):
+        sys.exit('Name the files to overwrite: --force ' + ' '.join(names))
+    kept = []
+    for name, obj_ in files:
+        text = json.dumps(obj_, ensure_ascii=False, indent=2) + '\n'
+        path = os.path.join(OUT, name)
+        old = open(path, encoding='utf-8').read() if os.path.exists(path) else None
+        if old == text:
+            print('unchanged', os.path.join('Content', name))
+        elif old is None or name in force:
+            os.makedirs(OUT, exist_ok=True)
+            with open(path, 'w', encoding='utf-8') as f:
+                f.write(text)
+            print('wrote', os.path.join('Content', name))
+        else:
+            report(name, old, text)
+            kept.append(name)
+    if kept:
+        sys.exit('Left as they are: %s. Fold any hand edits in them into the tables; when the difference is only '
+                 'your own table edit, rerun with --force %s.'
+                 % (', '.join('Content/' + n for n in kept), ' '.join(kept)))
 
 
-def write(name, obj_):
-    os.makedirs(OUT, exist_ok=True)
-    with open(os.path.join(OUT, name), 'w', encoding='utf-8') as f:
-        json.dump(obj_, f, ensure_ascii=False, indent=2)
-        f.write('\n')
-    print('wrote', os.path.join('Content', name))
+def report(name, old, text):
+    diff = list(difflib.unified_diff(old.splitlines(), text.splitlines(), lineterm='', n=0))
+    body = [d for d in diff if d[:1] in '+-' and d[:3] not in ('+++', '---')]
+    added = sum(d.startswith('+') for d in body)
+    print('Content/%s would change: %d lines added, %d removed' % (name, added, len(body) - added), file=sys.stderr)
+    for d in body[:12]:
+        print('  ' + d[:110], file=sys.stderr)
+    if len(body) > 12:
+        print('  ...', file=sys.stderr)
 
 
 if __name__ == '__main__':

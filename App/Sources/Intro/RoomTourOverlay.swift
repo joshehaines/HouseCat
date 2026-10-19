@@ -12,6 +12,7 @@ struct RoomTourOverlay: View {
     let targets: [String: Anchor<CGRect>]
     /// Where the cat is now, for a step about the cat.
     var catPoint: () -> CGPoint? = { nil }
+    @Environment(\.hudScale) private var scale
 
     var body: some View {
         GeometryReader { proxy in
@@ -37,7 +38,7 @@ struct RoomTourOverlay: View {
                         // stands about 32 points above the card).
                         if frame.map({ $0.midY > proxy.size.height / 2 }) ?? (step.waitFor != nil) {
                             bubble(step)
-                                .padding(.top, targets["plaque"].map { max(0, proxy[$0].maxY + 26) } ?? 0)
+                                .padding(.top, targets["plaque"].map { max(0, proxy[$0].maxY + 26 * scale) } ?? 0)
                             Spacer()
                         } else {
                             Spacer()
@@ -118,6 +119,8 @@ struct RoomTourOverlay: View {
             }
         }
         .frame(maxWidth: 640)
+        // Larger on an iPad, with the controls.
+        .zoomed(scale)
     }
 
     private func text(_ step: IntroFile.RoomStep) -> String {

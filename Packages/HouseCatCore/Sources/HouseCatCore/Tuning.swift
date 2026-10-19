@@ -1079,8 +1079,17 @@ public enum Tuning {
     }
 
     public enum Stage {
-        /// The room's controls are drawn this much larger on an iPad.
-        public static let iPadHUDScale = 1.3
+        /// On an iPad the room's controls and its cards are drawn larger, as a whole, by how much bigger the window is
+        /// than this (points; the widest cards need the width), in steps of 0.05 to `hudLargestScale` (the shop's):
+        /// 1.6 on a 13-inch iPad on its side, 1.4 held upright. A phone keeps scale 1.
+        public static let hudDesignWidth = 720.0
+        public static let hudDesignHeight = 500.0
+        public static let hudLargestScale = 1.6
+        /// A sheet over the room on an iPad (the profile, the settings, the book): this size (points) at the
+        /// controls' scale, kept `sheetMargin` inside the window.
+        public static let sheetWidth = 700.0
+        public static let sheetHeight = 500.0
+        public static let sheetMargin = 40.0
         /// The room sits this far above the bottom of the screen (points), clear of the room switcher (the
         /// controls are in the corners, over the room, as a builder game's are).
         public static let careBarInset = 34.0

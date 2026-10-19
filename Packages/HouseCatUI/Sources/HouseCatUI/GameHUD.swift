@@ -372,3 +372,51 @@ public struct ResourceBar: View {
         .accessibilityLabel(label)
     }
 }
+
+public extension View {
+    /// Drawn `scale` times larger as a whole (an iPad's `hudScale`): laid out in a space `scale` times smaller, then
+    /// enlarged, so a card drawn for a phone on its side keeps its words, pictures, padding and corners in proportion.
+    /// The controls inside draw at scale 1 (the zoom enlarges them).
+    func zoomed(_ scale: CGFloat) -> some View {
+        Zoom(scale: scale) { environment(\.hudScale, 1).scaleEffect(scale) }
+    }
+
+    /// A sheet's content `zoomed` and the sheet `size` (an iPad's); without a size the sheet is the system's own.
+    @ViewBuilder
+    func zoomedSheet(_ scale: CGFloat, size: CGSize?) -> some View {
+        if let size {
+            zoomed(scale).presentationSizing(SheetSize(size: size))
+        } else {
+            self
+        }
+    }
+}
+
+/// Lays its content out in a space `scale` times smaller and takes `scale` times its size (the content enlarges itself).
+private struct Zoom: Layout {
+    let scale: CGFloat
+
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache _: inout ()) -> CGSize {
+        let sizes = subviews.map { $0.sizeThatFits(inside(proposal)) }
+        return CGSize(width: (sizes.map(\.width).max() ?? 0) * scale, height: (sizes.map(\.height).max() ?? 0) * scale)
+    }
+
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache _: inout ()) {
+        for subview in subviews {
+            subview.place(at: CGPoint(x: bounds.midX, y: bounds.midY), anchor: .center, proposal: inside(proposal))
+        }
+    }
+
+    private func inside(_ proposal: ProposedViewSize) -> ProposedViewSize {
+        ProposedViewSize(width: proposal.width.map { $0 / scale }, height: proposal.height.map { $0 / scale })
+    }
+}
+
+/// A sheet of a set size.
+private struct SheetSize: PresentationSizing {
+    let size: CGSize
+
+    func proposedSize(for _: PresentationSizingRoot, context _: PresentationSizingContext) -> ProposedViewSize {
+        ProposedViewSize(size)
+    }
+}

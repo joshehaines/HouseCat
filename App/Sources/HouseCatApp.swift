@@ -402,9 +402,23 @@ struct RoomScreen: View {
         }
     }
 
-    /// Larger controls on an iPad (not on a big iPhone on its side, which also says its width is regular).
+    /// Larger controls and cards on an iPad, by the window's size as the shop scales (`Tuning.Stage.hudDesignWidth`);
+    /// never on a phone (a big iPhone on its side also says its width is regular).
     private var hudScale: CGFloat {
-        UIDevice.current.userInterfaceIdiom == .pad ? Tuning.Stage.iPadHUDScale : 1
+        guard UIDevice.current.userInterfaceIdiom == .pad else { return 1 }
+        let fit = min(window.width / Tuning.Stage.hudDesignWidth, window.height / Tuning.Stage.hudDesignHeight)
+        return (min(Tuning.Stage.hudLargestScale, max(1, fit)) * 20).rounded(.down) / 20
+    }
+
+    /// A sheet over the room (the profile, the settings, the book) on an iPad: drawn at the controls' scale, as large
+    /// as the window allows. A phone shows the system's own.
+    private var sheetSize: CGSize? {
+        guard UIDevice.current.userInterfaceIdiom == .pad else { return nil }
+        let margin = 2 * Tuning.Stage.sheetMargin
+        return CGSize(
+            width: min(Tuning.Stage.sheetWidth * hudScale, window.width - margin),
+            height: min(Tuning.Stage.sheetHeight * hudScale, window.height - margin)
+        )
     }
 
     /// The room sits above the care buttons along the bottom, so the cat coming to greet you is never under them.
@@ -418,6 +432,8 @@ struct RoomScreen: View {
 
     /// The room and its controls.
     private var hud: some View {
+    /// The window's size (the room fills it), for the scale of the controls and cards on an iPad.
+    @State private var window = CGSize.zero
         RoomView(
             scene: visit.scene,
             label: visit.accessibilityDescription,
@@ -461,6 +477,7 @@ struct RoomScreen: View {
             // The controls, laid out as a builder game lays out its base (Josh, 18 Oct; 19 Oct: out to the edges,
             // as Clash of Clans does, and fewer of them): the player's plaque top left with the one menu under it
             // (the rooms, the map, the book, the pass), the Beans and streak bars top right, the care actions bottom
+            .onGeometryChange(for: CGSize.self) { $0.size } action: { window = $0 }
             // left, Decorate and the Shop bottom right. Nothing halfway down a side, where the Dynamic Island is in
             // landscape.
             .overlay {
@@ -475,6 +492,7 @@ struct RoomScreen: View {
                 AnyHashable(profileVersion),
             ]) {
                 portrait = GameSession.shared.cat.flatMap { CatScreens.headshot($0.look) }.map { Image(decorative: $0, scale: 1) }
+                    .zoomed(hudScale)
             }
             .overlay(alignment: .bottom) {
                 if visit.decorating {
@@ -543,6 +561,12 @@ struct RoomScreen: View {
                 visit.openGame = nil
                 if id == "picker" {
                     choosingGame = true
+            .onChange(of: hudScale) {
+                // An iPad turned or its window resized: the room lifts to match.
+                guard visit.ready, let room = visit.scene as? RoomScene else { return }
+                room.bottomInset = visit.decorating ? DecorateTray.height(scale: hudScale)
+                    : visit.previewing != nil ? RoomLookBar.height * hudScale : restInset
+            }
                 } else if let game = GameWorld.content?.minigames.games.first(where: { $0.id == id }) {
                     playing = PlayRound(game: game)
                 }
@@ -626,11 +650,13 @@ struct RoomScreen: View {
                         Color.black.opacity(0.35).ignoresSafeArea()
                         RemindersCard(catName: visit.catName ?? "Your cat") { visit.askReminders = false }
                             .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
+                    .zoomedSheet(hudScale, size: sheetSize)
                             .padding(24)
                     }
                     .transition(.opacity)
                 }
             }
+                    .zoomedSheet(hudScale, size: sheetSize)
             .animation(.easeOut(duration: 0.25), value: visit.askReminders)
             // The room tour, over everything in the room (Content/intro.json "room").
             .overlayPreferenceValue(TourTargets.self) { targets in
@@ -649,6 +675,7 @@ struct RoomScreen: View {
             .task(id: visit.ready && visit.scene is RoomScene) { await startTour() }
             // The once-only offer, a moment after the trust toast, never during the tour.
             // A goal met (today's, this week's or a milestone): a note over the room with what it paid.
+                        .zoomed(hudScale)
             .onChange(of: visit.stats, initial: true) {
                 let met = CatScreens.goalsMet()
                 defer { goalsMet = met }
@@ -661,6 +688,7 @@ struct RoomScreen: View {
             .onChange(of: visit.trustRose) { _, tier in
                 var due = tier.map { Offers.due(tier: $0, owned: store?.entitlements ?? .none) } ?? false
                 #if DEBUG
+                            .zoomed(hudScale)
                     due = due || ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"] == "offer"
                 #endif
                 guard due, !tour.isRunning else { return }
@@ -677,6 +705,7 @@ struct RoomScreen: View {
                         OfferCard(catName: visit.catName ?? "Your cat", store: store, content: GameWorld.content) {
                             offering = false
                             openShop(nil)
+                    .environment(\.hudScale, hudScale)
                         } close: {
                             offering = false
                         }
@@ -716,6 +745,7 @@ struct RoomScreen: View {
                         visit.say(session.line(HealthRules.line(goal)))
                         visit.refreshStats()
                     }
+                        .zoomed(hudScale)
                     await askForWidget()
                 }
             }
@@ -731,6 +761,7 @@ struct RoomScreen: View {
                         .padding(24)
                     }
                     .transition(.opacity)
+                        .zoomed(hudScale)
                 }
             }
             .animation(.easeOut(duration: 0.25), value: askingHealth)
@@ -763,6 +794,7 @@ struct RoomScreen: View {
                             playing = PlayRound(game: game)
                         } close: {
                             choosingGame = false
+                        .zoomed(hudScale)
                         }
                         .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
                         .padding(24)
@@ -800,6 +832,7 @@ struct RoomScreen: View {
             .animation(.spring(duration: 0.35), value: naps.endsAt)
             // When the nap's time is up while the room is open.
             .task(id: naps.endsAt) {
+                        .zoomed(hudScale)
                 guard let end = naps.endsAt else { return }
                 try? await Task.sleep(for: .seconds(max(0, end.timeIntervalSinceNow) + 0.5))
                 visit.checkNap()
@@ -817,6 +850,7 @@ struct RoomScreen: View {
                 }
             }
             .sheet(isPresented: $showBook) {
+                        .zoomed(hudScale)
                 GiftBookView(entries: CatScreens.book()) { showBook = false }
             }
             .fullScreenCover(item: $moving) { model in
@@ -825,6 +859,7 @@ struct RoomScreen: View {
                     model: model,
                     cost: state.moveCost,
                     canAfford: state.beans >= state.moveCost,
+                        .zoomed(hudScale)
                     cancel: { moving = nil }
                 ) { place, season in
                     GameSession.shared.placeHome(place, season: season)
@@ -852,6 +887,7 @@ struct RoomScreen: View {
     }
 
     /// The add-widget card, when it is due and nothing else is on screen (after the first feed, on day 3).
+                    .zoomedSheet(hudScale, size: sheetSize)
     private func askForWidget() async {
         try? await Task.sleep(for: .seconds(1.2))
         guard !Self.debugScreenRun, visit.ready, visit.scene is RoomScene, !tour.isRunning, !visit.askReminders, !askingHealth, !offering,
@@ -1132,7 +1168,8 @@ struct RoomScreen: View {
     }
 
     /// A card over the room, dimming it; a tap outside closes it when `close` is given.
-    /// Too tall for the screen (large text sizes), it scrolls rather than cut its words short.
+    /// Too tall for the screen (large text sizes), it scrolls rather than cut its words short. On an iPad it is drawn
+    /// larger as a whole, at the controls' scale.
     private func card(_ shown: Bool, close: (() -> Void)?, @ViewBuilder content: () -> some View) -> some View {
         ZStack {
             if shown {
@@ -1179,6 +1216,7 @@ struct RoomScreen: View {
                 case "streak": showStreak = true
                 case "pass": showPass = true
                 case "gifts": track = GameSession.shared.liveTrack()
+                .zoomed(hudScale)
                 case "shop": openShop(ProcessInfo.processInfo.environment["HOUSECAT_SHOP"].flatMap(ShopView.Section.init))
                 case "addwidget": await askForWidget()
                 case "together": showTogether = true

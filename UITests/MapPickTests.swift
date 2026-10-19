@@ -11,10 +11,10 @@ import XCTest
 final class MapPickTests: XCTestCase {
     private var shots = 0
 
-    private func launch() -> XCUIApplication {
+    private func launch(_ screen: String = "map") -> XCUIApplication {
         let app = XCUIApplication()
         app.launchEnvironment["HOUSECAT_SKIP_STORE"] = "1"
-        app.launchEnvironment["HOUSECAT_SCREEN"] = "map"
+        app.launchEnvironment["HOUSECAT_SCREEN"] = screen
         XCUIDevice.shared.orientation = ProcessInfo.processInfo.environment["ORIENTATION"] == "portrait" ? .portrait : .landscapeLeft
         app.launch()
         return app
@@ -121,6 +121,107 @@ final class MapPickTests: XCTestCase {
         XCTAssertTrue(waitUntil(timeout: 15) { liveHere.isEnabled }, "Manchester can be confirmed")
         sleep(3)
         snap("chose Manchester")
+    }
+
+    /// The world map as the menu opens it (`HOUSECAT_SCREEN=world`): the home with Move house, the other cats'
+    /// homes (a visit if they are open at this save's level), and moving as far as the "Move to …?" card, which is
+    /// left with Stay so the save keeps its home.
+    func testTheWorldMap() throws {
+        let app = launch("world")
+        let move = app.buttons["Move house"]
+        XCTAssertTrue(move.waitForExistence(timeout: 60), "the world map")
+        sleep(3)
+        snap("world")
+        let locked = app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH 'Other cats'")).firstMatch
+        let homes = app.buttons.matching(NSPredicate(format: "label ENDSWITH %@", "'s home"))
+        XCTAssertTrue(waitUntil(timeout: 10) { homes.count > 0 }, "the other cats' homes are on the globe")
+        if locked.exists {
+            snap("locked")
+        } else if let home = homes.allElementsBoundByIndex.first(where: { $0.isHittable }) {
+            front(app)
+            home.tap()
+            let visit = app.buttons["Visit"]
+            XCTAssertTrue(visit.waitForExistence(timeout: 5), "a home's card")
+            sleep(2)
+            snap("a home")
+            visit.tap()
+            let back = app.buttons["Back to the map"]
+            XCTAssertTrue(back.waitForExistence(timeout: 10), "the visit")
+            sleep(3)
+            snap("visit")
+            back.tap()
+            XCTAssertTrue(move.waitForExistence(timeout: 10), "back on the world map")
+        }
+
+        // Move house: the place picker, then the card that asks.
+        front(app)
+        move.tap()
+        let paris = app.buttons["Paris"]
+        XCTAssertTrue(paris.waitForExistence(timeout: 5), "choosing a new place")
+        paris.tap()
+        let moveHere = app.buttons.matching(NSPredicate(format: "label BEGINSWITH 'Move here'")).firstMatch
+        XCTAssertTrue(waitUntil(timeout: 15) { moveHere.exists && moveHere.isEnabled }, "Paris can be moved to")
+        sleep(2)
+        snap("moving to Paris")
+        moveHere.tap()
+        let moveTo = app.buttons.matching(NSPredicate(format: "label BEGINSWITH 'Move to Paris'")).firstMatch
+        XCTAssertTrue(moveTo.waitForExistence(timeout: 5), "the card that asks before moving")
+        sleep(1)
+        snap("move to Paris?")
+        let stay = app.buttons.matching(NSPredicate(format: "label BEGINSWITH 'Stay in' OR label == 'Not yet'")).firstMatch
+        XCTAssertTrue(stay.exists, "a way to stay")
+        stay.tap()
+        app.buttons["Back"].tap()
+        XCTAssertTrue(move.waitForExistence(timeout: 5), "back on the world map, the home where it was")
+    }
+
+    /// The house step's warning that the home changes with the seasons and the time of day
+    /// (`HOUSECAT_SCREEN=homes`): under the homes on an iPad; on a phone, a card when Make it home is tapped, left with
+    /// Back.
+    func testTheHomeWarning() throws {
+        let app = launch("homes")
+        let makeItHome = app.buttons["Make it home"]
+        XCTAssertTrue(makeItHome.waitForExistence(timeout: 60), "the house step")
+        sleep(3)
+        snap("homes")
+        if app.descendants(matching: .any)["homeWarning"].exists {
+            // An iPad: the warning is under the homes, and Make it home would choose (and change the save).
+            return
+        }
+        front(app)
+        makeItHome.tap()
+        XCTAssertTrue(app.buttons["confirmHome"].waitForExistence(timeout: 5), "the card on a phone")
+        sleep(1)
+        snap("before you move in")
+        app.buttons["Back"].firstMatch.tap()
+        let confirm = app.buttons["confirmHome"]
+        XCTAssertTrue(waitUntil(timeout: 3) { !confirm.exists }, "Back closes the card")
+    }
+
+    /// Move house from the cat's profile (Josh couldn't find it): the room, the profile's home row, then the map
+    /// choosing a new place, closed again. Needs a save with a cat.
+    func testMoveHouseFromTheProfile() throws {
+        let app = launch("")
+        let cat = app.buttons.matching(NSPredicate(format: "label ENDSWITH %@", ", your cat")).firstMatch
+        XCTAssertTrue(cat.waitForExistence(timeout: 60), "the room")
+        sleep(3)
+        front(app)
+        cat.tap()
+        let move = app.buttons["Move house"]
+        XCTAssertTrue(move.waitForExistence(timeout: 10), "the profile's home row")
+        sleep(1)
+        snap("profile")
+        move.tap()
+        XCTAssertTrue(app.buttons["Paris"].waitForExistence(timeout: 15), "the map, choosing a new place")
+        sleep(2)
+        snap("move house")
+        app.buttons["Close"].firstMatch.tap()
+        XCTAssertTrue(cat.waitForExistence(timeout: 10), "back in the room")
+    }
+
+    /// Puts a shared iPad back on its side after an upright run (the orientation stays after a test ends).
+    func testTurnBack() {
+        XCUIDevice.shared.orientation = .landscapeLeft
     }
 
     /// Other sessions' builds sometimes open over the app on a shared simulator: back to it first.

@@ -53,7 +53,7 @@ struct HouseCatApp: App {
                     }
                     .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
                 } else if let placing {
-                    WorldMapView(model: placing, cost: 0, canAfford: true, cancel: nil) { place, season in
+                    WorldMapView(model: placing, cost: 0, canAfford: true, cancel: nil) { place, season, _ in
                         GameSession.shared.placeHome(place, season: season)
                         self.placing = nil
                         choosingHome = place
@@ -203,10 +203,12 @@ struct HouseCatApp: App {
             }
             // Screenshot runs: HOUSECAT_SCREEN=homes opens the house step, painted for HOUSECAT_BIOME.
             let environment = ProcessInfo.processInfo.environment
-            // HOUSECAT_SCREEN=map opens the globe (HOUSECAT_SEARCH=<place> searches and flies there).
-            if environment["HOUSECAT_SCREEN"] == "map" {
+            // HOUSECAT_SCREEN=map opens the globe (HOUSECAT_SEARCH=<place> searches and flies there); =world opens it
+            // as the menu does, with the home, Move house and the other cats' homes.
+            if environment["HOUSECAT_SCREEN"] == "map" || environment["HOUSECAT_SCREEN"] == "world" {
                 let session = GameSession.shared
-                let model = WorldMapModel(mode: .first, current: session.state(at: session.now()))
+                let mode: WorldMapModel.Mode = environment["HOUSECAT_SCREEN"] == "world" ? .world : .first
+                let model = WorldMapModel(mode: mode, current: session.state(at: session.now()))
                 placing = model
                 if let wanted = environment["HOUSECAT_SEARCH"] {
                     model.query = wanted
@@ -404,6 +406,8 @@ struct RoomScreen: View {
     @State private var showSettings = false
     /// The profile's Reminders button: the settings open once the profile has gone.
     @State private var settingsNext = false
+    /// The profile's Move house: the map opens, choosing a new place, once the profile has gone.
+    @State private var moveNext = false
     @State private var showBook = false
     @State private var choosingGame = false
     @State private var playing: PlayRound?
@@ -646,6 +650,11 @@ struct RoomScreen: View {
                     settingsNext = false
                     showSettings = true
                 }
+                if moveNext {
+                    moveNext = false
+                    let session = GameSession.shared
+                    moving = WorldMapModel(mode: .move, current: session.state(at: session.now()))
+                }
             }) {
                 if let info = CatScreens.profile() {
                     CatProfileView(
@@ -674,6 +683,11 @@ struct RoomScreen: View {
                             visit.dressCat()
                             profileVersion += 1
                             WidgetBridge.publish()
+                        },
+                        home: CatScreens.homeLine(),
+                        moveHouse: {
+                            moveNext = true
+                            showProfile = false
                         },
                         settings: {
                             settingsNext = true
@@ -932,9 +946,11 @@ struct RoomScreen: View {
                     model: model,
                     cost: state.moveCost,
                     canAfford: state.beans >= state.moveCost,
-                    cancel: { moving = nil }
-                ) { place, season in
-                    GameSession.shared.placeHome(place, season: season)
+                    cancel: { moving = nil },
+                    seasonChanged: { GameSession.shared.setSeason($0) },
+                    onVisit: { GameSession.shared.saw("home.\($0)") }
+                ) { place, season, style in
+                    GameSession.shared.placeHome(place, season: season, style: style)
                     moving = nil
                     restart()
                 }
@@ -1168,7 +1184,7 @@ struct RoomScreen: View {
             RoomMenu.Item(id: "map", title: "Map", icon: "map_pin") {
                 showMenu = false
                 GameSession.shared.saw("map")
-                moving = WorldMapModel(mode: .move, current: session.state(at: session.now()))
+                moving = WorldMapModel(mode: .world, current: session.state(at: session.now()))
             },
             RoomMenu.Item(id: "book", title: "Book", icon: "collection_book") {
                 showMenu = false

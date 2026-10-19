@@ -170,6 +170,13 @@ struct GlobeMarker: Identifiable, Equatable {
     var highlighted = false
     /// When it was put there: a pin drops in from above.
     var placed = Date.distantPast
+    /// A home already visited (a tick), or one not open yet (a padlock, the house greyed).
+    var badge: Badge?
+
+    enum Badge: Equatable {
+        case visited
+        case locked
+    }
 }
 
 /// A tap on the globe: the place under the finger, the city whose name or dot was tapped (if any), and how far a
@@ -209,6 +216,8 @@ struct SpinningGlobe: View {
     /// A finger came down on it: a drag, a pinch or a tap begins.
     var onTouch: (() -> Void)?
     var onTap: ((GlobeTap) -> Void)?
+    /// A tap on a home marker (not the pin), by its id; such a tap is not passed to `onTap`.
+    var onMarker: ((String) -> Void)?
 
     @State private var scene: GlobeScene?
     /// The drag's translation last time it moved the globe; nil when no finger is down.
@@ -275,7 +284,8 @@ struct SpinningGlobe: View {
         }
         .onChange(of: shift) { _, shift in camera.place(shift: shift, lift: lift) }
         .onChange(of: lift) { _, lift in camera.place(shift: shift, lift: lift) }
-        .accessibilityElement()
+        // With homes to visit, each is a button VoiceOver can find (and a UI test can tap); otherwise one element.
+        .accessibilityElement(children: onMarker == nil ? .ignore : .contain)
         .accessibilityLabel("The world. Drag to spin it, pinch to zoom, tap to choose a place.")
     }
 
@@ -332,10 +342,28 @@ struct SpinningGlobe: View {
         // The dot on the city, the name under it.
         .position(x: label.at.x, y: label.at.y + 11)
         .allowsHitTesting(false)
+        .accessibilityHidden(true)
+    }
+
+    /// The markers whose names fit: the highlighted one first, then any whose name is clear of those already named.
+    private func named(_ markers: [GlobeMarker], pose: (orientation: GlobeOrientation, zoom: Double), centre: CGPoint, radius: CGFloat) -> Set<String> {
+        var placed: [CGPoint] = []
+        var names: Set<String> = []
+        for marker in markers.sorted(by: { $0.highlighted && !$1.highlighted }) where marker.title != nil {
+            let p = pose.orientation.project(latitude: marker.latitude, longitude: marker.longitude)
+            guard p.depth > 0.05 else { continue }
+            let at = point(p, centre: centre, radius: radius)
+            if placed.allSatisfy({ abs($0.x - at.x) > 64 || abs($0.y - at.y) > 40 }) {
+                placed.append(at)
+                names.insert(marker.id)
+            }
+        }
+        return names
     }
 
     private func marks(pose: (orientation: GlobeOrientation, zoom: Double), centre: CGPoint, radius: CGFloat, time: Date) -> some View {
-        ForEach(markers) { marker in
+        let names = named(markers, pose: pose, centre: centre, radius: radius)
+        return ForEach(markers) { marker in
             let p = pose.orientation.project(latitude: marker.latitude, longitude: marker.longitude)
             if p.depth > 0.05 {
                 let at = point(p, centre: centre, radius: radius)
@@ -356,9 +384,11 @@ struct SpinningGlobe: View {
                                     marker.highlighted ? Theme.accent : Theme.rim,
                                     lineWidth: marker.highlighted ? 3 : 1
                                 ))
+                                .saturation(marker.badge == .locked ? 0.15 : 1)
+                                .overlay(alignment: .topTrailing) { badge(marker.badge) }
                                 .scaleEffect(marker.highlighted ? pulse : 1)
                                 .shadow(color: .black.opacity(0.35), radius: 4, y: 2)
-                            if let title = marker.title {
+                            if let title = marker.title, names.contains(marker.id) {
                                 Text(title)
                                     .font(.system(size: 12, weight: .bold))
                                     .foregroundStyle(.white)
@@ -371,7 +401,28 @@ struct SpinningGlobe: View {
                 .opacity(min(1, p.depth * 5))
                 .position(at)
                 .allowsHitTesting(false)
+                .accessibilityHidden(onMarker == nil || marker.kind == .pin)
+                .accessibilityLabel(marker.title.map { "\($0)'s home" } ?? "A home")
+                .accessibilityAddTraits(.isButton)
+                .accessibilityAction { onMarker?(marker.id) }
             }
+        }
+    }
+
+    @ViewBuilder private func badge(_ badge: GlobeMarker.Badge?) -> some View {
+        switch badge {
+        case .visited:
+            Image(systemName: "checkmark")
+                .font(.system(size: 10, weight: .black))
+                .foregroundStyle(.white)
+                .frame(width: 18, height: 18)
+                .background(Circle().fill(Color(red: 0.27, green: 0.63, blue: 0.28)))
+                .overlay(Circle().strokeBorder(.white, lineWidth: 1.5))
+                .offset(x: 6, y: -6)
+        case .locked:
+            PaintedIcon("padlock", size: 20).offset(x: 6, y: -6)
+        case nil:
+            EmptyView()
         }
     }
 
@@ -454,6 +505,12 @@ struct SpinningGlobe: View {
 
     private func tap(pose: (orientation: GlobeOrientation, zoom: Double), centre: CGPoint, radius: CGFloat, named: [Placed]) -> some Gesture {
         SpatialTapGesture().onEnded { value in
+            // A home marker under the finger is that home.
+            if let onMarker, let home = Self.marker(at: value.location, among: markers, pose: pose, centre: centre, radius: radius) {
+                onTouch?()
+                onMarker(home)
+                return
+            }
             let city = Self.city(at: value.location, among: named)
             let x = Double((value.location.x - centre.x) / radius), y = Double(-(value.location.y - centre.y) / radius)
             let under: (latitude: Double, longitude: Double)? = pose.orientation.place(x: x, y: y)
@@ -469,6 +526,28 @@ struct SpinningGlobe: View {
 }
 
 extension SpinningGlobe {
+    /// The home marker (not the pin) under a finger, on the side of the globe facing it.
+    fileprivate static func marker(
+        at point: CGPoint,
+        among markers: [GlobeMarker],
+        pose: (orientation: GlobeOrientation, zoom: Double),
+        centre: CGPoint,
+        radius: CGFloat
+    ) -> String? {
+        var best: (id: String, distance: Double)?
+        for marker in markers where marker.kind != .pin {
+            let p = pose.orientation.project(latitude: marker.latitude, longitude: marker.longitude)
+            guard p.depth > 0.05 else { continue }
+            let dx = Double(centre.x) + p.x * Double(radius) - Double(point.x)
+            let dy = Double(centre.y) - p.y * Double(radius) - Double(point.y)
+            let distance = (dx * dx + dy * dy).squareRoot()
+            if distance < Tuning.World.globeTapReach, distance < best?.distance ?? .infinity {
+                best = (marker.id, distance)
+            }
+        }
+        return best?.id
+    }
+
     /// The city whose dot or name is under a finger (within `globeTapReach` points of either).
     fileprivate static func city(at point: CGPoint, among named: [Placed]) -> CitiesFile.City? {
         var best: (city: CitiesFile.City, distance: Double)?

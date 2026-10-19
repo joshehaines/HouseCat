@@ -15,8 +15,11 @@ final class WorldMapModel: Identifiable {
     enum Mode {
         /// Onboarding: where you live, after the cat.
         case first
-        /// Moving home later (free once, then Beans).
+        /// Choosing a new place to move to (free once, then Beans), asked about before it happens.
         case move
+        /// The world map from the menu (Josh, 19 Oct): your home with Move house, and from a level the other cats'
+        /// homes to visit.
+        case world
     }
 
     /// A suggestion as you type: a listed city (at once, and without a connection) or one of Apple Maps'.
@@ -50,7 +53,9 @@ final class WorldMapModel: Identifiable {
         var zoom: Double?
     }
 
-    let mode: Mode
+    private(set) var mode: Mode
+    /// Moving began on the world map, so cancelling it goes back there rather than closing the map.
+    private(set) var movingFromWorld = false
     var pin: (latitude: Double, longitude: Double)?
     var placeName = ""
     var timeZone: TimeZone?
@@ -76,8 +81,18 @@ final class WorldMapModel: Identifiable {
     let suggestions: [CitiesFile.City]
     @ObservationIgnored private let mask: Raster?
     @ObservationIgnored let cities: CitiesFile?
-    @ObservationIgnored private let home: HomePlace?
-    @ObservationIgnored private let homeSeason: SeasonSetting
+    /// The home as it is (before any move), and its look.
+    let home: HomePlace?
+    @ObservationIgnored private(set) var homeSeason: SeasonSetting
+    let homeStyle: HouseStyle
+    /// Other cats' homes (the intro's tour), the one tapped, the level they open at and the player's, and the
+    /// ones visited.
+    let homes: [IntroFile.Stop]
+    var selectedHome: IntroFile.Stop?
+    let unlockLevel: Int
+    let level: Int
+    let xpToUnlock: Int
+    var visited: Set<String>
     /// Each choice asks Apple Maps afresh; an answer to an older one is dropped.
     @ObservationIgnored private var asking = 0
 
@@ -85,7 +100,15 @@ final class WorldMapModel: Identifiable {
         self.mode = mode
         season = current.home.season
         homeSeason = current.home.season
-        home = current.home.place
+        // A save that never pinned its home is in London, as the game shows it.
+        home = current.home.place ?? (mode == .first ? nil : .london)
+        homeStyle = GameWorld.style(current)
+        homes = GameWorld.content?.intro.stops ?? []
+        unlockLevel = Tuning.Goals.homesLevel
+        level = current.level
+        xpToUnlock = max(0, LevelCurve.threshold(for: Tuning.Goals.homesLevel) - current.xp)
+        // A visit is saved as the screen "home.<id>" seen (`GameSession.saw`), once each.
+        visited = Set(current.lifetime.screensSeen.filter { $0.hasPrefix("home.") }.map { String($0.dropFirst("home.".count)) })
         let root = Bundle.main.url(forResource: "Art", withExtension: nil)
         mask = root.flatMap { Raster.read($0.appendingPathComponent("world/map/map_biome.png")) }
         cities = root.flatMap { try? JSONDecoder().decode(
@@ -96,7 +119,7 @@ final class WorldMapModel: Identifiable {
         // has it.
         let country = Locale.current.region.flatMap { Locale(identifier: "en_GB").localizedString(forRegionCode: $0.identifier) }
         suggestions = cities?.suggestions(country: country) ?? []
-        if let place = current.home.place {
+        if let place = home {
             pin = (place.latitude, place.longitude)
             placeName = place.name
             timeZone = place.timeZone
@@ -108,11 +131,46 @@ final class WorldMapModel: Identifiable {
         finding != nil || settling
     }
 
-    /// Something to confirm: moving to the home you have, with its season as it is, is not a move.
+    /// Other cats' homes can be visited.
+    var unlocked: Bool {
+        level >= unlockLevel
+    }
+
+    /// The world map's Move house: the same map, now choosing a new place.
+    func startMove() {
+        selectedHome = nil
+        movingFromWorld = mode == .world
+        mode = .move
+    }
+
+    /// Back to the world map, the pin home again.
+    func cancelMove() {
+        _ = begin()
+        mode = .world
+        movingFromWorld = false
+        if let home {
+            put(latitude: home.latitude, longitude: home.longitude, name: home.name, zoom: nil)
+            timeZone = home.timeZone
+            biome = home.biome
+        }
+        season = homeSeason
+    }
+
+    /// The season set on the world map is the home's at once (no move).
+    func seasonSaved() {
+        homeSeason = season
+    }
+
+    func select(_ id: String) {
+        selectedHome = homes.first { $0.id == id }
+    }
+
+    /// Something to confirm: a move needs a new place (the season alone is changed on the world map's home card,
+    /// at once and free).
     var changed: Bool {
         guard mode == .move, let home else { return true }
         guard let pin else { return false }
-        return season != homeSeason || abs(pin.latitude - home.latitude) > 1e-6 || abs(pin.longitude - home.longitude) > 1e-6
+        return abs(pin.latitude - home.latitude) > 1e-6 || abs(pin.longitude - home.longitude) > 1e-6
     }
 
     /// What the search box suggests: Apple Maps' towns once it answers, the listed cities until then (or when it
@@ -392,13 +450,30 @@ struct WorldMapView: View {
     let cost: Int
     let canAfford: Bool
     let cancel: (() -> Void)?
-    let done: (HomePlace, SeasonSetting) -> Void
+    /// The world map: the home's season changed on its card (saved at once; it is not a move).
+    var seasonChanged: ((SeasonSetting) -> Void)?
+    /// The world map: one of the other cats' homes visited.
+    var onVisit: ((String) -> Void)?
+    /// The place chosen and confirmed, its season, and (moving) a different home for it.
+    let done: (HomePlace, SeasonSetting, HouseStyle?) -> Void
 
     @State private var camera = GlobeCamera()
     @FocusState private var searching: Bool
     /// The finger now on the globe closed the keyboard: its tap drops no pin.
     @State private var closedKeyboard = false
+    /// Moving: the "Move to …?" card, the home chosen on it, and the homes to choose from.
+    @State private var confirmingMove = false
+    @State private var newStyle: HouseStyle?
+    @State private var choosingStyle = false
+    @State private var visiting: Visiting?
     @Environment(\.verticalSizeClass) private var verticalSize
+
+    private struct Visiting: Identifiable {
+        var stop: IntroFile.Stop
+        var id: String {
+            stop.id
+        }
+    }
 
     private var compact: Bool {
         verticalSize == .compact
@@ -418,41 +493,101 @@ struct WorldMapView: View {
                     camera.spins = false
                 },
                 onTap: { tap in
-                    if !closedKeyboard {
+                    if model.mode == .world {
+                        withAnimation(.spring(duration: 0.3)) { model.selectedHome = nil }
+                    } else if !closedKeyboard {
                         model.drop(tap)
                     }
-                }
+                },
+                onMarker: model.mode == .world ? { id in choose(home: id) } : nil
             )
             VStack(spacing: 10) {
                 header
-                Spacer(minLength: 0)
-                if !searching {
-                    picks
+                if model.mode == .world, !model.unlocked, !model.homes.isEmpty {
+                    lockBanner
                 }
-                card
+                Spacer(minLength: 0)
+                if model.mode == .world {
+                    if let stop = model.selectedHome {
+                        homeCard(stop)
+                            .transition(.move(edge: .bottom).combined(with: .opacity))
+                    }
+                    yourHome
+                } else {
+                    if !searching {
+                        picks
+                    }
+                    card
+                }
             }
             .padding(16)
             // Exactly the height there is, the search at the top: on a landscape phone the suggestions and the card
             // are taller than the space above the keyboard, and the whole screen was moved 53 points to fit them,
             // leaving a white band over the globe.
             .frame(maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .top)
+            if confirmingMove {
+                moveConfirm
+            }
         }
         .frame(maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .top)
         // The keyboard covers the card while you type; nothing moves.
         .ignoresSafeArea(.keyboard, edges: .bottom)
+        .animation(.spring(duration: 0.3), value: model.mode)
         .onChange(of: model.flight) { _, flight in fly(flight) }
+        .onChange(of: model.season) { _, season in
+            if model.mode == .world {
+                seasonChanged?(season)
+                model.seasonSaved()
+            }
+        }
         .onAppear {
-            // Moving home: start over the home you have.
+            // Moving home or the world map: start over the home you have.
             if let pin = model.pin {
                 camera.spins = false
-                camera.fly(to: pin.latitude, pin.longitude, zoom: Tuning.World.globeSearchZoom * 0.8, seconds: 0.01)
+                let zoom = model.mode == .world ? Tuning.World.globeWorldZoom : Tuning.World.globeSearchZoom * 0.8
+                camera.fly(to: pin.latitude, pin.longitude, zoom: zoom, seconds: 0.01)
+            }
+        }
+        .fullScreenCover(item: $visiting) { visit in
+            HomeVisitView(stop: visit.stop, visited: model.visited.count, total: model.homes.count) { visiting = nil }
+        }
+        .fullScreenCover(isPresented: $choosingStyle) {
+            if let place = model.place {
+                HomePicker(
+                    biome: place.biome,
+                    place: place.name,
+                    home: place,
+                    season: model.season,
+                    confirmTitle: "Choose this home",
+                    cancel: { choosingStyle = false }
+                ) { style in
+                    newStyle = style
+                    choosingStyle = false
+                }
+                .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
             }
         }
     }
 
     private var markers: [GlobeMarker] {
-        guard let pin = model.pin else { return [] }
-        return [GlobeMarker(id: "pin", latitude: pin.latitude, longitude: pin.longitude, kind: .pin, placed: model.placed)]
+        var markers: [GlobeMarker] = []
+        if model.mode == .world {
+            markers = model.homes.map { stop in
+                GlobeMarker(
+                    id: stop.id,
+                    latitude: stop.latitude,
+                    longitude: stop.longitude,
+                    title: stop.cat.name,
+                    kind: .home(icon: "house"),
+                    highlighted: model.selectedHome?.id == stop.id,
+                    badge: !model.unlocked ? .locked : model.visited.contains(stop.id) ? .visited : nil
+                )
+            }
+        }
+        if let pin = model.pin {
+            markers.append(GlobeMarker(id: "pin", latitude: pin.latitude, longitude: pin.longitude, kind: .pin, placed: model.placed))
+        }
+        return markers
     }
 
     /// The globe turns the pin to the middle: in close after a search or a pick, only a little after a tap.
@@ -467,6 +602,124 @@ struct WorldMapView: View {
         }
     }
 
+    /// A home tapped on the world map: its card comes up and the globe turns it to the middle.
+    private func choose(home id: String) {
+        withAnimation(.spring(duration: 0.3)) { model.select(id) }
+        guard let stop = model.selectedHome else { return }
+        let zoom = max(camera.pose(at: Date()).zoom, Tuning.World.globeWorldZoom)
+        camera.fly(to: stop.latitude, stop.longitude, zoom: zoom, seconds: Tuning.World.globeTapFlightSeconds)
+    }
+
+    // MARK: The world map
+
+    private var lockBanner: some View {
+        HStack(spacing: 10) {
+            PaintedIcon("padlock", size: 36)
+            VStack(alignment: .leading, spacing: 2) {
+                Text("Other cats' homes open at level \(model.unlockLevel)").font(Theme.title(19))
+                Text("You're level \(model.level): \(model.xpToUnlock) XP to go")
+                    .font(.system(size: 15))
+                    .foregroundStyle(Theme.inkSoft)
+            }
+        }
+        .padding(.leading, 12)
+        .padding(.trailing, 18)
+        .padding(.vertical, 10)
+        .foregroundStyle(Theme.ink)
+        .paper(RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .accessibilityElement(children: .combine)
+    }
+
+    /// One of the other cats' homes: whose, where, its season, weather and time, and Visit.
+    private func homeCard(_ stop: IntroFile.Stop) -> some View {
+        HStack(spacing: 14) {
+            VStack(alignment: .leading, spacing: 3) {
+                Text("\(stop.cat.name)'s \(Self.homeWord(stop.home))").font(Theme.title(22)).lineLimit(1)
+                HStack(spacing: 10) {
+                    Label("\(stop.place), \(stop.country)", systemImage: "mappin.and.ellipse")
+                    Label(Self.weatherName(stop.weather), systemImage: Self.weatherIcon(stop.weather))
+                    if let zone = TimeZone(identifier: stop.timeZone) {
+                        Label(
+                            "\(Date().formatted(Date.FormatStyle(date: .omitted, time: .shortened, timeZone: zone))) there",
+                            systemImage: "clock"
+                        )
+                    }
+                }
+                .font(.system(size: 15))
+                .foregroundStyle(Theme.inkSoft)
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            if model.unlocked {
+                ChunkyButton("Visit") {
+                    model.visited.insert(stop.id)
+                    onVisit?(stop.id)
+                    visiting = Visiting(stop: stop)
+                }
+            } else {
+                HStack(spacing: 6) {
+                    PaintedIcon("padlock", size: 26)
+                    Text("Opens at level \(model.unlockLevel)").font(.system(size: 16, weight: .semibold))
+                }
+            }
+            Button {
+                withAnimation(.spring(duration: 0.3)) { model.selectedHome = nil }
+            } label: {
+                Image(systemName: "xmark")
+                    .font(.system(size: 14, weight: .bold))
+                    .foregroundStyle(Theme.inkSoft)
+                    .frame(width: 40, height: 40)
+                    .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Close")
+        }
+        .padding(.leading, 16)
+        .padding(.trailing, 8)
+        .padding(.vertical, 12)
+        .foregroundStyle(Theme.ink)
+        .paper(RoundedRectangle(cornerRadius: 20, style: .continuous))
+    }
+
+    /// "cabin" from "A cabin".
+    static func homeWord(_ home: String) -> String {
+        home.replacingOccurrences(of: "^(A|An) ", with: "", options: .regularExpression)
+    }
+
+    /// The home you have: where, which home, the time there, its season (changed here at once), and Move house.
+    private var yourHome: some View {
+        HStack(spacing: 14) {
+            PaintedIcon("house", size: 30)
+                .frame(width: 46, height: 46)
+                .background(Circle().fill(Theme.cream))
+                .overlay(Circle().strokeBorder(Theme.accent, lineWidth: 3))
+            VStack(alignment: .leading, spacing: 2) {
+                Text("YOUR HOME").font(.system(size: 12, weight: .heavy)).tracking(0.6).foregroundStyle(Theme.inkSoft)
+                Text(model.home?.name ?? model.placeName).font(Theme.title(22)).lineLimit(1).minimumScaleFactor(0.6)
+                    .accessibilityIdentifier("homeName")
+                HStack(spacing: 10) {
+                    Text(model.homeStyle.name)
+                    if let time = model.localTime {
+                        Label("\(time) there", systemImage: "clock")
+                    }
+                }
+                .font(.system(size: 15))
+                .foregroundStyle(Theme.inkSoft)
+                .lineLimit(1)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            seasonMenu
+            ChunkyButton("Move house") {
+                withAnimation(.spring(duration: 0.3)) { model.startMove() }
+            }
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
+        .foregroundStyle(Theme.ink)
+        .paper(RoundedRectangle(cornerRadius: 20, style: .continuous))
+    }
+
     // MARK: The search
 
     private var header: some View {
@@ -476,7 +729,7 @@ struct WorldMapView: View {
                 if !(searching && compact) {
                     HStack(spacing: 6) {
                         PaintedIcon("map_pin", size: 30)
-                        Text(model.mode == .first || cost == 0 && model.pin == nil ? "Where do you live?" : "Move home")
+                        Text(title)
                             .font(Theme.title(22))
                             .foregroundStyle(Theme.ink)
                     }
@@ -485,16 +738,45 @@ struct WorldMapView: View {
                     .padding(.vertical, 4)
                     .paper(Capsule())
                 }
-                searchField
-                if searching, !model.query.trimmingCharacters(in: .whitespaces).isEmpty {
-                    suggestions
+                if model.mode == .world {
+                    if model.unlocked, !model.homes.isEmpty {
+                        HStack(spacing: 6) {
+                            PaintedIcon("house", size: 26)
+                            Text("Homes visited: \(model.visited.count) of \(model.homes.count)")
+                                .font(.system(size: 16, weight: .semibold))
+                        }
+                        .padding(.leading, 8)
+                        .padding(.trailing, 16)
+                        .padding(.vertical, 5)
+                        .foregroundStyle(Theme.ink)
+                        .paper(Capsule())
+                    }
+                } else {
+                    searchField
+                    if searching, !model.query.trimmingCharacters(in: .whitespaces).isEmpty {
+                        suggestions
+                    }
                 }
             }
             .frame(maxWidth: 440, alignment: .leading)
             Spacer(minLength: 0)
-            if let cancel {
+            if model.movingFromWorld {
+                // Back to the world map, the home where it was.
+                HUDButton("Back", symbol: "chevron.left") {
+                    searching = false
+                    withAnimation(.spring(duration: 0.3)) { model.cancelMove() }
+                }
+            } else if let cancel {
                 CloseButton(action: cancel)
             }
+        }
+    }
+
+    private var title: String {
+        switch model.mode {
+        case .first: "Where do you live?"
+        case .move: "Move home"
+        case .world: "The world"
         }
     }
 
@@ -620,27 +902,16 @@ struct WorldMapView: View {
                 summary
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            Menu {
-                Picker("Season", selection: $model.season) {
-                    Text("Auto (the real season there)").tag(SeasonSetting.auto)
-                    ForEach(NatureSeason.allCases, id: \.self) { season in
-                        Text("Always \(season.rawValue)").tag(SeasonSetting.fixed(season))
-                    }
-                }
-            } label: {
-                HStack(spacing: 4) {
-                    PaintedIcon("weather_sun_and_cloud", size: 26)
-                    Text(seasonTitle).font(.system(size: 16, weight: .semibold)).foregroundStyle(Theme.ink)
-                }
-                .padding(.leading, 8)
-                .padding(.trailing, 14)
-                .frame(minHeight: 44)
-                .paper(Capsule())
-            }
+            seasonMenu
             let ready = model.place != nil && !model.resolving && canAfford && model.changed
             ChunkyButton(model.mode == .first ? "Live here" : "Move here", subtitle: cost > 0 ? "\(cost) Beans" : nil) {
-                if let place = model.place {
-                    done(place, model.season)
+                guard let place = model.place else { return }
+                if model.mode == .move {
+                    // Moving is asked about first: what comes, what changes, what it costs.
+                    newStyle = nil
+                    withAnimation(.spring(duration: 0.3)) { confirmingMove = true }
+                } else {
+                    done(place, model.season, nil)
                 }
             }
             .disabled(!ready)
@@ -650,6 +921,136 @@ struct WorldMapView: View {
         .padding(.vertical, 12)
         .foregroundStyle(Theme.ink)
         .paper(RoundedRectangle(cornerRadius: 20, style: .continuous))
+    }
+
+    private var seasonMenu: some View {
+        Menu {
+            Picker("Season", selection: $model.season) {
+                Text("Auto (the real season there)").tag(SeasonSetting.auto)
+                ForEach(NatureSeason.allCases, id: \.self) { season in
+                    Text("Always \(season.rawValue)").tag(SeasonSetting.fixed(season))
+                }
+            }
+        } label: {
+            HStack(spacing: 4) {
+                PaintedIcon("weather_sun_and_cloud", size: 26)
+                Text(seasonTitle).font(.system(size: 16, weight: .semibold)).foregroundStyle(Theme.ink)
+            }
+            .padding(.leading, 8)
+            .padding(.trailing, 14)
+            .frame(minHeight: 44)
+            .paper(Capsule())
+        }
+    }
+
+    // MARK: Moving
+
+    /// "Move to Lyon?": what comes with you, what changes (the outside, its weather, seasons and time), the cost.
+    private var moveConfirm: some View {
+        let session = GameSession.shared
+        let state = session.state(at: session.now())
+        let from = Self.town(model.home?.name ?? "")
+        let to = Self.town(model.placeName)
+        let style = newStyle ?? model.homeStyle
+        let zone = model.timeZone ?? .gmt
+        let southern = (model.pin?.latitude ?? 0) < 0
+        let seasonThere = model.season.season(at: Date(), timeZone: zone, southernHemisphere: southern)
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = zone
+        let parts = calendar.dateComponents([.hour, .minute], from: Date())
+        let sky = SkyPhase.at(localMinutes: (parts.hour ?? 12) * 60 + (parts.minute ?? 0))
+        let firstMove = state.lifetime.homeMoves < Tuning.Beans.freeHomeMoves
+        let costLine = cost == 0 ? (firstMove ? "Free: your first move" : "Free today with Cat Club") : "Moving costs \(cost) Beans"
+        return ZStack {
+            Color.black.opacity(0.42).ignoresSafeArea()
+                .onTapGesture { withAnimation(.spring(duration: 0.3)) { confirmingMove = false } }
+            VStack(alignment: .leading, spacing: compact ? 8 : 14) {
+                HStack(spacing: 8) {
+                    PaintedIcon("house", size: 36)
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text("Move to \(to)?").font(Theme.title(compact ? 24 : 30))
+                        if !from.isEmpty {
+                            Text("From \(model.home?.name ?? from)").font(.system(size: 15)).foregroundStyle(Theme.inkSoft)
+                        }
+                    }
+                }
+                HStack(alignment: .top, spacing: 16) {
+                    VStack(alignment: .leading, spacing: compact ? 6 : 10) {
+                        heading("Coming with you")
+                        item("cat_face", "\(session.cat?.name ?? "Your cat"),", "of course")
+                        item("sofa_for_furniture", "Every room", "and all \(state.placed.count) pieces, just where you put them")
+                        item("bean_coin", "Your \(state.beans.formatted()) Beans", "")
+                        if !compact {
+                            item("collection_book", "Your book,", "outfits and season pass")
+                        }
+                        item("streak_paw_print_with_a_small_flame", "Your \(state.streak.current)-day streak", "and level \(state.level)")
+                    }
+                    .padding(compact ? 10 : 14)
+                    .frame(maxWidth: .infinity, alignment: .topLeading)
+                    .background(RoundedRectangle(cornerRadius: 16, style: .continuous).fill(Theme.paper))
+                    VStack(alignment: .leading, spacing: compact ? 6 : 10) {
+                        heading("What changes")
+                        HStack(alignment: .center, spacing: 10) {
+                            HomePicker.painting(style: style, biome: model.biome ?? .city, sky: sky)
+                                .frame(width: compact ? 110 : 150, height: compact ? 62 : 85)
+                                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("\(Text("The outside:").bold()) your \(style.name), painted for \(to)")
+                                    .font(.system(size: 16))
+                                    .fixedSize(horizontal: false, vertical: true)
+                                Button("Choose another home") { choosingStyle = true }
+                                    .font(.system(size: 15, weight: .bold))
+                                    .foregroundStyle(Theme.accent)
+                            }
+                        }
+                        item("weather_sun_and_cloud", "Weather and seasons:", "\(to)'s. \(seasonThere.rawValue.capitalized) there now")
+                        item("clock", "Time of day:", "\(to)'s sky. \(model.localTime ?? "") there")
+                    }
+                    .padding(compact ? 10 : 14)
+                    .frame(maxWidth: .infinity, alignment: .topLeading)
+                    .background(RoundedRectangle(cornerRadius: 16, style: .continuous).fill(Theme.paper))
+                }
+                HStack(spacing: 12) {
+                    PaintedIcon("bean_coin", size: 24)
+                    Text(costLine).font(.system(size: 15, weight: .semibold))
+                    Spacer(minLength: 8)
+                    HUDButton(from.isEmpty ? "Not yet" : "Stay in \(from)") {
+                        withAnimation(.spring(duration: 0.3)) { confirmingMove = false }
+                    }
+                    ChunkyButton("Move to \(to)", subtitle: cost > 0 ? "\(cost) Beans" : nil) {
+                        if let place = model.place {
+                            confirmingMove = false
+                            done(place, model.season, newStyle == model.homeStyle ? nil : newStyle)
+                        }
+                    }
+                }
+            }
+            .padding(compact ? 14 : 24)
+            .frame(maxWidth: 880)
+            .foregroundStyle(Theme.ink)
+            .paper(RoundedRectangle(cornerRadius: 24, style: .continuous))
+            .padding(compact ? 8 : 24)
+            .transition(.scale(scale: 0.95).combined(with: .opacity))
+        }
+    }
+
+    private func heading(_ text: String) -> some View {
+        Text(text.uppercased()).font(.system(size: 13, weight: .heavy)).tracking(0.7).foregroundStyle(Theme.inkSoft)
+    }
+
+    private func item(_ icon: String, _ bold: String, _ rest: String) -> some View {
+        HStack(spacing: 10) {
+            PaintedIcon(icon, size: compact ? 26 : 32)
+            Text("\(Text(bold).bold())\(rest.isEmpty ? "" : " \(rest)")")
+                .font(.system(size: compact ? 14 : 16))
+                .fixedSize(horizontal: false, vertical: true)
+        }
+    }
+
+    /// "Lyon" from "Lyon, France", and "Haqil" from an older save's "49944, Haqil, Saudi Arabia".
+    static func town(_ name: String) -> String {
+        let parts = name.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) }
+        return parts.first { $0.contains(where: \.isLetter) } ?? parts.first ?? name
     }
 
     @ViewBuilder private var summary: some View {
@@ -749,5 +1150,15 @@ struct WorldMapView: View {
         case .tropical: "beach.umbrella"
         case .snow: "snowflake"
         }
+    }
+}
+
+extension CatScreens {
+    /// The home in a line for the profile: "Manchester · London terrace" (London until a home is pinned).
+    static func homeLine() -> String {
+        let session = GameSession.shared
+        let state = session.state(at: session.now())
+        let place = state.home.place ?? .london
+        return "\(WorldMapView.town(place.name)) · \(GameWorld.style(state).name)"
     }
 }

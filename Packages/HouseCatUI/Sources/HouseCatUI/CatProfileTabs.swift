@@ -34,6 +34,30 @@ extension CatProfileView {
                 .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).strokeBorder(GameHUD.green.opacity(0.3), lineWidth: 1))
                 .accessibilityElement(children: .combine)
             }
+            // Where home is, and moving it (Josh, 19 Oct: "no option for the user to move house").
+            if let home, let moveHouse {
+                HStack(spacing: 10) {
+                    PaintedIcon("house", size: 30)
+                    Text(home)
+                        .font(.subheadline.weight(.semibold))
+                        .fixedSize(horizontal: false, vertical: true)
+                    Spacer(minLength: 0)
+                    Button {
+                        feedback.tap()
+                        moveHouse()
+                    } label: {
+                        Text("Move house")
+                            .font(.system(.footnote, design: .rounded, weight: .heavy))
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 5)
+                            .background(Capsule().fill(Theme.accent))
+                    }
+                    .buttonStyle(PressStyle())
+                }
+                .padding(10)
+                .paper(RoundedRectangle(cornerRadius: 16, style: .continuous))
+            }
             if !ways.isEmpty {
                 section("\(profile.name)'s ways")
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 88), spacing: 8)], spacing: 8) {

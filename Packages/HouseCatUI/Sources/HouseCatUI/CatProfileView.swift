@@ -143,6 +143,9 @@ public struct CatProfileView: View {
     private let rename: (String) -> String?
     let setPersonality: (Personality) -> Void
     private let settings: (() -> Void)?
+    /// Where the home is and which it is ("Manchester · London terrace"), and Move house (the map, choosing anew).
+    let home: String?
+    let moveHouse: (() -> Void)?
     private let close: () -> Void
     @State var tab = CatProfileView.firstTab
     @State private var naming = false
@@ -166,9 +169,13 @@ public struct CatProfileView: View {
         wardrobe: [WardrobeItem] = [],
         worn: String? = nil,
         wear: ((String?) -> Void)? = nil,
+        home: String? = nil,
+        moveHouse: (() -> Void)? = nil,
         settings: (() -> Void)? = nil,
         close: @escaping () -> Void
     ) {
+        self.home = home
+        self.moveHouse = moveHouse
         self.wardrobe = wardrobe
         self.worn = worn
         self.wear = wear

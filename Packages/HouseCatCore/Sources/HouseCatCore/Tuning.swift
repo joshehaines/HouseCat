@@ -612,6 +612,9 @@ public enum Tuning {
         public static let globeTapZoom = 2.4
         public static let globeTapFlightSeconds = 0.9
         public static let mapsPatience = 6.0
+        /// The world map from the menu opens over the home this close in, near enough to see the homes around it.
+        /// (Other cats' homes open at `Goals.homesLevel`.)
+        public static let globeWorldZoom = 1.6
         /// The cities to pick from without searching: this many, up to `suggestedAtHome` from the player's own
         /// country first, then these from round the world.
         public static let suggestedCities = 8

@@ -702,7 +702,7 @@ struct RoomScreen: View {
                     RoomTourOverlay(
                         tour: tour,
                         catName: visit.catName ?? "Your cat",
-                        host: GameWorld.content?.intro.host ?? "Soot",
+                        host: GameWorld.content?.intro.host ?? "Pat",
                         targets: targets,
                         catPoint: { visit.catPoint }
                     )

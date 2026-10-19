@@ -1289,6 +1289,8 @@ public enum Tuning {
         /// player's Settings level a share of it, and the slow fade it comes in and goes out with.
         public static let music = 0.35
         public static let musicFadeSeconds = 2.5
+        /// How long the music waits after a game screen closes, in case another opens (the menu, then its game).
+        public static let musicHandoverSeconds = 0.6
     }
 
     /// How a room is framed on screen.

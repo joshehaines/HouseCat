@@ -59,6 +59,8 @@ public struct RoomModel: Decodable, Sendable {
     /// The weather and season outside, for the particles in the window.
     public var weather = Weather.sun
     public var season = NatureSeason.autumn
+    /// How much smaller than painted the furniture is drawn (Tuning.Room.furnitureScale).
+    public var furnitureScale = Tuning.Room.furnitureScale
 
     private enum CodingKeys: String, CodingKey {
         case wall, floor, window, door, refScale, scale, catHeight, cat, items, spots

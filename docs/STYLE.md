@@ -22,13 +22,14 @@ The rules below describe the mascot, Midnight (the default cat and every marketi
 
 ## Homes and rooms
 - Corner rooms in 2:1 isometric: left and right walls meeting at the back, 10 x 10 floor cells, walls 5 cells high, a door in one wall that shows the next room, windows that show the exterior scene.
+- Doors are painted in 3D at the wall's 2:1 angle (architrave standing proud, the wall's depth in the jamb, a threshold), on magenta from a guide with the frame drawn at the slope, never a front-on door laid onto the wall (Josh, 19 Oct: "they look very strange").
 - Walls and floors are flat seamless tiles (2048 px) projected in code; light and shadow come from a separate painted light map per time of day (morning, midday, evening, overcast, night), so any wallpaper or floor works in any room without repainting.
 - Palettes: terrace = brick reds and slate; mansion-block flat = cream and teal; cottage = moss and honey.
 - Light: warm key from the upper left, cool fill from the window; time of day shifts hue, not line.
 - Weather lives on the exterior as particle and tint layers; interiors show it through the window only.
 
 ## Furniture
-- One template: every item is painted inside the same neutral grey reference room (job d8ab3b05) at the same 2:1 isometric angle and key light, then cut out; two orientations per item, R (against the right wall) and L (against the left wall). The cat is about half the sofa's height.
+- One template: every item is painted inside the same neutral grey reference room (job d8ab3b05) at the same 2:1 isometric angle and key light, then cut out; two orientations per item, R (against the right wall) and L (against the left wall). The game draws furniture at 80% of its painted size (Josh, 19 Oct), so the standing cat is about two-thirds of the sofa's height.
 - Each item: footprint (w x d cells), layer (floor or wall), affordances (sit, sleep, hide, perch, scratch, eat, none), and a cat-on-it pose if it has one.
 - Sets of 6–8 items share a palette and a wallpaper + floor.
 

@@ -22,11 +22,13 @@ struct GameSessionTests {
         session.adopt(name: "Pip", personality: .velcro, look: look)
     }
 
-    @Test func aNewSaveSeedsTheDemoRoomAndWaitsForTheBuilder() {
+    @Test func aNewHomeStartsEmptyWithTheStarterPieceAndWaitsForTheBuilder() {
         let state = session.state(at: session.now())
         #expect(session.cat == nil)
-        #expect(state.placed.contains { $0.itemID == "living_sofa" && $0.room == .living })
-        #expect(session.inventory().map(\.id).sorted() == ["living_armchair", "living_coffee"])
+        // Only the bowl and the moving box (Josh, 19 Oct: the player should want to decorate).
+        #expect(Set(state.placed.map(\.itemID)) == Tuning.Room.firstHome)
+        #expect(state.placed.allSatisfy { $0.room == .living })
+        #expect(session.inventory().map(\.id) == Tuning.Room.starterPieces)
     }
 
     @Test func adoptionRecordsTheNameThePersonalityAndTheLook() throws {
@@ -92,13 +94,14 @@ struct GameSessionTests {
     }
 
     @Test func aPieceFromTheInventoryIsPlacedAndMovesAreRecorded() throws {
-        let placement = try #require(session.placeFromInventory("living_armchair", among: []))
+        let starter = try #require(Tuning.Room.starterPieces.first)
+        let placement = try #require(session.placeFromInventory(starter, among: []))
         let id = try #require(placement.placementID)
-        #expect(session.inventory().map(\.id) == ["living_coffee"])
+        #expect(session.inventory().isEmpty)
         session.record(.moved(placementID: id, x: 1, y: 1, facing: .left))
         let moved = session.state(at: session.now()).placed.first { $0.placementID == id }
         #expect(moved?.x == 1 && moved?.facing == .left)
         session.record(.stored(placementID: id))
-        #expect(session.inventory().map(\.id).sorted() == ["living_armchair", "living_coffee"])
+        #expect(session.inventory().map(\.id) == [starter])
     }
 }

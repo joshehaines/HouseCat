@@ -4,7 +4,7 @@
   "furniture": "furn_<room>_<item>_<R|L>.png; R = facing the right-hand wall, L = facing the left-hand wall. pos_in_ref/size_in_ref = where the item sat in the 2:1 isometric reference room (grey or cream) it was painted in, in that image's pixels; use it to derive the floor anchor.",
   "rooms/walls, rooms/floors": "2048 px seamless tiles (flat, unprojected); project onto the 10x10 corner room in code, then multiply by the light map.",
   "rooms/lightmaps": "lm_<time>_<left|right|floor>.npy = float32 512x512 multiplier (1.0 = neutral); .png is a preview. Times: morning, midday, evening, overcast, night.",
-  "rooms/windows, rooms/doors": "<kind>_<id>.png = frame with transparent opening; <kind>_<id>_opening.png = mask of the opening (white) for the view behind.",
+  "rooms/windows, rooms/doors": "<kind>_<id>.png = frame with transparent opening; <kind>_<id>_opening.png = mask of the opening (white) for the view behind. door_iso_<id>.png = a door painted in 3D at the left wall's 2:1 angle (frame, wall depth, door), no mask: bottom-left = the frame's front foot, right edge = its back foot (tools/asset-pipeline/isodoors.py).",
   "world/houses": "ext_<id>.png fa\u00e7ade; ext_<id>_glass.png = window glass mask; _dooropen and _snow are repainted variants (not pixel-aligned: cross-fade).",
   "world/terrain": "terr_<biome>_<season>.png, transparent sky; draw the sky in code behind it.",
   "world/map": "Equirectangular 4096x2048: x = (lon+180)/360*W, y = (90-lat)/180*H. map_biome.png is an index image, legend in map_biome_legend.json.",
@@ -5651,6 +5651,16 @@
    "px": [
     1062,
     2203
+   ]
+  },
+  "rooms/doors/door_iso_cream.png": {
+   "class": "rooms/doors",
+   "tile": false,
+   "mask": false,
+   "iso": true,
+   "px": [
+    550,
+    1530
    ]
   },
   "rooms/doors/door_modern_white.png": {

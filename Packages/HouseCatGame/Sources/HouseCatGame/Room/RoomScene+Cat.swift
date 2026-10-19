@@ -67,8 +67,10 @@ public extension RoomScene {
         if let need = choice.affordance, let placement = piece(for: choice, need: need, in: room),
            let item = items[placement.id], let node = room.furniture[item.id]
         {
-            let (w, d) = room.footprint(item, facing: placement.facing)
-            let u = CGFloat(placement.u), v = CGFloat(placement.v)
+            // Where the piece is drawn (smaller than its cells); it is jumped up to from in front of its cells.
+            let (u, v, w, d) = room.stand(item, placement)
+            let cells = room.footprint(item, facing: placement.facing)
+            let front = (u: CGFloat(placement.u), v: CGFloat(placement.v), w: cells.w, d: cells.d)
             let middle = grid.floor(u + w / 2, v + d / 2)
             if choice.activity == .scratch {
                 return scratchSpot(at: item, node: node, u, v, w, d, in: room)
@@ -89,20 +91,20 @@ public extension RoomScene {
                     pose: own,
                     perchDepth: node.zPosition + 1,
                     itemID: item.id,
-                    approach: approach(toFootprint: u, v, w, d, in: room)
+                    approach: approach(toFootprint: front.u, front.v, front.w, front.d, in: room)
                 )
             case .inside:
                 // In it, on its floor, between its back and its front.
                 return CatSpot(
                     point: middle, lift: 0, pose: own, perchDepth: node.zPosition + Self.insideDepth, itemID: item.id,
-                    approach: approach(toFootprint: u, v, w, d, in: room), inside: true
+                    approach: approach(toFootprint: front.u, front.v, front.w, front.d, in: room), inside: true
                 )
             case .front:
                 // On the floor in front of the side it faces (a piece facing L faces along u, else along v): before
                 // the fire, curled up in its warmth; at the mirror or the bird table, looking.
                 let gap = CGFloat(Tuning.Puppet.jumpFrom)
-                let front = placement.facing == "L" ? grid.floor(u + w + gap, v + d / 2) : grid.floor(u + w / 2, v + d + gap)
-                return CatSpot(point: front, lift: 0, pose: own, perchDepth: nil, itemID: item.id)
+                let before = placement.facing == "L" ? grid.floor(u + w + gap, v + d / 2) : grid.floor(u + w / 2, v + d + gap)
+                return CatSpot(point: before, lift: 0, pose: own, perchDepth: nil, itemID: item.id)
             case .floor:
                 return CatSpot(point: middle, lift: 0, pose: own, perchDepth: nil, itemID: item.id)
             case .beside:
@@ -241,8 +243,8 @@ public extension RoomScene {
     internal func rimStand(of id: String, in room: RoomNode) -> (point: CGPoint, lift: CGFloat, depth: CGFloat)? {
         guard let placement = room.model.items.first(where: { $0.id == id }), let item = items[id], let node = room.furniture[id],
               let rim = item.rim?[placement.facing], let low = rim.map({ $0[1] }).max() else { return nil }
-        let (w, d) = room.footprint(item, facing: placement.facing)
-        return (grid.floor(CGFloat(placement.u) + w, CGFloat(placement.v) + d), node.size.height * CGFloat(1 - low), node.zPosition + 1)
+        let at = room.stand(item, placement)
+        return (grid.floor(at.u + at.w, at.v + at.d), node.size.height * CGFloat(1 - low), node.zPosition + 1)
     }
 
     /// Into a box: up onto its front rim, then down inside, its front drawn over the cat.

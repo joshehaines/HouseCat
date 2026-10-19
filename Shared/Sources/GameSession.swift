@@ -86,6 +86,13 @@ final class GameSession {
             }
         #endif
         self.rules = rules
+        var store = store
+        #if DEBUG
+            // HOUSECAT_FRESH=1: a new player's save in memory, leaving the one on this device alone (shared simulators).
+            if store == nil, ProcessInfo.processInfo.environment["HOUSECAT_FRESH"] != nil {
+                store = try? EventStore(inMemory: true)
+            }
+        #endif
         self.store = store ?? (try? EventStore()) ?? (try? EventStore(inMemory: true))
         log = (try? self.store?.load()) ?? SaveLog()
         if log.events.isEmpty, log.snapshot == nil {
@@ -659,8 +666,8 @@ final class GameSession {
 
     // MARK: The demo household
 
-    /// Until onboarding's later steps exist: a household with the free living-room furniture of the demo layout
-    /// granted and placed (cells rounded from the layout's hand-tuned positions), and two more in the inventory.
+    /// A new household: the living room empty apart from the bowl and the moving box (`Tuning.Room.firstHome`,
+    /// cells rounded from the demo layout's hand-tuned positions), and the starter piece in the inventory.
     /// The cat comes from the builder; debug runs can skip it with HOUSECAT_CAT=<preset id> (a velcro cat called Pip).
     // MARK: Your data
 
@@ -787,7 +794,14 @@ final class GameSession {
             }
         #endif
         guard let art = GameWorld.art, let layout = try? art.data("rooms/layout_living_demo.json", as: RoomModel.self) else { return }
-        for item in layout.items {
+        // A new home starts empty (Josh, 19 Oct: "they should want to decorate"): only the bowl and the moving box,
+        // where the demo layout has them, and a starter piece in the tray for the tour's Decorate step. A debug
+        // full house has the whole demo living room and two spare pieces.
+        var furnished = false
+        #if DEBUG
+            furnished = full
+        #endif
+        for item in layout.items where furnished || Tuning.Room.firstHome.contains(item.id) {
             append(.itemGranted(itemID: item.id), at: date)
             let facing: GameEvent.Facing = item.facing == "L" ? .left : .right
             append(
@@ -795,8 +809,7 @@ final class GameSession {
                 at: date
             )
         }
-        // Two pieces in the inventory, so Decorate has something to put out.
-        for spare in ["living_armchair", "living_coffee"] {
+        for spare in furnished ? ["living_armchair", "living_coffee"] : Tuning.Room.starterPieces {
             append(.itemGranted(itemID: spare), at: date)
         }
         #if DEBUG

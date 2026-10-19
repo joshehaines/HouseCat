@@ -233,6 +233,10 @@ final class RoomNode: SKNode {
     }
 
     private func buildOpening(_ opening: RoomModel.Opening, isWindow: Bool) {
+        if !isWindow, opening.id.hasPrefix(Self.isoDoorPrefix) {
+            buildIsoDoor(opening)
+            return
+        }
         let folder = isWindow ? "rooms/windows" : "rooms/doors"
         let framePath = "\(folder)/\(opening.id).png", maskPath = "\(folder)/\(opening.id)_opening.png"
         guard let frame = art.image(framePath), let mask = art.image(maskPath) else { return }
@@ -273,6 +277,29 @@ final class RoomNode: SKNode {
         addChild(node)
     }
 
+    /// Doors painted in 3D at the left wall's angle (tools/asset-pipeline/isodoors.py), not flat ones laid onto it.
+    static let isoDoorPrefix = "door_iso_"
+
+    /// A 3D door stands upright on its wall, not warped onto it: its frame, its depth and the hallway beyond are
+    /// painted. Its bottom-left corner is the frame's front foot and it spans `along` cells of the wall; on the right
+    /// wall it is mirrored.
+    private func buildIsoDoor(_ opening: RoomModel.Opening) {
+        let path = "rooms/doors/\(opening.id).png"
+        guard art.has(path) else { return }
+        let painted = art.paintedSize(path)
+        let width = CGFloat(opening.along) * grid.cellHalfWidth
+        let node = SKSpriteNode(
+            texture: art.texture(path),
+            size: CGSize(width: width, height: width * painted.height / max(painted.width, 1))
+        )
+        node.anchorPoint = .zero
+        node.position = wallPoint(opening.wall, along: CGFloat(opening.start + opening.along), up: 0)
+        node.xScale = opening.wall == "R" ? -1 : 1
+        node.zPosition = Layer.openings + 1
+        node.name = "door"
+        addChild(node)
+    }
+
     /// The weather outside, clipped to the window's opening.
     private func addWeather(over view: SKSpriteNode, corners: Quad, texture: SKTexture) {
         let frame = view.frame
@@ -295,17 +322,26 @@ final class RoomNode: SKNode {
 
     // MARK: Furniture
 
-    /// The scale that turns a sprite's painted pixels into room units.
+    /// The scale that turns a sprite's painted pixels into room units, drawn smaller than painted
+    /// (`furnitureScale`) so the furniture sits right beside the cat.
     func scale(for item: CatalogueFile.Item, sprite: String) -> CGFloat {
         let ref = art.referenceRoom(sprite) ?? "grey"
         let painted = model.refScale[ref] ?? model.refScale["grey"] ?? 0.46
-        return CGFloat(painted * (item.suggestedScale ?? 1) * (model.scale[item.id] ?? 1))
+        return CGFloat(painted * (item.suggestedScale ?? 1) * (model.scale[item.id] ?? 1) * model.furnitureScale)
     }
 
     /// The footprint along u and v for a facing: an item turned to face L swaps them.
     func footprint(_ item: CatalogueFile.Item, facing: String) -> (w: CGFloat, d: CGFloat) {
         let w = CGFloat(item.footprint.w), d = CGFloat(item.footprint.d)
         return facing == "L" ? (d, w) : (w, d)
+    }
+
+    /// Where a floor piece stands, in cells: its footprint drawn smaller (`furnitureScale`) in the middle of its
+    /// cells, or with its back to a wall its cells touch, so a sofa against the wall stays against it.
+    func stand(_ item: CatalogueFile.Item, _ placement: RoomModel.Placement) -> (u: CGFloat, v: CGFloat, w: CGFloat, d: CGFloat) {
+        let (w, d) = footprint(item, facing: placement.facing)
+        let k = CGFloat(model.furnitureScale), u = CGFloat(placement.u), v = CGFloat(placement.v)
+        return (u <= 0 ? 0 : u + w * (1 - k) / 2, v <= 0 ? 0 : v + d * (1 - k) / 2, w * k, d * k)
     }
 
     /// Builds the sprite for a placement, positioned and sorted (also used for the decorate ghost).
@@ -330,8 +366,10 @@ final class RoomNode: SKNode {
             node.position = wallPoint(placement.facing, along: along, up: CGFloat(placement.up ?? Tuning.Stage.wallItemHeight))
             node.zPosition = Layer.wallItems
         } else {
-            // Anchored by the bottom centre of its footprint: centred on the footprint, standing on its front corner.
-            node.position = CGPoint(x: grid.floor(u + w / 2, v + d / 2).x, y: grid.floor(u + w, v + d).y)
+            // Anchored by the bottom centre of where it stands: centred on it, on its front corner. It sorts by its
+            // whole footprint's front corner.
+            let at = stand(item, placement)
+            node.position = CGPoint(x: grid.floor(at.u + at.w / 2, at.v + at.d / 2).x, y: grid.floor(at.u + at.w, at.v + at.d).y)
             node.zPosition = item.decal ? Layer.decals : Layer.standing + grid.depth(u + w, v + d) * Layer.perDepth
         }
     }

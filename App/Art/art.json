@@ -10193,19 +10193,12 @@
    ],
    "scale": 0.5
   },
-  "rooms/doors/door_panelled_cream.png": {
+  "rooms/doors/door_iso_cream.png": {
    "master": [
-    1108,
-    2256
+    550,
+    1530
    ],
-   "scale": 0.4
-  },
-  "rooms/doors/door_panelled_cream_opening.png": {
-   "master": [
-    1108,
-    2256
-   ],
-   "scale": 0.4
+   "scale": 0.6
   },
   "rooms/floors/floor_attic_chalk_blue.png": {
    "file": "rooms/floors/floor_attic_chalk_blue.heic",

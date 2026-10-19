@@ -33,7 +33,9 @@ SETS = [
     ('rooms/windows/window_casement*.png', 0.4),
     ('rooms/windows/window_arched*.png', 0.4),
     ('rooms/windows/window_dormer*.png', 0.4),
-    ('rooms/doors/door_panelled_cream*.png', 0.4),
+    # The living room's door, painted in 3D at the wall's angle (tools/asset-pipeline/isodoors.py; Josh, 19 Oct: the
+    # flat door_panelled_cream laid on the wall looked strange).
+    ('rooms/doors/door_iso_*.png', 0.6),
     ('furniture/living/furn_living_*.png', 0.6),
     ('furniture/kitchen/furn_kitchen_bowl_*.png', 0.6),
     ('fx/fire/fx_fire_0*.png', 0.5),

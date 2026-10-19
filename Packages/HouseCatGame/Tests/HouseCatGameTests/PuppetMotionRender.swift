@@ -13,7 +13,8 @@ private let repo = URL(fileURLWithPath: #filePath)
 
 /// Renders the moving puppet frame by frame, offscreen, to look at its movement closely (Josh, 19 Oct: the back legs
 /// and ears looked strange going sideways). HOUSECAT_RENDER_PUPPET=<folder> writes <view>_<gait>_<frame>.png for each
-/// view and gait over one and a half strides; HOUSECAT_PUPPET_LOOK=<preset id> picks the look (Midnight by default).
+/// view and gait over one and a half strides; HOUSECAT_PUPPET_LOOK=<preset id> picks the look (Midnight by default),
+/// and HOUSECAT_TINT_PIECES colours each leg's pieces.
 @MainActor
 @Test func renderThePuppetsMovement() throws {
     guard let folder = ProcessInfo.processInfo.environment["HOUSECAT_RENDER_PUPPET"] else { return }
@@ -39,6 +40,14 @@ private let repo = URL(fileURLWithPath: #filePath)
             scene.addChild(cat)
             cat.show(view, facingRight: false)
             cat.move(gait)
+            if ProcessInfo.processInfo.environment["HOUSECAT_TINT_PIECES"] != nil {
+                // Each leg's pieces in their own colour, to see where it bends.
+                cat.enumerateChildNodes(withName: "//leg_*") { node, _ in
+                    guard let sprite = node as? SKSpriteNode, let name = sprite.name else { return }
+                    sprite.color = name.hasSuffix(".paw") ? .blue : name.hasSuffix(".middle") ? .green : .red
+                    sprite.colorBlendFactor = name.contains("_far") ? 0.35 : 0.6
+                }
+            }
             let renderer = SKRenderer(device: device)
             renderer.scene = scene
             let p = Tuning.Puppet.self

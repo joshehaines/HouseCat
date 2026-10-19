@@ -1,27 +1,35 @@
 import CoreGraphics
 import Foundation
+import HouseCatCore
 
-/// A painted leg made into two pieces jointed at its hock (a hind leg) or wrist (a front leg), so it can bend as it
-/// steps and its paw can stay put on the floor (Josh, 19 Oct: the back legs looked strange moving sideways; they
-/// swung from the hip as one stiff piece, the paw sliding through an arc). Found from the leg's own outline, so it
-/// works for every body, breed and coat without new paintings.
+/// A painted leg cut into pieces that bend, so it steps like a cat's (Josh, 19 Oct: the legs swung from the hip as
+/// stiff pieces, the paws sliding; then "front legs don't have joints in them", with a reference of a cat standing):
+/// a front leg is a straight column from the shoulder to the wrist, then the paw; a hind leg bends back at the hock,
+/// then at the ankle to the paw. The paw is its own piece, so it can stand flat on the floor whatever the leg's
+/// angle, roll onto its toes and fold back as it lifts. Found from the leg's own outline, so it works for every
+/// body, breed and coat without new paintings.
 enum CatLimb {
-    /// Where a leg bends and where it stands, as fractions of its picture (origin top left), and how far round the
-    /// joint the two pieces overlap (a fraction of the picture's height).
+    /// Where a leg bends and stands, as fractions of its picture (origin top left): the hock (hind legs only), the
+    /// wrist or ankle just above the paw, the middle of the paw's sole and the tip of its toes; and how far round
+    /// each joint the pieces overlap (fractions of the picture's height).
     struct Joints: Equatable {
-        var knee: CGPoint
-        var foot: CGPoint
-        var radius: CGFloat
+        var hock: CGPoint?
+        var hockRadius: CGFloat = 0
+        var ankle: CGPoint
+        var ankleRadius: CGFloat
+        var sole: CGPoint
+        var toe: CGPoint
     }
 
-    /// The leg's joint: on a hind leg the hock, the point of its outline's centre line furthest off the line from hip
-    /// to paw (painted as a bend); on a straight front leg, the wrist, a little over halfway down. The foot is the
-    /// middle of the paw's sole.
-    static func joints(of image: CGImage) -> Joints? {
+    /// The leg's joints. The hock is the point of the outline's centre line furthest off the line from hip to ankle
+    /// (painted as a bend); the ankle (or wrist) the narrowest row above the paw; the toe the paw's front at the
+    /// floor (painted facing left: its leftmost point there).
+    static func joints(of image: CGImage, hind: Bool) -> Joints? {
         let width = image.width, height = image.height
         guard width > 2, height > 8, let alpha = alphaPlane(image) else { return nil }
         var centre = [CGFloat?](repeating: nil, count: height)
         var span = [CGFloat](repeating: 0, count: height)
+        var left = [Int](repeating: width, count: height)
         for row in 0 ..< height {
             var low = -1, high = -1
             for column in 0 ..< width where alpha[row * width + column] > 128 {
@@ -33,44 +41,72 @@ enum CatLimb {
             if low >= 0 {
                 centre[row] = CGFloat(low + high) / 2
                 span[row] = CGFloat(high - low)
+                left[row] = low
             }
         }
         guard let top = centre.firstIndex(where: { $0 != nil }), let bottom = centre.lastIndex(where: { $0 != nil }), bottom - top > 8
         else { return nil }
         let length = bottom - top
+        func row(_ share: Double) -> Int {
+            top + Int(Double(length) * share)
+        }
         func average(_ rows: ClosedRange<Int>) -> CGFloat {
             let values = rows.compactMap { centre[$0] }
             return values.isEmpty ? 0 : values.reduce(0, +) / CGFloat(values.count)
         }
-        let hipX = average(top ... top + max(2, length / 20))
-        let footX = average(bottom - max(2, length / 30) ... bottom)
-        var best: CGFloat = 0, kneeRow = top + Int(Double(length) * 0.62)
-        for row in (top + Int(Double(length) * 0.35)) ..< (top + Int(Double(length) * 0.82)) {
-            guard let x = centre[row] else { continue }
-            let t = CGFloat(row - top) / CGFloat(length)
-            let off = x - (hipX + (footX - hipX) * t)
-            if abs(off) > abs(best) {
-                best = off
-                kneeRow = row
+        // The ankle: the narrowest the leg gets above the paw (widths smoothed over a few rows, so fur tufts do not
+        // decide it).
+        let reach = max(1, length / 40)
+        var ankleRow = row(0.82), narrowest = CGFloat.greatestFiniteMagnitude
+        for candidate in row(0.66) ... row(0.9) {
+            let rows = max(top, candidate - reach) ... min(bottom, candidate + reach)
+            let mean = rows.map { span[$0] }.reduce(0, +) / CGFloat(rows.count)
+            if mean < narrowest {
+                narrowest = mean
+                ankleRow = candidate
             }
         }
-        if abs(best) < CGFloat(length) * 0.03 {
-            kneeRow = top + Int(Double(length) * 0.62)
-        }
-        let kneeX = centre[kneeRow] ?? hipX
-        let radius = max(span[kneeRow], 2) / 2 * 1.35
-        return Joints(
-            knee: CGPoint(x: kneeX / CGFloat(width), y: CGFloat(kneeRow) / CGFloat(height)),
-            foot: CGPoint(x: footX / CGFloat(width), y: CGFloat(bottom) / CGFloat(height)),
-            radius: radius / CGFloat(height)
+        let ankleX = centre[ankleRow] ?? average(bottom - 2 ... bottom)
+        let soleX = average(bottom - max(2, length / 30) ... bottom)
+        let toeX = left[max(top, bottom - max(2, length / 40)) ... bottom].min() ?? Int(soleX)
+        var joints = Joints(
+            ankle: CGPoint(x: ankleX / CGFloat(width), y: CGFloat(ankleRow) / CGFloat(height)),
+            ankleRadius: max(span[ankleRow], 2) / 2 * 1.35 / CGFloat(height),
+            sole: CGPoint(x: soleX / CGFloat(width), y: CGFloat(bottom) / CGFloat(height)),
+            toe: CGPoint(x: (CGFloat(toeX) + 2) / CGFloat(width), y: CGFloat(bottom) / CGFloat(height))
         )
+        guard hind else { return joints }
+        let hipX = average(top ... top + max(2, length / 20))
+        let ankleLength = ankleRow - top
+        var best: CGFloat = 0, hockRow = top + Int(Double(ankleLength) * 0.6)
+        for candidate in (top + Int(Double(ankleLength) * 0.35)) ..< (top + Int(Double(ankleLength) * 0.85)) {
+            guard let x = centre[candidate] else { continue }
+            let t = CGFloat(candidate - top) / CGFloat(ankleLength)
+            // Painted facing left, a hock juts back: to the right.
+            let off = x - (hipX + (ankleX - hipX) * t)
+            if off > best {
+                best = off
+                hockRow = candidate
+            }
+        }
+        // A short, fluffy hind leg painted without a clear hock stays one piece to the paw, as a front leg does.
+        guard best >= CGFloat(length) * CGFloat(Tuning.Puppet.hockBend) else { return joints }
+        joints.hock = CGPoint(x: (centre[hockRow] ?? hipX) / CGFloat(width), y: CGFloat(hockRow) / CGFloat(height))
+        joints.hockRadius = max(span[hockRow], 2) / 2 * 1.35 / CGFloat(height)
+        return joints
     }
 
-    /// The leg cut in two at its joint, each the leg's whole picture size: the upper piece above the joint and round
-    /// it, its edge below the joint feathered; the lower piece below the joint and round it, hard-edged and drawn
-    /// behind. The round overlap is centred on the joint, so the lower piece turning about the joint keeps its edge
-    /// under the upper piece: no seam, however far it bends.
-    static func split(_ image: CGImage, joints: Joints) -> (upper: CGImage, lower: CGImage)? {
+    /// A cut across the leg at a joint (fractions of the picture, origin top left).
+    struct Cut {
+        var centre: CGPoint
+        var radius: CGFloat
+    }
+
+    /// The leg cut at its joints, top to bottom, each piece the leg's whole picture size: each piece holds what is
+    /// between its cuts and a round of overlap about each joint, hard-edged round the joint above it and feathered
+    /// round the joint below it. Each piece is drawn behind the one above it, and turns about the joint they share:
+    /// the round overlap keeps its edge under the piece above however far it bends, so no seam shows.
+    static func split(_ image: CGImage, at cuts: [Cut]) -> [CGImage]? {
         let width = image.width, height = image.height
         let space = CGColorSpace(name: CGColorSpace.sRGB) ?? CGColorSpaceCreateDeviceRGB()
         let info = CGImageAlphaInfo.premultipliedLast.rawValue
@@ -84,49 +120,51 @@ enum CatLimb {
             return true
         }
         guard drawn else { return nil }
-        let kx = joints.knee.x * CGFloat(width), ky = joints.knee.y * CGFloat(height)
-        let r = joints.radius * CGFloat(height)
-        var upper = pixels, lower = pixels
-        for row in 0 ..< height {
-            // The buffer's rows run top down, as the fractions do.
-            let y = CGFloat(row) + 0.5
-            for column in 0 ..< width {
-                let x = CGFloat(column) + 0.5
-                let distance = hypot(x - kx, y - ky)
-                let up: CGFloat = if y < ky {
-                    1
-                } else if distance <= r * 0.8 {
-                    1
-                } else if distance >= r {
-                    0
-                } else {
-                    1 - smooth((distance - r * 0.8) / (r * 0.2))
-                }
-                let down: CGFloat = y > ky || distance < r ? 1 : 0
-                let index = (row * width + column) * 4
-                if up < 1 {
-                    for channel in 0 ..< 4 {
-                        upper[index + channel] = UInt8(CGFloat(pixels[index + channel]) * up)
+        let joints = cuts.map {
+            (x: $0.centre.x * CGFloat(width), y: $0.centre.y * CGFloat(height), r: $0.radius * CGFloat(height))
+        }
+        var pieces: [CGImage] = []
+        for index in 0 ... joints.count {
+            var piece = pixels
+            for row in 0 ..< height {
+                // The buffer's rows run top down, as the fractions do.
+                let y = CGFloat(row) + 0.5
+                for column in 0 ..< width {
+                    let x = CGFloat(column) + 0.5
+                    var keep: CGFloat = 1
+                    if index < joints.count {
+                        // Above the joint below, and round it, feathered.
+                        let joint = joints[index]
+                        let distance = hypot(x - joint.x, y - joint.y)
+                        if y >= joint.y, distance > joint.r * 0.8 {
+                            keep = distance >= joint.r ? 0 : 1 - smooth((distance - joint.r * 0.8) / (joint.r * 0.2))
+                        }
                     }
-                }
-                if down < 1 {
-                    for channel in 0 ..< 4 {
-                        lower[index + channel] = 0
+                    if index > 0, keep > 0 {
+                        // Below the joint above, and round it, hard-edged.
+                        let joint = joints[index - 1]
+                        if y <= joint.y, hypot(x - joint.x, y - joint.y) >= joint.r {
+                            keep = 0
+                        }
+                    }
+                    if keep < 1 {
+                        let at = (row * width + column) * 4
+                        for channel in 0 ..< 4 {
+                            piece[at + channel] = UInt8(CGFloat(pixels[at + channel]) * keep)
+                        }
                     }
                 }
             }
-        }
-        func make(_ bytes: [UInt8]) -> CGImage? {
-            var bytes = bytes
-            return bytes.withUnsafeMutableBytes { buffer -> CGImage? in
+            let made = piece.withUnsafeMutableBytes { buffer -> CGImage? in
                 CGContext(
                     data: buffer.baseAddress, width: width, height: height, bitsPerComponent: 8, bytesPerRow: width * 4,
                     space: space, bitmapInfo: info
                 )?.makeImage()
             }
+            guard let made else { return nil }
+            pieces.append(made)
         }
-        guard let top = make(upper), let bottom = make(lower) else { return nil }
-        return (top, bottom)
+        return pieces
     }
 
     /// Where the joint goes for the paw to reach `target` from `hip` (two bones `upper` and `lower` long), bending

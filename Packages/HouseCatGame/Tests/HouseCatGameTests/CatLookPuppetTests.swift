@@ -64,10 +64,11 @@ private let repo = URL(fileURLWithPath: #filePath)
 }
 
 /// The legs bend at the hock and the wrist and a planted paw stays put (Josh, 19 Oct: the back legs looked strange
-/// going sideways): the cat walks across the floor at its own pace, and while a paw is down it moves less than a
-/// whisker; between plants it lifts clear of the floor.
+/// going sideways; then the front legs had no joints): the cat walks across the floor at its own pace, and while a
+/// paw is down it moves less than a whisker; between plants it lifts clear of the floor. Every leg, on every kind of
+/// body: short and slim, short and chunky, oriental, long-haired and slim (its single legs), Maine Coon.
 @MainActor
-@Test(arguments: ["midnight", "british_blue", "oriental"])
+@Test(arguments: ["midnight", "british_blue", "oriental", "turkish_van", "maine_coon"])
 func aPlantedPawStaysPutAsTheCatWalks(preset: String) throws {
     let art = try ArtLibrary(root: repo.appendingPathComponent("App/Art"))
     let catArt = try CatArt(art: art)
@@ -83,27 +84,32 @@ func aPlantedPawStaysPutAsTheCatWalks(preset: String) throws {
     let speed = CGFloat(Tuning.Puppet.walkSpeed) * height / 420
     cat.moveSpeed = speed
     cat.moveDirection = CGVector(dx: -1, dy: 0)
-    var track: [CGPoint] = []
+    let legs = ["leg_back_near", "leg_front_near", "leg_back_far", "leg_front_far"]
+    var tracks: [String: [CGPoint]] = [:]
     for _ in 0 ..< 120 {
         let dt = 1.0 / 60
         cat.position.x -= speed * CGFloat(dt)
         cat.step(dt)
-        track.append(try #require(cat.paw("leg_back_near")))
-    }
-    let ground = track.map(\.y).min() ?? 0
-    // Runs of frames with the paw on the floor: within each, it barely moves along the floor.
-    var run: [CGPoint] = [], worst: CGFloat = 0, lifted: CGFloat = 0
-    for point in track {
-        lifted = max(lifted, point.y - ground)
-        if point.y - ground < height * 0.004 {
-            run.append(point)
-        } else {
-            if let first = run.first, let last = run.last, run.count > 4 {
-                worst = max(worst, abs(last.x - first.x))
-            }
-            run = []
+        for name in legs {
+            try tracks[name, default: []].append(#require(cat.paw(name), "\(preset): \(name) is jointed"))
         }
     }
-    #expect(worst < height * 0.02, "\(preset): a planted paw slid \(worst)")
-    #expect(lifted > height * 0.03, "\(preset): the paw lifts between plants (\(lifted))")
+    for (name, track) in tracks {
+        let ground = track.map(\.y).min() ?? 0
+        // Runs of frames with the paw on the floor: within each, it barely moves along the floor.
+        var run: [CGPoint] = [], worst: CGFloat = 0, lifted: CGFloat = 0
+        for point in track {
+            lifted = max(lifted, point.y - ground)
+            if point.y - ground < height * 0.004 {
+                run.append(point)
+            } else {
+                if let first = run.first, let last = run.last, run.count > 4 {
+                    worst = max(worst, abs(last.x - first.x))
+                }
+                run = []
+            }
+        }
+        #expect(worst < height * 0.02, "\(preset): \(name)'s planted paw slid \(worst)")
+        #expect(lifted > height * 0.03, "\(preset): \(name)'s paw lifts between plants (\(lifted))")
+    }
 }

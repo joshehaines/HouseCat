@@ -1538,7 +1538,53 @@
     195
    ]
   },
+  "parts/cat_long_slim_side_leg_back_far_single.png": {
+   "masks": [
+    "colourpoint",
+    "fur",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tortie",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    355,
+    558
+   ],
+   "scale": 0.35,
+   "size": [
+    124,
+    195
+   ]
+  },
   "parts/cat_long_slim_side_leg_back_near.png": {
+   "masks": [
+    "colourpoint",
+    "fur",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tortie",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    364,
+    553
+   ],
+   "scale": 0.35,
+   "size": [
+    127,
+    194
+   ]
+  },
+  "parts/cat_long_slim_side_leg_back_near_single.png": {
    "masks": [
     "colourpoint",
     "fur",
@@ -1584,7 +1630,53 @@
     197
    ]
   },
+  "parts/cat_long_slim_side_leg_front_far_single.png": {
+   "masks": [
+    "colourpoint",
+    "fur",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tortie",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    309,
+    564
+   ],
+   "scale": 0.35,
+   "size": [
+    108,
+    197
+   ]
+  },
   "parts/cat_long_slim_side_leg_front_near.png": {
+   "masks": [
+    "colourpoint",
+    "fur",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tortie",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    299,
+    569
+   ],
+   "scale": 0.35,
+   "size": [
+    105,
+    199
+   ]
+  },
+  "parts/cat_long_slim_side_leg_front_near_single.png": {
    "masks": [
     "colourpoint",
     "fur",

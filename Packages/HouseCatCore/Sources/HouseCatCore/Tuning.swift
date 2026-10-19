@@ -665,6 +665,26 @@ public enum Tuning {
         public static let slantStride = 0.75
         /// The far legs, behind the body, this much darker.
         public static let farLegShade = 0.18
+        /// The paws (degrees, the heel up): how far one rolls onto its toes as it leaves the floor, over the last
+        /// `pawRollShare` of its time there; how far it folds back in the air (a front paw tucks right under, as a
+        /// cat's wrist does; a hind paw hangs toes down); and how far its toes tip up reaching to land.
+        public static let frontPawRoll = 25.0
+        public static let frontPawFold = 80.0
+        public static let hindPawRoll = 20.0
+        public static let hindPawFold = 40.0
+        public static let pawReach = 6.0
+        public static let pawRollShare = 0.25
+        /// A front leg is one straight piece from the shoulder to the wrist: when its paw is further off than the leg
+        /// is long, it comes down out of the body by up to this share of its length (the rest of the way, the paw
+        /// falls short).
+        public static let shoulderDrop = 0.03
+        /// A hind leg is jointed at its hock when the painting's hock juts back at least this share of the leg's
+        /// length off the line from hip to ankle; and lifting, its hip rides up into the body by this share of the
+        /// paw's lift (the knee and hip bending, hidden in the body).
+        public static let hockBend = 0.06
+        public static let hipRaise = 0.8
+        /// How far (degrees) a hind leg's hock folds, at the top of its swing, bringing the paw forward under it.
+        public static let hockFold = 30.0
         /// The bodies whose side head is a true profile, which take the profile ears in the side view; the others
         /// keep the cupped ears (the long-haired chunky body's side head looks round at you). A side head painted with
         /// its own ear takes no ear parts over it.

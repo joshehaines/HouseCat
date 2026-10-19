@@ -1,6 +1,6 @@
-# HouseCat: App Store listing and review notes (draft, 18 Oct 2026)
+# HouseCat: App Store listing, review notes and launch checklist (19 Oct 2026)
 
-Everything App Store Connect asks for, ready to paste once the developer team exists. Prices are UK tiers; StoreKit shows each player their own.
+This file holds everything App Store Connect asks for, ready to paste. It is written against version 1.0 as built at commit aaa050f3 and after. Prices are UK tiers; StoreKit shows each player their own. The website's corrections are in `website_fixes.md`.
 
 ## Listing
 
@@ -9,7 +9,20 @@ Everything App Store Connect asks for, ready to paste once the developer team ex
 - **Promotional text** (170): Pick a home anywhere on the globe, build your cat, and visit each day. Feed, stroke, play and decorate room by room while your cat waits for you in the widget.
 - **Keywords** (100): cat,cosy,cozy,pet,kitten,decorate,room,home,widget,streak,virtual pet,isometric,calm,daily,care
 - **Category**: Games / Simulation (secondary: Casual)
-- **Age rating**: 4+. None for every content question; Loot boxes: No; Contests: No; Unrestricted web access: No; User-generated content: No (the only text another person sees is the cat's name, filtered); Health or wellness topics: None; not Made for Kids.
+- **Support URL**: https://housecatgame.com/support/
+- **Marketing URL**: https://housecatgame.com/
+- **Privacy Policy URL**: https://housecatgame.com/privacy/
+- **Licence agreement**: Apple's standard EULA. Our Terms of Use are linked in the description, the app, and on the Cat Club page.
+- **Copyright**: 2026 Josh Haines
+- **Age rating**: 4+.
+  - Every content question: None.
+  - Gambling: No. Loot boxes: No. Contests: No.
+  - Unrestricted web access: No.
+  - User-generated content: No. In 1.0 no text one person types is shown to anyone else: co-owning is off, and the cat's name stays on the device.
+  - Messaging or chat: No. Advertising: No.
+  - Health or wellness topics: None. It only reads steps, sleep and workouts, optionally, for extra XP.
+  - Parental controls: No. Age assurance: No. Not Made for Kids.
+- **Devices**: iPhone, iPad and Apple Watch (the Watch app is inside the iPhone app). In App Store Connect, turn off "Make this app available" for Mac (Apple silicon) and Apple Vision Pro, and don't submit the HouseCatMac target for 1.0 (see the checklist).
 
 ### Description
 
@@ -17,73 +30,148 @@ Your own cat, in your own home, somewhere in the world.
 
 Pin your home anywhere on a turning painted globe and the sky, the seasons and the real weather follow: rain on the glass in Lisbon, snow on the sill in Chamonix. Build your cat in the cat builder (any coat, pattern, eyes and ears) and give it a name.
 
-Every visit, your cat notices you, runs over and rubs along the screen, then gets on with its day: a nap in the sun, a loaf on the sofa, zoomies at dusk. Feed it, stroke it, play laser pointer, knock-it-off and string chase, and it brings you a gift for its book.
+Every visit, your cat notices you, hops off the sofa and comes over to say hello, then gets on with its day: a nap in the sun, a loaf on the sofa, a scratch at the post, zoomies at dusk. Feed it, stroke it, play laser pointer, knock-it-off and string chase, and it brings you a gift for its book.
 
-Make the house a home, room by room. Open the bedroom, the kitchen, the garden, the study and the attic as you level up, and place every piece where you like. Earn Beans every day, or top up with a pack.
+Make the house a home, room by room. Open the bedroom, the kitchen, the garden, the study and the attic as you level up, and place every piece where you like. Outside, the garden or the street moves with the wind and the seasons. Daily and weekly goals and sixty milestones give you something to work towards. Earn Beans every day, or top up with a pack.
 
-Your cat lives on your Home Screen too: in your own window with your own weather, waiting by the door until you visit, with your streak. Miss a day and it sulks a little; it never leaves, and nothing is ever lost.
+Your cat lives on your Home Screen and your Apple Watch too: in your own window with your own weather, waiting by the door until you visit, with your streak. Miss a day and it sulks a little; it never leaves, and nothing is ever lost.
 
-Share your cat with someone you live with or love, and keep the streak together.
-
-- Beans are earned every day in play and also sold in packs. Room looks are kept for good. Cat Club is an optional subscription: +20% Beans, rooms for half the Beans, moving home for free and every season's paid track; yearly with a 7-day free trial, or monthly. It renews automatically until cancelled at least a day before renewal in Settings.
+- Beans are earned every day in play and also sold in packs. Room looks are kept for good. Cat Club is an optional subscription: +20% Beans, rooms for half the Beans and moving home for free (and each season's paid track while a season is on); yearly with a 7-day free trial, or monthly. It renews automatically unless cancelled at least 24 hours before the end of the period, in your Apple Account settings.
 - Nothing is random for money, no ads, no account.
-- Terms of Use: https://housecatgame.com/terms
-- Privacy Policy: https://housecatgame.com/privacy
+- Optional: Apple Health. With your permission HouseCat reads your steps, sleep and workouts to give extra XP. It never writes to Health, and the data stays on your device.
+- Terms of Use: https://housecatgame.com/terms/
+- Privacy Policy: https://housecatgame.com/privacy/
 - Weather: Apple Weather. Place search: Apple Maps. The cat's voice: recordings from Wikimedia Commons.
 
-## Screenshots (iPhone 6.9", landscape, 2868 × 1320, `iphone-6.9/`)
+## Screenshots
 
-| File | Caption |
-| --- | --- |
-| 01_intro.png | A cat, a home, anywhere in the world |
-| 02_home_tour.png | Visit homes from London to Marrakech |
-| 03_room.png | Your cat runs to meet you every day |
-| 04_decorate.png | Make every room your own |
-| 05_winter_exterior.png | Real weather and seasons where you live |
-| 06_game.png | Play laser pointer, knock-it-off and string chase |
-| 07_cat_club.png | Cat Club: more Beans and every season's track |
-| 08_globe.png | Pin your home anywhere on the globe |
-| 09_beans.png | Earn Beans, or top up any time |
-| 10_level_up.png | Level up and open new rooms |
+- **iPhone 6.9"** (landscape, 2868 × 1320): `iphone-6.9/`
+- **iPad 13"** (landscape, 2752 × 2064): `ipad-13/`
 
-Taken in the simulator with debug screens (`CLAUDE.md`, "Debug"). The simulator draws the Dynamic Island into its screenshots, which a phone's own screenshots never include, so it was painted out of 04, 07, 09 and 10 from the background beside it. Shots 01 to 06 and 08 are from before the economy pass; 03 to 06 show the status pill without its XP bar.
+Both sets were taken on 19 Oct from the current build, each screen from a fresh launch with the debug switches in `CLAUDE.md` ("Debug"): a seeded home (`HOUSECAT_HOUSE=full HOUSECAT_CAT=midnight` on a fresh install, `HOUSECAT_SKIP_STORE=1`), with any `HOUSECAT_SCREEN` value so the day-3 cards stay away. The simulator draws the Dynamic Island into iPhone screenshots, which a phone's own screenshots never include, so it is painted out from the picture round it (OpenCV inpainting). The order and captions are in the table below the checklist. On iPad the cards and buttons are drawn at the phone's size; they work, but scaling them up for the big screen would make better iPad screenshots.
+
+The shop is not in the marketing set: a simulator launch from the command line has no test products, so its prices show "…". For each in-app purchase's review screenshot, use the earlier `iphone-6.9/review_cat_club.png` and `review_beans.png` (18 Oct, before the Cat Club page's button showed the price), or run from Xcode (the scheme loads `Store/HouseCat.storekit`) with `HOUSECAT_SCREEN=shop HOUSECAT_SHOP=club|beans|looks`.
 
 ## In-app purchases (17, matching `Store/HouseCat.storekit`)
 
-Review screenshot for every product: `09_beans.png` (packs), `07_cat_club.png` (Cat Club), the shop's Room looks section (`HOUSECAT_SCREEN=shop HOUSECAT_SHOP=looks`) for the looks.
-
-| Product ID | Type | Price | Display name | Description (45) |
+| Product ID | Type | Price | Display name (35) | Description (55) |
 | --- | --- | --- | --- | --- |
-| housecat.beans.handful | Consumable | £0.99 | A handful of Beans | 500 Beans for your cat's home |
-| housecat.beans.pouch | Consumable | £1.99 | A pouch of Beans | 1,200 Beans for your cat's home |
-| housecat.beans.jar | Consumable | £3.99 | A jar of Beans | 2,600 Beans for your cat's home |
-| housecat.beans.sack | Consumable | £9.99 | A sack of Beans | 7,000 Beans for your cat's home |
-| housecat.beans.barrel | Consumable | £19.99 | A barrel of Beans | 15,000 Beans for your cat's home |
-| housecat.starter | Non-consumable | £1.99 | Starter Pack | 2,000 Beans, a knitted beanie and an armchair |
-| housecat.season.housewarming | Non-consumable | £4.99 | Housewarming living room | A whole living room look (launch month only) |
-| housecat.room.fireside_living | Non-consumable | £2.99 | Fireside living room | A whole living room look |
-| housecat.room.midnight_bedroom | Non-consumable | £3.99 | Midnight bedroom | A whole bedroom look |
-| housecat.room.rainy_bedroom | Non-consumable | £3.99 | Rainy day bedroom | A whole bedroom look |
-| housecat.room.country_kitchen | Non-consumable | £4.99 | Country kitchen | A whole kitchen look |
-| housecat.room.riviera_garden | Non-consumable | £4.99 | Riviera garden | A whole garden look |
-| housecat.room.cosy_study | Non-consumable | £4.99 | Cosy study | A whole study look |
-| housecat.room.cabin_attic | Non-consumable | £3.99 | Cabin attic | A whole attic look |
-| housecat.room.starlit_attic | Non-consumable | £2.99 | Starlit attic | A whole attic look |
-| housecat.club.monthly | Auto-renewable (Cat Club) | £2.99 / month | Cat Club Monthly | More Beans, half-price rooms, every pass |
-| housecat.club.yearly | Auto-renewable (Cat Club) | £19.99 / year, 7-day free trial | Cat Club Yearly | More Beans, half-price rooms, every pass |
+| housecat.beans.handful | Consumable | £0.99 | A handful of Beans | 500 Beans for furniture, outfits, rooms and presents. |
+| housecat.beans.pouch | Consumable | £1.99 | A pouch of Beans | 1,200 Beans for furniture, outfits, rooms and presents. |
+| housecat.beans.jar | Consumable | £3.99 | A jar of Beans | 2,600 Beans for furniture, outfits, rooms and presents. |
+| housecat.beans.sack | Consumable | £9.99 | A sack of Beans | 7,000 Beans for furniture, outfits, rooms and presents. |
+| housecat.beans.barrel | Consumable | £19.99 | A barrel of Beans | 15,000 Beans for furniture, outfits, rooms and gifts. |
+| housecat.starter | Non-consumable | £1.99 | Starter Pack | 2,000 Beans, a beanie and an armchair. Once only. |
+| housecat.season.housewarming | Non-consumable | £4.99 | Housewarming living room | A grand fireplace, a hi-fi, bulbs and a welcome mat. |
+| housecat.room.fireside_living | Non-consumable | £2.99 | Fireside living room | A fire, a record player and a radiator seat. |
+| housecat.room.midnight_bedroom | Non-consumable | £3.99 | Midnight bedroom | Starry walls, a reading lamp and a cat hammock. |
+| housecat.room.rainy_bedroom | Non-consumable | £3.99 | Rainy day bedroom | Toile walls, rose carpet and a basket of laundry. |
+| housecat.room.country_kitchen | Non-consumable | £4.99 | Country kitchen | Lemon walls, slate floor, a kettle and a bread bin. |
+| housecat.room.riviera_garden | Non-consumable | £4.99 | Riviera garden | A pond, a deck chair, festoon lights and a hammock. |
+| housecat.room.cosy_study | Non-consumable | £4.99 | Cosy study | Map walls, a globe, a desk lamp and a mug of tea. |
+| housecat.room.cabin_attic | Non-consumable | £3.99 | Cabin attic | Pine walls, a skylight, an oil lamp and a wireless. |
+| housecat.room.starlit_attic | Non-consumable | £2.99 | Starlit attic | A telescope, a rocking horse and a dressmaker's dummy. |
+| housecat.club.monthly | Auto-renewable (group "Cat Club", level 1) | £2.99 / month | Cat Club Monthly | +20% Beans, rooms for half the Beans and free moves. |
+| housecat.club.yearly | Auto-renewable (group "Cat Club", level 1) | £19.99 / year, 1-week free trial | Cat Club Yearly | +20% Beans, rooms for half the Beans and free moves. |
 
-The Housewarming look's product ID keeps its earlier name; IDs can never be renamed once live. Family Sharing: on for Cat Club only, as the StoreKit configuration has it (a room look's pieces go into one household's save).
+- The Housewarming look's product ID keeps its earlier name, because IDs can never be renamed once live.
+- Family Sharing is on for Cat Club only, as the StoreKit configuration has it. A room look's pieces go into one household's save.
+- The `housecat.pass.*` SKUs in `Content/seasons.json` are not products: the paid track comes with Cat Club. Don't create them.
+- Each product needs a review screenshot (see Screenshots) and, for the subscription group, a display name ("Cat Club").
 
-## Notes for App Review
+## App Privacy (the App Store Connect questionnaire)
 
-- No account or sign-in. The game starts with a short intro (skippable) and the cat builder.
-- The shop is the bag button, bottom right of the room. Every product can be bought from it; Restore Purchases, Request a refund, Manage subscription, Terms and Privacy are at its end. Beans bought in a pack appear at once in the balance at the top right of the shop and in the room.
-- Beans are the game's one currency: earned every day by playing and sold in fixed packs. Nothing bought is random; the daily gift cannot be bought or affected by any purchase.
-- A room look puts a whole room's furniture, wallpaper and floor in at once ("Add the whole room"), and can be tried in the room before buying.
-- Cat Club's paid season track opens with the subscription; the first season starts on 2 November.
-- Health (steps, sleep, workouts, read only) is offered on the third day of play and can be switched on in the cat's settings (the cat's face button, bottom right, then Reminders and widget). It only ever gives extra XP. Nothing is written to Health or leaves the phone.
-- Notifications are local, at times the player chooses, offered after the first feed with a sample of what they look like.
-- Sharing a cat (co-owning) uses iCloud: the cat's face button, Reminders and widget, Share. Invites are one-time links or a six-character code that lasts two days.
-- Weather comes from WeatherKit for the home's pinned place (no device location); the Apple Weather mark and link are in the cat's settings.
-- Analytics are off unless the player switches them on in the cat's settings; anonymous counts only.
-- Your data, in the cat's settings: Export my data shares the whole save as JSON; Delete all my data (two confirmations) deletes the save, the widget's files, preferences, reminders and the shared household in iCloud, and starts again from the intro. There is no account to delete. Licences and credits are there too.
+As built, with the PostHog and RevenueCat keys empty (`project.yml`):
+
+- **Data collection**: "No, we do not collect data from this app."
+  - The save, Health results and settings stay on the device.
+  - Weather requests send the pinned place's coordinates to Apple WeatherKit. Place search goes to Apple Maps. Purchases go through Apple. Apple, not us, is responsible for those.
+
+If keys are added before launch, answer "Yes" and declare:
+
+- **PostHog** (if its key is set): Usage Data, then Product Interaction. Purpose: Analytics. Not linked to the user. Not used for tracking. The privacy manifest already declares this.
+- **RevenueCat** (if its key is set): Purchases, then Purchase History. Purpose: App Functionality. Not linked to the user (RevenueCat's anonymous ID only). Not used for tracking. RevenueCat's own SDK manifest declares the same.
+
+**Tracking**: No. There is no IDFA and no App Tracking Transparency prompt.
+
+## Other App Store Connect answers
+
+- **Export compliance**: `ITSAppUsesNonExemptEncryption` is NO. The app uses only Apple's HTTPS.
+- **Content rights**: the app contains no third-party content beyond the credited cat recordings (Wikimedia Commons, credited in Licences and credits).
+- **Sign-in required**: No. There is no account and no demo login.
+- **Version**: 1.0, build 1. The Info.plists set these; raise the build number for each upload.
+
+## Notes for App Review (paste into "Notes")
+
+```
+No account or sign-in. The game opens with a short intro (skippable) and the cat builder; after that you are in the cat's home.
+
+Where things are (landscape):
+- Shop: the gold Shop button, bottom right of the room. Beans packs, Room looks, Cat Club and Outfits are in the rail on the left. Every product can be bought there. Bought Beans appear at once in the balance at the top right.
+- Cat Club page: Restore Purchases, Terms of Use and Privacy Policy are under the crowned cat; the price that will be charged is on the button.
+- Restore Purchases, Manage subscription, Request a refund, Help and support, Terms and Privacy are also at the end of the shop and in Settings (tap the cat's portrait at the top left, then Settings, then "Purchases and help").
+- Menu (top left, under the portrait): Goals, Map, Book, and the Gift track while one runs. The season pass appears there when a season is on (the first starts after this review); Cat Club's paid track opens with it.
+
+Beans are the one currency: earned every day by playing and sold in fixed packs. Nothing bought is random. A room look puts a whole room's furniture, wallpaper and floor in at once, and can be tried in the room before buying.
+
+Optional Apple Health (steps, sleep, workouts; read only) is offered on the third day of play and is in Settings. It only gives extra XP. Nothing is written to Health or leaves the device.
+
+Notifications are local, at times the player chooses, offered after the first feed.
+
+Weather comes from WeatherKit for the home's pinned place (no device location is used). The Apple Weather mark and link are in Settings.
+
+Your data, in Settings: Export my data shares the whole save as a file; Delete all my data (two confirmations) deletes the save, the widget's files, preferences and reminders, and starts again from the intro. There is no account to delete.
+
+The Apple Watch app and widgets show the cat, its mood and the streak; the Watch can feed and stroke.
+```
+
+## Launch checklist: what Josh does
+
+### Apple Developer and App Store Connect
+
+1. **Team**: join the Apple Developer Program, then put the Team ID in `project.yml` (`DEVELOPMENT_TEAM`) and run `xcodegen generate`.
+2. **App IDs**: `com.housecatgame.housecat` and its extensions (`.widgets`, `.downloader`, `.watchkitapp`, `.watchkitapp.complication`). Each needs the App Group `group.com.housecatgame.housecat`. Add these capabilities:
+   - The app: HealthKit, WeatherKit, In-App Purchase, Background Assets, Push Notifications (not used yet; leave it off).
+   - iCloud/CloudKit: only when co-owning ships.
+3. **App record**: create it with the bundle ID above, primary language English (UK), SKU `housecat`.
+4. **Agreements, tax and banking**: sign the Paid Apps agreement. In-app purchases can't be reviewed without it.
+5. **In-app purchases**:
+   - Create the 17 products in the table, with the same IDs, types, prices, names and descriptions.
+   - Create the subscription group "Cat Club" with both plans at the same level (1), as the StoreKit configuration has them, and a 1-week free introductory offer on the yearly plan.
+   - Add a review screenshot to each.
+   - Submit them with the first build.
+6. **Background Assets**: upload the exterior packs (`CLAUDE.md`, "Background Assets"), or the other homes fall back to the city scenes.
+7. **App Privacy, age rating and export compliance**: as above.
+8. **Pricing and availability**: free. Turn off Mac and Vision Pro availability.
+9. **TestFlight**: archive the HouseCat scheme (Release) and upload. Test on a real iPhone and iPad: buy each kind of product in the sandbox, and check Restore on a second device.
+10. **Screenshots**: upload `iphone-6.9/01-08` and `ipad-13/01-08` (not the `review_*` files, which are for the in-app purchases).
+
+### Decisions before submitting
+
+- **RevenueCat**: set `RevenueCatAPIKey` or leave it empty. The app uses StoreKit 2 directly without it. The privacy policy and the App Privacy answers must match the choice.
+- **PostHog analytics**: same choice. Empty means no analytics and no switch in Settings.
+- **Season dates**: the first season (Housewarming) is set for 2 Nov 2026 to 1 Dec 2026, marked provisional. The Pass stays out of the menu until a season starts.
+- **Mac menu-bar cat**: leave it out of 1.0. It has no App Sandbox and can't reach the iPhone's cat, so review would reject it under minimum functionality. To ship it later, it needs the sandbox, the App Group and a privacy manifest.
+- **Co-owning**: to ship it later, it needs the iCloud container on the App ID, `HouseCatCloudKit` set to true, and Leave, Remove and Report controls (App Review 1.2). Co-owner names already go through the name filter.
+
+### Website (Hostinger)
+
+1. The domain housecatgame.com is registered (Hostinger, 19 Oct). Point it at the hosting plan.
+2. Apply `website_fixes.md`, then upload the contents of `website/` (not `_to_delete/`) to `public_html`.
+3. Create the mailboxes `support@housecatgame.com` and `safety@housecatgame.com` in Hostinger's email.
+4. Check that https://housecatgame.com/privacy/, /terms/ and /support/ load before submitting. App Review opens them.
+
+## Screenshot order and captions
+
+Captions are for overlay text if wanted. Apple shows the screenshots as they are.
+
+| # | iPhone file | iPad file | Caption |
+| --- | --- | --- | --- |
+| 1 | 01_room.png | 01_room.png | Your cat runs to meet you every day |
+| 2 | 02_decorate.png | 02_decorate.png | Make every room your own |
+| 3 | 03_game.png | 03_game.png | Laser pointer, knock-it-off and string chase |
+| 4 | 04_goals.png | 04_goals.png | Goals today, this week and for good |
+| 5 | 05_evening.png | 05_evening.png | Real weather and seasons where you live |
+| 6 | 06_profile.png | 06_profile.png | Your cat, its look, its book |
+| 7 | 07_intro.png | 07_intro.png | A cat, a home, anywhere in the world |
+| 8 | 08_level_up.png | 08_level_up.png | Level up and open new rooms |

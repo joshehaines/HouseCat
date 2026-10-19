@@ -536,22 +536,31 @@ LIFETIME = {'total_feeds', 'total_pets', 'total_gifts', 'distinct_gifts', 'legen
             'rooms_opened', 'rooms_visited', 'longest_streak', 'level', 'trust_tier', 'minigame_wins',
             'three_star_games', 'naps', 'season_changed', 'home_moved', 'pass_tiers_claimed', 'seasons_completed',
             'paw_prints_sent', 'groups_joined', 'sitting_days', 'gifts_sent', 'outfits_worn', 'surfaces_changed',
-            'cats_adopted', 'sunday_cards', 'together_days'}
+            'cats_adopted', 'sunday_cards', 'together_days',
+            # the path's and the newer ladders' (19 Oct)
+            'games_played', 'days_visited', 'care_days', 'rooms_furnished', 'cat_used_items', 'homes_visited'}
+# Lifetime too, but they count in the room or the screen a path step names: never an achievement's.
+PATH_ONLY = {'room_pieces', 'screen_seen'}
+SCREENS = {'map'}   # what the app records as seen (GameSession.saw)
 PAID_METRICS = {'gifts_sent', 'cats_adopted'}   # only reachable by paying: never an objective
+OBJECTIVE_BANNED = [r'\bapps?\b', r'\btap\b', r'\bscreens?\b', r'\bbuttons?\b', r'level up now', r'\bbuy',
+                    r'\bpurchas', r'\bshop', r'\bmoney', r'[£$€]', r'\bpay']
+# Ladders of three where sensible; level 30 is home_level's fourth rung, the other cats' homes have two (3/7).
+LADDER_RUNGS = {'home_level': 4, 'explore_homes': 2}
 
 
 def check_objectives(d):
     f = 'objectives.json'
-    keys_exact(d, ['version', 'daily', 'weekly', 'achievements'], f)
+    keys_exact(d, ['version', 'daily', 'weekly', 'achievements', 'path'], f)
     all_ = d['daily'] + d['weekly'] + d['achievements']
     unique([o['id'] for o in all_], f)
     unique([o['name'] for o in all_], f + ' names')
     expect(len(d['daily']), 20, 'daily objectives')
     expect(len(d['weekly']), 12, 'weekly objectives')
-    expect(len(d['achievements']), 60, 'achievements')
+    expect(len(d['achievements']), 81, 'achievements (60, and 21 more on 19 Oct)')
     groups = Counter(o['id'].split('_')[0] for o in d['achievements'])
-    expect(dict(groups), {'care': 10, 'home': 12, 'social': 8, 'streak': 6, 'collection': 10, 'explore': 6,
-                          'seasons': 8}, 'achievement groups')
+    expect(dict(groups), {'care': 15, 'home': 16, 'social': 8, 'streak': 9, 'collection': 11, 'explore': 8,
+                          'play': 6, 'seasons': 8}, 'achievement groups')
     for kind, lst in (('daily', d['daily']), ('weekly', d['weekly']), ('achievement', d['achievements'])):
         for o in lst:
             w = f"{f} {o['id']}"
@@ -561,8 +570,7 @@ def check_objectives(d):
             if len(o['text']) > 70:
                 err(f"{w}: text over 70")
             line_rules(o['text'], w, money=False, meta=False)
-            for p in hits([r'\bapps?\b', r'\btap\b', r'\bscreens?\b', r'\bbuttons?\b', r'level up now', r'\bbuy',
-                           r'\bpurchas', r'\bshop', r'\bmoney', r'[£$€]', r'\bpay'], o['text'] + ' ' + o['name']):
+            for p in hits(OBJECTIVE_BANNED, o['text'] + ' ' + o['name']):
                 err(f"{w}: banned word /{p}/")
             british(o['name'], w)
             if not isinstance(o['target'], int) or o['target'] < 1:
@@ -586,8 +594,8 @@ def check_objectives(d):
                 err(f"{w}: metric {o['metric']} can only be reached by paying")
     ladders = Counter(o['ladder'] for o in d['achievements'] if o['ladder'])
     for lad, n in ladders.items():
-        if n != 3:
-            err(f"{f}: ladder {lad} has {n} rungs, want 3")
+        if n != LADDER_RUNGS.get(lad, 3):
+            err(f"{f}: ladder {lad} has {n} rungs, want {LADDER_RUNGS.get(lad, 3)}")
         rungs = [o for o in d['achievements'] if o['ladder'] == lad]
         if len({o['metric'] for o in rungs}) != 1:
             err(f"{f}: ladder {lad} mixes metrics")
@@ -599,6 +607,104 @@ def check_objectives(d):
             err(f"{f}: {o['id']} trust tier out of range")
         if o['metric'] == 'rooms_opened' and o['target'] > 6:
             err(f"{f}: {o['id']} more rooms than exist")
+
+
+def keys_within(obj, keys, optional, where):
+    """keys_exact, with keys a decoder may go without (Codable optionals)."""
+    missing, extra = set(keys) - set(obj), set(obj) - set(keys) - set(optional)
+    if missing:
+        err(f"{where}: missing keys {sorted(missing)}")
+    if extra:
+        warn(f"{where}: extra keys {sorted(extra)} (ignored by Codable)")
+
+
+def path_words(text, limit, where):
+    if len(text) > limit:
+        err(f"{where}: {len(text)} chars > {limit}: {text!r}")
+    for p in PLACEHOLDER_RE.findall(text):
+        if p != '{cat}':
+            err(f"{where}: placeholder {p} (the path has only {{cat}}) in {text!r}")
+    line_rules(text, where, money=False, meta=False)
+    for p in hits(OBJECTIVE_BANNED, text):
+        err(f"{where}: banned word /{p}/ in {text!r}")
+
+
+def check_path(d, items, outfits):
+    """The path (CONTENT.md §5): three chapters of steps in order, each counted by a metric the game keeps and paying
+    Beans, XP and a little pass XP; a chapter pays its own reward. Its outfits are never a season's."""
+    f = 'objectives.json path'
+    path = d.get('path', [])
+    expect([c.get('name') for c in path], ['Moving in', 'Getting to know you', 'Making it home'], 'path chapters')
+    steps = [s for c in path for s in c.get('steps', [])]
+    ids = [c['id'] for c in path] + [s['id'] for s in steps]
+    unique(ids, f)
+    clash = set(ids) & {o['id'] for o in d['daily'] + d['weekly'] + d['achievements']}
+    if clash:
+        err(f"{f}: ids also an objective's: {sorted(clash)}")
+
+    def gives(o, w):
+        if o.get('outfit') is not None:
+            ov = outfits.get(o['outfit'])
+            if not ov:
+                err(f"{w}: unknown outfit {o['outfit']!r}")
+            elif ov['pool'] in ('pass-free', 'pass-paid'):
+                err(f"{w}: outfit {o['outfit']!r} is a season's ({ov['pool']})")
+        if o.get('item') is not None and o['item'] not in items:
+            err(f"{w}: unknown piece {o['item']!r}")
+
+    for c in path:
+        w = f"{f} {c['id']}"
+        keys_within(c, ['id', 'name', 'when', 'done', 'beans', 'xp', 'steps'], ['outfit', 'item'], w)
+        if len(c['name']) > 24:
+            err(f"{w}: name over 24")
+        british(c['name'], w)
+        british(c['when'], w + ' when')
+        path_words(c['done'], 60, w + ' done')
+        if not isinstance(c['beans'], int) or c['beans'] < 1 or not isinstance(c['xp'], int) or c['xp'] < 0:
+            err(f"{w}: reward {c['beans']} Beans / {c['xp']} XP")
+        gives(c, w)
+        for s in c['steps']:
+            ws = f"{f} {s['id']}"
+            keys_within(s, ['id', 'name', 'text', 'metric', 'target', 'beans', 'xp'],
+                        ['passPoints', 'room', 'screen', 'outfit', 'item', 'optional'], ws)
+            if len(s['name']) > 24:
+                err(f"{ws}: name over 24")
+            british(s['name'], ws)
+            for p in hits(OBJECTIVE_BANNED, s['name']):
+                err(f"{ws}: banned word /{p}/ in the name")
+            path_words(s['text'], 60, ws)
+            m = s['metric']
+            if m not in LIFETIME | PATH_ONLY:
+                err(f"{ws}: metric {m!r} is not a lifetime metric")
+            if m in PAID_METRICS:
+                err(f"{ws}: metric {m} can only be reached by paying")
+            if (m == 'room_pieces') != (s.get('room') is not None):
+                err(f"{ws}: a room is for room_pieces, and room_pieces needs one")
+            elif s.get('room') is not None and s['room'] not in ROOMS6:
+                err(f"{ws}: unknown room {s['room']!r}")
+            if (m == 'screen_seen') != (s.get('screen') is not None):
+                err(f"{ws}: a screen is for screen_seen, and screen_seen needs one")
+            elif s.get('screen') is not None and s['screen'] not in SCREENS:
+                err(f"{ws}: unknown screen {s['screen']!r} (the app records {sorted(SCREENS)})")
+            if not isinstance(s['target'], int) or s['target'] < 1:
+                err(f"{ws}: bad target")
+            elif m == 'rooms_opened' and s['target'] > 6:
+                err(f"{ws}: more rooms than exist")
+            elif m == 'trust_tier' and not 1 <= s['target'] <= 6:
+                err(f"{ws}: trust tier out of range")
+            pay = [s['beans'], s['xp'], s.get('passPoints', 0)]
+            if not all(isinstance(n, int) and n >= 0 for n in pay):
+                err(f"{ws}: bad reward {pay}")
+            elif s['beans'] + s['xp'] == 0 and s.get('outfit') is None:
+                err(f"{ws}: pays nothing")
+            gives(s, ws)
+            if not isinstance(s.get('optional', False), bool):
+                err(f"{ws}: optional must be true or false")
+        # The chapter is done without its optional steps (a pass step, when no season may be on): they come last.
+        flags = [s.get('optional') is True for s in c['steps']]
+        late = [s['id'] for i, s in enumerate(c['steps']) if not flags[i] and any(flags[:i])]
+        if late:
+            err(f"{w}: required steps after an optional one (optional steps come last): {late}")
 
 
 # ------------------------------------------------------------------ seasons / minigames
@@ -703,6 +809,7 @@ def main():
     items, surfaces = check_catalogue(data['catalogue.json'], manifest, data['outfits.json'])
     check_gifts(data['gifts.json'], manifest)
     check_objectives(data['objectives.json'])
+    check_path(data['objectives.json'], items, outfits)
     check_seasons(data['seasons.json'], items, surfaces, outfits)
     check_minigames(data['minigames.json'])
     report((n_ctx, n_entries, n_lines, len(items), len(surfaces)))

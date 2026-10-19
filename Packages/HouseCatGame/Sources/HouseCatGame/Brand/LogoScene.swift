@@ -66,8 +66,11 @@ public final class LogoScene: SKScene {
     private var from = CGPoint.zero
     /// How fast the cat is going along the letters as a beat begins (it runs on into a leap).
     private var speedNow: CGFloat = 0
-    /// The leap under way has come down.
+    /// The leap under way has left the ground, and has come down.
+    private var airborne = false
     private var landed = false
+    /// The legs' resting angles, while they stretch out in a leap.
+    private var legRest: [String: CGFloat] = [:]
     private var lastUpdate: TimeInterval?
     private var started = false
 
@@ -181,17 +184,22 @@ public final class LogoScene: SKScene {
                 crouch: 0
             ))
         } else {
+            // With the curl film it lands straight on its spot, where the film takes over at once; without, it trots
+            // the last step.
+            let film = !curlFrames.isEmpty
             story += [
                 .wait(Logo.introHold),
                 .run(to: CGFloat(Logo.takeOff), speed: CGFloat(Logo.runSpeed) * h, gait: .run, stopping: false),
                 .leap(
-                    to: CGPoint(x: Logo.landing, y: Logo.valleyTop),
+                    to: CGPoint(x: film ? Logo.bed : Logo.landing, y: Logo.valleyTop),
                     seconds: Logo.leapSeconds,
                     top: Logo.leapTop,
                     crouch: Logo.crouchSeconds
                 ),
-                .run(to: CGFloat(Logo.bed), speed: CGFloat(Logo.trotSpeed) * h, gait: .trot, stopping: true),
             ]
+            if !film {
+                story.append(.run(to: CGFloat(Logo.bed), speed: CGFloat(Logo.trotSpeed) * h, gait: .trot, stopping: true))
+            }
         }
         if !curlFrames.isEmpty {
             // The film takes over from the cat standing side on, facing the way it came (it sniffs the letters, turns
@@ -251,6 +259,7 @@ public final class LogoScene: SKScene {
         case let .leap(_, seconds, _, crouch):
             // It gathers itself without stopping: a crouch on the run, then the spring.
             cat.squash(CGFloat(Tuning.Puppet.squash * Logo.leapSquash))
+            airborne = false
             landed = false
             duration = crouch + seconds + Tuning.Puppet.landSeconds
         case let .face(view, right):
@@ -316,10 +325,13 @@ public final class LogoScene: SKScene {
             if air < 0 {
                 feet.x = from.x + speedNow * CGFloat(elapsed)
             } else if air <= 1 {
-                if cat.moveSpeed > 0 {
+                if !airborne {
+                    airborne = true
                     cat.stopCycle()
+                    legRest = (cat.parts[cat.view] ?? [:]).filter { $0.key.hasPrefix("leg_") }.mapValues(\.zRotation)
                 }
                 let u = CGFloat(air)
+                stretch(u)
                 let bump = CGFloat(top) - (spring.y + to.y) / 2
                 feet.x = spring.x + (to.x - spring.x) * u
                 feet.y = spring.y + (to.y - spring.y) * u + 4 * bump * u * (1 - u)
@@ -329,6 +341,7 @@ public final class LogoScene: SKScene {
                 pivot.zRotation = cat.facingRight ? lean : -lean
             } else if !landed {
                 landed = true
+                restLegs()
                 feet = to
                 pivot.zRotation = 0
                 cat.squash(CGFloat(Tuning.Puppet.squash * Logo.leapSquash))
@@ -345,6 +358,28 @@ public final class LogoScene: SKScene {
         if t >= 1 {
             next()
         }
+    }
+
+    /// The legs through a leap (`u` from take-off to landing): the front pair reaching out ahead, the back pair pushed
+    /// out behind and drawn in under it for the landing (the far legs a little behind the near ones).
+    private func stretch(_ u: CGFloat) {
+        guard let legs = cat.parts[cat.view] else { return }
+        let reach = CGFloat(Logo.leapReach) * .pi / 180 * (1 - 0.4 * u)
+        let push = CGFloat(Logo.leapPush) * .pi / 180
+        let back = -push * (1 - u) * (1 - u) + push * 0.25 * u * u
+        for (name, rest) in legRest {
+            let angle = name.hasPrefix("leg_front") ? reach : back
+            // CatNode's legs swing forward for a positive angle taken from the rest.
+            legs[name]?.zRotation = rest - angle * (name.hasSuffix("far") ? 0.85 : 1)
+        }
+    }
+
+    private func restLegs() {
+        guard let legs = cat.parts[cat.view] else { return }
+        for (name, rest) in legRest {
+            legs[name]?.zRotation = rest
+        }
+        legRest = [:]
     }
 
     /// The cat at its feet, its shadow on the letter under it (or the ground), the light behind it (eased after it

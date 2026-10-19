@@ -284,6 +284,9 @@ public enum Tuning {
         public static let leapSeconds = 0.55
         public static let leapSquash = 1.5
         public static let lean = 0.3
+        /// In the air, how far the front legs reach out ahead and the back legs push out behind (degrees).
+        public static let leapReach = 40.0
+        public static let leapPush = 50.0
         /// Paces (cat heights a second): running in on the intro, trotting to its spot.
         public static let runSpeed = 3.0
         public static let trotSpeed = 1.4

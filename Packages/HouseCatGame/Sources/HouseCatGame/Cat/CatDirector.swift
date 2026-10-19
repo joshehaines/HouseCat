@@ -57,6 +57,8 @@ public final class CatDirector {
         case enter(SKNode, at: CGPoint)
         /// Fade the cat out or in (going up or down the stairs).
         case fade(to: CGFloat)
+        /// Up on its hind legs scratching what it faces, for so long, then down on all fours.
+        case scratch(TimeInterval)
         case call(@MainActor () -> Void)
     }
 
@@ -78,6 +80,10 @@ public final class CatDirector {
     public private(set) var lift: CGFloat = 0
     /// Draw order on top of a piece of furniture, when the cat is sitting on it.
     public var perchDepth: CGFloat?
+    /// The box it is in (catalogue id), drawn behind its front.
+    public var insideItem: String?
+    /// Its draw order standing on the floor at a point, given the furniture (nil: by its own depth alone).
+    public var floorDepth: ((CGPoint) -> CGFloat)?
 
     public init(cat: CatNode, grid: IsoGrid) {
         self.cat = cat
@@ -100,6 +106,7 @@ public final class CatDirector {
     }
 
     public func run(_ steps: [Step]) {
+        cat.stopScratching()
         self.steps = steps
         current = nil
         speedNow = 0
@@ -201,6 +208,10 @@ public final class CatDirector {
         case let .call(action):
             action()
             duration = 0
+        case let .scratch(seconds):
+            cat.scratch()
+            duration = seconds
+            speedNow = 0
         }
     }
 
@@ -248,6 +259,10 @@ public final class CatDirector {
                 lift = height
                 surface = height
             }
+        case .scratch:
+            if t >= 1 {
+                cat.stopScratching()
+            }
         default:
             break
         }
@@ -263,6 +278,8 @@ public final class CatDirector {
         cat.position = CGPoint(x: floorPoint.x, y: floorPoint.y + lift)
         if let perchDepth {
             cat.zPosition = perchDepth
+        } else if let floorDepth {
+            cat.zPosition = floorDepth(floorPoint)
         } else {
             let cell = grid.cell(at: floorPoint)
             cat.zPosition = RoomScene.Layer.standing + grid.depth(cell.u, cell.v) * RoomScene.Layer.perDepth + RoomScene.Layer.catOverItem

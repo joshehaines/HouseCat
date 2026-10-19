@@ -175,12 +175,16 @@ public struct BehaviourChoice: Equatable, Sendable {
     public var room: RoomID?
     /// The furniture it uses instead of the activity's own (no scratching post: it scratches the sofa).
     public var use: Affordance?
+    /// The very piece it goes to (catalogue id), when it matters which: the new one you put out, the sofa it waits
+    /// for you on. Nil: one of the room's pieces for it.
+    public var item: String?
 
-    public init(activity: Activity, lineContext: String? = nil, room: RoomID? = nil, use: Affordance? = nil) {
+    public init(activity: Activity, lineContext: String? = nil, room: RoomID? = nil, use: Affordance? = nil, item: String? = nil) {
         self.activity = activity
         self.lineContext = lineContext
         self.room = room
         self.use = use
+        self.item = item
     }
 
     public var affordance: Affordance? {

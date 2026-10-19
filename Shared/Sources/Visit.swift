@@ -347,6 +347,13 @@ final class Visit {
                 openGame = "picker"
             case "nap":
                 startNap()
+            case "scratch", "box":
+                // Once the greeting (and the first visit's trip to the bowl) is over: the post, or into the box.
+                let room = activeRoom
+                Task { @MainActor [weak house] in
+                    try? await Task.sleep(for: .seconds(8))
+                    house?.send(BehaviourChoice(activity: wanted == "box" ? .hide : .scratch, room: wanted == "box" ? .living : room))
+                }
             case "think":
                 // The thought bubble: what the cat would love, or (a home with everything) a scratching post.
                 if GameSession.shared.wantedPiece(in: activeRoom) != nil {

@@ -332,5 +332,139 @@ func eachGreetingComesToYouOrNotAndSettles(style: GreetingStyle) throws {
     let spot = room.spot(for: BehaviourChoice(activity: .scratch, use: .sit))
     #expect(spot.itemID == "living_sofa")
     #expect(spot.lift == 0, "beside it, on the floor")
-    #expect(spot.pose == .stretchSide)
+    #expect(spot.scratchFacingRight != nil, "up on its hind legs at it")
+}
+
+// MARK: One cat, never two
+
+/// Two drawings of the cat at once read as a second cat (Josh): the painting at rest, the puppet moving, never both,
+/// whatever comes in between (a turn while it sits, getting up mid-settle, painting to painting).
+@MainActor
+@Test func theCatIsOnlyEverDrawnOnce() throws {
+    let world = try World()
+    let room = world.room()
+    let cat = room.addCat(rig: world.rig, at: 5, 5, pose: .sitSide).cat
+    #expect(cat.drawingsOnShow == 1, "settled")
+    cat.rise(to: .side, facingRight: false)
+    #expect(cat.drawingsOnShow == 1, "up")
+    cat.settle(into: .stretchSide)
+    #expect(cat.drawingsOnShow == 1, "sitting down into a stretch")
+    cat.show(.tqfront, facingRight: true)
+    #expect(cat.drawingsOnShow == 1, "a turn while stretched (the ghost behind the stretch)")
+    #expect(cat.pose == .stretchSide)
+    cat.settle(into: .sitThreeQuarterFront)
+    #expect(cat.drawingsOnShow == 1, "painting to painting: no fading copy")
+    cat.turn(to: .front, facingRight: false)
+    cat.rise(to: .front, facingRight: false)
+    cat.settle(into: .sitFront)
+    cat.rise(to: .front, facingRight: false)
+    #expect(cat.drawingsOnShow == 1, "up again before it had sat (two front cats stacked)")
+    #expect(cat.pose == nil)
+}
+
+// MARK: Furniture with uses
+
+@MainActor
+@Test func theCatRearsUpAndScratchesThePostThenSits() throws {
+    let world = try World()
+    let room = world.room()
+    let director = room.addCat(rig: world.rig, at: 5, 5, pose: .sitSide)
+    let post = try #require(room.activeRoom?.furniture["living_scratch"])
+    let spot = room.spot(for: BehaviourChoice(activity: .scratch))
+    #expect(spot.itemID == "living_scratch")
+    #expect(spot.lift == 0)
+    let right = try #require(spot.scratchFacingRight)
+    #expect(right == (post.position.x > spot.point.x), "facing the post")
+    #expect(abs(spot.point.x - post.position.x) > 20, "a reach away, beside it")
+    room.send(BehaviourChoice(activity: .scratch))
+    var scratched = false, tipped: CGFloat = 0
+    for _ in 0 ..< 60 * 30 {
+        director.update(1.0 / 60)
+        if let t = director.cat.scratchTime, t > 0.5 {
+            scratched = true
+            tipped = max(tipped, abs(director.cat.children.compactMap { ($0 as? SKEffectNode)?.isHidden == false ? $0.children.first?.zRotation : nil }.first ?? 0))
+            #expect(director.cat.view == .side && director.cat.facingRight == right)
+            #expect(director.cat.drawingsOnShow == 1)
+        }
+        if director.isIdle {
+            break
+        }
+    }
+    #expect(scratched, "up on its hind legs at the post")
+    #expect(tipped > 0.6, "tipped well up")
+    #expect(director.cat.scratchTime == nil)
+    #expect(director.cat.pose != nil, "sat down after")
+    #expect(hypot(director.floorPoint.x - spot.point.x, director.floorPoint.y - spot.point.y) < 1)
+}
+
+@MainActor
+@Test func theCatGetsIntoTheBoxBehindItsFrontAndHopsOut() throws {
+    let world = try World()
+    let room = world.room()
+    let director = room.addCat(rig: world.rig, at: 5, 5, pose: .sitSide)
+    let box = try #require(room.activeRoom?.furniture["living_box"])
+    let spot = room.spot(for: BehaviourChoice(activity: .hide))
+    #expect(spot.itemID == "living_box" && spot.inside)
+    room.send(BehaviourChoice(activity: .hide))
+    run(director, seconds: 20)
+    #expect(director.isIdle)
+    #expect(director.insideItem == "living_box")
+    #expect(director.lift == 0)
+    let front = try #require(box.childNode(withName: "boxFront"), "its front drawn over the cat")
+    #expect(director.cat.zPosition > box.zPosition && director.cat.zPosition < box.zPosition + front.zPosition, "between its back and front")
+    #expect(director.cat.pose == .sitThreeQuarterFront, "the box's own pose: sitting up, peeking out")
+    room.send(BehaviourChoice(activity: .nearPlayer))
+    run(director, seconds: 20)
+    #expect(director.insideItem == nil)
+    #expect(box.childNode(withName: "boxFront") == nil)
+    #expect(director.perchDepth == nil)
+}
+
+@MainActor
+@Test func theCatSleepsOnTheRugAndInFrontOfTheFire() throws {
+    let world = try World()
+    let room = world.room()
+    _ = room.addCat(rig: world.rig, at: 5, 5, pose: .sitSide)
+    let rug = room.spot(for: BehaviourChoice(activity: .sleep, item: "living_rug"))
+    #expect(rug.itemID == "living_rug")
+    #expect(rug.lift == 0 && rug.perchDepth == nil, "on it, on the floor")
+    let (u, v) = room.grid.cell(at: rug.point)
+    #expect(abs(u - 5) < 0.01 && abs(v - 4.5) < 0.01, "in the middle of the rug, not beside it")
+    #expect(rug.pose == .sleepCurl)
+    let fire = room.spot(for: BehaviourChoice(activity: .sleep, item: "living_fireplace"))
+    #expect(fire.itemID == "living_fireplace")
+    #expect(fire.lift == 0, "on the hearth, not on the mantel")
+    let hearth = room.grid.cell(at: fire.point)
+    #expect(hearth.v > 0.1 + 1 && hearth.u > 1.4 && hearth.u < 3.4, "in front of it (it faces along v), not beside it")
+    // Turn and turn about: sleeping again, the next piece along.
+    let living = try #require(room.activeRoom)
+    let first = room.pin(BehaviourChoice(activity: .sleep), in: living).item
+    let second = room.pin(BehaviourChoice(activity: .sleep), in: living).item
+    #expect(first != nil && second != nil && first != second)
+}
+
+@MainActor
+@Test func comingHomeTheCatJumpsOffTheSofaAndComesToTheFront() throws {
+    let world = try World()
+    let room = world.room()
+    let director = room.addCat(rig: world.rig, at: 5, 5, pose: .sitSide)
+    room.placeCat(for: BehaviourChoice(activity: .sit))
+    let sofa = room.spot(for: BehaviourChoice(activity: .sit, item: "living_sofa"))
+    #expect(director.lift > 0, "up on the sofa")
+    #expect(director.floorPoint == sofa.point)
+    var rubbed = false
+    room.playArrival(.walks, then: BehaviourChoice(activity: .sunbeamLoaf), onRub: { rubbed = true }, onDone: {})
+    var cameDown = false
+    let sofaNode = try #require(room.activeRoom?.furniture["living_sofa"])
+    for _ in 0 ..< 60 * 30 where !rubbed {
+        director.update(1.0 / 60)
+        if director.lift == 0, !cameDown {
+            cameDown = true
+            #expect(director.cat.zPosition > sofaNode.zPosition, "landed in front of the sofa, drawn over it")
+        }
+    }
+    #expect(cameDown, "jumped down")
+    #expect(rubbed, "came to you")
+    let corner = room.grid.cell(at: director.floorPoint)
+    #expect(corner.u + corner.v > 16, "at the front corner")
 }

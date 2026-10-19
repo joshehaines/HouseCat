@@ -233,6 +233,13 @@ final class GameSession {
             mood: mood,
             asleep: start.activity == .sleep
         )
+        // One that comes to greet you is often waiting on the sofa (always the first time, for the tour), and jumps
+        // down to come to you.
+        if style == .runs || style == .walks, firstEver || rest.below(100) < Tuning.Arrival.onSofaPercent,
+           let seat = [start.room ?? from, .living].first(where: { offers[$0]?.contains(.sit) == true && (!firstEver || $0 == .living) })
+        {
+            start = BehaviourChoice(activity: .sit, room: seat)
+        }
         // A Gremlin waits in ambush by something to hide behind, in the room it was in if it can.
         if style == .ambush, let hideaway = offers.filter({ $0.value.contains(.hide) }).keys.sorted().first {
             let room = offers[start.room ?? from]?.contains(.hide) == true ? start.room ?? from : hideaway

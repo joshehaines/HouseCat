@@ -278,7 +278,54 @@
       "beans": null,
       "sku": null,
       "description": "The most popular piece of furniture in the house. It is a box.",
-      "catPose": "loaf_tqfront",
+      "catPose": "sit_tqfront",
+      "catUse": "inside",
+      "rim": {
+        "R": [
+          [
+            0.0,
+            0.345
+          ],
+          [
+            0.185,
+            0.305
+          ],
+          [
+            0.52,
+            0.515
+          ],
+          [
+            0.88,
+            0.35
+          ],
+          [
+            1.0,
+            0.385
+          ]
+        ],
+        "L": [
+          [
+            0.0,
+            0.32
+          ],
+          [
+            0.185,
+            0.28
+          ],
+          [
+            0.533,
+            0.51
+          ],
+          [
+            0.88,
+            0.35
+          ],
+          [
+            1.0,
+            0.37
+          ]
+        ]
+      },
       "sprites": {
         "R": "furniture/living/furn_living_box_R.png",
         "L": "furniture/living/furn_living_box_L.png"
@@ -342,6 +389,7 @@
       "sku": null,
       "description": "A long mustard cushion by the glass, for watching the street.",
       "catPose": "sit_back",
+      "catUse": "on",
       "sprites": {
         "R": "furniture/living/furn_living_windowseat_R.png",
         "L": "furniture/living/furn_living_windowseat_L.png"
@@ -378,6 +426,7 @@
       "sku": "housecat.set.rainy_london",
       "description": "Old cast iron, painted cream, permanently occupied.",
       "catPose": "loaf_side",
+      "catUse": "front",
       "sprites": {
         "R": "furniture/living/furn_living_radiator_R.png",
         "L": "furniture/living/furn_living_radiator_L.png"
@@ -484,6 +533,7 @@
       "sku": "housecat.set.cabin",
       "description": "A small tiled hearth. Whatever sits in front of it becomes a bed.",
       "catPose": "sleep_curl",
+      "catUse": "front",
       "sprites": {
         "R": "furniture/living/furn_living_fireplace_R.png",
         "L": "furniture/living/furn_living_fireplace_L.png"
@@ -1613,6 +1663,7 @@
       "sku": null,
       "description": "Seed on a tall post. Popular with birds and their audience.",
       "catPose": "sit_back",
+      "catUse": "front",
       "sprites": {
         "R": "furniture/garden/furn_garden_birdfeeder_R.png",
         "L": "furniture/garden/furn_garden_birdfeeder_L.png"
@@ -2563,6 +2614,7 @@
       "sku": "housecat.set.midnight",
       "description": "Brass, on a wooden tripod. Excellent for watching birds.",
       "catPose": "sit_back",
+      "catUse": "front",
       "sprites": {
         "R": "furniture/attic/furn_attic_telescope_R.png",
         "L": "furniture/attic/furn_attic_telescope_L.png"
@@ -3426,6 +3478,7 @@
       "sku": null,
       "description": "A glass jar with a blue butterfly resting on the rim.",
       "catPose": "sit_side",
+      "catUse": "front",
       "sprites": {
         "R": "furniture/pass_firstlight/furn_pass_firstlight_butterflyjar_R.png",
         "L": "furniture/pass_firstlight/furn_pass_firstlight_butterflyjar_L.png"
@@ -3527,6 +3580,7 @@
       "sku": "housecat.season.housewarming",
       "description": "Marble, a mantel clock and a proper fire. The grandest bed going.",
       "catPose": "sleep_curl",
+      "catUse": "front",
       "sprites": {
         "R": "furniture/housewarming_pack/furn_housewarming_pack_grandfireplace_R.png",
         "L": "furniture/housewarming_pack/furn_housewarming_pack_grandfireplace_L.png"

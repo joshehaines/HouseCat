@@ -270,7 +270,7 @@ public final class LogoScene: SKScene {
             // sitting one together); painting to painting, a cross-fade.
             let sitting = cat.pose == nil
             let fade = sitting ? Logo.sitFadeSeconds : Logo.curlSeconds
-            cat.settle(into: pose, duration: fade)
+            cat.settle(into: pose, duration: fade, crossFade: !sitting)
             duration = fade + (sitting ? Tuning.Puppet.sitDownSeconds : 0)
             let grow = SKAction.scale(to: scale, duration: duration)
             grow.timingMode = .easeInEaseOut

@@ -33,6 +33,9 @@ public final class RoomScene: SKScene {
     var nextFidget: TimeInterval = 8
     /// The cat is glancing about where it sits (not off to something new).
     var fidgeting = false
+    /// The piece the cat last went to in each room for each use ("living/sleep": the rug); the next time it goes for
+    /// that it takes the next one (the fire), turn and turn about.
+    var piecesUsed: [String: String] = [:]
 
     /// Draw order the cat needs across the house.
     enum Layer {
@@ -344,9 +347,10 @@ public final class RoomScene: SKScene {
             guard fidgeting else { return }
             settledFor += dt
         }
-        guard settledFor >= holdFor, let choice = nextActivity?(catRoom) else { return }
-        let target = choice.room ?? catRoom
+        guard settledFor >= holdFor, let chosen = nextActivity?(catRoom) else { return }
+        let target = chosen.room ?? catRoom
         guard let node = rooms[target] else { return }
+        let choice = pin(chosen, in: node)
         var spot = spot(for: choice, in: node)
         // Already there doing it: stay put a while longer.
         if target == catRoom, hypot(spot.point.x - director.floorPoint.x, spot.point.y - director.floorPoint.y) < 1,

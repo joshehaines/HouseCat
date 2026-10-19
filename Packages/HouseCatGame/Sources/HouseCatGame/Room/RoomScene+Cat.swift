@@ -11,6 +11,10 @@ public struct CatSpot: Sendable {
     public var itemID: String?
     /// Where it jumps up from: the floor in front of the furniture (nil when it is on the floor).
     public var approach: CGPoint?
+    /// In it (a box): hopped into over its front rim, drawn behind its front walls.
+    public var inside = false
+    /// Scratching it: up on its hind legs facing it (right or left) before it sits down.
+    public var scratchFacingRight: Bool?
 }
 
 public extension RoomScene {
@@ -34,6 +38,7 @@ public extension RoomScene {
             world.addChild(cat)
         }
         let director = CatDirector(cat: cat, grid: grid)
+        director.floorDepth = { [weak self] point in self?.catDepth(at: point) ?? 0 }
         director.place(at: grid.floor(u, v))
         cat.settle(into: pose, duration: 0)
         self.director = director
@@ -53,33 +58,56 @@ public extension RoomScene {
         return spot(for: choice, in: room)
     }
 
-    /// The spot for an activity in a room, given the furniture in it.
+    /// The spot for an activity in a room, given the furniture in it: on the piece, in it, in front of it, on it on
+    /// the floor or beside it (CatalogueFile.Item.CatUse), in the piece's own pose (a loaf on the sofa, curled up
+    /// on the rug, looking out from the window seat; asleep, always curled up).
     internal func spot(for choice: BehaviourChoice, in room: RoomNode) -> CatSpot {
         let pose = choice.pose ?? .sitSide
         let model = room.model
-        if let need = choice.affordance, let placement = model.items.first(where: { items[$0.id]?.affordances.contains(need) == true }),
+        if let need = choice.affordance, let placement = piece(for: choice, need: need, in: room),
            let item = items[placement.id], let node = room.furniture[item.id]
         {
             let (w, d) = room.footprint(item, facing: placement.facing)
             let u = CGFloat(placement.u), v = CGFloat(placement.v)
-            // Scratching the sofa (no post) is done beside it, like any post.
-            switch choice.activity == .scratch ? .scratch : need {
-            case .sit, .sleep, .perch where !item.decal:
+            let middle = grid.floor(u + w / 2, v + d / 2)
+            if choice.activity == .scratch {
+                return scratchSpot(at: item, node: node, u, v, w, d, in: room)
+            }
+            let own = choice.activity == .sleep || choice.use != nil ? pose : item.catPose ?? pose
+            var use = item.use(for: need)
+            if use == .inside, item.rim?[placement.facing] == nil {
+                use = .beside
+            }
+            switch use {
+            case .on:
                 // On top: the middle of the footprint, raised to the seat (or the top for a perch), jumped up to
                 // from the floor in front.
                 let seat = CGFloat(need == .perch ? Tuning.Puppet.perchHeight : Tuning.Puppet.seatHeight)
                 return CatSpot(
-                    point: grid.floor(u + w / 2, v + d / 2),
+                    point: middle,
                     lift: node.size.height * seat,
-                    pose: pose,
+                    pose: own,
                     perchDepth: node.zPosition + 1,
                     itemID: item.id,
                     approach: approach(toFootprint: u, v, w, d, in: room)
                 )
-            default:
-                // Beside it, on the floor in front.
+            case .inside:
+                // In it, on its floor, between its back and its front.
+                return CatSpot(
+                    point: middle, lift: 0, pose: own, perchDepth: node.zPosition + Self.insideDepth, itemID: item.id,
+                    approach: approach(toFootprint: u, v, w, d, in: room), inside: true
+                )
+            case .front:
+                // On the floor in front of the side it faces (a piece facing L faces along u, else along v): before
+                // the fire, curled up in its warmth; at the mirror or the bird table, looking.
+                let gap = CGFloat(Tuning.Puppet.jumpFrom)
+                let front = placement.facing == "L" ? grid.floor(u + w + gap, v + d / 2) : grid.floor(u + w / 2, v + d + gap)
+                return CatSpot(point: front, lift: 0, pose: own, perchDepth: nil, itemID: item.id)
+            case .floor:
+                return CatSpot(point: middle, lift: 0, pose: own, perchDepth: nil, itemID: item.id)
+            case .beside:
                 let beside = grid.floor(u + w + CGFloat(Tuning.Puppet.besideGap), v + d / 2 + CGFloat(Tuning.Puppet.besideForward))
-                return CatSpot(point: beside, lift: 0, pose: pose, perchDepth: nil, itemID: item.id)
+                return CatSpot(point: beside, lift: 0, pose: own, perchDepth: nil, itemID: item.id)
             }
         }
         // No furniture for it: the room's own spots (layout data), or the middle of the floor.
@@ -121,17 +149,193 @@ public extension RoomScene {
         }
     }
 
+    /// The cat's draw order on the floor of its room: by its depth, and over anything it is in front of along either
+    /// side (a long sofa sorts by its front corner, so a cat just in front of its middle would draw behind it).
+    internal func catDepth(at point: CGPoint) -> CGFloat {
+        let (cu, cv) = grid.cell(at: point)
+        var z = Layer.standing + grid.depth(cu, cv) * Layer.perDepth + Layer.catOverItem
+        guard let room = rooms[catRoom] else { return z }
+        for placement in room.model.items {
+            guard let item = items[placement.id], item.layer != .wall, !item.decal, let node = room.furniture[placement.id] else { continue }
+            let (w, d) = room.footprint(item, facing: placement.facing)
+            let u = CGFloat(placement.u), v = CGFloat(placement.v)
+            let inFront = (cu >= u + w && cv > v - 0.5 && cv < v + d + 1.5) || (cv >= v + d && cu > u - 0.5 && cu < u + w + 1.5)
+            if inFront {
+                z = max(z, node.zPosition + Layer.catOverItem)
+            }
+        }
+        return z
+    }
+
+    /// The pieces in a room for something, in the layout's order.
+    private func fits(_ need: Affordance, in room: RoomNode) -> [RoomModel.Placement] {
+        room.model.items.filter { items[$0.id]?.affordances.contains(need) == true && room.furniture[$0.id] != nil }
+    }
+
+    /// The piece in a room the cat uses for something: the one the choice names if it is there, else the one it last
+    /// went to for it (`pin`), else the first.
+    internal func piece(for choice: BehaviourChoice, need: Affordance, in room: RoomNode) -> RoomModel.Placement? {
+        let fits = fits(need, in: room)
+        let named = choice.item ?? piecesUsed["\(room.id.rawValue)/\(need.rawValue)"]
+        return fits.first { $0.id == named } ?? fits.first
+    }
+
+    /// A choice made for good: the piece it goes to is settled (the next one along from last time, turn and turn
+    /// about: the rug, then the fire), so where it heads and where it settles are the same piece.
+    internal func pin(_ choice: BehaviourChoice, in room: RoomNode) -> BehaviourChoice {
+        guard let need = choice.affordance else { return choice }
+        let key = "\(room.id.rawValue)/\(need.rawValue)"
+        var choice = choice
+        let fits = fits(need, in: room)
+        if choice.item == nil, !fits.isEmpty {
+            if let last = piecesUsed[key], let at = fits.firstIndex(where: { $0.id == last }) {
+                choice.item = fits[(at + 1) % fits.count].id
+            } else {
+                choice.item = fits[0].id
+            }
+        }
+        if let id = choice.item {
+            piecesUsed[key] = id
+        }
+        return choice
+    }
+
+    /// The biggest seat in a room (the sofa, where the cat waits for you).
+    internal func biggestSeat(in room: RoomNode) -> String? {
+        room.model.items
+            .compactMap { placement in items[placement.id].map { (placement.id, $0) } }
+            .filter { $0.1.affordances.contains(.sit) && room.furniture[$0.0] != nil }
+            .max { $0.1.footprint.w * $0.1.footprint.d < $1.1.footprint.w * $1.1.footprint.d }?.0
+    }
+
+    /// Scratching: on the floor beside it (a post: level with its middle on whichever side is clear, a reach away;
+    /// anything else: by its end), facing it, drawn over it.
+    internal func scratchSpot(
+        at item: CatalogueFile.Item, node: SKSpriteNode, _ u: CGFloat, _ v: CGFloat, _ w: CGFloat, _ d: CGFloat, in room: RoomNode
+    ) -> CatSpot {
+        var point: CGPoint
+        if item.affordances.contains(.scratch) {
+            let height = director?.cat.height ?? CGFloat(model.catHeight)
+            let a = height * CGFloat(Tuning.Puppet.scratchStandOff) / (2 * grid.cellHalfWidth)
+            let f = CGFloat(Tuning.Puppet.besideForward) / 2
+            let cu = u + w / 2, cv = v + d / 2
+            let right = CGPoint(x: cu + a + f, y: cv - a + f), left = CGPoint(x: cu - a + f, y: cv + a + f)
+            // The side towards the middle of the room first, if it is clear.
+            let sides = node.position.x < 0 ? [right, left] : [left, right]
+            let cell = sides.first { floorIsClear($0, in: room) } ?? sides[0]
+            point = grid.floor(cell.x, cell.y)
+        } else {
+            point = grid.floor(u + w + CGFloat(Tuning.Puppet.besideGap), v + d / 2 + CGFloat(Tuning.Puppet.besideForward))
+        }
+        return CatSpot(
+            point: point, lift: 0, pose: .sitSide, perchDepth: node.zPosition + Layer.catOverItem, itemID: item.id,
+            scratchFacingRight: node.position.x > point.x
+        )
+    }
+
+    /// The cat in a box draws between its back (the box) and its front (drawn again over the cat).
+    static let insideDepth: CGFloat = 0.2
+    static let boxFrontDepth: CGFloat = 0.4
+
+    /// Where the cat stands on a box's front rim, hopping in or out: its front corner, at the rim's height.
+    internal func rimStand(of id: String, in room: RoomNode) -> (point: CGPoint, lift: CGFloat, depth: CGFloat)? {
+        guard let placement = room.model.items.first(where: { $0.id == id }), let item = items[id], let node = room.furniture[id],
+              let rim = item.rim?[placement.facing], let low = rim.map({ $0[1] }).max() else { return nil }
+        let (w, d) = room.footprint(item, facing: placement.facing)
+        return (grid.floor(CGFloat(placement.u) + w, CGFloat(placement.v) + d), node.size.height * CGFloat(1 - low), node.zPosition + 1)
+    }
+
+    /// Into a box: up onto its front rim, then down inside, its front drawn over the cat.
+    internal func climbIn(_ spot: CatSpot, room: RoomID) -> [CatDirector.Step] {
+        guard let id = spot.itemID, let node = rooms[room], let stand = rimStand(of: id, in: node) else {
+            return [.move(to: spot.point, pace: .walk)]
+        }
+        return [
+            .move(to: spot.approach ?? stand.point, pace: .walk),
+            .call { [weak self] in self?.director?.perchDepth = stand.depth },
+            .hop(to: stand.point, lift: stand.lift),
+            .call { [weak self] in self?.settleIn(id, room: room) },
+            .hop(to: spot.point, lift: 0),
+        ]
+    }
+
+    /// The cat is in a box: drawn behind its front, which is drawn again over it.
+    internal func settleIn(_ id: String, room: RoomID) {
+        guard let director, let roomNode = rooms[room], let node = roomNode.furniture[id] else { return }
+        director.insideItem = id
+        director.perchDepth = node.zPosition + Self.insideDepth
+        guard node.childNode(withName: "boxFront") == nil, let item = items[id],
+              let placement = roomNode.model.items.first(where: { $0.id == id }), let rim = item.rim?[placement.facing],
+              let texture = node.texture else { return }
+        let w = node.size.width, h = node.size.height
+        let path = CGMutablePath()
+        path.move(to: CGPoint(x: -w / 2 - 2, y: -2))
+        for p in rim where p.count == 2 {
+            path.addLine(to: CGPoint(x: (CGFloat(p[0]) - 0.5) * w, y: (1 - CGFloat(p[1])) * h))
+        }
+        path.addLine(to: CGPoint(x: w / 2 + 2, y: -2))
+        path.closeSubpath()
+        let mask = SKShapeNode(path: path)
+        mask.fillColor = .white
+        mask.strokeColor = .clear
+        let crop = SKCropNode()
+        crop.maskNode = mask
+        let front = SKSpriteNode(texture: texture, size: node.size)
+        front.anchorPoint = node.anchorPoint
+        crop.addChild(front)
+        crop.zPosition = Self.boxFrontDepth
+        crop.name = "boxFront"
+        node.addChild(crop)
+    }
+
+    /// Out of the box: its front no longer drawn over the cat.
+    internal func climbOut() {
+        guard let director, let id = director.insideItem else { return }
+        director.insideItem = nil
+        for room in rooms.values {
+            room.furniture[id]?.childNode(withName: "boxFront")?.removeFromParent()
+        }
+    }
+
+    /// Off what it is on (or out of what it is in) to the floor in front, first.
+    internal func getDown() -> [CatDirector.Step] {
+        guard let director else { return [] }
+        let ground = groundInFront(of: director.floorPoint)
+        if let id = director.insideItem {
+            guard let room = rooms[catRoom], let stand = rimStand(of: id, in: room) else {
+                return [.call { [weak self] in self?.climbOut() }, .hop(to: ground, lift: 0), .call { [weak self] in self?.director?.perchDepth = nil }]
+            }
+            return [
+                .hop(to: stand.point, lift: stand.lift),
+                .call { [weak self] in
+                    self?.climbOut()
+                    self?.director?.perchDepth = stand.depth
+                },
+                .hop(to: grid.floor(grid.cell(at: stand.point).u + CGFloat(Tuning.Puppet.jumpFrom) * 0.6, grid.cell(at: stand.point).v + CGFloat(Tuning.Puppet.jumpFrom) * 0.6), lift: 0),
+                .call { [weak self] in self?.director?.perchDepth = nil },
+            ]
+        }
+        guard director.lift > 0 else { return [] }
+        return [.hop(to: ground, lift: 0), .call { [weak self] in self?.director?.perchDepth = nil }]
+    }
+
     /// Furniture moved, turned or put away in the cat's room while the cat was up on something: when nothing
     /// is under it any more, it gets up and hops down where it is (a present it left up there drops with it).
     internal func catGetsDown(in room: RoomNode) {
-        guard let director, director.lift > 0, director.cat.parent === room else { return }
+        guard let director, director.lift > 0 || director.insideItem != nil, director.cat.parent === room else { return }
         let (cu, cv) = grid.cell(at: director.floorPoint)
         let underneath = room.model.items.contains { placement in
             guard let item = items[placement.id], item.layer != .wall, !item.decal else { return false }
             let (w, d) = room.footprint(item, facing: placement.facing)
             return cu >= CGFloat(placement.u) && cu <= CGFloat(placement.u) + w && cv >= CGFloat(placement.v) && cv <= CGFloat(placement.v) + d
         }
+        if underneath, let id = director.insideItem {
+            // Still in its box (moved with it, or something else moved): its front over the cat again.
+            settleIn(id, room: room.id)
+            return
+        }
         guard !underneath else { return }
+        climbOut()
         let lift = director.lift
         if let gift = room.childNode(withName: "gift") {
             let drop = SKAction.moveBy(x: 0, y: -lift, duration: Tuning.Puppet.jumpSeconds)
@@ -161,17 +365,30 @@ public extension RoomScene {
             steps += [.glance(.stretchSide), .wait(Tuning.Puppet.stretchSeconds)]
         }
         steps.append(.rise(cat?.view ?? .side))
-        if let director, director.lift > 0 {
-            steps += [.hop(to: groundInFront(of: director.floorPoint), lift: 0), .call { [weak self] in self?.director?.perchDepth = nil }]
-        }
+        steps += getDown()
         steps += route(to: room ?? catRoom, pace: pace)
-        if spot.lift > 0 {
+        if spot.inside {
+            steps += climbIn(spot, room: room ?? catRoom)
+        } else if spot.lift > 0 {
             steps.append(.move(to: spot.approach ?? spot.point, pace: pace))
             steps.append(.call { [weak self] in self?.director?.perchDepth = spot.perchDepth })
             steps.append(.hop(to: spot.point, lift: spot.lift))
         } else {
             steps.append(.move(to: spot.point, pace: pace))
             steps.append(.call { [weak self] in self?.director?.perchDepth = spot.perchDepth })
+        }
+        if let right = spot.scratchFacingRight {
+            // Up on its hind legs at it, raking, the piece rocking under its claws.
+            let id = spot.itemID, target = room ?? catRoom
+            steps += [
+                .face(.side, right: right),
+                .call { [weak self] in
+                    if let self, let id, let node = self.rooms[target]?.furniture[id] {
+                        self.scratched(node, for: Tuning.Puppet.scratchSeconds)
+                    }
+                },
+                .scratch(Tuning.Puppet.scratchSeconds),
+            ]
         }
         steps.append(.settle(spot.pose))
         return steps
@@ -220,6 +437,12 @@ public extension RoomScene {
     /// room, on the furniture if that is where, and the view on that room.
     func placeCat(for choice: BehaviourChoice) {
         guard let director, let room = rooms[choice.room ?? catRoom] else { return }
+        var choice = choice
+        if choice.activity == .sit, choice.item == nil {
+            // Sitting up waiting for you: on the sofa, if there is one.
+            choice.item = biggestSeat(in: room)
+        }
+        choice = pin(choice, in: room)
         var spot = spot(for: choice, in: room)
         spot.pose = Self.variety(spot.pose)
         director.cat.removeFromParent()
@@ -227,6 +450,9 @@ public extension RoomScene {
         catRoom = room.id
         director.perchDepth = spot.perchDepth
         director.place(at: spot.point, lift: spot.lift)
+        if spot.inside, let id = spot.itemID {
+            settleIn(id, room: room.id)
+        }
         director.cat.settle(into: spot.pose, duration: 0)
         startIn(room: room.id)
         beganActivity(choice.activity)
@@ -246,18 +472,19 @@ public extension RoomScene {
         let a = Tuning.Arrival.self
         let from = grid.floor(CGFloat(a.rubFrom[0]), CGFloat(a.rubFrom[1])), to = grid.floor(CGFloat(a.rubTo[0]), CGFloat(a.rubTo[1]))
         let room = choice.room ?? catRoom
+        let choice = rooms[room].map { pin(choice, in: $0) } ?? choice
         let spot = (rooms[room] ?? activeRoom).map { self.spot(for: choice, in: $0) } ?? self.spot(for: choice)
         let lean: CatDirector.Step = .call { [weak self] in self?.lookCloser(for: a.greetCloseUpSeconds) }
         let pose = director.cat.pose
         var steps: [CatDirector.Step] = [.wait(a.noticeDelay)]
-        // Off what it is on, first.
+        // Off what it is on (or out of what it is in), first.
         func down() -> [CatDirector.Step] {
-            director.lift > 0 ? [.hop(to: groundInFront(of: director.floorPoint), lift: 0), .call { [weak self] in self?.director?.perchDepth = nil }] : []
+            getDown()
         }
         /// After the greeting: off to what the table chose, or (one that stayed put, not hungry) where it is.
         func then(going: Bool) -> [CatDirector.Step] {
             guard going else { return [] }
-            return self.steps(to: spot, in: room)
+            return self.steps(to: spot, in: room) + extras(for: choice)
         }
         let hungry = choice.activity == .bowlNag
         switch style {
@@ -344,9 +571,7 @@ public extension RoomScene {
             steps += [.glance(.stretchSide), .wait(Tuning.Puppet.stretchSeconds)]
         }
         steps.append(.rise(director.cat.view))
-        if director.lift > 0 {
-            steps += [.hop(to: groundInFront(of: director.floorPoint), lift: 0), .call { [weak self] in self?.director?.perchDepth = nil }]
-        }
+        steps += getDown()
         steps += route(to: target, pace: .stroll)
         let n = grid.cells, stops = Int.random(in: Tuning.Puppet.exploreStops[0] ... Tuning.Puppet.exploreStops[1])
         for i in 0 ..< stops {
@@ -366,6 +591,7 @@ public extension RoomScene {
     /// Sends the cat off to an activity now (fed: to the bowl; petted too much: away), in the choice's room.
     func send(_ choice: BehaviourChoice, pace: CatDirector.Pace? = nil) {
         guard let director else { return }
+        let choice = rooms[choice.room ?? catRoom].map { pin(choice, in: $0) } ?? choice
         let pace = pace ?? (choice.activity == .bowlNag ? .trot : .walk)
         if choice.activity == .zoomies {
             director.run(zoomies())
@@ -379,7 +605,7 @@ public extension RoomScene {
 
     /// What an activity adds once the cat is there: knocking at the thing it sits by, scratching the post.
     internal func extras(for choice: BehaviourChoice) -> [CatDirector.Step] {
-        guard [.knockOff, .scratch].contains(choice.activity), let room = rooms[choice.room ?? catRoom],
+        guard choice.activity == .knockOff, let room = rooms[choice.room ?? catRoom],
               let id = spot(for: choice, in: room).itemID, let node = room.furniture[id] else { return [] }
         func rock() -> CatDirector.Step {
             .call { [weak self, weak node] in
@@ -388,9 +614,22 @@ public extension RoomScene {
                 }
             }
         }
-        return choice.activity == .knockOff
-            ? [.wait(1.2), rock(), .wait(0.9), rock(), .wait(0.5), .call { [weak self] in self?.react("exclaim") }]
-            : [rock(), .wait(0.5), rock(), .wait(0.5), rock(), .wait(0.6), .glance(.sitSide)]
+        return [.wait(1.2), rock(), .wait(0.9), rock(), .wait(0.5), .call { [weak self] in self?.react("exclaim") }]
+    }
+
+    /// A piece rocks under the cat's claws while it scratches, a stroke at a time.
+    internal func scratched(_ node: SKNode, for seconds: TimeInterval) {
+        let angle = CGFloat(Tuning.Puppet.wobbleDegrees) * 0.6 * .pi / 180
+        let beat = 1 / Tuning.Puppet.scratchHz
+        let stroke = SKAction.sequence([
+            .rotate(toAngle: angle, duration: beat * 0.25),
+            .rotate(toAngle: -angle * 0.5, duration: beat * 0.35),
+            .rotate(toAngle: 0, duration: beat * 0.4),
+        ])
+        node.run(.sequence([
+            .wait(forDuration: Tuning.Puppet.scratchRiseSeconds),
+            .repeat(stroke, count: max(1, Int((seconds - Tuning.Puppet.scratchRiseSeconds) / beat))),
+        ]), withKey: "wobble")
     }
 
     /// A piece of furniture rocks where it stands (batted, scratched).
@@ -409,10 +648,7 @@ public extension RoomScene {
     internal func zoomies() -> [CatDirector.Step] {
         guard let director else { return [] }
         let n = grid.cells
-        var steps: [CatDirector.Step] = [.rise(director.cat.view)]
-        if director.lift > 0 {
-            steps += [.hop(to: groundInFront(of: director.floorPoint), lift: 0), .call { [weak self] in self?.director?.perchDepth = nil }]
-        }
+        var steps: [CatDirector.Step] = [.rise(director.cat.view)] + getDown()
         let dashes = Int.random(in: 4 ... 6)
         var last = grid.cell(at: director.floorPoint)
         for i in 0 ..< dashes {

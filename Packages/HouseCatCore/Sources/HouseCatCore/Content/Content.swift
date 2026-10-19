@@ -67,6 +67,9 @@ public struct ContentBundle: Sendable {
             levels: levels,
             shapes: Dictionary(uniqueKeysWithValues: catalogue.items.map {
                 ($0.id, RulesContext.Shape(width: $0.footprint.w, depth: $0.footprint.d, onWall: $0.layer == .wall, decal: $0.decal))
+            }),
+            streakOutfits: Dictionary(uniqueKeysWithValues: outfits.outfits.compactMap { outfit in
+                outfit.earnedBy.flatMap { $0.hasPrefix("streak_") ? Int($0.dropFirst("streak_".count)) : nil }.map { ($0, outfit.id) }
             })
         )
     }
@@ -180,9 +183,35 @@ public struct CatalogueFile: Codable, Sendable {
         public var sku: String?
         public var description: String
         public var catPose: CatPose?
+        /// Where the cat goes to use it (nil: on it when it is to sit, sleep or perch on, on it at floor level when
+        /// it lies flat on the floor, else beside it).
+        public var catUse: CatUse?
+        /// A container's front rim for each facing, left to right, as fractions of the sprite from its top left: the
+        /// cat in it is drawn behind what lies below the line (the box's front walls and the flaps folded down).
+        public var rim: [String: [[Double]]]?
         public var sprites: [String: String]
         public var suggestedScale: Double?
         public var fx: Effect?
+
+        /// How the cat uses a piece of furniture: up on it, in it, in front of it (a fire, a mirror, a bird table),
+        /// on it on the floor (a rug, a mat, a patch of sun), or beside it.
+        public enum CatUse: String, Codable, Sendable {
+            case on, inside, front, floor, beside
+        }
+
+        /// How the cat uses it for something it affords.
+        public func use(for need: Affordance) -> CatUse {
+            if let catUse {
+                return catUse
+            }
+            if decal {
+                return need == .watch ? .front : .floor
+            }
+            if layer == .wall {
+                return .front
+            }
+            return [.sit, .sleep, .perch].contains(need) ? .on : .beside
+        }
     }
 
     public struct Surface: Codable, Sendable {

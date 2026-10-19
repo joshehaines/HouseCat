@@ -71,6 +71,8 @@ public final class CatNode: SKNode {
     private var openHead: (View, SKTexture)?
     /// A squash or stretch on the puppet (crouching, landing), eased back to nothing.
     private var squashAmount: CGFloat = 0
+    /// Scratching (seconds since it reared up): on its hind legs against a post, the front paws raking it in turn.
+    public private(set) var scratchTime: TimeInterval?
     /// Each view's puppet's width standing (for its shadow).
     private var puppetWidths: [View: CGFloat] = [:]
 
@@ -339,22 +341,30 @@ public final class CatNode: SKNode {
 
     // MARK: Showing
 
-    /// Shows one view of the puppet, facing left or right (the side view is painted facing left).
+    /// Shows one view of the puppet, facing left or right (the side view is painted facing left). Resting in a
+    /// pose, the painting stays on show and the view is the one it will get up in.
     public func show(_ view: View, facingRight: Bool) {
         restoreEyes()
         self.view = view
         self.facingRight = facingRight
-        for (v, node) in puppets {
-            node.removeAction(forKey: "fade")
-            node.shouldEnableEffects = false
-            if pose == nil {
-                node.alpha = 1
-            }
-            node.isHidden = v != view
+        for node in puppets.values {
             node.xScale = facingRight ? -1 : 1
         }
         poseNode.xScale = facingRight ? -1 : 1
+        showOnlyOne()
         placeShadow()
+    }
+
+    /// One drawing of the cat at a time: the painting while it rests in a pose, else the puppet in its view. Two at
+    /// once, even fading, read as a second cat (a fade cut short left the puppet showing behind the painting).
+    private func showOnlyOne() {
+        let resting = pose != nil
+        poseNode.removeAction(forKey: "swap")
+        poseNode.alpha = resting ? 1 : 0
+        for (v, node) in puppets {
+            node.alpha = 1
+            node.isHidden = resting || v != view
+        }
     }
 
     /// Turns the moving puppet to another view: the new view takes over at once with a quick squash across, as a
@@ -377,29 +387,6 @@ public final class CatNode: SKNode {
         new.run(settle, withKey: "turn")
     }
 
-    private static let overlap = Tuning.Puppet.fadeOverlap
-
-    /// Fades a puppet as one flat picture, then goes back to drawing its parts directly.
-    private func fade(
-        _ node: SKEffectNode?,
-        to alpha: CGFloat,
-        duration: TimeInterval,
-        after delay: TimeInterval = 0,
-        then done: (() -> Void)? = nil
-    ) {
-        guard let node else { return }
-        node.removeAction(forKey: "fade")
-        node.shouldEnableEffects = true
-        node.run(.sequence([
-            .wait(forDuration: delay),
-            .fadeAlpha(to: alpha, duration: duration),
-            .run {
-                node.shouldEnableEffects = false
-                done?()
-            },
-        ]), withKey: "fade")
-    }
-
     /// The builder's sprite for a resting pose in this cat's look.
     private func poseBuilderSprite(_ pose: CatPose) -> CatBuilder.Sprite? {
         guard let catArt, let look else { return nil }
@@ -418,9 +405,10 @@ public final class CatNode: SKNode {
         return (art.texture(path), art.paintedSize(path))
     }
 
-    /// Settles into a painted resting pose: from moving, the puppet sits down a little and the painting takes over;
-    /// from another painting (a glance, a stretch), the old one fades out over the new.
-    public func settle(into pose: CatPose, duration: TimeInterval = Tuning.Puppet.settleSeconds) {
+    /// Settles into a painted resting pose: from moving, the puppet sits down a little and the painting takes over
+    /// at the bottom of the dip; from another painting (a glance, a stretch), the new one takes over at once with a
+    /// little settle. `crossFade` fades painting into painting instead (the logo's curl; two cats for a moment).
+    public func settle(into pose: CatPose, duration: TimeInterval = Tuning.Puppet.settleSeconds, crossFade: Bool = false) {
         guard let (texture, painted) = poseSprite(pose) else {
             stopCycle()
             return
@@ -428,7 +416,7 @@ public final class CatNode: SKNode {
         restoreEyes()
         let was = self.pose
         stopCycle()
-        if let was, was != pose, duration > 0, let old = poseNode.copy() as? SKSpriteNode {
+        if crossFade, let was, was != pose, duration > 0, let old = poseNode.copy() as? SKSpriteNode {
             old.removeAllActions()
             old.zPosition = poseNode.zPosition + 0.01
             addChild(old)
@@ -441,31 +429,31 @@ public final class CatNode: SKNode {
         self.pose = pose
         layPoseOutfit(pose)
         poseNode.removeAllActions()
-        if was == nil {
-            let dip = duration > 0 ? Tuning.Puppet.sitDownSeconds : 0
-            if duration > 0 {
-                squash(CGFloat(Tuning.Puppet.sitDownDip))
-            }
-            poseNode.run(.sequence([.wait(forDuration: dip), .fadeIn(withDuration: duration * Self.overlap)]))
-            fade(puppets[view], to: 0, duration: duration * Self.overlap, after: dip + duration * (1 - Self.overlap))
+        if was == nil, duration > 0 {
+            // The puppet stays on show through the dip; then the painting, and only the painting.
+            squash(CGFloat(Tuning.Puppet.sitDownDip))
+            poseNode.alpha = 0
+            poseNode.run(.sequence([
+                .wait(forDuration: Tuning.Puppet.sitDownSeconds),
+                .run { [weak self] in self?.showOnlyOne() },
+            ]), withKey: "swap")
         } else {
-            poseNode.alpha = 1
+            showOnlyOne()
+            if was != nil, was != pose, duration > 0, !crossFade {
+                squash(CGFloat(Tuning.Puppet.sitDownDip) * 0.5)
+            }
         }
         placeShadow()
     }
 
-    /// Cross-fades from a resting pose back to the puppet, ready to move: it comes up from a crouch.
+    /// From a resting pose back to the puppet, ready to move: it comes up from a crouch, the painting gone at once.
     public func rise(to view: View, facingRight: Bool, duration: TimeInterval = Tuning.Puppet.riseSeconds) {
         let was = pose
+        pose = nil
         show(view, facingRight: facingRight)
-        let puppet = puppets[view]
-        puppet?.alpha = was == nil ? 1 : 0
-        fade(puppet, to: 1, duration: duration * Self.overlap)
         if was != nil, duration > 0 {
             squash(CGFloat(Tuning.Puppet.sitDownDip))
         }
-        poseNode.run(.sequence([.wait(forDuration: duration * (1 - Self.overlap)), .fadeOut(withDuration: duration * Self.overlap)]))
-        pose = nil
         placeShadow()
     }
 
@@ -488,6 +476,7 @@ public final class CatNode: SKNode {
 
     public func stopCycle() {
         cycle = nil
+        scratchTime = nil
         moveSpeed = 0
         resetPose(view)
     }
@@ -500,7 +489,63 @@ public final class CatNode: SKNode {
                 node.position = rest
             }
         }
-        puppets[view]?.children.first?.position.y = 0
+        if let root = puppets[view]?.children.first {
+            root.position = .zero
+            root.zRotation = 0
+        }
+    }
+
+    /// Rears up against something to scratch it: in the side view (facing it), up on its hind legs, the front paws
+    /// raking it in turn until `stopScratching`.
+    public func scratch() {
+        guard pose == nil else { return }
+        stopCycle()
+        if view != .side {
+            show(.side, facingRight: facingRight)
+        }
+        scratchTime = 0
+    }
+
+    /// Down from scratching onto all fours (a little bump as the front feet land).
+    public func stopScratching() {
+        guard scratchTime != nil else { return }
+        stopCycle()
+        squash(CGFloat(Tuning.Puppet.sitDownDip))
+        placeShadow()
+    }
+
+    /// The scratch at `t` seconds: the body tips up about the hips, the back legs stay standing under them, the
+    /// head stays nearer level, and the front legs reach up the post and rake it in turn.
+    private func scratching(_ t: TimeInterval) {
+        guard let nodes = parts[.side], let rests = restAngles[.side], let root = puppets[.side]?.children.first,
+              let hipNode = nodes["leg_back_near"], let hipParent = hipNode.parent else { return }
+        let p = Tuning.Puppet.self
+        func set(_ name: String, _ angle: CGFloat) {
+            nodes[name]?.zRotation = (rests[name] ?? 0) - angle
+        }
+        let k = CGFloat(min(1, t / p.scratchRiseSeconds))
+        let up = k * k * (3 - 2 * k)
+        let rear = CGFloat(p.scratchRearDegrees) * .pi / 180 * up
+        // Turn about the hips (painted facing left, so up is clockwise), keeping them where they stand.
+        let hip = hipParent.convert(hipNode.position, to: root)
+        let c = cos(rear), s = sin(rear)
+        root.zRotation = -rear
+        root.position = CGPoint(x: hip.x - (hip.x * c + hip.y * s), y: hip.y - (-hip.x * s + hip.y * c))
+        set("leg_back_near", -rear)
+        set("leg_back_far", -rear)
+        let stroke = CGFloat(sin(t * 2 * .pi * p.scratchHz))
+        let reach = CGFloat(p.scratchReachDegrees) * .pi / 180 * up
+        let rake = CGFloat(p.scratchRakeDegrees) * .pi / 180 * up
+        set("leg_front_near", reach + rake * stroke)
+        set("leg_front_far", reach - rake * stroke)
+        set("head", -rear * CGFloat(p.scratchHeadLevel))
+        let tailName = nodes["tail_up"] != nil ? "tail_up" : "tail"
+        set(tailName, -rear * 0.35 + CGFloat(p.idleTailSway * .pi / 180 * sin(t * 2 * .pi * p.idleTailHz)))
+        // Only the hind feet on the floor: the shadow gathers under them.
+        placeShadow()
+        shadow.position.x = hip.x * up * (facingRight ? -1 : 1)
+        shadow.xScale *= 1 - 0.35 * up
+        shadow.yScale *= 1 - 0.35 * up
     }
 
     /// Crouches (or squashes on landing) by a share of the height; it eases back by itself.
@@ -512,6 +557,11 @@ public final class CatNode: SKNode {
     public func step(_ dt: TimeInterval) {
         clock += dt
         live(dt)
+        if let t = scratchTime {
+            scratchTime = t + dt
+            scratching(t + dt)
+            return
+        }
         guard var current = cycle, let nodes = parts[view], let rests = restAngles[view],
               let spec = rig.sets[body]?[view.rawValue] else { return }
         let p = Tuning.Puppet.self
@@ -600,7 +650,7 @@ public final class CatNode: SKNode {
         let root = puppets[view]?.children.first
         root?.xScale = 1 + squashAmount * 0.5
         if pose != nil {
-            poseNode.yScale = 1 + rise
+            poseNode.yScale = (1 - squashAmount) * (1 + rise)
             root?.yScale = 1 - squashAmount
         } else {
             poseNode.yScale = 1
@@ -617,7 +667,7 @@ public final class CatNode: SKNode {
         if blinkEnds == nil, clock >= nextBlink {
             blink()
         }
-        guard pose == nil, cycle == nil, let nodes = parts[view], let rests = restAngles[view] else { return }
+        guard pose == nil, cycle == nil, scratchTime == nil, let nodes = parts[view], let rests = restAngles[view] else { return }
         let tailName = nodes["tail_up"] != nil ? "tail_up" : "tail"
         let sway = CGFloat(p.idleTailSway * .pi / 180 * sin(clock * 2 * .pi * p.idleTailHz))
         nodes[tailName]?.zRotation = (rests[tailName] ?? 0) - sway
@@ -670,9 +720,15 @@ public final class CatNode: SKNode {
         blinkEnds = nil
     }
 
+    /// How many drawings of the cat are on show (any part see-through or not): always one.
+    var drawingsOnShow: Int {
+        let pictures: [SKNode] = [poseNode] + Array(puppets.values) + children.filter { $0 is SKSpriteNode && $0 !== poseNode }
+        return pictures.filter { !$0.isHidden && $0.alpha > 0.01 }.count
+    }
+
     /// The cat's own outline in its parent's units (the puppet or the painting on show, not its shadow).
     public var bodyFrame: CGRect {
-        let shown: [SKNode] = (pose != nil ? [poseNode] : []) + (puppets[view].map { [$0] } ?? [])
+        let shown: [SKNode] = pose != nil ? [poseNode] : (puppets[view].map { [$0] } ?? [])
         let local = shown.reduce(CGRect.null) { $0.union($1.calculateAccumulatedFrame()) }
         guard !local.isNull, let parent else { return local }
         return CGRect(

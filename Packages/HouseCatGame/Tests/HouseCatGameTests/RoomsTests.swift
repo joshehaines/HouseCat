@@ -87,15 +87,16 @@ private func settle(_ director: CatDirector, within seconds: Double = 120) {
     for room in [RoomID.kitchen, .garden, .living, .bedroom, .study, .attic, .living] {
         let (activity, itemID) = try #require(home.activity(in: room), "\(room) has furniture to use")
         let choice = BehaviourChoice(activity: activity, room: room)
+        scene.send(choice)
+        // Where it was sent: the piece it went for this time (the next along, coming back to a room).
         let spot = scene.spot(for: choice)
         #expect(spot.itemID != nil, "\(room): the spot is on a piece of furniture")
-        scene.send(choice)
         settle(director)
         #expect(director.isIdle, "\(room): the cat got there")
         #expect(scene.catRoom == room)
         #expect(director.cat.parent === scene.rooms[room], "\(room): the cat is in the room's node")
         #expect(hypot(director.floorPoint.x - spot.point.x, director.floorPoint.y - spot.point.y) < 1)
-        #expect(director.cat.pose == choice.pose)
+        #expect(director.cat.pose == spot.pose, "the piece's own pose")
         #expect(director.cat.alpha == 1)
         if spot.itemID != nil {
             used.insert(room)

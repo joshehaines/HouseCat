@@ -629,6 +629,8 @@ public enum Tuning {
         public static let glanceHold = 1.8
         /// Walking off after the rub is a little brisker than an ordinary walk.
         public static let walkOffPace = 1.4
+        /// A cat that comes to greet you is waiting on the sofa this often (Josh: it jumps off to come to you).
+        public static let onSofaPercent = 55
     }
 
     /// The cat puppet and how it moves (STYLE.md, ASSETS.md §7). Speeds in room units a second.
@@ -646,13 +648,11 @@ public enum Tuning {
         public static let runBob = 0.03
         /// In the front view legs lift instead of swinging, by this fraction of a leg.
         public static let frontLegLift = 0.08
-        /// Cross-fades: into a painted pose, back to the puppet, and between views.
+        /// Settling into a painted pose, getting up from one and turning between views (one drawing at a time: the
+        /// new one takes over at once, under a squash).
         public static let settleSeconds = 0.35
         public static let riseSeconds = 0.25
         public static let turnSeconds = 0.18
-        /// How much of a cross-fade each side takes: the incoming picture fades in first and
-        /// the outgoing one fades out under it after, so the cat is never see-through halfway.
-        public static let fadeOverlap = 0.6
         public static let minMoveSeconds = 0.25
         public static let hopSeconds = 0.3
         public static let hopHeight = 18.0
@@ -729,6 +729,17 @@ public enum Tuning {
         public static let stretchSeconds = 1.1
         /// A batted or scratched piece rocks this far (degrees).
         public static let wobbleDegrees = 3.5
+        /// Scratching a post: up on its hind legs over this long, tipped up this far, the front legs reaching up the
+        /// post and raking it this far either way, this many strokes a second; the head stays this much nearer level.
+        public static let scratchRiseSeconds = 0.3
+        public static let scratchRearDegrees = 52.0
+        public static let scratchReachDegrees = 74.0
+        public static let scratchRakeDegrees = 16.0
+        public static let scratchHz = 2.4
+        public static let scratchHeadLevel = 0.55
+        /// How long a go at the post lasts, and how far from the post's middle it stands (shares of its height).
+        public static let scratchSeconds = 3.2
+        public static let scratchStandOff = 0.55
         /// How long the cat keeps at an activity once there (seconds, shortest and longest), by activity; others
         /// take `idleSeconds`.
         public static let hold: [String: [Double]] = [

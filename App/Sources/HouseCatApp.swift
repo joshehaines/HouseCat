@@ -595,7 +595,7 @@ struct RoomScreen: View {
                 }
             }
             .sheet(isPresented: $showSettings) {
-                SettingsView(catName: visit.catName ?? "Your cat") { showSettings = false }
+                SettingsView(catName: visit.catName ?? "Your cat", store: store) { showSettings = false }
                     .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
             }
     }
@@ -1055,16 +1055,20 @@ struct RoomScreen: View {
                 showMenu = false
                 showBook = true
             },
-            RoomMenu.Item(
+        ]
+        // The season pass only while a season is on: before the first one, or between seasons, there is nothing to
+        // show but a date (App Review 2.1: no "coming soon" screens).
+        if let pass {
+            items.append(RoomMenu.Item(
                 id: "pass",
                 title: "Pass",
                 icon: "season_pass_ticket",
-                dot: !(pass?.claimableFree.isEmpty ?? true) || !(pass?.claimablePaid.isEmpty ?? true)
+                dot: !pass.claimableFree.isEmpty || !pass.claimablePaid.isEmpty
             ) {
                 showMenu = false
                 showPass = true
-            },
-        ]
+            })
+        }
         if let live = session.liveTrack() {
             items.append(RoomMenu.Item(
                 id: "gifts",

@@ -51,6 +51,59 @@ enum YourData {
     }
 }
 
+/// In the cat's settings: what was bought and the way to get help (App Review 3.1.1 and 1.5): Restore Purchases,
+/// managing Cat Club, asking Apple for a refund, the support page and email, the terms and the privacy policy.
+struct PurchasesCard: View {
+    let store: (any EntitlementService)?
+    @State private var message: String?
+    @State private var restoring = false
+    @State private var refunding = false
+    @Environment(\.openURL) private var openURL
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(spacing: 8) {
+                PaintedIcon("bean_coin", size: 28)
+                Text("Purchases and help").font(.headline)
+            }
+            Text("Room looks and Cat Club belong to your Apple Account, so they come back on a new iPhone or iPad.")
+                .font(.subheadline)
+                .foregroundStyle(Theme.inkSoft)
+                .fixedSize(horizontal: false, vertical: true)
+            HStack(spacing: 10) {
+                HUDButton(restoring ? "Restoring…" : "Restore Purchases", symbol: "arrow.clockwise") {
+                    restoring = true
+                    Task {
+                        message = await RestorePurchases.run(store)
+                        restoring = false
+                    }
+                }
+                .disabled(restoring)
+                HUDButton("Manage subscription", symbol: "gearshape") { openURL(Tuning.Store.manageSubscriptionsURL) }
+                HUDButton("Request a refund", symbol: "arrow.uturn.backward") { refunding = true }
+                    .disabled(store == nil)
+            }
+            if let message {
+                Text(message).font(.caption).foregroundStyle(Theme.inkSoft)
+            }
+            HStack(spacing: 16) {
+                Link("Help and support", destination: Tuning.Store.supportURL)
+                if let email = URL(string: "mailto:\(Tuning.Store.supportEmail)") {
+                    Link("Email us", destination: email)
+                }
+                Link("Terms of Use", destination: Tuning.Store.termsURL)
+                Link("Privacy Policy", destination: Tuning.Store.privacyURL)
+            }
+            .font(.subheadline.weight(.semibold))
+            .tint(Theme.accent)
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .paper(RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .sheet(isPresented: $refunding) { RefundView { refunding = false } }
+    }
+}
+
 /// In the cat's settings: export the save, delete everything, and the credits.
 struct YourDataCard: View {
     let catName: String
@@ -69,7 +122,7 @@ struct YourDataCard: View {
                 Text("Your data").font(.headline)
             }
             Text(
-                "HouseCat has no account and no server. \(catName)'s home is kept on this phone (and in your iCloud when you share it). You can take a copy or delete it all."
+                "HouseCat has no account and no server. \(catName)'s home is kept on this device (and in your iCloud when you share it). You can take a copy or delete it all."
             )
             .font(.subheadline)
             .foregroundStyle(Theme.inkSoft)
@@ -107,7 +160,7 @@ struct YourDataCard: View {
             Button("Keep it", role: .cancel) {}
         } message: {
             Text(
-                "\(catName), the home, the Beans, the streak, the book and your settings on this phone go, and the shared home in iCloud if you share it. Purchases stay with your Apple Account: Restore Purchases in the shop brings them back."
+                "\(catName), the home, the Beans, the streak, the book and your settings on this device go, and the shared home in iCloud if you share it. Purchases stay with your Apple Account: Restore Purchases brings them back."
             )
         }
         .alert("This can't be undone", isPresented: $finalCheck) {
@@ -167,6 +220,15 @@ struct CreditsView: View {
                         Link("Data sources", destination: RealWeather.attribution?.legal ?? Tuning.Store.weatherLegalURL).font(.caption)
                     }
                     Text("Place search: Apple Maps").font(.subheadline)
+                }
+                Section("Software") {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("RevenueCat Purchases SDK").font(.subheadline)
+                        Text("Copyright RevenueCat, Inc. · MIT Licence").font(.caption).foregroundStyle(Theme.inkSoft)
+                        if let link = URL(string: "https://github.com/RevenueCat/purchases-ios/blob/main/LICENSE") {
+                            Link("Licence", destination: link).font(.caption)
+                        }
+                    }
                 }
                 Section("Everything else") {
                     Text("The paintings, the room sounds and the game's own effects were made for HouseCat.").font(.subheadline)

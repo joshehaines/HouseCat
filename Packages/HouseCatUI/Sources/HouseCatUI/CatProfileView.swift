@@ -142,7 +142,7 @@ public struct CatProfileView: View {
                 .paper(RoundedRectangle(cornerRadius: 24, style: .continuous))
                 HUDButton("Edit look", icon: "decorate_paintbrush", action: editLook)
                 if let settings {
-                    HUDButton("Reminders and widget", icon: "bell_for_notifications", action: settings)
+                    HUDButton("Settings", icon: "bell_for_notifications", action: settings)
                 }
             }
             .frame(width: 230)

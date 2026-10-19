@@ -7,8 +7,8 @@ import SwiftUI
 #endif
 
 /// Sharing the cat with someone (SPEC step 8, co-owning): a one-time invite link to send; whoever opens it
-/// looks after the same cat, and either of you visiting keeps the streak. Off until iCloud is set up for the
-/// app (HouseholdSync.isEnabled), and the card says so rather than offering a link that cannot work.
+/// looks after the same cat, and either of you visiting keeps the streak. Shown only once iCloud is set up for
+/// the app (HouseholdSync.isEnabled; SettingsView leaves it out until then).
 struct CoOwnCard: View {
     let catName: String
     @State private var link: URL?
@@ -29,10 +29,7 @@ struct CoOwnCard: View {
             )
             .font(.subheadline).foregroundStyle(Theme.inkSoft)
             .fixedSize(horizontal: false, vertical: true)
-            if !HouseholdSync.isEnabled {
-                Text("Sharing needs iCloud, which is switched on with the App Store build.")
-                    .font(.caption.weight(.semibold)).foregroundStyle(Theme.accent)
-            } else if let link {
+            if let link {
                 ShareLink(
                     item: link,
                     subject: Text("Share \(catName)"),
@@ -115,7 +112,7 @@ struct JoinView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
             Text("You're invited to share a cat").font(Theme.title(26))
-            Text("Choose the name the other owner will see. It isn't your Apple Account name, and you can change it later.")
+            Text("Choose the name the other owner will see. It isn't your Apple Account name.")
                 .font(.subheadline).foregroundStyle(Theme.inkSoft)
             TextField("Your name", text: $name)
                 .textFieldStyle(.roundedBorder)
@@ -130,8 +127,20 @@ struct JoinView: View {
                     Task {
                         joining = true
                         defer { joining = false }
+                        // The other owner sees this name: through the same word filter and length as a cat's.
+                        let checked: String
+                        switch CatNames.check(name, filter: GameWorld.content?.names ?? NameFilter()) {
+                        case let .ok(name): checked = name
+                        case .empty: return
+                        case .tooLong:
+                            problem = "Up to \(Tuning.Cat.nameMaxLength) characters."
+                            return
+                        case .blocked:
+                            problem = "Try another name."
+                            return
+                        }
                         do {
-                            try await HouseholdSync.accept(metadata, as: name.trimmingCharacters(in: .whitespaces))
+                            try await HouseholdSync.accept(metadata, as: checked)
                             done()
                         } catch {
                             problem = "That invite couldn't be opened. It may have been used already."

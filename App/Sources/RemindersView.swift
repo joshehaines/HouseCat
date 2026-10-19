@@ -1,4 +1,5 @@
 import HouseCatCore
+import HouseCatStore
 import HouseCatUI
 import SwiftUI
 import UserNotifications
@@ -10,6 +11,7 @@ import UserNotifications
 /// at the player's own times; WeatherKit's attribution goes wherever its weather is credited).
 struct SettingsView: View {
     let catName: String
+    var store: (any EntitlementService)?
     let close: () -> Void
     @State private var settings = Reminders.settings
     @State private var status: UNAuthorizationStatus?
@@ -21,7 +23,7 @@ struct SettingsView: View {
             VStack(alignment: .leading, spacing: 18) {
                 HStack(spacing: 8) {
                     PaintedIcon("bell_for_notifications", size: 36)
-                    Text("Reminders, sharing and widget").font(Theme.title(28))
+                    Text("Settings").font(Theme.title(28))
                 }
                 reminders
                 if HealthLayer.isAvailable {
@@ -30,7 +32,12 @@ struct SettingsView: View {
                 if Analytics.isAvailable {
                     AnalyticsCard()
                 }
-                CoOwnCard(catName: catName)
+                // Co-owning needs the app's iCloud container (HouseholdSync.isEnabled); until it is on, the card is
+                // not shown at all rather than promising something that cannot work (App Review 2.1).
+                if HouseholdSync.isEnabled {
+                    CoOwnCard(catName: catName)
+                }
+                PurchasesCard(store: store)
                 YourDataCard(catName: catName, deleted: close)
                 WidgetGuide(catName: catName)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -55,7 +62,7 @@ struct SettingsView: View {
 
     private var reminders: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("\(catName) can remind you. Only at these times, and only from this phone.")
+            Text("\(catName) can remind you. Only at these times, and only from this device.")
                 .font(.subheadline).foregroundStyle(Theme.inkSoft)
             if status == .notDetermined || status == .denied {
                 HStack {

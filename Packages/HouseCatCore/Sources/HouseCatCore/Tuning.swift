@@ -402,15 +402,19 @@ public enum Tuning {
         public static let shortestWhiskers = 0.35
     }
 
-    /// The shop's links (App Review 3.1.2: shown with every subscription). Placeholders until the site is up.
+    /// The shop's links (App Review 3.1.2: shown with every subscription; 1.5: a support page), the pages of the
+    /// site in website/ (live once the domain is bought and the site uploaded).
     public enum Store {
         /// The starter offer's beanie and armchair (what its picture shows), given with its Beans.
         public static let starterOutfit = "beanie"
         public static let starterPiece = "living_armchair"
         /// The one card that mentions the shop unasked comes when the cat first reaches this trust tier.
         public static let offerTrustTier = TrustTier.wary
-        public static let termsURL = URL(string: "https://housecatgame.com/terms")!
-        public static let privacyURL = URL(string: "https://housecatgame.com/privacy")!
+        public static let termsURL = URL(string: "https://housecatgame.com/terms/")!
+        public static let privacyURL = URL(string: "https://housecatgame.com/privacy/")!
+        public static let supportURL = URL(string: "https://housecatgame.com/support/")!
+        public static let supportEmail = "support@housecatgame.com"
+        public static let manageSubscriptionsURL = URL(string: "https://apps.apple.com/account/subscriptions")!
         /// WeatherKit's legal page, until the service gives its own (it needs the capability).
         public static let weatherLegalURL = URL(string: "https://weatherkit.apple.com/legal-attribution.html")!
     }

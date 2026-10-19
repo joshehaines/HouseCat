@@ -89,6 +89,7 @@ struct ShopView: View {
     var opening: Section?
     @State private var prices = StorePrices.shared
     @State private var message: String?
+    @State private var restoring = false
     @State private var buying: String?
     @State private var owned = Entitlements.none
     @State private var beans = 0
@@ -230,6 +231,16 @@ struct ShopView: View {
     private func refresh() {
         owned = store?.entitlements ?? .none
         beans = session.beans
+    }
+
+    /// Restore Purchases, from the footer or the Cat Club page: the message says what came back, or why not.
+    private func restore() {
+        restoring = true
+        Task {
+            message = await RestorePurchases.run(store)
+            refresh()
+            restoring = false
+        }
     }
 
     /// The player's Beans, top right, as in a builder game's shop.
@@ -628,7 +639,7 @@ struct ShopView: View {
                 VStack(alignment: .leading, spacing: 8 * s) {
                     Ribbon(owned.hasClub ? "You're a member" : "\(StoreCatalog.yearlyTrialDays) days free", colour: Self.deepGold)
                     Text("Cat Club").font(Theme.title(32 * s)).foregroundStyle(.white)
-                    Text("+20% Beans, rooms for half the Beans, moving home for free and every season's paid track.")
+                    Text(clubSummary)
                         .font(font(13))
                         .foregroundStyle(.white.opacity(0.92))
                         .fixedSize(horizontal: false, vertical: true)
@@ -652,6 +663,13 @@ struct ShopView: View {
         .buttonStyle(PressStyle())
     }
 
+    /// What Cat Club gives, in a line: the season's paid track only while a season is on.
+    private var clubSummary: String {
+        session.passInfo(club: false) == nil
+            ? "+20% Beans, rooms for half the Beans and moving home for free."
+            : "+20% Beans, rooms for half the Beans, moving home for free and every season's paid track."
+    }
+
     private var clubBackground: some View {
         let shape = RoundedRectangle(cornerRadius: 24 * s, style: .continuous)
         return shape
@@ -672,7 +690,7 @@ struct ShopView: View {
     private var clubPage: some View {
         HStack(alignment: .top, spacing: 14 * s) {
             VStack(spacing: 4 * s) {
-                artView(["ui/shop/shop_club.png"]).frame(width: 160 * s, height: 140 * s)
+                artView(["ui/shop/shop_club.png"]).frame(width: 160 * s, height: 112 * s)
                 Text("Cat Club").font(Theme.title(28 * s)).foregroundStyle(.white)
                 if let pass = session.passInfo(club: false) {
                     Text("This season's paid track: \(pass.season.paidTrack.count) rewards in \(pass.name).")
@@ -681,8 +699,11 @@ struct ShopView: View {
                         .multilineTextAlignment(.center)
                         .fixedSize(horizontal: false, vertical: true)
                 }
+                Spacer(minLength: 4 * s)
+                clubLinks
             }
             .frame(width: 160 * s)
+            .frame(maxHeight: .infinity, alignment: .top)
             VStack(alignment: .leading, spacing: 8 * s) {
                 Grid(horizontalSpacing: 8 * s, verticalSpacing: 8 * s) {
                     GridRow {
@@ -691,7 +712,12 @@ struct ShopView: View {
                     }
                     GridRow {
                         perk("Free", "moving home", icon: "map_pin")
-                        perk("Every", "season's paid track", icon: "season_pass_ticket")
+                        // The pass perk only while a season is on (nothing to show before the first one).
+                        if session.passInfo(club: false) != nil {
+                            perk("Every", "season's paid track", icon: "season_pass_ticket")
+                        } else {
+                            perk("Cancel", "any time, in Settings", icon: "clock")
+                        }
                     }
                 }
                 if owned.hasClub {
@@ -704,9 +730,11 @@ struct ShopView: View {
                         plan(yearly: false)
                     }
                     HStack(alignment: .center, spacing: 10 * s) {
+                        // The price that will be charged is on the button itself (App Review 3.1.2: the billed
+                        // amount is the clearest pricing on the page, the free days second).
                         ChunkyButton(
-                            yearly ? "Start \(StoreCatalog.yearlyTrialDays) days free" :
-                                "Join for \(price(StoreCatalog.clubMonthly) ?? "…")",
+                            yearly ? "\(price(StoreCatalog.clubYearly) ?? "…") a year" :
+                                "\(price(StoreCatalog.clubMonthly) ?? "…") a month",
                             colour: Self.deepGold
                         ) {
                             buy(yearly ? StoreCatalog.clubYearly : StoreCatalog.clubMonthly, offer: clubOffer)
@@ -714,8 +742,8 @@ struct ShopView: View {
                         .disabled(buying != nil)
                         .layoutPriority(1)
                         Text(clubTerms)
-                            .font(font(9))
-                            .foregroundStyle(.white.opacity(0.85))
+                            .font(font(10.5, .medium))
+                            .foregroundStyle(.white.opacity(0.92))
                             .fixedSize(horizontal: false, vertical: true)
                     }
                 }
@@ -729,8 +757,29 @@ struct ShopView: View {
 
     private var clubTerms: String {
         let year = price(StoreCatalog.clubYearly) ?? "…", month = price(StoreCatalog.clubMonthly) ?? "…"
-        return "Yearly: free for \(StoreCatalog.yearlyTrialDays) days, then \(year) a year. Monthly: \(month) a month. "
-            + "Renews automatically until you cancel, at least a day before it renews, in Settings."
+        let plan = yearly
+            ? "\(StoreCatalog.yearlyTrialDays) days free, then \(year) a year."
+            : "\(month) a month, from today."
+        return plan + " Renews automatically until you cancel, at least a day before it renews, in Settings."
+    }
+
+    /// Under the crowned cat on the Cat Club page: the terms, the privacy policy and Restore Purchases, on the
+    /// page that sells the subscription (App Review 3.1.2).
+    private var clubLinks: some View {
+        VStack(alignment: .center, spacing: 3 * s) {
+            if let message {
+                Text(message).font(font(9.5, .medium)).foregroundStyle(Self.gold)
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            Button(restoring ? "Restoring…" : "Restore Purchases") { restore() }
+                .disabled(store == nil || restoring)
+            Link("Terms of Use", destination: Tuning.Store.termsURL)
+            Link("Privacy Policy", destination: Tuning.Store.privacyURL)
+        }
+        .font(font(11, .bold))
+        .tint(.white)
+        .foregroundStyle(.white)
     }
 
     private func perk(_ big: String, _ detail: String, icon: String) -> some View {
@@ -764,7 +813,7 @@ struct ShopView: View {
                 Text(price(id).map { isYearly ? "Yearly · \($0)" : "Monthly · \($0)" } ?? "…")
                     .font(font(14, .heavy, rounded: true))
                 Text(isYearly ? "\(StoreCatalog.yearlyTrialDays) days free" + (perMonth.map { " · \($0) a month" } ?? "") :
-                    "Cancel any time")
+                    "Billed every month")
                     .font(font(10.5, .semibold))
                     .opacity(0.88)
             }
@@ -953,23 +1002,14 @@ struct ShopView: View {
             if let message {
                 Text(message).font(font(12)).foregroundStyle(Theme.inkSoft)
             }
-            HUDButton("Restore Purchases", symbol: "arrow.clockwise") {
-                Task {
-                    try? await store?.restore()
-                    refresh()
-                    message = "Purchases restored."
-                }
-            }
-            .disabled(store == nil)
+            HUDButton(restoring ? "Restoring…" : "Restore Purchases", symbol: "arrow.clockwise") { restore() }
+                .disabled(store == nil || restoring)
             HUDButton("Request a refund", symbol: "arrow.uturn.backward") { refunding = true }
                 .disabled(store == nil)
-            HUDButton("Manage subscription", symbol: "gearshape") {
-                if let url = URL(string: "https://apps.apple.com/account/subscriptions") {
-                    openURL(url)
-                }
-            }
+            HUDButton("Manage subscription", symbol: "gearshape") { openURL(Tuning.Store.manageSubscriptionsURL) }
             Link("Terms of Use", destination: Tuning.Store.termsURL).font(font(12, .semibold)).tint(Theme.accent)
             Link("Privacy Policy", destination: Tuning.Store.privacyURL).font(font(12, .semibold)).tint(Theme.accent)
+            Link("Help and support", destination: Tuning.Store.supportURL).font(font(12, .semibold)).tint(Theme.accent)
             Text("Beans come in packs and every day from looking after your cat. Room looks are kept for good; Cat Club renews until you cancel. Nothing is random.")
                 .font(font(11))
                 .foregroundStyle(Theme.inkSoft)
@@ -1087,5 +1127,39 @@ struct Celebration: View {
                     .opacity(0.9)
             }
         }
+    }
+}
+
+/// Restore Purchases (the shop, the Cat Club page and the cat's settings), told truthfully: what came back from the
+/// Apple Account, that there was nothing to restore, or that the App Store could not be reached.
+enum RestorePurchases {
+    @MainActor
+    static func run(_ store: (any EntitlementService)?) async -> String {
+        guard let store else {
+            return "The App Store can't be reached from here, so nothing was restored."
+        }
+        do {
+            try await store.restore()
+        } catch StoreKitError.userCancelled {
+            return "Restore cancelled."
+        } catch {
+            return "Couldn't reach the App Store, so nothing was restored. "
+                + "Check you're online and signed in, then try again."
+        }
+        let owned = store.entitlements
+        var found: [String] = []
+        if owned.hasClub {
+            found.append("Cat Club")
+        }
+        if owned.starter {
+            found.append("the starter pack")
+        }
+        if !owned.bundles.isEmpty {
+            found.append(owned.bundles.count == 1 ? "a room look" : "\(owned.bundles.count) room looks")
+        }
+        guard !found.isEmpty else {
+            return "Nothing to restore on this Apple Account. Beans are spent in the game, so they don't come back."
+        }
+        return "Restored " + ListFormatter.localizedString(byJoining: found) + "."
     }
 }

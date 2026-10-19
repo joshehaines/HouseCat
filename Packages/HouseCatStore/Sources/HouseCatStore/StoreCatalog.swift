@@ -71,7 +71,7 @@ public struct StoreCatalog: Sendable {
             kind: .nonConsumable,
             priceGBP: "1.99",
             unlock: .starter(beans: Tuning.Beans.starterPack),
-            displayName: "Starter Beans"
+            displayName: "Starter Pack"
         ))
         for bundle in bundles {
             products.append(.init(id: bundle.sku, kind: .nonConsumable, priceGBP: bundle.price, unlock: .bundle(bundle.id), displayName: bundle.name))

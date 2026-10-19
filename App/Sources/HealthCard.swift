@@ -22,7 +22,7 @@ struct HealthCard: View {
             }
             // As tall as its tallest tile, the three the same (on an iPad's tall screen they stretched to fill it).
             .fixedSize(horizontal: false, vertical: true)
-            Text("Only these three, read from Health on this phone. Nothing is written to Health or sent anywhere, and a day without is never held against you.")
+            Text("Only these three, read from Health on this device. Nothing is written to Health or sent anywhere, and a day without is never held against you.")
                 .font(.caption).foregroundStyle(Theme.inkSoft)
                 .fixedSize(horizontal: false, vertical: true)
             HStack(spacing: 10) {
@@ -75,7 +75,7 @@ struct HealthSettingsCard: View {
             Toggle(isOn: $on) {
                 VStack(alignment: .leading, spacing: 1) {
                     Text("Steps, sleep and workouts").font(.headline)
-                    Text("Extra XP when you meet a goal. Read from Health on this phone only.")
+                    Text("Extra XP when you meet a goal. Read from Health on this device only.")
                         .font(.caption).foregroundStyle(Theme.inkSoft)
                 }
             }

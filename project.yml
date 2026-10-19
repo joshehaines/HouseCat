@@ -84,7 +84,7 @@ targets:
         HouseCatCloudKit: false
         # Empty until the PostHog project exists: analytics stay off (Shared/Sources/Analytics.swift).
         PostHogAPIKey: ""
-        NSHealthShareUsageDescription: "Your cat notices your steps, sleep and workouts and gives you extra XP when you meet a goal. HouseCat only reads them, on this phone."
+        NSHealthShareUsageDescription: "Your cat notices your steps, sleep and workouts and gives you extra XP when you meet a goal. HouseCat only reads them, and they stay on this device."
         # An invite link opens in the app.
         CKSharingSupported: true
         # The nap timer on the Lock Screen and in the Dynamic Island.
@@ -190,8 +190,8 @@ targets:
         TARGETED_DEVICE_FAMILY: "1,2"
         SKIP_INSTALL: YES
 
-  # Background Assets downloader for the homes' exterior packs (Apple-hosted). Needs the App Group, which
-  # needs the developer team: until then it is built and embedded but the system never runs it.
+  # Background Assets downloader for the homes' exterior packs (Apple-hosted), writing into the App Group the
+  # app reads them from (the group needs the developer team to be registered).
   HouseCatDownloader:
     type: extensionkit-extension
     platform: iOS
@@ -200,6 +200,10 @@ targets:
     dependencies:
       - sdk: BackgroundAssets.framework
       - sdk: StoreKit.framework
+    entitlements:
+      path: Downloader/HouseCatDownloader.entitlements
+      properties:
+        com.apple.security.application-groups: [group.com.housecatgame.housecat]
     info:
       path: Downloader/Info.plist
       properties:

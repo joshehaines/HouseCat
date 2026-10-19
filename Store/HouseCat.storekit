@@ -68,7 +68,7 @@
       "internalID": "6742454948",
       "localizations": [
         {
-          "description": "15,000 Beans for furniture, outfits, rooms and presents.",
+          "description": "15,000 Beans for furniture, outfits, rooms and gifts.",
           "displayName": "A barrel of Beans",
           "locale": "en_GB"
         }
@@ -83,13 +83,13 @@
       "internalID": "6747351974",
       "localizations": [
         {
-          "description": "2,000 Beans to get you going. Once only.",
-          "displayName": "Starter Beans",
+          "description": "2,000 Beans, a beanie and an armchair. Once only.",
+          "displayName": "Starter Pack",
           "locale": "en_GB"
         }
       ],
       "productID": "housecat.starter",
-      "referenceName": "Starter Beans",
+      "referenceName": "Starter Pack",
       "type": "NonConsumable"
     },
     {
@@ -98,7 +98,7 @@
       "internalID": "6712297041",
       "localizations": [
         {
-          "description": "A grand fireplace, a hi-fi, a string of bulbs, a welcom",
+          "description": "A grand fireplace, a hi-fi, bulbs and a welcome mat.",
           "displayName": "Housewarming living room",
           "locale": "en_GB"
         }
@@ -113,7 +113,7 @@
       "internalID": "6759396237",
       "localizations": [
         {
-          "description": "A fire, a record player and a radiator seat that is nev",
+          "description": "A fire, a record player and a radiator seat.",
           "displayName": "Fireside living room",
           "locale": "en_GB"
         }
@@ -128,7 +128,7 @@
       "internalID": "6705205649",
       "localizations": [
         {
-          "description": "Starry walls, a reading lamp, a cat hammock and slipper",
+          "description": "Starry walls, a reading lamp and a cat hammock.",
           "displayName": "Midnight bedroom",
           "locale": "en_GB"
         }
@@ -143,7 +143,7 @@
       "internalID": "6726687017",
       "localizations": [
         {
-          "description": "Toile walls, rose carpet, curtains, a rug and a basket ",
+          "description": "Toile walls, rose carpet and a basket of laundry.",
           "displayName": "Rainy day bedroom",
           "locale": "en_GB"
         }
@@ -158,7 +158,7 @@
       "internalID": "6701777627",
       "localizations": [
         {
-          "description": "Lemon walls, slate floor, a kettle, a herb shelf, a bre",
+          "description": "Lemon walls, slate floor, a kettle and a bread bin.",
           "displayName": "Country kitchen",
           "locale": "en_GB"
         }
@@ -173,7 +173,7 @@
       "internalID": "6766915781",
       "localizations": [
         {
-          "description": "A pond, a deck chair, festoon lights, a rope hammock an",
+          "description": "A pond, a deck chair, festoon lights and a hammock.",
           "displayName": "Riviera garden",
           "locale": "en_GB"
         }
@@ -188,7 +188,7 @@
       "internalID": "6789550589",
       "localizations": [
         {
-          "description": "Map walls, green carpet, a globe, a desk lamp, a laptop",
+          "description": "Map walls, a globe, a desk lamp and a mug of tea.",
           "displayName": "Cosy study",
           "locale": "en_GB"
         }
@@ -203,7 +203,7 @@
       "internalID": "6737474301",
       "localizations": [
         {
-          "description": "Pine walls, a dusty armchair, a skylight beam, an oil l",
+          "description": "Pine walls, a skylight, an oil lamp and a wireless.",
           "displayName": "Cabin attic",
           "locale": "en_GB"
         }
@@ -218,7 +218,7 @@
       "internalID": "6715115809",
       "localizations": [
         {
-          "description": "A telescope, a rocking horse, a dressmaker's dummy and ",
+          "description": "A telescope, a rocking horse and a dressmaker's dummy.",
           "displayName": "Starlit attic",
           "locale": "en_GB"
         }
@@ -250,7 +250,7 @@
           "introductoryOffer": null,
           "localizations": [
             {
-              "description": "+20% Beans, rooms for half the Beans, free moves and every season's paid track.",
+              "description": "+20% Beans, rooms for half the Beans and free moves.",
               "displayName": "Cat Club Monthly",
               "locale": "en_GB"
             }
@@ -277,7 +277,7 @@
           },
           "localizations": [
             {
-              "description": "+20% Beans, rooms for half the Beans, free moves and every season's paid track.",
+              "description": "+20% Beans, rooms for half the Beans and free moves.",
               "displayName": "Cat Club Yearly",
               "locale": "en_GB"
             }

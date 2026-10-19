@@ -284,10 +284,14 @@ public enum Tuning {
         public static let leapSeconds = 0.55
         public static let leapSquash = 1.5
         public static let lean = 0.3
-        /// Paces (cat heights a second): running in on the intro and the launch, trotting to its spot.
+        /// Paces (cat heights a second): running in on the intro, trotting to its spot.
         public static let runSpeed = 3.0
-        public static let launchRunSpeed = 4.0
         public static let trotSpeed = 1.4
+        /// The launch's pounce from just off the edge (cat heights) straight onto its spot: seconds in the air and how
+        /// high its feet go.
+        public static let launchOffscreen = 0.6
+        public static let launchLeapSeconds = 0.55
+        public static let launchLeapTop = 520.0
         /// The intro: the wordmark alone first, then a look round at you before it sleeps. Seconds sitting before it
         /// curls up (intro, launch); the fade from the puppet into sitting, and the cross-fade into the curl.
         public static let introHold = 0.6
@@ -311,6 +315,20 @@ public enum Tuning {
         public static let glowFollow = 6.0
         /// How far the scene reaches above the box (box heights): the cat standing on the letters, its leap.
         public static let headroom = 2.2
+        /// The launch's film (the launch telling rendered by tools/app-assets/build_logo_film.sh: it plays while the
+        /// app is busy building the home, when a SpriteKit scene would stand still). The box's width in its pixels
+        /// (the phone's launch picture at 3x); how far it runs left of the box and right from the box's left edge (box
+        /// widths: past the screen's edge on every phone and iPad held sideways) and up (box heights); frames a
+        /// second; seconds held after the cat is asleep; quality (0-1, colour and transparency).
+        public static let filmBoxWidth = 1200.0
+        public static let filmLeft = 0.8
+        public static let filmRight = 0.75
+        public static let filmHeight = 2.3
+        public static let filmFPS = 30
+        public static let filmTail = 0.5
+        public static let filmQuality = 0.45
+        /// The home is built once the film is on screen, or after this long at most (seconds).
+        public static let filmWait = 0.03
     }
 
     /// The nap (SPEC "Care"): a wind-down timer as a Live Activity.

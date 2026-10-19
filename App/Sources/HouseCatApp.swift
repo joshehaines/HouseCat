@@ -86,8 +86,8 @@ struct HouseCatApp: App {
                     }
                 } else {
                     // The first frame, before anything is built: the launch screen's own look, so it hands over
-                    // without a flash.
-                    LaunchCurtain(cat: false)
+                    // without a flash, and the cat pounces onto the letters while the home is built.
+                    LaunchCurtain()
                 }
             }
             .onAppear(perform: start)
@@ -208,7 +208,12 @@ struct HouseCatApp: App {
         if GameSession.shared.cat == nil {
             introducing = true
         } else {
-            visit = Visit(size: CGSize(width: 1024, height: 768), lastActive: Visit.lastActive)
+            // The launch film is on screen first, so it plays on while the home is built (a moment at most).
+            Task { @MainActor in
+                await LaunchFilm.onScreen(within: Tuning.Logo.filmWait)
+                guard visit == nil else { return }
+                visit = Visit(size: CGSize(width: 1024, height: 768), lastActive: Visit.lastActive)
+            }
         }
     }
 
@@ -1262,22 +1267,17 @@ struct RoomScreen: View {
     }
 }
 
-/// The launch screen's look (the wordmark on cream, centred on the whole screen as the launch screen draws it), kept
-/// over the first scene while it loads, with Midnight bounding onto the letters and curling up asleep (`AnimatedLogo`).
-/// It lifts the moment the scene is drawn, wherever the cat has got to.
+/// The launch screen's look (the wordmark on cream, centred on the whole screen as the launch screen draws it), from
+/// the app's first frame until the first scene is drawn, with Midnight bounding onto the letters and curling up asleep
+/// (`AnimatedLogo`, the launch film, which plays on while the home is built). It lifts the moment the scene is drawn,
+/// wherever the cat has got to.
 struct LaunchCurtain: View {
-    /// The cat runs in (false: the wordmark alone, still, as the launch screen draws it).
-    var cat = true
     @Environment(\.colorScheme) private var scheme
 
     var body: some View {
         ZStack {
             Color("LaunchBackground")
-            if cat {
-                AnimatedLogo(act: .launch, ink: scheme == .dark ? .dark : .light) {
-                    Image("LaunchLogo")
-                }
-            } else {
+            AnimatedLogo(act: .launch, ink: scheme == .dark ? .dark : .light) {
                 Image("LaunchLogo")
             }
         }

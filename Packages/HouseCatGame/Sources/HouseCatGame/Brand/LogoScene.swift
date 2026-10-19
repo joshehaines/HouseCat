@@ -56,6 +56,8 @@ public final class LogoScene: SKScene {
     private var from = CGPoint.zero
     /// How fast the cat is going along the letters as a beat begins (it runs on into a leap).
     private var speedNow: CGFloat = 0
+    /// The leap under way has come down.
+    private var landed = false
     private var lastUpdate: TimeInterval?
     private var started = false
 
@@ -65,8 +67,9 @@ public final class LogoScene: SKScene {
         case wait(TimeInterval)
         /// Along the tops of the letters (or the ground) to an x, at a speed; slowing to a stop or running on.
         case run(to: CGFloat, speed: CGFloat, gait: CatNode.Gait, stopping: Bool)
-        /// A crouch on the run, a leap in an arc to a point, and the landing.
-        case leap(to: CGPoint)
+        /// A crouch (on the run, if it is running; none for a leap that starts out of sight), a leap in an arc to a
+        /// point taking so long in the air and its feet going so high, and the landing.
+        case leap(to: CGPoint, seconds: TimeInterval, top: Double, crouch: TimeInterval)
         case face(CatNode.View, right: Bool)
         /// Into a painted pose: from the puppet it sits down into it, from another painting it cross-fades; growing
         /// to a scale as it goes.
@@ -151,26 +154,42 @@ public final class LogoScene: SKScene {
         started = true
         let h = CGFloat(Logo.catHeight)
         // Just out of sight on the left, whatever the screen.
-        feet.x = visibleLeft - h * CGFloat(Logo.offscreen)
-        let run = CGFloat(act == .launch ? Logo.launchRunSpeed : Logo.runSpeed) * h
+        feet.x = visibleLeft - h * CGFloat(act == .launch ? Logo.launchOffscreen : Logo.offscreen)
         var story: [Beat] = []
-        if act == .intro {
-            story.append(.wait(Logo.introHold))
+        if act == .launch {
+            // The launch has a moment while the home is built: one pounce from off the edge onto its spot, as the
+            // little dog in Josh's reel leaps onto its letters.
+            story.append(.leap(
+                to: CGPoint(x: Logo.bed, y: Logo.valleyTop),
+                seconds: Logo.launchLeapSeconds,
+                top: Logo.launchLeapTop,
+                crouch: 0
+            ))
+        } else {
+            story += [
+                .wait(Logo.introHold),
+                .run(to: CGFloat(Logo.takeOff), speed: CGFloat(Logo.runSpeed) * h, gait: .run, stopping: false),
+                .leap(
+                    to: CGPoint(x: Logo.landing, y: Logo.valleyTop),
+                    seconds: Logo.leapSeconds,
+                    top: Logo.leapTop,
+                    crouch: Logo.crouchSeconds
+                ),
+                .run(to: CGFloat(Logo.bed), speed: CGFloat(Logo.trotSpeed) * h, gait: .trot, stopping: true),
+            ]
         }
-        story += [
-            .run(to: CGFloat(Logo.takeOff), speed: run, gait: .run, stopping: false),
-            .leap(to: CGPoint(x: Logo.landing, y: Logo.valleyTop)),
-            .run(to: CGFloat(Logo.bed), speed: CGFloat(Logo.trotSpeed) * h, gait: .trot, stopping: true),
-        ]
         if act == .intro {
             // A look round at you first.
             story += [.face(.front, right: false), .wait(Logo.lookSeconds)]
         }
-        // It turns away, sits, and curls up: the paintings are small beside the puppet, so it fluffs up a little
-        // as it sits, to end about a letter's size; sitting first, the cross-fade into the curl is painting to painting.
+        // It sits and curls up (on the intro it turns away first): the paintings are small beside the puppet, so it
+        // fluffs up a little as it sits, to end about a letter's size; sitting first, the cross-fade into the curl is
+        // painting to painting.
         let grown = CGFloat(Logo.curlScale)
+        if act == .intro {
+            story.append(.face(.side, right: false))
+        }
         story += [
-            .face(.side, right: false),
             .settle(.sitSide, scale: grown),
             .wait(act == .intro ? Logo.sitSeconds : Logo.launchSitSeconds),
             .settle(.sleepCurl, scale: grown),
@@ -206,10 +225,11 @@ public final class LogoScene: SKScene {
             duration = TimeInterval(abs(x - feet.x) / max(1, speed)) * (stopping ? 2 : 1)
             cat.move(gait)
             cat.moveSpeed = speed
-        case .leap:
+        case let .leap(_, seconds, _, crouch):
             // It gathers itself without stopping: a crouch on the run, then the spring.
             cat.squash(CGFloat(Tuning.Puppet.squash * Logo.leapSquash))
-            duration = Logo.crouchSeconds + Logo.leapSeconds + Tuning.Puppet.landSeconds
+            landed = false
+            duration = crouch + seconds + Tuning.Puppet.landSeconds
         case let .face(view, right):
             cat.turn(to: view, facingRight: right)
             duration = Tuning.Puppet.turnSeconds
@@ -230,7 +250,8 @@ public final class LogoScene: SKScene {
     }
 
     override public func update(_ currentTime: TimeInterval) {
-        let dt = lastUpdate.map { min(1.0 / 20, currentTime - $0) } ?? 0
+        // Never backwards (an offscreen renderer's clock can start anywhere), never a leap of more than a frame or two.
+        let dt = lastUpdate.map { max(0, min(1.0 / 20, currentTime - $0)) } ?? 0
         lastUpdate = currentTime
         if !started, box.width > 0 {
             begin()
@@ -257,10 +278,10 @@ public final class LogoScene: SKScene {
                 cat.stopCycle()
                 speedNow = 0
             }
-        case let .leap(to):
-            let air = (elapsed - Logo.crouchSeconds) / Logo.leapSeconds
+        case let .leap(to, seconds, top, crouch):
+            let air = (elapsed - crouch) / seconds
             // Where it springs from: on from the beat's start at the speed it came in at.
-            let spring = CGPoint(x: from.x + speedNow * CGFloat(Logo.crouchSeconds), y: from.y)
+            let spring = CGPoint(x: from.x + speedNow * CGFloat(crouch), y: from.y)
             if air < 0 {
                 feet.x = from.x + speedNow * CGFloat(elapsed)
             } else if air <= 1 {
@@ -268,14 +289,15 @@ public final class LogoScene: SKScene {
                     cat.stopCycle()
                 }
                 let u = CGFloat(air)
-                let bump = CGFloat(Logo.leapTop) - (spring.y + to.y) / 2
+                let bump = CGFloat(top) - (spring.y + to.y) / 2
                 feet.x = spring.x + (to.x - spring.x) * u
                 feet.y = spring.y + (to.y - spring.y) * u + 4 * bump * u * (1 - u)
                 // Nose up rising, down falling.
                 let rise = (to.y - spring.y) + 4 * bump * (1 - 2 * u)
                 let lean = atan2(rise, abs(to.x - spring.x)) * CGFloat(Logo.lean)
                 pivot.zRotation = cat.facingRight ? lean : -lean
-            } else if feet != to {
+            } else if !landed {
+                landed = true
                 feet = to
                 pivot.zRotation = 0
                 cat.squash(CGFloat(Tuning.Puppet.squash * Logo.leapSquash))

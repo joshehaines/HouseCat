@@ -1,12 +1,14 @@
+import AVFoundation
 import HouseCatCore
 import HouseCatGame
 import SpriteKit
 import SwiftUI
 
 /// The HouseCat logo with Midnight bounding onto it and curling up asleep on the letters (HouseCatGame `LogoScene`):
-/// the wordmark's picture in its box, and the cat's scene over it, running out past the box's sides to the edge of the
-/// screen and well above it, so the cat comes in from off screen and has room to leap. With Reduce Motion the cat is
-/// already asleep there, still.
+/// the wordmark's picture in its box, and the cat over it, running out past the box's sides to the edge of the screen
+/// and well above it, so the cat comes in from off screen and has room to leap. The launch plays the scene's film
+/// (`LaunchFilm`: it plays on while the app is busy building the home), the intro the scene itself. With Reduce Motion
+/// the cat is already asleep there, still.
 struct AnimatedLogo<Picture: View>: View {
     let act: LogoScene.Act
     let ink: LogoScene.Ink
@@ -15,16 +17,28 @@ struct AnimatedLogo<Picture: View>: View {
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var scene: LogoScene?
+    @State private var film: AVPlayer?
 
     var body: some View {
         picture
             .overlay {
                 GeometryReader { geometry in
                     let box = geometry.size
-                    // Out to the screen's edges on both sides (the box is centred, or near the left on the intro).
-                    let side = max(0, geometry.frame(in: .global).minX)
-                    let above = box.height * CGFloat(Tuning.Logo.headroom)
-                    if let scene {
+                    if let film {
+                        // The film's box sits over the picture; the film runs on past it to the left and above.
+                        let logo = Tuning.Logo.self
+                        let size = CGSize(
+                            width: box.width * CGFloat(logo.filmLeft + logo.filmRight),
+                            height: box.height * CGFloat(logo.filmHeight)
+                        )
+                        LaunchFilmView(player: film)
+                            .frame(width: size.width, height: size.height)
+                            .position(x: size.width / 2 - box.width * CGFloat(logo.filmLeft), y: box.height - size.height / 2)
+                            .allowsHitTesting(false)
+                    } else if let scene {
+                        // Out to the screen's edges on both sides (the box is centred, or near the left on the intro).
+                        let side = max(0, geometry.frame(in: .global).minX)
+                        let above = box.height * CGFloat(Tuning.Logo.headroom)
                         SpriteView(scene: scene, options: [.allowsTransparency])
                             .frame(width: box.width + 2 * side, height: box.height + above)
                             .position(x: box.width / 2, y: box.height - (box.height + above) / 2)
@@ -36,7 +50,12 @@ struct AnimatedLogo<Picture: View>: View {
                 }
             }
             .onAppear {
-                guard scene == nil, let art = GameWorld.art, let rig = GameWorld.rig else { return }
+                guard scene == nil, film == nil else { return }
+                if act == .launch, !reduceMotion, let player = LaunchFilm.player(dark: ink == .dark) {
+                    film = player
+                    return
+                }
+                guard let art = GameWorld.art, let rig = GameWorld.rig else { return }
                 scene = LogoScene(
                     size: CGSize(width: 1024, height: 512),
                     art: art,

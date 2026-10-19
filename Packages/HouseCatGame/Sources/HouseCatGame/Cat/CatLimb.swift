@@ -2,12 +2,10 @@ import CoreGraphics
 import Foundation
 import HouseCatCore
 
-/// A painted leg cut into pieces that bend, so it steps like a cat's (Josh, 19 Oct: the legs swung from the hip as
-/// stiff pieces, the paws sliding; then "front legs don't have joints in them", with a reference of a cat standing):
-/// a front leg is a straight column from the shoulder to the wrist, then the paw; a hind leg bends back at the hock,
-/// then at the ankle to the paw. The paw is its own piece, so it can stand flat on the floor whatever the leg's
-/// angle, roll onto its toes and fold back as it lifts. Found from the leg's own outline, so it works for every
-/// body, breed and coat without new paintings.
+/// A painted leg's joints, found from its own outline so it works for every body, breed and coat without new
+/// paintings (Josh, 19 Oct: the legs swung from the hip as stiff pieces; then "front legs don't have joints in them";
+/// then a full rebuild): where a hind leg bends at the hock, the ankle above its paw, the paw's sole and toe. The leg
+/// bends there in one piece (CatSkin), not cut.
 enum CatLimb {
     /// Where a leg bends and stands, as fractions of its picture (origin top left): the hock (hind legs only), the
     /// wrist or ankle just above the paw, the middle of the paw's sole and the tip of its toes; and how far round
@@ -96,77 +94,6 @@ enum CatLimb {
         return joints
     }
 
-    /// A cut across the leg at a joint (fractions of the picture, origin top left).
-    struct Cut {
-        var centre: CGPoint
-        var radius: CGFloat
-    }
-
-    /// The leg cut at its joints, top to bottom, each piece the leg's whole picture size: each piece holds what is
-    /// between its cuts and a round of overlap about each joint, hard-edged round the joint above it and feathered
-    /// round the joint below it. Each piece is drawn behind the one above it, and turns about the joint they share:
-    /// the round overlap keeps its edge under the piece above however far it bends, so no seam shows.
-    static func split(_ image: CGImage, at cuts: [Cut]) -> [CGImage]? {
-        let width = image.width, height = image.height
-        let space = CGColorSpace(name: CGColorSpace.sRGB) ?? CGColorSpaceCreateDeviceRGB()
-        let info = CGImageAlphaInfo.premultipliedLast.rawValue
-        var pixels = [UInt8](repeating: 0, count: width * height * 4)
-        let drawn = pixels.withUnsafeMutableBytes { buffer -> Bool in
-            guard let context = CGContext(
-                data: buffer.baseAddress, width: width, height: height, bitsPerComponent: 8, bytesPerRow: width * 4,
-                space: space, bitmapInfo: info
-            ) else { return false }
-            context.draw(image, in: CGRect(x: 0, y: 0, width: width, height: height))
-            return true
-        }
-        guard drawn else { return nil }
-        let joints = cuts.map {
-            (x: $0.centre.x * CGFloat(width), y: $0.centre.y * CGFloat(height), r: $0.radius * CGFloat(height))
-        }
-        var pieces: [CGImage] = []
-        for index in 0 ... joints.count {
-            var piece = pixels
-            for row in 0 ..< height {
-                // The buffer's rows run top down, as the fractions do.
-                let y = CGFloat(row) + 0.5
-                for column in 0 ..< width {
-                    let x = CGFloat(column) + 0.5
-                    var keep: CGFloat = 1
-                    if index < joints.count {
-                        // Above the joint below, and round it, feathered.
-                        let joint = joints[index]
-                        let distance = hypot(x - joint.x, y - joint.y)
-                        if y >= joint.y, distance > joint.r * 0.8 {
-                            keep = distance >= joint.r ? 0 : 1 - smooth((distance - joint.r * 0.8) / (joint.r * 0.2))
-                        }
-                    }
-                    if index > 0, keep > 0 {
-                        // Below the joint above, and round it, hard-edged.
-                        let joint = joints[index - 1]
-                        if y <= joint.y, hypot(x - joint.x, y - joint.y) >= joint.r {
-                            keep = 0
-                        }
-                    }
-                    if keep < 1 {
-                        let at = (row * width + column) * 4
-                        for channel in 0 ..< 4 {
-                            piece[at + channel] = UInt8(CGFloat(pixels[at + channel]) * keep)
-                        }
-                    }
-                }
-            }
-            let made = piece.withUnsafeMutableBytes { buffer -> CGImage? in
-                CGContext(
-                    data: buffer.baseAddress, width: width, height: height, bitsPerComponent: 8, bytesPerRow: width * 4,
-                    space: space, bitmapInfo: info
-                )?.makeImage()
-            }
-            guard let made else { return nil }
-            pieces.append(made)
-        }
-        return pieces
-    }
-
     /// Where the joint goes for the paw to reach `target` from `hip` (two bones `upper` and `lower` long), bending
     /// to the `bend` side (+1 anticlockwise of the hip-to-paw line, -1 clockwise); beyond reach, the leg points at it.
     static func knee(hip: CGPoint, target: CGPoint, upper a: CGFloat, lower b: CGFloat, bend: CGFloat) -> CGPoint {
@@ -201,9 +128,13 @@ enum CatLimb {
                 let index = (row * width + column) * 4
                 let alpha = Int(pixels[index + 3])
                 guard alpha > 0 else { continue }
-                // Near the underside: clear within `band` rows below.
-                let below = min(height - 1, row + band)
-                guard pixels[(below * width + column) * 4 + 3] < 40 else { continue }
+                // Near the underside: clear somewhere within `band` rows below (a stray hair is not the body).
+                var clear = row + band >= height
+                for below in stride(from: row + 1, through: min(height - 1, row + band), by: 1) where pixels[(below * width + column) * 4 + 3] < 40 {
+                    clear = true
+                    break
+                }
+                guard clear else { continue }
                 let source = max(0, row - band * 2)
                 let from = (source * width + column) * 4
                 let fromAlpha = Int(pixels[from + 3])
@@ -221,12 +152,7 @@ enum CatLimb {
         }
     }
 
-    private static func smooth(_ t: CGFloat) -> CGFloat {
-        let k = max(0, min(1, t))
-        return k * k * (3 - 2 * k)
-    }
-
-    private static func alphaPlane(_ image: CGImage) -> [UInt8]? {
+    static func alphaPlane(_ image: CGImage) -> [UInt8]? {
         var alpha = [UInt8](repeating: 0, count: image.width * image.height)
         let drawn = alpha.withUnsafeMutableBytes { buffer -> Bool in
             guard let context = CGContext(

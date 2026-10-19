@@ -13,6 +13,8 @@ Per sprite, at the same relative path as under assets/cat/custom (sizes kept dow
   masks/features/<rel>        R, G = the irises, B = the nose leather, at the sprite's size
   masks/whiskers/<rel>        the painted whiskers (thin strokes around the muzzle), for the whisker slider
 index.json gives each sprite's master size, its scale and the masks it has.
+The walk and run films' frames (assets/cat/films/frames, made at app size by tools/asset-pipeline/walk/filmwalk.py,
+with their own index films/films.json) are copied in as they are.
 
 Run from the repo root after build_app_art.py (which leaves App/Art/cat/custom alone); needs Pillow, numpy, scipy:
   python3 tools/app-assets/build_cat_art.py
@@ -38,6 +40,7 @@ from tint import _fur_mask  # noqa: E402
 CUSTOM = os.path.join(ROOT, 'assets', 'cat', 'custom')
 FIXED_FEATURES = os.path.join(ROOT, 'tools', 'app-assets', 'features_fixes')
 OUT = os.path.join(ROOT, 'App', 'Art', 'cat', 'custom')
+FILMS = os.path.join(ROOT, 'assets', 'cat', 'films', 'frames')
 CB = json.load(open(os.path.join(CUSTOM, 'catbuilder.json')))
 RIG = json.load(open(os.path.join(ROOT, 'assets', 'cat', 'rig.json')))
 
@@ -228,6 +231,8 @@ def main(features_only=None):
     with open(os.path.join(OUT, 'builder.json'), 'w') as f:
         json.dump(builder_json(), f, indent=1)
         f.write('\n')
+    if os.path.isdir(FILMS):
+        shutil.copytree(FILMS, OUT, dirs_exist_ok=True)
     total = sum(os.path.getsize(os.path.join(dp, n)) for dp, _, ns in os.walk(OUT) for n in ns)
     print(f'{len(index)} sprites into App/Art/cat/custom ({total / 1e6:.1f} MB)')
 

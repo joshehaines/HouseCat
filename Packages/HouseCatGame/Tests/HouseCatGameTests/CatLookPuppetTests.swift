@@ -11,6 +11,9 @@ private let repo = URL(fileURLWithPath: #filePath)
 /// puppet in every view with every part drawn, its legs swing when it walks, and it settles into its poses.
 @MainActor
 @Test func everyPresetBuildsAPuppetThatWalks() throws {
+    // The puppet's own walk (moving, the cat is a film: CatFilmTests).
+    CatNode.films = false
+    defer { CatNode.films = true }
     let art = try ArtLibrary(root: repo.appendingPathComponent("App/Art"))
     let catArt = try CatArt(art: art)
     let rig = try art.data("cat/rig.json", as: PuppetRig.self)
@@ -70,6 +73,9 @@ private let repo = URL(fileURLWithPath: #filePath)
 @MainActor
 @Test(arguments: ["midnight", "british_blue", "oriental", "turkish_van", "maine_coon"])
 func aPlantedPawStaysPutAsTheCatWalks(preset: String) throws {
+    // The puppet's own walk (in a look without its film: a body garment, swapped ears).
+    CatNode.films = false
+    defer { CatNode.films = true }
     let art = try ArtLibrary(root: repo.appendingPathComponent("App/Art"))
     let catArt = try CatArt(art: art)
     let rig = try art.data("cat/rig.json", as: PuppetRig.self)

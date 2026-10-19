@@ -75,33 +75,87 @@ public final class CatNode: SKNode {
     public private(set) var scratchTime: TimeInterval?
     /// Each view's puppet's width standing (for its shadow).
     private var puppetWidths: [View: CGFloat] = [:]
-    /// The legs jointed at the hock or wrist (CatLimb), in the side and three-quarter views, so a paw stays planted
-    /// as the body passes over it.
+    /// The legs that bend (CatSkin), in the side and three-quarter views, so a paw stays planted as the body passes
+    /// over it.
     private var limbs: [View: [String: Limb]] = [:]
+    /// Each view's body that bends with the stride (CatSkin): its torso's grid, its tail's bones.
+    private var bodies: [View: Body] = [:]
+    /// How far the cat has got into moving (0 standing, 1 on its way), eased, for the head's carriage.
+    private var carriage: CGFloat = 0
+    /// Walking and running, the cat is a film (CatArt films; Josh, 19 Oct, of the rebuilt puppet and a generated
+    /// film: "B is the best by far"); off only to look at the puppet's own walk (its tests and renders).
+    nonisolated(unsafe) static var films = true
+    /// The film on show: a holder that flips and turns like a puppet view, the frame in it squashing like the puppet.
+    private let filmHolder = SKNode()
+    private let filmNode = SKSpriteNode()
+    /// The films' frames in this look by "<view>/<gait>" (tinted off the main thread), the look they are for, which
+    /// film and frame is on show, and the outfit on it.
+    private var filmFrames: [String: [SKTexture]] = [:]
+    private var filmLook = 0
+    private var filmOnShow: String?
+    private var filmFrame = -1
+    private var filmOutfit: SKNode?
+    /// The look's swapped ears and bobtail on the film (the puppet's own pieces), where the film's own were cut out.
+    private var filmPieces: [String: SKSpriteNode] = [:]
     /// The way the cat is moving over the floor (the parent's axes), for its paws to step back along it; nil, the
     /// way it faces.
     public var moveDirection: CGVector?
 
-    /// A jointed leg: its pieces (the leg's own node, from the hip to the hock on a hind leg or the whole of a front
-    /// leg; the piece from the hock to the ankle and the paw on a hind leg), where its end is (the ankle, or a front
-    /// leg's sole) in the frame of the piece it ends, about that piece's pivot, the hock likewise, the paw's sole and
-    /// toe tip (in the paw's frame), and where it stands at rest in the puppet's frame. A front leg's paw is the leg
-    /// itself.
+    /// A leg that bends (Josh, 19 Oct: "full rebuild"): one picture, uncut, with a grid over it. Its node turns with
+    /// the upper bone (from the hip to the hock on a hind leg, from the shoulder to the elbow at the body's lower edge
+    /// on a front leg); below the joint the lower bone bends (to the ankle, or to a front leg's paw: no wrist), and a
+    /// hind leg's paw bends again at the ankle. Each grid point takes a share of each bone, blended over the joint, so
+    /// it bends like fur over a joint, with no cut. Points are in the leg node's frame at rest; `hip` and the rest
+    /// places are in the torso's and the puppet's frames.
     private struct Limb {
-        let upper: SKSpriteNode
-        let middle: SKSpriteNode?
-        let paw: SKSpriteNode
-        let hock: CGPoint?
-        let ankle: CGPoint
+        let node: SKSpriteNode
+        let skin: Skin
+        /// Each grid point's share of the upper bone, the lower and the paw.
+        let weights: [SIMD3<Float>]
+        let hind: Bool
+        let joint: CGPoint
+        /// The lower bone's end: a hind leg's ankle, a front leg's sole.
+        let end: CGPoint
         let sole: CGPoint
         let toe: CGPoint
+        /// Which side the joint bends to (+1 anticlockwise of the line from the hip to the paw).
+        let bend: CGFloat
         let hip: CGPoint
-        let hind: Bool
+        let rest: CGFloat
         /// The paw's angle in the puppet's frame standing flat, as painted.
         let level: CGFloat
         let restSole: CGPoint
         let restToe: CGPoint
         let restAnkle: CGPoint
+        /// How far the lower bone and the paw are bent now (radians, anticlockwise).
+        var lower: CGFloat = 0
+        var paw: CGFloat = 0
+    }
+
+    /// A view's torso that bends (CatSkin): the spine arches and stretches, a shoulder blade rides up over a front leg
+    /// taking the weight, the shoulder and haunch go with the near legs under them; and where the head, tail and near
+    /// legs join it at rest (the torso's frame), so they go with it.
+    private struct Body {
+        let skin: Skin
+        let length: CGFloat
+        let depth: CGFloat
+        let spine: CGFloat
+        let shoulder: CGPoint?
+        let haunch: CGPoint?
+        let neck: CGPoint?
+        let tailRoot: CGPoint?
+        let tail: TailChain?
+        let tailSkin: Skin?
+    }
+
+    /// How the torso is bent now: the spine (radians; positive arches the back, the ends down), the near shoulder
+    /// blade up (points), the shoulder and haunch turned with the near legs (radians) and the shoulder lifted.
+    private struct Bend {
+        var flex: CGFloat = 0
+        var blade: CGFloat = 0
+        var shoulderTurn: CGFloat = 0
+        var shoulderLift: CGFloat = 0
+        var haunchTurn: CGFloat = 0
     }
 
     /// A cat in a look from the builder (`catArt` given), or the plain painted short_slim set.
@@ -133,6 +187,10 @@ public final class CatNode: SKNode {
         shadow.zPosition = -0.02
         shadow.name = "shadow"
         addChild(shadow)
+        filmHolder.zPosition = 0.04
+        filmHolder.isHidden = true
+        filmHolder.addChild(filmNode)
+        addChild(filmHolder)
         rebuild()
     }
 
@@ -167,6 +225,7 @@ public final class CatNode: SKNode {
         pose = nil
         show(keepView, facingRight: keepFacing)
         layOutfit()
+        prepareFilms()
         if let keepPose {
             settle(into: keepPose, duration: 0)
         }
@@ -179,6 +238,7 @@ public final class CatNode: SKNode {
     public func wear(_ outfit: OutfitsFile.Outfit?) {
         self.outfit = outfit
         layOutfit()
+        filmFrame = -1
         if let pose {
             layPoseOutfit(pose)
         }
@@ -290,8 +350,20 @@ public final class CatNode: SKNode {
         return node
     }
 
+    /// Every part drawn from another picture of it instead of the look's (the movement renders: the white painting and
+    /// each mask, for a film of the cat to be tinted like the puppet); nil, the look's.
+    nonisolated(unsafe) static var paintOver: ((CatBuilder.Sprite) -> CGImage?)?
+
     /// A part's or pose's texture and its master size.
     private func sprite(part name: String, view: View) -> (SKTexture, CGSize) {
+        if let catArt, let look, let over = Self.paintOver {
+            let sprite = repainted(name, view: view) ?? catArt.builder.part(name, view: view.rawValue, look: look)
+            if let image = over(sprite) {
+                let texture = SKTexture(cgImage: image)
+                texture.filteringMode = .linear
+                return (texture, catArt.paintedSize(sprite.path))
+            }
+        }
         if let catArt, let look, let repainted = repainted(name, view: view) {
             return (catArt.texture(repainted, look: look), catArt.paintedSize(repainted.path))
         }
@@ -442,95 +514,174 @@ public final class CatNode: SKNode {
         restPositions[view] = nodes.mapValues(\.position)
     }
 
-    /// Cuts each leg at its joints (CatLimb) in the side and three-quarter views: the leg's node keeps the top piece,
-    /// each piece below hangs from the one above at their joint, drawn just behind it.
+    /// Rigs each leg to bend (CatSkin) in the side and three-quarter views, and the torso, head and tail to bend
+    /// and move with them. A near leg is drawn in front of the body with its top faded into the fur over it, so the
+    /// body's lower edge never runs across the top of the leg (Josh, 19 Oct: the join between body and legs looked
+    /// strange); a far leg stays behind the body.
     private func joint(_ view: View, nodes: [String: SKSpriteNode], root: SKNode) {
-        guard view != .front else { return }
+        guard view != .front, let torso = nodes["torso"] else {
+            bodies[view] = shape(view, nodes: nodes, limbs: [:])
+            return
+        }
+        let p = Tuning.Puppet.self
         var made: [String: Limb] = [:]
-        let torsoRest = restAngles[view]?["torso"] ?? nodes["torso"]?.zRotation ?? 0
+        let torsoRest = restAngles[view]?["torso"] ?? torso.zRotation
+        let torsoImage = partImage("torso", view: view)
         for (name, node) in nodes where name.hasPrefix("leg_") {
-            let hind = name.hasPrefix("leg_back")
+            let hind = name.hasPrefix("leg_back"), near = name.hasSuffix("_near")
             guard let image = partImage(name, view: view), let found = CatLimb.joints(of: image, hind: hind) else { continue }
-            // A front leg stays one straight piece to its paw (Josh, 19 Oct: "no wrist please, that looks very
-            // unnatural"); a hind leg bends at the hock and the ankle.
-            var cuts: [CatLimb.Cut] = []
-            if let hock = found.hock {
-                cuts.append(CatLimb.Cut(centre: hock, radius: found.hockRadius))
-            }
-            if hind {
-                cuts.append(CatLimb.Cut(centre: found.ankle, radius: found.ankleRadius))
-            }
-            guard let pieces = CatLimb.split(image, at: cuts), pieces.count == cuts.count + 1 else { continue }
             let size = node.size
-            // From one point of the picture to another (fractions, origin top left), in a piece's frame.
-            func offset(_ from: CGPoint, _ to: CGPoint) -> CGPoint {
-                CGPoint(x: (to.x - from.x) * size.width, y: -(to.y - from.y) * size.height)
+            let pivot = CGPoint(x: node.anchorPoint.x, y: 1 - node.anchorPoint.y)
+            // Where the body's lower edge crosses the leg (a share of the leg's height from its top).
+            var edge = CGFloat(p.legTuck)
+            if let torsoImage {
+                let top = CGPoint(x: node.position.x - node.anchorPoint.x * size.width, y: node.position.y + (1 - node.anchorPoint.y) * size.height)
+                func across(_ x: CGFloat) -> CGFloat {
+                    (top.x + x * size.width) / torso.size.width + torso.anchorPoint.x
+                }
+                if let under = CatLimb.underside(of: torsoImage, from: across(0.3), to: across(0.7)) {
+                    let y = (1 - under - torso.anchorPoint.y) * torso.size.height
+                    edge = max(0.06, min(0.45, (top.y - y) / size.height))
+                }
             }
-            func texture(_ image: CGImage) -> SKTexture {
-                let texture = SKTexture(cgImage: image)
-                texture.filteringMode = .linear
-                return texture
+            if near {
+                let whole = max(0.1, edge - CGFloat(p.fadeAboveEdge))
+                if let faded = CatLimb.fadedTop(image, clear: max(0.04, whole - CGFloat(p.fadeLength)), whole: whole) {
+                    let texture = SKTexture(cgImage: faded)
+                    texture.filteringMode = .linear
+                    node.texture = texture
+                }
+                // In front of the body, behind its garment and head.
+                node.zPosition = CGFloat(p.nearLegZ)
             }
-            node.texture = texture(pieces[0])
-            var parent = node, parentPivot = CGPoint(x: node.anchorPoint.x, y: 1 - node.anchorPoint.y)
-            var hung: [SKSpriteNode] = []
-            for (cut, image) in zip(cuts, pieces.dropFirst()) {
-                let piece = SKSpriteNode(texture: texture(image), size: size)
-                piece.anchorPoint = CGPoint(x: cut.centre.x, y: 1 - cut.centre.y)
-                piece.position = offset(parentPivot, cut.centre)
-                piece.zPosition = -0.0004
-                piece.color = node.color
-                piece.colorBlendFactor = node.colorBlendFactor
-                piece.name = name + (hung.count == cuts.count - 1 ? ".paw" : ".middle")
-                parent.addChild(piece)
-                hung.append(piece)
-                parent = piece
-                parentPivot = cut.centre
+            let skin = Skin(size: size, anchor: node.anchorPoint, columns: 4, rows: 20)
+            // From one point of the picture to another (fractions, origin top left), in the node's frame.
+            func at(_ point: CGPoint) -> CGPoint {
+                CGPoint(x: (point.x - pivot.x) * size.width, y: -(point.y - pivot.y) * size.height)
             }
-            let paw = hung.last ?? node
-            let nodePivot = CGPoint(x: node.anchorPoint.x, y: 1 - node.anchorPoint.y)
-            // The paw's frame is about the ankle on a hind leg, about the leg's pivot on a front leg (which ends at
-            // its sole).
-            let pawPivot = hind ? found.ankle : nodePivot
-            let end = hind ? found.ankle : found.sole
-            let sole = offset(pawPivot, found.sole), toe = offset(pawPivot, found.toe)
+            // The joint: a hind leg's hock where it has one; else where the leg leaves the body (the elbow).
+            let jointFraction = found.hock ?? CGPoint(x: CatLimb.middle(of: image, at: edge) ?? pivot.x, y: edge)
+            let jointRadius = found.hock != nil ? max(found.hockRadius * 0.9, 0.04) : CGFloat(p.elbowBlend)
+            let endFraction = hind ? found.ankle : found.sole
+            let painted = at(jointFraction), end = at(endFraction)
+            // The joint as the bones would put it standing (bent the way the painting is, a front leg's elbow back):
+            // turns are taken from there, so standing still is the painting.
+            let a = hypot(painted.x, painted.y), b = hypot(end.x - painted.x, end.y - painted.y)
+            let side = end.x * painted.y - end.y * painted.x
+            let bend: CGFloat = found.hock != nil && abs(side) > a * b * 0.05 ? (side > 0 ? 1 : -1) : 1
+            let joint = CatLimb.knee(hip: .zero, target: end, upper: a, lower: b, bend: bend)
+            let weights = skin.points.indices.map { index -> SIMD3<Float> in
+                let y = skin.fraction(index).y
+                func ramp(_ centre: CGFloat, _ radius: CGFloat) -> CGFloat {
+                    let t = max(0, min(1, (y - (centre - radius)) / (2 * radius)))
+                    return t * t * (3 - 2 * t)
+                }
+                let below = ramp(jointFraction.y, jointRadius)
+                let paw = hind ? ramp(found.ankle.y, max(found.ankleRadius * 0.9, 0.03)) : 0
+                let lower = max(0, below - paw)
+                return SIMD3(Float(1 - below), Float(lower), Float(paw))
+            }
             made[name] = Limb(
-                upper: node,
-                middle: hung.count > 1 ? hung[0] : nil,
-                paw: paw,
-                hock: found.hock.map { offset(nodePivot, $0) },
-                ankle: offset(found.hock ?? nodePivot, end),
-                sole: sole,
-                toe: toe,
-                hip: node.position,
+                node: node,
+                skin: skin,
+                weights: weights,
                 hind: hind,
+                joint: joint,
+                end: end,
+                sole: at(found.sole),
+                toe: at(found.toe),
+                bend: bend,
+                hip: node.position,
+                rest: node.zRotation,
                 level: torsoRest + node.zRotation,
-                restSole: paw.convert(sole, to: root),
-                restToe: paw.convert(toe, to: root),
-                restAnkle: paw.convert(hind ? .zero : sole, to: root)
+                restSole: node.convert(at(found.sole), to: root),
+                restToe: node.convert(at(found.toe), to: root),
+                restAnkle: node.convert(end, to: root)
             )
         }
         limbs[view] = made
+        bodies[view] = shape(view, nodes: nodes, limbs: made)
     }
 
-    /// Where a jointed leg's paw is now (the middle of its sole), in the cat's parent's frame (for checking it stays
-    /// put); nil when that leg is not jointed in the view on show.
+    /// The view's torso, head and tail rigged to bend and move with the stride.
+    private func shape(_ view: View, nodes: [String: SKSpriteNode], limbs: [String: Limb]) -> Body? {
+        guard let torso = nodes["torso"] else { return nil }
+        let skin = Skin(size: torso.size, anchor: torso.anchorPoint, columns: 12, rows: 6)
+        let tailName = nodes["tail_up"] != nil ? "tail_up" : "tail"
+        var chain: TailChain?, tailSkin: Skin?
+        if let tail = nodes[tailName], let image = partImage(tailName, view: view) {
+            let made = Skin(size: tail.size, anchor: tail.anchorPoint, columns: 14, rows: 18)
+            chain = TailChain(
+                image: image, root: CGPoint(x: tail.anchorPoint.x, y: 1 - tail.anchorPoint.y), bones: Tuning.Puppet.tailBones, skin: made
+            )
+            tailSkin = chain == nil ? nil : made
+        }
+        return Body(
+            skin: skin,
+            length: torso.size.width * 0.9,
+            depth: torso.size.height,
+            spine: torso.size.height * 0.1,
+            shoulder: limbs["leg_front_near"]?.hip,
+            haunch: limbs["leg_back_near"]?.hip,
+            neck: nodes["head"]?.position,
+            tailRoot: nodes[tailName]?.position,
+            tail: chain,
+            tailSkin: tailSkin
+        )
+    }
+
+    /// Where a bending leg's paw is now (the middle of its sole), in the cat's parent's frame (for checking it stays
+    /// put); nil when that leg does not bend in the view on show.
     func paw(_ name: String) -> CGPoint? {
         guard let limb = limbs[view]?[name], let parent else { return nil }
-        return limb.paw.convert(limb.sole, to: parent)
+        return limb.node.convert(bent(limb, limb.sole), to: parent)
+    }
+
+    /// A point of a leg's picture (its node's frame at rest) where the leg's bend puts it: blended between its bones.
+    private func bent(_ limb: Limb, _ point: CGPoint, weights: SIMD3<Float>? = nil) -> CGPoint {
+        let w = weights ?? (limb.hind ? SIMD3(0, 0, 1) : SIMD3(0, 1, 0))
+        let j = limb.joint, e = limb.end
+        func turn(_ v: CGPoint, _ angle: CGFloat) -> CGPoint {
+            let c = cos(angle), s = sin(angle)
+            return CGPoint(x: v.x * c - v.y * s, y: v.x * s + v.y * c)
+        }
+        let lower = turn(CGPoint(x: point.x - j.x, y: point.y - j.y), limb.lower)
+        let onLower = CGPoint(x: j.x + lower.x, y: j.y + lower.y)
+        var x = CGFloat(w.x) * point.x + CGFloat(w.y) * onLower.x
+        var y = CGFloat(w.x) * point.y + CGFloat(w.y) * onLower.y
+        if w.z > 0 {
+            let ankle = turn(CGPoint(x: e.x - j.x, y: e.y - j.y), limb.lower)
+            let paw = turn(CGPoint(x: point.x - e.x, y: point.y - e.y), limb.lower + limb.paw)
+            x += CGFloat(w.z) * (j.x + ankle.x + paw.x)
+            y += CGFloat(w.z) * (j.y + ankle.y + paw.y)
+        }
+        return CGPoint(x: x, y: y)
+    }
+
+    /// Draws a leg bent as it is now (no grid when it stands as painted).
+    private func skinLeg(_ limb: Limb) {
+        guard limb.lower != 0 || limb.paw != 0 else {
+            limb.node.warpGeometry = nil
+            return
+        }
+        let moved = limb.skin.points.indices.map { bent(limb, limb.skin.points[$0], weights: limb.weights[$0]) }
+        limb.node.warpGeometry = limb.skin.warp(moved)
     }
 
     /// A part's picture in the cat's look (or the plain set's): a leg to cut at its joint, the torso to soften.
     private func partImage(_ name: String, view: View) -> CGImage? {
+        if let catArt, let look, let over = Self.paintOver {
+            return over(repainted(name, view: view) ?? catArt.builder.part(name, view: view.rawValue, look: look))
+        }
         if let catArt, let look {
             return catArt.image(repainted(name, view: view) ?? catArt.builder.part(name, view: view.rawValue, look: look), look: look)
         }
         return art.image("cat/base/\(body)/cat_\(body)_\(view.rawValue)_\(name).png")
     }
 
-    /// Where a jointed leg is in its stride: where its ankle (or a front leg's sole) goes, in the puppet's frame; how
-    /// far a hind paw turns off flat (anticlockwise, painted facing left: the heel up, the toes down); and, in the
-    /// air, how high its hip rides and the ankle's places at lift-off and landing with how far it has come (`swing`,
+    /// Where a leg is in its stride: where its ankle (or a front leg's sole) goes, in the puppet's frame; how far a
+    /// hind paw turns off flat (anticlockwise, painted facing left: the heel up, the toes down); how high its hip or
+    /// shoulder rides; and, in the air, the ankle's places at lift-off and landing with how far it has come (`swing`,
     /// 0 to 1).
     private struct Step {
         var ankle: CGPoint
@@ -539,53 +690,57 @@ public final class CatNode: SKNode {
         var swing: (from: CGPoint, to: CGPoint, u: Double)?
     }
 
-    /// Puts a jointed leg where `step` says. A front leg, straight, points at its paw's place and slides up into
-    /// the body (hidden behind it) when that is nearer than the leg is long, as a cat's shoulder blade rides up. A
-    /// hind leg on the floor bends at the hock to reach it; in the air, it eases from how it left the floor to how it
-    /// will land, its hip riding up and its hock folding the paw forward under it, as a cat's does.
-    private func place(_ limb: Limb, _ step: Step, torso: SKNode) {
-        // Into the torso's frame, where the hip is.
+    /// Puts a leg where `step` says, its hip at `hip` (the torso's frame, the body bent). On the floor the leg bends at
+    /// its joint to reach the paw's place: a hind leg at the hock, a front leg at the elbow where it leaves the body
+    /// (its paw has no wrist: it turns with the leg, landing on its heel and leaving on its toes). Beyond its reach,
+    /// it comes a little down out of the body. In the air a hind leg eases from how it left the floor to how it will
+    /// land, its hock folding the paw forward under it; a front leg folds at the elbow, its shoulder riding up.
+    private func place(_ name: String, _ step: Step, hip: CGPoint, torso: SKNode) {
+        guard var limb = limbs[view]?[name] else { return }
+        let p = Tuning.Puppet.self
+        // Into the torso's frame, then the leg's at rest about its hip.
         let c = cos(torso.zRotation), s = sin(torso.zRotation)
+        let rc = cos(limb.rest), rs = sin(limb.rest)
         func local(_ point: CGPoint) -> CGPoint {
             let v = CGPoint(x: point.x - torso.position.x, y: point.y - torso.position.y)
-            return CGPoint(x: v.x * c + v.y * s, y: -v.x * s + v.y * c)
+            let t = CGPoint(x: v.x * c + v.y * s - hip.x, y: -v.x * s + v.y * c - hip.y)
+            return CGPoint(x: t.x * rc + t.y * rs, y: -t.x * rs + t.y * rc)
         }
-        let hip = limb.hip
-        var turned: CGFloat
-        if let hock = limb.hock, let middle = limb.middle {
-            let a = hypot(hock.x, hock.y), b = hypot(limb.ankle.x, limb.ankle.y)
-            // The leg's turn and the hock's for the ankle at `target`, the hip where it is at rest.
-            func bend(_ target: CGPoint) -> (upper: CGFloat, middle: CGFloat) {
-                let knee = CatLimb.knee(hip: hip, target: target, upper: a, lower: b, bend: 1)
-                let upper = atan2(knee.y - hip.y, knee.x - hip.x) - atan2(hock.y, hock.x)
-                return (upper, atan2(target.y - knee.y, target.x - knee.x) - atan2(limb.ankle.y, limb.ankle.x) - upper)
+        let j = limb.joint, e = limb.end
+        let a = hypot(j.x, j.y), b = hypot(e.x - j.x, e.y - j.y)
+        // The turns of the upper and lower bones for the end at `target` (the leg's rest frame).
+        func turns(_ target: CGPoint) -> (upper: CGFloat, lower: CGFloat) {
+            let knee = CatLimb.knee(hip: .zero, target: target, upper: a, lower: b, bend: limb.bend)
+            let upper = atan2(knee.y, knee.x) - atan2(j.y, j.x)
+            let lower = atan2(target.y - knee.y, target.x - knee.x) - atan2(e.y - j.y, e.x - j.x) - upper
+            return (upper, atan2(sin(lower), cos(lower)))
+        }
+        var target = local(step.ankle)
+        // Beyond its reach: down out of the body a little way towards it.
+        let distance = hypot(target.x, target.y)
+        let slide = max(0, min((a + b) * CGFloat(p.shoulderDrop), distance - (a + b) * 0.995))
+        var at = CGPoint(x: hip.x, y: hip.y + step.raise)
+        if slide > 0 {
+            let along = CGPoint(x: target.x / distance * slide, y: target.y / distance * slide)
+            target = CGPoint(x: target.x - along.x, y: target.y - along.y)
+            at = CGPoint(x: at.x + along.x * rc - along.y * rs, y: at.y + along.x * rs + along.y * rc)
+        }
+        var bones = turns(target)
+        if limb.hind, let swing = step.swing {
+            let from = turns(local(swing.from)), to = turns(local(swing.to))
+            let k = CGFloat(swing.u * swing.u * (3 - 2 * swing.u))
+            func blend(_ x: CGFloat, _ y: CGFloat) -> CGFloat {
+                x + atan2(sin(y - x), cos(y - x)) * k
             }
-            var angles = bend(local(step.ankle))
-            if let swing = step.swing {
-                let from = bend(local(swing.from)), to = bend(local(swing.to))
-                let k = CGFloat(swing.u * swing.u * (3 - 2 * swing.u))
-                func blend(_ x: CGFloat, _ y: CGFloat) -> CGFloat {
-                    x + atan2(sin(y - x), cos(y - x)) * k
-                }
-                let fold = CGFloat(Tuning.Puppet.hockFold) * .pi / 180 * CGFloat(sin(swing.u * .pi))
-                angles = (blend(from.upper, to.upper), blend(from.middle, to.middle) - fold)
-            }
-            limb.upper.position = CGPoint(x: hip.x, y: hip.y + step.raise)
-            limb.upper.zRotation = angles.upper
-            middle.zRotation = angles.middle
-            turned = angles.upper + angles.middle
-        } else {
-            let target = local(step.ankle)
-            let dx = target.x - hip.x, dy = target.y - hip.y
-            let distance = max(hypot(dx, dy), 0.001), length = hypot(limb.ankle.x, limb.ankle.y)
-            turned = atan2(dy, dx) - atan2(limb.ankle.y, limb.ankle.x)
-            limb.upper.zRotation = turned
-            let slide = min(length * CGFloat(Tuning.Puppet.shoulderDrop), max(-length * 0.3, distance - length))
-            limb.upper.position = CGPoint(x: hip.x + dx / distance * slide, y: hip.y + dy / distance * slide)
+            let fold = CGFloat(p.hockFold) * .pi / 180 * CGFloat(sin(swing.u * .pi))
+            bones = (blend(from.upper, to.upper), blend(from.lower, to.lower) - fold)
         }
-        if limb.hind {
-            limb.paw.zRotation = limb.level + step.angle - torso.zRotation - turned
-        }
+        limb.node.position = at
+        limb.node.zRotation = limb.rest + bones.upper
+        limb.lower = bones.lower
+        limb.paw = limb.hind ? limb.level + step.angle - torso.zRotation - limb.rest - bones.upper - bones.lower : 0
+        limbs[view]?[name] = limb
+        skinLeg(limb)
     }
 
     /// A gait's paw path: the share of a stride a paw is in the air, how far it travels under the body while down
@@ -661,6 +816,7 @@ public final class CatNode: SKNode {
             node.xScale = facingRight ? -1 : 1
         }
         poseNode.xScale = facingRight ? -1 : 1
+        filmHolder.xScale = facingRight ? -1 : 1
         showOnlyOne()
         placeShadow()
     }
@@ -669,11 +825,13 @@ public final class CatNode: SKNode {
     /// once, even fading, read as a second cat (a fade cut short left the puppet showing behind the painting).
     private func showOnlyOne() {
         let resting = pose != nil
+        let filming = !resting && filmOnShow != nil
         poseNode.removeAction(forKey: "swap")
         poseNode.alpha = resting ? 1 : 0
+        filmHolder.isHidden = !filming
         for (v, node) in puppets {
             node.alpha = 1
-            node.isHidden = resting || v != view
+            node.isHidden = resting || filming || v != view
         }
     }
 
@@ -690,11 +848,13 @@ public final class CatNode: SKNode {
         resetPose(oldView)
         cycle = keep
         let flip: CGFloat = facingRight ? -1 : 1
-        new.removeAction(forKey: "turn")
-        new.xScale = flip * CGFloat(Tuning.Puppet.turnSquash)
         let settle = SKAction.scaleX(to: flip, duration: duration)
         settle.timingMode = .easeOut
-        new.run(settle, withKey: "turn")
+        for node in [new, filmHolder] {
+            node.removeAction(forKey: "turn")
+            node.xScale = flip * CGFloat(Tuning.Puppet.turnSquash)
+            node.run(settle, withKey: "turn")
+        }
     }
 
     /// The builder's sprite for a resting pose in this cat's look.
@@ -725,6 +885,7 @@ public final class CatNode: SKNode {
         }
         restoreEyes()
         let was = self.pose
+        let filming = filmOnShow != nil
         stopCycle()
         if crossFade, let was, was != pose, duration > 0, let old = poseNode.copy() as? SKSpriteNode {
             old.removeAllActions()
@@ -740,7 +901,11 @@ public final class CatNode: SKNode {
         layPoseOutfit(pose)
         poseNode.removeAllActions()
         if was == nil, duration > 0 {
-            // The puppet stays on show through the dip; then the painting, and only the painting.
+            // The puppet (or the film's last frame) stays on show through the dip; then the painting, and only it.
+            if filming {
+                filmHolder.isHidden = false
+                puppets[view]?.isHidden = true
+            }
             squash(CGFloat(Tuning.Puppet.sitDownDip))
             poseNode.alpha = 0
             poseNode.run(.sequence([
@@ -785,6 +950,7 @@ public final class CatNode: SKNode {
     }
 
     public func stopCycle() {
+        hideFilm()
         cycle = nil
         scratchTime = nil
         moveSpeed = 0
@@ -799,13 +965,18 @@ public final class CatNode: SKNode {
                 node.position = rest
             }
         }
-        for limb in (limbs[view] ?? [:]).values {
-            limb.upper.position = limb.hip
-            limb.middle?.zRotation = 0
-            if limb.hind {
-                limb.paw.zRotation = 0
-            }
+        for (name, var limb) in limbs[view] ?? [:] {
+            limb.lower = 0
+            limb.paw = 0
+            limb.node.warpGeometry = nil
+            limbs[view]?[name] = limb
         }
+        nodes["torso"]?.warpGeometry = nil
+        for garment in nodes["torso"]?.children ?? [] where garment.name == "outfit" {
+            (garment as? SKSpriteNode)?.warpGeometry = nil
+        }
+        nodes["tail_up"]?.warpGeometry = nil
+        nodes["tail"]?.warpGeometry = nil
         if let root = puppets[view]?.children.first {
             root.position = .zero
             root.zRotation = 0
@@ -873,6 +1044,7 @@ public final class CatNode: SKNode {
     /// Advances the stride and the cat's life at rest; called each frame by the scene.
     public func step(_ dt: TimeInterval) {
         clock += dt
+        carriage += ((cycle == nil ? 0 : 1) - carriage) * min(1, CGFloat(dt) * 5)
         live(dt)
         if let t = scratchTime {
             scratchTime = t + dt
@@ -882,6 +1054,19 @@ public final class CatNode: SKNode {
         guard var current = cycle, let nodes = parts[view], let rests = restAngles[view],
               let spec = rig.sets[body]?[view.rawValue] else { return }
         let p = Tuning.Puppet.self
+        if let (key, film, frames) = film(for: current.gait) {
+            // The film plays at its own pace, quicker or slower as the cat goes faster or slower than a filmed cat
+            // walks (or gallops, slowed down) over the floor; at a standstill (the renders), as filmed.
+            let filmed = current.gait == .run ? p.filmRunPace : p.filmWalkPace
+            let pace = moveSpeed > 0 ? Double(moveSpeed / max(1, height)) / filmed : 1
+            let hz = pace / max(0.1, film.seconds)
+            current.phase = (current.phase + CGFloat(dt * hz)).truncatingRemainder(dividingBy: 1)
+            cycle = current
+            showFilm(key, film: film, frames: frames, phase: current.phase)
+            return
+        }
+        hideFilm()
+        let rad = CGFloat.pi / 180
         let (stride, beat, pace, swingScale) = switch current.gait {
         case .walk: (p.walkStride, p.walkHz, p.walkSpeed, 1.0)
         case .trot: (p.trotStride, (p.walkHz + p.runHz) / 2, p.trotSpeed, 1.15)
@@ -893,18 +1078,8 @@ public final class CatNode: SKNode {
         current.phase = (current.phase + CGFloat(dt * hz)).truncatingRemainder(dividingBy: 1)
         cycle = current
         let phase = current.phase
-        let swing = CGFloat(spec.walk?.legSwing ?? 20) * CGFloat(swingScale) * .pi / 180 * reach
         func set(_ name: String, _ angle: CGFloat) {
             nodes[name]?.zRotation = (rests[name] ?? 0) - angle
-        }
-        /// A leg's swing through its stride: forward quickly, back slowly with the foot on the floor.
-        func leg(_ offset: CGFloat) -> CGFloat {
-            let f = (phase + offset).truncatingRemainder(dividingBy: 1)
-            if f < 0.38 {
-                let k = f / 0.38
-                return -1 + 2 * k * k * (3 - 2 * k)
-            }
-            return 1 - 2 * (f - 0.38) / 0.62
         }
         let offsets: [(String, CGFloat)] = switch current.gait {
         case .walk: [("leg_back_near", 0), ("leg_front_near", 0.25), ("leg_back_far", 0.5), ("leg_front_far", 0.75)]
@@ -912,28 +1087,30 @@ public final class CatNode: SKNode {
         case .run: [("leg_front_near", 0), ("leg_front_far", 0.1), ("leg_back_near", 0.5), ("leg_back_far", 0.6)]
         }
         let t = phase * 2 * .pi
-        let tailName = nodes["tail_up"] != nil ? "tail_up" : "tail"
-        let sway = CGFloat(spec.walk?.tailSway ?? 6) * .pi / 180
-        let nod = CGFloat(spec.walk?.headBob ?? 2) * .pi / 180
-        var bob: CGFloat
+        // The body's beat over a stride: how it rises and falls, rocks and arches. A walk dips twice a stride, the
+        // back rippling a little; a gallop gathers (the back arched, the hind legs under it) and stretches out.
+        var bob: CGFloat, pitch: CGFloat = 0, flex: CGFloat, nod: CGFloat = 0
         switch current.gait {
-        case .walk, .trot:
-            bob = (0.5 - 0.5 * cos(2 * t)) * height * CGFloat(current.gait == .walk ? p.walkBob : (p.walkBob + p.runBob) / 2)
-            set(tailName, sway * sin(t - 1.1) * (current.gait == .trot ? 1.2 : 1))
-            set("head", nod * sin(2 * t) * 0.7)
+        case .walk:
+            bob = (0.5 - 0.5 * cos(2 * t)) * height * CGFloat(p.walkBob)
+            flex = CGFloat(p.walkFlex) * rad * sin(2 * t + 0.8)
+            nod = CGFloat(p.walkNod) * rad * sin(2 * t - 0.6)
+        case .trot:
+            bob = (0.5 - 0.5 * cos(2 * t)) * height * CGFloat((p.walkBob + p.runBob) / 2)
+            flex = CGFloat(p.trotFlex) * rad * sin(2 * t + 0.8)
+            nod = CGFloat(p.walkNod) * rad * 0.7 * sin(2 * t - 0.6)
         case .run:
-            // A gallop: the body rocks, the head stays steadier, the tail streams back.
-            let pitch = CGFloat(p.gallopPitch) * .pi / 180 * reach
-            set("torso", pitch * sin(t))
-            set("head", -pitch * 0.7 * sin(t) + nod * 0.5 * sin(2 * t))
-            set(tailName, -CGFloat(p.runTailDrop) * .pi / 180 * reach + sway * 0.6 * sin(2 * t))
+            pitch = CGFloat(p.gallopPitch) * rad * sin(t)
+            flex = CGFloat(p.runFlex) * rad * cos(t - CGFloat(p.runFlexPhase) * 2 * .pi)
             bob = max(0, sin(t)) * height * CGFloat(p.runBob)
         }
         bob *= reach
-        puppets[view]?.children.first?.position.y = bob
-        if let jointed = limbs[view], !jointed.isEmpty, let torso = nodes["torso"] {
+        pitch *= reach
+        flex *= reach
+        let root = puppets[view]?.children.first
+        if let jointed = limbs[view], !jointed.isEmpty, let torso = nodes["torso"], let shape = bodies[view] {
             // Each paw on its own path: planted, it slides back under the body as fast as the cat goes forward (so it
-            // stays put on the floor); lifted, it swings forward in an arc. Hips and joints follow (CatLimb).
+            // stays put on the floor); lifted, it swings forward in an arc. The legs bend to reach (CatSkin).
             let (swingShare, liftShare, crouch) = switch current.gait {
             case .walk: (p.walkSwing, p.walkLift, p.walkCrouch)
             case .trot: (p.trotSwing, p.trotLift, p.walkCrouch)
@@ -944,25 +1121,154 @@ public final class CatNode: SKNode {
             let sweep = CGFloat((1 - swingShare) * travel * (view == .side ? 1 : p.slantStride))
             let low = CGFloat(crouch) * height * reach
             let lift = CGFloat(liftShare) * height * reach
+            // The body a little lower while moving, the legs a little bent under it.
+            root?.position.y = bob - low
+            set("torso", pitch)
             let path = Path(swingShare: swingShare, sweep: sweep, lift: lift, way: forward(), drop: low - bob)
+            var steps: [(String, Step)] = [], blade: CGFloat = 0
             for (name, offset) in offsets {
                 guard let limb = jointed[name] else { continue }
                 let f = Double((phase + offset).truncatingRemainder(dividingBy: 1))
-                place(limb, stepping(limb, at: f, on: path), torso: torso)
+                steps.append((name, stepping(limb, at: f, on: path)))
+                if !limb.hind, f >= swingShare {
+                    // A front leg taking the weight: the shoulder blade rides up over it (the near one's the most).
+                    let v = (f - swingShare) / (1 - swingShare)
+                    blade = max(blade, CGFloat(sin(v * .pi)) * (name.hasSuffix("_near") ? 1 : 0.6))
+                }
             }
-            // The body a little lower while moving, the legs a little bent under it.
-            puppets[view]?.children.first?.position.y = bob - low
+            var bend = Bend(flex: flex, blade: blade * CGFloat(p.bladeRise) * height * reach)
+            for (name, step) in steps {
+                guard let limb = limbs[view]?[name] else { continue }
+                place(name, step, hip: deform(limb.hip, bend, shape), torso: torso)
+            }
+            // The near shoulder and haunch go with the legs under them (the fur round the top of the leg, not the hip).
+            if let front = limbs[view]?["leg_front_near"] {
+                bend.shoulderTurn = (front.node.zRotation - front.rest) * CGFloat(p.shoulderFollow)
+                bend.shoulderLift = (front.node.position.y - deform(front.hip, bend, shape).y) * CGFloat(p.shoulderFollow)
+            }
+            if let back = limbs[view]?["leg_back_near"] {
+                bend.haunchTurn = (back.node.zRotation - back.rest) * CGFloat(p.haunchFollow)
+            }
+            skinBody(shape, bend, nodes: nodes, rests: rests, bob: bob, pitch: pitch, nod: nod)
         } else if view == .front, let rest = restPositions[view] {
+            root?.position.y = bob
+            // Coming straight at you the body rolls a little from side to side as the weight goes from paw to paw.
+            let roll = CGFloat(p.frontRoll) * rad * sin(t) * reach
+            set("torso", roll)
+            set("head", -roll * 0.8 - nod)
             // Legs are relative to the torso, which is scaled up from the parts' pixels; lift in its units.
             let lift = (nodes["leg_front_near"]?.size.height ?? 0) * CGFloat(p.frontLegLift) * reach
             for (name, offset) in offsets {
-                nodes[name]?.position.y = (rest[name]?.y ?? 0) + max(0, leg(offset)) * lift
+                nodes[name]?.position.y = (rest[name]?.y ?? 0) + max(0, legSwing(phase + offset)) * lift
             }
         } else {
+            root?.position.y = bob
+            let swing = CGFloat(spec.walk?.legSwing ?? 20) * CGFloat(swingScale) * rad * reach
             for (name, offset) in offsets {
-                set(name, swing * leg(offset))
+                set(name, swing * legSwing(phase + offset))
             }
         }
+        wagTail(current.gait, t: t, reach: reach)
+    }
+
+    /// A leg's swing through its stride, -1 back to 1 forward: forward quickly, back slowly with the foot down (the
+    /// legs that do not bend: the front view's).
+    private func legSwing(_ phase: CGFloat) -> CGFloat {
+        let f = phase.truncatingRemainder(dividingBy: 1)
+        if f < 0.38 {
+            let k = f / 0.38
+            return -1 + 2 * k * k * (3 - 2 * k)
+        }
+        return 1 - 2 * (f - 0.38) / 0.62
+    }
+
+    /// A point of the torso (its frame at rest) where the body's bend puts it: the spine arched about its middle,
+    /// the near shoulder blade risen, the shoulder and haunch turned with the legs under them.
+    private func deform(_ point: CGPoint, _ bend: Bend, _ shape: Body) -> CGPoint {
+        func turned(_ p: CGPoint, about c: CGPoint, by angle: CGFloat) -> CGPoint {
+            let cs = cos(angle), sn = sin(angle)
+            return CGPoint(x: c.x + (p.x - c.x) * cs - (p.y - c.y) * sn, y: c.y + (p.x - c.x) * sn + (p.y - c.y) * cs)
+        }
+        func near(_ c: CGPoint, _ rx: CGFloat, _ ry: CGFloat) -> CGFloat {
+            let dx = (point.x - c.x) / rx, dy = (point.y - c.y) / ry
+            return exp(-(dx * dx + dy * dy))
+        }
+        var q = turned(point, about: CGPoint(x: 0, y: shape.spine), by: spineTurn(point.x, bend, shape))
+        if let shoulder = shape.shoulder {
+            let blade = CGPoint(x: shoulder.x + shape.length * 0.04, y: shape.spine + shape.depth * 0.32)
+            q.y += bend.blade * near(blade, shape.length * 0.12, shape.depth * 0.4)
+            let w = near(shoulder, shape.length * 0.15, shape.depth * 0.45)
+            let moved = turned(point, about: CGPoint(x: shoulder.x, y: shoulder.y + shape.depth * 0.4), by: bend.shoulderTurn * w)
+            q.x += moved.x - point.x
+            q.y += moved.y - point.y + bend.shoulderLift * w
+        }
+        if let haunch = shape.haunch {
+            let w = near(CGPoint(x: haunch.x, y: haunch.y + shape.depth * 0.12), shape.length * 0.17, shape.depth * 0.5)
+            let moved = turned(point, about: CGPoint(x: haunch.x, y: haunch.y + shape.depth * 0.35), by: bend.haunchTurn * w)
+            q.x += moved.x - point.x
+            q.y += moved.y - point.y
+        }
+        return q
+    }
+
+    /// How far the spine's bend turns the body at `x` along it (the torso's frame; painted facing left, so the front
+    /// is to the left): nothing at the middle, the most at the ends.
+    private func spineTurn(_ x: CGFloat, _ bend: Bend, _ shape: Body) -> CGFloat {
+        let u = x / max(1, shape.length / 2)
+        let k = min(1, abs(u))
+        return (u < 0 ? 1 : -1) * bend.flex * k * k * (3 - 2 * k)
+    }
+
+    /// The torso (and a garment on it) drawn bent; the head kept steadier than the body, carried a little low and
+    /// forward on the move.
+    private func skinBody(
+        _ shape: Body, _ bend: Bend, nodes: [String: SKSpriteNode], rests: [String: CGFloat], bob: CGFloat, pitch: CGFloat, nod: CGFloat
+    ) {
+        let p = Tuning.Puppet.self
+        if let torso = nodes["torso"] {
+            torso.warpGeometry = shape.skin.warp(shape.skin.points.map { deform($0, bend, shape) })
+            for case let garment as SKSpriteNode in torso.children where garment.name == "outfit" {
+                let grid = Skin(size: garment.size, anchor: garment.anchorPoint, columns: 12, rows: 6)
+                let at = garment.position
+                garment.warpGeometry = grid.warp(grid.points.map {
+                    let moved = deform(CGPoint(x: $0.x + at.x, y: $0.y + at.y), bend, shape)
+                    return CGPoint(x: moved.x - at.x, y: moved.y - at.y)
+                })
+            }
+        }
+        if let head = nodes["head"], let neck = shape.neck {
+            let at = deform(neck, bend, shape)
+            head.position = CGPoint(x: at.x, y: at.y - bob * CGFloat(p.headSteady) - height * CGFloat(p.headCarry) * carriage)
+            head.zRotation = (rests["head"] ?? 0) + spineTurn(neck.x, bend, shape) * 0.5 + pitch * CGFloat(p.headLevel)
+                + nod + CGFloat(p.headCarryDegrees) * .pi / 180 * carriage
+        }
+        if let tailRoot = shape.tailRoot, let tail = nodes["tail_up"] ?? nodes["tail"] {
+            tail.position = deform(tailRoot, bend, shape)
+        }
+    }
+
+    /// The tail swaying along its length (CatSkin): a wave from the root to the tip, the tip a beat behind. Walking
+    /// it is carried up and sways with the stride; at a run it streams out behind, uncurled; standing it sways slowly.
+    private func wagTail(_ gait: Gait?, t: CGFloat, reach: CGFloat) {
+        guard let shape = bodies[view], let chain = shape.tail, let skin = shape.tailSkin,
+              let tail = parts[view]?["tail_up"] ?? parts[view]?["tail"] else { return }
+        let p = Tuning.Puppet.self
+        let rad = CGFloat.pi / 180
+        let (base, sway, wave, beat, uncurl): (CGFloat, CGFloat, CGFloat, CGFloat, CGFloat) = switch gait {
+        case .walk: (0, CGFloat(p.walkTailSway), CGFloat(p.walkTailWave), t - 1.1, 0)
+        case .trot: (-CGFloat(p.trotTailBack), CGFloat(p.walkTailSway) * 1.2, CGFloat(p.walkTailWave) * 1.3, 2 * t - 1.1, 0.25)
+        case .run: (-CGFloat(p.runTailBack), CGFloat(p.walkTailSway) * 0.6, CGFloat(p.walkTailWave), 2 * t - 1.1, CGFloat(p.runTailUncurl))
+        case nil: (0, CGFloat(p.idleTailSway), CGFloat(p.idleTailWave), CGFloat(clock * 2 * .pi * p.idleTailHz), 0)
+        }
+        let k = gait == nil ? 1 : reach
+        let lag = CGFloat(p.tailLag)
+        var turns: [CGFloat] = [(base * k + sway * sin(beat)) * rad]
+        let count = chain.joints.count - 1
+        for joint in 1 ..< max(1, count) {
+            let along = CGFloat(joint) / CGFloat(count)
+            turns.append(wave * rad * along * sin(beat - lag * CGFloat(joint)) - uncurl * k * chain.curl[joint])
+        }
+        tail.warpGeometry = skin.warp(chain.bent(turns, skin: skin))
     }
 
     /// The way forward in the puppet's frame (painted facing left; flipped when facing right), along the floor.
@@ -976,6 +1282,204 @@ public final class CatNode: SKNode {
         way = CGVector(dx: way.dx / length, dy: way.dy / length)
         // In the puppet's frame, forward is left (-x); a cat facing right is the puppet flipped.
         return CGVector(dx: facingRight ? -way.dx : way.dx, dy: way.dy)
+    }
+
+    // MARK: Films
+
+    /// Whether this cat walks and runs as a film: a builder look not in a body garment (the films have none; the
+    /// rebuilt puppet walks in one). Swapped ears and a bobtail go on the film where it can take them (`film(for:)`).
+    private var filmsAllowed: Bool {
+        guard Self.films, catArt != nil, look != nil else { return false }
+        return outfit?.slot != .body
+    }
+
+    /// The film's own parts cut out of its frames for the look's: "ears" for swapped ears, "tail" for a bobtail.
+    private func filmCuts(_ look: CatLook) -> [String] {
+        (look.ears == "own" ? [] : ["ears"]) + (look.tail == "own" ? [] : ["tail"])
+    }
+
+    /// Tints the body's films into the look off the main thread, ready for the cat to move in: once the look has
+    /// held for half a second (the builder changes it as a slider moves).
+    private func prepareFilms() {
+        filmLook += 1
+        filmFrames = [:]
+        hideFilm()
+        guard Self.films, let catArt, let look else { return }
+        let generation = filmLook
+        let cuts = filmCuts(look)
+        for (key, film) in filmsOfBody(catArt, look: look) {
+            Task { [weak self] in
+                try? await Task.sleep(for: .milliseconds(500))
+                guard self?.filmLook == generation else { return }
+                let images = await Task.detached(priority: .utility) {
+                    film.frames.map { FilmImage(catArt.filmFrame($0, look: look, cutting: cuts)) }
+                }.value
+                guard let self, self.filmLook == generation else { return }
+                self.keep(images.map(\.image), for: key, of: film)
+            }
+        }
+    }
+
+    /// The films' frames made now, on this thread (renders and tests).
+    func loadFilmsNow() {
+        guard Self.films, let catArt, let look else { return }
+        for (key, film) in filmsOfBody(catArt, look: look) {
+            keep(film.frames.map { catArt.filmFrame($0, look: look, cutting: filmCuts(look)) }, for: key, of: film)
+        }
+    }
+
+    /// Whether the film for a view and gait is ready to show (tests).
+    func hasFilm(_ view: View, _ gait: Gait) -> Bool {
+        filmFrames["\(view.rawValue)/\(gait == .run ? "run" : "walk")"] != nil
+    }
+
+    /// Whether a film is on show now.
+    var isFilming: Bool {
+        filmOnShow != nil && !filmHolder.isHidden
+    }
+
+    private func filmsOfBody(_ catArt: CatArt, look: CatLook) -> [(String, CatArt.Film)] {
+        [View.side, .tqfront].flatMap { view in
+            ["walk", "run"].compactMap { gait in
+                catArt.film(body: look.body, view: view.rawValue, gait: gait).map { ("\(view.rawValue)/\(gait)", $0) }
+            }
+        }
+    }
+
+    private func keep(_ images: [CGImage?], for key: String, of film: CatArt.Film) {
+        let textures = images.compactMap { $0.map { SKTexture(cgImage: $0) } }
+        guard textures.count == film.frames.count, !textures.isEmpty else { return }
+        for texture in textures {
+            texture.filteringMode = .linear
+        }
+        filmFrames[key] = textures
+    }
+
+    /// The film for the gait in the view on show, if this cat has it ready (a trot is the walk, quicker).
+    private func film(for gait: Gait) -> (String, CatArt.Film, [SKTexture])? {
+        guard filmsAllowed, view != .front, let catArt, let look else { return nil }
+        let name = gait == .run ? "run" : "walk"
+        let key = "\(view.rawValue)/\(name)"
+        guard let frames = filmFrames[key], let film = catArt.film(body: look.body, view: view.rawValue, gait: name) else {
+            return nil
+        }
+        // Swapped ears or a bobtail need the film's own followed (else the puppet walks).
+        let points = film.points ?? [:]
+        if look.ears != "own", points["ear_near_base"] == nil, points["ear_far_base"] == nil {
+            return nil
+        }
+        if look.tail != "own", points["tail_root"] == nil {
+            return nil
+        }
+        return (key, film, frames)
+    }
+
+    /// The film's frame for how far through its stride the cat is, in place of the puppet: drawn the cat's height,
+    /// its feet on the cat's origin.
+    private func showFilm(_ key: String, film: CatArt.Film, frames: [SKTexture], phase: CGFloat) {
+        if filmOnShow != key {
+            filmOnShow = key
+            filmFrame = -1
+            let scale = height / CGFloat(film.height)
+            filmNode.size = CGSize(width: film.size[0] * scale, height: film.size[1] * scale)
+            filmNode.anchorPoint = CGPoint(x: film.feet[0] / film.size[0], y: 1 - film.feet[1] / film.size[1])
+            layFilmPieces(film)
+            showOnlyOne()
+        }
+        let index = min(frames.count - 1, max(0, Int(phase * CGFloat(frames.count))))
+        guard index != filmFrame else { return }
+        filmFrame = index
+        filmNode.texture = frames[index]
+        layFilmOutfit(film.frames[index])
+        placeFilmPieces(film, frame: index)
+    }
+
+    /// The look's swapped ears and bobtail for the film on show: the puppet's own pieces in this view, drawn behind the
+    /// frame (the head and rump cover where they join, as on the puppet), placed on the film's followed points.
+    private func layFilmPieces(_ film: CatArt.Film) {
+        for piece in filmPieces.values {
+            piece.removeFromParent()
+        }
+        filmPieces = [:]
+        guard let look, let nodes = parts[view], let points = film.points else { return }
+        var wanted: [(String, String)] = []
+        if look.ears != "own" {
+            wanted += ["ear_near", "ear_far"].filter { points["\($0)_base"] != nil }.map { ($0, $0) }
+        }
+        if look.tail != "own", points["tail_root"] != nil {
+            wanted.append(("tail", nodes["tail_up"] != nil ? "tail_up" : "tail"))
+        }
+        let behind = (rig.sets[body]?[view.rawValue]?.parts["tail_up"]?.z ?? 1) < 0
+        for (key, part) in wanted {
+            guard let node = nodes[part] else { continue }
+            let piece = SKSpriteNode(texture: node.texture, size: node.size)
+            piece.anchorPoint = node.anchorPoint
+            piece.zPosition = key == "tail" && !behind ? 0.01 : -0.01
+            piece.name = "piece"
+            filmNode.addChild(piece)
+            filmPieces[key] = piece
+        }
+    }
+
+    /// Each swapped piece where the film's frame has the part it stands for: an ear from its base towards its tip, the
+    /// bobtail at the tail's root, turned as the rump has turned since the start frame.
+    private func placeFilmPieces(_ film: CatArt.Film, frame: Int) {
+        guard !filmPieces.isEmpty, let points = film.points, let start = film.start else { return }
+        let scale = height / CGFloat(film.height)
+        func at(_ name: String) -> CGPoint? {
+            guard let track = points[name], frame < track.count else { return nil }
+            return CGPoint(x: (track[frame][0] - film.feet[0]) * scale, y: -(track[frame][1] - film.feet[1]) * scale)
+        }
+        func startAt(_ name: String) -> CGPoint? {
+            start[name].map { CGPoint(x: ($0[0] - film.feet[0]) * scale, y: -($0[1] - film.feet[1]) * scale) }
+        }
+        for (key, piece) in filmPieces {
+            if key.hasPrefix("ear_") {
+                guard let base = at("\(key)_base"), let tip = at("\(key)_tip") else { continue }
+                // The ear's own way up (from its anchor to the top of its picture), along base to tip.
+                let up = atan2((1 - piece.anchorPoint.y) * piece.size.height, (0.5 - piece.anchorPoint.x) * piece.size.width)
+                piece.position = base
+                piece.zRotation = atan2(tip.y - base.y, tip.x - base.x) - up
+                if let b = startAt("\(key)_base"), let t = startAt("\(key)_tip") {
+                    let was = hypot(t.x - b.x, t.y - b.y), now = hypot(tip.x - base.x, tip.y - base.y)
+                    piece.yScale = was > 1 ? max(0.75, min(1.25, now / was)) : 1
+                }
+            } else if let root = at("tail_root") {
+                piece.position = root
+                if let middle = at("torso_middle"), let rootStart = startAt("tail_root"), let middleStart = startAt("torso_middle") {
+                    piece.zRotation = (restAngles[view]?["tail_up"] ?? 0)
+                        + atan2(root.y - middle.y, root.x - middle.x) - atan2(rootStart.y - middleStart.y, rootStart.x - middleStart.x)
+                }
+            }
+        }
+    }
+
+    /// Back to the puppet (still or moving).
+    private func hideFilm() {
+        guard filmOnShow != nil || !filmHolder.isHidden else { return }
+        filmOnShow = nil
+        filmFrame = -1
+        filmOutfit?.removeFromParent()
+        filmOutfit = nil
+        for piece in filmPieces.values {
+            piece.removeFromParent()
+        }
+        filmPieces = [:]
+        filmHolder.isHidden = true
+        if pose == nil {
+            puppets[view]?.isHidden = false
+        }
+    }
+
+    /// A hat, glasses or neckwear on the film's frame, fitted to the face in it as on a resting pose.
+    private func layFilmOutfit(_ path: String) {
+        filmOutfit?.removeFromParent()
+        filmOutfit = nil
+        guard let outfit, let kind = OutfitFit.kind(outfit), let catArt, let picture = outfit.sprites[view.rawValue],
+              let shape = OutfitShapes.shape(picture, art: art), let face = catArt.face(path),
+              let fit = OutfitFit.place(kind, shape: shape, on: face, view: view.rawValue, size: outfit.fit, tallEars: hasTallEars)
+        else { return }
+        filmOutfit = put(picture, fit: fit, face: face, on: filmNode)
     }
 
     // MARK: Life at rest
@@ -1000,6 +1504,8 @@ public final class CatNode: SKNode {
         let rise = CGFloat(breath[0] * sin(clock * 2 * .pi * breath[1]))
         let root = puppets[view]?.children.first
         root?.xScale = 1 + squashAmount * 0.5
+        filmNode.xScale = 1 + squashAmount * 0.5
+        filmNode.yScale = 1 - squashAmount
         if pose != nil {
             poseNode.yScale = (1 - squashAmount) * (1 + rise)
             root?.yScale = 1 - squashAmount
@@ -1019,15 +1525,17 @@ public final class CatNode: SKNode {
             blink()
         }
         guard pose == nil, cycle == nil, scratchTime == nil, let nodes = parts[view], let rests = restAngles[view] else { return }
-        let tailName = nodes["tail_up"] != nil ? "tail_up" : "tail"
-        let sway = CGFloat(p.idleTailSway * .pi / 180 * sin(clock * 2 * .pi * p.idleTailHz))
-        nodes[tailName]?.zRotation = (rests[tailName] ?? 0) - sway
+        wagTail(nil, t: 0, reach: 1)
         if clock >= nextLook {
             headLookTarget = CGFloat(Double.random(in: -1 ... 1) * p.idleHeadTurn * .pi / 180)
             nextLook = clock + Double.random(in: 1.5 ... 4)
         }
         headLook += (headLookTarget - headLook) * min(1, CGFloat(dt) * 3)
-        nodes["head"]?.zRotation = (rests["head"] ?? 0) - headLook
+        // Coming to a stop the head lifts back from its carriage on the move.
+        nodes["head"]?.zRotation = (rests["head"] ?? 0) - headLook + CGFloat(p.headCarryDegrees) * .pi / 180 * carriage
+        if let neck = bodies[view]?.neck {
+            nodes["head"]?.position = CGPoint(x: neck.x, y: neck.y - height * CGFloat(p.headCarry) * carriage)
+        }
         if clock >= nextTwitch {
             twitchEnds = clock + 0.16
             nextTwitch = clock + Double.random(in: p.earTwitchGap[0] ... p.earTwitchGap[1])
@@ -1073,13 +1581,13 @@ public final class CatNode: SKNode {
 
     /// How many drawings of the cat are on show (any part see-through or not): always one.
     var drawingsOnShow: Int {
-        let pictures: [SKNode] = [poseNode] + Array(puppets.values) + children.filter { $0 is SKSpriteNode && $0 !== poseNode }
+        let pictures: [SKNode] = [poseNode, filmHolder] + Array(puppets.values) + children.filter { $0 is SKSpriteNode && $0 !== poseNode }
         return pictures.filter { !$0.isHidden && $0.alpha > 0.01 }.count
     }
 
     /// The cat's own outline in its parent's units (the puppet or the painting on show, not its shadow).
     public var bodyFrame: CGRect {
-        let shown: [SKNode] = pose != nil ? [poseNode] : (puppets[view].map { [$0] } ?? [])
+        let shown: [SKNode] = pose != nil ? [poseNode] : isFilming ? [filmHolder] : (puppets[view].map { [$0] } ?? [])
         let local = shown.reduce(CGRect.null) { $0.union($1.calculateAccumulatedFrame()) }
         guard !local.isNull, let parent else { return local }
         return CGRect(

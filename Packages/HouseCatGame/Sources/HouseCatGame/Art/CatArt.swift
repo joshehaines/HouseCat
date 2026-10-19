@@ -20,8 +20,33 @@ public final class CatArt: @unchecked Sendable {
         var files: [String: Entry]
     }
 
+    /// A film of the cat walking or running (Josh, 19 Oct: "B is the best by far"; tools/asset-pipeline/walk): one
+    /// stride of a white cat filmed in place, each frame a sprite like the parts (`frames`, tinted the same way). In
+    /// the frames' master pixels: the cat's standing height (the CatNode's, breed and all), where its feet are on the
+    /// floor from the top left (the CatNode's origin), the frame's size, and how far the floor goes by in a stride (x
+    /// right, y down); and how long the stride took on film.
+    public struct Film: Decodable, Sendable {
+        public var frames: [String]
+        public var height: Double
+        public var feet: [Double]
+        public var size: [Double]
+        public var stride: [Double]
+        public var seconds: Double
+        /// Points of the start frame (where the ears join the head and end, the tail's root, the torso's middle)
+        /// followed through the frames, and where they were in the start frame; in the frames' master pixels.
+        public var points: [String: [[Double]]]?
+        public var start: [String: [Double]]?
+    }
+
+    private struct FilmIndex: Decodable {
+        var films: [String: Film]
+        var files: [String: Entry]
+    }
+
     public let root: URL
     public let builder: CatBuilder
+    /// The films by "<body>/<view>/<gait>" (films/films.json).
+    public let films: [String: Film]
     private let entries: [String: Entry]
     private let lock = NSLock()
     private var images: [Key: CGImage] = [:]
@@ -38,7 +63,12 @@ public final class CatArt: @unchecked Sendable {
 
     public init(root: URL) throws {
         self.root = root
-        entries = try JSONDecoder().decode(Index.self, from: Data(contentsOf: root.appendingPathComponent("index.json"))).files
+        var entries = try JSONDecoder().decode(Index.self, from: Data(contentsOf: root.appendingPathComponent("index.json"))).files
+        let filmIndex = (try? Data(contentsOf: root.appendingPathComponent("films/films.json")))
+            .flatMap { try? JSONDecoder().decode(FilmIndex.self, from: $0) }
+        entries.merge(filmIndex?.files ?? [:]) { old, _ in old }
+        self.entries = entries
+        films = filmIndex?.films ?? [:]
         builder = try CatBuilder.load(from: root.appendingPathComponent("builder.json"))
     }
 
@@ -46,6 +76,39 @@ public final class CatArt: @unchecked Sendable {
     @MainActor
     public convenience init(art: ArtLibrary) throws {
         try self.init(root: art.root.appendingPathComponent("cat/custom"))
+    }
+
+    /// The film of a body walking or running in a view, if there is one.
+    public func film(body: String, view: String, gait: String) -> Film? {
+        films["\(body)/\(view)/\(gait)"]
+    }
+
+    /// A film frame tinted into the look, not kept (the cat keeps its own frames while it has the look). `cutting`
+    /// takes the film's own ears or tail out of it (their masks, "ears" or "tail"), for the look's swapped ones to go
+    /// on instead; the head stays whole where an ear joined it.
+    public func filmFrame(_ path: String, look: CatLook, cutting parts: [String] = []) -> CGImage? {
+        guard var output = render(CatBuilder.Sprite(path: path, takesWhite: true), look: look) else { return nil }
+        if !parts.isEmpty, let entry = entries[path] {
+            let size = (output.width, output.height)
+            func plane(_ name: String) -> [Float]? {
+                guard entry.masks.contains(name), let raster = Raster.read(root.appendingPathComponent("masks/\(name)/\(path)")) else {
+                    return nil
+                }
+                let bytes = raster.width == size.0 && raster.height == size.1
+                    ? raster.planes[0] : Raster.scaled(raster.planes[0], from: (raster.width, raster.height), to: size)
+                return Raster.floats(bytes, scale: 1 / 255)
+            }
+            let head = plane("head")
+            for part in parts {
+                guard let cut = plane(part) else { continue }
+                for index in cut.indices {
+                    let away = cut[index] - (part == "ears" ? head?[index] ?? 0 : 0)
+                    let keep = 1 - min(1, max(0, away * 1.6))
+                    output.alpha[index] = UInt8(Float(output.alpha[index]) * keep)
+                }
+            }
+        }
+        return output.cgImage
     }
 
     public func has(_ path: String) -> Bool {

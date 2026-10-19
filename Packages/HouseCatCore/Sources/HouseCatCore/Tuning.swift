@@ -867,6 +867,52 @@ public enum Tuning {
         /// Settling into a painted pose, getting up from one and turning between views (one drawing at a time: the
         /// new one takes over at once, under a squash).
         public static let settleSeconds = 0.35
+        /// The bending puppet (CatSkin, Josh 19 Oct: the join between body and legs looked strange and the walk
+        /// robotic, "full rebuild"). A near leg is drawn over the body, its top faded into the fur: whole from this far
+        /// above the body's lower edge, over this length (shares of the leg's height); without an edge found, the leg
+        /// goes this far into the body. A front leg bends at the elbow where it leaves the body, blended over this
+        /// share of its height. Draw order of a near leg against the torso's (its garment is 0.0015, its head 0.003).
+        public static let fadeAboveEdge = 0.03
+        public static let fadeLength = 0.12
+        public static let legTuck = 0.2
+        public static let elbowBlend = 0.05
+        public static let nearLegZ = 0.0008
+        /// The spine's ripple at a walk and a trot, and how far a gallop arches and stretches it (degrees), the arch
+        /// coming at this share of the stride (the hind legs swinging forward under the body).
+        public static let walkFlex = 1.2
+        public static let trotFlex = 1.6
+        public static let runFlex = 9.0
+        public static let runFlexPhase = 0.8
+        /// A front leg taking the weight raises its shoulder blade this far (share of the cat's height); the near
+        /// shoulder and haunch turn this share of the way with the legs under them.
+        public static let bladeRise = 0.022
+        public static let shoulderFollow = 0.45
+        public static let haunchFollow = 0.55
+        /// The head on the move: kept this share steadier than the body's bob, its nod (degrees) at a walk, level
+        /// against this share of the body's rock in a gallop, carried this much lower (share of the height) and
+        /// this far nose down (degrees).
+        public static let headSteady = 0.6
+        public static let walkNod = 1.5
+        public static let headLevel = 0.8
+        public static let headCarry = 0.012
+        public static let headCarryDegrees = 4.0
+        /// A body rolling side to side, coming straight at you (degrees).
+        public static let frontRoll = 2.0
+        /// The tail's bones along its length; how far (degrees) it sways at the root and waves along its length at a
+        /// walk and standing; each joint this much behind the one before (radians); how far back it is carried at a
+        /// trot and a run, and how far it uncurls running.
+        public static let tailBones = 7
+        public static let walkTailSway = 5.0
+        public static let walkTailWave = 7.0
+        public static let idleTailWave = 6.0
+        public static let tailLag = 0.55
+        public static let trotTailBack = 8.0
+        public static let runTailBack = 30.0
+        public static let runTailUncurl = 0.6
+        /// How fast the filmed cats go over the floor, in their own heights a second (the walks as filmed; the gallops
+        /// filmed at half speed): a film plays quicker or slower as the cat goes faster or slower than that.
+        public static let filmWalkPace = 0.9
+        public static let filmRunPace = 1.8
         public static let riseSeconds = 0.25
         public static let turnSeconds = 0.18
         public static let minMoveSeconds = 0.25
@@ -893,7 +939,7 @@ public enum Tuning {
         /// Zoomies are faster than a run.
         public static let dashSpeed = 430.0
         /// One stride covers this many cat heights, by gait, so the feet keep pace with the floor.
-        public static let walkStride = 0.62
+        public static let walkStride = 0.72
         public static let trotStride = 0.85
         public static let runStride = 0.95
         /// Getting up to speed and slowing down, at most (seconds).

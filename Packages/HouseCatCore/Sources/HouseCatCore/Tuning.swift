@@ -1057,6 +1057,10 @@ public enum Tuning {
         public static let weather = 0.3
         public static let storm = 0.45
         public static let fadeSeconds = 0.8
+        /// The background music (Josh, 19 Oct: "quiet cute background music"): about as loud as the dawn birds, the
+        /// player's Settings level a share of it, and the slow fade it comes in and goes out with.
+        public static let music = 0.35
+        public static let musicFadeSeconds = 2.5
     }
 
     /// How a room is framed on screen.

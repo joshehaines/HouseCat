@@ -133,6 +133,9 @@ struct MiniGameView: View {
         }
         .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
         .task { await run() }
+        // The games have their own sounds: the music waits in the room.
+        .onAppear { Music.hush(.miniGame, true) }
+        .onDisappear { Music.hush(.miniGame, false) }
     }
 
     private var hud: some View {

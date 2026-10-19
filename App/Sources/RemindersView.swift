@@ -26,6 +26,7 @@ struct SettingsView: View {
                     Text("Settings").font(Theme.title(28))
                 }
                 reminders
+                MusicCard()
                 if HealthLayer.isAvailable {
                     HealthSettingsCard()
                 }

@@ -70,6 +70,10 @@ struct IntroView: View {
         #endif
             .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
             .statusBarHidden()
+            .onAppear {
+                let now = Calendar.current.dateComponents([.hour, .minute], from: Date())
+                Music.play(for: SkyPhase.at(localMinutes: (now.hour ?? 12) * 60 + (now.minute ?? 0)))
+            }
     }
 
     private var globeShift: CGFloat {

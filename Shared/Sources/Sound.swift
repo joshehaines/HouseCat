@@ -24,7 +24,7 @@ enum Sound {
         return player
     }
 
-    private static func configure() {
+    static func configure() {
         guard !configured else { return }
         configured = true
         #if os(iOS)

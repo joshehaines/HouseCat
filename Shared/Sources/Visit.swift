@@ -382,6 +382,7 @@ final class Visit {
     private func greet() {
         if let house = scene as? RoomScene {
             Sound.ambience(for: house.house.sky, fire: house.furniture.values.contains { $0.childNode(withName: "fx.fire") != nil })
+            Music.play(for: house.house.sky)
         }
         let session = GameSession.shared
         Sound.weather(GameWorld.now(state: session.state(at: session.now()), at: session.now()).weather)

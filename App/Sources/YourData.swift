@@ -189,8 +189,8 @@ struct YourDataCard: View {
     }
 }
 
-/// Licences and credits: the recordings of real cats, Apple Weather, Apple Maps' place search; the paintings are
-/// HouseCat's own.
+/// Licences and credits: the recordings of real cats, Apple Weather, Apple Maps' place search; the paintings and the
+/// music are HouseCat's own.
 struct CreditsView: View {
     let close: () -> Void
 
@@ -222,6 +222,9 @@ struct CreditsView: View {
                             }
                         }
                     }
+                }
+                Section("Music") {
+                    Text("“Windowsill” by day and “Lullaby” at night, composed for HouseCat.").font(.subheadline)
                 }
                 Section("Weather and places") {
                     VStack(alignment: .leading, spacing: 2) {

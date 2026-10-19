@@ -34,6 +34,7 @@ enum LaunchFilm {
         made.play()
         player = made
         state.holding = true
+        Music.hush(.launchFilm, true)
         NotificationCenter.default.addObserver(
             forName: AVPlayerItem.didPlayToEndTimeNotification,
             object: made.currentItem,
@@ -52,6 +53,7 @@ enum LaunchFilm {
     /// The launch's film is done with: it ended, or a tap skipped it.
     static func release() {
         state.holding = false
+        Music.hush(.launchFilm, false)
     }
 
     /// Returns when the home should start being built: `lead` seconds before the launch film ends, so it is ready as

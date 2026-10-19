@@ -507,8 +507,12 @@ final class Visit {
     }
 
     /// The cat set off to something by itself: now and then it says something about it (or about what it would
-    /// love, with the bubble), never over another line and not too often.
+    /// love, with the bubble), never over another line and not too often. A piece it has never used is noted (its
+    /// XP, and the goals for what it loves).
     private func catChose(_ choice: BehaviourChoice) {
+        if GameSession.shared.catUses(choice.item) {
+            refreshStats()
+        }
         guard !decorating, greeting == nil, Date() >= quietUntil else { return }
         let chatty = GameSession.shared.identity?.has(.chatty) == true
         if let context = choice.lineContext, context.hasPrefix("want.") {

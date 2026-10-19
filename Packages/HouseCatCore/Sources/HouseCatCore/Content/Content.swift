@@ -70,7 +70,8 @@ public struct ContentBundle: Sendable {
             }),
             streakOutfits: Dictionary(uniqueKeysWithValues: outfits.outfits.compactMap { outfit in
                 outfit.earnedBy.flatMap { $0.hasPrefix("streak_") ? Int($0.dropFirst("streak_".count)) : nil }.map { ($0, outfit.id) }
-            })
+            }),
+            path: objectives.chapters.map(\.definition)
         )
     }
 
@@ -314,10 +315,60 @@ public struct ObjectivesFile: Codable, Sendable {
         }
     }
 
+    /// A chapter of the path (`PathRules`), with the words the tracker and the Goals page show. `{cat}` in a name or
+    /// text is the cat's name.
+    public struct Chapter: Codable, Sendable {
+        public struct Step: Codable, Sendable {
+            public var id: String
+            public var name: String
+            public var text: String
+            public var metric: ObjectiveMetric
+            public var target: Int
+            public var room: RoomID?
+            public var screen: String?
+            public var beans: Int
+            public var xp: Int
+            public var passPoints: Int?
+            public var outfit: String?
+            /// A piece of furniture it gives.
+            public var item: String?
+            public var optional: Bool?
+
+            public var definition: PathStepDefinition {
+                PathStepDefinition(
+                    id: id, metric: metric, target: target, room: room, screen: screen, beans: beans, xp: xp,
+                    passPoints: passPoints ?? 0, outfit: outfit, item: item, optional: optional ?? false
+                )
+            }
+        }
+
+        public var id: String
+        public var name: String
+        /// When it is for ("The first hour").
+        public var when: String
+        /// Said when it is done ("{cat} feels at home.").
+        public var done: String
+        public var steps: [Step]
+        public var beans: Int
+        public var xp: Int
+        public var outfit: String?
+        public var item: String?
+
+        public var definition: PathChapterDefinition {
+            PathChapterDefinition(id: id, steps: steps.map(\.definition), beans: beans, xp: xp, outfit: outfit, item: item)
+        }
+    }
+
     public var version: Int
     public var daily: [Objective]
     public var weekly: [Objective]
     public var achievements: [Objective]
+    /// The path, chapter by chapter (absent in an older file: no path).
+    public var path: [Chapter]?
+
+    public var chapters: [Chapter] {
+        path ?? []
+    }
 }
 
 // MARK: seasons.json, minigames.json

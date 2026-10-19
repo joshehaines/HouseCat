@@ -427,8 +427,6 @@ struct RoomScreen: View {
     @State private var showPass = false
     @State private var showMenu = false
     @State private var showGoals = false
-    /// The goals met when last looked, for a note when another is met.
-    @State private var goalsMet: Set<String>?
     /// Short of Beans for something in the room: the top-up, then the purchase.
     @State private var topUp: ShopView.TopUpRequest?
     /// The window's size (the room fills it), for the scale of the controls and cards on an iPad.
@@ -532,6 +530,19 @@ struct RoomScreen: View {
                 if visit.scene is RoomScene {
                     roomControls
                     roomMenu
+                }
+            }
+            // The goals: the next one or two always on screen, top middle (Josh, 19 Oct: "dont know what to do";
+            // App/Sources/GoalTracker.swift). It celebrates every goal met, so the note that did is gone.
+            .overlayPreferenceValue(TourTargets.self) { targets in
+                if visit.scene is RoomScene, visit.ready {
+                    GoalTrackerLayer(
+                        visit: visit,
+                        targets: targets,
+                        hidden: trackerHidden,
+                        open: goal,
+                        roomTitle: roomTitle
+                    )
                 }
             }
             .task(id: [
@@ -729,16 +740,6 @@ struct RoomScreen: View {
             // Once the room itself is up (the cold open comes first on a first arrival).
             .task(id: visit.ready && visit.scene is RoomScene) { await startTour() }
             // The once-only offer, a moment after the trust toast, never during the tour.
-            // A goal met (today's, this week's or a milestone): a note over the room with what it paid.
-            .onChange(of: visit.stats, initial: true) {
-                let met = CatScreens.goalsMet()
-                defer { goalsMet = met }
-                guard let before = goalsMet, let objectives = GameSession.shared.content?.objectives else { return }
-                let all = objectives.daily + objectives.weekly + objectives.achievements
-                if let goal = all.first(where: { met.subtracting(before).contains($0.id) }) {
-                    visit.notify("\(goal.name) · +\(goal.beans) Beans", icon: "objectives_clipboard_with_a_tick")
-                }
-            }
             .onChange(of: visit.trustRose) { _, tier in
                 var due = tier.map { Offers.due(tier: $0, owned: store?.entitlements ?? .none) } ?? false
                 #if DEBUG
@@ -1139,6 +1140,7 @@ struct RoomScreen: View {
             },
             RoomMenu.Item(id: "map", title: "Map", icon: "map_pin") {
                 showMenu = false
+                GameSession.shared.saw("map")
                 moving = WorldMapModel(mode: .move, current: session.state(at: session.now()))
             },
             RoomMenu.Item(id: "book", title: "Book", icon: "collection_book") {
@@ -1214,6 +1216,66 @@ struct RoomScreen: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .ignoresSafeArea()
         .animation(.easeOut(duration: 0.2), value: showMenu)
+    }
+
+    /// A tap on a goal in the tracker: where it is done. Places in the menu open as the menu opens them.
+    private func goal(_ action: GoalAction) {
+        switch action {
+        case .play:
+            if visit.wantsToPlay() {
+                choosingGame = true
+            }
+        case .nap:
+            if !naps.isNapping {
+                offeringNap = true
+            }
+        case .wardrobe: showProfile = true
+        case .streak: showStreak = true
+        case .road: showRoad = true
+        case let .decorate(room):
+            if let room, room != visit.activeRoom, visit.openRooms.contains(room) {
+                visit.go(to: room)
+            }
+            if !visit.decorating {
+                visit.toggleDecorating()
+            }
+        case let .room(room):
+            if visit.openRooms.contains(room) {
+                visit.go(to: room)
+            } else {
+                visit.offer(room)
+            }
+        case .map, .book, .pass, .goals:
+            let id = switch action {
+            case .map: "map"
+            case .book: "book"
+            case .pass: "pass"
+            default: "goals"
+            }
+            if let item = menuItems.first(where: { $0.id == id }) {
+                item.action()
+            } else {
+                showGoals = true
+            }
+        case .point, .cat:
+            break
+        }
+    }
+
+    /// The goal tracker steps aside while decorating, trying a look, in the menu, and in the tour but for its own
+    /// step (the tour's card would cover it).
+    private var trackerHidden: Bool {
+        visit.decorating || visit.previewing != nil || showMenu || (tour.isRunning && !["goals", "reward"].contains(tour.step?.id ?? ""))
+    }
+
+    /// The Goals page, with the cat's name and this home's rooms.
+    private func goalsPage(_ board: GoalBoard) -> GoalsView {
+        GoalsView(board: board, catName: visit.catName ?? "Your cat", roomTitle: roomTitle) { showGoals = false }
+    }
+
+    /// A room's name in this home (a garden upstairs is the balcony).
+    private func roomTitle(_ room: RoomID) -> String {
+        Visit.title(of: room, upstairs: ((visit.scene as? RoomScene)?.house.room(room)?.storey ?? 0) > 0)
     }
 
     private func openShop(_ section: ShopView.Section?) {
@@ -1335,7 +1397,7 @@ struct RoomScreen: View {
             .overlay {
                 card(showGoals, close: { showGoals = false }) {
                     if let board = CatScreens.goals() {
-                        GoalsView(board: board) { showGoals = false }
+                        goalsPage(board)
                     }
                 }
             }

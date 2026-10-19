@@ -416,6 +416,16 @@
       "ladder": "care_trust"
     },
     {
+      "id": "care_naps_1",
+      "name": "Catnap",
+      "text": "Settle your cat down for 5 naps.",
+      "metric": "naps",
+      "target": 5,
+      "beans": 25,
+      "passPoints": 0,
+      "ladder": "care_naps"
+    },
+    {
       "id": "care_naps",
       "name": "Nap enthusiast",
       "text": "Settle your cat down for 20 naps.",
@@ -423,7 +433,47 @@
       "target": 20,
       "beans": 75,
       "passPoints": 0,
-      "ladder": null
+      "ladder": "care_naps"
+    },
+    {
+      "id": "care_naps_3",
+      "name": "Professional napper",
+      "text": "Settle your cat down for 100 naps.",
+      "metric": "naps",
+      "target": 100,
+      "beans": 250,
+      "passPoints": 0,
+      "ladder": "care_naps"
+    },
+    {
+      "id": "care_loves_1",
+      "name": "Well chosen",
+      "text": "Your cat uses 5 different pieces you put out.",
+      "metric": "cat_used_items",
+      "target": 5,
+      "beans": 50,
+      "passPoints": 0,
+      "ladder": "care_loves"
+    },
+    {
+      "id": "care_loves_2",
+      "name": "Just what they wanted",
+      "text": "Your cat uses 15 different pieces you put out.",
+      "metric": "cat_used_items",
+      "target": 15,
+      "beans": 150,
+      "passPoints": 0,
+      "ladder": "care_loves"
+    },
+    {
+      "id": "care_loves_3",
+      "name": "Loved, every bit",
+      "text": "Your cat uses 40 different pieces you put out.",
+      "metric": "cat_used_items",
+      "target": 40,
+      "beans": 300,
+      "passPoints": 0,
+      "ladder": "care_loves"
     },
     {
       "id": "home_items_1",
@@ -486,6 +536,36 @@
       "ladder": "home_rooms"
     },
     {
+      "id": "home_furnished_1",
+      "name": "A room done",
+      "text": "Furnish a room: five pieces or more in it.",
+      "metric": "rooms_furnished",
+      "target": 1,
+      "beans": 50,
+      "passPoints": 0,
+      "ladder": "home_furnished"
+    },
+    {
+      "id": "home_furnished_2",
+      "name": "Half the house",
+      "text": "Furnish three rooms.",
+      "metric": "rooms_furnished",
+      "target": 3,
+      "beans": 200,
+      "passPoints": 0,
+      "ladder": "home_furnished"
+    },
+    {
+      "id": "home_furnished_3",
+      "name": "Every room furnished",
+      "text": "Furnish all six rooms.",
+      "metric": "rooms_furnished",
+      "target": 6,
+      "beans": 500,
+      "passPoints": 0,
+      "ladder": "home_furnished"
+    },
+    {
       "id": "home_surfaces_1",
       "name": "New look",
       "text": "Change a wallpaper or floor.",
@@ -542,6 +622,16 @@
       "metric": "level",
       "target": 20,
       "beans": 400,
+      "passPoints": 0,
+      "ladder": "home_level"
+    },
+    {
+      "id": "home_level_4",
+      "name": "Part of the furniture",
+      "text": "Reach level 30.",
+      "metric": "level",
+      "target": 30,
+      "beans": 750,
       "passPoints": 0,
       "ladder": "home_level"
     },
@@ -686,6 +776,36 @@
       "ladder": "streak_long"
     },
     {
+      "id": "streak_days_1",
+      "name": "Familiar face",
+      "text": "Visit on 30 days.",
+      "metric": "days_visited",
+      "target": 30,
+      "beans": 75,
+      "passPoints": 0,
+      "ladder": "streak_days"
+    },
+    {
+      "id": "streak_days_2",
+      "name": "Part of the family",
+      "text": "Visit on 100 days.",
+      "metric": "days_visited",
+      "target": 100,
+      "beans": 250,
+      "passPoints": 0,
+      "ladder": "streak_days"
+    },
+    {
+      "id": "streak_days_3",
+      "name": "Every season",
+      "text": "Visit on 365 days.",
+      "metric": "days_visited",
+      "target": 365,
+      "beans": 500,
+      "passPoints": 0,
+      "ladder": "streak_days"
+    },
+    {
       "id": "collection_gifts_1",
       "name": "First finds",
       "text": "Collect 10 gifts.",
@@ -773,7 +893,7 @@
       "target": 1,
       "beans": 25,
       "passPoints": 0,
-      "ladder": null
+      "ladder": "collection_outfits"
     },
     {
       "id": "collection_outfits_2",
@@ -783,7 +903,17 @@
       "target": 3,
       "beans": 100,
       "passPoints": 0,
-      "ladder": null
+      "ladder": "collection_outfits"
+    },
+    {
+      "id": "collection_outfits_3",
+      "name": "Fashion plate",
+      "text": "Try ten different outfits on your cat.",
+      "metric": "outfits_worn",
+      "target": 10,
+      "beans": 250,
+      "passPoints": 0,
+      "ladder": "collection_outfits"
     },
     {
       "id": "explore_season_1",
@@ -816,6 +946,26 @@
       "ladder": null
     },
     {
+      "id": "explore_homes_1",
+      "name": "Neighbours",
+      "text": "Visit three other cats' homes on the map.",
+      "metric": "homes_visited",
+      "target": 3,
+      "beans": 50,
+      "passPoints": 0,
+      "ladder": "explore_homes"
+    },
+    {
+      "id": "explore_homes_2",
+      "name": "Seen the world",
+      "text": "Visit all seven cats' homes on the map.",
+      "metric": "homes_visited",
+      "target": 7,
+      "beans": 150,
+      "passPoints": 0,
+      "ladder": "explore_homes"
+    },
+    {
       "id": "explore_rooms_1",
       "name": "Room to room",
       "text": "Visit two different rooms.",
@@ -844,6 +994,66 @@
       "beans": 250,
       "passPoints": 0,
       "ladder": "explore_rooms"
+    },
+    {
+      "id": "play_games_1",
+      "name": "Game on",
+      "text": "Play 10 games with your cat.",
+      "metric": "games_played",
+      "target": 10,
+      "beans": 25,
+      "passPoints": 0,
+      "ladder": "play_games"
+    },
+    {
+      "id": "play_games_2",
+      "name": "Playful",
+      "text": "Play 100 games with your cat.",
+      "metric": "games_played",
+      "target": 100,
+      "beans": 100,
+      "passPoints": 0,
+      "ladder": "play_games"
+    },
+    {
+      "id": "play_games_3",
+      "name": "Never bored",
+      "text": "Play 500 games with your cat.",
+      "metric": "games_played",
+      "target": 500,
+      "beans": 250,
+      "passPoints": 0,
+      "ladder": "play_games"
+    },
+    {
+      "id": "play_stars_1",
+      "name": "Sharp claws",
+      "text": "Earn three stars in 5 games.",
+      "metric": "three_star_games",
+      "target": 5,
+      "beans": 50,
+      "passPoints": 0,
+      "ladder": "play_stars"
+    },
+    {
+      "id": "play_stars_2",
+      "name": "Star pupil",
+      "text": "Earn three stars in 25 games.",
+      "metric": "three_star_games",
+      "target": 25,
+      "beans": 150,
+      "passPoints": 0,
+      "ladder": "play_stars"
+    },
+    {
+      "id": "play_stars_3",
+      "name": "Perfect paws",
+      "text": "Earn three stars in 100 games.",
+      "metric": "three_star_games",
+      "target": 100,
+      "beans": 400,
+      "passPoints": 0,
+      "ladder": "play_stars"
     },
     {
       "id": "seasons_tiers_1",
@@ -924,6 +1134,310 @@
       "beans": 500,
       "passPoints": 0,
       "ladder": "seasons_together"
+    }
+  ],
+  "path": [
+    {
+      "id": "path_moving_in",
+      "name": "Moving in",
+      "when": "The first hour",
+      "done": "{cat} feels at home.",
+      "beans": 100,
+      "xp": 30,
+      "item": "living_scratch",
+      "steps": [
+        {
+          "id": "path_feed",
+          "name": "Breakfast",
+          "text": "Feed {cat}.",
+          "metric": "total_feeds",
+          "target": 1,
+          "beans": 15,
+          "xp": 10,
+          "passPoints": 5
+        },
+        {
+          "id": "path_stroke",
+          "name": "Hello, you",
+          "text": "Give {cat} a stroke.",
+          "metric": "total_pets",
+          "target": 1,
+          "beans": 15,
+          "xp": 10,
+          "passPoints": 5
+        },
+        {
+          "id": "path_cosy",
+          "name": "Make it cosy",
+          "text": "Put 3 pieces in the living room.",
+          "metric": "room_pieces",
+          "target": 3,
+          "room": "living",
+          "item": "living_rug",
+          "beans": 30,
+          "xp": 15,
+          "passPoints": 5
+        },
+        {
+          "id": "path_play",
+          "name": "Playtime",
+          "text": "Play a game with {cat}.",
+          "metric": "games_played",
+          "target": 1,
+          "beans": 20,
+          "xp": 15,
+          "passPoints": 5
+        },
+        {
+          "id": "path_nap",
+          "name": "Forty winks",
+          "text": "Settle {cat} down for a nap.",
+          "metric": "naps",
+          "target": 1,
+          "beans": 20,
+          "xp": 15,
+          "passPoints": 5
+        },
+        {
+          "id": "path_level",
+          "name": "Level 2",
+          "text": "Everything you do earns XP. Reach level 2.",
+          "metric": "level",
+          "target": 2,
+          "beans": 25,
+          "xp": 0,
+          "passPoints": 5
+        },
+        {
+          "id": "path_bedroom",
+          "name": "The bedroom",
+          "text": "Open the bedroom. It comes with a nightcap.",
+          "metric": "rooms_opened",
+          "target": 2,
+          "outfit": "nightcap",
+          "beans": 0,
+          "xp": 20,
+          "passPoints": 5
+        },
+        {
+          "id": "path_dress",
+          "name": "Dress-up",
+          "text": "Put the nightcap on {cat}.",
+          "metric": "outfits_worn",
+          "target": 1,
+          "beans": 20,
+          "xp": 10,
+          "passPoints": 5
+        },
+        {
+          "id": "path_map",
+          "name": "Home on the map",
+          "text": "Find your home on the map.",
+          "metric": "screen_seen",
+          "target": 1,
+          "screen": "map",
+          "beans": 20,
+          "xp": 10,
+          "passPoints": 5
+        }
+      ]
+    },
+    {
+      "id": "path_settling_in",
+      "name": "Getting to know you",
+      "when": "The first week",
+      "done": "{cat} has settled in.",
+      "beans": 150,
+      "xp": 40,
+      "outfit": "beret",
+      "item": "living_lamp",
+      "steps": [
+        {
+          "id": "path_tomorrow",
+          "name": "See you tomorrow",
+          "text": "Visit on two different days.",
+          "metric": "days_visited",
+          "target": 2,
+          "beans": 20,
+          "xp": 10,
+          "passPoints": 5
+        },
+        {
+          "id": "path_present",
+          "name": "A present",
+          "text": "Collect a present {cat} brings you.",
+          "metric": "total_gifts",
+          "target": 1,
+          "beans": 20,
+          "xp": 10,
+          "passPoints": 5
+        },
+        {
+          "id": "path_trust",
+          "name": "A little trust",
+          "text": "Feed {cat} on three days.",
+          "metric": "care_days",
+          "target": 3,
+          "beans": 30,
+          "xp": 15,
+          "passPoints": 5
+        },
+        {
+          "id": "path_bedtime",
+          "name": "Bedtime",
+          "text": "Put 2 pieces in the bedroom.",
+          "metric": "room_pieces",
+          "target": 2,
+          "room": "bedroom",
+          "beans": 30,
+          "xp": 15,
+          "passPoints": 5
+        },
+        {
+          "id": "path_stars",
+          "name": "Three stars",
+          "text": "Earn three stars in a game.",
+          "metric": "three_star_games",
+          "target": 1,
+          "beans": 30,
+          "xp": 15,
+          "passPoints": 5
+        },
+        {
+          "id": "path_loves",
+          "name": "Something they love",
+          "text": "{cat} tries out 3 pieces you put out.",
+          "metric": "cat_used_items",
+          "target": 3,
+          "item": "living_plant",
+          "beans": 30,
+          "xp": 15,
+          "passPoints": 5
+        },
+        {
+          "id": "path_kitchen",
+          "name": "The kitchen",
+          "text": "Open the kitchen at level 3.",
+          "metric": "rooms_opened",
+          "target": 3,
+          "beans": 0,
+          "xp": 30,
+          "passPoints": 5
+        },
+        {
+          "id": "path_book",
+          "name": "Collector",
+          "text": "Find 4 different presents for the book.",
+          "metric": "distinct_gifts",
+          "target": 4,
+          "beans": 30,
+          "xp": 15,
+          "passPoints": 5
+        }
+      ]
+    },
+    {
+      "id": "path_making_home",
+      "name": "Making it home",
+      "when": "The first month",
+      "done": "This is {cat}'s home now.",
+      "beans": 300,
+      "xp": 80,
+      "item": "living_picture",
+      "steps": [
+        {
+          "id": "path_fresh",
+          "name": "Fresh look",
+          "text": "Change a wallpaper and a floor.",
+          "metric": "surfaces_changed",
+          "target": 2,
+          "beans": 30,
+          "xp": 15,
+          "passPoints": 5
+        },
+        {
+          "id": "path_level6",
+          "name": "Level 6",
+          "text": "Reach level 6, when the garden opens.",
+          "metric": "level",
+          "target": 6,
+          "beans": 40,
+          "xp": 0,
+          "passPoints": 5
+        },
+        {
+          "id": "path_wardrobe",
+          "name": "Dress-up again",
+          "text": "Try two different outfits on {cat}.",
+          "metric": "outfits_worn",
+          "target": 2,
+          "beans": 40,
+          "xp": 15,
+          "passPoints": 5
+        },
+        {
+          "id": "path_furnished",
+          "name": "Furnished",
+          "text": "Own 15 pieces of furniture.",
+          "metric": "items_owned",
+          "target": 15,
+          "beans": 50,
+          "xp": 20,
+          "passPoints": 5
+        },
+        {
+          "id": "path_comfortable",
+          "name": "Comfortable",
+          "text": "Feed {cat} on 14 days.",
+          "metric": "care_days",
+          "target": 14,
+          "beans": 60,
+          "xp": 30,
+          "passPoints": 5
+        },
+        {
+          "id": "path_wins",
+          "name": "Star player",
+          "text": "Earn a star in 20 games.",
+          "metric": "minigame_wins",
+          "target": 20,
+          "beans": 40,
+          "xp": 20,
+          "passPoints": 5
+        },
+        {
+          "id": "path_regular",
+          "name": "Regular",
+          "text": "Visit on 20 different days.",
+          "metric": "days_visited",
+          "target": 20,
+          "beans": 50,
+          "xp": 30,
+          "passPoints": 5
+        },
+        {
+          "id": "path_homes",
+          "name": "Next door",
+          "text": "Visit 3 other cats' homes on the map.",
+          "metric": "homes_visited",
+          "target": 3,
+          "optional": true,
+          "beans": 40,
+          "xp": 20,
+          "passPoints": 5
+        },
+        {
+          "id": "path_pass",
+          "name": "Season rewards",
+          "text": "Claim 3 rewards on the season pass.",
+          "metric": "pass_tiers_claimed",
+          "target": 3,
+          "optional": true,
+          "beans": 40,
+          "xp": 15,
+          "passPoints": 5
+        }
+      ]
     }
   ]
 }

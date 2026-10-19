@@ -435,6 +435,33 @@ public enum Tuning {
         public static let weeklyCount = 3
     }
 
+    /// The path and the goal tracker on the room (Josh, 19 Oct: always know what to do next).
+    public enum Goals {
+        /// A room with this many pieces out counts as furnished (the `rooms_furnished` ladder).
+        public static let furnishedRoomPieces = 5
+        /// Goals the tracker shows at once.
+        public static let trackerSlots = 2
+        /// A chapter of the path has at most this many steps ("3 of 10" is a chapter; more drags).
+        public static let stepsPerChapterMost = 10
+        /// Other cats' homes open on the world map from this level (the map session's explore), and the goals to
+        /// visit them with it.
+        public static let homesLevel = 5
+        /// The tracker card (points, on a phone; an iPad draws it at the controls' scale): its width, the narrowest
+        /// it may get between the badge and the Beans, its gap from each, and the room kept for the Beans bar.
+        public static let cardWidth = 300.0
+        public static let cardSmallest = 236.0
+        public static let cardGap = 10.0
+        public static let beansReserve = 176.0
+        /// A goal met stays ticked on the card this long before the next slides in.
+        public static let celebrationSeconds = 1.8
+        /// The card reads the save this often while the room is up (a goal met by a widget or the Watch shows too).
+        public static let refreshSeconds = 1.5
+        /// The paw a tap puts on a control stays this long.
+        public static let pointerSeconds = 3.5
+        public static let doneVolume = 0.6
+        public static let chapterVolume = 0.7
+    }
+
     /// Care actions (SPEC "The session loop").
     public enum Care {
         /// Taps in a row before the cat walks off (never a Velcro cat).
@@ -1345,7 +1372,7 @@ public enum Tuning {
         /// The shape of `HouseholdState` in a stored snapshot. Bump it whenever the state gains, loses or
         /// changes a field: an older snapshot is then ignored and the state refolded from the events, which
         /// are always kept (the snapshot is only a cache).
-        public static let snapshotVersion = 10
+        public static let snapshotVersion = 11
     }
 
     /// The stray (SPEC "The stray").

@@ -256,9 +256,14 @@ struct ContentValidationTests {
         let objectives = content.objectives
         #expect(objectives.daily.count == 20)
         #expect(objectives.weekly.count == 12)
-        #expect(objectives.achievements.count == 60)
+        // 60 from the brief and 21 more on 19 Oct (ladders for games, stars, naps, outfits, visits, furnished rooms,
+        // the pieces the cat uses, other cats' homes, and level 30).
+        #expect(objectives.achievements.count == 81)
         let all = objectives.daily + objectives.weekly + objectives.achievements
         #expect(Set(all.map(\.id)).count == all.count, "duplicate objective ids")
+        for objective in objectives.achievements {
+            #expect(![.roomPieces, .screenSeen].contains(objective.metric), "\(objective.id): that metric needs a path step's room or screen")
+        }
         for objective in objectives.daily + objectives.weekly {
             #expect(!objective.metric.isLifetime, "\(objective.id): daily and weekly objectives count within the period")
         }
@@ -272,6 +277,45 @@ struct ContentValidationTests {
                 Self.problems(in: objective.text, limit: 70).isEmpty,
                 "\(objective.id): \(Self.problems(in: objective.text, limit: 70))"
             )
+        }
+    }
+
+    /// The path (objectives.json `path`): three chapters, every step something the game can count, every reward real.
+    @Test func thePathIsWellFormed() {
+        let objectives = content.objectives
+        let outfits = Set(content.outfits.outfits.map(\.id))
+        let items = Set(content.catalogue.items.map(\.id))
+        let chapters = objectives.chapters
+        #expect(chapters.map(\.name) == ["Moving in", "Getting to know you", "Making it home"])
+        let ids = chapters.map(\.id) + chapters.flatMap(\.steps).map(\.id)
+        let objectiveIDs = Set((objectives.daily + objectives.weekly + objectives.achievements).map(\.id))
+        #expect(Set(ids).count == ids.count, "duplicate path ids")
+        #expect(objectiveIDs.isDisjoint(with: ids), "a path id is also an objective's")
+        for chapter in chapters {
+            #expect(chapter.steps.count >= 5 && chapter.steps.count <= Tuning.Goals.stepsPerChapterMost, "\(chapter.id): \(chapter.steps.count) steps")
+            #expect(chapter.beans > 0 && chapter.name.count <= 24)
+            #expect(Self.problems(in: chapter.done, limit: 60).isEmpty, "\(chapter.id): \(Self.problems(in: chapter.done, limit: 60))")
+            if let outfit = chapter.outfit {
+                #expect(outfits.contains(outfit), "\(chapter.id): unknown outfit \(outfit)")
+            }
+            if let item = chapter.item {
+                #expect(items.contains(item), "\(chapter.id): unknown piece \(item)")
+            }
+            for step in chapter.steps {
+                #expect(step.metric.isLifetime, "\(step.id): the path counts lifetime totals")
+                #expect(step.target >= 1 && step.beans >= 0 && step.xp >= 0)
+                #expect(step.beans + step.xp > 0 || step.outfit != nil, "\(step.id): pays nothing")
+                #expect(step.name.count <= 24, "\(step.id): name too long")
+                #expect(Self.problems(in: step.text, limit: 60).isEmpty, "\(step.id): \(Self.problems(in: step.text, limit: 60))")
+                #expect((step.metric == .roomPieces) == (step.room != nil), "\(step.id): a room is for room_pieces")
+                #expect((step.metric == .screenSeen) == (step.screen != nil), "\(step.id): a screen is for screen_seen")
+                if let outfit = step.outfit {
+                    #expect(outfits.contains(outfit), "\(step.id): unknown outfit \(outfit)")
+                }
+                if let item = step.item {
+                    #expect(items.contains(item), "\(step.id): unknown piece \(item)")
+                }
+            }
         }
     }
 

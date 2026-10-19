@@ -112,6 +112,7 @@
   "homes": "Each home is painted for where you live.",
   "room": [
     { "id": "welcome", "text": "This is your living room. {cat} has just moved in." },
+    { "id": "point", "text": "Here's the idea: care for {cat} every day to win their trust, and make this home yours." },
     { "id": "feed", "target": "feed", "waitFor": "fed", "text": "First things first: breakfast. Tap Feed." },
     { "id": "pet", "waitFor": "petted", "text": "Now say hello. Tap {cat} for a stroke." },
     { "id": "decorate", "target": "decorate", "waitFor": "decorating", "text": "Let's make it yours. Tap Decorate." },
@@ -121,6 +122,8 @@
     { "id": "nap", "target": "nap", "text": "The moon starts a twenty-minute nap, on your Lock Screen too." },
     { "id": "menu", "target": "menu", "text": "Your rooms, the book of {cat}'s presents and the map of your home: all in the menu." },
     { "id": "shop", "target": "shop", "text": "The shop has sets, outfits and Cat Club. Nothing in it is needed to play." },
+    { "id": "level", "target": "plaque", "text": "Everything you do earns XP. Each new level opens another room of the house." },
+    { "id": "goals", "target": "goals", "text": "Your next goals are always up here. Each one pays Beans and XP, and leads to the next." },
     { "id": "reward", "reward": true, "text": "Welcome home! Here are some Beans to get you started." }
   ]
 }

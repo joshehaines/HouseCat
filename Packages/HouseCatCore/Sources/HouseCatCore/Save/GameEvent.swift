@@ -94,6 +94,9 @@ public struct GameEvent: Codable, Hashable, Sendable, Identifiable {
         case homeStyleChosen(HouseStyle)
         /// The intro's tour of the room was finished: its welcome Beans, once a household.
         case tourFinished
+        /// A screen opened for the first time on this device ("map"): the path's steps that ask the player to find
+        /// one. It grants nothing by itself.
+        case screenSeen(String)
 
         // Streak
         case pauseStarted(days: Int)

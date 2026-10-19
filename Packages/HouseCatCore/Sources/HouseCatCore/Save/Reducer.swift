@@ -33,7 +33,7 @@ extension HouseholdState {
         case .itemBought, .itemGranted, .purchaseBeansGranted, .itemPlaced, .itemMoved, .itemStored, .catUsedNewItem, .roomOpened,
              .roomVisited,
              .surfaceChanged, .outfitWorn, .outfitTakenOff, .homeMoved, .seasonModeChanged, .homePlaced, .seasonSet, .homeStyleChosen, .tourFinished,
-             .bundleGranted, .outfitBought:
+             .bundleGranted, .outfitBought, .screenSeen:
             applyHome(event, context: context)
         case .pauseStarted, .pauseEnded, .passPurchased, .passTierClaimed, .clubDayRecorded, .eventRewardClaimed, .streakRepaired,
              .questClaimed:
@@ -44,6 +44,7 @@ extension HouseholdState {
             applyMembership(event)
         }
 
+        checkPath(on: day, context: context)
         checkAchievements(on: day, context: context)
     }
 
@@ -192,6 +193,8 @@ extension HouseholdState {
             if gift {
                 outfitGifts.append(OutfitGift(outfitID: outfitID, from: event.actor.key, at: event.at))
             }
+        case let .screenSeen(screen):
+            lifetime.screensSeen.insert(screen)
         case .tourFinished:
             guard !tourRewarded else { break }
             tourRewarded = true
@@ -470,6 +473,7 @@ extension HouseholdState {
     private mutating func playMiniGame(stars: Int, context: RulesContext) {
         guard let tally = today, tally.plays < Tuning.MiniGames.playsPerDay else { return }
         today?.plays += 1
+        lifetime.minigamesPlayed += 1
         gainXP(Tuning.XP.play, context: context)
         let stars = min(max(stars, 0), Tuning.MiniGames.starBeans.count)
         if stars >= 1 {
@@ -611,6 +615,46 @@ extension HouseholdState {
             guard objective.metric.isLifetime, lifetimeValue(objective.metric, on: day) >= objective.target else { continue }
             completedAchievements.insert(objective.id)
             reward(objective, context: context)
+        }
+    }
+
+    /// The path (`PathRules`): each step of the open chapters met pays once; a chapter whose steps are all done pays
+    /// its own reward and opens the next. Over again until nothing changes, as one step's XP can meet a level step.
+    private mutating func checkPath(on day: GameDay, context: RulesContext) {
+        var changed = true
+        while changed {
+            changed = false
+            for chapter in context.path {
+                for step in chapter.steps where !pathDone.contains(step.id) && PathRules.met(step, in: self, on: day) {
+                    pathDone.insert(step.id)
+                    rewardPath(
+                        beans: step.beans, xp: step.xp, passPoints: step.passPoints, outfit: step.outfit, item: step.item, context: context
+                    )
+                    changed = true
+                }
+                guard !pathDone.contains(chapter.id) else { continue }
+                // Later chapters stay closed until this one is done.
+                guard PathRules.isComplete(chapter, done: pathDone) else { break }
+                pathDone.insert(chapter.id)
+                rewardPath(beans: chapter.beans, xp: chapter.xp, passPoints: 0, outfit: chapter.outfit, item: chapter.item, context: context)
+                changed = true
+            }
+        }
+    }
+
+    private mutating func rewardPath(beans: Int, xp: Int, passPoints: Int, outfit: String?, item: String?, context: RulesContext) {
+        earn(beans)
+        if passPoints > 0 {
+            addPassPoints(passPoints, capped: false, context: context)
+        }
+        if let outfit {
+            ownedOutfits.insert(outfit)
+        }
+        if let item {
+            owned[item, default: 0] += 1
+        }
+        if xp > 0 {
+            gainXP(xp, context: context)
         }
     }
 

@@ -24,6 +24,8 @@ public struct RulesContext: Sendable {
     public var levels: LevelsFile?
     /// The outfits a streak earns, by its length in days (outfits.json `earnedBy` "streak_30": the hoodie).
     public var streakOutfits: [Int: String]
+    /// The path's chapters in order (objectives.json `path`): the first hour, week and month.
+    public var path: [PathChapterDefinition]
 
     /// A piece's footprint and layer, as PlacementRules reads it.
     public struct Shape: Sendable, Equatable {
@@ -51,8 +53,10 @@ public struct RulesContext: Sendable {
         bundles: [String: BundlesFile.Bundle] = [:],
         levels: LevelsFile? = nil,
         shapes: [String: Shape] = [:],
-        streakOutfits: [Int: String] = [:]
+        streakOutfits: [Int: String] = [:],
+        path: [PathChapterDefinition] = []
     ) {
+        self.path = path
         self.streakOutfits = streakOutfits
         self.events = events
         self.bundles = bundles
@@ -231,6 +235,9 @@ public struct Lifetime: Codable, Equatable, Sendable {
     /// Where visits have come from (the Mac and Watch objectives need the device).
     public var devicesUsed: Set<GameEvent.Source> = []
     public var usedItems: Set<String> = []
+    public var minigamesPlayed = 0
+    /// Screens opened at least once (`screenSeen`: the map), for the path's steps that ask the player to find them.
+    public var screensSeen: Set<String> = []
 }
 
 /// Everything derived from the event log. Built only by folding events
@@ -284,6 +291,8 @@ public struct HouseholdState: Codable, Equatable, Sendable {
     public internal(set) var pendingGifts: [GiftDraw] = []
     public internal(set) var passes: [String: SeasonProgress] = [:]
     public internal(set) var completedAchievements: Set<String> = []
+    /// The path's steps and chapters done (`PathRules`).
+    public internal(set) var pathDone: Set<String> = []
     public internal(set) var lifetime = Lifetime()
     /// Store transactions whose Beans have been granted.
     public internal(set) var grantedTransactions: Set<String> = []
@@ -371,6 +380,16 @@ public struct HouseholdState: Codable, Equatable, Sendable {
         }
     }
 
+    /// Pieces out in `room`.
+    public func pieces(in room: RoomID) -> Int {
+        placed.filter { $0.room == room }.count
+    }
+
+    /// Open rooms with enough out in them to count as furnished.
+    public var furnishedRooms: Int {
+        openedRooms.filter { pieces(in: $0) >= Tuning.Goals.furnishedRoomPieces }.count
+    }
+
     /// The value of a lifetime metric on `day`.
     public func lifetimeValue(_ metric: ObjectiveMetric, on day: GameDay) -> Int {
         switch metric {
@@ -402,6 +421,12 @@ public struct HouseholdState: Codable, Equatable, Sendable {
         case .catsAdopted: lifetime.catsAdopted
         case .sundayCards: lifetime.sundayCards
         case .togetherDays: cats.map { $0.togetherDays(on: day) }.max() ?? 0
+        case .gamesPlayed: lifetime.minigamesPlayed
+        case .daysVisited: lifetime.visits
+        case .careDays: cats.map(\.careDays).max() ?? 0
+        case .roomsFurnished: furnishedRooms
+        case .catUsedItems: lifetime.usedItems.count
+        case .homesVisited: lifetime.screensSeen.filter { $0.hasPrefix("home.") }.count
         default: 0
         }
     }

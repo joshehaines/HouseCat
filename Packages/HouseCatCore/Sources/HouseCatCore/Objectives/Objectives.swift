@@ -51,6 +51,22 @@ public enum ObjectiveMetric: String, CaseIterable, Codable, Sendable {
     case catsAdopted = "cats_adopted"
     case sundayCards = "sunday_cards"
     case togetherDays = "together_days"
+    // For the path and the newer ladders (Josh, 19 Oct: goals that point at what there is to do).
+    case gamesPlayed = "games_played"
+    /// Days with a visit, in a row or not.
+    case daysVisited = "days_visited"
+    /// Days the cat was fed: what trust is counted in.
+    case careDays = "care_days"
+    /// Pieces out in one room (a path step names the room).
+    case roomPieces = "room_pieces"
+    /// Rooms with at least `Tuning.Goals.furnishedRoomPieces` pieces out.
+    case roomsFurnished = "rooms_furnished"
+    /// Different pieces the cat has used (what it wanted, put out).
+    case catUsedItems = "cat_used_items"
+    /// A screen opened at least once (a path step names it: the map).
+    case screenSeen = "screen_seen"
+    /// Other cats' homes visited on the world map (`screenSeen` "home.<id>").
+    case homesVisited = "homes_visited"
 
     /// Whether the metric is a lifetime total (achievements) rather than a count within a period.
     public var isLifetime: Bool {

@@ -82,6 +82,7 @@ struct GoalsView: View {
             .scrollBounceBehavior(.basedOnSize)
             .frame(width: (270 + 14 + 290) * scale)
         }
+        .frame(width: (270 + 14 + 290) * scale)
         .padding(16 * scale)
         .containerRelativeFrame(.vertical) { height, _ in min(height - 64, 560 * scale) }
         .paper(RoundedRectangle(cornerRadius: 24 * scale, style: .continuous))

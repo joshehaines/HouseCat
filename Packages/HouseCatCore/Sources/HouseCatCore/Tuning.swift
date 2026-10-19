@@ -806,10 +806,16 @@ public enum Tuning {
     public enum Outdoors {
         public static let reach = 14.0
         public static let margin = 1.5
-        public static let count = 46
-        public static let attempts = 900
-        public static let spacing = 1.05
         public static let sizeVariation = 0.12
+        /// The garden's plan (OutdoorPlan, Josh 19 Oct: not at random): the tree lines this far behind the house
+        /// (cells, one line each) with trees this far apart; the front border this far out, its plants this far
+        /// apart with a gap this wide for the gate; each spot moved up to this far either way, home to home.
+        public static let treeRows = [3.2, 6.6]
+        public static let treeSpacing = 3.4
+        public static let borderDistance = 2.6
+        public static let borderSpacing = 1.7
+        public static let gateWidth = 3.4
+        public static let planJitter = 0.35
         /// A soft shadow under each piece: how dark, and how wide against the piece (a tree's round its trunk,
         /// not its whole crown).
         public static let shadowAlpha = 0.2

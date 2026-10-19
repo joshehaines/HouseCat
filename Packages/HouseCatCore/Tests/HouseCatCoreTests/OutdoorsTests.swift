@@ -31,7 +31,7 @@ struct OutdoorsTests {
         let cells = Double(Tuning.Room.gridWidth)
         for biome in Biome.allCases {
             let pieces = OutdoorRules.layout(biome: biome, rooms: rooms, seed: 42, season: .summer, snowy: false, file: content.outdoors)
-            #expect(pieces.count > Tuning.Outdoors.count / 2, "\(biome): \(pieces.count)")
+            #expect(pieces.count > 20, "\(biome): \(pieces.count)")
             for piece in pieces {
                 for room in rooms {
                     let inside = piece.u > room.u - Tuning.Outdoors.margin && piece.u < room.u + cells + Tuning.Outdoors.margin

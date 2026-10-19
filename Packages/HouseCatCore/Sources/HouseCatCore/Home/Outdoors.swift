@@ -24,8 +24,11 @@ public struct OutdoorsFile: Codable, Sendable {
         /// It blossoms in spring: petals drift from it, as leaves drift from a tree with an autumn picture.
         public var blossom: Bool?
         /// Where it goes on a street (a city's): "row" the buildings across the road, "kerb" a car parked at the far
-        /// kerb, "pavement" the near pavement (a bus shelter, a post box); nil, anywhere about the plot.
+        /// kerb, "pavement" the near pavement (a bus shelter, a post box).
         public var place: String?
+        /// What it is in the garden's plan (OutdoorPlan.Role): "tree", "hedge", "rock", "feature", "seat",
+        /// "birdtable", "pots", "shed", "line", "lamp".
+        public var role: String?
     }
 
     /// A street behind the house (Josh, 19 Oct: a city should look like a city): a road along the plot this many
@@ -106,8 +109,8 @@ public enum OutdoorRules {
     }
 
     /// Where the scenery stands round a plot of rooms (each a square of `Tuning.Room.gridWidth` cells from its
-    /// corner), laid out once from the household's seed: the same home always has the same garden. Pieces keep a
-    /// margin from every room and room from each other; tall ones only behind the house.
+    /// corner), laid out once from the household's seed as a garden is (OutdoorPlan): the same home always has the
+    /// same garden. Pieces keep a margin from every room; tall ones only behind the house.
     public static func layout(
         biome: Biome,
         rooms: [(u: Double, v: Double)],
@@ -138,24 +141,19 @@ public enum OutdoorRules {
         if let street {
             pieces = streetPieces(street, props: props, biome: biome, season: season, snowy: snowy, unit: unit)
         }
-        let free = props.filter { $0.place == nil }
-        let freeTotal = free.map(\.weight).reduce(0, +)
-        let target = pieces.count + t.count
-        for _ in 0 ..< t.attempts where pieces.count < target {
-            let u = minU - t.reach + unit() * (maxU - minU + 2 * t.reach)
-            let v = minV - t.reach + unit() * (maxV - minV + 2 * t.reach)
-            guard freeTotal > 0 else { break }
-            var pick = rng.below(freeTotal)
-            guard let prop = free.first(where: { pick -= $0.weight; return pick < 0 }) else { continue }
+        // The garden's plan: each spot gets one of its role's pieces, in turn by weight along a line.
+        func choices(_ role: OutdoorPlan.Role) -> [OutdoorsFile.Prop] {
+            props.filter { $0.role == role.rawValue }.flatMap { Array(repeating: $0, count: max(1, $0.weight)) }
+        }
+        let spots = OutdoorPlan.spots(rooms: rooms, street: street, has: { !choices($0).isEmpty }, unit: unit)
+        for spot in spots {
+            let options = choices(spot.role)
+            guard !options.isEmpty else { continue }
+            let prop = options[(spot.pick * 7 + Int(unit() * 3)) % options.count]
             let width = prop.width * (1 - t.sizeVariation + 2 * t.sizeVariation * unit())
-            let behind = u < minU - t.margin || v < minV - t.margin
-            let offRoad = street.map { abs(v - $0.v) > $0.width / 2 + width / 2 + 0.6 } ?? true
-            guard clearOfRooms(u, v, width / 2), !prop.tall || behind, offRoad else { continue }
-            let spaced = pieces.allSatisfy { other in
-                let du = other.u - u, dv = other.v - v
-                return (du * du + dv * dv).squareRoot() >= (other.width + width) / 2 * t.spacing
-            }
-            guard spaced else { continue }
+            guard clearOfRooms(spot.u, spot.v, width / 2) else { continue }
+            let behind = spot.u < minU - t.margin || spot.v < minV - t.margin
+            guard !prop.tall || behind else { continue }
             let picture = sprite(prop, biome: biome, season: season, snowy: snowy)
             let sheds: String? = if picture.hasSuffix("_autumn.png") {
                 "leaf"
@@ -167,8 +165,8 @@ public enum OutdoorRules {
             pieces.append(OutdoorPiece(
                 prop: prop.id,
                 sprite: picture,
-                u: u,
-                v: v,
+                u: spot.u,
+                v: spot.v,
                 width: width,
                 tall: prop.tall,
                 behind: behind,
@@ -218,7 +216,7 @@ public enum OutdoorRules {
         u = street.from + 2 + unit() * 3
         while u < street.to, let prop = pick("kerb") {
             pieces.append(piece(prop, u: u, v: street.kerb))
-            u += prop.width * 2 + 1 + unit() * 6
+            u += prop.width * 3 + 2 + unit() * 6
         }
         u = street.from + 4 + unit() * 4
         while u < street.to, let prop = pick("pavement") {

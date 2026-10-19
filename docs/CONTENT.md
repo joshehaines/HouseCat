@@ -68,10 +68,10 @@ The Clash of Clans achievement loop, paying Beans and pass points, never anythin
 
 ## 6. Mini-games (`minigames.json`)
 
-Five plays a day across the three; each play 5 XP (25 a day cap), stars pay Beans 2 / 4 / 6, 5 pass points a play. Under 30 seconds, one thumb, no fail state that upsets the cat.
-- **Laser Pointer**: drag the dot; the cat chases it. Score = seconds the cat stays within one cell of the dot over 30 s. Stars at 10 / 18 / 25 s.
-- **Knock It Off**: a shelf of five objects; tap when the cat's paw is over an object to knock it off; consecutive hits chain. 20 s. Stars at 3 / 4 / 5 objects.
-- **String Chase**: draw a path with your finger; the cat follows the string and collects five sparkles along it. 30 s. Stars at 3 / 4 / 5 sparkles.
+Five plays a day across the three; each play 5 XP (25 a day cap), stars pay Beans 2 / 4 / 6, 5 pass points a play. Every game is 20 s on the clock (Josh, 19 Oct: "very basic right now and too long"), about half a minute from the tap to the result; one thumb, no fail state that upsets the cat. Each scores points: a hit scores 1, and 1 more for every two hits in a row before it, up to 5 a hit; a miss, or three seconds without a hit, starts the combo again. Every game has golden targets (three times the points) and one catnip (the zoomies: double points for 4 s), and gets a little quicker as it goes. The stars are set so steady play earns three and careless play one or two (`MiniGameTests.starsRewardPlayingWell`).
+- **Laser Pointer**: drag the dot; the cat chases it, and close up it crouches and pounces. Hold the dot still and it lands on it: a catch (twice the points when it lands right on it); flick it away and it lands on nothing. The dot turns golden twice a game; catnip lies on the floor for a while. Stars at 30 / 80 / 150.
+- **Knock It Off**: the cat walks the mantel; tap and it swipes off whatever is in front of its nose. Things keep arriving (faster as the game goes on, six at most); each hit quickens the cat a little; a swipe at nothing rests it a moment. Golden things now and then, and a catnip fish (a longer reach). Stars at 25 / 60 / 120.
+- **String Chase**: draw a string with your finger; the cat runs along it. Three sparkles at a time appear a run away from the cat and fade after a few seconds (sooner as it goes); collect them quickly to keep the combo. Two golden sparkles and a catnip fish a game. Stars at 5 / 25 / 70.
 Personality changes the cat's chase speed and reaction lines only.
 
 ## 7. Seasons (`seasons.json`)

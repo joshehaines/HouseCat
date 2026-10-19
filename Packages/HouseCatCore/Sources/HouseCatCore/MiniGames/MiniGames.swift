@@ -50,228 +50,129 @@ public enum MiniGameRules {
     public static func endLine(stars: Int) -> String {
         stars > 0 ? "play.win" : "play.lose"
     }
-}
 
-/// Laser Pointer (CONTENT.md: drag the dot, the cat chases it; each second within one cell of the dot scores,
-/// 30 s). The cat steers with some weight to it, and a dot left still is soon ignored, as a cat would.
-public struct LaserChase: Equatable, Sendable {
-    public private(set) var cat: GamePoint
-    public private(set) var velocity = GamePoint(x: 0, y: 0)
-    public private(set) var dot: GamePoint
-    public private(set) var elapsed = 0.0
-    public private(set) var score = 0.0
-    /// How long the dot has been still.
-    public private(set) var stillFor = 0.0
-    public let duration: Double
-    public let speed: Double
-
-    public init(duration: Double, personality: Personality) {
-        self.duration = duration
-        speed = MiniGameRules.chaseSpeed(personality)
-        cat = GamePoint(x: Tuning.MiniGames.arenaWidth * 0.3, y: Tuning.MiniGames.arenaHeight * 0.4)
-        dot = GamePoint(x: Tuning.MiniGames.arenaWidth * 0.6, y: Tuning.MiniGames.arenaHeight * 0.5)
+    /// How far into the game's ramp `elapsed` is, 0 at the start and 1 at the end.
+    static func ramp(_ elapsed: Double, of duration: Double) -> Double {
+        duration > 0 ? min(1, max(0, elapsed / duration)) : 1
     }
 
-    public var isOver: Bool {
-        elapsed >= duration
+    /// From `values[0]` at the start of the game to `values[1]` at its end.
+    static func along(_ values: [Double], _ elapsed: Double, of duration: Double) -> Double {
+        let t = ramp(elapsed, of: duration)
+        return values[0] + (values[values.count - 1] - values[0]) * t
     }
 
-    /// Whether the cat is after the dot (a still dot bores it).
-    public var interested: Bool {
-        stillFor < Tuning.MiniGames.laserBoredSeconds
+    /// Seconds into a game, between `low` and `high`, from the game's seed.
+    static func moment(_ low: Double, _ high: Double, seed: inout DaySeed) -> Double {
+        low + Double(seed.below(1000)) / 1000 * (high - low)
     }
 
-    /// Within a cell of the dot: scoring now.
-    public var onTheDot: Bool {
-        interested && cat.distance(to: dot) <= 1
-    }
-
-    /// Moves the dot (the finger) and the cat on by `dt` seconds.
-    public mutating func step(_ dt: Double, dot newDot: GamePoint? = nil) {
-        guard !isOver else { return }
-        let dt = min(dt, duration - elapsed)
-        if let newDot {
-            // Moving if it goes faster than a crawl.
-            let moved = newDot.clamped.distance(to: dot)
-            stillFor = moved / max(dt, 0.001) > Tuning.MiniGames.laserMovingSpeed ? 0 : stillFor + dt
-            dot = newDot.clamped
-        } else {
-            stillFor += dt
-        }
-        // Steer towards the dot with a little inertia: it takes a moment to turn and a fast zigzag loses it.
-        var target = GamePoint(x: 0, y: 0)
-        if interested {
-            let gap = cat.distance(to: dot)
-            if gap > 0.15 {
-                target = GamePoint(x: (dot.x - cat.x) / gap * speed, y: (dot.y - cat.y) / gap * speed)
-            }
-        }
-        let grip = min(1, Tuning.MiniGames.laserGrip * dt)
-        velocity = GamePoint(x: velocity.x + (target.x - velocity.x) * grip, y: velocity.y + (target.y - velocity.y) * grip)
-        cat = GamePoint(x: cat.x + velocity.x * dt, y: cat.y + velocity.y * dt).clamped
-        if onTheDot {
-            score += dt
-        }
-        elapsed += dt
-    }
-}
-
-/// Knock It Off (CONTENT.md: five objects on a shelf, tap when the cat's paw is over one, hits chain, 20 s).
-/// The paw sweeps the shelf back and forth, a little faster after each hit; a miss breaks the chain and the
-/// cat stops to look at you for a moment.
-public struct KnockItOff: Equatable, Sendable {
-    public struct Object: Equatable, Sendable {
-        /// Its place along the shelf, 0 to 1.
-        public var at: Double
-        public var there: Bool
-    }
-
-    public private(set) var objects: [Object]
-    /// The paw along the shelf, 0 to 1.
-    public private(set) var paw = 0.0
-    public private(set) var elapsed = 0.0
-    public private(set) var chain = 0
-    public private(set) var bestChain = 0
-    /// After a miss the paw rests this long.
-    public private(set) var resting = 0.0
-    private var direction = 1.0
-    private var sweep: Double
-    public let duration: Double
-
-    public init(duration: Double, personality: Personality) {
-        self.duration = duration
-        let count = Tuning.MiniGames.shelfObjects
-        objects = (0 ..< count).map { Object(at: (Double($0) + 0.5) / Double(count), there: true) }
-        // The chase speed sets how fast the paw sweeps (a gremlin swipes, a loaf bats).
-        sweep = MiniGameRules.chaseSpeed(personality) / Tuning.MiniGames.pawSweepCells
-    }
-
-    public var knocked: Int {
-        objects.filter { !$0.there }.count
-    }
-
-    public var isOver: Bool {
-        elapsed >= duration || knocked == objects.count
-    }
-
-    public var score: Double {
-        Double(knocked)
-    }
-
-    public mutating func step(_ dt: Double) {
-        guard !isOver else { return }
-        let dt = min(dt, duration - elapsed)
-        elapsed += dt
-        // A rest after a miss uses up the start of the step; the paw moves for what is left.
-        let rest = min(resting, dt)
-        resting -= rest
-        let moving = dt - rest
-        guard moving > 0 else { return }
-        paw += direction * sweep * moving
-        if paw >= 1 {
-            paw = 2 - paw
-            direction = -1
-        } else if paw <= 0 {
-            paw = -paw
-            direction = 1
-        }
-    }
-
-    /// A tap: the object under the paw goes over the edge, or the chain breaks. Returns the object knocked.
-    @discardableResult
-    public mutating func tap() -> Int? {
-        guard !isOver, resting == 0 else { return nil }
-        if let index = objects.firstIndex(where: { $0.there && abs($0.at - paw) <= Tuning.MiniGames.pawReach }) {
-            objects[index].there = false
-            chain += 1
-            bestChain = max(bestChain, chain)
-            sweep *= Tuning.MiniGames.pawSpeedUp
-            return index
-        }
-        chain = 0
-        resting = Tuning.MiniGames.missRestSeconds
-        return nil
-    }
-}
-
-/// String Chase (CONTENT.md: draw a path with one finger, the cat follows the string and collects the five
-/// sparkles along it, 30 s). A new string starts from wherever the finger goes down; the cat runs to it first.
-public struct StringChase: Equatable, Sendable {
-    public private(set) var sparkles: [GamePoint]
-    public private(set) var collected: [Bool]
-    public private(set) var cat: GamePoint
-    public private(set) var string: [GamePoint] = []
-    public private(set) var elapsed = 0.0
-    public let duration: Double
-    public let speed: Double
-
-    /// The sparkles are laid out by the day's seed, so a replay of the same play is the same game.
-    public init(duration: Double, personality: Personality, seed: inout DaySeed) {
-        self.duration = duration
-        speed = MiniGameRules.chaseSpeed(personality)
+    /// A spot on the floor at least `margin` cells in from its edges.
+    static func spot(margin: Double, seed: inout DaySeed) -> GamePoint {
         let w = Tuning.MiniGames.arenaWidth, h = Tuning.MiniGames.arenaHeight
-        cat = GamePoint(x: w / 2, y: h * 0.2)
-        var points: [GamePoint] = []
-        while points.count < Tuning.MiniGames.sparkles {
-            let point = GamePoint(
-                x: 1 + Double(seed.below(1000)) / 1000 * (w - 2),
-                y: 1 + Double(seed.below(1000)) / 1000 * (h - 2)
-            )
-            if points.allSatisfy({ $0.distance(to: point) > 2 }), point.distance(to: cat) > 2 {
-                points.append(point)
-            }
-        }
-        sparkles = points
-        collected = points.map { _ in false }
+        return GamePoint(
+            x: margin + Double(seed.below(1000)) / 1000 * (w - 2 * margin),
+            y: margin + Double(seed.below(1000)) / 1000 * (h - 2 * margin)
+        )
+    }
+}
+
+/// Hits in a row (every game): a hit scores 1, and 1 more for every `Tuning.MiniGames.comboStep` hits in a row before
+/// it, up to `comboCap`; a miss, or `comboSeconds` without a hit, starts it again.
+public struct Combo: Equatable, Sendable {
+    public private(set) var count = 0
+    public private(set) var best = 0
+    private var since = 0.0
+
+    public init() {}
+
+    /// What a hit is worth (before golden or zoomies) as the `count`th in a row.
+    public static func worth(_ count: Int) -> Int {
+        min(1 + max(0, count - 1) / Tuning.MiniGames.comboStep, Tuning.MiniGames.comboCap)
     }
 
-    public var gathered: Int {
-        collected.filter(\.self).count
+    /// What the combo is worth now: the multiplier the last hit scored at.
+    public var multiplier: Int {
+        Self.worth(max(count, 1))
     }
 
-    public var isOver: Bool {
-        elapsed >= duration || gathered == sparkles.count
+    /// A hit: the points it scores before golden or zoomies.
+    public mutating func hit() -> Int {
+        count += 1
+        best = max(best, count)
+        since = 0
+        return Self.worth(count)
     }
 
-    public var score: Double {
-        Double(gathered)
+    /// A miss. Returns whether there was a combo to lose.
+    @discardableResult
+    public mutating func breakOff() -> Bool {
+        defer { count = 0 }
+        return count > 1
     }
 
-    /// A new string (the finger's path, oldest point first).
-    public mutating func draw(_ path: [GamePoint]) {
-        string = path.map(\.clamped)
+    /// Time passes; returns whether the combo lapsed just now.
+    public mutating func tick(_ dt: Double) -> Bool {
+        guard count > 0 else { return false }
+        since += dt
+        guard since >= Tuning.MiniGames.comboSeconds else { return false }
+        return breakOff()
+    }
+}
+
+/// What happened in a game's step, for the scene to make something of (a burst, a shake, a sound, the cat's
+/// reaction). The game model keeps the score; beats only say what changed.
+public enum PlayBeat: Equatable, Sendable {
+    /// Points scored.
+    case scored(Hit)
+    /// A try that came to nothing (a pounce that landed short, a swipe at thin air). `lost` when a combo went with it.
+    case missed(at: GamePoint, lost: Bool)
+    /// A combo ran out of time.
+    case comboLapsed
+    /// The catnip: the zoomies start, and end.
+    case zoomies(at: GamePoint)
+    case zoomiesOver
+    /// Laser Pointer: the cat crouches, then springs at a spot.
+    case crouched
+    case sprang(to: GamePoint)
+    /// A golden target is out (Laser Pointer: the dot itself).
+    case goldenAppeared
+}
+
+/// A hit's points, where (on the floor; Knock It Off: `x` along the shelf), the combo it made, and what was in it.
+public struct Hit: Equatable, Sendable {
+    public let points: Int
+    public let combo: Int
+    public let at: GamePoint
+    public var golden = false
+    public var zoomies = false
+    /// Laser Pointer: the pounce landed right on the dot.
+    public var perfect = false
+}
+
+/// The catnip in a game: where it lies and when, once a game; the cat's zoomies once it gets there.
+public struct Catnip: Equatable, Sendable {
+    public let at: GamePoint
+    public let from: Double
+    public let until: Double
+    public private(set) var taken = false
+
+    init(at: GamePoint, from: Double, until: Double) {
+        self.at = at
+        self.from = from
+        self.until = until
     }
 
-    /// The finger keeps drawing: the string grows at its end.
-    public mutating func extend(_ point: GamePoint) {
-        string.append(point.clamped)
+    /// Out on the floor at `elapsed`.
+    public func showing(_ elapsed: Double) -> Bool {
+        !taken && elapsed >= from && elapsed < until
     }
 
-    public mutating func step(_ dt: Double) {
-        guard !isOver else { return }
-        let dt = min(dt, duration - elapsed)
-        elapsed += dt
-        var budget = speed * dt
-        // Along the string from its start, dropping each point the cat reaches.
-        while budget > 0, let next = string.first {
-            let gap = cat.distance(to: next)
-            if gap <= budget {
-                cat = next
-                budget -= gap
-                string.removeFirst()
-            } else {
-                cat = cat.moved(towards: next, by: budget)
-                budget = 0
-            }
-            collect()
-        }
-        collect()
-    }
-
-    private mutating func collect() {
-        for index in sparkles.indices where !collected[index] && cat.distance(to: sparkles[index]) <= Tuning.MiniGames.sparkleReach {
-            collected[index] = true
-        }
+    /// Taken if the cat is within reach while it shows.
+    mutating func take(by cat: GamePoint, at elapsed: Double) -> Bool {
+        guard showing(elapsed), cat.distance(to: at) <= Tuning.MiniGames.sparkleReach + 0.1 else { return false }
+        taken = true
+        return true
     }
 }
 

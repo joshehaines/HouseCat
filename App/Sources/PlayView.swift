@@ -7,7 +7,8 @@ import SwiftUI
     import UIKit
 #endif
 
-/// Play (SPEC "Care": the mini-games, five plays a day): the three games, each with what it asks and its stars.
+/// Play (SPEC "Care": the mini-games, five plays a day): the games, each with what it asks, how long it is and the
+/// player's best.
 struct PlayPicker: View {
     let games: [MinigamesFile.Game]
     let playsLeft: Int
@@ -59,7 +60,13 @@ struct PlayPicker: View {
                 PaintedIcon("clock", size: 16)
                 Text("\(game.durationSeconds) s").font(.caption.weight(.semibold))
                 Spacer()
-                ForEach(0 ..< 3, id: \.self) { _ in PaintedIcon("xp_star", size: 14) }
+                let best = MiniGameView.best(game.id)
+                if best > 0 {
+                    Text("Best \(best)").font(.caption.weight(.semibold)).foregroundStyle(Theme.inkSoft)
+                }
+                ForEach(0 ..< 3, id: \.self) { index in
+                    PaintedIcon("xp_star", size: 14).opacity(MiniGameRules.stars(score: Double(best), thresholds: game.stars) > index ? 1 : 0.3)
+                }
             }
         }
         .padding(14)
@@ -69,7 +76,8 @@ struct PlayPicker: View {
     }
 }
 
-/// One game: a countdown with the cat's line, the game with its clock, score and stars, then what it paid.
+/// One game: a quick count with the cat's line and the star targets, the game with its clock, score, combo and
+/// stars filling, then what it paid.
 struct MiniGameView: View {
     let game: MinigamesFile.Game
     let catName: String
@@ -79,10 +87,17 @@ struct MiniGameView: View {
     @State private var scene: MiniGameScene?
     @State private var progress = MiniGameScene.Progress(elapsed: 0, duration: 1, score: 0)
     @State private var countdown = 3
+    @State private var going = false
     @State private var startLine: String?
+    @State private var midLine: String?
     @State private var reward: GameSession.Reward?
     @State private var stars = 0
+    /// The stars on the results card, popping in one at a time.
+    @State private var shownStars = 0
     @State private var finished = false
+    @State private var newBest = false
+    @State private var saidCombo = false
+    @State private var lastTick = 0
 
     static func art(_ id: String) -> String {
         switch id {
@@ -94,10 +109,23 @@ struct MiniGameView: View {
 
     static func howTo(_ id: String) -> String {
         switch id {
-        case "knock_it_off": "Tap when the paw is over something. Hits in a row count double the fun."
-        case "string_chase": "Draw a string with your finger. The cat follows it to the sparkles."
-        default: "Drag the dot and keep it moving. The cat scores while it's on it."
+        case "knock_it_off": "Tap as the cat reaches something to swipe it off. Hits in a row score more."
+        case "string_chase": "Draw a string through the sparkles before they fade. Chain them quickly."
+        default: "Drag the dot. When the cat crouches, hold still and it pounces."
         }
+    }
+
+    /// The player's best score at a game, on this device.
+    static func best(_ id: String) -> Int {
+        UserDefaults.standard.integer(forKey: "minigame.best.\(id)")
+    }
+
+    private var left: Int {
+        max(0, Int((progress.duration - progress.elapsed).rounded(.up)))
+    }
+
+    private var hurry: Bool {
+        !finished && countdown == 0 && left <= 5
     }
 
     var body: some View {
@@ -111,20 +139,19 @@ struct MiniGameView: View {
             VStack {
                 hud
                 Spacer()
+                if let midLine, !finished {
+                    HStack {
+                        GreetingBubble(midLine, name: catName).frame(maxWidth: 360)
+                        Spacer()
+                    }
+                    .transition(.move(edge: .leading).combined(with: .opacity))
+                }
             }
             .padding(.horizontal, 24)
             .padding(.top, 12)
-            if countdown > 0, !finished {
-                VStack(spacing: 10) {
-                    Text("\(countdown)").font(.system(size: 88, weight: .heavy, design: .rounded)).foregroundStyle(.white)
-                        .shadow(color: .black.opacity(0.35), radius: 6, y: 3)
-                        .contentTransition(.numericText(countsDown: true))
-                    if let startLine {
-                        GreetingBubble(startLine, name: catName).frame(maxWidth: 420)
-                    }
-                    Text(Self.howTo(game.id)).font(.headline).foregroundStyle(.white)
-                        .shadow(color: .black.opacity(0.4), radius: 3, y: 1)
-                }
+            .padding(.bottom, 16)
+            if countdown > 0 || going, !finished {
+                countIn
             }
             if finished {
                 Color.black.opacity(0.35).ignoresSafeArea()
@@ -136,22 +163,62 @@ struct MiniGameView: View {
         // The games have their own sounds: the music waits in the room.
         .onAppear { Music.hush(.miniGame, true) }
         .onDisappear { Music.hush(.miniGame, false) }
+        .onChange(of: left) { _, seconds in
+            // The last five seconds tick.
+            if hurry, seconds != lastTick, seconds > 0 {
+                lastTick = seconds
+                Sound.play("ui_tap", volume: Tuning.Sound.levelUp)
+            }
+        }
+    }
+
+    private var countIn: some View {
+        VStack(spacing: 10) {
+            Text(going ? "Go!" : "\(countdown)")
+                .font(.system(size: 88, weight: .heavy, design: .rounded)).foregroundStyle(.white)
+                .shadow(color: .black.opacity(0.35), radius: 6, y: 3)
+                .contentTransition(.numericText(countsDown: true))
+            if let startLine {
+                GreetingBubble(startLine, name: catName).frame(maxWidth: 420)
+            }
+            Text(Self.howTo(game.id)).font(.headline).foregroundStyle(.white)
+                .shadow(color: .black.opacity(0.4), radius: 3, y: 1)
+            HStack(spacing: 14) {
+                ForEach(Array(game.stars.enumerated()), id: \.offset) { index, target in
+                    HStack(spacing: 2) {
+                        ForEach(0 ... index, id: \.self) { _ in PaintedIcon("xp_star", size: 16) }
+                        Text("\(target)").font(.subheadline.weight(.heavy))
+                    }
+                }
+            }
+            .foregroundStyle(.white)
+            .shadow(color: .black.opacity(0.4), radius: 3, y: 1)
+        }
+        .allowsHitTesting(false)
     }
 
     private var hud: some View {
         HStack(spacing: 14) {
             Text(game.name).font(Theme.title(20))
-            ProgressView(value: min(progress.elapsed / max(progress.duration, 1), 1))
-                .tint(Theme.accent)
-                .frame(maxWidth: 220)
-            Text(scoreText(progress.score)).font(.system(size: 18, weight: .heavy, design: .rounded))
-                .contentTransition(.numericText())
-            HStack(spacing: 2) {
-                ForEach(0 ..< 3, id: \.self) { index in
-                    PaintedIcon("xp_star", size: 22)
-                        .opacity(MiniGameRules.stars(score: progress.score, thresholds: game.stars) > index ? 1 : 0.25)
+            Text("\(left)")
+                .font(.system(size: 24, weight: .heavy, design: .rounded))
+                .monospacedDigit()
+                .foregroundStyle(hurry ? Color(red: 0.86, green: 0.22, blue: 0.2) : Theme.ink)
+                .scaleEffect(hurry ? 1.15 : 1)
+                .animation(.spring(duration: 0.25), value: left)
+                .frame(minWidth: 34)
+            HStack(spacing: 6) {
+                Text("\(Int(progress.score))").font(.system(size: 22, weight: .heavy, design: .rounded))
+                    .monospacedDigit()
+                    .contentTransition(.numericText())
+                    .animation(.spring(duration: 0.3), value: Int(progress.score))
+                if progress.multiplier > 1 || progress.zoomies {
+                    comboBadge
                 }
             }
+            .frame(minWidth: 110, alignment: .leading)
+            StarTrack(score: progress.score, thresholds: game.stars)
+                .frame(width: 210, height: 28)
             Spacer()
             CloseButton {
                 // Leaving early records nothing (no play is used).
@@ -164,8 +231,20 @@ struct MiniGameView: View {
         .foregroundStyle(Theme.ink)
     }
 
+    private var comboBadge: some View {
+        let zoom = progress.zoomies
+        return Text(zoom ? "×\(progress.multiplier) Zoomies" : "×\(progress.multiplier)")
+            .font(.system(size: 15, weight: .heavy, design: .rounded))
+            .foregroundStyle(.white)
+            .padding(.horizontal, 9)
+            .padding(.vertical, 3)
+            .background(Capsule().fill(zoom ? Color(red: 0.35, green: 0.68, blue: 0.3) : Theme.accent))
+            .id(progress.multiplier)
+            .transition(.scale(scale: 1.6).combined(with: .opacity))
+    }
+
     private func scoreText(_ score: Double) -> String {
-        game.id == "laser_pointer" ? "\(Int(score)) s" : "\(Int(score)) of 5"
+        "\(Int(score)) points"
     }
 
     private var results: some View {
@@ -173,12 +252,29 @@ struct MiniGameView: View {
             HStack(spacing: 6) {
                 ForEach(0 ..< 3, id: \.self) { index in
                     PaintedIcon("xp_star", size: 54)
-                        .opacity(stars > index ? 1 : 0.22)
-                        .scaleEffect(stars > index ? 1 : 0.8)
+                        .opacity(shownStars > index ? 1 : 0.22)
+                        .scaleEffect(shownStars > index ? 1 : 0.8)
+                        .animation(.spring(duration: 0.35, bounce: 0.55), value: shownStars)
                 }
             }
             Text(stars == 3 ? "Perfect!" : stars > 0 ? "Well played" : "Good try").font(Theme.title(28))
-            Text(scoreText(progress.score)).font(.headline).foregroundStyle(Theme.inkSoft)
+            HStack(spacing: 10) {
+                Text(scoreText(progress.score)).font(.headline)
+                if newBest {
+                    Text("New best!")
+                        .font(.subheadline.weight(.heavy))
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 2)
+                        .background(Capsule().fill(Theme.accent))
+                }
+            }
+            if progress.bestCombo > 1 {
+                Text("Best combo \(progress.bestCombo) in a row").font(.subheadline).foregroundStyle(Theme.inkSoft)
+            }
+            if stars < 3 {
+                Text("Next star at \(game.stars[stars])").font(.subheadline).foregroundStyle(Theme.inkSoft)
+            }
             if let reward, reward.beans == 0, reward.xp == 0 {
                 Text("Today's five plays are used, so this one was just for fun. Back tomorrow for Beans.")
                     .font(.subheadline).foregroundStyle(Theme.inkSoft)
@@ -220,27 +316,28 @@ struct MiniGameView: View {
         withAnimation(.easeOut(duration: 0.2)) { finished = false }
         reward = nil
         stars = 0
+        shownStars = 0
+        newBest = false
+        saidCombo = false
+        midLine = nil
         countdown = 3
         scene = nil
         await run()
     }
 
-    /// The scene, the countdown, the game, the reward.
+    /// The scene, the count, the game, the reward.
     private func run() async {
         guard scene == nil, let art = GameWorld.art, let catArt = GameWorld.catArt, let rig = GameWorld.rig else { return }
         let session = GameSession.shared
         let state = session.state(at: session.now())
         let cat = state.cats.first
         let personality = cat?.personality ?? .aloof
-        let model: MiniGameScene.Game
-        switch game.id {
-        case "knock_it_off":
-            model = .knock(KnockItOff(duration: Double(game.durationSeconds), personality: personality))
-        case "string_chase":
-            var seed = session.miniGameSeed(game.id)
-            model = .string(StringChase(duration: Double(game.durationSeconds), personality: personality, seed: &seed))
-        default:
-            model = .laser(LaserChase(duration: Double(game.durationSeconds), personality: personality))
+        let duration = Double(game.durationSeconds)
+        var seed = session.miniGameSeed(game.id)
+        let model: MiniGameScene.Game = switch game.id {
+        case "knock_it_off": .knock(KnockItOff(duration: duration, personality: personality, seed: &seed))
+        case "string_chase": .string(StringChase(duration: duration, personality: personality, seed: &seed))
+        default: .laser(LaserChase(duration: duration, personality: personality, seed: &seed))
         }
         let tiles = session.livingRoomTiles()
         let made = MiniGameScene(
@@ -252,45 +349,152 @@ struct MiniGameView: View {
             look: cat?.look ?? .midnight,
             floor: tiles.floor,
             wall: tiles.wall,
-            objects: Tuning.MiniGames.shelfThings.map { "gifts/\($0).png" }
+            objects: Tuning.MiniGames.shelfThings.map { "gifts/\($0).png" },
+            catnip: "gifts/\(Tuning.MiniGames.catnip).png"
         )
-        made.onProgress = { progress = $0 }
-        made.onMoment = { moment in
-            switch moment {
-            case .hit: Sound.play("ui_knock_off", volume: Tuning.Sound.place)
-            case .miss: Sound.tap()
-            case .sparkle: Sound.play("ui_sparkle", volume: Tuning.Sound.place)
+        made.onProgress = { next in
+            let before = MiniGameRules.stars(score: progress.score, thresholds: game.stars)
+            withAnimation(.spring(duration: 0.3)) { progress = next }
+            if MiniGameRules.stars(score: next.score, thresholds: game.stars) > before {
+                Sound.play("ui_bean_chime", volume: Tuning.Sound.levelUp)
             }
-            #if canImport(UIKit)
-                UIImpactFeedbackGenerator(style: moment == .miss ? .soft : .medium).impactOccurred()
-            #endif
         }
+        made.onBeat = { beat in hear(beat) }
         made.onFinish = { score in finish(score) }
         #if DEBUG
             made.autoplay = ProcessInfo.processInfo.environment["HOUSECAT_AUTOPLAY"] != nil
         #endif
-        progress = MiniGameScene.Progress(elapsed: 0, duration: Double(game.durationSeconds), score: 0)
+        progress = MiniGameScene.Progress(elapsed: 0, duration: duration, score: 0)
+        lastTick = 0
         scene = made
         startLine = session.line("play.start")
         Sound.play("cat_chirp", volume: Tuning.Sound.meow)
         for count in stride(from: 3, through: 1, by: -1) {
             withAnimation { countdown = count }
-            try? await Task.sleep(for: .seconds(0.8))
+            Sound.play("ui_tap", volume: Tuning.Sound.levelUp)
+            try? await Task.sleep(for: .seconds(Tuning.MiniGames.countSeconds))
         }
-        withAnimation { countdown = 0 }
+        withAnimation {
+            countdown = 0
+            going = true
+        }
         made.start()
-        if game.id == "laser_pointer" {
+        Sound.play("ui_place_item", volume: Tuning.Sound.levelUp)
+        try? await Task.sleep(for: .seconds(0.45))
+        withAnimation(.easeOut(duration: 0.2)) { going = false }
+    }
+
+    /// A beat of the game heard and felt: its sound, a haptic, now and then the cat's line.
+    private func hear(_ beat: PlayBeat) {
+        #if canImport(UIKit)
+            func bump(_ style: UIImpactFeedbackGenerator.FeedbackStyle) {
+                UIImpactFeedbackGenerator(style: style).impactOccurred()
+            }
+        #endif
+        switch beat {
+        case let .scored(hit):
+            if hit.golden {
+                Sound.play("ui_bean_chime", volume: Tuning.Sound.levelUp)
+            }
+            switch game.id {
+            case "knock_it_off": Sound.play("ui_knock_off", volume: Tuning.Sound.place)
+            case "string_chase": Sound.play("ui_sparkle", volume: Tuning.Sound.place)
+            default: Sound.play(hit.perfect ? "ui_sparkle" : "ui_place_item", volume: Tuning.Sound.place)
+            }
+            #if canImport(UIKit)
+                bump(hit.golden ? .heavy : hit.points >= 6 ? .medium : .light)
+            #endif
+            // The combo at its top for the first time this game: the cat says so.
+            if !saidCombo, Combo.worth(hit.combo) == Tuning.MiniGames.comboCap {
+                saidCombo = true
+                say("play.combo", meow: "cat_chirp")
+            }
+        case .missed:
+            Sound.play("ui_tap", volume: Tuning.Sound.place)
+            #if canImport(UIKit)
+                bump(.soft)
+            #endif
+        case .zoomies:
             Sound.play("cat_zoomies_thumps", volume: Tuning.Sound.place)
+            #if canImport(UIKit)
+                bump(.heavy)
+            #endif
+            say("play.zoomies", meow: "cat_trill")
+        case .goldenAppeared:
+            Sound.play("ui_sparkle", volume: Tuning.Sound.levelUp)
+        case .comboLapsed, .zoomiesOver, .crouched, .sprang:
+            break
+        }
+    }
+
+    /// The cat's line for a moment in the game, for a couple of seconds.
+    private func say(_ context: String, meow: String) {
+        guard let line = GameSession.shared.line(context) else { return }
+        Sound.play(meow, volume: Tuning.Sound.meow)
+        withAnimation(.spring(duration: 0.35)) { midLine = line }
+        Task { @MainActor in
+            try? await Task.sleep(for: .seconds(2.2))
+            if midLine == line {
+                withAnimation(.easeOut(duration: 0.3)) { midLine = nil }
+            }
         }
     }
 
     private func finish(_ score: Double) {
         stars = MiniGameRules.stars(score: score, thresholds: game.stars)
         reward = GameSession.shared.playMiniGame(game.id, stars: stars)
-        Sound.play(stars > 0 ? "ui_streak_milestone" : "cat_meow_soft", volume: Tuning.Sound.levelUp)
+        let key = "minigame.best.\(game.id)"
+        newBest = Int(score) > UserDefaults.standard.integer(forKey: key)
+        if newBest {
+            UserDefaults.standard.set(Int(score), forKey: key)
+        }
         #if canImport(UIKit)
             UINotificationFeedbackGenerator().notificationOccurred(stars > 0 ? .success : .warning)
         #endif
-        withAnimation(.spring(duration: 0.4)) { finished = true }
+        withAnimation(.spring(duration: 0.4)) {
+            midLine = nil
+            finished = true
+        }
+        // The stars one at a time, each with its chime; the fanfare after the last.
+        Task { @MainActor in
+            for index in 0 ..< stars {
+                try? await Task.sleep(for: .seconds(0.3))
+                shownStars = index + 1
+                Sound.play("ui_bean_chime", volume: Tuning.Sound.levelUp)
+                #if canImport(UIKit)
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                #endif
+            }
+            try? await Task.sleep(for: .seconds(0.25))
+            Sound.play(stars > 0 ? "ui_streak_milestone" : "cat_meow_soft", volume: Tuning.Sound.levelUp)
+        }
+    }
+}
+
+/// The stars filling as the score climbs: a bar to the third star's target with each star where its target is.
+private struct StarTrack: View {
+    let score: Double
+    let thresholds: [Int]
+
+    var body: some View {
+        GeometryReader { proxy in
+            let top = Double(thresholds.last ?? 1)
+            let width = proxy.size.width - 14
+            ZStack(alignment: .leading) {
+                Capsule().fill(Theme.ink.opacity(0.14)).frame(height: 8).padding(.horizontal, 7)
+                Capsule().fill(Theme.accent)
+                    .frame(width: max(8, width * min(1, score / top) + 7), height: 8)
+                    .padding(.leading, 7)
+                    .animation(.spring(duration: 0.3), value: score)
+                ForEach(Array(thresholds.enumerated()), id: \.offset) { _, target in
+                    let reached = score >= Double(target)
+                    PaintedIcon("xp_star", size: 24)
+                        .opacity(reached ? 1 : 0.35)
+                        .scaleEffect(reached ? 1.1 : 0.85)
+                        .animation(.spring(duration: 0.35, bounce: 0.6), value: reached)
+                        .position(x: 7 + width * Double(target) / top, y: proxy.size.height / 2)
+                }
+            }
+        }
     }
 }

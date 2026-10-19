@@ -12,38 +12,38 @@
     {
       "id": "laser_pointer",
       "name": "Laser Pointer",
-      "durationSeconds": 30,
-      "score": "seconds the cat stays within one cell of the dot",
+      "durationSeconds": 20,
+      "score": "points: each catch scores its combo, twice over when the pounce lands right on the dot",
       "stars": [
-        10,
-        18,
-        25
+        30,
+        80,
+        150
       ],
-      "rules": "Drag the dot around the room and the cat chases it. Each second it stays within one cell of the dot scores. Personality changes chase speed and lines only."
+      "rules": "Drag the dot and the cat chases it; close up, it crouches and pounces. Hold the dot still and it lands on it: a catch. Catches in a row build a combo, the dot turns golden twice a game, and catnip on the floor gives the cat the zoomies. Personality changes chase speed and lines only."
     },
     {
       "id": "knock_it_off",
       "name": "Knock It Off",
       "durationSeconds": 20,
-      "score": "objects knocked off the shelf",
+      "score": "points: each thing knocked off scores its combo",
       "stars": [
-        3,
-        4,
-        5
+        25,
+        60,
+        120
       ],
-      "rules": "A shelf holds five objects. Tap when the cat's paw is over one to knock it off; consecutive hits chain. Personality changes paw speed and lines only."
+      "rules": "The cat walks the mantel; tap and it swipes off whatever is in front of it. Things keep arriving, faster as the game goes on; hits in a row build a combo and quicken the cat, a swipe at nothing breaks it. Golden things score three times over; the catnip fish gives a longer reach. Personality changes the cat's pace and lines only."
     },
     {
       "id": "string_chase",
       "name": "String Chase",
-      "durationSeconds": 30,
-      "score": "sparkles collected along the string",
+      "durationSeconds": 20,
+      "score": "points: each sparkle collected scores its combo",
       "stars": [
-        3,
-        4,
-        5
+        5,
+        25,
+        70
       ],
-      "rules": "Draw a path with one finger; the cat follows the string and collects the five sparkles along it. Personality changes chase speed and lines only."
+      "rules": "Draw a string with one finger and the cat runs along it. Sparkles keep appearing and fade after a few seconds; collect them quickly to build a combo. Golden sparkles score three times over; catnip gives the cat the zoomies. Personality changes chase speed and lines only."
     }
   ]
 }

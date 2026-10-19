@@ -6,6 +6,10 @@ import Testing
 struct MiniGameTests {
     let dt = 1.0 / 60
 
+    static func seed(_ game: String, _ play: Int = 0, household: UInt64 = 7) -> DaySeed {
+        DaySeed(household: household, day: GameDay(index: 100), purpose: "minigame", salt: "\(game).\(play)")
+    }
+
     @Test func starsComeFromTheGamesThresholds() {
         #expect(MiniGameRules.stars(score: 9.9, thresholds: [10, 18, 25]) == 0)
         #expect(MiniGameRules.stars(score: 10, thresholds: [10, 18, 25]) == 1)
@@ -15,103 +19,314 @@ struct MiniGameTests {
         #expect(MiniGameRules.endLine(stars: 2) == "play.win")
     }
 
-    @Test func aDotLedRoundTheRoomIsChasedAndScores() {
-        var game = LaserChase(duration: 30, personality: .velcro)
-        var t = 0.0
+    @Test func hitsInARowScoreTheComboUpToItsCap() {
+        var combo = Combo()
+        // One more every two in a row, up to five.
+        #expect((1 ... 12).map { _ in combo.hit() } == [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 5])
+        #expect(combo.best == 12)
+        let lost = combo.breakOff()
+        #expect(lost)
+        #expect(combo.hit() == 1)
+        // A lone hit lost is not a combo lost.
+        let lone = combo.breakOff()
+        #expect(!lone)
+        _ = combo.hit()
+        _ = combo.hit()
+        let early = combo.tick(Tuning.MiniGames.comboSeconds - 0.1)
+        let lapsed = combo.tick(0.2)
+        #expect(!early)
+        #expect(lapsed)
+        #expect(combo.count == 0)
+        #expect(combo.best == 12)
+    }
+
+    // MARK: Laser Pointer
+
+    @Test func aDotLedAndHeldIsPouncedOnAndCaught() {
+        var seed = Self.seed("laser_pointer")
+        var game = LaserChase(duration: 20, personality: .velcro, seed: &seed)
+        var beats: [PlayBeat] = []
         while !game.isOver {
-            t += dt
-            // A slow loop round the middle of the floor.
-            let dot = GamePoint(x: 6 + 2.5 * cos(t * 0.6), y: 3 + 1.5 * sin(t * 0.6))
-            game.step(dt, dot: dot)
+            beats += game.step(dt, dot: MiniGameBot.laser(game))
         }
-        #expect(game.score > 18)
-        #expect(MiniGameRules.stars(score: game.score, thresholds: [10, 18, 25]) >= 2)
+        #expect(beats.contains(.crouched))
+        #expect(game.catches >= 8)
+        #expect(game.combo.best >= 5)
+        // Golden catches, and the catnip's zoomies.
+        #expect(beats.contains { if case let .scored(hit) = $0 { hit.golden } else { false } })
+        #expect(beats.contains { if case .zoomies = $0 { true } else { false } })
+        #expect(beats.contains(.goldenAppeared))
     }
 
     @Test func aStillDotBoresTheCat() {
-        var game = LaserChase(duration: 30, personality: .velcro)
-        let dot = GamePoint(x: 4, y: 3)
+        var seed = Self.seed("laser_pointer")
+        var game = LaserChase(duration: 20, personality: .velcro, seed: &seed)
+        let dot = GamePoint(x: 9, y: 3)
         while !game.isOver {
             game.step(dt, dot: dot)
         }
         #expect(!game.interested)
-        #expect(game.score < 3)
+        #expect(game.catches <= 1)
+    }
+
+    @Test func aDotFlickedAwayMidPounceIsMissedAndTheComboGoes() {
+        var seed = Self.seed("laser_pointer")
+        var game = LaserChase(duration: 20, personality: .gremlin, seed: &seed)
+        // Two catches first.
+        while game.catches < 2 {
+            game.step(dt, dot: MiniGameBot.laser(game))
+        }
+        #expect(game.combo.count == 2)
+        while game.phase != .leaping {
+            game.step(dt, dot: MiniGameBot.laser(game))
+        }
+        let away = GamePoint(x: game.leapTo.x > 6 ? 1 : 11, y: game.leapTo.y > 3 ? 1 : 5)
+        var beats: [PlayBeat] = []
+        while game.phase == .leaping {
+            beats += game.step(dt, dot: away)
+        }
+        #expect(beats.contains { if case .missed(_, true) = $0 { true } else { false } })
+        #expect(game.combo.count == 0)
+        #expect(game.catches == 2)
     }
 
     @Test func aDotFlickedFromCornerToCornerIsTooFast() {
-        var game = LaserChase(duration: 30, personality: .loaf)
+        var seed = Self.seed("laser_pointer")
+        var game = LaserChase(duration: 20, personality: .loaf, seed: &seed)
         let corners = [GamePoint(x: 0, y: 0), GamePoint(x: 12, y: 6), GamePoint(x: 0, y: 6), GamePoint(x: 12, y: 0)]
         var t = 0.0
         while !game.isOver {
             t += dt
             game.step(dt, dot: corners[Int(t / 0.4) % corners.count])
         }
-        #expect(game.score < 10)
+        #expect(game.catches <= 2)
     }
 
-    @Test func tappingAsThePawCrossesEachObjectClearsTheShelf() {
-        var game = KnockItOff(duration: 20, personality: .aloof)
-        let reach = Tuning.MiniGames.pawReach
+    // MARK: Knock It Off
+
+    @Test func tappingAsTheCatReachesEachThingKeepsTheShelfClearing() {
+        var seed = Self.seed("knock_it_off")
+        var game = KnockItOff(duration: 20, personality: .aloof, seed: &seed)
+        #expect(game.things.count == Tuning.MiniGames.shelfStart)
+        var beats: [PlayBeat] = []
+        var most = 0
         while !game.isOver {
-            game.step(dt)
-            if game.objects.contains(where: { $0.there && abs($0.at - game.paw) < reach / 2 }) {
-                #expect(game.tap() != nil)
+            beats += game.step(dt)
+            most = max(most, game.things.count)
+            if MiniGameBot.knock(game) {
+                beats += game.tap()
             }
         }
-        #expect(game.knocked == 5)
-        #expect(game.bestChain == 5)
-        #expect(game.elapsed < 20)
+        // Things kept coming long after the first three were gone, and never more than a shelf's worth.
+        #expect(game.knocked >= 15)
+        #expect(most <= Tuning.MiniGames.shelfSlots)
+        #expect(game.combo.best >= 10)
+        #expect(game.elapsed == 20)
+        #expect(beats.contains { if case let .scored(hit) = $0 { hit.golden } else { false } })
+        #expect(beats.contains { if case .zoomies = $0 { true } else { false } })
     }
 
-    @Test func aMissBreaksTheChainAndRestsThePaw() {
-        var game = KnockItOff(duration: 20, personality: .gremlin)
-        // Exactly between the first two objects.
-        while abs(game.paw - 0.2) > 0.002 {
+    @Test func aSwipeAtNothingBreaksTheComboAndRestsTheCat() {
+        var seed = Self.seed("knock_it_off")
+        var game = KnockItOff(duration: 20, personality: .gremlin, seed: &seed)
+        while game.knocked < 2 {
+            game.step(dt)
+            if MiniGameBot.knock(game) {
+                game.tap()
+            }
+        }
+        while game.inReach != nil {
             game.step(0.001)
         }
-        #expect(game.tap() == nil)
-        #expect(game.chain == 0)
+        let beats = game.tap()
+        let at = GamePoint(x: game.paw, y: 0)
+        #expect(beats == [.missed(at: at, lost: true)])
+        #expect(game.combo.count == 0)
         let paw = game.paw
         game.step(0.3)
         #expect(game.paw == paw)
-        #expect(game.tap() == nil) // still resting
+        let resting = game.tap()
+        #expect(resting.isEmpty) // still resting
         game.step(Tuning.MiniGames.missRestSeconds)
-        #expect(game.paw != paw || game.isOver)
+        #expect(game.paw != paw)
     }
 
-    @Test func stringsLeadTheCatToTheSparkles() throws {
-        var seed = DaySeed(household: 7, day: GameDay(index: 100), purpose: "minigame", salt: "string_chase.1")
-        var game = StringChase(duration: 30, personality: .velcro, seed: &seed)
-        var again = DaySeed(household: 7, day: GameDay(index: 100), purpose: "minigame", salt: "string_chase.1")
-        #expect(StringChase(duration: 30, personality: .velcro, seed: &again).sparkles == game.sparkles)
-        #expect(game.sparkles.count == 5)
-        // One string through every sparkle, nearest first.
-        var path: [GamePoint] = []
-        var from = game.cat
-        var left = game.sparkles
-        while !left.isEmpty {
-            let next = try #require(left.min { $0.distance(to: from) < $1.distance(to: from) })
-            left.removeAll { $0 == next }
-            path.append(next)
-            from = next
-        }
-        game.draw(path)
+    @Test func theShelfFillsUpWhenNothingIsKnockedOff() {
+        var seed = Self.seed("knock_it_off")
+        var game = KnockItOff(duration: 20, personality: .loaf, seed: &seed)
         while !game.isOver {
             game.step(dt)
         }
-        #expect(game.gathered == 5)
-        #expect(game.elapsed < 30)
+        #expect(game.things.count >= Tuning.MiniGames.shelfSlots - 1)
+        #expect(game.points == 0)
     }
 
-    @Test func withNoStringTheCatStaysPut() {
-        var seed = DaySeed(household: 7, day: GameDay(index: 100), purpose: "minigame")
-        var game = StringChase(duration: 30, personality: .loaf, seed: &seed)
+    // MARK: String Chase
+
+    @Test func stringsLeadTheCatToSparklesThatKeepComing() {
+        var seed = Self.seed("string_chase", 1)
+        var game = StringChase(duration: 20, personality: .velcro, seed: &seed)
+        var again = Self.seed("string_chase", 1)
+        #expect(StringChase(duration: 20, personality: .velcro, seed: &again).sparkles == game.sparkles)
+        #expect(game.sparkles.count == Tuning.MiniGames.sparklesAtOnce)
+        var beats: [PlayBeat] = []
+        while !game.isOver {
+            if let path = MiniGameBot.string(game) {
+                game.draw(path)
+            }
+            beats += game.step(dt)
+        }
+        #expect(game.gathered >= 10)
+        #expect(game.combo.best >= 4)
+        #expect(beats.contains { if case let .scored(hit) = $0 { hit.golden } else { false } })
+        #expect(beats.contains { if case .zoomies = $0 { true } else { false } })
+    }
+
+    @Test func sparklesFadeAndOthersTakeTheirPlace() {
+        var seed = Self.seed("string_chase")
+        var game = StringChase(duration: 20, personality: .loaf, seed: &seed)
+        let first = Set(game.sparkles.map(\.id))
         let start = game.cat
         while !game.isOver {
             game.step(dt)
         }
         #expect(game.cat == start)
         #expect(game.gathered == 0)
+        #expect(game.sparkles.count == Tuning.MiniGames.sparklesAtOnce)
+        #expect(first.isDisjoint(with: game.sparkles.map(\.id)))
+    }
+
+    // MARK: Stars
+
+    /// Each game played three ways: by the steady player, by a careless one, and not at all.
+    enum Player: CaseIterable {
+        case steady, careless, idle
+    }
+
+    static func play(_ id: String, _ player: Player, personality: Personality, play: Int) -> Double {
+        let dt = 1.0 / 60
+        var seed = Self.seed(id, play, household: UInt64(play * 31 + 3))
+        var t = 0.0
+        switch id {
+        case "laser_pointer":
+            var game = LaserChase(duration: Tuning.MiniGames.roundSeconds, personality: personality, seed: &seed)
+            while !game.isOver {
+                t += dt
+                let dot: GamePoint = switch player {
+                case .steady: MiniGameBot.laser(game)
+                // Never stops: a loop round the room, never waiting for the pounce.
+                case .careless: GamePoint(x: 6 + 3.5 * cos(t * 0.6), y: 3 + 1.8 * sin(t * 0.6))
+                case .idle: GamePoint(x: 9, y: 3)
+                }
+                game.step(dt, dot: dot)
+            }
+            return game.score
+        case "knock_it_off":
+            var game = KnockItOff(duration: Tuning.MiniGames.roundSeconds, personality: personality, seed: &seed)
+            var rng = Self.seed("careless", play)
+            var lastTap = 0.0
+            while !game.isOver {
+                t += dt
+                game.step(dt)
+                switch player {
+                case .steady:
+                    if MiniGameBot.knock(game) {
+                        game.tap()
+                    }
+                case .careless:
+                    // Taps about twice a second, roughly when something is near.
+                    if t - lastTap > 0.5, game.things.contains(where: { abs($0.at - game.paw) < 0.15 }), rng.below(4) == 0 {
+                        lastTap = t
+                        game.tap()
+                    }
+                case .idle:
+                    break
+                }
+            }
+            return game.score
+        default:
+            var game = StringChase(duration: Tuning.MiniGames.roundSeconds, personality: personality, seed: &seed)
+            var lastDraw = -10.0
+            while !game.isOver {
+                t += dt
+                switch player {
+                case .steady:
+                    if let path = MiniGameBot.string(game) {
+                        game.draw(path)
+                    }
+                case .careless:
+                    // A string to whichever sparkle comes first in the list, now and then.
+                    if t - lastDraw > 1.6, let sparkle = game.sparkles.first {
+                        lastDraw = t
+                        game.draw([sparkle.at])
+                    }
+                case .idle:
+                    break
+                }
+                game.step(dt)
+            }
+            return game.score
+        }
+    }
+
+    /// The thresholds in minigames.json: the steady player earns three stars in every personality, a careless one
+    /// one or two, someone who does nothing none, over a spread of plays.
+    @Test(arguments: ["laser_pointer", "knock_it_off", "string_chase"])
+    func starsRewardPlayingWell(_ id: String) throws {
+        let content = try ContentBundle.load(from: ContentValidationTests.repo.appendingPathComponent("Content"))
+        let thresholds = try #require(content.minigames.games.first { $0.id == id }).stars
+        let print = ProcessInfo.processInfo.environment["HOUSECAT_STARS"] != nil
+        for personality in Personality.allCases {
+            for player in Player.allCases {
+                let scores = (0 ..< 6).map { Self.play(id, player, personality: personality, play: $0) }
+                let stars = scores.map { MiniGameRules.stars(score: $0, thresholds: thresholds) }
+                if print {
+                    Swift.print("\(id) \(personality) \(player): \(scores.map { Int($0) }) stars \(stars)")
+                }
+                switch player {
+                case .steady: #expect(stars.allSatisfy { $0 == 3 }, "\(id) \(personality) steady: \(scores)")
+                case .careless: #expect(stars.allSatisfy { (1 ... 2).contains($0) }, "\(id) \(personality) careless: \(scores)")
+                case .idle: #expect(stars.allSatisfy { $0 == 0 }, "\(id) \(personality) idle: \(scores)")
+                }
+            }
+        }
+    }
+
+    // MARK: Plays and pay
+
+    /// Every game is 20 seconds on the clock, so a round from the count to the result is about half a minute.
+    @Test func aRoundIsAboutHalfAMinute() throws {
+        let content = try ContentBundle.load(from: ContentValidationTests.repo.appendingPathComponent("Content"))
+        for game in content.minigames.games {
+            #expect(Double(game.durationSeconds) == Tuning.MiniGames.roundSeconds, "\(game.id)")
+            let round = Double(game.durationSeconds) + 3 * Tuning.MiniGames.countSeconds
+            #expect((20 ... 45).contains(round), "\(game.id): \(round) s")
+        }
+    }
+
+    /// Shorter games must not pay faster (Josh, 19 Oct): a day pays for five plays however many more are played and
+    /// however quick they are, through the real content (its objectives included). Five three-star plays are the
+    /// day's most from the games: 30 Beans and 25 XP before the objectives.
+    @Test func moreGamesInADayPayNoMore() throws {
+        let content = try ContentBundle.load(from: ContentValidationTests.repo.appendingPathComponent("Content"))
+        let context = try content.rulesContext()
+        let ids = content.minigames.games.map(\.id)
+        func day(plays: Int) -> HouseholdState {
+            var f = Fixture(context: context)
+            f.visit(days: [0])
+            for play in 0 ..< plays {
+                // One every 40 seconds: as fast as the rounds allow.
+                f.add(.miniGamePlayed(game: ids[play % ids.count], stars: 3), day: 0, hour: 10, minute: play * 2 / 3)
+            }
+            return f.state(through: 1)
+        }
+        let five = day(plays: 5), twenty = day(plays: 20), none = day(plays: 0)
+        #expect(twenty.beans == five.beans)
+        #expect(twenty.xp == five.xp)
+        #expect(five.xp - none.xp >= 5 * Tuning.XP.play)
+        let games = Tuning.MiniGames.playsPerDay * (Tuning.MiniGames.starBeans.last ?? 0)
+        #expect(games == 30)
+        #expect(five.beans - none.beans >= games)
     }
 
     @Test func fivePlaysADayPayAndThenStop() {

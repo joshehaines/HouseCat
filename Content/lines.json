@@ -116,6 +116,14 @@
       "condition": "Play is chosen after the day's five plays are used"
     },
     {
+      "id": "play.combo",
+      "condition": "a mini-game's combo reaches its top score, once a game"
+    },
+    {
+      "id": "play.zoomies",
+      "condition": "the cat gets the catnip in a mini-game and has the zoomies"
+    },
+    {
       "id": "gift.common",
       "condition": "a common gift is dropped ({item} is the gift's name)"
     },
@@ -1522,6 +1530,86 @@
         "Played enough. Forever. Until tomorrow.",
         "No more. Legs have gone floppy.",
         "That's all my running for today."
+      ],
+      "meow": "silent"
+    },
+    {
+      "context": "play.combo",
+      "personality": "aloof",
+      "variants": [
+        "Flawless. As expected.",
+        "I'm rather good at this.",
+        "Keep up, if you can."
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "play.combo",
+      "personality": "velcro",
+      "variants": [
+        "We're amazing together!",
+        "Look at us go!",
+        "More! More! Don't stop!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "play.combo",
+      "personality": "gremlin",
+      "variants": [
+        "Unstoppable. Fear me.",
+        "Chaos, perfected.",
+        "Again! Faster!"
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "play.combo",
+      "personality": "loaf",
+      "variants": [
+        "Ooh. I'm on a roll.",
+        "Look at me, doing sport.",
+        "Rolling. Not loafing. Yet."
+      ],
+      "meow": "silent"
+    },
+    {
+      "context": "play.zoomies",
+      "personality": "aloof",
+      "variants": [
+        "Catnip. How undignified. Wheee.",
+        "I am perfectly composed. Zoom.",
+        "This changes nothing. Zoom!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "play.zoomies",
+      "personality": "velcro",
+      "variants": [
+        "Catnip! Watch me go!",
+        "So fast! So happy!",
+        "Zoom zoom! For you!"
+      ],
+      "meow": "trill"
+    },
+    {
+      "context": "play.zoomies",
+      "personality": "gremlin",
+      "variants": [
+        "CATNIP. Everything is mine!",
+        "Maximum zoom engaged.",
+        "Nothing is safe now!"
+      ],
+      "meow": "chirp"
+    },
+    {
+      "context": "play.zoomies",
+      "personality": "loaf",
+      "variants": [
+        "Catnip? Fine. One zoom.",
+        "Oh. I'm fast now. Weird.",
+        "Zoom. Then a long nap."
       ],
       "meow": "silent"
     },

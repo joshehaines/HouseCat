@@ -226,29 +226,75 @@ public enum Tuning {
         public static let arenaHeight = 6.0
         /// How fast each personality chases, in cells a second (it changes the feel, never the stars).
         public static let chaseSpeed: [String: Double] = ["aloof": 3.0, "velcro": 3.6, "gremlin": 4.0, "loaf": 2.7]
+        /// Every game is this long on the clock (Josh, 19 Oct: "very basic right now and too long"), so a round from
+        /// the tap to the result is about half a minute; the count before it, a beat at each number.
+        public static let roundSeconds = 20.0
+        public static let countSeconds = 0.6
+        /// Hits in a row make a combo: a hit scores 1, and 1 more for every `comboStep` hits in a row, up to
+        /// `comboCap`; the combo lapses after `comboSeconds` without a hit. A golden target scores `goldenTimes`
+        /// over; catnip's zoomies double everything for `zoomiesSeconds`.
+        public static let comboCap = 5
+        public static let comboStep = 2
+        public static let comboSeconds = 3.0
+        public static let goldenTimes = 3
+        public static let zoomiesTimes = 2
+        public static let zoomiesSeconds = 4.0
+        /// How much faster the cat is by the end of a game than at the start (the ramp).
+        public static let rampShare = 0.3
         /// Laser Pointer: a dot slower than this (cells a second) counts as still, and a dot still this long
-        /// bores the cat; how quickly the cat turns.
+        /// bores the cat; how quickly the cat turns. Within `pounceRange` after `stalkSeconds` of chase it crouches
+        /// for `crouchSeconds` and springs up to `leapCells` at the dot, in the air `leapSeconds`; the dot still
+        /// within `catchReach` of where it lands is caught (the reach narrows a little with the combo), and it sits
+        /// on its catch for `landSeconds`. The dot turns golden for `goldenSeconds`, twice a game.
         public static let laserMovingSpeed = 0.6
         public static let laserBoredSeconds = 1.6
         public static let laserGrip = 4.0
-        /// Knock It Off: five objects; the paw crosses the shelf in about this many cells of chase; how near the
-        /// paw must be (a fraction of the shelf); each hit speeds it up; a miss rests it.
-        public static let shelfObjects = 5
-        public static let pawSweepCells = 5.0
-        public static let pawReach = 0.09
-        public static let pawSpeedUp = 1.12
-        public static let missRestSeconds = 0.6
-        /// String Chase: five sparkles, collected within this many cells.
-        public static let sparkles = 5
+        public static let pounceRange = 1.9
+        public static let stalkSeconds = 0.45
+        public static let crouchSeconds = 0.22
+        public static let leapSeconds = 0.3
+        public static let leapCells = 2.4
+        public static let catchReach = 0.95
+        public static let catchReachPerCombo = 0.05
+        /// A pounce that lands right on the dot (the dot held still) scores `perfectTimes` over.
+        public static let perfectReach = 0.35
+        public static let perfectTimes = 2
+        public static let landSeconds = 0.35
+        public static let goldenSeconds = 3.0
+        /// Knock It Off: the cat walks the mantel and swipes what is in front of it. Up to `shelfSlots` things
+        /// stand on it, `shelfStart` to begin with and another every `spawnSeconds` (from the first to the last
+        /// value over the game); it crosses the shelf at `walkShelf` (a share of the shelf a second; a personality's
+        /// chase speed scales it), a little faster with each hit; how near it must be (a share of the shelf); a
+        /// swipe at nothing rests it a moment. Golden things now and then, and one catnip fish.
+        public static let shelfSlots = 6
+        public static let shelfStart = 3
+        public static let spawnSeconds = [1.1, 0.55]
+        public static let walkShelf = 0.42
+        public static let pawReach = 0.075
+        public static let pawSpeedUp = 1.05
+        public static let pawTopSpeed = 1.8
+        public static let missRestSeconds = 0.45
+        /// String Chase: up to `sparklesAtOnce` sparkles, each lasting `sparkleLife` (from the first to the last value
+        /// over the game), a new one `sparkleGap` after one goes, between `sparkleSpacing` cells from the cat (so
+        /// every play has runs of about the same length); collected within `sparkleReach`.
+        public static let sparklesAtOnce = 3
+        public static let sparkleLife = [5.0, 3.2]
+        public static let sparkleGap = 0.35
+        public static let sparkleSpacing = [2.5, 5.5]
         public static let sparkleReach = 0.8
+        /// A string run is mostly distance, so String Chase keeps only this share of a personality's difference
+        /// in chase speed (the stars are the same for every cat).
+        public static let stringSpeedShare = 0.4
         /// The scene: the cat this many cells tall, the top of the screen kept for the clock and stars.
         public static let catCells = 2.6
         public static let hudShare = 0.16
-        /// What stands on the shelf in Knock It Off (gift pictures).
+        /// What stands on the shelf in Knock It Off (gift pictures), and the catnip fish.
         public static let shelfThings = [
             "gift_keepsakes_little_ceramic_fish", "gift_keepsakes_tiny_silver_bell", "gift_keepsakes_small_seashell",
-            "gift_keepsakes_acorn", "gift_keepsakes_marble",
+            "gift_keepsakes_acorn", "gift_keepsakes_marble", "gift_toys_jingle_ball", "gift_toys_cork",
+            "gift_toys_ping_pong_ball",
         ]
+        public static let catnip = "gift_toys_catnip_fish"
     }
 
     /// Anonymous usage counts (Shared Analytics): PostHog's EU capture endpoint.

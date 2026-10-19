@@ -123,7 +123,7 @@ Presets are one tap and fully editable after: Midnight, Bombay, Tuxedo, Ginger T
 
 **Notifications.** Local only: breakfast at the chosen time, gift drop, optional evening nudge, all in the personality's voice; pre-permission screen after the first feed.
 
-**Mini-games.** Laser Pointer: drag the dot for 30 s, the cat chases, catches score. Knock It Off: items slide onto a shelf, tap to knock them off before they settle, 20 s. Five plays a day across both; each pays 5 XP and 10–20 Beans. String Chase joins in v1.1.
+**Mini-games.** Laser Pointer: drag the dot, the cat chases and pounces, catches score. Knock It Off: the cat walks a mantel as things keep arriving, tap to swipe them off. String Chase: draw a string through sparkles before they fade. Each is 20 s with combos, golden targets and catnip (CONTENT.md §6; Josh, 19 Oct: shorter and more fun). Five plays a day across all of them; each pays 5 XP and 2 / 4 / 6 Beans for its stars.
 
 **Data model (SwiftData, CloudKit-mirrored, App Group).** Household (homeType, city, settings), Room (type, wallpaper, floor, unlockedAt), PlacedItem (itemID, room, cell, rotation), Cat (name, variant, personality, careDays, lastFedAt, adoptedAt), InventoryItem, GiftEntry, Ledger (Beans, XP, level), Streak (lastCountedDay, graceUsedWeek, pausedUntil), HealthFlags per day, Entitlements (from RevenueCat). Household is the share root for co-owning in v1.1.
 

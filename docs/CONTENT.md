@@ -6,6 +6,8 @@ Everything here is data, not code: Claude Code produces `Content/lines.json`, `c
 
 Schema per entry: `{ "context": "...", "personality": "aloof|velcro|gremlin|loaf", "variants": ["...", "...", "..."], "meow": "short|long|chirp|trill|purr|grumble|silent" }`. Three variants per context per personality; four personalities; about 60 contexts → about 720 lines.
 
+Wants (19 Oct 2026): `want.bed`, `want.seat`, `want.scratcher`, `want.hideaway`, `want.perch`, `want.window`, `want.toy` (the home has nothing of that kind; the cat says what it would love, a wish in its own voice, never a demand and never a mention of buying) and `want.met` (it has just got one).
+
 Voice guides (the whole personality lives here):
 - **Aloof**: dry, short, deadpan, judges you fondly. Rarely an exclamation mark. "Oh. You." / "I suppose you may sit."
 - **Velcro**: warm, clingy, breathless, wants to be near you, asks you to stay. "You're back you're back you're back." / "Don't go. The sofa is big enough."

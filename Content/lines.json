@@ -4927,7 +4927,7 @@
       "context": "want.bed",
       "personality": "velcro",
       "variants": [
-        "Can we have a bed? A big one? For both of us?",
+        "A bed would be lovely. A big one. For both of us.",
         "I'll sleep on the floor by you. A bed would be lovely, though.",
         "Floor's fine! Bed would be finer. With you near."
       ],
@@ -4967,8 +4967,8 @@
       "context": "want.seat",
       "personality": "velcro",
       "variants": [
-        "A sofa! For us to sit on together!",
-        "Nowhere to snuggle up. Get a sofa and I'll show you.",
+        "A sofa would be lovely. For us to sit on together!",
+        "Nowhere to snuggle up. A sofa would fix that.",
         "If we had a seat, I'd sit on it. Next to you."
       ],
       "meow": "trill"
@@ -4979,7 +4979,7 @@
       "variants": [
         "Nothing to sit on, nothing to shred. Dull.",
         "A sofa would be a fine thing to destroy. I mean sit on.",
-        "Get a chair. I promise very little."
+        "A chair would be nice. I promise very little."
       ],
       "meow": "chirp"
     },
@@ -5009,7 +5009,7 @@
       "variants": [
         "I'm sorry about the sofa! A post would help!",
         "If I had a post, I'd only scratch that. Promise!",
-        "Can I have a scratching post? Pretty please?"
+        "A scratching post would be lovely. I'd use it every day!"
       ],
       "meow": "trill"
     },
@@ -5018,7 +5018,7 @@
       "personality": "gremlin",
       "variants": [
         "No post. The sofa it is. Your choice, really.",
-        "Get me a post or the sofa gets it.",
+        "No post, so the sofa gets it. Fair's fair.",
         "I scratched the sofa. Then I scratched it again."
       ],
       "meow": "chirp"
@@ -5058,7 +5058,7 @@
       "personality": "gremlin",
       "variants": [
         "Nowhere to lie in wait. This is a problem.",
-        "A box. A base. A hiding place. Now.",
+        "A box. A base. A hiding place. A cat can dream.",
         "How can I ambush you with nowhere to hide?"
       ],
       "meow": "chirp"
@@ -5099,7 +5099,7 @@
       "variants": [
         "Nothing to climb. Nothing to knock off. Tragic.",
         "I need high ground. For strategy.",
-        "Get me something tall and I'll show you a trick."
+        "Something tall to climb, and I'd show you a trick."
       ],
       "meow": "chirp"
     },
@@ -5167,8 +5167,8 @@
       "context": "want.toy",
       "personality": "velcro",
       "variants": [
-        "Can we have something to play with? Together?",
-        "I need a toy! Then you can watch me play!",
+        "Something to play with would be fun. Together!",
+        "A toy would be fun! Then you could watch me play!",
         "Something to bat about! Then we can play!"
       ],
       "meow": "trill"
@@ -5178,7 +5178,7 @@
       "personality": "gremlin",
       "variants": [
         "Nothing to knock over. I'll find something of yours.",
-        "I'm bored. Get me something to bat or I'll improvise.",
+        "I'm bored. Something to bat about would help. Or I'll improvise.",
         "No toys. Your things will have to do."
       ],
       "meow": "chirp"

@@ -1,0 +1,5617 @@
+{
+  "levels" : [
+    {
+      "id" : 0,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 8,
+          "y" : 0.9
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 8,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 8,
+          "y" : 0.45
+        }
+      ],
+      "place" : "city",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 0.6
+        }
+      ],
+      "title" : "The back step"
+    },
+    {
+      "id" : 1,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 9.5,
+          "y" : 0.81
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 9.5,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 9.5,
+          "y" : 0.12
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 9.5,
+          "y" : 0.24
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.5,
+          "y" : 0.36
+        }
+      ],
+      "place" : "city",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 0.8
+        }
+      ],
+      "title" : "Bin day"
+    },
+    {
+      "id" : 2,
+      "ledges" : [
+        {
+          "height" : 1.4,
+          "width" : 0.5,
+          "x" : 7.3,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 9.5,
+          "y" : 1.02
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.5,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.5,
+          "y" : 0.45
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 9.5,
+          "y" : 0.9
+        }
+      ],
+      "place" : "city",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 22.5,
+          "power" : 0.4
+        }
+      ],
+      "title" : "Over the wall"
+    },
+    {
+      "id" : 3,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 8,
+          "y" : 1.02
+        },
+        {
+          "x" : 12,
+          "y" : 1.47
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 8,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 8,
+          "y" : 0.45
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 8,
+          "y" : 0.5700000000000001
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 12,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 12,
+          "y" : 0.12
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 12,
+          "y" : 0.5700000000000001
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 12,
+          "y" : 1.02
+        }
+      ],
+      "place" : "city",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 7.5,
+          "power" : 0.65
+        }
+      ],
+      "title" : "Two towers"
+    },
+    {
+      "id" : 4,
+      "ledges" : [
+        {
+          "height" : 1,
+          "width" : 0.5,
+          "x" : 9.5,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 9.5,
+          "y" : 1.9
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.5,
+          "y" : 1
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.5,
+          "y" : 1.45
+        }
+      ],
+      "place" : "city",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 7.5,
+          "power" : 1
+        }
+      ],
+      "title" : "The shed roof"
+    },
+    {
+      "id" : 5,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 10,
+          "y" : 1.35
+        },
+        {
+          "x" : 12.5,
+          "y" : 0.5700000000000001
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.53,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.47,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.765,
+          "y" : 0.45
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.235,
+          "y" : 0.45
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10,
+          "y" : 0.9
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 12.5,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 12.5,
+          "y" : 0.12
+        }
+      ],
+      "place" : "city",
+      "pounces" : 4,
+      "solution" : [
+        {
+          "angle" : 25,
+          "power" : 0.4
+        }
+      ],
+      "title" : "Pallet pile"
+    },
+    {
+      "id" : 6,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 9.75,
+          "y" : 1
+        },
+        {
+          "x" : 10.25,
+          "y" : 1
+        },
+        {
+          "x" : 10,
+          "y" : 1.57
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.5,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.5,
+          "y" : 0.45
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.5,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.5,
+          "y" : 0.45
+        },
+        {
+          "kind" : "plank",
+          "upright" : false,
+          "x" : 10,
+          "y" : 0.9
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 10,
+          "y" : 1
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10,
+          "y" : 1.12
+        }
+      ],
+      "place" : "city",
+      "pounces" : 4,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 1
+        }
+      ],
+      "title" : "Chimney pots"
+    },
+    {
+      "id" : 7,
+      "ledges" : [
+        {
+          "height" : 2,
+          "width" : 0.4,
+          "x" : 8,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 10.5,
+          "y" : 1.14
+        },
+        {
+          "x" : 13,
+          "y" : 0.67
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 10.5,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 10.5,
+          "y" : 0.12
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.5,
+          "y" : 0.24
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.5,
+          "y" : 0.69
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 12.4,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 12.4,
+          "y" : 0.45
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 13.6,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 13.6,
+          "y" : 0.45
+        },
+        {
+          "kind" : "short",
+          "upright" : false,
+          "x" : 13,
+          "y" : 0.5700000000000001
+        }
+      ],
+      "place" : "city",
+      "pounces" : 4,
+      "solution" : [
+        {
+          "angle" : 27.5,
+          "power" : 0.45
+        }
+      ],
+      "title" : "Washing day"
+    },
+    {
+      "id" : 8,
+      "ledges" : [
+        {
+          "height" : 1,
+          "width" : 0.5,
+          "x" : 9.5,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 9.5,
+          "y" : 1.45
+        },
+        {
+          "x" : 12.1,
+          "y" : 1.12
+        },
+        {
+          "x" : 7.1,
+          "y" : 1.35
+        }
+      ],
+      "par" : 3,
+      "pieces" : [
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.5,
+          "y" : 1
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 11.4,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 11.4,
+          "y" : 0.12
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 11.4,
+          "y" : 0.5700000000000001
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 12.4,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 12.4,
+          "y" : 0.12
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 12.4,
+          "y" : 0.5700000000000001
+        },
+        {
+          "kind" : "plank",
+          "upright" : false,
+          "x" : 11.9,
+          "y" : 1.02
+        },
+        {
+          "kind" : "tin",
+          "upright" : false,
+          "x" : 11.65,
+          "y" : 1.12
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 7.1,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 7.1,
+          "y" : 0.45
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 7.1,
+          "y" : 0.9
+        }
+      ],
+      "place" : "city",
+      "pounces" : 5,
+      "solution" : [
+        {
+          "angle" : 10,
+          "power" : 0.75
+        }
+      ],
+      "title" : "Window boxes"
+    },
+    {
+      "id" : 9,
+      "ledges" : [
+        {
+          "height" : 0.9,
+          "width" : 0.8,
+          "x" : 13.4,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 10,
+          "y" : 1.6700000000000002
+        },
+        {
+          "x" : 9.1,
+          "y" : 1.12
+        },
+        {
+          "x" : 10.9,
+          "y" : 1.12
+        },
+        {
+          "x" : 13.4,
+          "y" : 1.4700000000000002
+        }
+      ],
+      "par" : 3,
+      "pieces" : [
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 9.2,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.2,
+          "y" : 0.12
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.2,
+          "y" : 0.5700000000000001
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 10.8,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.8,
+          "y" : 0.12
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.8,
+          "y" : 0.5700000000000001
+        },
+        {
+          "kind" : "plank",
+          "upright" : false,
+          "x" : 10,
+          "y" : 1.02
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.55,
+          "y" : 1.12
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.45,
+          "y" : 1.12
+        },
+        {
+          "kind" : "short",
+          "upright" : false,
+          "x" : 10,
+          "y" : 1.57
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 13.4,
+          "y" : 0.9
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 13.4,
+          "y" : 1.35
+        }
+      ],
+      "place" : "city",
+      "pounces" : 5,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 1
+        }
+      ],
+      "title" : "Rooftop party"
+    },
+    {
+      "id" : 10,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 8.5,
+          "y" : 0.8
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 8.5,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 8.5,
+          "y" : 0.4
+        }
+      ],
+      "place" : "coast",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 0.65
+        }
+      ],
+      "title" : "Sandcastle"
+    },
+    {
+      "id" : 11,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 10,
+          "y" : 1.42
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 10,
+          "y" : 0
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 10,
+          "y" : 0.34
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 10,
+          "y" : 0.68
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10,
+          "y" : 1.02
+        }
+      ],
+      "place" : "coast",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 7.5,
+          "power" : 0.9500000000000001
+        }
+      ],
+      "title" : "Beach huts"
+    },
+    {
+      "id" : 12,
+      "ledges" : [
+        {
+          "height" : 1.4,
+          "width" : 0.5,
+          "x" : 8.8,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 11,
+          "y" : 1.1400000000000001
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 11,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 11,
+          "y" : 0.4
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 11,
+          "y" : 0.8
+        }
+      ],
+      "place" : "coast",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 17.5,
+          "power" : 0.6
+        }
+      ],
+      "title" : "The sea wall"
+    },
+    {
+      "id" : 13,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 8.5,
+          "y" : 1.1400000000000001
+        },
+        {
+          "x" : 12.5,
+          "y" : 1.54
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 8.5,
+          "y" : 0
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 8.5,
+          "y" : 0.4
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 8.5,
+          "y" : 0.74
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 12.5,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 12.5,
+          "y" : 0.34
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 12.5,
+          "y" : 0.74
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 12.5,
+          "y" : 1.1400000000000001
+        }
+      ],
+      "place" : "coast",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 0.7000000000000001
+        }
+      ],
+      "title" : "Rock pools"
+    },
+    {
+      "id" : 14,
+      "ledges" : [
+        {
+          "height" : 0.6,
+          "width" : 1.2,
+          "x" : 11,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 11,
+          "y" : 1.4
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 11,
+          "y" : 0.6
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 11,
+          "y" : 1
+        }
+      ],
+      "place" : "coast",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 10,
+          "power" : 0.8
+        }
+      ],
+      "title" : "Deckchairs"
+    },
+    {
+      "id" : 15,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 10.5,
+          "y" : 1.2000000000000002
+        },
+        {
+          "x" : 13,
+          "y" : 0.74
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 9.68,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.5,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 11.32,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.09,
+          "y" : 0.4
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.91,
+          "y" : 0.4
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.5,
+          "y" : 0.8
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 13,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 13,
+          "y" : 0.34
+        }
+      ],
+      "place" : "coast",
+      "pounces" : 4,
+      "solution" : [
+        {
+          "angle" : 7.5,
+          "power" : 0.9500000000000001
+        }
+      ],
+      "title" : "Lobster pots"
+    },
+    {
+      "id" : 16,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 10.25,
+          "y" : 0.9
+        },
+        {
+          "x" : 10.75,
+          "y" : 0.9
+        },
+        {
+          "x" : 10.5,
+          "y" : 1.6400000000000001
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10,
+          "y" : 0.4
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 11,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 11,
+          "y" : 0.4
+        },
+        {
+          "kind" : "plank",
+          "upright" : false,
+          "x" : 10.5,
+          "y" : 0.8
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 10.5,
+          "y" : 0.9
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.5,
+          "y" : 1.24
+        }
+      ],
+      "place" : "coast",
+      "pounces" : 4,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 1
+        }
+      ],
+      "title" : "Pier end"
+    },
+    {
+      "id" : 17,
+      "ledges" : [
+        {
+          "height" : 2,
+          "width" : 0.4,
+          "x" : 8.5,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 11,
+          "y" : 1.48
+        },
+        {
+          "x" : 13.5,
+          "y" : 0.84
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 11,
+          "y" : 0
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 11,
+          "y" : 0.34
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 11,
+          "y" : 0.68
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 11,
+          "y" : 1.08
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 12.9,
+          "y" : 0
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 12.9,
+          "y" : 0.4
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 14.1,
+          "y" : 0
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 14.1,
+          "y" : 0.4
+        },
+        {
+          "kind" : "short",
+          "upright" : false,
+          "x" : 13.5,
+          "y" : 0.74
+        }
+      ],
+      "place" : "coast",
+      "pounces" : 4,
+      "solution" : [
+        {
+          "angle" : 32.5,
+          "power" : 0.45
+        }
+      ],
+      "title" : "Lighthouse"
+    },
+    {
+      "id" : 18,
+      "ledges" : [
+        {
+          "height" : 0.6,
+          "width" : 1.2,
+          "x" : 11,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 11,
+          "y" : 1
+        },
+        {
+          "x" : 13.6,
+          "y" : 1.2400000000000002
+        },
+        {
+          "x" : 8.6,
+          "y" : 1.2000000000000002
+        }
+      ],
+      "par" : 3,
+      "pieces" : [
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 11,
+          "y" : 0.6
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 12.9,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 12.9,
+          "y" : 0.34
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 12.9,
+          "y" : 0.74
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 13.9,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 13.9,
+          "y" : 0.34
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 13.9,
+          "y" : 0.74
+        },
+        {
+          "kind" : "plank",
+          "upright" : false,
+          "x" : 13.4,
+          "y" : 1.1400000000000001
+        },
+        {
+          "kind" : "tin",
+          "upright" : false,
+          "x" : 13.15,
+          "y" : 1.2400000000000002
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 8.6,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 8.6,
+          "y" : 0.4
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 8.6,
+          "y" : 0.8
+        }
+      ],
+      "place" : "coast",
+      "pounces" : 5,
+      "solution" : [
+        {
+          "angle" : 7.5,
+          "power" : 0.9500000000000001
+        }
+      ],
+      "title" : "Ice cream queue"
+    },
+    {
+      "id" : 19,
+      "ledges" : [
+        {
+          "height" : 0.9,
+          "width" : 0.8,
+          "x" : 13.9,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 10.5,
+          "y" : 1.7400000000000002
+        },
+        {
+          "x" : 9.6,
+          "y" : 1.2400000000000002
+        },
+        {
+          "x" : 11.4,
+          "y" : 1.2400000000000002
+        },
+        {
+          "x" : 13.9,
+          "y" : 1.6400000000000001
+        }
+      ],
+      "par" : 3,
+      "pieces" : [
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 9.7,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 9.7,
+          "y" : 0.34
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 9.7,
+          "y" : 0.74
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 11.3,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 11.3,
+          "y" : 0.34
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 11.3,
+          "y" : 0.74
+        },
+        {
+          "kind" : "plank",
+          "upright" : false,
+          "x" : 10.5,
+          "y" : 1.1400000000000001
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.05,
+          "y" : 1.2400000000000002
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.95,
+          "y" : 1.2400000000000002
+        },
+        {
+          "kind" : "short",
+          "upright" : false,
+          "x" : 10.5,
+          "y" : 1.6400000000000001
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 13.9,
+          "y" : 0.9
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 13.9,
+          "y" : 1.3
+        }
+      ],
+      "place" : "coast",
+      "pounces" : 5,
+      "solution" : [
+        {
+          "angle" : 15,
+          "power" : 0.65
+        }
+      ],
+      "title" : "High tide"
+    },
+    {
+      "id" : 20,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 7.7,
+          "y" : 0.9
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 7.7,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 7.7,
+          "y" : 0.45
+        }
+      ],
+      "place" : "countryside",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 0.5
+        }
+      ],
+      "title" : "Hay bales"
+    },
+    {
+      "id" : 21,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 9.2,
+          "y" : 1.47
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 9.2,
+          "y" : 0
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 9.2,
+          "y" : 0.34
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 9.2,
+          "y" : 0.68
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.2,
+          "y" : 1.02
+        }
+      ],
+      "place" : "countryside",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 1
+        }
+      ],
+      "title" : "The barn door"
+    },
+    {
+      "id" : 22,
+      "ledges" : [
+        {
+          "height" : 1.4,
+          "width" : 0.5,
+          "x" : 5.999999999999999,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 8.2,
+          "y" : 1.24
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 8.2,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 8.2,
+          "y" : 0.45
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 8.2,
+          "y" : 0.9
+        }
+      ],
+      "place" : "countryside",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 17.5,
+          "power" : 0.4
+        }
+      ],
+      "title" : "Over the stile"
+    },
+    {
+      "id" : 23,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 7.7,
+          "y" : 1.24
+        },
+        {
+          "x" : 11.7,
+          "y" : 1.69
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 7.7,
+          "y" : 0
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 7.7,
+          "y" : 0.45
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 7.7,
+          "y" : 0.79
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 11.7,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 11.7,
+          "y" : 0.34
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 11.7,
+          "y" : 0.79
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 11.7,
+          "y" : 1.24
+        }
+      ],
+      "place" : "countryside",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 0.8
+        }
+      ],
+      "title" : "Milk churns"
+    },
+    {
+      "id" : 24,
+      "ledges" : [
+        {
+          "height" : 0.8,
+          "width" : 1.4,
+          "x" : 8.2,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 8.2,
+          "y" : 1.7
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 8.2,
+          "y" : 0.8
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 8.2,
+          "y" : 1.25
+        }
+      ],
+      "place" : "countryside",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 7.5,
+          "power" : 1
+        }
+      ],
+      "title" : "Hen house"
+    },
+    {
+      "id" : 25,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 9.7,
+          "y" : 1.35
+        },
+        {
+          "x" : 12.2,
+          "y" : 0.79
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.229999999999999,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.7,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.17,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.465,
+          "y" : 0.45
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.934999999999999,
+          "y" : 0.45
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.7,
+          "y" : 0.9
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 12.2,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 12.2,
+          "y" : 0.34
+        }
+      ],
+      "place" : "countryside",
+      "pounces" : 4,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 0.75
+        }
+      ],
+      "title" : "Apple crates"
+    },
+    {
+      "id" : 26,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 9.45,
+          "y" : 1
+        },
+        {
+          "x" : 9.95,
+          "y" : 1
+        },
+        {
+          "x" : 9.7,
+          "y" : 1.79
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.2,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.2,
+          "y" : 0.45
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.2,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.2,
+          "y" : 0.45
+        },
+        {
+          "kind" : "plank",
+          "upright" : false,
+          "x" : 9.7,
+          "y" : 0.9
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 9.7,
+          "y" : 1
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.7,
+          "y" : 1.34
+        }
+      ],
+      "place" : "countryside",
+      "pounces" : 4,
+      "solution" : [
+        {
+          "angle" : 10,
+          "power" : 0.7000000000000001
+        }
+      ],
+      "title" : "The tractor"
+    },
+    {
+      "id" : 27,
+      "ledges" : [
+        {
+          "height" : 2,
+          "width" : 0.4,
+          "x" : 7.7,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 10.2,
+          "y" : 1.58
+        },
+        {
+          "x" : 12.7,
+          "y" : 0.89
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 10.2,
+          "y" : 0
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 10.2,
+          "y" : 0.34
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.2,
+          "y" : 0.68
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.2,
+          "y" : 1.1300000000000001
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 12.1,
+          "y" : 0
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 12.1,
+          "y" : 0.45
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 13.299999999999999,
+          "y" : 0
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 13.299999999999999,
+          "y" : 0.45
+        },
+        {
+          "kind" : "short",
+          "upright" : false,
+          "x" : 12.7,
+          "y" : 0.79
+        }
+      ],
+      "place" : "countryside",
+      "pounces" : 4,
+      "solution" : [
+        {
+          "angle" : 35,
+          "power" : 0.4
+        }
+      ],
+      "title" : "Harvest"
+    },
+    {
+      "id" : 28,
+      "ledges" : [
+        {
+          "height" : 0.8,
+          "width" : 1.4,
+          "x" : 8.2,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 8.2,
+          "y" : 1.25
+        },
+        {
+          "x" : 10.799999999999999,
+          "y" : 1.34
+        },
+        {
+          "x" : 5.799999999999999,
+          "y" : 1.35
+        }
+      ],
+      "par" : 3,
+      "pieces" : [
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 8.2,
+          "y" : 0.8
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 10.1,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.1,
+          "y" : 0.34
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.1,
+          "y" : 0.79
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 11.1,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 11.1,
+          "y" : 0.34
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 11.1,
+          "y" : 0.79
+        },
+        {
+          "kind" : "plank",
+          "upright" : false,
+          "x" : 10.6,
+          "y" : 1.24
+        },
+        {
+          "kind" : "tin",
+          "upright" : false,
+          "x" : 10.35,
+          "y" : 1.34
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 5.799999999999999,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 5.799999999999999,
+          "y" : 0.45
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 5.799999999999999,
+          "y" : 0.9
+        }
+      ],
+      "place" : "countryside",
+      "pounces" : 5,
+      "solution" : [
+        {
+          "angle" : 7.5,
+          "power" : 0.55
+        }
+      ],
+      "title" : "Scarecrow"
+    },
+    {
+      "id" : 29,
+      "ledges" : [
+        {
+          "height" : 0.9,
+          "width" : 0.8,
+          "x" : 13.1,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 9.7,
+          "y" : 1.8900000000000001
+        },
+        {
+          "x" : 8.799999999999999,
+          "y" : 1.34
+        },
+        {
+          "x" : 10.6,
+          "y" : 1.34
+        },
+        {
+          "x" : 13.1,
+          "y" : 1.6900000000000002
+        }
+      ],
+      "par" : 3,
+      "pieces" : [
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 8.899999999999999,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 8.899999999999999,
+          "y" : 0.34
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 8.899999999999999,
+          "y" : 0.79
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 10.5,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.5,
+          "y" : 0.34
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.5,
+          "y" : 0.79
+        },
+        {
+          "kind" : "plank",
+          "upright" : false,
+          "x" : 9.7,
+          "y" : 1.24
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.25,
+          "y" : 1.34
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.149999999999999,
+          "y" : 1.34
+        },
+        {
+          "kind" : "short",
+          "upright" : false,
+          "x" : 9.7,
+          "y" : 1.79
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 13.1,
+          "y" : 0.9
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 13.1,
+          "y" : 1.35
+        }
+      ],
+      "place" : "countryside",
+      "pounces" : 5,
+      "solution" : [
+        {
+          "angle" : 7.5,
+          "power" : 1
+        }
+      ],
+      "title" : "Village fête"
+    },
+    {
+      "id" : 30,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 8.8,
+          "y" : 0.24
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 8.8,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 8.8,
+          "y" : 0.12
+        }
+      ],
+      "place" : "mountain",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 25,
+          "power" : 0.25
+        }
+      ],
+      "title" : "Base camp"
+    },
+    {
+      "id" : 31,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 10.3,
+          "y" : 1.1400000000000001
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 10.3,
+          "y" : 0
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 10.3,
+          "y" : 0.34
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 10.3,
+          "y" : 0.68
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 10.3,
+          "y" : 1.02
+        }
+      ],
+      "place" : "mountain",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 1
+        }
+      ],
+      "title" : "First ledge"
+    },
+    {
+      "id" : 32,
+      "ledges" : [
+        {
+          "height" : 1.4,
+          "width" : 0.5,
+          "x" : 9.600000000000001,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 11.8,
+          "y" : 0.5800000000000001
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 11.8,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 11.8,
+          "y" : 0.12
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 11.8,
+          "y" : 0.24
+        }
+      ],
+      "place" : "mountain",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 35,
+          "power" : 0.4
+        }
+      ],
+      "title" : "Boulder field"
+    },
+    {
+      "id" : 33,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 8.8,
+          "y" : 0.5800000000000001
+        },
+        {
+          "x" : 12.8,
+          "y" : 0.7000000000000001
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 8.8,
+          "y" : 0
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 8.8,
+          "y" : 0.12
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 8.8,
+          "y" : 0.46
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 12.8,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 12.8,
+          "y" : 0.34
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 12.8,
+          "y" : 0.46
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 12.8,
+          "y" : 0.5800000000000001
+        }
+      ],
+      "place" : "mountain",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 7.5,
+          "power" : 0.55
+        }
+      ],
+      "title" : "The pass"
+    },
+    {
+      "id" : 34,
+      "ledges" : [
+        {
+          "height" : 1.4,
+          "width" : 1.6,
+          "x" : 11.8,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 11.8,
+          "y" : 1.6400000000000001
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 11.8,
+          "y" : 1.4
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 11.8,
+          "y" : 1.52
+        }
+      ],
+      "place" : "mountain",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 45,
+          "power" : 0.45
+        }
+      ],
+      "title" : "Mountain hut"
+    },
+    {
+      "id" : 35,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 10.8,
+          "y" : 0.36
+        },
+        {
+          "x" : 13.3,
+          "y" : 0.46
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 10.280000000000001,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 10.8,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 11.32,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 10.540000000000001,
+          "y" : 0.12
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 11.06,
+          "y" : 0.12
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 10.8,
+          "y" : 0.24
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 13.3,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 13.3,
+          "y" : 0.34
+        }
+      ],
+      "place" : "mountain",
+      "pounces" : 4,
+      "solution" : [
+        {
+          "angle" : 10,
+          "power" : 0.55
+        }
+      ],
+      "title" : "Two peaks"
+    },
+    {
+      "id" : 36,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 10.55,
+          "y" : 0.33999999999999997
+        },
+        {
+          "x" : 11.05,
+          "y" : 0.33999999999999997
+        },
+        {
+          "x" : 10.8,
+          "y" : 0.7999999999999999
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 10.3,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 10.3,
+          "y" : 0.12
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 11.3,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 11.3,
+          "y" : 0.12
+        },
+        {
+          "kind" : "plank",
+          "upright" : false,
+          "x" : 10.8,
+          "y" : 0.24
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 10.8,
+          "y" : 0.33999999999999997
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 10.8,
+          "y" : 0.6799999999999999
+        }
+      ],
+      "place" : "mountain",
+      "pounces" : 4,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 0.7000000000000001
+        }
+      ],
+      "title" : "The gully"
+    },
+    {
+      "id" : 37,
+      "ledges" : [
+        {
+          "height" : 2,
+          "width" : 0.4,
+          "x" : 8.8,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 11.3,
+          "y" : 0.92
+        },
+        {
+          "x" : 13.8,
+          "y" : 0.56
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 11.3,
+          "y" : 0
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 11.3,
+          "y" : 0.34
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 11.3,
+          "y" : 0.68
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 11.3,
+          "y" : 0.8
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 13.200000000000001,
+          "y" : 0
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 13.200000000000001,
+          "y" : 0.12
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 14.4,
+          "y" : 0
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 14.4,
+          "y" : 0.12
+        },
+        {
+          "kind" : "short",
+          "upright" : false,
+          "x" : 13.8,
+          "y" : 0.46
+        }
+      ],
+      "place" : "mountain",
+      "pounces" : 4,
+      "solution" : [
+        {
+          "angle" : 40,
+          "power" : 0.4
+        }
+      ],
+      "title" : "Rope bridge"
+    },
+    {
+      "id" : 38,
+      "ledges" : [
+        {
+          "height" : 1.4,
+          "width" : 1.6,
+          "x" : 11.8,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 11.8,
+          "y" : 1.52
+        },
+        {
+          "x" : 14.4,
+          "y" : 0.68
+        },
+        {
+          "x" : 9.4,
+          "y" : 0.36
+        }
+      ],
+      "par" : 3,
+      "pieces" : [
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 11.8,
+          "y" : 1.4
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 13.700000000000001,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 13.700000000000001,
+          "y" : 0.34
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 13.700000000000001,
+          "y" : 0.46
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 14.700000000000001,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 14.700000000000001,
+          "y" : 0.34
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 14.700000000000001,
+          "y" : 0.46
+        },
+        {
+          "kind" : "plank",
+          "upright" : false,
+          "x" : 14.200000000000001,
+          "y" : 0.5800000000000001
+        },
+        {
+          "kind" : "tin",
+          "upright" : false,
+          "x" : 13.950000000000001,
+          "y" : 0.68
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 9.4,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 9.4,
+          "y" : 0.12
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 9.4,
+          "y" : 0.24
+        }
+      ],
+      "place" : "mountain",
+      "pounces" : 5,
+      "solution" : [
+        {
+          "angle" : 25,
+          "power" : 0.55
+        },
+        {
+          "angle" : 10,
+          "power" : 0.45
+        }
+      ],
+      "title" : "Summit cairn"
+    },
+    {
+      "id" : 39,
+      "ledges" : [
+        {
+          "height" : 0.9,
+          "width" : 0.8,
+          "x" : 14.200000000000001,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 10.8,
+          "y" : 0.9
+        },
+        {
+          "x" : 9.9,
+          "y" : 0.68
+        },
+        {
+          "x" : 11.700000000000001,
+          "y" : 0.68
+        },
+        {
+          "x" : 14.200000000000001,
+          "y" : 1.36
+        }
+      ],
+      "par" : 3,
+      "pieces" : [
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 10,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 10,
+          "y" : 0.34
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 10,
+          "y" : 0.46
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 11.600000000000001,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 11.600000000000001,
+          "y" : 0.34
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 11.600000000000001,
+          "y" : 0.46
+        },
+        {
+          "kind" : "plank",
+          "upright" : false,
+          "x" : 10.8,
+          "y" : 0.5800000000000001
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 10.350000000000001,
+          "y" : 0.68
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 11.25,
+          "y" : 0.68
+        },
+        {
+          "kind" : "short",
+          "upright" : false,
+          "x" : 10.8,
+          "y" : 0.8
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 14.200000000000001,
+          "y" : 0.9
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 14.200000000000001,
+          "y" : 1.02
+        }
+      ],
+      "place" : "mountain",
+      "pounces" : 5,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 1
+        }
+      ],
+      "title" : "Above the clouds"
+    },
+    {
+      "id" : 40,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 8.2,
+          "y" : 0.9
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 8.2,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 8.2,
+          "y" : 0.45
+        }
+      ],
+      "place" : "forest",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 0.35
+        }
+      ],
+      "title" : "Fallen log"
+    },
+    {
+      "id" : 41,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 9.7,
+          "y" : 0.81
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 9.7,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 9.7,
+          "y" : 0.12
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 9.7,
+          "y" : 0.24
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.7,
+          "y" : 0.36
+        }
+      ],
+      "place" : "forest",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 0.55
+        }
+      ],
+      "title" : "Toadstools"
+    },
+    {
+      "id" : 42,
+      "ledges" : [
+        {
+          "height" : 1.4,
+          "width" : 0.5,
+          "x" : 6.999999999999999,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 9.2,
+          "y" : 1.02
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.2,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.2,
+          "y" : 0.45
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 9.2,
+          "y" : 0.9
+        }
+      ],
+      "place" : "forest",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 30,
+          "power" : 0.3
+        }
+      ],
+      "title" : "The woodpile"
+    },
+    {
+      "id" : 43,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 8.2,
+          "y" : 1.02
+        },
+        {
+          "x" : 12.2,
+          "y" : 1.47
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 8.2,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 8.2,
+          "y" : 0.45
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 8.2,
+          "y" : 0.5700000000000001
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 12.2,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 12.2,
+          "y" : 0.12
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 12.2,
+          "y" : 0.5700000000000001
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 12.2,
+          "y" : 1.02
+        }
+      ],
+      "place" : "forest",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 0.9
+        }
+      ],
+      "title" : "Badger sett"
+    },
+    {
+      "id" : 44,
+      "ledges" : [
+        {
+          "height" : 0.5,
+          "width" : 2.2,
+          "x" : 9.2,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 9.2,
+          "y" : 1.4
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.2,
+          "y" : 0.5
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.2,
+          "y" : 0.95
+        }
+      ],
+      "place" : "forest",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 7.5,
+          "power" : 0.9500000000000001
+        }
+      ],
+      "title" : "Tree stump"
+    },
+    {
+      "id" : 45,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 10.2,
+          "y" : 1.35
+        },
+        {
+          "x" : 12.7,
+          "y" : 0.5700000000000001
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.729999999999999,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.2,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.67,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.965,
+          "y" : 0.45
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.434999999999999,
+          "y" : 0.45
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.2,
+          "y" : 0.9
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 12.7,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 12.7,
+          "y" : 0.12
+        }
+      ],
+      "place" : "forest",
+      "pounces" : 4,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 0.8
+        }
+      ],
+      "title" : "Bluebells"
+    },
+    {
+      "id" : 46,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 9.95,
+          "y" : 1
+        },
+        {
+          "x" : 10.45,
+          "y" : 1
+        },
+        {
+          "x" : 10.2,
+          "y" : 1.57
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.7,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.7,
+          "y" : 0.45
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.7,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.7,
+          "y" : 0.45
+        },
+        {
+          "kind" : "plank",
+          "upright" : false,
+          "x" : 10.2,
+          "y" : 0.9
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 10.2,
+          "y" : 1
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.2,
+          "y" : 1.12
+        }
+      ],
+      "place" : "forest",
+      "pounces" : 4,
+      "solution" : [
+        {
+          "angle" : 7.5,
+          "power" : 0.8500000000000001
+        }
+      ],
+      "title" : "The clearing"
+    },
+    {
+      "id" : 47,
+      "ledges" : [
+        {
+          "height" : 2,
+          "width" : 0.4,
+          "x" : 8.2,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 10.7,
+          "y" : 1.14
+        },
+        {
+          "x" : 13.2,
+          "y" : 0.67
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 10.7,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 10.7,
+          "y" : 0.12
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.7,
+          "y" : 0.24
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.7,
+          "y" : 0.69
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 12.6,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 12.6,
+          "y" : 0.45
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 13.799999999999999,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 13.799999999999999,
+          "y" : 0.45
+        },
+        {
+          "kind" : "short",
+          "upright" : false,
+          "x" : 13.2,
+          "y" : 0.5700000000000001
+        }
+      ],
+      "place" : "forest",
+      "pounces" : 4,
+      "solution" : [
+        {
+          "angle" : 32.5,
+          "power" : 0.4
+        }
+      ],
+      "title" : "Owl's hollow"
+    },
+    {
+      "id" : 48,
+      "ledges" : [
+        {
+          "height" : 0.5,
+          "width" : 2.2,
+          "x" : 9.2,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 9.2,
+          "y" : 0.95
+        },
+        {
+          "x" : 11.799999999999999,
+          "y" : 1.12
+        },
+        {
+          "x" : 6.799999999999999,
+          "y" : 1.35
+        }
+      ],
+      "par" : 3,
+      "pieces" : [
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.2,
+          "y" : 0.5
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 11.1,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 11.1,
+          "y" : 0.12
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 11.1,
+          "y" : 0.5700000000000001
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 12.1,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 12.1,
+          "y" : 0.12
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 12.1,
+          "y" : 0.5700000000000001
+        },
+        {
+          "kind" : "plank",
+          "upright" : false,
+          "x" : 11.6,
+          "y" : 1.02
+        },
+        {
+          "kind" : "tin",
+          "upright" : false,
+          "x" : 11.35,
+          "y" : 1.12
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 6.799999999999999,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 6.799999999999999,
+          "y" : 0.45
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 6.799999999999999,
+          "y" : 0.9
+        }
+      ],
+      "place" : "forest",
+      "pounces" : 5,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 0.7000000000000001
+        }
+      ],
+      "title" : "Ferns"
+    },
+    {
+      "id" : 49,
+      "ledges" : [
+        {
+          "height" : 0.9,
+          "width" : 0.8,
+          "x" : 13.6,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 10.2,
+          "y" : 1.6700000000000002
+        },
+        {
+          "x" : 9.299999999999999,
+          "y" : 1.12
+        },
+        {
+          "x" : 11.1,
+          "y" : 1.12
+        },
+        {
+          "x" : 13.6,
+          "y" : 1.4700000000000002
+        }
+      ],
+      "par" : 3,
+      "pieces" : [
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 9.399999999999999,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.399999999999999,
+          "y" : 0.12
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.399999999999999,
+          "y" : 0.5700000000000001
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 11,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 11,
+          "y" : 0.12
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 11,
+          "y" : 0.5700000000000001
+        },
+        {
+          "kind" : "plank",
+          "upright" : false,
+          "x" : 10.2,
+          "y" : 1.02
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.75,
+          "y" : 1.12
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.649999999999999,
+          "y" : 1.12
+        },
+        {
+          "kind" : "short",
+          "upright" : false,
+          "x" : 10.2,
+          "y" : 1.57
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 13.6,
+          "y" : 0.9
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 13.6,
+          "y" : 1.35
+        }
+      ],
+      "place" : "forest",
+      "pounces" : 5,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 1
+        }
+      ],
+      "title" : "Deep in the woods"
+    },
+    {
+      "id" : 50,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 8.4,
+          "y" : 0.8
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 8.4,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 8.4,
+          "y" : 0.4
+        }
+      ],
+      "place" : "desert",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 0.35
+        }
+      ],
+      "title" : "Sand dune"
+    },
+    {
+      "id" : 51,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 9.9,
+          "y" : 1.42
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 9.9,
+          "y" : 0
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 9.9,
+          "y" : 0.34
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 9.9,
+          "y" : 0.68
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 9.9,
+          "y" : 1.02
+        }
+      ],
+      "place" : "desert",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 1
+        }
+      ],
+      "title" : "The oasis"
+    },
+    {
+      "id" : 52,
+      "ledges" : [
+        {
+          "height" : 1.4,
+          "width" : 0.5,
+          "x" : 8.2,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 10.4,
+          "y" : 1.1400000000000001
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.4,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.4,
+          "y" : 0.4
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 10.4,
+          "y" : 0.8
+        }
+      ],
+      "place" : "desert",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 20,
+          "power" : 0.5
+        }
+      ],
+      "title" : "Cactus pots"
+    },
+    {
+      "id" : 53,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 8.4,
+          "y" : 1.1400000000000001
+        },
+        {
+          "x" : 12.4,
+          "y" : 1.54
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 8.4,
+          "y" : 0
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 8.4,
+          "y" : 0.4
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 8.4,
+          "y" : 0.74
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 12.4,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 12.4,
+          "y" : 0.34
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 12.4,
+          "y" : 0.74
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 12.4,
+          "y" : 1.1400000000000001
+        }
+      ],
+      "place" : "desert",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 1
+        }
+      ],
+      "title" : "Market stall"
+    },
+    {
+      "id" : 54,
+      "ledges" : [
+        {
+          "height" : 1,
+          "width" : 1,
+          "x" : 10.4,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 10.4,
+          "y" : 1.7999999999999998
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.4,
+          "y" : 1
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.4,
+          "y" : 1.4
+        }
+      ],
+      "place" : "desert",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 12.5,
+          "power" : 0.7000000000000001
+        }
+      ],
+      "title" : "Rug sellers"
+    },
+    {
+      "id" : 55,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 10.4,
+          "y" : 1.2000000000000002
+        },
+        {
+          "x" : 12.9,
+          "y" : 0.74
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 9.58,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.4,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 11.22,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 9.99,
+          "y" : 0.4
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.81,
+          "y" : 0.4
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.4,
+          "y" : 0.8
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 12.9,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 12.9,
+          "y" : 0.34
+        }
+      ],
+      "place" : "desert",
+      "pounces" : 4,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 1
+        }
+      ],
+      "title" : "Spice sacks"
+    },
+    {
+      "id" : 56,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 10.15,
+          "y" : 0.9
+        },
+        {
+          "x" : 10.65,
+          "y" : 0.9
+        },
+        {
+          "x" : 10.4,
+          "y" : 1.6400000000000001
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 9.9,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 9.9,
+          "y" : 0.4
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.9,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.9,
+          "y" : 0.4
+        },
+        {
+          "kind" : "plank",
+          "upright" : false,
+          "x" : 10.4,
+          "y" : 0.8
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 10.4,
+          "y" : 0.9
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.4,
+          "y" : 1.24
+        }
+      ],
+      "place" : "desert",
+      "pounces" : 4,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 1
+        }
+      ],
+      "title" : "The well"
+    },
+    {
+      "id" : 57,
+      "ledges" : [
+        {
+          "height" : 2,
+          "width" : 0.4,
+          "x" : 8.4,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 10.9,
+          "y" : 1.48
+        },
+        {
+          "x" : 13.4,
+          "y" : 0.84
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 10.9,
+          "y" : 0
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 10.9,
+          "y" : 0.34
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.9,
+          "y" : 0.68
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.9,
+          "y" : 1.08
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 12.8,
+          "y" : 0
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 12.8,
+          "y" : 0.4
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 14,
+          "y" : 0
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 14,
+          "y" : 0.4
+        },
+        {
+          "kind" : "short",
+          "upright" : false,
+          "x" : 13.4,
+          "y" : 0.74
+        }
+      ],
+      "place" : "desert",
+      "pounces" : 4,
+      "solution" : [
+        {
+          "angle" : 42.5,
+          "power" : 0.4
+        }
+      ],
+      "title" : "Palm shade"
+    },
+    {
+      "id" : 58,
+      "ledges" : [
+        {
+          "height" : 1,
+          "width" : 1,
+          "x" : 10.4,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 10.4,
+          "y" : 1.4
+        },
+        {
+          "x" : 13,
+          "y" : 1.2400000000000002
+        },
+        {
+          "x" : 8,
+          "y" : 1.2000000000000002
+        }
+      ],
+      "par" : 3,
+      "pieces" : [
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.4,
+          "y" : 1
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 12.3,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 12.3,
+          "y" : 0.34
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 12.3,
+          "y" : 0.74
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 13.3,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 13.3,
+          "y" : 0.34
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 13.3,
+          "y" : 0.74
+        },
+        {
+          "kind" : "plank",
+          "upright" : false,
+          "x" : 12.8,
+          "y" : 1.1400000000000001
+        },
+        {
+          "kind" : "tin",
+          "upright" : false,
+          "x" : 12.55,
+          "y" : 1.2400000000000002
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 8,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 8,
+          "y" : 0.4
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 8,
+          "y" : 0.8
+        }
+      ],
+      "place" : "desert",
+      "pounces" : 5,
+      "solution" : [
+        {
+          "angle" : 7.5,
+          "power" : 0.8500000000000001
+        }
+      ],
+      "title" : "Courtyard"
+    },
+    {
+      "id" : 59,
+      "ledges" : [
+        {
+          "height" : 0.9,
+          "width" : 0.8,
+          "x" : 13.8,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 10.4,
+          "y" : 1.7400000000000002
+        },
+        {
+          "x" : 9.5,
+          "y" : 1.2400000000000002
+        },
+        {
+          "x" : 11.3,
+          "y" : 1.2400000000000002
+        },
+        {
+          "x" : 13.8,
+          "y" : 1.6400000000000001
+        }
+      ],
+      "par" : 3,
+      "pieces" : [
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 9.6,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 9.6,
+          "y" : 0.34
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 9.6,
+          "y" : 0.74
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 11.200000000000001,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 11.200000000000001,
+          "y" : 0.34
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 11.200000000000001,
+          "y" : 0.74
+        },
+        {
+          "kind" : "plank",
+          "upright" : false,
+          "x" : 10.4,
+          "y" : 1.1400000000000001
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 9.950000000000001,
+          "y" : 1.2400000000000002
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.85,
+          "y" : 1.2400000000000002
+        },
+        {
+          "kind" : "short",
+          "upright" : false,
+          "x" : 10.4,
+          "y" : 1.6400000000000001
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 13.8,
+          "y" : 0.9
+        },
+        {
+          "kind" : "pot",
+          "upright" : false,
+          "x" : 13.8,
+          "y" : 1.3
+        }
+      ],
+      "place" : "desert",
+      "pounces" : 5,
+      "solution" : [
+        {
+          "angle" : 10,
+          "power" : 0.8
+        }
+      ],
+      "title" : "Starry night"
+    },
+    {
+      "id" : 60,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 7.8,
+          "y" : 0.9
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 7.8,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 7.8,
+          "y" : 0.45
+        }
+      ],
+      "place" : "tropical",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 0.55
+        }
+      ],
+      "title" : "Coconut shy"
+    },
+    {
+      "id" : 61,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 9.3,
+          "y" : 0.81
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 9.3,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 9.3,
+          "y" : 0.12
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 9.3,
+          "y" : 0.24
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.3,
+          "y" : 0.36
+        }
+      ],
+      "place" : "tropical",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 0.8
+        }
+      ],
+      "title" : "Beach cafe"
+    },
+    {
+      "id" : 62,
+      "ledges" : [
+        {
+          "height" : 1.4,
+          "width" : 0.5,
+          "x" : 7.400000000000001,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 9.600000000000001,
+          "y" : 1.02
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.600000000000001,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.600000000000001,
+          "y" : 0.45
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 9.600000000000001,
+          "y" : 0.9
+        }
+      ],
+      "place" : "tropical",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 22.5,
+          "power" : 0.4
+        }
+      ],
+      "title" : "The jetty"
+    },
+    {
+      "id" : 63,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 7.8,
+          "y" : 1.02
+        },
+        {
+          "x" : 11.8,
+          "y" : 1.47
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 7.8,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 7.8,
+          "y" : 0.45
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 7.8,
+          "y" : 0.5700000000000001
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 11.8,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 11.8,
+          "y" : 0.12
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 11.8,
+          "y" : 0.5700000000000001
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 11.8,
+          "y" : 1.02
+        }
+      ],
+      "place" : "tropical",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 10,
+          "power" : 0.55
+        }
+      ],
+      "title" : "Hammock"
+    },
+    {
+      "id" : 64,
+      "ledges" : [
+        {
+          "height" : 0.4,
+          "width" : 1.8,
+          "x" : 9.600000000000001,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 9.600000000000001,
+          "y" : 1.3
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.600000000000001,
+          "y" : 0.4
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.600000000000001,
+          "y" : 0.8500000000000001
+        }
+      ],
+      "place" : "tropical",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 0.9500000000000001
+        }
+      ],
+      "title" : "Surf shack"
+    },
+    {
+      "id" : 65,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 9.8,
+          "y" : 1.35
+        },
+        {
+          "x" : 12.3,
+          "y" : 0.5700000000000001
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.33,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.8,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.270000000000001,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.565000000000001,
+          "y" : 0.45
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.035,
+          "y" : 0.45
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.8,
+          "y" : 0.9
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 12.3,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 12.3,
+          "y" : 0.12
+        }
+      ],
+      "place" : "tropical",
+      "pounces" : 4,
+      "solution" : [
+        {
+          "angle" : 7.5,
+          "power" : 0.65
+        }
+      ],
+      "title" : "Mango tree"
+    },
+    {
+      "id" : 66,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 9.55,
+          "y" : 1
+        },
+        {
+          "x" : 10.05,
+          "y" : 1
+        },
+        {
+          "x" : 9.8,
+          "y" : 1.57
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.3,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.3,
+          "y" : 0.45
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.3,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.3,
+          "y" : 0.45
+        },
+        {
+          "kind" : "plank",
+          "upright" : false,
+          "x" : 9.8,
+          "y" : 0.9
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 9.8,
+          "y" : 1
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.8,
+          "y" : 1.12
+        }
+      ],
+      "place" : "tropical",
+      "pounces" : 4,
+      "solution" : [
+        {
+          "angle" : 10,
+          "power" : 0.7000000000000001
+        }
+      ],
+      "title" : "Lagoon"
+    },
+    {
+      "id" : 67,
+      "ledges" : [
+        {
+          "height" : 2,
+          "width" : 0.4,
+          "x" : 7.8,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 10.3,
+          "y" : 1.14
+        },
+        {
+          "x" : 12.8,
+          "y" : 0.67
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 10.3,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 10.3,
+          "y" : 0.12
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.3,
+          "y" : 0.24
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.3,
+          "y" : 0.69
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 12.200000000000001,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 12.200000000000001,
+          "y" : 0.45
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 13.4,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 13.4,
+          "y" : 0.45
+        },
+        {
+          "kind" : "short",
+          "upright" : false,
+          "x" : 12.8,
+          "y" : 0.5700000000000001
+        }
+      ],
+      "place" : "tropical",
+      "pounces" : 4,
+      "solution" : [
+        {
+          "angle" : 35,
+          "power" : 0.35
+        }
+      ],
+      "title" : "Tiki torches"
+    },
+    {
+      "id" : 68,
+      "ledges" : [
+        {
+          "height" : 0.4,
+          "width" : 1.8,
+          "x" : 9.600000000000001,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 9.600000000000001,
+          "y" : 0.8500000000000001
+        },
+        {
+          "x" : 12.200000000000001,
+          "y" : 1.12
+        },
+        {
+          "x" : 7.200000000000001,
+          "y" : 1.35
+        }
+      ],
+      "par" : 3,
+      "pieces" : [
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.600000000000001,
+          "y" : 0.4
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 11.500000000000002,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 11.500000000000002,
+          "y" : 0.12
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 11.500000000000002,
+          "y" : 0.5700000000000001
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 12.500000000000002,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 12.500000000000002,
+          "y" : 0.12
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 12.500000000000002,
+          "y" : 0.5700000000000001
+        },
+        {
+          "kind" : "plank",
+          "upright" : false,
+          "x" : 12.000000000000002,
+          "y" : 1.02
+        },
+        {
+          "kind" : "tin",
+          "upright" : false,
+          "x" : 11.750000000000002,
+          "y" : 1.12
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 7.200000000000001,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 7.200000000000001,
+          "y" : 0.45
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 7.200000000000001,
+          "y" : 0.9
+        }
+      ],
+      "place" : "tropical",
+      "pounces" : 5,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 0.9500000000000001
+        }
+      ],
+      "title" : "Sunset deck"
+    },
+    {
+      "id" : 69,
+      "ledges" : [
+        {
+          "height" : 0.9,
+          "width" : 0.8,
+          "x" : 13.200000000000001,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 9.8,
+          "y" : 1.6700000000000002
+        },
+        {
+          "x" : 8.9,
+          "y" : 1.12
+        },
+        {
+          "x" : 10.700000000000001,
+          "y" : 1.12
+        },
+        {
+          "x" : 13.200000000000001,
+          "y" : 1.4700000000000002
+        }
+      ],
+      "par" : 3,
+      "pieces" : [
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 9,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9,
+          "y" : 0.12
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9,
+          "y" : 0.5700000000000001
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 10.600000000000001,
+          "y" : 0
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.600000000000001,
+          "y" : 0.12
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.600000000000001,
+          "y" : 0.5700000000000001
+        },
+        {
+          "kind" : "plank",
+          "upright" : false,
+          "x" : 9.8,
+          "y" : 1.02
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 9.350000000000001,
+          "y" : 1.12
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 10.25,
+          "y" : 1.12
+        },
+        {
+          "kind" : "short",
+          "upright" : false,
+          "x" : 9.8,
+          "y" : 1.57
+        },
+        {
+          "kind" : "box",
+          "upright" : false,
+          "x" : 13.200000000000001,
+          "y" : 0.9
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 13.200000000000001,
+          "y" : 1.35
+        }
+      ],
+      "place" : "tropical",
+      "pounces" : 5,
+      "solution" : [
+        {
+          "angle" : 7.5,
+          "power" : 0.9500000000000001
+        }
+      ],
+      "title" : "Monsoon"
+    },
+    {
+      "id" : 70,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 8.6,
+          "y" : 0.8
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 8.6,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 8.6,
+          "y" : 0.4
+        }
+      ],
+      "place" : "snow",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 0.65
+        }
+      ],
+      "title" : "Snowman"
+    },
+    {
+      "id" : 71,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 10.1,
+          "y" : 0.76
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 10.1,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 10.1,
+          "y" : 0.12
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 10.1,
+          "y" : 0.24
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.1,
+          "y" : 0.36
+        }
+      ],
+      "place" : "snow",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 0.9
+        }
+      ],
+      "title" : "Sledge run"
+    },
+    {
+      "id" : 72,
+      "ledges" : [
+        {
+          "height" : 1.4,
+          "width" : 0.5,
+          "x" : 8.599999999999998,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 10.799999999999999,
+          "y" : 0.92
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.799999999999999,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.799999999999999,
+          "y" : 0.4
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 10.799999999999999,
+          "y" : 0.8
+        }
+      ],
+      "place" : "snow",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 22.5,
+          "power" : 0.5
+        }
+      ],
+      "title" : "The igloo"
+    },
+    {
+      "id" : 73,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 8.6,
+          "y" : 0.92
+        },
+        {
+          "x" : 12.6,
+          "y" : 1.32
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 8.6,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 8.6,
+          "y" : 0.4
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 8.6,
+          "y" : 0.52
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 12.6,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 12.6,
+          "y" : 0.12
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 12.6,
+          "y" : 0.52
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 12.6,
+          "y" : 0.92
+        }
+      ],
+      "place" : "snow",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 7.5,
+          "power" : 0.65
+        }
+      ],
+      "title" : "Snowbank"
+    },
+    {
+      "id" : 74,
+      "ledges" : [
+        {
+          "height" : 1.2,
+          "width" : 1.2,
+          "x" : 10.799999999999999,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 10.799999999999999,
+          "y" : 2
+        }
+      ],
+      "par" : 1,
+      "pieces" : [
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.799999999999999,
+          "y" : 1.2
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.799999999999999,
+          "y" : 1.6
+        }
+      ],
+      "place" : "snow",
+      "pounces" : 3,
+      "solution" : [
+        {
+          "angle" : 15,
+          "power" : 0.75
+        }
+      ],
+      "title" : "Ski lodge"
+    },
+    {
+      "id" : 75,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 10.6,
+          "y" : 1.2000000000000002
+        },
+        {
+          "x" : 13.1,
+          "y" : 0.52
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 9.78,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.6,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 11.42,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.19,
+          "y" : 0.4
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 11.01,
+          "y" : 0.4
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.6,
+          "y" : 0.8
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 13.1,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 13.1,
+          "y" : 0.12
+        }
+      ],
+      "place" : "snow",
+      "pounces" : 4,
+      "solution" : [
+        {
+          "angle" : 12.5,
+          "power" : 0.6
+        }
+      ],
+      "title" : "Icicles"
+    },
+    {
+      "id" : 76,
+      "ledges" : [
+
+      ],
+      "mice" : [
+        {
+          "x" : 10.35,
+          "y" : 0.9
+        },
+        {
+          "x" : 10.85,
+          "y" : 0.9
+        },
+        {
+          "x" : 10.6,
+          "y" : 1.42
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.1,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.1,
+          "y" : 0.4
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 11.1,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 11.1,
+          "y" : 0.4
+        },
+        {
+          "kind" : "plank",
+          "upright" : false,
+          "x" : 10.6,
+          "y" : 0.8
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 10.6,
+          "y" : 0.9
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.6,
+          "y" : 1.02
+        }
+      ],
+      "place" : "snow",
+      "pounces" : 4,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 0.9500000000000001
+        }
+      ],
+      "title" : "Frozen pond"
+    },
+    {
+      "id" : 77,
+      "ledges" : [
+        {
+          "height" : 2,
+          "width" : 0.4,
+          "x" : 8.6,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 11.1,
+          "y" : 1.04
+        },
+        {
+          "x" : 13.6,
+          "y" : 0.62
+        }
+      ],
+      "par" : 2,
+      "pieces" : [
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 11.1,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 11.1,
+          "y" : 0.12
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 11.1,
+          "y" : 0.24
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 11.1,
+          "y" : 0.64
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 13,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 13,
+          "y" : 0.4
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 14.2,
+          "y" : 0
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 14.2,
+          "y" : 0.4
+        },
+        {
+          "kind" : "short",
+          "upright" : false,
+          "x" : 13.6,
+          "y" : 0.52
+        }
+      ],
+      "place" : "snow",
+      "pounces" : 4,
+      "solution" : [
+        {
+          "angle" : 37.5,
+          "power" : 0.4
+        }
+      ],
+      "title" : "Log cabin"
+    },
+    {
+      "id" : 78,
+      "ledges" : [
+        {
+          "height" : 1.2,
+          "width" : 1.2,
+          "x" : 10.799999999999999,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 10.799999999999999,
+          "y" : 1.6
+        },
+        {
+          "x" : 13.399999999999999,
+          "y" : 1.02
+        },
+        {
+          "x" : 8.399999999999999,
+          "y" : 1.2000000000000002
+        }
+      ],
+      "par" : 3,
+      "pieces" : [
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.799999999999999,
+          "y" : 1.2
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 12.7,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 12.7,
+          "y" : 0.12
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 12.7,
+          "y" : 0.52
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 13.7,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 13.7,
+          "y" : 0.12
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 13.7,
+          "y" : 0.52
+        },
+        {
+          "kind" : "plank",
+          "upright" : false,
+          "x" : 13.2,
+          "y" : 0.92
+        },
+        {
+          "kind" : "tin",
+          "upright" : false,
+          "x" : 12.95,
+          "y" : 1.02
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 8.399999999999999,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 8.399999999999999,
+          "y" : 0.4
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 8.399999999999999,
+          "y" : 0.8
+        }
+      ],
+      "place" : "snow",
+      "pounces" : 5,
+      "solution" : [
+        {
+          "angle" : 15,
+          "power" : 0.5
+        }
+      ],
+      "title" : "Snowball fort"
+    },
+    {
+      "id" : 79,
+      "ledges" : [
+        {
+          "height" : 0.9,
+          "width" : 0.8,
+          "x" : 14,
+          "y" : 0
+        }
+      ],
+      "mice" : [
+        {
+          "x" : 10.6,
+          "y" : 1.52
+        },
+        {
+          "x" : 9.7,
+          "y" : 1.02
+        },
+        {
+          "x" : 11.5,
+          "y" : 1.02
+        },
+        {
+          "x" : 14,
+          "y" : 1.42
+        }
+      ],
+      "par" : 3,
+      "pieces" : [
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 9.799999999999999,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 9.799999999999999,
+          "y" : 0.12
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 9.799999999999999,
+          "y" : 0.52
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 11.4,
+          "y" : 0
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 11.4,
+          "y" : 0.12
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 11.4,
+          "y" : 0.52
+        },
+        {
+          "kind" : "plank",
+          "upright" : false,
+          "x" : 10.6,
+          "y" : 0.92
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 10.15,
+          "y" : 1.02
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 11.049999999999999,
+          "y" : 1.02
+        },
+        {
+          "kind" : "short",
+          "upright" : false,
+          "x" : 10.6,
+          "y" : 1.42
+        },
+        {
+          "kind" : "wide",
+          "upright" : false,
+          "x" : 14,
+          "y" : 0.9
+        },
+        {
+          "kind" : "book",
+          "upright" : false,
+          "x" : 14,
+          "y" : 1.3
+        }
+      ],
+      "place" : "snow",
+      "pounces" : 5,
+      "solution" : [
+        {
+          "angle" : 5,
+          "power" : 1
+        }
+      ],
+      "title" : "Northern lights"
+    }
+  ],
+  "version" : 1
+}

@@ -42,6 +42,8 @@ extension HouseholdState {
             applySocial(event, context: context)
         case .coOwnerJoined, .coOwnerLeft, .coOwnerRemoved:
             applyMembership(event)
+        case .arcadePlayed, .puzzleSolved:
+            applyArcade(event, day: day, context: context)
         }
 
         checkPath(on: day, context: context)
@@ -682,6 +684,33 @@ extension HouseholdState {
             } else {
                 earn(Tuning.Beans.levelUp)
             }
+        }
+    }
+
+    // MARK: The Games menu
+
+    /// A game from the Games menu or the daily puzzle: `ArcadeState` keeps the scores, stars and streak and says what
+    /// it pays; it counts for the goals as a game played (won with a star, three stars).
+    private mutating func applyArcade(_ event: GameEvent, day: GameDay, context: RulesContext) {
+        let payout: ArcadePayout
+        switch event.kind {
+        case let .arcadePlayed(result):
+            payout = arcade.record(result, on: day, seed: seed)
+            bump(.playMinigame, context: context)
+            if result.stars >= 1 || result.won {
+                bump(.winMinigame, context: context)
+            }
+            if result.stars >= 3 {
+                bump(.threeStarMinigame, context: context)
+            }
+        case let .puzzleSolved(solve):
+            payout = arcade.record(solve, on: day)
+        default:
+            return
+        }
+        earn(payout.beans)
+        if payout.xp > 0 {
+            gainXP(payout.xp, context: context)
         }
     }
 

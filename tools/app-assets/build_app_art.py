@@ -76,6 +76,18 @@ SETS = [
     # The world map: the painting and the biome mask under the pin.
     ('world/map/map_painted.png', 1.0),
     ('world/map/map_biome.png', 1.0),
+    # The Games menu (CLAUDE.md "The Games menu"): its tiles and icons, and each game's pictures (Zoomies' four
+    # parts of the run and its things, Catapult's eight places, pieces and ledges, the match pieces, the board).
+    # tools/app-assets/build_arcade_art.py builds just these.
+    ('arcade/ui/tile_*.png', 0.35),
+    ('arcade/ui/icon_game_*.png', 0.4),
+    ('arcade/match/match_*.png', 0.5),
+    ('arcade/row/row_board.png', 0.6),
+    ('arcade/run/bg_*.jpg', 1.0),
+    ('arcade/run/thing_*.png', 0.6),
+    ('arcade/pounce/place_*.jpg', 1.0),
+    ('arcade/pounce/piece_*.png', 0.6),
+    ('arcade/pounce/ledge_*.png', 0.6),
 ]
 # The intro's example homes (see above) and their size.
 INTRO_SCENES = ['woodland_cabin_snow_winter', 'mediterranean_rooftop_coast_summer', 'houseboat_city_spring',
@@ -88,12 +100,12 @@ DATA = ['cat/rig.json', 'rooms/layout_living_demo.json', 'rooms/houses.json', 'f
 # Opaque pictures are written as HEIC (half the size of JPEG for the same look); the index maps the master's path
 # to the file, so the data and the game keep using the masters' names.
 HEIC = ('world/scenes/', 'rooms/walls/', 'rooms/floors/', 'world/ground/', 'world/map/map_painted', 'ui/creator/creator_room',
-        'ui/profile/profile_corner')
+        'ui/profile/profile_corner', 'arcade/run/bg_', 'arcade/pounce/place_')
 HEIC_QUALITY = '70'
 # Cut-outs go in as HEIC with their transparency too (four to seven times smaller than PNG; keeps the app's
 # download under 200 MB), at a higher quality for clean edges. Not the cat's sprites and masks, the light maps,
 # the widget's frames and icons (read pixel for pixel, or copied for the widget).
-HEIC_ALPHA = ('world/props/', 'furniture/', 'outfits/', 'world/terrain/', 'ui/shop/')
+HEIC_ALPHA = ('world/props/', 'furniture/', 'outfits/', 'world/terrain/', 'ui/shop/', 'arcade/')
 HEIC_ALPHA_QUALITY = '82'
 PREVIEW_WIDTH = 720
 # The iPad's sharper copies (Josh, 19 Oct: "The iPad quality seems poor"). A 13-inch iPad draws the room with about

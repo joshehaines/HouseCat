@@ -1,5 +1,597 @@
 {
  "files": {
+  "arcade/match/match_biscuit.png": {
+   "file": "arcade/match/match_biscuit.heic",
+   "master": [
+    409,
+    392
+   ],
+   "scale": 0.5
+  },
+  "arcade/match/match_box.png": {
+   "file": "arcade/match/match_box.heic",
+   "master": [
+    589,
+    489
+   ],
+   "scale": 0.5
+  },
+  "arcade/match/match_catnip.png": {
+   "file": "arcade/match/match_catnip.heic",
+   "master": [
+    485,
+    450
+   ],
+   "scale": 0.5
+  },
+  "arcade/match/match_dust.png": {
+   "file": "arcade/match/match_dust.heic",
+   "master": [
+    463,
+    437
+   ],
+   "scale": 0.5
+  },
+  "arcade/match/match_feather.png": {
+   "file": "arcade/match/match_feather.heic",
+   "master": [
+    416,
+    452
+   ],
+   "scale": 0.5
+  },
+  "arcade/match/match_fish.png": {
+   "file": "arcade/match/match_fish.heic",
+   "master": [
+    483,
+    391
+   ],
+   "scale": 0.5
+  },
+  "arcade/match/match_laser.png": {
+   "file": "arcade/match/match_laser.heic",
+   "master": [
+    367,
+    314
+   ],
+   "scale": 0.5
+  },
+  "arcade/match/match_mouse.png": {
+   "file": "arcade/match/match_mouse.heic",
+   "master": [
+    505,
+    372
+   ],
+   "scale": 0.5
+  },
+  "arcade/match/match_parcel1.png": {
+   "file": "arcade/match/match_parcel1.heic",
+   "master": [
+    439,
+    452
+   ],
+   "scale": 0.5
+  },
+  "arcade/match/match_parcel2.png": {
+   "file": "arcade/match/match_parcel2.heic",
+   "master": [
+    472,
+    416
+   ],
+   "scale": 0.5
+  },
+  "arcade/match/match_tangle.png": {
+   "file": "arcade/match/match_tangle.heic",
+   "master": [
+    453,
+    435
+   ],
+   "scale": 0.5
+  },
+  "arcade/match/match_yarn.png": {
+   "file": "arcade/match/match_yarn.heic",
+   "master": [
+    493,
+    425
+   ],
+   "scale": 0.5
+  },
+  "arcade/pounce/ledge_city.png": {
+   "file": "arcade/pounce/ledge_city.heic",
+   "master": [
+    568,
+    314
+   ],
+   "scale": 0.6
+  },
+  "arcade/pounce/ledge_coast.png": {
+   "file": "arcade/pounce/ledge_coast.heic",
+   "master": [
+    579,
+    311
+   ],
+   "scale": 0.6
+  },
+  "arcade/pounce/ledge_countryside.png": {
+   "file": "arcade/pounce/ledge_countryside.heic",
+   "master": [
+    599,
+    314
+   ],
+   "scale": 0.6
+  },
+  "arcade/pounce/ledge_desert.png": {
+   "file": "arcade/pounce/ledge_desert.heic",
+   "master": [
+    559,
+    274
+   ],
+   "scale": 0.6
+  },
+  "arcade/pounce/ledge_forest.png": {
+   "file": "arcade/pounce/ledge_forest.heic",
+   "master": [
+    592,
+    291
+   ],
+   "scale": 0.6
+  },
+  "arcade/pounce/ledge_mountain.png": {
+   "file": "arcade/pounce/ledge_mountain.heic",
+   "master": [
+    576,
+    296
+   ],
+   "scale": 0.6
+  },
+  "arcade/pounce/ledge_snow.png": {
+   "file": "arcade/pounce/ledge_snow.heic",
+   "master": [
+    582,
+    263
+   ],
+   "scale": 0.6
+  },
+  "arcade/pounce/ledge_tropical.png": {
+   "file": "arcade/pounce/ledge_tropical.heic",
+   "master": [
+    594,
+    243
+   ],
+   "scale": 0.6
+  },
+  "arcade/pounce/piece_book_blue.png": {
+   "file": "arcade/pounce/piece_book_blue.heic",
+   "master": [
+    445,
+    136
+   ],
+   "scale": 0.6
+  },
+  "arcade/pounce/piece_book_green.png": {
+   "file": "arcade/pounce/piece_book_green.heic",
+   "master": [
+    400,
+    131
+   ],
+   "scale": 0.6
+  },
+  "arcade/pounce/piece_book_red.png": {
+   "file": "arcade/pounce/piece_book_red.heic",
+   "master": [
+    417,
+    136
+   ],
+   "scale": 0.6
+  },
+  "arcade/pounce/piece_box.png": {
+   "file": "arcade/pounce/piece_box.heic",
+   "master": [
+    351,
+    337
+   ],
+   "scale": 0.6
+  },
+  "arcade/pounce/piece_crate.png": {
+   "file": "arcade/pounce/piece_crate.heic",
+   "master": [
+    361,
+    355
+   ],
+   "scale": 0.6
+  },
+  "arcade/pounce/piece_cushion.png": {
+   "file": "arcade/pounce/piece_cushion.heic",
+   "master": [
+    665,
+    241
+   ],
+   "scale": 0.6
+  },
+  "arcade/pounce/piece_mouse.png": {
+   "file": "arcade/pounce/piece_mouse.heic",
+   "master": [
+    368,
+    207
+   ],
+   "scale": 0.6
+  },
+  "arcade/pounce/piece_plank.png": {
+   "file": "arcade/pounce/piece_plank.heic",
+   "master": [
+    768,
+    61
+   ],
+   "scale": 0.6
+  },
+  "arcade/pounce/piece_pot.png": {
+   "file": "arcade/pounce/piece_pot.heic",
+   "master": [
+    338,
+    322
+   ],
+   "scale": 0.6
+  },
+  "arcade/pounce/piece_tin.png": {
+   "file": "arcade/pounce/piece_tin.heic",
+   "master": [
+    335,
+    330
+   ],
+   "scale": 0.6
+  },
+  "arcade/pounce/piece_tree.png": {
+   "file": "arcade/pounce/piece_tree.heic",
+   "master": [
+    360,
+    459
+   ],
+   "scale": 0.6
+  },
+  "arcade/pounce/piece_wide.png": {
+   "file": "arcade/pounce/piece_wide.heic",
+   "master": [
+    497,
+    230
+   ],
+   "scale": 0.6
+  },
+  "arcade/pounce/place_city.jpg": {
+   "file": "arcade/pounce/place_city.heic",
+   "master": [
+    2688,
+    1152
+   ],
+   "scale": 1.0
+  },
+  "arcade/pounce/place_coast.jpg": {
+   "file": "arcade/pounce/place_coast.heic",
+   "master": [
+    2688,
+    1152
+   ],
+   "scale": 1.0
+  },
+  "arcade/pounce/place_countryside.jpg": {
+   "file": "arcade/pounce/place_countryside.heic",
+   "master": [
+    2688,
+    1152
+   ],
+   "scale": 1.0
+  },
+  "arcade/pounce/place_desert.jpg": {
+   "file": "arcade/pounce/place_desert.heic",
+   "master": [
+    2688,
+    1152
+   ],
+   "scale": 1.0
+  },
+  "arcade/pounce/place_forest.jpg": {
+   "file": "arcade/pounce/place_forest.heic",
+   "master": [
+    2688,
+    1152
+   ],
+   "scale": 1.0
+  },
+  "arcade/pounce/place_mountain.jpg": {
+   "file": "arcade/pounce/place_mountain.heic",
+   "master": [
+    2688,
+    1152
+   ],
+   "scale": 1.0
+  },
+  "arcade/pounce/place_snow.jpg": {
+   "file": "arcade/pounce/place_snow.heic",
+   "master": [
+    2688,
+    1152
+   ],
+   "scale": 1.0
+  },
+  "arcade/pounce/place_tropical.jpg": {
+   "file": "arcade/pounce/place_tropical.heic",
+   "master": [
+    2688,
+    1152
+   ],
+   "scale": 1.0
+  },
+  "arcade/row/row_board.png": {
+   "file": "arcade/row/row_board.heic",
+   "master": [
+    2084,
+    1786
+   ],
+   "scale": 0.6
+  },
+  "arcade/run/bg_garden.jpg": {
+   "file": "arcade/run/bg_garden.heic",
+   "master": [
+    2688,
+    1152
+   ],
+   "scale": 1.0
+  },
+  "arcade/run/bg_hall.jpg": {
+   "file": "arcade/run/bg_hall.heic",
+   "master": [
+    2688,
+    1152
+   ],
+   "scale": 1.0
+  },
+  "arcade/run/bg_kitchen.jpg": {
+   "file": "arcade/run/bg_kitchen.heic",
+   "master": [
+    2688,
+    1152
+   ],
+   "scale": 1.0
+  },
+  "arcade/run/bg_street.jpg": {
+   "file": "arcade/run/bg_street.heic",
+   "master": [
+    2688,
+    1152
+   ],
+   "scale": 1.0
+  },
+  "arcade/run/thing_basket.png": {
+   "file": "arcade/run/thing_basket.heic",
+   "master": [
+    414,
+    404
+   ],
+   "scale": 0.6
+  },
+  "arcade/run/thing_bench.png": {
+   "file": "arcade/run/thing_bench.heic",
+   "master": [
+    522,
+    392
+   ],
+   "scale": 0.6
+  },
+  "arcade/run/thing_bicycle.png": {
+   "file": "arcade/run/thing_bicycle.heic",
+   "master": [
+    509,
+    442
+   ],
+   "scale": 0.6
+  },
+  "arcade/run/thing_bin.png": {
+   "file": "arcade/run/thing_bin.heic",
+   "master": [
+    340,
+    447
+   ],
+   "scale": 0.6
+  },
+  "arcade/run/thing_books.png": {
+   "file": "arcade/run/thing_books.heic",
+   "master": [
+    431,
+    360
+   ],
+   "scale": 0.6
+  },
+  "arcade/run/thing_boots.png": {
+   "file": "arcade/run/thing_boots.heic",
+   "master": [
+    308,
+    389
+   ],
+   "scale": 0.6
+  },
+  "arcade/run/thing_can.png": {
+   "file": "arcade/run/thing_can.heic",
+   "master": [
+    469,
+    399
+   ],
+   "scale": 0.6
+  },
+  "arcade/run/thing_ironing.png": {
+   "file": "arcade/run/thing_ironing.heic",
+   "master": [
+    273,
+    508
+   ],
+   "scale": 0.6
+  },
+  "arcade/run/thing_pot.png": {
+   "file": "arcade/run/thing_pot.heic",
+   "master": [
+    385,
+    467
+   ],
+   "scale": 0.6
+  },
+  "arcade/run/thing_recycling.png": {
+   "file": "arcade/run/thing_recycling.heic",
+   "master": [
+    410,
+    370
+   ],
+   "scale": 0.6
+  },
+  "arcade/run/thing_table.png": {
+   "file": "arcade/run/thing_table.heic",
+   "master": [
+    545,
+    296
+   ],
+   "scale": 0.6
+  },
+  "arcade/run/thing_washing.png": {
+   "file": "arcade/run/thing_washing.heic",
+   "master": [
+    514,
+    447
+   ],
+   "scale": 0.6
+  },
+  "arcade/ui/icon_game_biscuit.png": {
+   "file": "arcade/ui/icon_game_biscuit.heic",
+   "master": [
+    403,
+    259
+   ],
+   "scale": 0.4
+  },
+  "arcade/ui/icon_game_box.png": {
+   "file": "arcade/ui/icon_game_box.heic",
+   "master": [
+    430,
+    394
+   ],
+   "scale": 0.4
+  },
+  "arcade/ui/icon_game_catnip.png": {
+   "file": "arcade/ui/icon_game_catnip.heic",
+   "master": [
+    440,
+    390
+   ],
+   "scale": 0.4
+  },
+  "arcade/ui/icon_game_cushion.png": {
+   "file": "arcade/ui/icon_game_cushion.heic",
+   "master": [
+    450,
+    350
+   ],
+   "scale": 0.4
+  },
+  "arcade/ui/icon_game_games.png": {
+   "file": "arcade/ui/icon_game_games.heic",
+   "master": [
+    480,
+    457
+   ],
+   "scale": 0.4
+  },
+  "arcade/ui/icon_game_magnifier.png": {
+   "file": "arcade/ui/icon_game_magnifier.heic",
+   "master": [
+    397,
+    413
+   ],
+   "scale": 0.4
+  },
+  "arcade/ui/icon_game_mouse.png": {
+   "file": "arcade/ui/icon_game_mouse.heic",
+   "master": [
+    452,
+    320
+   ],
+   "scale": 0.4
+  },
+  "arcade/ui/icon_game_puzzle.png": {
+   "file": "arcade/ui/icon_game_puzzle.heic",
+   "master": [
+    430,
+    396
+   ],
+   "scale": 0.4
+  },
+  "arcade/ui/icon_game_timer.png": {
+   "file": "arcade/ui/icon_game_timer.heic",
+   "master": [
+    264,
+    422
+   ],
+   "scale": 0.4
+  },
+  "arcade/ui/icon_game_trophy.png": {
+   "file": "arcade/ui/icon_game_trophy.heic",
+   "master": [
+    410,
+    414
+   ],
+   "scale": 0.4
+  },
+  "arcade/ui/icon_game_two_cats.png": {
+   "file": "arcade/ui/icon_game_two_cats.heic",
+   "master": [
+    497,
+    325
+   ],
+   "scale": 0.4
+  },
+  "arcade/ui/icon_game_wand.png": {
+   "file": "arcade/ui/icon_game_wand.heic",
+   "master": [
+    421,
+    419
+   ],
+   "scale": 0.4
+  },
+  "arcade/ui/tile_catapult.png": {
+   "file": "arcade/ui/tile_catapult.heic",
+   "master": [
+    2282,
+    1618
+   ],
+   "scale": 0.35
+  },
+  "arcade/ui/tile_match.png": {
+   "file": "arcade/ui/tile_match.heic",
+   "master": [
+    2175,
+    1507
+   ],
+   "scale": 0.35
+  },
+  "arcade/ui/tile_puzzle.png": {
+   "file": "arcade/ui/tile_puzzle.heic",
+   "master": [
+    1411,
+    1682
+   ],
+   "scale": 0.35
+  },
+  "arcade/ui/tile_row.png": {
+   "file": "arcade/ui/tile_row.heic",
+   "master": [
+    1697,
+    1676
+   ],
+   "scale": 0.35
+  },
+  "arcade/ui/tile_zoomies.png": {
+   "file": "arcade/ui/tile_zoomies.heic",
+   "master": [
+    2208,
+    1307
+   ],
+   "scale": 0.35
+  },
   "brand/icon/AppIcon_layer2_cat.png": {
    "master": [
     1024,

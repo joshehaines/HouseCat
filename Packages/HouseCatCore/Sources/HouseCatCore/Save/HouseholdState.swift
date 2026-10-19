@@ -294,6 +294,8 @@ public struct HouseholdState: Codable, Equatable, Sendable {
     /// The path's steps and chapters done (`PathRules`).
     public internal(set) var pathDone: Set<String> = []
     public internal(set) var lifetime = Lifetime()
+    /// The Games menu: scores, level stars, the cats beaten, the daily puzzle and its streak, today's challenges.
+    public internal(set) var arcade = ArcadeState()
     /// Store transactions whose Beans have been granted.
     public internal(set) var grantedTransactions: Set<String> = []
 

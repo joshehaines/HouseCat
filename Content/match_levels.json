@@ -1,0 +1,1407 @@
+{
+  "levels" : [
+    {
+      "goals" : [
+        "collect:fish:70"
+      ],
+      "id" : 0,
+      "kinds" : 4,
+      "layout" : [
+        "ooooooo",
+        "ooooooo",
+        "ooooooo",
+        "ooooooo",
+        "ooooooo",
+        "ooooooo",
+        "ooooooo"
+      ],
+      "moves" : 20,
+      "stars" : [
+        14730,
+        18410
+      ],
+      "title" : "Tidy the living room"
+    },
+    {
+      "goals" : [
+        "collect:yarn:90"
+      ],
+      "id" : 1,
+      "kinds" : 4,
+      "layout" : [
+        "ooooooo",
+        "ooooooo",
+        "ooooooo",
+        "ooooooo",
+        "ooooooo",
+        "ooooooo",
+        "ooooooo"
+      ],
+      "moves" : 20,
+      "stars" : [
+        20650,
+        24860
+      ],
+      "title" : "Toys in the basket"
+    },
+    {
+      "goals" : [
+        "collect:mouse:70"
+      ],
+      "id" : 2,
+      "kinds" : 5,
+      "layout" : [
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 20,
+      "stars" : [
+        12640,
+        15670
+      ],
+      "title" : "Mouse hunt"
+    },
+    {
+      "goals" : [
+        "collect:biscuit:60"
+      ],
+      "id" : 3,
+      "kinds" : 5,
+      "layout" : [
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 20,
+      "stars" : [
+        11060,
+        13500
+      ],
+      "title" : "Biscuit tin"
+    },
+    {
+      "goals" : [
+        "collect:catnip:65",
+        "collect:fish:65"
+      ],
+      "id" : 4,
+      "kinds" : 5,
+      "layout" : [
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 20,
+      "stars" : [
+        14530,
+        17780
+      ],
+      "title" : "Catnip garden"
+    },
+    {
+      "goals" : [
+        "collect:feather:20",
+        "collect:yarn:20"
+      ],
+      "id" : 5,
+      "kinds" : 6,
+      "layout" : [
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 20,
+      "stars" : [
+        3350,
+        4550
+      ],
+      "title" : "Feather duster"
+    },
+    {
+      "goals" : [
+        "collect:mouse:75"
+      ],
+      "id" : 6,
+      "kinds" : 5,
+      "layout" : [
+        ".oooooo.",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        ".oooooo."
+      ],
+      "moves" : 20,
+      "stars" : [
+        12860,
+        15780
+      ],
+      "title" : "Round the rug"
+    },
+    {
+      "goals" : [
+        "collect:fish:70",
+        "collect:biscuit:70"
+      ],
+      "id" : 7,
+      "kinds" : 5,
+      "layout" : [
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 20,
+      "stars" : [
+        13930,
+        16510
+      ],
+      "title" : "Kitchen floor"
+    },
+    {
+      "goals" : [
+        "collect:yarn:40"
+      ],
+      "id" : 8,
+      "kinds" : 5,
+      "layout" : [
+        "oooooooo",
+        "oooooooo",
+        "oo.oo.oo",
+        "oooooooo",
+        "oooooooo",
+        "oo.oo.oo",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 20,
+      "stars" : [
+        5380,
+        7210
+      ],
+      "title" : "Laundry day"
+    },
+    {
+      "goals" : [
+        "collect:catnip:20",
+        "collect:feather:20",
+        "collect:mouse:20"
+      ],
+      "id" : 9,
+      "kinds" : 6,
+      "layout" : [
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 20,
+      "stars" : [
+        4400,
+        5320
+      ],
+      "title" : "Spring clean"
+    },
+    {
+      "goals" : [
+        "dust"
+      ],
+      "id" : 10,
+      "kinds" : 5,
+      "layout" : [
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "dddddddd",
+        "dddddddd",
+        "oooooooo"
+      ],
+      "moves" : 16,
+      "stars" : [
+        5590,
+        9140
+      ],
+      "title" : "Under the sofa"
+    },
+    {
+      "goals" : [
+        "dust"
+      ],
+      "id" : 11,
+      "kinds" : 5,
+      "layout" : [
+        "ddoooodd",
+        "dooooood",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "dooooood",
+        "ddoooodd"
+      ],
+      "moves" : 12,
+      "stars" : [
+        7040,
+        11220
+      ],
+      "title" : "Dusty corners"
+    },
+    {
+      "goals" : [
+        "dust"
+      ],
+      "id" : 12,
+      "kinds" : 5,
+      "layout" : [
+        "oooooooo",
+        "oooooooo",
+        "oooDDooo",
+        "ooDDDDoo",
+        "ooDDDDoo",
+        "oooDDooo",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 12,
+      "stars" : [
+        5690,
+        6760
+      ],
+      "title" : "Behind the bookcase"
+    },
+    {
+      "goals" : [
+        "dust"
+      ],
+      "id" : 13,
+      "kinds" : 5,
+      "layout" : [
+        "ooo.....",
+        "oooo....",
+        "ooooo...",
+        "oooooo..",
+        "ddddddd.",
+        "dddddddd",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 13,
+      "stars" : [
+        2780,
+        4630
+      ],
+      "title" : "The attic stairs"
+    },
+    {
+      "goals" : [
+        "dust"
+      ],
+      "id" : 14,
+      "kinds" : 5,
+      "layout" : [
+        "oooooooo",
+        "oddddddo",
+        "odDDDDdo",
+        "odDDDDdo",
+        "oddddddo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 12,
+      "stars" : [
+        4880,
+        6960
+      ],
+      "title" : "Rug beating"
+    },
+    {
+      "goals" : [
+        "dust",
+        "collect:feather:30"
+      ],
+      "id" : 15,
+      "kinds" : 6,
+      "layout" : [
+        "dddddddd",
+        "dooooood",
+        "dooooood",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 22,
+      "stars" : [
+        4920,
+        6800
+      ],
+      "title" : "Cobweb hunt"
+    },
+    {
+      "goals" : [
+        "dust"
+      ],
+      "id" : 16,
+      "kinds" : 5,
+      "layout" : [
+        ".oooooo.",
+        ".oooooo.",
+        "oooooooo",
+        "dddddddd",
+        "dddddddd",
+        "oooooooo",
+        ".oooooo.",
+        ".oooooo."
+      ],
+      "moves" : 12,
+      "stars" : [
+        3420,
+        6790
+      ],
+      "title" : "Hall table"
+    },
+    {
+      "goals" : [
+        "dust"
+      ],
+      "id" : 17,
+      "kinds" : 5,
+      "layout" : [
+        "ddd..ddd",
+        "ddd..ddd",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "ddd..ddd",
+        "ddd..ddd"
+      ],
+      "moves" : 21,
+      "stars" : [
+        4870,
+        10010
+      ],
+      "title" : "Two rugs"
+    },
+    {
+      "goals" : [
+        "dust",
+        "collect:fish:95"
+      ],
+      "id" : 18,
+      "kinds" : 5,
+      "layout" : [
+        "DDDDDDDD",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 22,
+      "stars" : [
+        16750,
+        19480
+      ],
+      "title" : "Window sill"
+    },
+    {
+      "goals" : [
+        "dust"
+      ],
+      "id" : 19,
+      "kinds" : 5,
+      "layout" : [
+        "dddddddd",
+        "dddddddd",
+        "dddddddd",
+        "oooooooo",
+        "oooooooo",
+        "dddddddd",
+        "dddddddd",
+        "dddddddd"
+      ],
+      "moves" : 14,
+      "stars" : [
+        7880,
+        10540
+      ],
+      "title" : "Deep clean"
+    },
+    {
+      "goals" : [
+        "parcels"
+      ],
+      "id" : 20,
+      "kinds" : 5,
+      "layout" : [
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "pppooppp",
+        "oooooooo"
+      ],
+      "moves" : 12,
+      "stars" : [
+        2670,
+        5150
+      ],
+      "title" : "Moving day"
+    },
+    {
+      "goals" : [
+        "parcels"
+      ],
+      "id" : 21,
+      "kinds" : 5,
+      "layout" : [
+        "oooooooo",
+        "oooooooo",
+        "oopppppo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 12,
+      "stars" : [
+        1320,
+        3360
+      ],
+      "title" : "The post"
+    },
+    {
+      "goals" : [
+        "parcels"
+      ],
+      "id" : 22,
+      "kinds" : 5,
+      "layout" : [
+        "oooooooo",
+        "oPoooopo",
+        "oooooooo",
+        "ooPooPoo",
+        "oooooooo",
+        "opooooPo",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 12,
+      "stars" : [
+        2630,
+        4650
+      ],
+      "title" : "Boxes everywhere"
+    },
+    {
+      "goals" : [
+        "parcels"
+      ],
+      "id" : 23,
+      "kinds" : 5,
+      "layout" : [
+        "oooooooo",
+        "oooooooo",
+        "ooPPPPoo",
+        "ooPPPPoo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 12,
+      "stars" : [
+        2640,
+        4140
+      ],
+      "title" : "Tied with string"
+    },
+    {
+      "goals" : [
+        "parcels",
+        "collect:mouse:80"
+      ],
+      "id" : 24,
+      "kinds" : 5,
+      "layout" : [
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "ooPPPPoo",
+        "ooPPPPoo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 22,
+      "stars" : [
+        14310,
+        17980
+      ],
+      "title" : "A box to sit in"
+    },
+    {
+      "goals" : [
+        "parcels",
+        "collect:biscuit:85"
+      ],
+      "id" : 25,
+      "kinds" : 5,
+      "layout" : [
+        "oooooooo",
+        "poooooop",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "poooooop"
+      ],
+      "moves" : 22,
+      "stars" : [
+        15100,
+        18810
+      ],
+      "title" : "Delivery"
+    },
+    {
+      "goals" : [
+        "parcels",
+        "dust"
+      ],
+      "id" : 26,
+      "kinds" : 5,
+      "layout" : [
+        "oooooooo",
+        "oooooooo",
+        "pppppppp",
+        "dddddddd",
+        "dddddddd",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 12,
+      "stars" : [
+        4960,
+        6780
+      ],
+      "title" : "Parcels and dust"
+    },
+    {
+      "goals" : [
+        "parcels"
+      ],
+      "id" : 27,
+      "kinds" : 5,
+      "layout" : [
+        "oooooooo",
+        "oooooooo",
+        "oPPooPPo",
+        "oPPooPPo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 12,
+      "stars" : [
+        3850,
+        6240
+      ],
+      "title" : "Stacked up"
+    },
+    {
+      "goals" : [
+        "parcels",
+        "dust"
+      ],
+      "id" : 28,
+      "kinds" : 5,
+      "layout" : [
+        "oooooooo",
+        "pooooooP",
+        "oooooooo",
+        "dddddddd",
+        "oooooooo",
+        "Poooooop",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 12,
+      "stars" : [
+        4700,
+        6640
+      ],
+      "title" : "The spare room"
+    },
+    {
+      "goals" : [
+        "parcels"
+      ],
+      "id" : 29,
+      "kinds" : 5,
+      "layout" : [
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "PPPPPPPP",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 12,
+      "stars" : [
+        3990,
+        6410
+      ],
+      "title" : "Unpacking"
+    },
+    {
+      "goals" : [
+        "collect:yarn:80"
+      ],
+      "id" : 30,
+      "kinds" : 5,
+      "layout" : [
+        "oooooooo",
+        "oooooooo",
+        "otttttto",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 22,
+      "stars" : [
+        15200,
+        16800
+      ],
+      "title" : "Knitting basket"
+    },
+    {
+      "goals" : [
+        "collect:fish:80",
+        "collect:yarn:80"
+      ],
+      "id" : 31,
+      "kinds" : 5,
+      "layout" : [
+        "oooooooo",
+        "ottootto",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "ottootto",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 22,
+      "stars" : [
+        15840,
+        18630
+      ],
+      "title" : "In a tangle"
+    },
+    {
+      "goals" : [
+        "collect:catnip:90"
+      ],
+      "id" : 32,
+      "kinds" : 5,
+      "layout" : [
+        "toooooot",
+        "otooooto",
+        "ootootoo",
+        "oooooooo",
+        "oooooooo",
+        "ooottooo",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 22,
+      "stars" : [
+        16640,
+        18860
+      ],
+      "title" : "Wool everywhere"
+    },
+    {
+      "goals" : [
+        "dust"
+      ],
+      "id" : 33,
+      "kinds" : 5,
+      "layout" : [
+        "oooooooo",
+        "otDDDDto",
+        "otDDDDto",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 12,
+      "stars" : [
+        3780,
+        6210
+      ],
+      "title" : "Dust and wool"
+    },
+    {
+      "goals" : [
+        "collect:mouse:80"
+      ],
+      "id" : 34,
+      "kinds" : 5,
+      "layout" : [
+        ".oooooo.",
+        "oottttoo",
+        "otooooto",
+        "otooooto",
+        "oottttoo",
+        "oooooooo",
+        "oooooooo",
+        ".oooooo."
+      ],
+      "moves" : 22,
+      "stars" : [
+        13560,
+        15130
+      ],
+      "title" : "Ball of string"
+    },
+    {
+      "goals" : [
+        "collect:feather:40"
+      ],
+      "id" : 35,
+      "kinds" : 6,
+      "layout" : [
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "tttttttt",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 22,
+      "stars" : [
+        5820,
+        7500
+      ],
+      "title" : "Sewing box"
+    },
+    {
+      "goals" : [
+        "parcels"
+      ],
+      "id" : 36,
+      "kinds" : 5,
+      "layout" : [
+        "oooooooo",
+        "otPootPo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oPttoPto",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 12,
+      "stars" : [
+        3600,
+        4870
+      ],
+      "title" : "Parcel and string"
+    },
+    {
+      "goals" : [
+        "dust"
+      ],
+      "id" : 37,
+      "kinds" : 5,
+      "layout" : [
+        "tttooooo",
+        "tdddoooo",
+        "tdddoooo",
+        "oooooooo",
+        "oooooooo",
+        "oooodddt",
+        "oooodddt",
+        "ooooottt"
+      ],
+      "moves" : 12,
+      "stars" : [
+        3960,
+        6760
+      ],
+      "title" : "Cosy corner"
+    },
+    {
+      "goals" : [
+        "collect:fish:30",
+        "collect:yarn:30",
+        "collect:mouse:30"
+      ],
+      "id" : 38,
+      "kinds" : 6,
+      "layout" : [
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 22,
+      "stars" : [
+        5820,
+        7070
+      ],
+      "title" : "Six of everything"
+    },
+    {
+      "goals" : [
+        "dust",
+        "parcels"
+      ],
+      "id" : 39,
+      "kinds" : 5,
+      "layout" : [
+        "oooooooo",
+        "otDDDDto",
+        "oPDDDDPo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 12,
+      "stars" : [
+        3550,
+        7120
+      ],
+      "title" : "The big tidy"
+    },
+    {
+      "goals" : [
+        "collect:biscuit:40"
+      ],
+      "id" : 40,
+      "kinds" : 6,
+      "layout" : [
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 25,
+      "stars" : [
+        6360,
+        8110
+      ],
+      "title" : "Tea party"
+    },
+    {
+      "goals" : [
+        "dust"
+      ],
+      "id" : 41,
+      "kinds" : 6,
+      "layout" : [
+        "dddddddd",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "dddddddd"
+      ],
+      "moves" : 25,
+      "stars" : [
+        5230,
+        7570
+      ],
+      "title" : "Book club"
+    },
+    {
+      "goals" : [
+        "collect:fish:40"
+      ],
+      "id" : 42,
+      "kinds" : 6,
+      "layout" : [
+        ".oooooo.",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        ".oooooo."
+      ],
+      "moves" : 25,
+      "stars" : [
+        6520,
+        7450
+      ],
+      "title" : "Fishmonger"
+    },
+    {
+      "goals" : [
+        "parcels"
+      ],
+      "id" : 43,
+      "kinds" : 6,
+      "layout" : [
+        "oooooooo",
+        "oooooooo",
+        "PPPPPPPP",
+        "oooooooo",
+        "oooooooo",
+        "pppppppp",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 15,
+      "stars" : [
+        2450,
+        4150
+      ],
+      "title" : "Post office"
+    },
+    {
+      "goals" : [
+        "dust"
+      ],
+      "id" : 44,
+      "kinds" : 6,
+      "layout" : [
+        "oooooooo",
+        "otddddto",
+        "odDDDDdo",
+        "odDDDDdo",
+        "oddddddo",
+        "otooooto",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 14,
+      "stars" : [
+        2950,
+        4930
+      ],
+      "title" : "Rainy afternoon"
+    },
+    {
+      "goals" : [
+        "parcels",
+        "dust"
+      ],
+      "id" : 45,
+      "kinds" : 6,
+      "layout" : [
+        "oooooooo",
+        "oPooooPo",
+        "oooooooo",
+        "ooDDDDoo",
+        "ooDDDDoo",
+        "oooooooo",
+        "oPooooPo",
+        "oooooooo"
+      ],
+      "moves" : 14,
+      "stars" : [
+        3920,
+        4940
+      ],
+      "title" : "Hide and seek"
+    },
+    {
+      "goals" : [
+        "collect:yarn:35",
+        "collect:feather:35",
+        "collect:catnip:35"
+      ],
+      "id" : 46,
+      "kinds" : 6,
+      "layout" : [
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 25,
+      "stars" : [
+        6030,
+        7590
+      ],
+      "title" : "Birthday"
+    },
+    {
+      "goals" : [
+        "collect:mouse:50"
+      ],
+      "id" : 47,
+      "kinds" : 5,
+      "layout" : [
+        "oooooooo",
+        "oooooooo",
+        "oo....oo",
+        "oo....oo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 25,
+      "stars" : [
+        6710,
+        7830
+      ],
+      "title" : "The cat flap"
+    },
+    {
+      "goals" : [
+        "dust"
+      ],
+      "id" : 48,
+      "kinds" : 5,
+      "layout" : [
+        "DDoooooo",
+        "dDDooooo",
+        "ddDDoooo",
+        "oddDDooo",
+        "ooddDDoo",
+        "oooddDDo",
+        "ooooddDD",
+        "oooooddD"
+      ],
+      "moves" : 16,
+      "stars" : [
+        10290,
+        14030
+      ],
+      "title" : "Sunbeam"
+    },
+    {
+      "goals" : [
+        "parcels"
+      ],
+      "id" : 49,
+      "kinds" : 6,
+      "layout" : [
+        "oooooooo",
+        "PPPooPPP",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 12,
+      "stars" : [
+        2090,
+        3790
+      ],
+      "title" : "Crowded shelf"
+    },
+    {
+      "goals" : [
+        "collect:fish:45",
+        "collect:biscuit:45"
+      ],
+      "id" : 50,
+      "kinds" : 6,
+      "layout" : [
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 25,
+      "stars" : [
+        7980,
+        9150
+      ],
+      "title" : "Midnight feast"
+    },
+    {
+      "goals" : [
+        "dust"
+      ],
+      "id" : 51,
+      "kinds" : 5,
+      "layout" : [
+        "ooo..ooo",
+        "ooo..ooo",
+        "ooo..ooo",
+        "oooooooo",
+        "dddddddd",
+        "dddddddd",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 12,
+      "stars" : [
+        2880,
+        4420
+      ],
+      "title" : "Wardrobe"
+    },
+    {
+      "goals" : [
+        "parcels",
+        "collect:mouse:45"
+      ],
+      "id" : 52,
+      "kinds" : 6,
+      "layout" : [
+        "otttttto",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oppppppo"
+      ],
+      "moves" : 25,
+      "stars" : [
+        7320,
+        8760
+      ],
+      "title" : "Toy box"
+    },
+    {
+      "goals" : [
+        "dust",
+        "parcels"
+      ],
+      "id" : 53,
+      "kinds" : 5,
+      "layout" : [
+        "dddddddd",
+        "dpoooopd",
+        "dooooood",
+        "oooooooo",
+        "oooooooo",
+        "dooooood",
+        "dpoooopd",
+        "dddddddd"
+      ],
+      "moves" : 13,
+      "stars" : [
+        9160,
+        13600
+      ],
+      "title" : "Lost and found"
+    },
+    {
+      "goals" : [
+        "dust"
+      ],
+      "id" : 54,
+      "kinds" : 6,
+      "layout" : [
+        ".oooooo.",
+        "oottttoo",
+        "oooooooo",
+        "oooooooo",
+        "dddddddd",
+        "dddddddd",
+        "oooooooo",
+        ".oooooo."
+      ],
+      "moves" : 13,
+      "stars" : [
+        2680,
+        5130
+      ],
+      "title" : "Grandma's chair"
+    },
+    {
+      "goals" : [
+        "dust"
+      ],
+      "id" : 55,
+      "kinds" : 5,
+      "layout" : [
+        "DDDDDDDD",
+        "DDDDDDDD",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 14,
+      "stars" : [
+        7220,
+        11980
+      ],
+      "title" : "Snow day"
+    },
+    {
+      "goals" : [
+        "collect:feather:45",
+        "collect:mouse:45"
+      ],
+      "id" : 56,
+      "kinds" : 6,
+      "layout" : [
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 25,
+      "stars" : [
+        7150,
+        8750
+      ],
+      "title" : "Bedtime story"
+    },
+    {
+      "goals" : [
+        "dust",
+        "parcels"
+      ],
+      "id" : 57,
+      "kinds" : 6,
+      "layout" : [
+        "oooooooo",
+        "otPDDPto",
+        "oooooooo",
+        "oDDooDDo",
+        "oooooooo",
+        "otPDDPto",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 12,
+      "stars" : [
+        3160,
+        3820
+      ],
+      "title" : "The whole house"
+    },
+    {
+      "goals" : [
+        "parcels",
+        "dust"
+      ],
+      "id" : 58,
+      "kinds" : 5,
+      "layout" : [
+        "oooooooo",
+        "oooooooo",
+        "PPPPPPPP",
+        "oooooooo",
+        "dddddddd",
+        "dddddddd",
+        "oooooooo",
+        "oooooooo"
+      ],
+      "moves" : 12,
+      "stars" : [
+        5940,
+        7610
+      ],
+      "title" : "Housewarming"
+    },
+    {
+      "goals" : [
+        "dust",
+        "parcels"
+      ],
+      "id" : 59,
+      "kinds" : 5,
+      "layout" : [
+        "DDDDDDDD",
+        "dttttttd",
+        "dooooood",
+        "dooooood",
+        "dooooood",
+        "dooooood",
+        "dppppppd",
+        "dddddddd"
+      ],
+      "moves" : 15,
+      "stars" : [
+        9170,
+        12730
+      ],
+      "title" : "Purrfect"
+    }
+  ],
+  "version" : 1
+}

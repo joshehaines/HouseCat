@@ -70,6 +70,11 @@ public struct GameEvent: Codable, Hashable, Sendable, Identifiable {
         case napCompleted
         case healthGoalMet(HealthGoal)
         case windowTapped
+        /// A game from the Games menu finished: what it pays is `ArcadeState`'s rule (the day's first plays of a
+        /// score game, a level's new stars, a first win against a cat, the day's challenges).
+        case arcadePlayed(ArcadeResult)
+        /// Pat's daily puzzle solved on its own day.
+        case puzzleSolved(PuzzleSolve)
 
         /// Home
         case itemBought(itemID: String, beans: Int)

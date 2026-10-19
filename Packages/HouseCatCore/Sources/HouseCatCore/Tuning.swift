@@ -1372,7 +1372,7 @@ public enum Tuning {
         /// The shape of `HouseholdState` in a stored snapshot. Bump it whenever the state gains, loses or
         /// changes a field: an older snapshot is then ignored and the state refolded from the events, which
         /// are always kept (the snapshot is only a cache).
-        public static let snapshotVersion = 11
+        public static let snapshotVersion = 12
     }
 
     /// The stray (SPEC "The stray").
@@ -1387,5 +1387,194 @@ public enum Tuning {
         public static let groupMaxMembers = 12
         public static let inviteExpiryHours = 48
         public static let sittingMaxDays = 14
+    }
+}
+
+// MARK: - The Games menu (19 Oct 2026; Josh: "build out the games section massively - this needs to be the retention
+// angle and daily use"). CLAUDE.md "The Games menu".
+
+public extension Tuning {
+    enum Arcade {
+        /// What the games pay (proposed to Josh with the mockups, 19 Oct; tune in beta). Score games (Zoomies, Cats in
+        /// a Row) pay their stars' Beans and `xpPerPaidPlay` for the first `paidPlaysPerDay` plays of each a day;
+        /// after that they are for fun (the best still counts, and the challenges).
+        public static let paidPlaysPerDay = 3
+        public static let starBeans = [2, 4, 6]
+        public static let xpPerPaidPlay = 5
+        /// Level games (Catapult, Purrfect Match): each star of a level pays once, the first time it is reached,
+        /// and a level's first clear `xpPerFirstClear`.
+        public static let beansPerLevelStar = 5
+        public static let xpPerFirstClear = 5
+        /// Cats in a Row: beating a cat for the first time.
+        public static let firstWinBeans = 25
+
+        /// Pat's daily puzzle: one a day, the same for everyone; its Beans and XP once, on its own day.
+        public enum Puzzle {
+            /// No. 1 (19 Oct 2026, so TestFlight has puzzles; the launch on 2 Nov is No. 15).
+            public static let firstDay = GameDay(year: 2026, month: 10, day: 19)
+            public static let beans = 25
+            public static let xp = 15
+            /// Days in a row with the day's puzzle solved: on the 3rd (10th, 17th ...) and the 7th (14th ...).
+            public static let streakBonus: [Int: Int] = [3: 15, 0: 50]
+            public static let streakCycle = 7
+            /// Hints a day's puzzle offers (each puts one square right; the pay is the same).
+            public static let hints = 3
+        }
+
+        /// Three challenges a day, drawn from `ArcadeChallenges.pool` by the day's seed, one per game.
+        public enum Challenges {
+            public static let perDay = 3
+            public static let beans = 10
+            public static let xp = 5
+        }
+
+        /// Cats in a Row: the board (a classic seven by six) and how many in a line win.
+        public enum Row {
+            public static let columns = 7
+            public static let rows = 6
+            public static let lineLength = 4
+            /// Scores of a line of 1, 2 or 3 of one colour with the rest of the four open, and for each piece in
+            /// the middle column, for a cat's look ahead.
+            public static let windowScores = [0, 1, 5, 40]
+            public static let centreScore = 3
+            /// The search never looks further than this, whatever the content says.
+            public static let deepest = 9
+            /// The other cat takes at least this long over a move (it thinks it over).
+            public static let thinkSeconds = 0.7
+        }
+
+        /// Purrfect Match's score: each piece cleared (a special made or set off counts as `specialWorth` pieces),
+        /// times the cascade up to `cascadeCap`; each move left when the goals are met.
+        public enum Match {
+            public static let pointsPerPiece = 10
+            public static let specialWorth = 5
+            public static let cascadeCap = 5
+            public static let pointsPerMoveLeft = 60
+            /// Drawn (MatchScene): room round the board in points; a swap, a pop and a fall of one row in seconds.
+            public static let boardPadding = 10.0
+            public static let swapSeconds = 0.14
+            public static let popSeconds = 0.2
+            public static let fallSeconds = 0.09
+        }
+
+        /// Zoomies, in metres and seconds: three lanes; the cat runs faster the longer it goes; a lane change, a
+        /// jump (its peak, and the height that clears a low thing) and a slide (shortest and longest; held, it lasts
+        /// till the finger lifts); the cat's half length and the things' lengths along the run; catnip draws biscuits
+        /// from any lane within `magnetReach`; a mouse is caught on the ground. The home changes every `zoneLength`
+        /// (hall, kitchen, garden, street, round again). Harder stretches come in from `tierTwoFrom` and
+        /// `tierThreeFrom`. Score: a metre is a point, a biscuit and a mouse more; stars at `stars`.
+        public enum Zoomies {
+            public static let lanes = 3
+            public static let startSpeed = 7.0
+            public static let topSpeed = 12.0
+            public static let speedGain = 0.1
+            public static let laneSeconds = 0.16
+            public static let jumpSeconds = 0.62
+            public static let jumpHeight = 1.2
+            public static let clearHeight = 0.5
+            /// Pressing to slide in the air brings the cat down this fast.
+            public static let dropSeconds = 0.15
+            public static let slideShortest = 0.45
+            public static let slideLongest = 1.1
+            public static let catHalfLength = 0.45
+            public static let lowLength = 0.8
+            public static let highLength = 1.6
+            public static let blockLength = 1.2
+            public static let pickupLength = 0.4
+            public static let magnetSeconds = 6.0
+            public static let magnetReach = 3.0
+            public static let mouseHeight = 0.4
+            public static let zoneLength = 400.0
+            public static let runUp = 20.0
+            public static let lookAhead = 120.0
+            public static let tierTwoFrom = 300.0
+            public static let tierThreeFrom = 900.0
+            public static let biscuitPoints = 5
+            public static let mousePoints = 50
+            public static let stars = [500, 1500, 3000]
+            /// Drawn (ZoomiesScene): this many metres across the screen; the cat's feet this far in from the left;
+            /// the back and front lanes' floor lines as shares of the height (the backdrop's floor is its lower 45%),
+            /// things at the back drawn this much smaller; the cat this share of the height tall, a jump this share
+            /// at its peak, a slide this squashed; the things' heights; a swipe this many points, a hold this long.
+            public static let metresAcross = 16.0
+            public static let catAcross = 0.16
+            public static let backLaneY = 0.33
+            public static let frontLaneY = 0.1
+            public static let backLaneScale = 0.84
+            public static let catShare = 0.3
+            public static let jumpShare = 0.3
+            public static let slideSquash = 0.62
+            public static let lowShare = 0.12
+            public static let highShare = 0.17
+            public static let blockShare = 0.24
+            public static let biscuitShare = 0.06
+            public static let pickupShare = 0.09
+            public static let swipePoints = 24.0
+            public static let holdSeconds = 0.18
+        }
+
+        /// Catapult's physics (`PounceWorld`, metres and seconds): steps of `step` seconds whatever the frame rate,
+        /// `iterations` passes at the contacts, overlap pushed apart by `biasFactor` beyond `allowedPenetration`, a
+        /// bounce only above `bounceFrom` metres a second, and a little damping so things come to rest.
+        public enum Catapult {
+            public static let gravity = 10.0
+            public static let step = 1.0 / 120
+            public static let iterations = 12
+            public static let biasFactor = 0.2
+            public static let allowedPenetration = 0.005
+            public static let bounceFrom = 1.0
+            public static let linearDamping = 0.05
+            public static let angularDamping = 0.2
+            /// The ground's top is y = 0, from `groundMiddle - groundHalfWidth` to `groundMiddle + groundHalfWidth`;
+            /// a mouse past `left` or `right` has gone. Levels are laid out from x = 0 (the cat) to about 20.
+            public static let groundHalfWidth = 22.0
+            public static let groundMiddle = 10.0
+            public static let left = -3.0
+            public static let right = 26.0
+            /// The cat: where it pounces from, its size and weight, its speed for no pull and a full pull, the angles
+            /// it can be aimed between (degrees).
+            public static let launch = Vec2(3.5, 1.4)
+            public static let catRadius = 0.3
+            public static let catDensity = 12.0
+            public static let slowest = 4.0
+            public static let fastest = 16.0
+            public static let lowestAngle = -10.0
+            public static let highestAngle = 80.0
+            /// A toy mouse: half its size and its weight; it is knocked when it touches the ground (or within
+            /// `groundSlack` of it).
+            public static let mouseHalf = Vec2(0.12, 0.07)
+            public static let mouseDensity = 2.0
+            public static let groundSlack = 0.03
+            /// A pounce is over when nothing moves faster than `restSpeed` for `restSeconds`, or after
+            /// `longestPounce`.
+            public static let restSpeed = 0.08
+            public static let restSeconds = 0.6
+            public static let longestPounce = 8.0
+            public static let levelsPerPlace = 10
+            /// On the ground the cat keeps this much of its speed each step (it skids to a stop in a moment).
+            public static let landingGrip = 0.82
+            /// A level settles this long (at most) when it is set up, so it starts at rest; and while no pounce is on
+            /// and nothing moves, the world is not stepped, so how long the player takes to aim changes nothing.
+            public static let settleSeconds = 3.0
+            /// Drawn (CatapultScene): the level framed from `frameLeft` metres to its furthest thing and `frameMargin`
+            /// past it, `frameHeadroom` above its highest, the ground `frameGroundShare` of the height up and the top
+            /// `frameTopShare` left for the controls; the place's painting has its ground `paintingGround` up. Aiming:
+            /// a full pull is `pullMetres` back from the cat, less than `leastPull` puts the cat down again; the dots
+            /// show the first `aimDots` steps of `aimDotSeconds` of the arc.
+            public static let frameLeft = 2.5
+            public static let frameMargin = 0.9
+            public static let frameHeadroom = 1.4
+            public static let frameGroundShare = 0.14
+            public static let frameTopShare = 0.12
+            public static let paintingGround = 0.14
+            public static let pullMetres = 2.2
+            public static let leastPull = 0.12
+            public static let aimDots = 12
+            public static let aimDotSeconds = 0.06
+        }
+
+        /// Catapult and Purrfect Match: how many levels exist (a result for a level past these pays nothing).
+        public static let catapultLevels = 80
+        public static let matchLevels = 60
     }
 }

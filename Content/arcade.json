@@ -1,0 +1,172 @@
+{
+  "version": 1,
+  "games": [
+    {
+      "id": "zoomies",
+      "name": "Zoomies",
+      "tagline": "Gallop through the house for biscuits and mice.",
+      "howTo": [
+        "Swipe up or down to change lane.",
+        "Tap to jump over things, hold to slide under them.",
+        "Catnip pulls biscuits in; a box takes one bump."
+      ]
+    },
+    {
+      "id": "catapult",
+      "name": "Catapult",
+      "tagline": "Pounce the toy mice off their towers.",
+      "howTo": [
+        "Drag back from your cat, aim, and let go.",
+        "Knock every toy mouse to the ground, or pounce right on it.",
+        "Fewer pounces, more stars."
+      ]
+    },
+    {
+      "id": "match",
+      "name": "Purrfect Match",
+      "tagline": "Swap toys to line up three or more.",
+      "howTo": [
+        "Swap two toys side by side to make a line of three.",
+        "Four in a line makes a paw swipe, an L makes a box, five makes the laser dot.",
+        "Match on dust to clear it, and beside parcels to open them."
+      ]
+    },
+    {
+      "id": "row",
+      "name": "Cats in a Row",
+      "tagline": "Get four in a row before the other cat does.",
+      "howTo": [
+        "Tap a column to drop your counter in.",
+        "Four in a line wins: along, up or slanting.",
+        "Beat each cat to meet the next."
+      ]
+    }
+  ],
+  "opponents": [
+    {
+      "id": "biscuit",
+      "name": "Biscuit",
+      "preset": "ginger_tabby",
+      "personality": "velcro",
+      "home": "London",
+      "skill": { "depth": 1, "whim": 0.45 },
+      "style": "Plays fast",
+      "meet": "Biscuit wants to play. Biscuit always wants to play.",
+      "wins": "Biscuit is delighted. Again? Biscuit says again.",
+      "loses": "Biscuit loses happily and asks for another go."
+    },
+    {
+      "id": "clover",
+      "name": "Clover",
+      "preset": "calico",
+      "personality": "velcro",
+      "home": "the Cotswolds",
+      "skill": { "depth": 2, "whim": 0.3 },
+      "style": "Blocks your lines",
+      "meet": "Clover has come in from the garden to play.",
+      "wins": "Clover purrs and settles in for another round.",
+      "loses": "Clover nods politely and heads back to the blossom."
+    },
+    {
+      "id": "bram",
+      "name": "Bram",
+      "preset": "tuxedo",
+      "personality": "aloof",
+      "home": "Amsterdam",
+      "skill": { "depth": 3, "whim": 0.2 },
+      "style": "Thinks it over",
+      "meet": "Bram looks at the board as if he owns it.",
+      "wins": "Bram blinks slowly. He knew all along.",
+      "loses": "Bram pretends he was not really trying."
+    },
+    {
+      "id": "nata",
+      "name": "Nata",
+      "preset": "seal_point",
+      "personality": "gremlin",
+      "home": "Lisbon",
+      "skill": { "depth": 4, "whim": 0.15 },
+      "style": "Sets traps",
+      "meet": "Nata has a plan. Nata always has a plan.",
+      "wins": "Nata does a lap of the room. Twice.",
+      "loses": "Nata swats a counter off the table and leaves."
+    },
+    {
+      "id": "mango",
+      "name": "Mango",
+      "preset": "bengal",
+      "personality": "gremlin",
+      "home": "Bali",
+      "skill": { "depth": 5, "whim": 0.1 },
+      "style": "Quick and sharp",
+      "meet": "Mango is ready. Mango was born ready.",
+      "wins": "Mango gets the zoomies. Victory zoomies.",
+      "loses": "Mango sulks for a moment, then wants a rematch."
+    },
+    {
+      "id": "juniper",
+      "name": "Juniper",
+      "preset": "maine_coon",
+      "personality": "loaf",
+      "home": "Chamonix",
+      "skill": { "depth": 6, "whim": 0.05 },
+      "style": "Patient",
+      "meet": "Juniper settles beside the board and waits for you.",
+      "wins": "Juniper closes her eyes, content.",
+      "loses": "Juniper is impressed, and a little sleepy."
+    },
+    {
+      "id": "saffron",
+      "name": "Saffron",
+      "preset": "sphynx",
+      "personality": "aloof",
+      "home": "Marrakech",
+      "skill": { "depth": 7, "whim": 0.02 },
+      "style": "Sees everything",
+      "meet": "Saffron has been waiting in the sun for a worthy match.",
+      "wins": "Saffron tilts her head. A good game, she allows.",
+      "loses": "Saffron gives you a long, respectful look."
+    },
+    {
+      "id": "pat",
+      "name": "Pat",
+      "preset": "midnight",
+      "personality": "velcro",
+      "home": "the maker's house",
+      "skill": { "depth": 9, "whim": 0 },
+      "style": "The best there is",
+      "meet": "Pat taught all the others. Good luck.",
+      "wins": "Pat purrs. You were close. Come back soon.",
+      "loses": "You beat Pat! Pat is very proud of you."
+    }
+  ],
+  "challenges": {
+    "zoomies.biscuits40": "Collect 40 biscuits in one Zoomies run",
+    "zoomies.biscuits80": "Collect 80 biscuits in one Zoomies run",
+    "zoomies.mice3": "Catch 3 mice in one Zoomies run",
+    "zoomies.distance500": "Run 500 metres in Zoomies",
+    "zoomies.runs3": "Go for 3 Zoomies runs",
+    "catapult.clear1": "Clear a Catapult level",
+    "catapult.clear3": "Clear 3 Catapult levels",
+    "catapult.three": "Get 3 stars on a Catapult level",
+    "catapult.mice10": "Knock off 10 toy mice in Catapult",
+    "match.clear1": "Clear a Purrfect Match level",
+    "match.three": "Get 3 stars on a Purrfect Match level",
+    "match.box": "Make a box in Purrfect Match",
+    "match.laser": "Make the laser dot in Purrfect Match",
+    "match.dust30": "Clear 30 dust in Purrfect Match",
+    "row.win1": "Win a game of Cats in a Row",
+    "row.win2": "Win 2 games of Cats in a Row",
+    "row.games3": "Play 3 games of Cats in a Row"
+  },
+  "places": {
+    "city": "City",
+    "coast": "Coast",
+    "countryside": "Countryside",
+    "mountain": "Mountains",
+    "forest": "Forest",
+    "desert": "Desert",
+    "tropical": "Tropics",
+    "snow": "Snow"
+  }
+}

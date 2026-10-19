@@ -407,6 +407,8 @@ struct RoomScreen: View {
     @State private var showBook = false
     @State private var choosingGame = false
     @State private var playing: PlayRound?
+    /// The Games menu (Play opens it; CLAUDE.md "The Games menu").
+    @State private var showGames = false
     @State private var offeringNap = false
     @State private var naps = Naps.shared
     @State private var tour = RoomTour.shared
@@ -628,7 +630,7 @@ struct RoomScreen: View {
                 guard let id else { return }
                 visit.openGame = nil
                 if id == "picker" {
-                    choosingGame = true
+                    showGames = true
                 } else if let game = GameWorld.content?.minigames.games.first(where: { $0.id == id }) {
                     playing = PlayRound(game: game)
                 }
@@ -899,6 +901,19 @@ struct RoomScreen: View {
 
     private func screens(_ content: some View) -> some View {
         content
+            .fullScreenCover(isPresented: $showGames) {
+                GamesMenu(catName: visit.catName ?? "Your cat") {
+                    showGames = false
+                    visit.refreshStats()
+                } playQuick: { game in
+                    // The menu goes, then the quick game comes up in its place.
+                    showGames = false
+                    Task { @MainActor in
+                        try? await Task.sleep(for: .seconds(0.45))
+                        playing = PlayRound(game: game)
+                    }
+                }
+            }
             .fullScreenCover(item: $playing) { round in
                 MiniGameView(game: round.game, catName: visit.catName ?? "Your cat") { reward in
                     playing = nil
@@ -1040,7 +1055,7 @@ struct RoomScreen: View {
                             .tourTarget("feed")
                         CareButton("Play", icon: "play_laser_dot", badge: plays > 0 ? "\(plays)" : nil) {
                             if visit.wantsToPlay() {
-                                choosingGame = true
+                                showGames = true
                             }
                         }
                         .tourTarget("play")
@@ -1235,7 +1250,7 @@ struct RoomScreen: View {
         switch action {
         case .play:
             if visit.wantsToPlay() {
-                choosingGame = true
+                showGames = true
             }
         case .nap:
             if !naps.isNapping {

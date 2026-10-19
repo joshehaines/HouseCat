@@ -82,6 +82,41 @@ public struct CitiesFile: Codable, Sendable {
             .filter { $0.1 <= ($0.0.big ? Tuning.World.bigCityRadiusKm : Tuning.World.cityRadiusKm) }
             .min { $0.1 < $1.1 }?.0
     }
+
+    /// The nearest city within `km` of a coordinate: a tap on the globe snaps to it (`km` is how far a fingertip
+    /// reaches on the ground at that zoom).
+    public func nearest(to latitude: Double, _ longitude: Double, within km: Double) -> City? {
+        cities
+            .map { ($0, WorldMap.distance((latitude, longitude), ($0.latitude, $0.longitude))) }
+            .filter { $0.1 <= km }
+            .min { $0.1 < $1.1 }?.0
+    }
+
+    /// The cities whose name starts with what is typed, ignoring case and accents ("sao" finds São Paulo), big
+    /// ones first: the search's first suggestions, before Apple Maps answers and without a connection.
+    public func matching(_ typed: String, limit: Int) -> [City] {
+        let folded = Self.folded(typed.trimmingCharacters(in: .whitespacesAndNewlines))
+        guard !folded.isEmpty else { return [] }
+        let found = cities.filter { Self.folded($0.name).hasPrefix(folded) }
+        return Array((found.filter(\.big) + found.filter { !$0.big }).prefix(limit))
+    }
+
+    /// The short list for someone who would rather pick than search: their own country's cities first (by its
+    /// English name, as the list has it; big ones first), then cities from round the world.
+    public func suggestions(country: String?, count: Int = Tuning.World.suggestedCities) -> [City] {
+        let home = cities.filter { $0.country == country }
+        var picked = Array((home.filter(\.big) + home.filter { !$0.big }).prefix(Tuning.World.suggestedAtHome))
+        for name in Tuning.World.suggestedWorld {
+            if let city = cities.first(where: { $0.name == name }), !picked.contains(city) {
+                picked.append(city)
+            }
+        }
+        return Array(picked.prefix(count))
+    }
+
+    private static func folded(_ text: String) -> String {
+        text.folding(options: [.caseInsensitive, .diacriticInsensitive], locale: nil)
+    }
 }
 
 /// The biome under a pin: the painted mask's index (map_biome_legend.json: 0 sea, 1 coast, 2 countryside,

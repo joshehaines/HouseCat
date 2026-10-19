@@ -35,6 +35,38 @@ private func cities() throws -> CitiesFile {
     #expect(Set(file.cities.map(\.name)).count == file.cities.count)
 }
 
+@Test func aTapSnapsToTheNearestCityWithinAFingertip() throws {
+    let file = try cities()
+    // Taps in the Peak District with a fingertip 60 km across: the nearer of Sheffield and Manchester.
+    #expect(file.nearest(to: 53.35, -1.8, within: 60)?.name == "Sheffield")
+    #expect(file.nearest(to: 53.45, -2.1, within: 60)?.name == "Manchester")
+    #expect(file.nearest(to: 23.0, 12.0, within: 100) == nil, "the middle of the Sahara, close in")
+    #expect(file.nearest(to: 23.0, 12.0, within: 2500) != nil, "far out, a fingertip spans a country")
+}
+
+@Test func typingFindsListedCitiesWithoutAConnection() throws {
+    let file = try cities()
+    #expect(file.matching("lon", limit: 3).first?.name == "London")
+    #expect(file.matching("  SAO ", limit: 3).map(\.name) == ["São Paulo"], "case and accents ignored")
+    #expect(file.matching("mal", limit: 3).contains { $0.name == "Málaga" })
+    #expect(file.matching("", limit: 3).isEmpty)
+    #expect(file.matching("b", limit: 2).count == 2)
+    #expect(file.matching("b", limit: 2).allSatisfy { $0.big }, "big cities first")
+}
+
+@Test func theCitiesToPickStartAtHome() throws {
+    let file = try cities()
+    let british = file.suggestions(country: "United Kingdom")
+    #expect(british.count == Tuning.World.suggestedCities)
+    #expect(british.prefix(3).map(\.name) == ["London", "Manchester", "Birmingham"])
+    #expect(Set(british).count == british.count, "London is not listed twice")
+    #expect(british.contains { $0.name == "Tokyo" })
+    let nowhere = file.suggestions(country: nil)
+    #expect(nowhere.map(\.name) == Array(Tuning.World.suggestedWorld.prefix(Tuning.World.suggestedCities)))
+    // Every name in the world list is a listed city.
+    #expect(Tuning.World.suggestedWorld.allSatisfy { name in file.cities.contains { $0.name == name } })
+}
+
 @Test func theFirstPinIsFreeAndLaterOnesAreMoves() {
     var fixture = Fixture()
     let paris = HomePlace(name: "Paris", latitude: 48.857, longitude: 2.352, timeZoneID: "Europe/Paris", biome: .city)
@@ -174,6 +206,17 @@ struct GlobeTests {
         #expect(view.dragged(dx: 0, dy: 0.5).latitude > 0)
         #expect(view.dragged(dx: 0, dy: 10).latitude == Tuning.World.globeTiltLimit)
         #expect(GlobeOrientation(latitude: 0, longitude: 179).dragged(dx: -0.1, dy: 0).longitude < -170)
+    }
+
+    @Test func aPinchKeepsThePlaceUnderTheFingers() {
+        let view = GlobeOrientation(latitude: 30, longitude: 10)
+        // Paris, under the fingers at a point; the globe doubles in size: Paris stays at that point.
+        let before = view.project(latitude: 48.857, longitude: 2.352)
+        let after = view.keeping(latitude: 48.857, longitude: 2.352, at: before.x / 2, before.y / 2)
+        let p = after.project(latitude: 48.857, longitude: 2.352)
+        #expect(abs(p.x - before.x / 2) < 0.002 && abs(p.y - before.y / 2) < 0.002)
+        // Nothing to keep round the back.
+        #expect(view.keeping(latitude: -40, longitude: -170, at: 0, 0) == view)
     }
 
     @Test func aFlightGoesTheShortWayRound() {

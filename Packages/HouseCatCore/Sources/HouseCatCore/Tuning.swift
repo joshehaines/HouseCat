@@ -486,6 +486,24 @@ public enum Tuning {
         /// City names appear on the globe from these zooms, and fade out towards its rim.
         public static let globeBigCityZoom = 1.9
         public static let globeCityZoom = 3.4
+        /// Choosing the place (Josh, 19 Oct: "a little glitchy, make it easier"): a flick turns it at most this fast
+        /// (degrees a second at zoom 1); a tap this near a city's name (points) picks that city, as does one within
+        /// `globeSnapKm` of a listed city (or within a fingertip, if smaller); else the town Apple Maps finds there,
+        /// or, out at sea, the nearest listed city within `globeSeaSnapKm`. Then the pin is turned to the middle,
+        /// coming in at least this close, in this long. Apple Maps is given this long (seconds) to answer before the
+        /// pin is let go as it is.
+        public static let globeFlickLimit = 160.0
+        public static let globeTapReach = 36.0
+        public static let globeSnapKm = 60.0
+        public static let globeSeaSnapKm = 400.0
+        public static let globeTapZoom = 2.4
+        public static let globeTapFlightSeconds = 0.9
+        public static let mapsPatience = 6.0
+        /// The cities to pick from without searching: this many, up to `suggestedAtHome` from the player's own
+        /// country first, then these from round the world.
+        public static let suggestedCities = 8
+        public static let suggestedAtHome = 3
+        public static let suggestedWorld = ["London", "New York", "Paris", "Tokyo", "Sydney", "Toronto", "Cape Town", "São Paulo", "Mumbai", "Berlin"]
     }
 
     /// Debug launches only (HOUSECAT_HOUSE=full).

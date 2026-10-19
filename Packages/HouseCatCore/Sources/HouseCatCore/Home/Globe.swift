@@ -51,6 +51,18 @@ public struct GlobeOrientation: Equatable, Sendable {
         return GlobeOrientation(latitude: min(limit, max(-limit, latitude + dy * degrees)), longitude: lon)
     }
 
+    /// Turned so that a place sits at a point of the disc (x and y from -1 to 1, y up), as near as the tilt limit
+    /// allows: a pinch keeps the place between the fingers under them while the globe grows.
+    public func keeping(latitude lat: Double, longitude lon: Double, at x: Double, _ y: Double) -> GlobeOrientation {
+        var view = self
+        for _ in 0 ..< 4 {
+            let p = view.project(latitude: lat, longitude: lon)
+            guard p.depth > 0 else { break }
+            view = view.dragged(dx: x - p.x, dy: p.y - y)
+        }
+        return view
+    }
+
     /// Part of the way from here to another view (0 here, 1 there), the short way round.
     public func blended(to other: GlobeOrientation, by t: Double) -> GlobeOrientation {
         var dLon = other.longitude - longitude

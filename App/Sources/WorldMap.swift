@@ -5,9 +5,10 @@ import MapKit
 import Observation
 import SwiftUI
 
-/// The world map (SPEC "World map, search and seasons"): search for any place or spin the painted globe and tap
-/// to drop the pin; the pin decides the biome (the painted mask, or city near a listed city), the sky's local time and
-/// the hemisphere's season, which can also be fixed. No device location is read.
+/// The world map (SPEC "World map, search and seasons"): search for a town, pick one of a few cities, or spin the
+/// painted globe and tap, which snaps to the nearest named place. The pin decides the biome (the painted mask, or
+/// city near a listed city), the sky's local time and the hemisphere's season, which can also be fixed. No device
+/// location is read.
 @MainActor
 @Observable
 final class WorldMapModel: Identifiable {
@@ -16,6 +17,37 @@ final class WorldMapModel: Identifiable {
         case first
         /// Moving home later (free once, then Beans).
         case move
+    }
+
+    /// A suggestion as you type: a listed city (at once, and without a connection) or one of Apple Maps'.
+    enum Suggestion: Identifiable, Hashable {
+        case city(CitiesFile.City)
+        case place(MKLocalSearchCompletion)
+
+        var id: String {
+            "\(title)|\(subtitle)"
+        }
+
+        var title: String {
+            switch self {
+            case let .city(city): city.name
+            case let .place(completion): completion.title
+            }
+        }
+
+        var subtitle: String {
+            switch self {
+            case let .city(city): city.country
+            case let .place(completion): completion.subtitle
+            }
+        }
+    }
+
+    /// The globe goes to the pin each time it moves: arriving at `zoom`, or (nil) only coming in as far as
+    /// `Tuning.World.globeTapZoom`, for a tap.
+    struct Flight: Equatable {
+        var count = 0
+        var zoom: Double?
     }
 
     let mode: Mode
@@ -30,28 +62,71 @@ final class WorldMapModel: Identifiable {
         }
     }
 
-    private(set) var resolving = false
-    /// Counts places chosen from the search, so the map can fly to each.
-    private(set) var searchedTo = 0
+    /// What is being found while the pin waits for it ("Manchester", "the nearest town").
+    private(set) var finding: String?
+    /// The pin is named but its time zone is still on its way.
+    private(set) var settling = false
+    /// Why the last search came to nothing, until the next choice.
+    private(set) var problem: String?
+    private(set) var flight = Flight()
+    /// When the pin last moved: it drops in.
+    private(set) var placed = Date.distantPast
     let search = PlaceSearch()
+    /// The cities to pick from without searching: the player's own country's first.
+    let suggestions: [CitiesFile.City]
     @ObservationIgnored private let mask: Raster?
     @ObservationIgnored let cities: CitiesFile?
+    @ObservationIgnored private let home: HomePlace?
+    @ObservationIgnored private let homeSeason: SeasonSetting
+    /// Each choice asks Apple Maps afresh; an answer to an older one is dropped.
+    @ObservationIgnored private var asking = 0
 
     init(mode: Mode, current: HouseholdState) {
         self.mode = mode
         season = current.home.season
+        homeSeason = current.home.season
+        home = current.home.place
         let root = Bundle.main.url(forResource: "Art", withExtension: nil)
         mask = root.flatMap { Raster.read($0.appendingPathComponent("world/map/map_biome.png")) }
         cities = root.flatMap { try? JSONDecoder().decode(
             CitiesFile.self,
             from: Data(contentsOf: $0.appendingPathComponent("world/map/cities.json"))
         ) }
+        // The country the phone is set to (its region setting, not where it is), by its English name as the list
+        // has it.
+        let country = Locale.current.region.flatMap { Locale(identifier: "en_GB").localizedString(forRegionCode: $0.identifier) }
+        suggestions = cities?.suggestions(country: country) ?? []
         if let place = current.home.place {
             pin = (place.latitude, place.longitude)
             placeName = place.name
             timeZone = place.timeZone
             biome = place.biome
         }
+    }
+
+    var resolving: Bool {
+        finding != nil || settling
+    }
+
+    /// Something to confirm: moving to the home you have, with its season as it is, is not a move.
+    var changed: Bool {
+        guard mode == .move, let home else { return true }
+        guard let pin else { return false }
+        return season != homeSeason || abs(pin.latitude - home.latitude) > 1e-6 || abs(pin.longitude - home.longitude) > 1e-6
+    }
+
+    /// What the search box suggests: Apple Maps' towns once it answers, the listed cities until then (or when it
+    /// cannot be reached).
+    var matches: [Suggestion] {
+        if !search.results.isEmpty {
+            return search.results.map(Suggestion.place)
+        }
+        return (cities?.matching(query, limit: 4) ?? []).map(Suggestion.city)
+    }
+
+    func isPinned(at city: CitiesFile.City) -> Bool {
+        guard let pin else { return false }
+        return abs(pin.latitude - city.latitude) < 1e-6 && abs(pin.longitude - city.longitude) < 1e-6
     }
 
     /// The biome under a coordinate: city near a listed city, else the painted mask.
@@ -63,42 +138,110 @@ final class WorldMapModel: Identifiable {
         return BiomeRules.biome(maskIndex: Int(plane[y * mask.width + x]), inCity: inCity)
     }
 
-    /// A tap on the map: the pin lands there and the place is named (or given as coordinates).
-    func drop(latitude: Double, longitude: Double) {
-        pin = (latitude, longitude)
-        biome = biome(latitude: latitude, longitude: longitude)
-        placeName = Self.coordinateName(latitude, longitude)
-        timeZone = TimeZone(secondsFromGMT: HomePlace.roughOffset(longitude: longitude))
-        resolving = true
-        Task {
-            let named = await PlaceSearch.name(latitude: latitude, longitude: longitude)
-            guard let pin, pin.latitude == latitude, pin.longitude == longitude else { return }
-            if let named {
-                placeName = named.name
-                timeZone = named.timeZone ?? timeZone
-            } else if let city = cities?.city(near: latitude, longitude) {
-                placeName = "Near \(city.name)"
-            }
-            resolving = false
+    func choose(_ suggestion: Suggestion) {
+        switch suggestion {
+        case let .city(city): pick(city)
+        case let .place(completion): choose(completion)
         }
     }
 
-    /// A search result chosen: the pin goes there.
-    func choose(_ completion: MKLocalSearchCompletion) {
-        query = ""
-        resolving = true
+    /// A listed city (from the short list, the search or a tap): the pin goes there at once, and Apple Maps is asked
+    /// only for its time zone. `zoom` as for `Flight`.
+    func pick(_ city: CitiesFile.City, zoom: Double? = Tuning.World.globeSearchZoom) {
+        let mine = begin()
+        put(latitude: city.latitude, longitude: city.longitude, name: "\(city.name), \(city.country)", zoom: zoom)
+        settling = true
         Task {
-            guard let found = await PlaceSearch.resolve(completion) else {
-                resolving = false
+            let zone = await PlaceSearch.timeZone(latitude: city.latitude, longitude: city.longitude)
+            guard asking == mine else { return }
+            timeZone = zone ?? timeZone
+            settling = false
+        }
+        giveUp(on: mine)
+    }
+
+    /// A tap on the globe snaps to a named place: the city whose name it was on, or a listed city close by; else
+    /// the pin goes down where the finger was while Apple Maps finds the town there, and then moves onto it. Out
+    /// at sea, the nearest listed city within `globeSeaSnapKm` (the coast was missed), else the sea's own name.
+    func drop(_ tap: GlobeTap) {
+        let near = min(tap.reachKm, Tuning.World.globeSnapKm)
+        if let city = tap.city ?? cities?.nearest(to: tap.latitude, tap.longitude, within: near) {
+            pick(city, zoom: nil)
+            return
+        }
+        let mine = begin()
+        put(latitude: tap.latitude, longitude: tap.longitude, name: Self.coordinateName(tap.latitude, tap.longitude), zoom: nil)
+        finding = "the nearest town"
+        Task {
+            let found = await PlaceSearch.town(near: tap.latitude, tap.longitude, within: max(tap.reachKm, 25))
+            guard asking == mine else { return }
+            finding = nil
+            if let found, found.town {
+                if found.latitude != tap.latitude || found.longitude != tap.longitude {
+                    put(latitude: found.latitude, longitude: found.longitude, name: found.name, zoom: nil)
+                }
+                placeName = found.name
+                timeZone = found.timeZone ?? timeZone
+            } else if let city = cities?.nearest(to: tap.latitude, tap.longitude, within: max(tap.reachKm, Tuning.World.globeSeaSnapKm)) {
+                pick(city, zoom: nil)
+            } else if let found {
+                placeName = found.name
+                timeZone = found.timeZone ?? timeZone
+            }
+        }
+        giveUp(on: mine)
+    }
+
+    /// One of Apple Maps' suggestions chosen: found, then the pin goes there.
+    func choose(_ completion: MKLocalSearchCompletion) {
+        let mine = begin()
+        finding = completion.title
+        Task {
+            let found = await PlaceSearch.resolve(completion)
+            guard asking == mine else { return }
+            finding = nil
+            guard let found else {
+                problem = "Apple Maps couldn't find \(completion.title) just now."
                 return
             }
-            pin = (found.latitude, found.longitude)
-            biome = biome(latitude: found.latitude, longitude: found.longitude)
-            placeName = found.name
-            timeZone = found.timeZone ?? TimeZone(secondsFromGMT: HomePlace.roughOffset(longitude: found.longitude))
-            resolving = false
-            searchedTo += 1
+            put(latitude: found.latitude, longitude: found.longitude, name: found.name, zoom: Tuning.World.globeSearchZoom)
+            timeZone = found.timeZone ?? timeZone
         }
+        giveUp(on: mine, saying: "Apple Maps can't be reached just now. Pick a city, or tap the globe.")
+    }
+
+    /// A new choice: the last one's question to Apple Maps is forgotten, and the search box cleared.
+    private func begin() -> Int {
+        asking += 1
+        finding = nil
+        settling = false
+        problem = nil
+        query = ""
+        return asking
+    }
+
+    /// Offline, Apple Maps may not answer: after a few seconds the pin keeps the name it has and the time zone
+    /// from its longitude, and can be confirmed.
+    private func giveUp(on mine: Int, saying problem: String? = nil) {
+        Task {
+            try? await Task.sleep(for: .seconds(Tuning.World.mapsPatience))
+            guard asking == mine, resolving else { return }
+            if finding != nil, let problem {
+                self.problem = problem
+            }
+            finding = nil
+            settling = false
+        }
+    }
+
+    private func put(latitude: Double, longitude: Double, name: String, zoom: Double?) {
+        pin = (latitude, longitude)
+        biome = biome(latitude: latitude, longitude: longitude)
+        placeName = name
+        timeZone = TimeZone(secondsFromGMT: HomePlace.roughOffset(longitude: longitude))
+        problem = nil
+        placed = Date()
+        flight = Flight(count: flight.count + 1, zoom: zoom)
     }
 
     /// The pin as a home place.
@@ -120,24 +263,36 @@ final class WorldMapModel: Identifiable {
     }
 }
 
-/// MapKit's place search (SPEC: "MapKit local search resolves it"): suggestions as you type, a chosen
-/// suggestion resolved to coordinates, and a tapped coordinate named.
+/// MapKit's place search (SPEC: "MapKit local search resolves it"): towns and postcodes suggested as you type, a
+/// chosen one resolved to coordinates, and a tapped coordinate named after its town.
 @MainActor
 @Observable
 final class PlaceSearch: NSObject, MKLocalSearchCompleterDelegate {
     private(set) var results: [MKLocalSearchCompletion] = []
+    /// Apple Maps has answered the text as it is now (with nothing, perhaps).
+    private(set) var answered = false
+    /// Apple Maps could not be reached.
+    private(set) var failed = false
     @ObservationIgnored private let completer = MKLocalSearchCompleter()
+    /// False once the text is cleared, so a late answer to what was typed cannot bring the list back.
+    @ObservationIgnored private var active = false
 
     override init() {
         super.init()
         completer.delegate = self
-        completer.resultTypes = [.address, .pointOfInterest]
+        // Towns, districts and postcodes: where a home is, not a shop, a station or a street address.
+        completer.resultTypes = .address
+        completer.addressFilter = MKAddressFilter(including: [.locality, .subLocality, .subAdministrativeArea, .postalCode])
     }
 
     func query(_ text: String) {
-        if text.trimmingCharacters(in: .whitespaces).isEmpty {
+        answered = false
+        if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            active = false
+            completer.cancel()
             results = []
         } else {
+            active = true
             completer.queryFragment = text
         }
     }
@@ -145,12 +300,18 @@ final class PlaceSearch: NSObject, MKLocalSearchCompleterDelegate {
     /// MapKit calls back on the main thread.
     nonisolated func completerDidUpdateResults(_: MKLocalSearchCompleter) {
         MainActor.assumeIsolated {
+            guard active else { return }
+            failed = false
+            answered = true
             results = Array(completer.results.prefix(6))
         }
     }
 
     nonisolated func completer(_: MKLocalSearchCompleter, didFailWithError _: Error) {
         MainActor.assumeIsolated {
+            guard active else { return }
+            failed = true
+            answered = true
             results = []
         }
     }
@@ -160,32 +321,71 @@ final class PlaceSearch: NSObject, MKLocalSearchCompleterDelegate {
         var latitude: Double
         var longitude: Double
         var timeZone: TimeZone?
+        /// Named after a town (not the sea or a region).
+        var town = true
     }
 
     static func resolve(_ completion: MKLocalSearchCompletion) async -> Found? {
         let request = MKLocalSearch.Request(completion: completion)
         guard let item = try? await MKLocalSearch(request: request).start().mapItems.first else { return nil }
         let coordinate = item.location.coordinate
-        let label = completion.subtitle.isEmpty ? completion.title : "\(completion.title), \(completion.subtitle.split(separator: ",").first.map(String.init) ?? "")"
+        // "Manchester, England"; a postcode is named after its town, not kept as the home's name.
+        var label = completion.subtitle.isEmpty ? completion.title : "\(completion.title), \(completion.subtitle.split(separator: ",").first.map(String.init) ?? "")"
+        if completion.title.contains(where: \.isNumber), let town = item.addressRepresentations?.cityWithContext, !town.isEmpty {
+            label = town
+        }
         return Found(name: label, latitude: coordinate.latitude, longitude: coordinate.longitude, timeZone: item.timeZone)
     }
 
-    static func name(latitude: Double, longitude: Double) async -> (name: String, timeZone: TimeZone?)? {
+    /// The town nearest a coordinate, as Apple Maps names it ("Truro, England"), and where it is: its own middle
+    /// when that is within `km`, else the coordinate. Off any town (the sea, the desert), whatever Maps calls the
+    /// place; nil when it has no name for it.
+    static func town(near latitude: Double, _ longitude: Double, within km: Double) async -> Found? {
         guard let request = MKReverseGeocodingRequest(location: CLLocation(latitude: latitude, longitude: longitude)),
               let item = try? await request.mapItems.first else { return nil }
-        let city = item.addressRepresentations?.cityWithContext
-        // "Djado" and "Djado, Niger" read as "Djado, Niger", not "Djado, Djado, Niger".
+        let places = item.addressRepresentations
+        guard let town = [places?.cityWithContext, places?.cityName].compactMap(\.self).first(where: { !$0.isEmpty }) else {
+            let name = tidy([item.name, places?.regionName])
+            return name.isEmpty ? nil : Found(name: name, latitude: latitude, longitude: longitude, timeZone: item.timeZone, town: false)
+        }
+        var at = (latitude: latitude, longitude: longitude)
+        if let ask = MKGeocodingRequest(addressString: town) {
+            ask.region = MKCoordinateRegion(
+                center: CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
+                latitudinalMeters: km * 4000,
+                longitudinalMeters: km * 4000
+            )
+            if let middle = try? await ask.mapItems.first?.location.coordinate,
+               WorldMap.distance(at, (middle.latitude, middle.longitude)) <= km
+            {
+                at = (middle.latitude, middle.longitude)
+            }
+        }
+        return Found(name: town, latitude: at.latitude, longitude: at.longitude, timeZone: item.timeZone)
+    }
+
+    /// A coordinate's time zone, as Apple Maps has it.
+    static func timeZone(latitude: Double, longitude: Double) async -> TimeZone? {
+        guard let request = MKReverseGeocodingRequest(location: CLLocation(latitude: latitude, longitude: longitude)) else { return nil }
+        return try? await request.mapItems.first?.timeZone
+    }
+
+    /// "Djado" and "Djado, Niger" read as "Djado, Niger", not "Djado, Djado, Niger"; bare numbers (a postcode,
+    /// or the coordinates Maps gives a spot at sea) are left out.
+    private static func tidy(_ names: [String?]) -> String {
         var parts: [String] = []
-        let pieces = [item.name, city].compactMap(\.self).flatMap { $0.components(separatedBy: ",") }
+        let pieces = names.compactMap(\.self).flatMap { $0.components(separatedBy: ",") }
             .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
-        for part in pieces where !part.isEmpty && !parts.contains(where: { $0.caseInsensitiveCompare(part) == .orderedSame }) {
+            .filter { $0.contains(where: \.isLetter) }
+        for part in pieces where !parts.contains(where: { $0.caseInsensitiveCompare(part) == .orderedSame }) {
             parts.append(part)
         }
-        return (parts.isEmpty ? WorldMapModel.coordinateName(latitude, longitude) : parts.joined(separator: ", "), item.timeZone)
+        return parts.joined(separator: ", ")
     }
 }
 
-/// The map screen: the world as a globe to spin, with the search above it and the place you chose below.
+/// The map screen: the world as a globe to spin, the search above it, a few cities to pick and the place you chose
+/// below, with the button that confirms it.
 struct WorldMapView: View {
     @Bindable var model: WorldMapModel
     /// What a move costs (0: free), shown on the button.
@@ -196,24 +396,51 @@ struct WorldMapView: View {
 
     @State private var camera = GlobeCamera()
     @FocusState private var searching: Bool
+    /// The finger now on the globe closed the keyboard: its tap drops no pin.
+    @State private var closedKeyboard = false
+    @Environment(\.verticalSizeClass) private var verticalSize
+
+    private var compact: Bool {
+        verticalSize == .compact
+    }
 
     var body: some View {
-        ZStack {
-            SpinningGlobe(camera: camera, markers: markers, cities: model.cities?.cities ?? [], lift: 0.02) { latitude, longitude in
-                searching = false
-                camera.spins = false
-                model.drop(latitude: latitude, longitude: longitude)
-            }
-            VStack(spacing: 0) {
+        ZStack(alignment: .top) {
+            SpinningGlobe(
+                camera: camera,
+                markers: markers,
+                cities: model.cities?.cities ?? [],
+                lift: 0.04,
+                onTouch: {
+                    // A finger on the globe: it stops turning by itself, and the keyboard goes.
+                    closedKeyboard = searching
+                    searching = false
+                    camera.spins = false
+                },
+                onTap: { tap in
+                    if !closedKeyboard {
+                        model.drop(tap)
+                    }
+                }
+            )
+            VStack(spacing: 10) {
                 header
-                Spacer()
+                Spacer(minLength: 0)
+                if !searching {
+                    picks
+                }
                 card
             }
             .padding(16)
+            // Exactly the height there is, the search at the top: on a landscape phone the suggestions and the card
+            // are taller than the space above the keyboard, and the whole screen was moved 53 points to fit them,
+            // leaving a white band over the globe.
+            .frame(maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .top)
         }
+        .frame(maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .top)
         // The keyboard covers the card while you type; nothing moves.
         .ignoresSafeArea(.keyboard, edges: .bottom)
-        .onChange(of: model.searchedTo) { _, _ in focusOnPin() }
+        .onChange(of: model.flight) { _, flight in fly(flight) }
         .onAppear {
             // Moving home: start over the home you have.
             if let pin = model.pin {
@@ -225,22 +452,28 @@ struct WorldMapView: View {
 
     private var markers: [GlobeMarker] {
         guard let pin = model.pin else { return [] }
-        return [GlobeMarker(id: "pin", latitude: pin.latitude, longitude: pin.longitude, kind: .pin)]
+        return [GlobeMarker(id: "pin", latitude: pin.latitude, longitude: pin.longitude, kind: .pin, placed: model.placed)]
     }
 
-    /// After a search, the globe turns to the place and comes in close.
-    private func focusOnPin() {
+    /// The globe turns the pin to the middle: in close after a search or a pick, only a little after a tap.
+    private func fly(_ flight: WorldMapModel.Flight) {
         guard let pin = model.pin else { return }
         camera.spins = false
-        camera.fly(to: pin.latitude, pin.longitude, zoom: Tuning.World.globeSearchZoom)
+        if let zoom = flight.zoom {
+            camera.fly(to: pin.latitude, pin.longitude, zoom: zoom)
+        } else {
+            let zoom = max(camera.pose(at: Date()).zoom, Tuning.World.globeTapZoom)
+            camera.fly(to: pin.latitude, pin.longitude, zoom: zoom, seconds: Tuning.World.globeTapFlightSeconds)
+        }
     }
 
-    // MARK: Search and the card
+    // MARK: The search
 
     private var header: some View {
-        HStack(alignment: .top) {
-            VStack(alignment: .leading, spacing: 6) {
-                if !searching {
+        HStack(alignment: .top, spacing: 12) {
+            VStack(alignment: .leading, spacing: 8) {
+                // On a landscape phone the title makes room for the suggestions above the keyboard.
+                if !(searching && compact) {
                     HStack(spacing: 6) {
                         PaintedIcon("map_pin", size: 30)
                         Text(model.mode == .first || cost == 0 && model.pin == nil ? "Where do you live?" : "Move home")
@@ -252,78 +485,141 @@ struct WorldMapView: View {
                     .padding(.vertical, 4)
                     .paper(Capsule())
                 }
-                HStack {
-                    Image(systemName: "magnifyingglass").foregroundStyle(.secondary)
-                    TextField("A city, a street, a postcode", text: $model.query)
-                        .textFieldStyle(.plain)
-                        .autocorrectionDisabled()
-                        .focused($searching)
-                        .submitLabel(.search)
-                        .onSubmit {
-                            if let first = model.search.results.first {
-                                model.choose(first)
-                            }
-                        }
-                }
-                .padding(10)
-                .frame(maxWidth: 380)
-                .paper(RoundedRectangle(cornerRadius: 14, style: .continuous))
-                if !model.search.results.isEmpty {
-                    VStack(alignment: .leading, spacing: 0) {
-                        ForEach(model.search.results.prefix(4), id: \.self) { result in
-                            Button {
-                                searching = false
-                                model.choose(result)
-                            } label: {
-                                // One line a result, so four fit above the keyboard.
-                                (Text(result.title).font(.subheadline.weight(.semibold))
-                                    + Text(result.subtitle.isEmpty ? "" : "  \(result.subtitle)").font(.caption)
-                                    .foregroundStyle(.secondary))
-                                    .lineLimit(1)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .padding(.horizontal, 12)
-                                    .padding(.vertical, 7)
-                            }
-                            .buttonStyle(.plain)
-                            Divider()
-                        }
-                    }
-                    .frame(maxWidth: 380)
-                    .paper(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                searchField
+                if searching, !model.query.trimmingCharacters(in: .whitespaces).isEmpty {
+                    suggestions
                 }
             }
-            Spacer()
+            .frame(maxWidth: 440, alignment: .leading)
+            Spacer(minLength: 0)
             if let cancel {
                 CloseButton(action: cancel)
             }
         }
     }
 
-    private var card: some View {
-        HStack(alignment: .center, spacing: 16) {
-            VStack(alignment: .leading, spacing: 4) {
-                if model.pin == nil {
-                    Text("Search for your town, or spin the globe and tap.").font(.headline)
-                } else {
-                    HStack(spacing: 6) {
-                        Text(model.placeName).font(.headline).lineLimit(1)
-                        if model.resolving {
-                            ProgressView().controlSize(.small)
-                        }
+    private var searchField: some View {
+        HStack(spacing: 10) {
+            Image(systemName: "magnifyingglass")
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundStyle(Theme.inkSoft)
+            TextField("Search for your town or postcode", text: $model.query)
+                .font(.system(size: 18))
+                .foregroundStyle(Theme.ink)
+                .textFieldStyle(.plain)
+                .autocorrectionDisabled()
+                .textInputAutocapitalization(.words)
+                .focused($searching)
+                .submitLabel(.search)
+                .onSubmit {
+                    if let first = model.matches.first {
+                        model.choose(first)
                     }
-                    HStack(spacing: 8) {
-                        if let biome = model.biome {
-                            Label(Self.biomeName(biome), systemImage: Self.biomeIcon(biome))
+                }
+            if !model.query.isEmpty {
+                Button {
+                    model.query = ""
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.system(size: 20))
+                        .foregroundStyle(Theme.inkSoft)
+                        .frame(width: 40, height: 40)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Clear the search")
+            }
+        }
+        .padding(.leading, 14)
+        .padding(.trailing, 4)
+        .frame(height: 50)
+        .paper(RoundedRectangle(cornerRadius: 16, style: .continuous))
+    }
+
+    /// Suggestions as you type, two lines each and a finger high; a tap flies there and pins it.
+    private var suggestions: some View {
+        let rows = Array(model.matches.prefix(compact ? 3 : 5))
+        return VStack(spacing: 0) {
+            if rows.isEmpty {
+                Text(model.search.failed ? "Apple Maps can't be reached just now." : model.search.answered ? "No town found by that name." : "Looking…")
+                    .font(.system(size: 16))
+                    .foregroundStyle(Theme.inkSoft)
+                    .frame(maxWidth: .infinity, minHeight: 50, alignment: .leading)
+                    .padding(.horizontal, 14)
+            }
+            ForEach(Array(rows.enumerated()), id: \.element.id) { index, row in
+                if index > 0 {
+                    Divider().padding(.leading, 52)
+                }
+                Button {
+                    searching = false
+                    model.choose(row)
+                } label: {
+                    HStack(spacing: 12) {
+                        PaintedIcon("map_pin", size: 28)
+                        VStack(alignment: .leading, spacing: 1) {
+                            Text(row.title)
+                                .font(.system(size: 17, weight: .semibold))
+                                .foregroundStyle(Theme.ink)
+                            if !row.subtitle.isEmpty {
+                                Text(row.subtitle)
+                                    .font(.system(size: 14))
+                                    .foregroundStyle(Theme.inkSoft)
+                            }
                         }
-                        if let time = model.localTime {
-                            Label("\(time) there", systemImage: "clock")
-                        }
+                        .lineLimit(1)
+                        Spacer(minLength: 0)
                     }
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .padding(.horizontal, 12)
+                    .frame(minHeight: compact ? 48 : 56)
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(row.subtitle.isEmpty ? row.title : "\(row.title), \(row.subtitle)")
+            }
+        }
+        .paper(RoundedRectangle(cornerRadius: 16, style: .continuous))
+    }
+
+    // MARK: The cities to pick, and the card
+
+    /// For someone who would rather not search: a few cities, the player's own country's first.
+    private var picks: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                Text("Or pick:")
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundStyle(.white)
+                    .shadow(color: .black.opacity(0.6), radius: 3)
+                    .padding(.trailing, 2)
+                ForEach(model.suggestions, id: \.self) { city in
+                    let chosen = model.isPinned(at: city)
+                    Button {
+                        model.pick(city)
+                    } label: {
+                        Text(city.name)
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundStyle(chosen ? Color.white : Theme.ink)
+                            .padding(.horizontal, 16)
+                            .frame(minHeight: 44)
+                            .paper(Capsule(), fill: chosen ? Theme.accent : Theme.cream)
+                    }
+                    .buttonStyle(PressStyle())
+                    .accessibilityAddTraits(chosen ? .isSelected : [])
                 }
             }
-            Spacer()
+            .padding(.horizontal, 2)
+            .padding(.vertical, 6)
+        }
+        .scrollClipDisabled()
+    }
+
+    private var card: some View {
+        HStack(alignment: .center, spacing: 14) {
+            VStack(alignment: .leading, spacing: 4) {
+                summary
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
             Menu {
                 Picker("Season", selection: $model.season) {
                     Text("Auto (the real season there)").tag(SeasonSetting.auto)
@@ -333,31 +629,66 @@ struct WorldMapView: View {
                 }
             } label: {
                 HStack(spacing: 4) {
-                    PaintedIcon("weather_sun_and_cloud", size: 24)
-                    Text(seasonTitle).font(.subheadline.weight(.semibold)).foregroundStyle(Theme.ink)
+                    PaintedIcon("weather_sun_and_cloud", size: 26)
+                    Text(seasonTitle).font(.system(size: 16, weight: .semibold)).foregroundStyle(Theme.ink)
                 }
                 .padding(.leading, 8)
-                .padding(.trailing, 12)
-                .padding(.vertical, 6)
+                .padding(.trailing, 14)
+                .frame(minHeight: 44)
                 .paper(Capsule())
             }
-            HUDButton(buttonTitle, icon: "house", prominent: true) {
+            let ready = model.place != nil && !model.resolving && canAfford && model.changed
+            ChunkyButton(model.mode == .first ? "Live here" : "Move here", subtitle: cost > 0 ? "\(cost) Beans" : nil) {
                 if let place = model.place {
                     done(place, model.season)
                 }
             }
-            .disabled(model.place == nil || model.resolving || !canAfford)
-            .opacity(model.place == nil || model.resolving || !canAfford ? 0.5 : 1)
+            .disabled(!ready)
+            .opacity(ready ? 1 : 0.45)
         }
-        .padding(14)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
         .foregroundStyle(Theme.ink)
         .paper(RoundedRectangle(cornerRadius: 20, style: .continuous))
     }
 
-    private var buttonTitle: String {
-        switch model.mode {
-        case .first: "Live here"
-        case .move: cost == 0 ? "Move here" : "Move here · \(cost) Beans"
+    @ViewBuilder private var summary: some View {
+        if let finding = model.finding {
+            HStack(spacing: 8) {
+                ProgressView().controlSize(.small)
+                Text("Finding \(finding)…").font(Theme.title(21)).lineLimit(1).minimumScaleFactor(0.7)
+            }
+            Text("Apple Maps is looking.").font(.system(size: 15)).foregroundStyle(Theme.inkSoft)
+        } else if model.pin == nil {
+            Text("Search, pick a city or tap the globe.").font(Theme.title(21)).lineLimit(2).minimumScaleFactor(0.7)
+            Text(model.problem ?? "Tap near a city's name to choose it.")
+                .font(.system(size: 15))
+                .foregroundStyle(Theme.inkSoft)
+        } else {
+            HStack(spacing: 8) {
+                Text(model.placeName).font(Theme.title(22)).lineLimit(1).minimumScaleFactor(0.6)
+                    .accessibilityIdentifier("placeName")
+                if model.settling {
+                    ProgressView().controlSize(.small)
+                }
+            }
+            if let problem = model.problem {
+                Text(problem).font(.system(size: 15)).foregroundStyle(Theme.inkSoft).lineLimit(2)
+            } else if !canAfford {
+                Text("Moving costs \(cost) Beans.").font(.system(size: 15)).foregroundStyle(Theme.inkSoft)
+            } else {
+                HStack(spacing: 12) {
+                    if let biome = model.biome {
+                        Label(Self.biomeName(biome), systemImage: Self.biomeIcon(biome))
+                    }
+                    if let time = model.localTime {
+                        Label("\(time) there", systemImage: "clock")
+                    }
+                }
+                .font(.system(size: 15))
+                .foregroundStyle(Theme.inkSoft)
+                .lineLimit(1)
+            }
         }
     }
 

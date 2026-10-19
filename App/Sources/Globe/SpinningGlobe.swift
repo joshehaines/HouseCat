@@ -23,8 +23,18 @@ final class GlobeCamera {
     private(set) var restZoom: Double
     private(set) var since = Date()
     private(set) var motion: Motion = .still
-    /// Turns slowly by itself when nobody is holding it (the landing page, the map before a pin).
-    var spins: Bool
+    /// Turns slowly by itself when nobody is holding it (the landing page, the map before a pin). Switching it on
+    /// or off leaves the globe where it is: the turn so far is kept, not undone (a tap used to jump it back).
+    var spins: Bool {
+        get { turning }
+        set {
+            guard newValue != turning else { return }
+            settle(at: Date())
+            turning = newValue
+        }
+    }
+
+    private var turning: Bool
     private var held = false
     /// Where the disc sits (fractions of the view: right, and up from the middle), easing when it moves.
     private var placement = (from: CGPoint.zero, to: CGPoint.zero, since: Date.distantPast)
@@ -51,7 +61,7 @@ final class GlobeCamera {
     init(latitude: Double = 25, longitude: Double = 0, zoom: Double = 1, spins: Bool = true) {
         rest = GlobeOrientation(latitude: latitude, longitude: longitude)
         restZoom = zoom
-        self.spins = spins
+        turning = spins
     }
 
     func pose(at date: Date) -> (orientation: GlobeOrientation, zoom: Double) {
@@ -92,6 +102,16 @@ final class GlobeCamera {
         return false
     }
 
+    /// Where it is now becomes where it rests; a flight under way carries on.
+    private func settle(at date: Date) {
+        guard !isFlying(at: date) else { return }
+        let now = pose(at: date)
+        rest = now.orientation
+        restZoom = now.zoom
+        since = date
+        motion = .still
+    }
+
     /// A finger comes down: the globe stops where it is.
     func hold(at date: Date = Date()) {
         let now = pose(at: date)
@@ -102,7 +122,7 @@ final class GlobeCamera {
         motion = .still
     }
 
-    /// Held and turned to here (a drag in progress).
+    /// Held and turned to here (a drag or a pinch in progress), at a zoom kept within the globe's range.
     func set(_ orientation: GlobeOrientation, zoom: Double? = nil) {
         rest = orientation
         if let zoom {
@@ -111,11 +131,15 @@ final class GlobeCamera {
         since = Date()
     }
 
-    /// Let go, still moving (degrees a second).
+    /// Let go, still moving (degrees a second). A hard flick is slowed to `globeFlickLimit` (less, closer in), so
+    /// the globe glides on a little rather than whirling away.
     func release(latitudeSpeed: Double = 0, longitudeSpeed: Double = 0) {
         held = false
         since = Date()
-        motion = abs(latitudeSpeed) + abs(longitudeSpeed) > 2 ? .coast(latitude: latitudeSpeed, longitude: longitudeSpeed) : .still
+        let speed = (latitudeSpeed * latitudeSpeed + longitudeSpeed * longitudeSpeed).squareRoot()
+        let limit = Tuning.World.globeFlickLimit / max(1, restZoom)
+        let scale = speed > limit ? limit / speed : 1
+        motion = speed > 2 ? .coast(latitude: latitudeSpeed * scale, longitude: longitudeSpeed * scale) : .still
     }
 
     /// Off to a place, arriving at `zoom`.
@@ -144,6 +168,17 @@ struct GlobeMarker: Identifiable, Equatable {
     var title: String?
     var kind: Kind
     var highlighted = false
+    /// When it was put there: a pin drops in from above.
+    var placed = Date.distantPast
+}
+
+/// A tap on the globe: the place under the finger, the city whose name or dot was tapped (if any), and how far a
+/// fingertip spans on the ground there (kilometres), so the map can snap to a named place within it.
+struct GlobeTap {
+    var latitude: Double
+    var longitude: Double
+    var city: CitiesFile.City?
+    var reachKm: Double
 }
 
 /// The painted map for the globe, loaded once.
@@ -160,7 +195,8 @@ enum GlobeTextures {
 }
 
 /// The world as a painted globe in a night sky: it turns by itself, a drag spins it (and it coasts), a pinch
-/// zooms, a tap gives the place under the finger. Markers and city names ride on it, hidden round the back.
+/// zooms about the fingers, a tap gives the place under the finger (or the city whose name it was on). Markers and
+/// city names ride on it, hidden round the back.
 struct SpinningGlobe: View {
     let camera: GlobeCamera
     var markers: [GlobeMarker] = []
@@ -170,23 +206,40 @@ struct SpinningGlobe: View {
     var lift: CGFloat = 0
     /// Moves the globe right (a fraction of the view's width) to leave room on the left.
     var shift: CGFloat = 0
-    var onTap: ((Double, Double) -> Void)?
+    /// A finger came down on it: a drag, a pinch or a tap begins.
+    var onTouch: (() -> Void)?
+    var onTap: ((GlobeTap) -> Void)?
 
     @State private var scene: GlobeScene?
-    @State private var dragStart: GlobeOrientation?
-    @State private var pinchStart: Double?
+    /// The drag's translation last time it moved the globe; nil when no finger is down.
+    @State private var lastDrag: CGSize?
+    /// The zoom when the pinch began; nil when not pinching.
+    @State private var pinchZoom: Double?
+    /// A pinch happened during this drag: no coasting when it ends, and the next move only catches up.
+    @State private var pinched = false
+    @State private var rebase = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+    fileprivate struct Placed {
+        var city: CitiesFile.City
+        var at: CGPoint
+        var depth: Double
+    }
 
     var body: some View {
         GeometryReader { geometry in
             TimelineView(.animation(paused: reduceMotion && !camera.isFlying(at: Date()))) { timeline in
                 let pose = camera.pose(at: timeline.date)
                 let size = geometry.size
-                let radius = min(size.width, size.height) * Tuning.World.globeSize * pose.zoom
+                let base = min(size.width, size.height) * Tuning.World.globeSize
+                let radius = base * pose.zoom
                 let offset = camera.offset(at: timeline.date)
                 let centre = CGPoint(x: size.width * (0.5 + offset.x), y: size.height * (0.5 - offset.y))
+                let named = labels(pose: pose, centre: centre, radius: radius)
                 ZStack {
-                    SpaceSky(time: timeline.date.timeIntervalSinceReferenceDate)
+                    // The stars twinkle a dozen times a second, not every frame: the sky is the screen's
+                    // biggest drawing.
+                    SpaceSky(time: (timeline.date.timeIntervalSinceReferenceDate * 12).rounded(.down) / 12)
                     // The glow of the air round it.
                     Circle()
                         .fill(RadialGradient(
@@ -198,16 +251,20 @@ struct SpinningGlobe: View {
                         .frame(width: radius * 2.4, height: radius * 2.4)
                         .position(centre)
                     if let scene {
-                        SpriteView(scene: scene, options: [.allowsTransparency])
+                        // As often as the names and pins over it are drawn (120 a second on a ProMotion iPad), so
+                        // they keep to the painting.
+                        SpriteView(scene: scene, preferredFramesPerSecond: 120, options: [.allowsTransparency])
                             .allowsHitTesting(false)
                     }
-                    labels(pose: pose, centre: centre, radius: radius)
+                    ForEach(named, id: \.city) { label in
+                        cityName(label)
+                    }
                     marks(pose: pose, centre: centre, radius: radius, time: timeline.date)
                 }
                 .contentShape(Rectangle())
                 .gesture(interactive ? drag(radius: radius) : nil)
-                .simultaneousGesture(interactive ? pinch : nil)
-                .simultaneousGesture(interactive ? tap(pose: pose, centre: centre, radius: radius) : nil)
+                .simultaneousGesture(interactive ? pinch(base: base, centre: centre) : nil)
+                .simultaneousGesture(interactive ? tap(pose: pose, centre: centre, radius: radius, named: named) : nil)
             }
         }
         .ignoresSafeArea()
@@ -240,33 +297,41 @@ struct SpinningGlobe: View {
         CGPoint(x: centre.x + CGFloat(p.x) * radius, y: centre.y - CGFloat(p.y) * radius)
     }
 
-    private func labels(pose: (orientation: GlobeOrientation, zoom: Double), centre: CGPoint, radius: CGFloat) -> some View {
-        // Big cities first; a name too close to one already placed is left out, so they never pile up.
+    /// The city names to draw: big cities first; a name too close to one already placed is left out, so they never
+    /// pile up.
+    private func labels(pose: (orientation: GlobeOrientation, zoom: Double), centre: CGPoint, radius: CGFloat) -> [Placed] {
         let candidates = cities
             .filter { pose.zoom >= ($0.big ? Tuning.World.globeBigCityZoom : Tuning.World.globeCityZoom) }
             .sorted { $0.big && !$1.big }
-        var placed: [(city: CitiesFile.City, at: CGPoint, depth: Double)] = []
+        var placed: [Placed] = []
         for city in candidates {
             let p = pose.orientation.project(latitude: city.latitude, longitude: city.longitude)
             guard p.depth > 0.2 else { continue }
             let at = point(p, centre: centre, radius: radius)
-            if placed.allSatisfy({ abs($0.at.x - at.x) > 70 || abs($0.at.y - at.y) > 22 }) {
-                placed.append((city, at, p.depth))
+            if placed.allSatisfy({ abs($0.at.x - at.x) > 100 || abs($0.at.y - at.y) > 30 }) {
+                placed.append(Placed(city: city, at: at, depth: p.depth))
             }
         }
-        return ForEach(placed, id: \.city) { label in
-            VStack(spacing: 1) {
-                Circle().fill(.white).frame(width: 4, height: 4)
-                Text(label.city.name)
-                    .font(.system(size: label.city.big ? 12 : 10.5, weight: label.city.big ? .semibold : .medium))
-                    .foregroundStyle(.white)
-                    .shadow(color: .black.opacity(0.7), radius: 2)
-                    .fixedSize()
-            }
-            .opacity(min(1, (label.depth - 0.2) * 3))
-            .position(x: label.at.x, y: label.at.y + 7)
-            .allowsHitTesting(false)
+        return placed
+    }
+
+    private func cityName(_ label: Placed) -> some View {
+        VStack(spacing: 2) {
+            Circle()
+                .fill(.white)
+                .frame(width: 6, height: 6)
+                .shadow(color: .black.opacity(0.6), radius: 1.5)
+            Text(label.city.name)
+                .font(.system(size: label.city.big ? 15 : 13.5, weight: label.city.big ? .bold : .semibold))
+                .foregroundStyle(.white)
+                .shadow(color: .black.opacity(0.9), radius: 2.5)
+                .shadow(color: .black.opacity(0.5), radius: 6)
+                .fixedSize()
         }
+        .opacity(min(1, (label.depth - 0.2) * 3))
+        // The dot on the city, the name under it.
+        .position(x: label.at.x, y: label.at.y + 11)
+        .allowsHitTesting(false)
     }
 
     private func marks(pose: (orientation: GlobeOrientation, zoom: Double), centre: CGPoint, radius: CGFloat, time: Date) -> some View {
@@ -277,11 +342,9 @@ struct SpinningGlobe: View {
                 Group {
                     switch marker.kind {
                     case .pin:
-                        Image(systemName: "mappin.circle.fill")
-                            .font(.system(size: 34))
-                            .foregroundStyle(.white, Theme.accent)
-                            .shadow(color: .black.opacity(0.4), radius: 3, y: 2)
-                            .offset(y: -16)
+                        // Dropped in from a little above, its tip on the place.
+                        let fall = min(1, max(0, time.timeIntervalSince(marker.placed) / 0.32))
+                        HomePin(drop: 46 * (1 - fall) * (1 - fall))
                     case let .home(icon):
                         let pulse = 1 + 0.12 * sin(time.timeIntervalSinceReferenceDate * 3)
                         VStack(spacing: 2) {
@@ -314,46 +377,150 @@ struct SpinningGlobe: View {
 
     // MARK: Gestures
 
+    /// One finger turns the globe with the surface under it, a step at a time (so a pinch's zoom in between never
+    /// throws it); two fingers leave it to the pinch.
     private func drag(radius: CGFloat) -> some Gesture {
-        DragGesture(minimumDistance: 3)
+        DragGesture(minimumDistance: 4)
             .onChanged { value in
-                if dragStart == nil {
+                if lastDrag == nil {
+                    onTouch?()
                     camera.hold()
-                    dragStart = camera.rest
+                    lastDrag = .zero
                 }
-                guard let start = dragStart else { return }
-                camera.set(start.dragged(dx: Double(value.translation.width / radius), dy: Double(value.translation.height / radius)))
+                let last = lastDrag ?? .zero
+                lastDrag = value.translation
+                // While pinching, and on the first move after (the finger left may not be the one the drag
+                // followed), only catch up.
+                if pinchZoom != nil || rebase {
+                    rebase = pinchZoom != nil
+                    return
+                }
+                camera.set(camera.rest.dragged(
+                    dx: Double((value.translation.width - last.width) / radius),
+                    dy: Double((value.translation.height - last.height) / radius)
+                ))
             }
             .onEnded { value in
-                dragStart = nil
-                let degrees = 180 / Double.pi
-                camera.release(
-                    latitudeSpeed: Double(value.velocity.height / radius) * degrees,
-                    longitudeSpeed: -Double(value.velocity.width / radius) * degrees
-                )
+                lastDrag = nil
+                rebase = false
+                // Both fingers up at once: the pinch lets go.
+                guard pinchZoom == nil else { return }
+                if pinched {
+                    pinched = false
+                    camera.release()
+                } else {
+                    let degrees = 180 / Double.pi
+                    camera.release(
+                        latitudeSpeed: Double(value.velocity.height / radius) * degrees,
+                        longitudeSpeed: -Double(value.velocity.width / radius) * degrees
+                    )
+                }
             }
     }
 
-    private var pinch: some Gesture {
+    /// Zooms about the fingers: the place between them stays between them.
+    private func pinch(base: CGFloat, centre: CGPoint) -> some Gesture {
         MagnifyGesture()
             .onChanged { value in
-                if pinchStart == nil {
+                if pinchZoom == nil {
+                    onTouch?()
                     camera.hold()
-                    pinchStart = camera.restZoom
+                    pinchZoom = camera.restZoom
+                    pinched = true
                 }
-                camera.set(camera.rest, zoom: (pinchStart ?? 1) * value.magnification)
+                let now = camera.pose(at: Date())
+                let before = base * now.zoom
+                let ax = Double((value.startLocation.x - centre.x) / before), ay = Double(-(value.startLocation.y - centre.y) / before)
+                camera.set(now.orientation, zoom: (pinchZoom ?? 1) * value.magnification)
+                let after = base * camera.restZoom
+                guard let anchor = now.orientation.place(x: ax, y: ay) else { return }
+                camera.set(now.orientation.keeping(
+                    latitude: anchor.latitude,
+                    longitude: anchor.longitude,
+                    at: ax * before / after,
+                    ay * before / after
+                ))
             }
             .onEnded { _ in
-                pinchStart = nil
-                camera.release()
+                pinchZoom = nil
+                rebase = true
+                // A finger still down carries on as a drag, which lets go when it lifts.
+                if lastDrag == nil {
+                    pinched = false
+                    camera.release()
+                }
             }
     }
 
-    private func tap(pose: (orientation: GlobeOrientation, zoom: Double), centre: CGPoint, radius: CGFloat) -> some Gesture {
+    private func tap(pose: (orientation: GlobeOrientation, zoom: Double), centre: CGPoint, radius: CGFloat, named: [Placed]) -> some Gesture {
         SpatialTapGesture().onEnded { value in
+            let city = Self.city(at: value.location, among: named)
             let x = Double((value.location.x - centre.x) / radius), y = Double(-(value.location.y - centre.y) / radius)
-            if let place = pose.orientation.place(x: x, y: y) {
-                onTap?(place.latitude, place.longitude)
+            let under: (latitude: Double, longitude: Double)? = pose.orientation.place(x: x, y: y)
+            guard let place = under ?? city.map({ (latitude: $0.latitude, longitude: $0.longitude) }) else { return }
+            // How far a fingertip spans on the ground there.
+            let step = Tuning.World.globeTapReach / Double(radius)
+            let edge = pose.orientation.place(x: x + step, y: y) ?? pose.orientation.place(x: x - step, y: y)
+            let km = edge.map { WorldMap.distance(place, $0) } ?? 6371 * step
+            onTouch?()
+            onTap?(GlobeTap(latitude: place.latitude, longitude: place.longitude, city: city, reachKm: km))
+        }
+    }
+}
+
+extension SpinningGlobe {
+    /// The city whose dot or name is under a finger (within `globeTapReach` points of either).
+    fileprivate static func city(at point: CGPoint, among named: [Placed]) -> CitiesFile.City? {
+        var best: (city: CitiesFile.City, distance: Double)?
+        for label in named {
+            let dx = Double(label.at.x - point.x)
+            let dot = (dx * dx + Double(label.at.y - point.y) * Double(label.at.y - point.y)).squareRoot()
+            let below = Double(label.at.y + 18 - point.y)
+            let name = (dx * dx + below * below).squareRoot()
+            let distance = min(dot, name)
+            if distance < Tuning.World.globeTapReach, distance < best?.distance ?? .infinity {
+                best = (label.city, distance)
+            }
+        }
+        return best?.city
+    }
+}
+
+/// The home's pin: a round head with the house on it and a point whose tip is on the place, over a little shadow.
+/// `drop` lifts the head (points) as it falls in.
+struct HomePin: View {
+    var drop: CGFloat = 0
+
+    var body: some View {
+        ZStack(alignment: .bottom) {
+            Ellipse()
+                .fill(.black.opacity(0.3))
+                .frame(width: 16, height: 6)
+                .offset(y: 3)
+            VStack(spacing: -3) {
+                PaintedIcon("house", size: 28)
+                    .frame(width: 42, height: 42)
+                    .background(Circle().fill(Theme.cream))
+                    .overlay(Circle().strokeBorder(Theme.accent, lineWidth: 3.5))
+                Triangle()
+                    .fill(Theme.accent)
+                    .frame(width: 16, height: 13)
+            }
+            .shadow(color: .black.opacity(0.35), radius: 3, y: 2)
+            .offset(y: -drop)
+        }
+        // The tip is the bottom of the frame: lifted by half its height, it sits on the place.
+        .frame(width: 44, height: 56, alignment: .bottom)
+        .offset(y: -28)
+    }
+
+    private struct Triangle: Shape {
+        func path(in rect: CGRect) -> Path {
+            Path { path in
+                path.move(to: CGPoint(x: rect.minX, y: rect.minY))
+                path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
+                path.addLine(to: CGPoint(x: rect.midX, y: rect.maxY))
+                path.closeSubpath()
             }
         }
     }

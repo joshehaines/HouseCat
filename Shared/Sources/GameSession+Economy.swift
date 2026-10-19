@@ -173,38 +173,102 @@ extension GameSession {
 
     // MARK: The season pass
 
+    /// The season running now and the player's place in it: what the pass, the room's badge, the menu and the shop
+    /// show. There is always one (`SeasonSchedule`); nil only with no content.
     struct PassInfo {
         var season: SeasonDefinition
         var name: String
+        /// The season's line ("Moving in: boxes, tea chests…").
+        var theme: String
         var progress: SeasonProgress
+        /// The premium track is open: Cat Club, or this season's pass bought (StoreKit or the save).
         var ownsPaid: Bool
         var day: GameDay
         var claimableFree: [Int]
         var claimablePaid: [Int]
+        /// The next reward up the road, for the badge and the header.
+        var next: (track: PassTrack, reward: PassReward)?
+        /// Premium rewards on tiers already reached: what buying opens at once.
+        var openAtOnce: [Int]
+
+        var tier: Int {
+            progress.tier
+        }
+
+        var waiting: Int {
+            claimableFree.count + claimablePaid.count
+        }
+
+        var daysLeft: Int {
+            season.daysLeft(on: day)
+        }
     }
 
-    func passInfo(club: Bool) -> PassInfo? {
+    /// `club` is a live Cat Club; `passes` the season passes StoreKit says were bought (by pass id).
+    func passInfo(club: Bool, passes: Set<String> = []) -> PassInfo? {
         let date = now()
         let state = state(at: date)
         let day = state.clock.day(of: date)
         guard let season = rules.season(on: day) else { return nil }
         let progress = state.passes[season.id] ?? SeasonProgress()
-        let ownsPaid = club || progress.purchased || state.today?.clubDay == true
-        let name = content?.seasons.seasons.first { $0.id == season.id }?.name ?? season.id
+        let ownsPaid = club || passes.contains(season.passID) || progress.purchased || state.today?.clubDay == true
+        let named = content?.seasons.seasons.first { $0.id == season.passID }
         return PassInfo(
             season: season,
-            name: name,
+            name: named?.name ?? season.name,
+            theme: named?.theme ?? "",
             progress: progress,
             ownsPaid: ownsPaid,
             day: day,
             claimableFree: PassRules.claimable(track: .free, progress: progress, season: season, day: day, ownsPaidTrack: false),
-            claimablePaid: PassRules.claimable(track: .paid, progress: progress, season: season, day: day, ownsPaidTrack: ownsPaid)
+            claimablePaid: PassRules.claimable(track: .paid, progress: progress, season: season, day: day, ownsPaidTrack: ownsPaid),
+            next: PassRules.next(progress: progress, season: season, ownsPaidTrack: ownsPaid),
+            openAtOnce: PassRules.openAtOnce(progress: progress, season: season)
         )
     }
 
-    func claim(season: String, track: PassTrack, tier: Int) {
+    /// A season's pass is owned (a verified StoreKit purchase, heard on every refresh): the season running now records
+    /// it in the save once, so its premium claims count on every device. A pass bought once opens every run of its
+    /// season, each recorded as it comes round.
+    func recordPass(_ passID: String) {
+        let date = now()
+        let state = state(at: date)
+        guard let season = rules.season(on: state.clock.day(of: date)), season.passID == passID,
+              state.passes[season.id]?.purchased != true
+        else { return }
+        append(.passPurchased(seasonID: season.id), at: date)
+    }
+
+    /// Before a premium claim: the pass or today's Cat Club day in the save, if StoreKit says so (the app may have
+    /// been open since before midnight, or the purchase heard on another device).
+    func recordPremium(club: Bool, passes: Set<String>) {
+        guard let info = passInfo(club: false) else { return }
+        if passes.contains(info.season.passID) {
+            recordPass(info.season.passID)
+        }
+        recordClubDay(active: club)
+    }
+
+    /// Claims a tier; the reward, if the claim counted.
+    @discardableResult
+    func claim(season: String, track: PassTrack, tier: Int) -> PassReward? {
+        let before = state(at: now()).passes[season]?.claimed(track) ?? []
         append(.passTierClaimed(seasonID: season, track: track, tier: tier), at: now())
-        Sound.play("ui_sparkle", volume: Tuning.Sound.levelUp)
+        let after = state(at: now())
+        guard after.passes[season]?.claimed(track).contains(tier) == true, !before.contains(tier) else { return nil }
+        return rules.season(id: season)?.reward(track: track, tier: tier)
+    }
+
+    /// Claims everything waiting, free track first, tier by tier; the rewards that counted.
+    func claimAll(_ info: PassInfo) -> [PassReward] {
+        var claimed: [PassReward] = []
+        for tier in info.claimableFree {
+            claim(season: info.season.id, track: .free, tier: tier).map { claimed.append($0) }
+        }
+        for tier in info.claimablePaid {
+            claim(season: info.season.id, track: .paid, tier: tier).map { claimed.append($0) }
+        }
+        return claimed
     }
 
     // MARK: Streaks

@@ -226,6 +226,66 @@
       "productID": "housecat.room.starlit_attic",
       "referenceName": "Starlit attic",
       "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "2.99",
+      "familyShareable": false,
+      "internalID": "6780089810",
+      "localizations": [
+        {
+          "description": "The Black Cat season's 30 premium rewards.",
+          "displayName": "Black Cat Premium Pass",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.pass.blackcat",
+      "referenceName": "Black Cat Premium Pass",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "2.99",
+      "familyShareable": false,
+      "internalID": "6771897224",
+      "localizations": [
+        {
+          "description": "The Housewarming season's 30 premium rewards.",
+          "displayName": "Housewarming Premium Pass",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.pass.housewarming",
+      "referenceName": "Housewarming Premium Pass",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "2.99",
+      "familyShareable": false,
+      "internalID": "6724101253",
+      "localizations": [
+        {
+          "description": "The Midwinter season's 30 premium rewards.",
+          "displayName": "Midwinter Premium Pass",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.pass.midwinter",
+      "referenceName": "Midwinter Premium Pass",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "2.99",
+      "familyShareable": false,
+      "internalID": "6756275568",
+      "localizations": [
+        {
+          "description": "The First Light season's 30 premium rewards.",
+          "displayName": "First Light Premium Pass",
+          "locale": "en_GB"
+        }
+      ],
+      "productID": "housecat.pass.firstlight",
+      "referenceName": "First Light Premium Pass",
+      "type": "NonConsumable"
     }
   ],
   "settings": {

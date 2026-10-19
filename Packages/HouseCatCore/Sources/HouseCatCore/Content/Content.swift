@@ -60,9 +60,9 @@ public struct ContentBundle: Sendable {
             dailyObjectives: objectives.daily.map(\.definition),
             weeklyObjectives: objectives.weekly.map(\.definition),
             achievements: objectives.achievements.map(\.definition),
-            seasons: seasons.seasons.map { try $0.definition() },
+            seasons: seasons.schedule(),
             paidItems: Set(catalogue.items.filter { [.set, .housewarming, .founders].contains($0.pool) }.map(\.id)),
-            events: events.definitions(launch: GameDay(iso: seasons.seasons.first?.startAt ?? "") ?? GameDay(index: 0)),
+            events: events.definitions(launch: seasons.launchDay ?? GameDay(index: 0)),
             bundles: Dictionary(uniqueKeysWithValues: bundles.bundles.map { ($0.id, $0) }),
             levels: levels,
             shapes: Dictionary(uniqueKeysWithValues: catalogue.items.map {
@@ -390,13 +390,17 @@ public struct SeasonsFile: Codable, Sendable {
         public func definition() throws -> SeasonDefinition {
             guard let start = GameDay(iso: startAt) else { throw ContentError.invalidDate(startAt) }
             guard let end = GameDay(iso: endAt) else { throw ContentError.invalidDate(endAt) }
-            return SeasonDefinition(id: id, startDay: start, endDay: end, freeTrack: freeTrack, paidTrack: paidTrack)
+            return SeasonDefinition(id: id, name: name, sku: sku, startDay: start, endDay: end, freeTrack: freeTrack, paidTrack: paidTrack)
         }
     }
 
     public var version: Int
     public var seasonLengthDays: Int
     public var tiers: Int
+    /// The free track's last tier (the premium one runs to `tiers`).
+    public var freeTiers: Int
+    /// The day the game launched, which the launch events count from (the first season may start before it).
+    public var launchAt: String?
     public var seasons: [Season]
 }
 

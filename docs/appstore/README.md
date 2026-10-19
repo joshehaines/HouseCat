@@ -52,7 +52,7 @@ Both sets were taken on 19 Oct from the current build, each screen from a fresh 
 
 The shop is not in the marketing set: a simulator launch from the command line has no test products, so it shows the catalogue's UK prices in a debug build (`HOUSECAT_SKIP_STORE=1`) and "…" otherwise. For each in-app purchase's review screenshot, use `iphone-6.9/review_beans.png` (the five Bean packs), `review_offers.png` (the Starter Pack), `review_room_looks.png` (the room looks) and `review_cat_club.png` (both plans, with the billed price on the button), all taken 19 Oct from the redesigned shop with `HOUSECAT_SCREEN=shop HOUSECAT_SHOP=beans|offers|looks|club`; or run from Xcode (the scheme loads `Store/HouseCat.storekit`) for StoreKit's own prices.
 
-## In-app purchases (17, matching `Store/HouseCat.storekit`)
+## In-app purchases (21, matching `Store/HouseCat.storekit`)
 
 | Product ID | Type | Price | Display name (35) | Description (55) |
 | --- | --- | --- | --- | --- |
@@ -71,12 +71,16 @@ The shop is not in the marketing set: a simulator launch from the command line h
 | housecat.room.cosy_study | Non-consumable | £4.99 | Cosy study | Map walls, a globe, a desk lamp and a mug of tea. |
 | housecat.room.cabin_attic | Non-consumable | £3.99 | Cabin attic | Pine walls, a skylight, an oil lamp and a wireless. |
 | housecat.room.starlit_attic | Non-consumable | £2.99 | Starlit attic | A telescope, a rocking horse and a dressmaker's dummy. |
+| housecat.pass.blackcat | Non-consumable | £2.99 | Black Cat Premium Pass | The Black Cat season's 30 premium rewards. |
+| housecat.pass.housewarming | Non-consumable | £2.99 | Housewarming Premium Pass | The Housewarming season's 30 premium rewards. |
+| housecat.pass.midwinter | Non-consumable | £2.99 | Midwinter Premium Pass | The Midwinter season's 30 premium rewards. |
+| housecat.pass.firstlight | Non-consumable | £2.99 | First Light Premium Pass | The First Light season's 30 premium rewards. |
 | housecat.club.monthly | Auto-renewable (group "Cat Club", level 1) | £2.99 / month | Cat Club Monthly | +20% Beans, rooms for half the Beans and free moves. |
 | housecat.club.yearly | Auto-renewable (group "Cat Club", level 1) | £19.99 / year, 1-week free trial | Cat Club Yearly | +20% Beans, rooms for half the Beans and free moves. |
 
 - The Housewarming look's product ID keeps its earlier name, because IDs can never be renamed once live.
 - Family Sharing is on for Cat Club only, as the StoreKit configuration has it. A room look's pieces go into one household's save.
-- The `housecat.pass.*` SKUs in `Content/seasons.json` are not products: the paid track comes with Cat Club. Don't create them.
+- Each season sells its own premium pass (Josh, 19 Oct: the pass is the main thing sold): `housecat.pass.<season>`, non-consumable, paid once, brought back by Restore Purchases, the same price every season. Cat Club includes every season's premium track as well. Create one for each season in `Content/seasons.json` (four now) and add each new season's before it starts. A season that has no pass of its own runs an earlier one again (`SeasonSchedule`) and sells that one's pass, so no product is ever missing.
 - Each product needs a review screenshot (see Screenshots) and, for the subscription group, a display name ("Cat Club").
 
 ## App Privacy (the App Store Connect questionnaire)
@@ -110,7 +114,8 @@ Where things are (landscape):
 - Shop: the gold Shop button, bottom right of the room. Its pages are tabs along the top: Offers (the Starter Pack, a room look, the way into Cat Club), Beans (the five packs), Room looks, Outfits and Cat Club; a Season pass tab joins them while a season is on. Every product can be bought there. Bought Beans appear at once in the balance at the top right.
 - Cat Club page (the last tab): Restore Purchases, Terms of Use and Privacy Policy are at the foot of the page; the price that will be charged is on the button.
 - Restore Purchases, Request a refund, Manage subscription, Terms of Use, Privacy Policy and Help also run along the foot of every shop page, and are in Settings (tap the cat's portrait at the top left, then Settings, then "Purchases and help").
-- Menu (top left, under the portrait): Goals, Map, Book, and the Gift track while one runs. The season pass appears there when a season is on (the first starts after this review); Cat Club's paid track opens with it.
+- Menu (top left, under the portrait): Goals, Map, Book, the Pass, and the Gift track while one runs.
+- Season pass: always on (a season is running now, Black Cat until 1 November). The badge at the top right of the room, under the Beans and the streak, opens it, as does the menu's Pass. Get Premium shows all 30 premium rewards, the ones that open at once, the season's last day and the price before anything is bought; Restore Purchases, Terms and Privacy are on that panel. The premium pass is paid once for its season; Cat Club also includes it. Nothing on either track is random.
 
 Beans are the one currency: earned every day by playing and sold in fixed packs. Nothing bought is random. A room look puts a whole room's furniture, wallpaper and floor in at once, and can be tried in the room before buying.
 
@@ -136,7 +141,7 @@ The Apple Watch app and widgets show the cat, its mood and the streak; the Watch
 3. **App record**: create it with the bundle ID above, primary language English (UK), SKU `housecat`.
 4. **Agreements, tax and banking**: sign the Paid Apps agreement. In-app purchases can't be reviewed without it.
 5. **In-app purchases**:
-   - Create the 17 products in the table, with the same IDs, types, prices, names and descriptions.
+   - Create the 21 products in the table, with the same IDs, types, prices, names and descriptions.
    - Create the subscription group "Cat Club" with both plans at the same level (1), as the StoreKit configuration has them, and a 1-week free introductory offer on the yearly plan.
    - Add a review screenshot to each.
    - Submit them with the first build.
@@ -150,7 +155,8 @@ The Apple Watch app and widgets show the cat, its mood and the streak; the Watch
 
 - **RevenueCat**: set `RevenueCatAPIKey` or leave it empty. The app uses StoreKit 2 directly without it. The privacy policy and the App Privacy answers must match the choice.
 - **PostHog analytics**: same choice. Empty means no analytics and no switch in Settings.
-- **Season dates**: the first season (Housewarming) is set for 2 Nov 2026 to 1 Dec 2026, marked provisional. The Pass stays out of the menu until a season starts.
+- **Season dates**: seasons run back to back on `SeasonCalendar` and the pass is always on: Black Cat 5 Oct to 1 Nov 2026 (so TestFlight and App Review see the pass), Housewarming 2 Nov to 30 Nov (the launch season; the launch events still count from 2 Nov, `launchAt` in `Content/seasons.json`), Midwinter every December, First Light to 25 Jan 2027. After that, seasons run again until the 2027 seasons (CONTENT.md §7) are painted.
+- **Premium pass price**: £2.99 a season, the same as a month of Cat Club, which includes it. Raising Cat Club's monthly price would make the pass the clearer buy.
 - **Mac menu-bar cat**: leave it out of 1.0. It has no App Sandbox and can't reach the iPhone's cat, so review would reject it under minimum functionality. To ship it later, it needs the sandbox, the App Group and a privacy manifest.
 - **Co-owning**: left out of 1.0 and planned for 1.1. Leave, Stop sharing, Hide and Report are built (19 Oct). Co-owner names go through the name filter. To ship it, it needs the iCloud container on the App ID, `HouseCatCloudKit` set to true and two-phone testing (CLAUDE.md, "To switch sharing on"). The website and App Store Connect lines it needs are in `sharing-1.1.md`.
 

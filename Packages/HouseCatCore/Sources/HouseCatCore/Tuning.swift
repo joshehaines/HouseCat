@@ -202,18 +202,26 @@ public enum Tuning {
         public static let christmasStartDay = 1
         /// Twelve four-week seasons and the Christmas season make a year.
         public static let seasonsPerYear = 13
-        public static let tiers = 20
-        /// Spec is silent; 50 a tier puts tier 20 at 1,000 points, about day 23 of normal play.
-        public static let pointsPerTier = 50
-        /// Daily cap on activity points (objective points are on top).
-        public static let dailyCap = 60
-        public static let visit = 10
-        public static let feed = 10
-        /// "play" and "mini-game" in SPEC are the same action: 5 a mini-game play (CONTENT.md §6).
-        public static let miniGame = 5
-        /// Placing furniture pays once a day.
-        public static let placeFurniture = 5
+        /// The pass is the main progression (Josh, 19 Oct): thirty tiers, the free track's rewards on the first
+        /// twenty, the premium track's on all thirty.
+        public static let tiers = 30
+        public static let freeTiers = 20
+        /// Tiers are climbed with the XP earned while the season runs (care, games, furniture, the goals' XP), plus
+        /// the goals' bonus pass XP. 60 a tier: a regular player ends the free track in the fourth week and a keen
+        /// one the premium track (`PassPacingTests`).
+        public static let pointsPerTier = 60
+        /// Pass XP from play counts up to this much a day (above any day's XP today; the goals' bonus is on top).
+        public static let dailyCap = 150
+        /// Sharing the Sunday card: bonus pass XP, once a day.
         public static let sundayCard = 20
+        /// Seasons are scheduled this many years past the last one seasons.json names (runs again, `SeasonSchedule`).
+        public static let scheduleYears = 10
+        /// The pass screen is drawn for a landscape phone of this size inside the safe area (points), and scaled to
+        /// the screen in steps of 0.05 between these.
+        public static let screenDesignWidth = 750.0
+        public static let screenDesignHeight = 402.0
+        public static let screenSmallestScale = 0.8
+        public static let screenLargestScale = 1.6
     }
 
     /// Mini-games (CONTENT.md §6).

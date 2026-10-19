@@ -2,11 +2,12 @@
 """Builds Store/HouseCat.storekit, the local StoreKit configuration for the
 simulator and the StoreKit tests, from the content files.
 
-It mirrors StoreCatalog.swift (Packages/HouseCatStore): the three kinds of
-product (Josh, 18 Oct): consumable Bean packs and the once-only starter, a
-non-consumable per room look (Content/bundles.json), and the Cat Club
-subscription group with the 7-day free trial as an introductory offer on the
-yearly plan. A test checks the two agree.
+It mirrors StoreCatalog.swift (Packages/HouseCatStore): consumable Bean packs
+and the once-only starter, a non-consumable per room look (Content/bundles.json),
+a non-consumable premium pass per season (Content/seasons.json; Josh, 19 Oct:
+the pass is the main thing sold), and the Cat Club subscription group with the
+7-day free trial as an introductory offer on the yearly plan. A test checks the
+two agree.
 
 Run from the repo root: python3 -I tools/store/build_storekit.py
 """
@@ -45,6 +46,7 @@ def product(product_id: str, kind: str, price: str, name: str, description: str,
 
 def main() -> None:
     bundles = json.loads((CONTENT / "bundles.json").read_text())["bundles"]
+    seasons = json.loads((CONTENT / "seasons.json").read_text())["seasons"]
     # The Bean packs and the starter offer: keep in step with StoreCatalog.beanPacks and Tuning.Beans.
     packs = [("housecat.beans.handful", 500, "0.99", "A handful of Beans"), ("housecat.beans.pouch", 1200, "1.99", "A pouch of Beans"),
              ("housecat.beans.jar", 2600, "3.99", "A jar of Beans"), ("housecat.beans.sack", 7000, "9.99", "A sack of Beans"),
@@ -55,6 +57,11 @@ def main() -> None:
     products.append(product("housecat.starter", "NonConsumable", "1.99", "Starter Beans", "2,000 Beans to get you going. Once only."))
     for b in bundles:
         products.append(product(b["sku"], "NonConsumable", b["price"], b["name"], b["blurb"][:55]))
+    # Each season's premium pass: keep the price in step with StoreCatalog.passPriceGBP, the name with passDisplayName.
+    for s in seasons:
+        name, description = f"{s['name']} Premium Pass", f"The {s['name']} season's 30 premium rewards."
+        assert len(name) <= 35 and len(description) <= 55, s["id"]
+        products.append(product(s["sku"], "NonConsumable", "2.99", name, description))
     passes = []
 
     group_id = internal_id("housecat.club")

@@ -253,6 +253,9 @@ extension GameSession {
             append(.itemGranted(itemID: Tuning.Store.starterPiece), at: now())
         case let .bundle(id):
             append(.bundleGranted(bundleID: id, transactionID: grant.transactionID), at: now())
+        case let .pass(passID):
+            // A season's premium pass: the season running now records it (and each later run of that season).
+            recordPass(passID)
         case .club:
             break
         }

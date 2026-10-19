@@ -79,7 +79,7 @@ Personality changes the cat's chase speed and reaction lines only.
 
 ## 7. Seasons (`seasons.json`)
 
-Four-week seasons back to back from launch: `id`, `name`, `theme`, `startAt`, `endAt` (real, shown), `freeTrack[20]`, `paidTrack[20]`, `sku`. First three: Housewarming (the launch season), Midwinter, First Light. December is always the Christmas season, Midwinter: it runs 1–28 December every year, the following seasons run four weeks each, and the one that meets 1 December runs a day longer (two in a leap year) (Josh, 18 Oct; `SeasonCalendar` in HouseCatCore). The Santa hat and antlers are Midwinter's outfits.
+Four-week seasons back to back, always one running (`SeasonSchedule` runs an earlier season again in a slot with none of its own): `id`, `name`, `theme`, `startAt`, `endAt` (real, shown), `freeTrack[20]`, `paidTrack[30]`, `sku`; `launchAt` is the launch day the events count from. Written by `tools/content/build_seasons.py`. First four: Black Cat (5 Oct–1 Nov 2026, before the launch, pieces from the Bean shop), Housewarming (the launch season), Midwinter, First Light. December is always the Christmas season, Midwinter: it runs 1–28 December every year, the following seasons run four weeks each, and the one that meets 1 December runs a day longer (two in a leap year) (Josh, 18 Oct; `SeasonCalendar` in HouseCatCore). The Santa hat and antlers are Midwinter's outfits.
 
 **2027, to paint** (dates from `SeasonCalendar`; each needs 8 pieces of furniture, a wallpaper and a floor, `pass_<id>_<item>`, then its tracks in `seasons.json` and a `housecat.pass.<id>` product; no alcohol, no witches):
 

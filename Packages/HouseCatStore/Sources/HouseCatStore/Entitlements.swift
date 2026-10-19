@@ -12,6 +12,9 @@ public struct Entitlements: Codable, Equatable, Sendable {
     /// Room looks bought (their pieces are granted into the save once per transaction; this says which the
     /// player has, for the shop's Owned).
     public var bundles: Set<String> = []
+    /// Seasons whose premium pass was bought (each season's own product, `housecat.pass.<season>`), by the season's
+    /// pass id: it opens every run of that season.
+    public var passes: Set<String> = []
 
     public init() {}
 
@@ -21,9 +24,22 @@ public struct Entitlements: Codable, Equatable, Sendable {
         clubSubscription
     }
 
-    /// Cat Club includes every season's paid track.
-    public func ownsPaidTrack(season _: String) -> Bool {
-        hasClub
+    /// The premium track of a season (by its pass id): its own pass, or Cat Club, which includes every season's.
+    public func ownsPaidTrack(season passID: String) -> Bool {
+        hasClub || passes.contains(passID)
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case clubSubscription, starter, bundles, passes
+    }
+
+    /// A Keychain mirror written before passes were sold decodes with none.
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        clubSubscription = try container.decodeIfPresent(Bool.self, forKey: .clubSubscription) ?? false
+        starter = try container.decodeIfPresent(Bool.self, forKey: .starter) ?? false
+        bundles = try container.decodeIfPresent(Set<String>.self, forKey: .bundles) ?? []
+        passes = try container.decodeIfPresent(Set<String>.self, forKey: .passes) ?? []
     }
 }
 
@@ -59,6 +75,7 @@ public enum EntitlementMapper {
             case .club: result.clubSubscription = true
             case .starter: result.starter = true
             case let .bundle(id): result.bundles.insert(id)
+            case let .pass(season): result.passes.insert(season)
             case .beans: break
             }
         }

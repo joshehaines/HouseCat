@@ -1832,6 +1832,9 @@ enum RestorePurchases {
         if !owned.passes.isEmpty {
             found.append(owned.passes.count == 1 ? "a season's premium pass" : "\(owned.passes.count) seasons' premium passes")
         }
+        if !owned.passes.isEmpty {
+            found.append(owned.passes.count == 1 ? "a season's premium pass" : "\(owned.passes.count) seasons' premium passes")
+        }
         guard !found.isEmpty else {
             return "Nothing to restore on this Apple Account. Beans are spent in the game, so they don't come back."
         }

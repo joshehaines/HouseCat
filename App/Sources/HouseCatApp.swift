@@ -1054,6 +1054,10 @@ struct RoomScreen: View {
                         value: visit.stats.streak == 1 ? "1 day" : "\(visit.stats.streak) days",
                         label: "\(visit.stats.streak) day streak. Shows the streak."
                     ) { showStreak = true }
+                    // The season pass, always on: the tier, the bar to the next one and the next reward (Josh, 19 Oct).
+                    if calm, let pass = passBadgeInfo {
+                        PassBadge(info: pass) { showPass = true }
+                    }
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
@@ -1228,6 +1232,13 @@ struct RoomScreen: View {
             })
         }
         return items
+    }
+
+    /// The pass for the room's badge (it follows the stats, which change with every event).
+    private var passBadgeInfo: GameSession.PassInfo? {
+        _ = visit.stats
+        let owned = store?.entitlements ?? .none
+        return GameSession.shared.passInfo(club: owned.hasClub, passes: owned.passes)
     }
 
     /// Something in the menu waits (a pass reward, a present, the quest's Beans): a dot on its button.
@@ -1487,15 +1498,25 @@ struct RoomScreen: View {
                 }
             }
             .overlay {
-                card(showPass, close: { showPass = false }) {
-                    PassView(club: store?.entitlements.hasClub == true) {
-                        showPass = false
-                        openShop(.club)
-                    } close: {
-                        showPass = false
-                        visit.refreshStats()
+                // The season pass, the whole screen (App/Sources/PassView.swift).
+                ZStack {
+                    if showPass {
+                        PassView(store: store) {
+                            showPass = false
+                            openShop(.club)
+                        } placePiece: { item in
+                            showPass = false
+                            visit.refreshStats()
+                            visit.openTray(on: item)
+                        } close: {
+                            showPass = false
+                            visit.refreshStats()
+                        }
+                        .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
+                        .transition(.opacity)
                     }
                 }
+                .animation(.easeOut(duration: 0.25), value: showPass)
             }
     }
 

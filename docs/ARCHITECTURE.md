@@ -41,7 +41,7 @@ The save is an append-only list of `GameEvent`s (`Packages/HouseCatCore/Sources/
 **Content as input.** The fold takes a `RulesContext` built from `Content/` (gift pool, objective pools, seasons and their rewards, which items are paid). Changing `Tuning` or content re-derives history. Fine during development and beta; before launch, rules changes that would move past balances get a rules version on events (risk noted for the launch step).
 
 **What the save holds about purchases.** Entitlements are never in the save. Three purchase-related facts are, because the derived state needs them and they grant nothing on their own:
-- `passPurchased(season)`: non-renewing season passes are not restored by StoreKit, so the save remembers them and the paid track restores from there.
+- `passPurchased(season)`: recorded for the season running now when a verified StoreKit purchase of its pass (`housecat.pass.<passID>`, non-consumable) is heard (`GameSession.recordPass`), like `clubDayRecorded`: it opens that run's premium claims on every device and grants nothing by itself. Restore Purchases brings the product back, and the next run of the same season records it again.
 - `clubDayRecorded`: written once a day while a verified Cat Club entitlement is live, so that day's +20% Beans and paid-track claims re-derive the same forever, even after the subscription lapses.
 - `purchaseBeansGranted(transactionID, beans)`: the Beans in bundles and packs, counted once per store transaction however many devices record it.
 Only the household owner's devices write these (see §6).

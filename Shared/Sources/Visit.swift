@@ -506,6 +506,16 @@ final class Visit {
         inventory = focused(GameSession.shared.inventory())
     }
 
+    /// A piece just claimed from the season pass, put out now: the decorate tray opens on it.
+    func openTray(on itemID: String) {
+        wantedFocus = itemID
+        if !decorating {
+            toggleDecorating()
+        }
+        trayMode = .furniture
+        inventory = focused(GameSession.shared.inventory())
+    }
+
     /// The cat set off to something by itself: now and then it says something about it (or about what it would
     /// love, with the bubble), never over another line and not too often. A piece it has never used is noted (its
     /// XP, and the goals for what it loves).

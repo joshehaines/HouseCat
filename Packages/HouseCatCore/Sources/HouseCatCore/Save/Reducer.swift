@@ -339,7 +339,7 @@ extension HouseholdState {
         case .sundayCardShared:
             guard today?.sundayCard == false else { break }
             today?.sundayCard = true
-            addPassPoints(Tuning.Pass.sundayCard, capped: true, context: context)
+            addPassPoints(Tuning.Pass.sundayCard, capped: false, context: context)
             lifetime.sundayCards += 1
         case .pawPrintSent:
             lifetime.pawPrintsSent += 1
@@ -436,7 +436,6 @@ extension HouseholdState {
         for milestone in streak.visit(on: tally.day) {
             reachStreak(milestone, context: context)
         }
-        addPassPoints(Tuning.Pass.visit, capped: true, context: context)
         bump(.visitDay, context: context)
     }
 
@@ -456,7 +455,6 @@ extension HouseholdState {
         }
         if firstFeedToday {
             gainXP(Tuning.XP.feed, context: context)
-            addPassPoints(Tuning.Pass.feed, capped: true, context: context)
         }
         // One gift a day when fed; none the day after a missed day.
         if !tally.missedYesterday {
@@ -487,7 +485,6 @@ extension HouseholdState {
             lifetime.threeStarGames += 1
             bump(.threeStarMinigame, context: context)
         }
-        addPassPoints(Tuning.Pass.miniGame, capped: true, context: context)
         bump(.playMinigame, context: context)
     }
 
@@ -537,10 +534,6 @@ extension HouseholdState {
             today?.furnitureXP += gain
             gainXP(gain, context: context)
         }
-        if today?.placedFurniture == false {
-            today?.placedFurniture = true
-            addPassPoints(Tuning.Pass.placeFurniture, capped: true, context: context)
-        }
         bump(.placeItem, context: context)
     }
 
@@ -573,6 +566,8 @@ extension HouseholdState {
         }
     }
 
+    /// Pass XP for the season running today: the XP play earns (`capped`, up to `Tuning.Pass.dailyCap` a day) and
+    /// the goals' bonus pass XP on top.
     private mutating func addPassPoints(_ points: Int, capped: Bool, context: RulesContext) {
         guard let tally = today, let season = context.season(on: tally.day) else { return }
         var add = points
@@ -670,7 +665,9 @@ extension HouseholdState {
 
     // MARK: XP and Beans
 
+    /// XP climbs the level and, while a season runs (always), the season pass.
     private mutating func gainXP(_ amount: Int, context: RulesContext) {
+        addPassPoints(amount, capped: true, context: context)
         let before = level
         xp += amount
         guard level > before else { return }

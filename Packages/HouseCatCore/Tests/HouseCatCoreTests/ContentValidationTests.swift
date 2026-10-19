@@ -319,11 +319,12 @@ struct ContentValidationTests {
         }
     }
 
-    @Test func seasonsHaveTwentyFixedTiersOnBothTracks() throws {
+    @Test func seasonsHaveThirtyTiersAndAFreeTrackOfTwenty() throws {
         let items = Set(content.catalogue.items.map(\.id))
         let outfits = Dictionary(uniqueKeysWithValues: content.outfits.outfits.map { ($0.id, $0) })
         let surfaces = Set(content.catalogue.surfaces.map(\.id))
         #expect(content.seasons.tiers == Tuning.Pass.tiers)
+        #expect(content.seasons.freeTiers == Tuning.Pass.freeTiers)
         #expect(content.seasons.seasonLengthDays == Tuning.Pass.seasonLengthDays)
         for season in content.seasons.seasons {
             let definition = try season.definition()
@@ -332,22 +333,23 @@ struct ContentValidationTests {
             #expect(slot.start == definition.startDay && slot.end == definition.endDay, "\(season.id) is off the season calendar")
             #expect(slot.isChristmas == (season.christmas == true), "\(season.id): Christmas flag")
             #expect(season.sku == "housecat.pass.\(season.id)")
-            for track in [season.freeTrack, season.paidTrack] {
-                #expect(track.map(\.tier) == Array(1 ... 20), "\(season.id): tiers 1–20 in order")
-                for reward in track {
-                    switch reward.kind {
-                    case .beans: #expect((reward.amount ?? 0) > 0)
-                    case .item: #expect(reward.id.map(items.contains) == true, "\(season.id): unknown item \(reward.id ?? "nil")")
-                    case .outfit: #expect(reward.id.flatMap { outfits[$0] } != nil, "\(season.id): unknown outfit \(reward.id ?? "nil")")
-                    case .surface: #expect(reward.id.map(surfaces.contains) == true, "\(season.id): unknown surface \(reward.id ?? "nil")")
-                    }
+            #expect(season.freeTrack.map(\.tier) == Array(1 ... Tuning.Pass.freeTiers), "\(season.id): free tiers 1–20 in order")
+            #expect(season.paidTrack.map(\.tier) == Array(1 ... Tuning.Pass.tiers), "\(season.id): premium tiers 1–30 in order")
+            for reward in season.freeTrack + season.paidTrack {
+                switch reward.kind {
+                case .beans: #expect((reward.amount ?? 0) > 0)
+                case .item: #expect(reward.id.map(items.contains) == true, "\(season.id): unknown item \(reward.id ?? "nil")")
+                case .outfit: #expect(reward.id.flatMap { outfits[$0] } != nil, "\(season.id): unknown outfit \(reward.id ?? "nil")")
+                case .surface: #expect(reward.id.map(surfaces.contains) == true, "\(season.id): unknown surface \(reward.id ?? "nil")")
                 }
             }
+            #expect(season.freeTrack.last?.kind == .outfit, "\(season.id): the free track ends with an outfit")
             let capstone = season.paidTrack.last
-            #expect(
-                capstone?.kind == .outfit && capstone?.id.flatMap { outfits[$0]?.pool } == .passPaid,
-                "\(season.id): tier 20 of the paid track is the season's outfit"
-            )
+            #expect(capstone?.kind == .outfit, "\(season.id): tier 30 of the premium track is the season's outfit")
+            // A season with its own paintings tops its premium track with its own outfit.
+            if season.paidTrack.contains(where: { $0.id?.hasPrefix("pass_") == true }) {
+                #expect(capstone?.id.flatMap { outfits[$0]?.pool } == .passPaid, "\(season.id): the top prize is the season's own")
+            }
         }
         let christmas = content.seasons.seasons.filter { $0.christmas == true }
         #expect(christmas.map(\.id) == ["midwinter"])
@@ -365,7 +367,8 @@ struct ContentValidationTests {
         #expect(games.playsPerDay == Tuning.MiniGames.playsPerDay)
         #expect(games.starBeans == Tuning.MiniGames.starBeans)
         #expect(games.xpPerPlay == Tuning.XP.play)
-        #expect(games.passPointsPerPlay == Tuning.Pass.miniGame)
+        // A play's XP is what it adds to the season pass.
+        #expect(games.passPointsPerPlay == Tuning.XP.play)
         for game in games.games {
             #expect(game.stars.count == 3 && game.stars == game.stars.sorted())
         }
@@ -405,7 +408,8 @@ struct ContentValidationTests {
     @Test func theRulesEngineLoadsTheContent() throws {
         let context = try content.rulesContext()
         #expect(context.gifts.count == 60)
-        #expect(context.seasons.count == content.seasons.seasons.count)
+        // The named seasons, then runs of them again for years (SeasonSchedule).
+        #expect(context.seasons.count > content.seasons.seasons.count)
         #expect(ObjectiveRules.daily(from: context.dailyObjectives, household: 1, day: GameDay(index: 20500)).count == 3)
         #expect(content.affordances["kitchen_bowl"]?.contains(.eat) == true)
     }

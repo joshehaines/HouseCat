@@ -9,7 +9,10 @@ extension CatScreens {
         guard let objectives = session.content?.objectives else { return nil }
         let now = session.now()
         let state = session.state(at: now)
-        return GoalBoard.make(state, objectives: objectives, on: state.clock.day(of: now), catName: session.cat?.name ?? "your cat")
+        return GoalBoard.make(
+            state, objectives: objectives, on: state.clock.day(of: now), catName: session.cat?.name ?? "your cat",
+            hiding: session.goalsOutOfReach
+        )
     }
 
     /// Every goal met so far: the path's, today's, this week's and the achievements, for noticing a new one.

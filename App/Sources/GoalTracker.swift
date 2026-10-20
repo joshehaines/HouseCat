@@ -201,6 +201,8 @@ struct GoalTrackerLayer: View {
                     .allowsHitTesting(!talking)
                     .animation(.easeOut(duration: 0.25), value: talking)
                     .offset(x: frame.minX, y: frame.minY)
+                    .onGeometryChange(for: CGRect.self) { $0.frame(in: .global).integral } action: { visit.trackerFrame = $0 }
+                    .onDisappear { visit.trackerFrame = nil }
                     .transition(.move(edge: .top).combined(with: .opacity))
                 }
                 if let pointing = model.pointing, !hidden {

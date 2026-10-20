@@ -16,7 +16,7 @@ public struct PathStepDefinition: Hashable, Sendable, Identifiable {
     public var outfit: String?
     /// A piece of furniture it gives (catalogue id).
     public var item: String?
-    /// Not needed to finish the chapter (a pass step, when no season may be on); it still pays when met.
+    /// Not needed to finish the chapter (the other cats' homes, open only from a level; the pass); it still pays when met.
     public var optional: Bool
 
     public init(

@@ -16,6 +16,9 @@ final class Visit {
     private(set) var greeting: String?
     /// Where the greeting's bubble is on screen while it shows (`RoomScreen.speech`), so the goal tracker can make way.
     var greetingFrame: CGRect?
+    /// Where the goal tracker's card is on screen while it shows (`GoalTrackerLayer`), so the notes up top (a toast,
+    /// the nap banner) go under it instead of behind it.
+    var trackerFrame: CGRect?
     /// The cat's name, over its lines.
     var catName: String? {
         GameSession.shared.cat?.name

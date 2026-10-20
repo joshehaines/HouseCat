@@ -68,8 +68,16 @@ public struct GoalBoard: Equatable, Sendable {
         milestones.reduce(0) { $0 + $1.steps }
     }
 
-    /// The board for `state` on `day`; `{cat}` in the path's words becomes `catName`.
-    public static func make(_ state: HouseholdState, objectives: ObjectivesFile, on day: GameDay, catName: String = "your cat") -> GoalBoard {
+    /// The board for `state` on `day`; `{cat}` in the path's words becomes `catName`. Achievements on a metric in
+    /// `hiding` are left out (what this build cannot count yet, e.g. `ObjectiveMetric.sharing` while sharing is off:
+    /// CLAUDE.md "Nothing is shown that cannot work yet").
+    public static func make(
+        _ state: HouseholdState,
+        objectives: ObjectivesFile,
+        on day: GameDay,
+        catName: String = "your cat",
+        hiding: Set<ObjectiveMetric> = []
+    ) -> GoalBoard {
         func fill(_ text: String) -> String {
             text.replacingOccurrences(of: "{cat}", with: catName)
         }
@@ -97,7 +105,7 @@ public struct GoalBoard: Equatable, Sendable {
         // Ladders in the file's order; an achievement with no ladder is a ladder of one.
         var order: [String] = []
         var ladders: [String: [ObjectivesFile.Objective]] = [:]
-        for achievement in objectives.achievements {
+        for achievement in objectives.achievements where !hiding.contains(achievement.metric) {
             let ladder = achievement.ladder ?? achievement.id
             if ladders[ladder] == nil {
                 order.append(ladder)

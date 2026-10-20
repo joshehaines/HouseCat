@@ -118,11 +118,11 @@
     { "id": "decorate", "target": "decorate", "waitFor": "decorating", "text": "Let's make it yours. Tap Decorate." },
     { "id": "place", "target": "tray.first", "waitFor": "placed", "text": "Tap a piece to bring it in, then drag it where you like." },
     { "id": "done", "target": "done", "waitFor": "decorated", "text": "Lovely. Tap Done when it looks right." },
-    { "id": "play", "target": "play", "text": "Play has three games. Five plays a day pay Beans." },
+    { "id": "play", "target": "play", "text": "Play opens the games, and a new puzzle from Pat every day." },
     { "id": "nap", "target": "nap", "text": "The moon starts a twenty-minute nap, on your Lock Screen too." },
     { "id": "menu", "target": "menu", "text": "Your rooms, the book of {cat}'s presents and the map of your home: all in the menu." },
-    { "id": "shop", "target": "shop", "text": "The shop has sets, outfits and Cat Club. Nothing in it is needed to play." },
-    { "id": "level", "target": "plaque", "text": "Everything you do earns XP. Each new level opens another room of the house." },
+    { "id": "shop", "target": "shop", "text": "The shop has room looks, outfits and Cat Club. Nothing in it is needed to play." },
+    { "id": "level", "target": "plaque", "text": "Everything you do earns XP, and new levels open more rooms of the house." },
     { "id": "goals", "target": "goals", "text": "Your next goals are always up here. Each one pays Beans and XP, and leads to the next." },
     { "id": "reward", "reward": true, "text": "Welcome home! Here are some Beans to get you started." }
   ]

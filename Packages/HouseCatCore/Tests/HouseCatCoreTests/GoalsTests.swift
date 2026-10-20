@@ -67,4 +67,34 @@ struct GoalBoardTests {
         #expect(zip(open, open.dropFirst()).allSatisfy { $0.next.fraction >= $1.next.fraction })
         #expect(board.today.allSatisfy { $0.progress <= $0.target })
     }
+
+    /// While sharing is off, the goals only sharing can meet are not on the page or counted in its total, and the
+    /// tracker never offers one (CLAUDE.md "Nothing is shown that cannot work yet").
+    @Test func goalsThisBuildCannotCountAreLeftOff() throws {
+        let content = try ContentBundle.load(from: ContentValidationTests.repo.appendingPathComponent("Content"))
+        let context = try content.rulesContext()
+        var f = Fixture(context: context)
+        f.visit(days: [0])
+        let hiding = ObjectiveMetric.sharing.union([.sundayCards])
+        let hidden = content.objectives.achievements.filter { hiding.contains($0.metric) }
+        #expect(!hidden.isEmpty, "the social milestones are in the content")
+        let board = GoalBoard.make(f.state, objectives: content.objectives, on: f.day(0), hiding: hiding)
+        #expect(board.achievementsTotal == content.objectives.achievements.count - hidden.count)
+        #expect(board.milestones.allSatisfy { $0.next.metric(in: content.objectives).map { !hiding.contains($0) } ?? true })
+        var all = f.state
+        all.openedRooms = Set(RoomID.allCases)
+        all.pathDone = Set(content.objectives.chapters.flatMap { [$0.id] + $0.steps.map(\.id) })
+        let tracker = GoalTracker.make(
+            all, objectives: content.objectives, context: context, catName: "Pip", on: f.day(0), hiding: hiding
+        )
+        let metrics = tracker.entries.compactMap(\.metric)
+        #expect(metrics.allSatisfy { !hiding.contains($0) })
+    }
+}
+
+private extension GoalBoard.Goal {
+    /// What the achievement this goal stands for counts.
+    func metric(in objectives: ObjectivesFile) -> ObjectiveMetric? {
+        objectives.achievements.first { $0.id == id }?.metric
+    }
 }

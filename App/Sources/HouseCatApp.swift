@@ -926,11 +926,15 @@ struct RoomScreen: View {
             }
             .overlay(alignment: .top) {
                 if let end = naps.endsAt, !visit.decorating {
-                    NapBanner(catName: visit.catName ?? "Your cat", endsAt: end) { visit.wakeFromNap() }
-                        .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
-                        .zoomed(hudScale)
-                        .padding(.top, 74 * hudScale + 8)
-                        .transition(.move(edge: .top).combined(with: .opacity))
+                    // Under the goal tracker when it is up (20 Oct: it covered the card's second goal all nap).
+                    GeometryReader { geometry in
+                        NapBanner(catName: visit.catName ?? "Your cat", endsAt: end) { visit.wakeFromNap() }
+                            .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
+                            .zoomed(hudScale)
+                            .frame(maxWidth: .infinity)
+                            .padding(.top, max(74 * hudScale + 8, belowTracker(in: geometry)))
+                    }
+                    .transition(.move(edge: .top).combined(with: .opacity))
                 }
             }
             .animation(.easeOut(duration: 0.25), value: choosingGame)
@@ -1168,11 +1172,17 @@ struct RoomScreen: View {
                     Toast(toast, icon: visit.toastIcon)
                         .transition(.scale(scale: 0.8).combined(with: .opacity))
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-                        .padding(.top, 14)
+                        // Under the goal tracker when it is up (20 Oct: "+3 Beans" was hidden behind the card).
+                        .padding(.top, max(14, belowTracker(in: geometry)))
                 }
             }
         }
         .ignoresSafeArea()
+    }
+
+    /// How far down `geometry` a note up top starts to clear the goal tracker's card (0 while the card is hidden).
+    private func belowTracker(in geometry: GeometryProxy) -> CGFloat {
+        visit.trackerFrame.map { $0.maxY - geometry.frame(in: .global).minY + 8 * hudScale } ?? 0
     }
 
     /// The top of the cat's head in the view's points, when it is in a room on screen.
@@ -1304,9 +1314,9 @@ struct RoomScreen: View {
     private func goal(_ action: GoalAction) {
         switch action {
         case .play:
-            if visit.wantsToPlay() {
-                showGames = true
-            }
+            // The Games menu, as the Play button opens it: its games count for the play goals after the day's five
+            // quick plays too.
+            showGames = true
         case .nap:
             if !naps.isNapping {
                 offeringNap = true
@@ -1344,10 +1354,19 @@ struct RoomScreen: View {
         }
     }
 
-    /// The goal tracker steps aside while decorating, trying a look, in the menu, and in the tour but for its own
-    /// step (the tour's card would cover it).
+    /// The goal tracker steps aside while decorating, trying a look, in the menu, under any screen over the room, and
+    /// in the tour but for its own step (the tour's card would cover it). A goal met while it is away is cheered when
+    /// the room is back, where the player sees it (20 Oct: the map's goal ticked and chimed under the globe).
     private var trackerHidden: Bool {
-        visit.decorating || visit.previewing != nil || showMenu || (tour.isRunning && !["goals", "reward"].contains(tour.step?.id ?? ""))
+        visit.decorating || visit.previewing != nil || showMenu || roomCovered
+            || (tour.isRunning && !["goals", "reward"].contains(tour.step?.id ?? ""))
+    }
+
+    /// A screen, sheet or card is over the room: the Games menu or a game, the shop, the pass, the map, the Goals page,
+    /// the book, the profile and its wardrobe, the streak, the road, the settings, or Together.
+    private var roomCovered: Bool {
+        showGames || playing != nil || showShop || showPass || moving != nil || showGoals || showBook || showProfile
+            || tryingOn != nil || editing != nil || showStreak || showRoad || showSettings || showTogether
     }
 
     /// The Goals page, with the cat's name and this home's rooms.

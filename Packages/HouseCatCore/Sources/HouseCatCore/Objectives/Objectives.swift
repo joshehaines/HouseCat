@@ -68,6 +68,10 @@ public enum ObjectiveMetric: String, CaseIterable, Codable, Sendable {
     /// Other cats' homes visited on the world map (`screenSeen` "home.<id>").
     case homesVisited = "homes_visited"
 
+    /// What only sharing a cat counts (paw prints, groups, cat-sitting, presents for the other owner): the app leaves
+    /// the goals on these off the Goals page while sharing is off (`GoalBoard.make(hiding:)`).
+    public static let sharing: Set<ObjectiveMetric> = [.pawPrintsSent, .groupsJoined, .sittingDays, .giftsSent]
+
     /// Whether the metric is a lifetime total (achievements) rather than a count within a period.
     public var isLifetime: Bool {
         let periodMetrics: Set<ObjectiveMetric> = [

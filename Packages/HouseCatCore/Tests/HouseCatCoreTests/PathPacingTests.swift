@@ -99,7 +99,7 @@ struct PathPacingTests {
         let times = movingIn.steps.compactMap { done[$0.id] }.sorted()
         #expect(times.count == movingIn.steps.count)
         let gaps = zip(times, times.dropFirst()).map { $1 - $0 }
-        #expect(gaps.allSatisfy { $0 <= Double(Tuning.Care.napMinutes + 5) }, "gaps \(gaps)")
+        #expect(gaps.allSatisfy { $0 <= Tuning.Nap.minutes + 5 }, "gaps \(gaps)")
     }
 
     @Test func theFirstWeekAndMonthKeepARhythm() {

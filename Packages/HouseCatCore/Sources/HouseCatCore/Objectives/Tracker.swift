@@ -46,14 +46,15 @@ public struct GoalTracker: Equatable, Sendable {
     public var entries: [Entry]
 
     /// The tracker for `state` on `day`. `{cat}` in the words becomes `catName`; `roomTitle` names a room ("Garden",
-    /// or "Balcony" upstairs).
+    /// or "Balcony" upstairs); no milestone on a metric in `hiding` is offered (`GoalBoard.make(hiding:)`).
     public static func make(
         _ state: HouseholdState,
         objectives: ObjectivesFile,
         context: RulesContext,
         catName: String,
         on day: GameDay,
-        roomTitle: (RoomID) -> String = { $0.rawValue.capitalized }
+        roomTitle: (RoomID) -> String = { $0.rawValue.capitalized },
+        hiding: Set<ObjectiveMetric> = []
     ) -> GoalTracker {
         func fill(_ text: String) -> String {
             text.replacingOccurrences(of: "{cat}", with: catName)
@@ -85,7 +86,7 @@ public struct GoalTracker: Equatable, Sendable {
         }
 
         // The path walked: something for today, and something bigger.
-        let board = GoalBoard.make(state, objectives: objectives, on: day)
+        let board = GoalBoard.make(state, objectives: objectives, on: day, hiding: hiding)
         var entries: [Entry] = []
         let nearest = { (goals: [GoalBoard.Goal]) in goals.filter { !$0.done }.max { $0.fraction < $1.fraction } }
         if let goal = nearest(board.today) {

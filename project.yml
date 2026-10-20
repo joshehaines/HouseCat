@@ -341,7 +341,9 @@ schemes:
         - HouseCatTests
         - HouseCatUITests
   # The first-run smoke test on a Release build (debug switches compiled out), before a TestFlight upload. Only the
-  # UI tests: the hosted unit tests use @testable, which a Release build does not allow.
+  # UI tests: the hosted unit tests use @testable, which a Release build does not allow. And only the UI tests that
+  # need no HOUSECAT_ switch but HOUSECAT_SKIP_STORE: the button sweep, tracker, map and widget tests set up their
+  # cat and screens with Debug-only switches, so on Release they could only time out.
   HouseCatSmoke:
     build:
       targets:
@@ -351,7 +353,10 @@ schemes:
     test:
       config: Release
       targets:
-        - HouseCatUITests
+        - name: HouseCatUITests
+          selectedTests:
+            - FirstRunTests
+            - RoomTouchTests
   HouseCatMac:
     build:
       targets:

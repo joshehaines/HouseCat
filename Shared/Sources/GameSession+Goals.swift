@@ -12,8 +12,14 @@ extension GameSession {
         let state = state(at: date)
         return GoalTracker.make(
             state, objectives: objectives, context: rules, catName: cat?.name ?? "your cat",
-            on: state.clock.day(of: date), roomTitle: roomTitle
+            on: state.clock.day(of: date), roomTitle: roomTitle, hiding: goalsOutOfReach
         )
+    }
+
+    /// What this build cannot count, so the goals on it are not shown: the sharing goals while sharing is off, and
+    /// the Sunday card, which 1.0 does not make.
+    var goalsOutOfReach: Set<ObjectiveMetric> {
+        (HouseholdSync.isEnabled ? [] : ObjectiveMetric.sharing).union([.sundayCards])
     }
 
     /// Every goal met so far: the path's steps and chapters, today's, this week's and the milestones.

@@ -455,11 +455,12 @@ public enum Tuning {
         /// visit them with it.
         public static let homesLevel = 5
         /// The tracker card (points, on a phone; an iPad draws it at the controls' scale): its width, the narrowest
-        /// it may get between the badge and the Beans, its gap from each, and the room kept for the Beans bar.
+        /// it may get between the badge and the Beans, its gap from each, and the room kept for the column under the
+        /// Beans (its widest is the season pass's badge, about 194: 176 left its ticket under the card).
         public static let cardWidth = 300.0
         public static let cardSmallest = 236.0
         public static let cardGap = 10.0
-        public static let beansReserve = 176.0
+        public static let beansReserve = 204.0
         /// A goal met stays ticked on the card this long before the next slides in.
         public static let celebrationSeconds = 1.8
         /// The card reads the save this often while the room is up (a goal met by a widget or the Watch shows too).
@@ -476,13 +477,12 @@ public enum Tuning {
         public static let overPetTaps = 6
         /// A cat that follows you sets off after you this long after you go to another room.
         public static let followDelaySeconds = 1.2
-        /// Pets closer together than this count as in a row.
         /// A note over the room ("+10 Beans", "Level 3") stays this long.
         public static let toastSeconds = 2.4
+        /// Pets closer together than this count as in a row.
         public static let petRowSeconds = 3.0
         /// How long a care line stays up.
         public static let lineSeconds = 3.0
-        public static let napMinutes = 20
     }
 
     /// The cat (SPEC "Cat builder", "Age and time together").

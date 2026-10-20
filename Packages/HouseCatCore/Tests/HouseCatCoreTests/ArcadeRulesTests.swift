@@ -11,14 +11,18 @@ struct ArcadeRulesTests {
         ArcadeResult(game: .zoomies, score: score, stars: stars, won: stars > 0, stats: stats)
     }
 
+    /// What one, two or three stars of a score game pay.
+    let starBeans = Tuning.Arcade.starBeans
+    let paidXP = Tuning.Arcade.xpPerPaidPlay
+
     @Test func aScoreGamePaysItsStarsForTheFirstThreePlaysADay() {
         var state = ArcadeState()
         let first = state.record(run(1), on: day, seed: seed)
-        #expect(first.beans == 2 && first.xp == 5 && first.paidPlay == 1)
+        #expect(first.beans == starBeans[0] && first.xp == paidXP && first.paidPlay == 1)
         let second = state.record(run(3), on: day, seed: seed)
-        #expect(second.beans == 6 && second.paidPlay == 2)
+        #expect(second.beans == starBeans[2] && second.paidPlay == 2)
         let third = state.record(run(0), on: day, seed: seed)
-        #expect(third.beans == 0 && third.xp == 5 && third.paidPlay == 3)
+        #expect(third.beans == 0 && third.xp == paidXP && third.paidPlay == 3)
         #expect(state.paidPlaysLeft(.zoomies, on: day) == 0)
         let fourth = state.record(run(3), on: day, seed: seed)
         #expect(fourth.beans == 0 && fourth.xp == 0 && fourth.paidPlay == nil)
@@ -26,7 +30,7 @@ struct ArcadeRulesTests {
         #expect(state.paidPlaysLeft(.row, on: day) == 3)
         #expect(state.paidPlaysLeft(.zoomies, on: day.advanced(by: 1)) == 3)
         let tomorrow = state.record(run(2), on: day.advanced(by: 1), seed: seed)
-        #expect(tomorrow.beans == 4 && tomorrow.paidPlay == 1)
+        #expect(tomorrow.beans == starBeans[1] && tomorrow.paidPlay == 1)
     }
 
     @Test func theBestScoreIsKeptAndANewOneIsNoticed() {
@@ -46,10 +50,11 @@ struct ArcadeRulesTests {
         #expect(state.record(level(1, 3), on: day, seed: seed).beans == 0)
         #expect(!state.isOpen(.catapult, level: 1))
         let clear = state.record(level(0, 1), on: day, seed: seed)
-        #expect(clear.beans == 5 && clear.newStars == 1 && clear.firstClear && clear.xp == 5)
+        let perStar = Tuning.Arcade.beansPerLevelStar
+        #expect(clear.beans == perStar && clear.newStars == 1 && clear.firstClear && clear.xp == Tuning.Arcade.xpPerFirstClear)
         #expect(state.isOpen(.catapult, level: 1))
         let better = state.record(level(0, 3), on: day, seed: seed)
-        #expect(better.beans == 10 && better.newStars == 2 && !better.firstClear && better.xp == 0)
+        #expect(better.beans == 2 * perStar && better.newStars == 2 && !better.firstClear && better.xp == 0)
         let again = state.record(level(0, 3), on: day, seed: seed)
         #expect(again.beans == 0 && again.newStars == 0)
         let worse = state.record(level(0, 1), on: day, seed: seed)
@@ -70,12 +75,13 @@ struct ArcadeRulesTests {
         }
         #expect(state.record(game("biscuit", won: false), on: day, seed: seed).beans == 0)
         let win = state.record(game("biscuit", won: true), on: day, seed: seed)
-        #expect(win.firstWin && win.beans == 6 + 25)
+        let firstWin = Tuning.Arcade.firstWinBeans
+        #expect(win.firstWin && win.beans == starBeans[2] + firstWin)
         let again = state.record(game("biscuit", won: true), on: day, seed: seed)
-        #expect(!again.firstWin && again.beans == 6)
+        #expect(!again.firstWin && again.beans == starBeans[2])
         // A fourth game today pays nothing, a first win still does.
         let fourth = state.record(game("clover", won: true), on: day, seed: seed)
-        #expect(fourth.firstWin && fourth.beans == 25)
+        #expect(fourth.firstWin && fourth.beans == firstWin)
         // Two people on one device, or a cat the game does not have: no first-win Beans.
         #expect(!state.record(game(nil, won: true), on: day.advanced(by: 1), seed: seed).firstWin)
         #expect(!state.record(game("garfield", won: true), on: day.advanced(by: 1), seed: seed).firstWin)
@@ -90,7 +96,7 @@ struct ArcadeRulesTests {
         let yesterdays = state.record(PuzzleSolve(number: number - 1, seconds: 90), on: day)
         #expect(yesterdays.beans == 0)
         let solved = state.record(PuzzleSolve(number: number, seconds: 90), on: day)
-        #expect(solved.beans == 25 && solved.xp == 15 && solved.puzzleStreak == 1)
+        #expect(solved.beans == Tuning.Arcade.Puzzle.beans && solved.xp == Tuning.Arcade.Puzzle.xp && solved.puzzleStreak == 1)
         #expect(state.record(PuzzleSolve(number: number, seconds: 60), on: day).beans == 0)
         #expect(state.solvedToday(on: day))
         #expect(!state.solvedToday(on: day.advanced(by: 1)))
@@ -103,13 +109,16 @@ struct ArcadeRulesTests {
             let d = day.advanced(by: offset)
             beans.append(state.record(PuzzleSolve(number: ArcadePuzzles.number(on: d), seconds: 100), on: d).beans)
         }
-        #expect(beans == [25, 25, 40, 25, 25, 25, 75, 25, 25, 40])
+        let pay = Tuning.Arcade.Puzzle.beans, third = pay + Tuning.Arcade.Puzzle.streakBonus[3, default: 0]
+        let seventh = pay + Tuning.Arcade.Puzzle.streakBonus[0, default: 0]
+        #expect(third > pay && seventh > third)
+        #expect(beans == [pay, pay, third, pay, pay, pay, seventh, pay, pay, third])
         #expect(state.puzzleStreak(on: day.advanced(by: 10)) == 10)
         // A day missed: the streak has gone, and starts again at one.
         #expect(state.puzzleStreak(on: day.advanced(by: 11)) == 0)
         let back = day.advanced(by: 11)
         let solve = state.record(PuzzleSolve(number: ArcadePuzzles.number(on: back), seconds: 100), on: back)
-        #expect(solve.puzzleStreak == 1 && solve.beans == 25)
+        #expect(solve.puzzleStreak == 1 && solve.beans == pay)
         #expect(state.longestPuzzleStreak == 10)
     }
 

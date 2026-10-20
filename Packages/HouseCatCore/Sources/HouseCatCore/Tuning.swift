@@ -1454,27 +1454,29 @@ public enum Tuning {
 
 public extension Tuning {
     enum Arcade {
-        /// What the games pay (proposed to Josh with the mockups, 19 Oct; tune in beta). Score games (Zoomies, Cats in
-        /// a Row) pay their stars' Beans and `xpPerPaidPlay` for the first `paidPlaysPerDay` plays of each a day;
-        /// after that they are for fun (the best still counts, and the challenges).
+        /// What the games pay (proposed with the mockups, 19 Oct; set against the pacing 20 Oct, `ArcadeHabit` in the
+        /// pacing tests). They pay Beans, not XP: XP climbs the level (100 Beans a level, and the rooms behind it) and
+        /// the season pass, and a keen player's games doubled both. Score games (Zoomies, Cats in a Row) pay their
+        /// stars' Beans for the first `paidPlaysPerDay` plays of each a day, half a quick game's (there are six such
+        /// plays); after that they are for fun (the best still counts, and the challenges).
         public static let paidPlaysPerDay = 3
-        public static let starBeans = [2, 4, 6]
-        public static let xpPerPaidPlay = 5
-        /// Level games (Catapult, Purrfect Match): each star of a level pays once, the first time it is reached,
-        /// and a level's first clear `xpPerFirstClear`.
-        public static let beansPerLevelStar = 5
-        public static let xpPerFirstClear = 5
+        public static let starBeans = [1, 2, 3]
+        public static let xpPerPaidPlay = 0
+        /// Level games (Catapult, Purrfect Match): each star of a level pays once, the first time it is reached (the
+        /// 240 stars are the prize; a keen player clears a few levels a day), and a level's first clear `xpPerFirstClear`.
+        public static let beansPerLevelStar = 1
+        public static let xpPerFirstClear = 0
         /// Cats in a Row: beating a cat for the first time.
-        public static let firstWinBeans = 25
+        public static let firstWinBeans = 15
 
         /// Pat's daily puzzle: one a day, the same for everyone; its Beans and XP once, on its own day.
         public enum Puzzle {
             /// No. 1 (19 Oct 2026, so TestFlight has puzzles; the launch on 2 Nov is No. 15).
             public static let firstDay = GameDay(year: 2026, month: 10, day: 19)
-            public static let beans = 25
-            public static let xp = 15
+            public static let beans = 10
+            public static let xp = 0
             /// Days in a row with the day's puzzle solved: on the 3rd (10th, 17th ...) and the 7th (14th ...).
-            public static let streakBonus: [Int: Int] = [3: 15, 0: 50]
+            public static let streakBonus: [Int: Int] = [3: 5, 0: 20]
             public static let streakCycle = 7
             /// Hints a day's puzzle offers (each puts one square right; the pay is the same).
             public static let hints = 3
@@ -1483,8 +1485,8 @@ public extension Tuning {
         /// Three challenges a day, drawn from `ArcadeChallenges.pool` by the day's seed, one per game.
         public enum Challenges {
             public static let perDay = 3
-            public static let beans = 10
-            public static let xp = 5
+            public static let beans = 4
+            public static let xp = 0
         }
 
         /// Cats in a Row: the board (a classic seven by six) and how many in a line win.

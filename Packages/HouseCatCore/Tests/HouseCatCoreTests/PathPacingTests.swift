@@ -4,8 +4,9 @@ import Testing
 
 /// The path's rhythm through the real rules and content (Josh, 19 Oct: "better progression"): the first hour, the
 /// first week and the first month as a light, a regular and a keen player meet them, each doing what the tracker asks.
-/// A light player feeds, strokes twice, takes the present and plays one game; a regular one strokes four times and
-/// plays three; a keen one strokes six times, plays all five and naps. HOUSECAT_PACING=1 prints the days.
+/// A light player feeds, strokes twice, takes the present and plays one game; a regular one strokes four times, plays
+/// three and solves Pat's puzzle; a keen one strokes six times, plays all five, naps and plays the Games menu every day
+/// (`ArcadeHabit`). HOUSECAT_PACING=1 prints the days.
 @Suite("Pacing: the path")
 struct PathPacingTests {
     enum Player: String, CaseIterable {
@@ -66,6 +67,7 @@ struct PathPacingTests {
             if day > 0 {
                 walker.dailyCare(day: day, pets: player == .light ? 2 : player == .regular ? 4 : 6,
                                  games: player == .light ? 1 : player == .regular ? 3 : 5, nap: player == .keen)
+                walker.f.playArcade(ArcadeHabit(player: player.rawValue), day: day, arcade: walker.state.arcade)
                 walker.followThePath(day: day, hour: 19)
                 walker.catUsesNewPieces(day: day, hour: 20)
             }

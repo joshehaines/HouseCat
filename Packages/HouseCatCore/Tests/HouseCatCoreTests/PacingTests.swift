@@ -4,8 +4,9 @@ import Testing
 
 /// The first month as three kinds of player meet it, through the real rules and content (the review Josh passed on,
 /// 19 Oct: the Bean earn rate had never met a player). Each day: a light player drops in, feeds and strokes the cat
-/// and takes the present; a regular one also plays two games; a keen one plays all five, naps and strokes more. Each
-/// opens a room the moment it can. HOUSECAT_PACING=1 prints the days.
+/// and takes the present; a regular one also plays two games and solves Pat's puzzle; a keen one plays all five, naps,
+/// strokes more and plays the Games menu every day (`ArcadeHabit`). Each opens a room the moment it can.
+/// HOUSECAT_PACING=1 prints the days.
 @Suite("Pacing")
 struct PacingTests {
     enum Player: String, CaseIterable {
@@ -24,6 +25,7 @@ struct PacingTests {
         f.add(.tourFinished, day: 0, hour: 7, minute: 30)
         var out: [Day] = []
         let order: [RoomID] = [.bedroom, .kitchen, .garden, .study, .attic]
+        var arcade = ArcadeState()
         for day in 0 ..< days {
             f.add(.arrived, day: day, hour: 8)
             f.add(.fed(catID: f.cat), day: day, hour: 8, minute: 2)
@@ -41,6 +43,7 @@ struct PacingTests {
                     minute: game
                 )
             }
+            f.playArcade(ArcadeHabit(player: player.rawValue), day: day, arcade: arcade)
             if player == .keen {
                 f.add(.napCompleted, day: day, hour: 21)
             }
@@ -51,6 +54,7 @@ struct PacingTests {
                 f.add(.roomOpened(room, beans: RoomRules.cost(of: room, clubActive: false)), day: day, hour: 21, minute: 30)
                 state = f.state
             }
+            arcade = state.arcade
             out.append(Day(
                 level: state.level,
                 beans: state.beans,

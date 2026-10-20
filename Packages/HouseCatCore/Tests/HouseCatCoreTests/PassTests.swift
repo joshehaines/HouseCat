@@ -338,7 +338,8 @@ struct PassContentTests {
 
 /// The pass's month through the real rules and content (Josh, 19 Oct: the pass is the main progression). Three players
 /// as PacingTests has them, through Housewarming's four weeks: a light one feeds and strokes the cat and takes the
-/// present, a regular one also plays two games, a keen one plays all five, naps and strokes more. A regular player
+/// present, a regular one also plays two games and solves Pat's puzzle, a keen one plays all five, naps, strokes more
+/// and plays the Games menu every day (`ArcadeHabit`). A regular player
 /// ends the free track and a keen one the premium track. HOUSECAT_PACING=1 prints the weeks.
 @Suite("Pass pacing")
 struct PassPacingTests {
@@ -346,6 +347,7 @@ struct PassPacingTests {
         var f = Fixture(context: context)
         f.add(.tourFinished, day: 0, hour: 7, minute: 30)
         var tiers: [Int] = []
+        var arcade = ArcadeState()
         for day in 0 ..< Tuning.Pass.seasonLengthDays {
             f.add(.arrived, day: day, hour: 8)
             f.add(.fed(catID: f.cat), day: day, hour: 8, minute: 2)
@@ -358,10 +360,13 @@ struct PassPacingTests {
             for game in 0 ..< games {
                 f.add(.miniGamePlayed(game: ["laser", "knock", "string"][game % 3], stars: player == .keen ? 3 : 2), day: day, hour: 18, minute: game)
             }
+            f.playArcade(ArcadeHabit(player: player.rawValue), day: day, arcade: arcade)
             if player == .keen {
                 f.add(.napCompleted, day: day, hour: 21)
             }
-            tiers.append(f.state.passes["housewarming"]?.tier ?? 0)
+            let state = f.state
+            arcade = state.arcade
+            tiers.append(state.passes["housewarming"]?.tier ?? 0)
         }
         return tiers
     }

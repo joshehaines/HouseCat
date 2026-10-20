@@ -1,5 +1,27 @@
 {
- "note": "The word filter for cat names (SPEC 'Cat builder': groups show them). words: caught as whole words. anywhere: caught inside a name too, once spacing and look-alike characters are taken out. Review and extend before launch.",
- "words": ["arse", "ass", "cock", "crap", "dick", "piss", "prick", "tit", "tits", "twat", "wank", "fag", "homo", "nazi", "hitler", "rape", "porn", "sex", "kkk"],
- "anywhere": ["fuck", "shit", "cunt", "bastard", "bitch", "bollock", "asshole", "arsehole", "wanker", "nigger", "nigga", "faggot", "retard", "spastic", "paedo", "pedophile", "dildo", "whore", "slut", "motherfuck"]
+ "note": "The word filter for cat names and co-owners' names (SPEC 'Cat builder': groups show them), reviewed for launch on 19 Oct 2026: UK and US swearing, sexual words, slurs and hate words. words: caught as whole words (a capital inside a name starts another word, so 'BigDick' is two and 'Dickens' one). anywhere: caught inside a word too, so only what no innocent name contains goes here: 'shit' is a whole word because of Shitake, Ishita and Yamashita, 'cock' because of Hancock and Peacock, 'wank' because of Swanky, 'rape' because of Grape, 'pedo' because of Torpedo, 'nazi' because of Nazir, 'porn' because of Thai names (Pornthip). The one innocent name caught is Scunthorpe: the price of catching 'cunt' inside a name. Look-alike characters (0 1 3 4 5 7 8 @ $ !) are read as letters, spaced-out letters are joined up and three or more of a letter read as one or two. Left out on purpose: 'pussy' (an old word for a cat), 'coon' (the Maine Coon) and 'fanny' (a name); 'Dick' is caught, the name too. CatNameFilterTests holds the names that must pass and those that must not.",
+ "words": [
+  "anus", "arse", "arses", "arsewipe", "ass", "asses", "asshat", "asswipe", "badass", "dumbass", "fatass", "jackass", "kickass", "smartass",
+  "bellend", "bellends", "boob", "boobs", "boobies", "clit", "clits", "clitoris", "cock", "cocks", "cum", "dick", "dicks", "dickface", "dickwad",
+  "douche", "douchebag", "minge", "minger", "mofo", "nonce", "orgy", "penis", "porn", "porno", "prick", "pricks", "semen", "sex", "sperm",
+  "skank", "slag", "slags", "slapper", "tit", "tits", "titty", "titties", "tosser", "tossers", "twat", "twats", "vagina",
+  "wank", "wanks", "wanky", "wanked", "wanking",
+  "crap", "crappy", "piss", "pissed", "pisser", "pisses", "pissing", "shit", "shits", "shite", "shitter", "shitting", "turd", "turds",
+  "fuk", "fuks", "fuker", "fukin", "fck", "fcking",
+  "rape", "raped", "rapes", "rapist", "rapey", "incest", "molester", "pedo", "pedos",
+  "nazi", "nazis", "kkk",
+  "beaner", "beaners", "chink", "chinks", "chinky", "darkie", "darkies", "darky", "dyke", "dykes", "fag", "fags", "gook", "gooks",
+  "gippo", "gyppo", "gypo", "homo", "homos", "jap", "japs", "kaffir", "kaffer", "kike", "kikes", "lesbo", "lezza", "lezzer",
+  "paki", "pakis", "pikey", "pikeys", "poofter", "poofters", "sambo", "spaz", "spazz", "spazzy", "spacker", "spic", "spics", "spick",
+  "squaw", "tranny", "trannies", "wog", "wogs", "yid", "yids"
+ ],
+ "anywhere": [
+  "fuck", "fcuk", "fvck", "phuck", "motherfuck", "cunt", "bitch", "bastard", "bollock", "asshole", "arsehole", "wanker",
+  "cocksuck", "dickhead", "knobhead", "pisshead",
+  "bullshit", "horseshit", "dipshit", "chickenshit", "batshit", "apeshit", "shithead", "shitface", "shithole", "shitbag", "shitstain", "shitty",
+  "dildo", "whore", "slut", "blowjob", "handjob", "rimjob", "jerkoff", "jackoff", "cumshot", "jizz", "orgasm", "masturbat",
+  "paedo", "pedophile", "hitler",
+  "nigger", "nigga", "faggot", "retard", "spastic", "mongoloid", "wetback", "raghead", "towelhead", "jigaboo", "jiggaboo",
+  "golliwog", "gollywog", "redskin", "shemale"
+ ]
 }

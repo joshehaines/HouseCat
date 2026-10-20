@@ -287,8 +287,9 @@ public struct CatBuilder: Sendable {
     }
 }
 
-/// The word filter for names (Content/names.json): `words` are caught as whole words, `anywhere` inside
-/// a name too, after spacing and look-alike characters are taken out ("F.u.c.k", "Sh1t").
+/// The word filter for names (Content/names.json): `words` are caught as whole words, `anywhere` inside a word
+/// too, after look-alike characters are read as letters ("Sh1t"), spaced-out letters are joined up ("F.u.c.k") and
+/// three or more of a letter are read as one or two ("Fuuuck").
 public struct NameFilter: Codable, Sendable {
     public var words: [String]
     public var anywhere: [String]
@@ -322,16 +323,44 @@ public enum CatNames {
     }
 
     static func isBlocked(_ name: String, filter: NameFilter) -> Bool {
-        let plain = normalised(name)
-        let words = Set(plain.split(separator: " ").map(String.init))
-        let squashed = plain.replacingOccurrences(of: " ", with: "")
+        let words = normalised(name).split(separator: " ").map(String.init)
+        // A capital inside a word starts another, as typed ("BigDick" is two words, "Dickens" one).
+        let camel = normalised(name.replacingOccurrences(of: "(\\p{Ll})(\\p{Lu})", with: "$1 $2", options: .regularExpression))
+            .split(separator: " ").map(String.init)
+        // Letters spaced out are joined up ("D I C K"), and so is a word with a neighbour of one or two letters
+        // ("Bit ch", "F uck"); two longer words are not ("Rabbit Chaser" has no bitch in it).
+        var joined: [String] = []
+        var letters = ""
+        for word in words + [""] {
+            if word.count == 1 {
+                letters += word
+            } else {
+                if letters.count > 1 {
+                    joined.append(letters)
+                }
+                letters = ""
+            }
+        }
+        for (a, b) in zip(words, words.dropFirst()) where min(a.count, b.count) <= 2 {
+            joined.append(a + b)
+        }
+        let pieces = Set((words + camel + joined).flatMap(spellings))
+        // The whole name run together is also a word ("Di ck").
+        let whole = pieces.union(spellings(words.joined()))
         func key(_ word: String) -> String {
             normalised(word).replacingOccurrences(of: " ", with: "")
         }
-        if filter.words.map(key).contains(where: { !$0.isEmpty && (words.contains($0) || squashed == $0) }) {
+        if filter.words.map(key).contains(where: { !$0.isEmpty && whole.contains($0) }) {
             return true
         }
-        return filter.anywhere.map(key).contains { !$0.isEmpty && squashed.contains($0) }
+        return filter.anywhere.map(key).contains { entry in !entry.isEmpty && pieces.contains { $0.contains(entry) } }
+    }
+
+    /// A word as typed, and with three or more of a letter read as one or as two ("Fuuuck", "Shiiit", "Asss").
+    private static func spellings(_ word: String) -> [String] {
+        let one = word.replacingOccurrences(of: "(.)\\1{2,}", with: "$1", options: .regularExpression)
+        let two = word.replacingOccurrences(of: "(.)\\1{2,}", with: "$1$1", options: .regularExpression)
+        return one == word ? [word] : [word, one, two]
     }
 
     private static func normalised(_ text: String) -> String {

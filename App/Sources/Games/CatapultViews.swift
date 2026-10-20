@@ -285,7 +285,8 @@ struct CatapultPlay: View {
         made.onBeat = { beat in
             switch beat {
             case .knocked:
-                Sound.play("cat_chirp", volume: Tuning.Sound.meow)
+                // Several mice off in one pounce make one purr, not a run of chirps.
+                Sound.purr()
                 #if canImport(UIKit)
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 #endif

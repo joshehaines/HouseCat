@@ -390,7 +390,7 @@ struct MiniGameView: View {
         lastTick = 0
         scene = made
         startLine = session.line("play.start")
-        Sound.play("cat_chirp", volume: Tuning.Sound.meow)
+        Sound.voice("cat_chirp")
         for count in stride(from: 3, through: 1, by: -1) {
             withAnimation { countdown = count }
             Sound.play("ui_tap", volume: Tuning.Sound.levelUp)
@@ -421,7 +421,13 @@ struct MiniGameView: View {
             switch game.id {
             case "knock_it_off": Sound.play("ui_knock_off", volume: Tuning.Sound.place)
             case "string_chase": Sound.play("ui_sparkle", volume: Tuning.Sound.place)
-            case "hide_and_seek": Sound.play(hit.perfect ? "cat_trill" : "cat_chirp", volume: Tuning.Sound.meow)
+            // Found: a purr, not a chirp at every tap (Josh, 20 Oct: "the meow sound effect is strange when done
+            // quickly, maybe we do a purr instead"); a quick find sparkles too.
+            case "hide_and_seek":
+                Sound.purr()
+                if hit.perfect {
+                    Sound.play("ui_sparkle", volume: Tuning.Sound.place)
+                }
             default: Sound.play(hit.perfect ? "ui_sparkle" : "ui_place_item", volume: Tuning.Sound.place)
             }
             #if canImport(UIKit)
@@ -448,7 +454,7 @@ struct MiniGameView: View {
         case .rustled:
             Sound.play("ui_place_item", volume: Tuning.Sound.tap)
         case .cameOut:
-            Sound.play("cat_meow_short", volume: Tuning.Sound.meow)
+            Sound.voice("cat_meow_short")
         case .comboLapsed, .zoomiesOver, .crouched, .sprang, .hid, .peeked:
             break
         }
@@ -457,7 +463,7 @@ struct MiniGameView: View {
     /// The cat's line for a moment in the game, for a couple of seconds.
     private func say(_ context: String, meow: String) {
         guard let line = GameSession.shared.line(context) else { return }
-        Sound.play(meow, volume: Tuning.Sound.meow)
+        Sound.voice(meow)
         withAnimation(.spring(duration: 0.35)) { midLine = line }
         Task { @MainActor in
             try? await Task.sleep(for: .seconds(2.2))

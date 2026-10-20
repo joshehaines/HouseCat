@@ -1353,6 +1353,15 @@ public enum Tuning {
         public static let musicFadeSeconds = 2.5
         /// How long the music waits after a game screen closes, in case another opens (the menu, then its game).
         public static let musicHandoverSeconds = 0.6
+        /// In the games (Josh, 20 Oct: "the meow sound effect is strange when done quickly, maybe we do a purr
+        /// instead"): a hit (a find in Hide and Seek, a mouse in Zoomies, a mouse knocked off in Catapult) purrs,
+        /// fading in, held this long past the last hit and fading out; the cat's meows and chirps come at most one
+        /// in `voiceGapSeconds`.
+        public static let gamePurr = 0.8
+        public static let gamePurrFadeIn = 0.12
+        public static let gamePurrSeconds = 1.2
+        public static let gamePurrFadeOut = 0.7
+        public static let voiceGapSeconds = 1.5
     }
 
     /// How a room is framed on screen.

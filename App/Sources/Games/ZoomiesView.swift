@@ -201,7 +201,7 @@ struct ZoomiesView: View {
             made.autoplay = ProcessInfo.processInfo.environment["HOUSECAT_AUTOPLAY"] != nil
         #endif
         scene = made
-        Sound.play("cat_chirp", volume: Tuning.Sound.meow)
+        Sound.voice("cat_chirp")
         for count in stride(from: 3, through: 1, by: -1) {
             withAnimation { countdown = count }
             Sound.play("ui_tap", volume: Tuning.Sound.levelUp)
@@ -227,7 +227,7 @@ struct ZoomiesView: View {
         case let .collected(item):
             switch item.thing {
             case .biscuit: Sound.play("ui_bean_chime", volume: Tuning.Sound.tap)
-            case .mouse: Sound.play("cat_chirp", volume: Tuning.Sound.meow)
+            case .mouse: Sound.purr()
             default: Sound.play("ui_sparkle", volume: Tuning.Sound.levelUp)
             }
         case .shieldUsed:

@@ -50,6 +50,54 @@ enum Sound {
         player.setVolume(Float(volume), fadeDuration: Tuning.Sound.fadeSeconds)
     }
 
+    // MARK: The games' cat noises
+
+    /// Its own player of the purr, so a game's purr and the room's never stop each other.
+    private static var gamePurr: AVAudioPlayer?
+    private static var gamePurrEnd: Task<Void, Never>?
+    private static var lastVoice: Date?
+
+    /// A hit in a game, as the cat hears it (Josh, 20 Oct: "the meow sound effect is strange when done quickly,
+    /// maybe we do a purr instead"): a purr swells in and dies away after the last hit, and hits close together keep
+    /// the one purr going instead of starting a chirp over and over.
+    static func purr() {
+        configure()
+        if gamePurr == nil, let url = Bundle.main.url(forResource: "cat_purr_loop", withExtension: "m4a", subdirectory: "Audio") {
+            gamePurr = try? AVAudioPlayer(contentsOf: url)
+            gamePurr?.numberOfLoops = -1
+            gamePurr?.prepareToPlay()
+        }
+        guard let player = gamePurr else { return }
+        let s = Tuning.Sound.self
+        if !player.isPlaying {
+            // Somewhere in the recording, so one purr is not the same as the last.
+            player.currentTime = Double.random(in: 0 ..< max(0.01, player.duration - s.gamePurrSeconds - s.gamePurrFadeOut))
+            player.volume = 0
+            player.play()
+        }
+        player.setVolume(Float(s.gamePurr), fadeDuration: s.gamePurrFadeIn)
+        gamePurrEnd?.cancel()
+        gamePurrEnd = Task { @MainActor in
+            try? await Task.sleep(for: .seconds(s.gamePurrSeconds))
+            guard !Task.isCancelled else { return }
+            player.setVolume(0, fadeDuration: s.gamePurrFadeOut)
+            try? await Task.sleep(for: .seconds(s.gamePurrFadeOut))
+            guard !Task.isCancelled else { return }
+            player.stop()
+        }
+    }
+
+    /// The cat's voice in a game (a chirp at the count, a meow as it comes out, the meow with a line): never within
+    /// `Tuning.Sound.voiceGapSeconds` of the last, so two never run into each other.
+    static func voice(_ name: String, volume: Double = Tuning.Sound.meow) {
+        let now = Date()
+        if let last = lastVoice, now.timeIntervalSince(last) < Tuning.Sound.voiceGapSeconds {
+            return
+        }
+        lastVoice = now
+        play(name, volume: volume)
+    }
+
     static func stop(_ name: String, after delay: TimeInterval = 0) {
         guard let player = players[name] else { return }
         Task { @MainActor in

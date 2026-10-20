@@ -82,10 +82,11 @@ struct PawcrossTests {
             } else {
                 #expect(files[puzzle.art] != nil, "\(puzzle.id): \(puzzle.art) is not in the app")
             }
-            // Small early in the week, big at the weekend (No. 1 is a Monday).
+            // Small and quick to read (Josh, 20 Oct: "Paw cross makes no sense, make that much smaller"): 5 squares on
+            // the longer side Monday to Wednesday, 6 on Thursday and Friday, 7 at the weekend (No. 1 is a Monday).
             let weekday = index % 7
             let size = max(puzzle.width, puzzle.height)
-            #expect(weekday < 2 ? size <= 10 : weekday < 4 ? size <= 12 : (12 ... 15).contains(size), "\(puzzle.id) on weekday \(weekday)")
+            #expect(size == [5, 5, 5, 6, 6, 7, 7][weekday], "\(puzzle.id) on weekday \(weekday)")
             // A picture fills between about a quarter and three quarters of its grid, with no empty line.
             let filled = puzzle.rows.joined().filter { $0 == "#" }.count
             #expect((0.28 ... 0.75).contains(Double(filled) / Double(puzzle.width * puzzle.height)), "\(puzzle.id) fill")

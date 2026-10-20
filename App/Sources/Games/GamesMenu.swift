@@ -132,7 +132,7 @@ struct GamesMenu: View {
                 }
                 VStack(alignment: .leading, spacing: 4) {
                     Text("No. \(number)").font(Theme.title(21))
-                    Text(solved ? "Solved today. A new one tomorrow." : "Today's puzzle, the same for everyone")
+                    Text(solved ? "Solved today. A new one tomorrow." : "A \(puzzleSize(number)) picture puzzle, the same for everyone")
                         .font(.system(size: 12.5, weight: .semibold)).foregroundStyle(Theme.inkSoft)
                         .fixedSize(horizontal: false, vertical: true)
                     WeekStrip(streak: streak, solvedToday: solved, day: day)
@@ -163,6 +163,12 @@ struct GamesMenu: View {
         }
         .buttonStyle(PressStyle())
         .accessibilityLabel(solved ? "Pat's daily puzzle number \(number), solved" : "Pat's daily puzzle number \(number)")
+    }
+
+    /// Today's grid, "5 by 5" (the grids are small: Josh, 20 Oct, "Paw cross makes no sense, make that much smaller").
+    private func puzzleSize(_ number: Int) -> String {
+        guard let file = PuzzleScreen.file, let puzzle = Pawcross.puzzle(number: number, in: file) else { return "little" }
+        return "\(puzzle.width) by \(puzzle.height)"
     }
 
     private var challengesCard: some View {

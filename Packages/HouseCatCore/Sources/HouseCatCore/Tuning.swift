@@ -1542,6 +1542,9 @@ public extension Tuning {
             public static let streakCycle = 7
             /// Hints a day's puzzle offers (each puts one square right; the pay is the same).
             public static let hints = 3
+            /// The grids are 5 to 7 squares (Josh, 20 Oct: "make that much smaller"); a square is drawn no bigger
+            /// than this (points on the Games screens' landscape-phone layout).
+            public static let largestSquare = 52.0
         }
 
         /// Three challenges a day, drawn from `ArcadeChallenges.pool` by the day's seed, one per game.

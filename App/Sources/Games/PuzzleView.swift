@@ -27,6 +27,8 @@ struct PuzzleScreen: View {
         ArcadePuzzles.number(on: GameSession.shared.arcadeDay)
     }
 
+    static let howTo = "Each number is a run of filled squares in its row or column, in order, with a gap between runs."
+
     var body: some View {
         GamesFrame {
             ZStack {
@@ -40,14 +42,24 @@ struct PuzzleScreen: View {
                         }
                     }
                     if let board {
+                        // The rules in one line, over the grid (Josh, 20 Oct: "Paw cross makes no sense").
+                        Label(Self.howTo, systemImage: "lightbulb.fill")
+                            .font(.system(size: 14, weight: .bold))
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.75)
+                            .padding(.horizontal, 14)
+                            .padding(.vertical, 6)
+                            .paper(Capsule())
+                            .padding(.top, 10)
+                            .padding(.horizontal, 18)
                         HStack(alignment: .center, spacing: 18) {
                             grid(board)
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                             side(board)
-                                .frame(width: 250)
+                                .frame(width: 230)
                         }
                         .padding(.horizontal, 18)
-                        .padding(.vertical, 12)
+                        .padding(.vertical, 10)
                     } else {
                         Spacer()
                         Text("Pat is still setting today's puzzle.").font(Theme.title(22))
@@ -99,8 +111,9 @@ struct PuzzleScreen: View {
             let rowClues = board.puzzle.rowClues, columnClues = board.puzzle.columnClues
             let clueColumns = CGFloat(rowClues.map(\.count).max() ?? 1)
             let clueRows = CGFloat(columnClues.map(\.count).max() ?? 1)
-            let cell = floor(min(proxy.size.width / (CGFloat(board.puzzle.width) + clueColumns * 0.62),
-                                 proxy.size.height / (CGFloat(board.puzzle.height) + clueRows * 0.62)))
+            let cell = min(CGFloat(Tuning.Arcade.Puzzle.largestSquare),
+                           floor(min(proxy.size.width / (CGFloat(board.puzzle.width) + clueColumns * 0.62),
+                                     proxy.size.height / (CGFloat(board.puzzle.height) + clueRows * 0.62))))
             let left = clueColumns * cell * 0.62, top = clueRows * cell * 0.62
             let width = cell * CGFloat(board.puzzle.width), height = cell * CGFloat(board.puzzle.height)
             ZStack(alignment: .topLeading) {
@@ -167,20 +180,20 @@ struct PuzzleScreen: View {
         .frame(width: size, height: size)
     }
 
-    /// Thin lines between squares, a thicker one every five.
+    /// Thin lines between squares, a thicker one round the edge (the grids are 7 squares at most).
     private func lines(width: Int, height: Int, cell: CGFloat) -> some View {
         Canvas { context, size in
             for c in 0 ... width {
                 var path = Path()
                 path.move(to: CGPoint(x: CGFloat(c) * cell, y: 0))
                 path.addLine(to: CGPoint(x: CGFloat(c) * cell, y: size.height))
-                context.stroke(path, with: .color(Theme.ink.opacity(c % 5 == 0 ? 0.55 : 0.18)), lineWidth: c % 5 == 0 ? 1.6 : 0.7)
+                context.stroke(path, with: .color(Theme.ink.opacity(c % width == 0 ? 0.55 : 0.22)), lineWidth: c % width == 0 ? 1.6 : 0.8)
             }
             for r in 0 ... height {
                 var path = Path()
                 path.move(to: CGPoint(x: 0, y: CGFloat(r) * cell))
                 path.addLine(to: CGPoint(x: size.width, y: CGFloat(r) * cell))
-                context.stroke(path, with: .color(Theme.ink.opacity(r % 5 == 0 ? 0.55 : 0.18)), lineWidth: r % 5 == 0 ? 1.6 : 0.7)
+                context.stroke(path, with: .color(Theme.ink.opacity(r % height == 0 ? 0.55 : 0.22)), lineWidth: r % height == 0 ? 1.6 : 0.8)
             }
         }
         .allowsHitTesting(false)
@@ -228,14 +241,10 @@ struct PuzzleScreen: View {
             .buttonStyle(PressStyle())
             .disabled(board.hints >= Tuning.Arcade.Puzzle.hints || solved)
             .opacity(board.hints >= Tuning.Arcade.Puzzle.hints || solved ? 0.5 : 1)
-            VStack(alignment: .leading, spacing: 6) {
-                Text("How to play").font(Theme.title(16))
-                Text("Each number is a run of filled squares in its row or column, in order, with a gap between runs. Fill the squares the numbers ask for; cross the ones that must stay empty.")
-                    .font(.system(size: 12, weight: .medium)).foregroundStyle(Theme.inkSoft)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            .padding(12)
-            .goldCard(corner: 14)
+            Text("Fill the squares the numbers ask for. Cross the ones that stay empty, if it helps.")
+                .font(.system(size: 12.5, weight: .semibold)).foregroundStyle(Theme.inkSoft)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
             Spacer(minLength: 0)
             HStack(alignment: .bottom, spacing: 8) {
                 if let pat = GamesLook.picture("brand/icon/AppIcon_layer2_cat.png") {

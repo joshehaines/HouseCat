@@ -10,11 +10,17 @@ the pass is the main thing sold), and the Cat Club subscription group with the
 two agree.
 
 Run from the repo root: python3 -I tools/store/build_storekit.py
+
+The .storekit file has been fixed by hand since (for App Review: the room looks' full descriptions, the starter's
+name and what it gives), so a file that differs from what this makes is left as it is and the difference
+printed. Fold the hand fixes in here; when the difference is only your own change here, rerun with --force.
 """
 from __future__ import annotations
 
+import difflib
 import json
 import pathlib
+import sys
 import zlib
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
@@ -97,9 +103,23 @@ def main() -> None:
         }],
         "version": {"major": 4, "minor": 0},
     }
-    OUT.parent.mkdir(exist_ok=True)
-    OUT.write_text(json.dumps(configuration, indent=2, sort_keys=True) + "\n")
+    text = json.dumps(configuration, indent=2, sort_keys=True) + "\n"
     count = len(products) + len(passes) + 2
+    old = OUT.read_text() if OUT.exists() else None
+    if old == text:
+        print(f"Unchanged {OUT.relative_to(ROOT)}: {count} products")
+        return
+    if old is not None and "--force" not in sys.argv[1:]:
+        body = [d for d in difflib.unified_diff(old.splitlines(), text.splitlines(), lineterm="", n=0)
+                if d[:1] in "+-" and d[:3] not in ("+++", "---")]
+        added = sum(d.startswith("+") for d in body)
+        print(f"{OUT.relative_to(ROOT)} would change: {added} lines added, {len(body) - added} removed", file=sys.stderr)
+        for d in body[:12]:
+            print("  " + d[:110], file=sys.stderr)
+        sys.exit(f"Left {OUT.relative_to(ROOT)} as it is. Fold any hand fixes in it into this script; when the "
+                 "difference is only your own change here, rerun with --force.")
+    OUT.parent.mkdir(exist_ok=True)
+    OUT.write_text(text)
     print(f"Wrote {OUT.relative_to(ROOT)}: {count} products")
 
 

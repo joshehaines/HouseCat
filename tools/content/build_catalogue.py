@@ -8,9 +8,17 @@ Conventions
   (non-"_painted") sprite for each facing.
 - motion pivots are fractions of the sprite in image space: (0, 0) = top-left, (1, 1) = bottom-right.
 - fx carries the manifest motion_fx: anchor is in sprite pixels for the R sprite, anchorL for the L sprite.
+
+These files have been edited by hand since (catUse and rim on items, the twelve new outfits and their fit, and
+seasons.json is build_seasons.py's now), so nothing is written until every table has checked out, and then only
+files that are missing or already match: any other is left as it is and the difference printed. Fold the hand
+edits into the tables; when the difference is only your own table edit, name the file to overwrite:
+python3 -I tools/content/build_catalogue.py --force catalogue.json
 """
+import difflib
 import json
 import os
+import sys
 from collections import defaultdict
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
@@ -696,13 +704,49 @@ def main():
     write('seasons.json', {"version": 1, "seasonLengthDays": 28, "tiers": 20, "seasons": seasons})
 
 
+PENDING = []
+
+
 def write(name, obj):
-    os.makedirs(OUT, exist_ok=True)
-    with open(os.path.join(OUT, name), 'w', encoding='utf-8') as f:
-        json.dump(obj, f, ensure_ascii=False, indent=2)
-        f.write('\n')
-    print('wrote', os.path.join('Content', name))
+    PENDING.append((name, json.dumps(obj, ensure_ascii=False, indent=2) + '\n'))
+
+
+def save():
+    names = [name for name, _ in PENDING]
+    force = [os.path.basename(a) for a in sys.argv[sys.argv.index('--force') + 1:]] if '--force' in sys.argv else []
+    if '--force' in sys.argv and not force or any(n not in names for n in force):
+        sys.exit('Name the files to overwrite: --force ' + ' '.join(names))
+    kept = []
+    for name, text in PENDING:
+        path = os.path.join(OUT, name)
+        old = open(path, encoding='utf-8').read() if os.path.exists(path) else None
+        if old == text:
+            print('unchanged', os.path.join('Content', name))
+        elif old is None or name in force:
+            os.makedirs(OUT, exist_ok=True)
+            with open(path, 'w', encoding='utf-8') as f:
+                f.write(text)
+            print('wrote', os.path.join('Content', name))
+        else:
+            report(name, old, text)
+            kept.append(name)
+    if kept:
+        sys.exit('Left as they are: %s. Fold any hand edits in them into the tables; when the difference is only '
+                 'your own table edit, rerun with --force %s.'
+                 % (', '.join('Content/' + n for n in kept), ' '.join(kept)))
+
+
+def report(name, old, text):
+    diff = list(difflib.unified_diff(old.splitlines(), text.splitlines(), lineterm='', n=0))
+    body = [d for d in diff if d[:1] in '+-' and d[:3] not in ('+++', '---')]
+    added = sum(d.startswith('+') for d in body)
+    print('Content/%s would change: %d lines added, %d removed' % (name, added, len(body) - added), file=sys.stderr)
+    for d in body[:12]:
+        print('  ' + d[:110], file=sys.stderr)
+    if len(body) > 12:
+        print('  ...', file=sys.stderr)
 
 
 if __name__ == '__main__':
     main()
+    save()

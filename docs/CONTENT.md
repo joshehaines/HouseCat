@@ -1,6 +1,6 @@
 # HouseCat — content brief — the words, names and rules the code generates from
 
-Everything here is data, not code: Claude Code produces `Content/lines.json`, `catalogue.json`, `gifts.json`, `outfits.json`, `objectives.json`, `seasons.json` and `minigames.json` from this brief, Josh reviews them like art (one glance, accept or regenerate), and the app reads them. Nothing in this file is hard-coded anywhere.
+Everything here is data, not code: `Content/lines.json`, `catalogue.json`, `gifts.json`, `outfits.json`, `objectives.json`, `seasons.json` and `minigames.json` were first produced from this brief by the scripts in `tools/content/`, Josh reviews them like art (one glance, accept or reword), and the app reads them. They have been edited by hand since, so the JSON is the source: a script leaves alone any file that differs from what it makes (`build_text.py` still makes lines, objectives and mini-games exactly as committed). Nothing in this file is hard-coded anywhere.
 
 ## 1. Lines (`lines.json`)
 

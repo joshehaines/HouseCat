@@ -284,11 +284,10 @@ struct PassView: View {
                             Text("\(box.track == .paid ? "Premium" : "Free") · tier \(box.tier)")
                         }
                         .font(.system(size: 10.5 * s, weight: .heavy, design: .rounded)).foregroundStyle(GameHUD.gold)
-                        ForEach(Array(rewards.dropFirst().enumerated()), id: \.offset) { _, extra in
+                        // A second item is named in the title; bonus Beans get a chip.
+                        ForEach(Array(rewards.dropFirst().filter { $0.kind == .beans }.enumerated()), id: \.offset) { _, extra in
                             HStack(spacing: 3 * s) {
-                                if extra.kind == .beans {
-                                    PaintedIcon("bean_coin", size: 15 * s)
-                                }
+                                PaintedIcon("bean_coin", size: 15 * s)
                                 Text("+ \(Self.name(extra))")
                             }
                             .font(.system(size: 10.5 * s, weight: .heavy, design: .rounded)).foregroundStyle(Theme.cream)
@@ -429,8 +428,10 @@ struct PassView: View {
     private func road(_ info: GameSession.PassInfo, s: CGFloat) -> some View {
         GeometryReader { area in
             let rope = 30 * s, rowPad = 6 * s, gap = 8 * s, label = 26 * s
-            let boxHeight = min(((area.size.height - rope - 2 * rowPad) / 2).rounded(.down), 184 * s)
-            let boxWidth = min(max(boxHeight * 0.74, 100 * s), 136 * s)
+            // A tall screen (an iPad held upright) lets the boxes grow further.
+            let tall = area.size.height > 640 * s
+            let boxHeight = min(((area.size.height - rope - 2 * rowPad) / 2).rounded(.down), (tall ? 232 : 184) * s)
+            let boxWidth = min(max(boxHeight * 0.74, 100 * s), (tall ? 168 : 136) * s)
             let roadHeight = boxHeight * 2 + rope + 2 * rowPad
             let spare = area.size.height - roadHeight
             VStack(alignment: .leading, spacing: 12 * s) {
@@ -493,6 +494,7 @@ struct PassView: View {
                         .padding(.leading, label + 2 * s)
                 }
             }
+            .frame(width: area.size.width, height: area.size.height, alignment: tall ? .center : .top)
         }
     }
 
@@ -1125,7 +1127,9 @@ private struct RewardBox: View {
                                 }
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                             } else {
-                                RewardPicture(reward: main, s: s * (grand ? 1.7 : 1.25))
+                                // Beans and a wallpaper are drawn at a fixed size: grown with the box on a bigger screen.
+                                let flat = main.kind == .beans || main.kind == .surface
+                                RewardPicture(reward: main, s: flat ? max(s * 1.25, artHeight * 0.72 / 48) : s * (grand ? 1.7 : 1.25))
                                     .frame(width: box.size.width * 0.84, height: artHeight)
                                     .frame(maxWidth: .infinity)
                             }
@@ -1194,6 +1198,9 @@ private struct RewardBox: View {
             .shadow(color: Theme.shadow, radius: 3 * s, y: 2 * s)
         }
         .buttonStyle(PressStyle())
+        .accessibilityLabel("Tier \(tier), \(premium ? "premium" : "free"), \(main.grade.rawValue): \(PassView.boxName(rewards))\(rewards.count > 1 && items.count == 1 ? ", and \(PassView.name(bonus))" : "")")
+        .accessibilityValue(claimed ? "claimed" : claimable ? "waiting to be claimed" : locked ? "with Premium" : reached ? "" : "not reached yet")
+        .accessibilityHint("Shows it")
         .overlay(alignment: .bottom) {
             // Claim is its own button over the box, so a tap on the box only shows it.
             if claimable {
@@ -1213,9 +1220,6 @@ private struct RewardBox: View {
             guard claimable, !reduceMotion else { return }
             withAnimation(.easeInOut(duration: 0.9).repeatForever(autoreverses: true)) { glowing = true }
         }
-        .accessibilityLabel("Tier \(tier), \(premium ? "premium" : "free"), \(main.grade.rawValue): \(PassView.boxName(rewards))\(rewards.count > 1 && items.count == 1 ? ", and \(PassView.name(bonus))" : "")")
-        .accessibilityValue(claimed ? "claimed" : claimable ? "ready to claim" : locked ? "with Premium" : reached ? "" : "not reached yet")
-        .accessibilityHint("Shows it")
     }
 
     @ViewBuilder

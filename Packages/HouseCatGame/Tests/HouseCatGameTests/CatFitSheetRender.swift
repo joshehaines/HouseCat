@@ -24,8 +24,10 @@ private let repo = URL(fileURLWithPath: #filePath)
     guard let folder = environment["HOUSECAT_FIT_SHEET"] else { return }
     let out = URL(fileURLWithPath: folder)
     try FileManager.default.createDirectory(at: out, withIntermediateDirectories: true)
-    let art = try ArtLibrary(root: repo.appendingPathComponent("App/Art"))
-    let catArt = try CatArt(root: repo.appendingPathComponent("App/Art/cat/custom"))
+    // HOUSECAT_FIT_ART=<folder>: another art folder (a proposal's repainted outfit beside links to the rest).
+    let root = environment["HOUSECAT_FIT_ART"].map { URL(fileURLWithPath: $0) } ?? repo.appendingPathComponent("App/Art")
+    let art = try ArtLibrary(root: root)
+    let catArt = try CatArt(root: root.appendingPathComponent("cat/custom"))
     let rig = try art.data("cat/rig.json", as: PuppetRig.self)
     let content = try ContentBundle.load(from: repo.appendingPathComponent("Content"))
     let cell = (environment["HOUSECAT_FIT_CELL"] ?? "260,230,150").split(separator: ",").compactMap { Double($0) }
@@ -76,6 +78,7 @@ private let repo = URL(fileURLWithPath: #filePath)
         for body in bodies {
             var look = base
             look.body = body
+                look.weight = body.hasSuffix("_chunky") ? Tuning.Cat.chunkyDefaultWeight : Tuning.Cat.slimDefaultWeight
             for outfit in content.outfits.outfits where wanted?.contains(outfit.id) ?? true {
                 rows.append(("\(outfit.id)__\(body)", catArt.builder.normalized(look), outfit))
             }
@@ -86,12 +89,14 @@ private let repo = URL(fileURLWithPath: #filePath)
             for ears in swaps ? catArt.builder.data.ears.map(\.id) : ["own"] {
                 var look = base
                 look.body = body
+                look.weight = body.hasSuffix("_chunky") ? Tuning.Cat.chunkyDefaultWeight : Tuning.Cat.slimDefaultWeight
                 look.ears = ears
                 rows.append(("\(body)__\(ears)", catArt.builder.normalized(look), nil))
             }
             if catArt.builder.body(body)?.tailSwaps == true {
                 var look = base
                 look.body = body
+                look.weight = body.hasSuffix("_chunky") ? Tuning.Cat.chunkyDefaultWeight : Tuning.Cat.slimDefaultWeight
                 look.tail = "bobtail"
                 rows.append(("\(body)__bobtail", catArt.builder.normalized(look), nil))
             }

@@ -26,6 +26,20 @@ public struct CatFace: Equatable, Sendable {
     }
 }
 
+public extension CatFace {
+    /// The same face moved by a distance in the sprite's pixels (x right, y down).
+    func moved(by d: CGVector) -> CatFace {
+        let dx = d.dx / max(1, size.width), dy = d.dy / max(1, size.height)
+        var face = self
+        face.eyes = eyes.map { CGPoint(x: $0.x + dx, y: $0.y + dy) }
+        face.nose = nose.map { CGPoint(x: $0.x + dx, y: $0.y + dy) }
+        face.head = head.map { (left: $0.left + dx, right: $0.right + dx, y: $0.y + dy) }
+        face.crown = crown.map { CGPoint(x: $0.x + dx, y: $0.y + dy) }
+        face.neck = neck.map { (left: $0.left + dx, right: $0.right + dx, y: $0.y + dy) }
+        return face
+    }
+}
+
 /// The shape of an outfit picture, measured once from its alpha: a hat's rim, glasses' lenses, neckwear's top.
 /// Fractions of the picture, origin top left.
 public struct OutfitShape: Equatable, Sendable {
@@ -113,10 +127,10 @@ public enum OutfitFit {
 
     /// The ear cover for a hat placed on a face (`place`'s placement): the rim's line a little above the rim, as
     /// wide as the head and its ears either side (Tuning.Outfits.earCoverWidth head widths each way).
-    public static func earCover(_ fit: Placement, shape: OutfitShape, on face: CatFace) -> EarCover? {
+    public static func earCover(_ fit: Placement, shape: OutfitShape, on face: CatFace, view: String? = nil) -> EarCover? {
         let t = Tuning.Outfits.self
         let w = face.size.width, h = face.size.height
-        let eyes = face.eyes.map { CGPoint(x: $0.x * w, y: $0.y * h) }
+        let eyes = profileEyes(face, view: view)
         guard let (left, right) = headSpan(face, eyes: eyes, w: w, h: h) else { return nil }
         // Up the picture, turned as the hat is (its angle is clockwise on screen, y down).
         let up = CGVector(dx: sin(fit.angle), dy: -cos(fit.angle))
@@ -167,7 +181,10 @@ public enum OutfitFit {
         func anchor(_ p: CGPoint) -> CGPoint {
             CGPoint(x: p.x, y: 1 - p.y)
         }
-        let eyes = face.eyes.map(px)
+        // Side-on, a second eye is the far one peeking past the nose (the long-haired cats): a hat or neckwear
+        // measured between the two was a fraction of the head and tilted (Josh, 20 Oct: "dont fit at all"), so
+        // side-on they go by the near eye alone, as a profile. The glasses find the near eye below.
+        let eyes = kind == .glasses ? face.eyes.map(px) : profileEyes(face, view: view)
         let angle: CGFloat = eyes.count >= 2 ? atan2(eyes[1].y - eyes[0].y, eyes[1].x - eyes[0].x) : 0
         switch kind {
         case .hat:
@@ -261,6 +278,21 @@ public enum OutfitFit {
         }
     }
 
+    /// The eyes in pixels; side-on only the near one (the far one peeking past the nose is closer to it).
+    static func profileEyes(_ face: CatFace, view: String?) -> [CGPoint] {
+        let w = face.size.width, h = face.size.height
+        let eyes = face.eyes.map { CGPoint(x: $0.x * w, y: $0.y * h) }
+        guard view == "side", eyes.count >= 2 else { return eyes }
+        if let nose = face.nose.map({ CGPoint(x: $0.x * w, y: $0.y * h) }) {
+            return eyes.max { hypot($0.x - nose.x, $0.y - nose.y) < hypot($1.x - nose.x, $1.y - nose.y) }.map { [$0] } ?? eyes
+        }
+        guard let head = face.head else { return [eyes[0]] }
+        // No nose: the near eye is the one further in from the head's edges.
+        return eyes.max { a, b in
+            min(a.x - head.left * w, head.right * w - a.x) < min(b.x - head.left * w, head.right * w - b.x)
+        }.map { [$0] } ?? eyes
+    }
+
     /// The head's left and right edges in pixels: its outline at the eye line, no wider than the eyes allow (a
     /// loaf's head runs into its body there), a profile's centred a little behind its eye.
     static func headSpan(_ face: CatFace, eyes: [CGPoint], w: CGFloat, h: CGFloat) -> (CGFloat, CGFloat)? {
@@ -320,7 +352,12 @@ public enum OutfitFit {
             return (l, r)
         }
         var eyes = features.prefix(2).compactMap(centroid).sorted { $0.x < $1.x }
-        let nose = features.count > 2 ? centroid(features[2]) : nil
+        var nose = features.count > 2 ? centroid(features[2]) : nil
+        // A nose above the eyes is the mask's mistake (an ear's pink inside taken for it, on some side paintings):
+        // measured from it the head was a fraction of its size (Josh, 20 Oct: outfits that "dont fit at all").
+        if let n = nose, let top = eyes.map(\.y).min(), n.y < top {
+            nose = nil
+        }
         // The head's outline across the eyes (or the nose, or near the top when neither shows).
         var head: (CGFloat, CGFloat, CGFloat)?
         var crown: CGPoint?
@@ -555,7 +592,7 @@ public enum OutfitFit {
         ) else { return nil }
         context.draw(cat, in: CGRect(x: 0, y: 0, width: w, height: h))
         // A hat the ears go under: the cat cleared above its rim, across the head and ears (the hat covers the rest).
-        if coversEars, kind == .hat, let cover = earCover(fit, shape: shape, on: scaled) {
+        if coversEars, kind == .hat, let cover = earCover(fit, shape: shape, on: scaled, view: view) {
             let along = CGVector(dx: -cover.up.dy, dy: cover.up.dx)
             let reach = w + h
             let corners = [

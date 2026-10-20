@@ -280,7 +280,7 @@ public final class CatNode: SKNode {
             else { continue }
             outfitNodes.append(put(picture, fit: fit, face: face, on: head))
             if earsUnderHat {
-                cover(head, with: OutfitFit.earCover(fit, shape: shape, on: face), face: face)
+                cover(head, with: OutfitFit.earCover(fit, shape: shape, on: face, view: view.rawValue), face: face)
                 parts[view]?["ear_near"]?.isHidden = true
                 parts[view]?["ear_far"]?.isHidden = true
             }
@@ -367,7 +367,7 @@ public final class CatNode: SKNode {
         guard kind == .neck, OutfitFit.tucksNeckwear(pose) else {
             poseOutfit = put(picture, fit: fit, face: face, on: poseNode)
             if earsUnderHat {
-                cover(poseNode, with: OutfitFit.earCover(fit, shape: shape, on: face), face: face)
+                cover(poseNode, with: OutfitFit.earCover(fit, shape: shape, on: face, view: view), face: face)
             }
             return
         }
@@ -1566,11 +1566,26 @@ public final class CatNode: SKNode {
     private func filmFace(_ film: CatArt.Film, frame index: Int) -> CatFace? {
         guard let catArt, !film.frames.isEmpty else { return nil }
         let count = film.frames.count, eyes = view == .side ? 1 : 2
+        // Where the head is in a frame, from the points followed through the film (the ears' bases, else the body).
+        func headAt(_ i: Int) -> CGPoint? {
+            let points = film.points ?? [:]
+            let tracks = ["ear_near_base", "ear_far_base"].compactMap { points[$0] }
+            let used = tracks.isEmpty ? (points["torso_middle"].map { [$0] } ?? []) : tracks
+            let at = used.compactMap { i < $0.count && $0[i].count == 2 ? CGPoint(x: $0[i][0], y: $0[i][1]) : nil }
+            guard !at.isEmpty else { return nil }
+            return CGPoint(x: at.map(\.x).reduce(0, +) / CGFloat(at.count), y: at.map(\.y).reduce(0, +) / CGFloat(at.count))
+        }
         for step in 0 ... count / 2 {
             for i in Set([index - step, index + step]) {
-                if let face = catArt.face(film.frames[(i % count + count) % count]), face.eyes.count >= eyes {
+                let j = (i % count + count) % count
+                guard let face = catArt.face(film.frames[j]), face.eyes.count >= eyes else { continue }
+                // Borrowed from another frame: moved as the head has moved between them (the points are in the
+                // frames' master pixels, the face in the sprite's).
+                guard j != index, let here = headAt(index), let there = headAt(j), film.size.count == 2, film.size[0] > 0 else {
                     return face
                 }
+                let k = face.size.width / CGFloat(film.size[0])
+                return face.moved(by: CGVector(dx: (here.x - there.x) * k, dy: (here.y - there.y) * k))
             }
         }
         return catArt.face(film.frames[index])
@@ -1587,7 +1602,7 @@ public final class CatNode: SKNode {
         else { return }
         filmOutfit = put(picture, fit: fit, face: face, on: filmNode)
         if earsUnderHat {
-            cover(filmNode, with: OutfitFit.earCover(fit, shape: shape, on: face), face: face)
+            cover(filmNode, with: OutfitFit.earCover(fit, shape: shape, on: face, view: view.rawValue), face: face)
         }
         for (key, piece) in filmPieces where key.hasPrefix("ear_") {
             piece.isHidden = earsUnderHat

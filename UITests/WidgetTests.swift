@@ -172,7 +172,7 @@ final class WidgetTests: XCTestCase {
     private func dumpSpringboard(_ name: String) {
         let text = XCTAttachment(string: springboard.debugDescription)
         text.name = "springboard \(name)"
-        text.lifetime = .keepAlways
+        text.lifetime = .deleteOnSuccess
         add(text)
     }
 
@@ -180,7 +180,7 @@ final class WidgetTests: XCTestCase {
         let screenshot = XCUIScreen.main.screenshot()
         let shot = XCTAttachment(screenshot: screenshot)
         shot.name = name
-        shot.lifetime = .keepAlways
+        shot.lifetime = .deleteOnSuccess
         add(shot)
         guard let folder = ProcessInfo.processInfo.environment["SHOTS"] else { return }
         shots += 1

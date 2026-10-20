@@ -32,7 +32,16 @@ final class ButtonSweepTests: XCTestCase {
         app.launchEnvironment["HOUSECAT_SCREEN"] = "tour"
         app.launch()
         waitPastTheCurtain()
-        XCTAssertTrue(app.buttons["Skip the tour"].shows(within: 60), "the tour")
+        // A visit that starts outside: a tap on the house opens the door; the tour starts once the room is up.
+        let skip = app.buttons["Skip the tour"]
+        let start = Date()
+        while !skip.exists, Date().timeIntervalSince(start) < 60 {
+            if !app.buttons["Decorate"].exists {
+                screen().coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tapInFront()
+            }
+            sleep(1)
+        }
+        XCTAssertTrue(skip.exists, "the tour")
         var done: Set<String> = []
         let deadline = Date().addingTimeInterval(300)
         while Date() < deadline, !app.buttons["Thank you"].exists {
@@ -215,7 +224,7 @@ final class ButtonSweepTests: XCTestCase {
             if app.buttons["Keep it"].exists, app.buttons["Keep it"].isHittable {
                 app.buttons["Keep it"].tapInFront()
             } else {
-                app.coordinate(withNormalizedOffset: CGVector(dx: 0.05, dy: 0.05)).tapInFront()
+                screen().coordinate(withNormalizedOffset: CGVector(dx: 0.05, dy: 0.05)).tapInFront()
             }
             XCTAssertTrue(waitGone(confirm), "Delete everything went away again")
         } else {
@@ -276,7 +285,7 @@ final class ButtonSweepTests: XCTestCase {
             if round % 2 == 0 {
                 careButton("Feed").tapInFront()
             } else {
-                app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.55)).tapInFront()
+                screen().coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.55)).tapInFront()
             }
             usleep(useconds_t(300_000 * (round % 4)))
             for (name, control, opened) in [
@@ -356,6 +365,11 @@ final class ButtonSweepTests: XCTestCase {
 
     func testTheHealthCard() throws {
         launchIntoTheRoom(screen: "health")
+        // A debug launch can bring the add-widget card up over it (it was due anyway): that one goes first.
+        if app.buttons["Got it"].shows(within: 3) {
+            app.buttons["Got it"].tapInFront()
+            sleep(1)
+        }
         let notNow = app.buttons["Not now"].firstMatch
         guard notNow.shows(within: 20) else {
             throw XCTSkip("No Health on this device")
@@ -552,7 +566,7 @@ final class ButtonSweepTests: XCTestCase {
                 XCTAssertTrue(app.staticTexts[name].shows(within: 15), "\(name) opened")
                 sleep(3)
                 for spot in [CGVector(dx: 0.4, dy: 0.5), CGVector(dx: 0.6, dy: 0.45), CGVector(dx: 0.5, dy: 0.6)] {
-                    app.coordinate(withNormalizedOffset: spot).tapInFront()
+                    screen().coordinate(withNormalizedOffset: spot).tapInFront()
                 }
                 snap("quick game \(name)")
                 // Leaving early: the game's own close, back to the room.
@@ -659,14 +673,33 @@ final class ButtonSweepTests: XCTestCase {
                 XCTAssertTrue(button.exists, "the tray's \(tab)")
                 button.tapInFront()
                 sleep(1)
-                XCTAssertTrue(button.isSelected, "\(tab) is chosen")
+                let chosen = (0 ..< 3).contains { _ in
+                    if (try? button.snapshot())?.isSelected == true {
+                        return true
+                    }
+                    sleep(1)
+                    return false
+                }
+                XCTAssertTrue(chosen, "\(tab) is chosen")
                 snap("tray \(tab.lowercased())")
             }
-            // A piece out of the tray, turned and stored again.
+            // A piece out of the tray, turned and stored again. A save with everything out ("Everything you own is
+            // out") buys one from the tray's shop, which comes out chosen.
             let piece = app.buttons.matching(NSPredicate(format: "label BEGINSWITH 'Place '")).firstMatch
+            var name = ""
             if piece.shows(within: 3) {
-                let name = piece.label
+                name = piece.label
                 piece.tapInFront()
+            } else {
+                app.buttons["Shop"].firstMatch.tapInFront()
+                let buy = app.buttons.matching(NSPredicate(format: "label BEGINSWITH 'Buy '")).firstMatch
+                if buy.shows(within: 3) {
+                    // "Buy Armchair, 120 Beans" goes back to the tray as "Place Armchair".
+                    name = "Place " + buy.label.dropFirst("Buy ".count).prefix { $0 != "," }
+                    buy.tapInFront()
+                }
+            }
+            if !name.isEmpty {
                 sleep(2)
                 let turn = app.buttons["Turn"]
                 let store = app.buttons["Store"]
@@ -680,7 +713,7 @@ final class ButtonSweepTests: XCTestCase {
                 sleep(1)
                 XCTAssertTrue(app.buttons[name].shows(within: 5), "Store put \(name) back in the tray")
             } else {
-                XCTFail("nothing in the tray to place")
+                XCTFail("nothing in the tray to place, and nothing to buy")
             }
             done.tapInFront()
             XCTAssertTrue(waitForRoom(), "Done closes Decorate")
@@ -711,15 +744,20 @@ final class ButtonSweepTests: XCTestCase {
                 tab.tapInFront()
                 sleep(1)
                 snap("shop \(section.lowercased())")
-                // The first thing for sale opens its panel, which closes again.
+                // The first thing for sale opens its panel (or, for the pass, its page), which closes again.
                 let tile = app.buttons.matching(NSPredicate(format: "label CONTAINS ', '")).allElementsBoundByIndex
-                    .first { $0.isHittable && !sections.contains($0.label) }
+                    .first { tile in
+                        // Not the room's own controls, still there under the shop ("Pip, your cat", "Feed, done today").
+                        let room = [", your cat", "Get more.", "day streak", "done today", " left", "Season pass, tier"]
+                        return tile.isHittable && !sections.contains(tile.label) && !room.contains { tile.label.contains($0) }
+                    }
                 if section != "Beans", let tile {
+                    let name = tile.label
                     tile.tapInFront()
                     sleep(1)
                     snap("shop \(section.lowercased()) detail")
-                    let buy = app.buttons.matching(NSPredicate(format: "label BEGINSWITH 'Buy' OR label BEGINSWITH 'Top up' OR label BEGINSWITH 'Add the whole' OR label ENDSWITH 'a year' OR label ENDSWITH 'a month'")).firstMatch
-                    XCTAssertTrue(buy.exists, "\(section): its panel offers to buy (\(tile.label))")
+                    let buy = app.buttons.matching(NSPredicate(format: "label BEGINSWITH 'Buy' OR label BEGINSWITH 'Top up' OR label BEGINSWITH 'Add the whole' OR label ENDSWITH 'a year' OR label ENDSWITH 'a month' OR label CONTAINS '£' OR label CONTAINS 'Premium' OR label BEGINSWITH 'See the pass'")).firstMatch
+                    XCTAssertTrue(buy.exists, "\(section): its panel offers to buy (\(name))")
                     // The panel's own close (the shop's is under it).
                     let closes = app.buttons.matching(identifier: "Close")
                     if closes.count > 1 {
@@ -744,36 +782,53 @@ final class ButtonSweepTests: XCTestCase {
 
     /// Into the room with a cat, the tour over (skipped if it shows), and nothing over the room.
     private func launchIntoTheRoom(screen: String? = nil) {
+        // A debug screen's card waits for the tour, and the tour takes the first visit: so a test that opens one
+        // gets a save whose tour is done, from a plain visit first (once a run).
         if let screen {
+            if !Self.tourSeenTo {
+                enterTheRoom()
+                app.terminate()
+            }
             app.launchEnvironment["HOUSECAT_SCREEN"] = screen
         }
-        app.launch()
-        waitPastTheCurtain()
-        // A first visit's tour starts a few seconds after the room is up (Tuning.Intro.tourDelay): skipped.
-        if app.buttons["Skip the tour"].shows(within: 8) {
-            app.buttons["Skip the tour"].tapInFront()
-            sleep(1)
-        }
-        let decorate = app.buttons["Decorate"]
-        let deadline = Date().addingTimeInterval(60)
-        while Date() < deadline {
-            if app.buttons["Skip the tour"].exists {
-                app.buttons["Skip the tour"].tapInFront()
-                sleep(1)
-            }
-            if app.buttons["Thank you"].exists {
-                app.buttons["Thank you"].tapInFront()
-            }
-            if decorate.exists, decorate.isHittable, !app.buttons["Next"].exists {
-                break
-            }
-            sleep(1)
-        }
-        XCTAssertTrue(decorate.exists, "the room")
+        enterTheRoom()
         if screen == nil {
             sleep(2)
             dismissCards()
         }
+    }
+
+    /// The tour is over (skipped or finished) on this run's save.
+    private static var tourSeenTo = false
+
+    /// Launched and in the room, past the launch curtain, the cold open outside (a tap on the house opens the door)
+    /// and the first visit's tour, which starts a few seconds after the room is up (Tuning.Intro.tourDelay) and is
+    /// skipped.
+    private func enterTheRoom() {
+        app.launch()
+        waitPastTheCurtain()
+        let decorate = app.buttons["Decorate"]
+        var deadline = Date().addingTimeInterval(60)
+        while !(decorate.exists && decorate.isHittable), Date() < deadline {
+            if !decorate.exists, !app.buttons["Skip the tour"].exists {
+                screen().coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tapInFront()
+            }
+            sleep(1)
+        }
+        XCTAssertTrue(decorate.exists, "the room")
+        // The tour, once the room is up; then nothing of it left over the room.
+        if app.buttons["Skip the tour"].shows(within: 7) {
+            app.buttons["Skip the tour"].tapInFront()
+            sleep(1)
+        }
+        deadline = Date().addingTimeInterval(10)
+        while Date() < deadline, app.buttons["Skip the tour"].exists || app.buttons["Thank you"].exists {
+            for done in ["Skip the tour", "Thank you"] where app.buttons[done].exists {
+                app.buttons[done].tapInFront()
+            }
+            sleep(1)
+        }
+        Self.tourSeenTo = true
     }
 
     /// The launch curtain (the logo's film) lifted: a tap skips the film, and it lifts once the room has drawn. The
@@ -783,7 +838,7 @@ final class ButtonSweepTests: XCTestCase {
         sleep(2)
         while curtainIsUp(), Date() < deadline {
             front()
-            app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tapInFront()
+            screen().coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tapInFront()
             sleep(1)
         }
         if curtainIsUp() {
@@ -810,6 +865,13 @@ final class ButtonSweepTests: XCTestCase {
             return node.children.contains(where: isCurtain)
         }
         return isCurtain(tree)
+    }
+
+    /// The window, for taps at a place on the screen: its frame is the game's, on its side. The app's own frame is
+    /// the device's, upright on an iPhone held upright, so a tap placed by it lands somewhere else (the cat was never
+    /// stroked on the iPhone).
+    private func screen() -> XCUIElement {
+        app.windows.firstMatch
     }
 
     /// A care button, whose label carries its badge ("Feed, done today", "Play, 5 left").
@@ -914,7 +976,7 @@ final class ButtonSweepTests: XCTestCase {
         } else if app.buttons["Not now"].exists {
             app.buttons["Not now"].firstMatch.tapInFront()
         } else {
-            app.coordinate(withNormalizedOffset: CGVector(dx: 0.97, dy: 0.5)).tapInFront()
+            screen().coordinate(withNormalizedOffset: CGVector(dx: 0.97, dy: 0.5)).tapInFront()
         }
         sleep(1)
         // The creator's leave-without-saving question.
@@ -989,7 +1051,7 @@ final class ButtonSweepTests: XCTestCase {
                 if bubbles.contains(where: { $0.insetBy(dx: -10, dy: -10).contains(point) }) {
                     continue
                 }
-                app.coordinate(withNormalizedOffset: spot).tapInFront()
+                screen().coordinate(withNormalizedOffset: spot).tapInFront()
                 if stroked.shows(within: 0.8) {
                     return true
                 }
@@ -1029,7 +1091,7 @@ final class ButtonSweepTests: XCTestCase {
                     if no.exists, no.isHittable {
                         no.tap()
                     } else if let seen = try? no.snapshot(), !seen.frame.isEmpty {
-                        app.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: seen.frame.midX, dy: seen.frame.midY)).tap()
+                        screen().coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: seen.frame.midX, dy: seen.frame.midY)).tap()
                     }
                     sleep(1)
                     return true
@@ -1045,7 +1107,7 @@ final class ButtonSweepTests: XCTestCase {
         if let close, close.isHittable {
             close.tapInFront()
         } else {
-            app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.08)).tapInFront()
+            screen().coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.08)).tapInFront()
         }
         sleep(1)
     }
@@ -1054,7 +1116,7 @@ final class ButtonSweepTests: XCTestCase {
         guard element.exists else { return }
         let shot = XCTAttachment(screenshot: element.screenshot())
         shot.name = name
-        shot.lifetime = .keepAlways
+        shot.lifetime = .deleteOnSuccess
         add(shot)
         write(element.screenshot(), name: name)
     }
@@ -1071,7 +1133,7 @@ final class ButtonSweepTests: XCTestCase {
         let screenshot = XCUIScreen.main.screenshot()
         let shot = XCTAttachment(screenshot: screenshot)
         shot.name = name
-        shot.lifetime = .keepAlways
+        shot.lifetime = .deleteOnSuccess
         add(shot)
         write(screenshot, name: name)
     }
@@ -1080,7 +1142,7 @@ final class ButtonSweepTests: XCTestCase {
     private func keep(_ text: String, named name: String) {
         let attachment = XCTAttachment(string: text)
         attachment.name = name
-        attachment.lifetime = .keepAlways
+        attachment.lifetime = .deleteOnSuccess
         add(attachment)
         guard let folder = ProcessInfo.processInfo.environment["SHOTS"] else { return }
         let device = UIDevice.current.userInterfaceIdiom == .pad ? "ipad" : "iphone"
@@ -1104,6 +1166,17 @@ extension XCUIElement {
         // Missing: a failure noted, and the sweep goes on (a tap on nothing would end the test).
         guard exists else {
             XCTFail("nothing to tap: \(description)")
+            return
+        }
+        // Poking past the screen's edge: XCUITest's own tap missed such a control (the season pass's ✕, 0.2 points
+        // over an iPhone's top edge; a finger's tap on it works). A tap at the middle of what shows, placed by the
+        // window.
+        let window = XCUIApplication().windows.firstMatch
+        let frame = self.frame, screen = window.frame
+        let shown = frame.intersection(screen)
+        if !screen.contains(frame), !shown.isNull, !shown.isEmpty {
+            window.coordinate(withNormalizedOffset: .zero)
+                .withOffset(CGVector(dx: shown.midX - screen.minX, dy: shown.midY - screen.minY)).tap()
             return
         }
         tap()

@@ -334,6 +334,27 @@ struct PassContentTests {
         let outfits = content.seasons.seasons.flatMap { ($0.freeTrack + $0.paidTrack).filter { $0.kind == .outfit }.compactMap(\.id) }
         #expect(Set(outfits).count == outfits.count)
     }
+
+    /// Josh, 20 Oct: "Take the six pass outfits off sale for Beans so the pass is the only way to get them." Every outfit
+    /// on a track is in that track's pool, has no product, and is never for sale, in any month.
+    @Test func thePassIsTheOnlyWayToItsOutfits() throws {
+        let outfits = Dictionary(uniqueKeysWithValues: content.outfits.outfits.map { ($0.id, $0) })
+        for season in content.seasons.seasons {
+            for (track, pool) in [(season.freeTrack, OutfitsFile.Outfit.Pool.passFree), (season.paidTrack, .passPaid)] {
+                for reward in track where reward.kind == .outfit {
+                    let outfit = try #require(reward.id.flatMap { outfits[$0] }, "\(season.id): \(reward.id ?? "")")
+                    #expect(outfit.pool == pool, "\(season.id): \(outfit.id) is in \(outfit.pool)")
+                    #expect(outfit.sku == nil, "\(outfit.id) has a product")
+                    for month in 1 ... 12 {
+                        let day = GameDay(year: 2027, month: month, day: 10)
+                        if case .forSale = OutfitAvailability.of(outfit, owned: [], worn: nil, on: day) {
+                            Issue.record("\(outfit.id) is sold for Beans in month \(month)")
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 /// The pass's month through the real rules and content (Josh, 19 Oct: the pass is the main progression). Three players

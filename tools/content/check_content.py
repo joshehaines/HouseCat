@@ -521,9 +521,10 @@ def check_outfits(d, manifest):
     mo = {k for k, v in manifest.items() if v.get('class') == 'outfits' and not k.startswith('outfits/body/')}
     used = set()
     expect(len(d['outfits']), 35, 'outfits (23, and 12 more on 18 Oct)')
-    # No founders' pack any more; the small crown is the Housewarming pass's (CLAUDE.md, 18 Oct).
+    # No founders' pack any more; the small crown is the Housewarming pass's (CLAUDE.md, 18 Oct). The pass's twelve
+    # outfits are its own, never sold for Beans (Josh, 20 Oct).
     expect(dict(Counter(o['pool'] for o in d['outfits'])),
-           {'paid': 25, 'earned': 4, 'pass-paid': 3, 'pass-free': 3}, 'outfit pools')
+           {'paid': 19, 'earned': 4, 'pass-paid': 8, 'pass-free': 4}, 'outfit pools')
     expect(sorted(o['earnedBy'] for o in d['outfits'] if o['pool'] == 'earned'),
            sorted(['streak_30', 'streak_100', 'referral', 'launch_event']), 'earnedBy')
     for o in d['outfits']:
@@ -828,6 +829,9 @@ def check_seasons(d, items, surfaces, outfits):
                 elif r['kind'] == 'outfit':
                     if r['id'] not in outfits or r['amount'] is not None:
                         err(f"{ww}: outfit {r['id']!r} does not resolve")
+                    # The pass is the only way to its outfits (Josh, 20 Oct): never one the Bean shop sells.
+                    elif outfits[r['id']]['pool'] != f'pass-{pools}':
+                        err(f"{ww}: outfit {r['id']!r} is {outfits[r['id']]['pool']}, not pass-{pools}")
                 elif r['kind'] == 'surface':
                     sf = surfaces.get(r['id'])
                     want_sf = (lambda x: x['pool'] == 'pass-paid' and x['room'] == folder) if own else \
@@ -836,11 +840,11 @@ def check_seasons(d, items, surfaces, outfits):
                         err(f"{ww}: surface {r['id']!r} does not resolve")
                 else:
                     err(f"{ww}: bad kind")
-            # The track ends with an outfit; a season with its own paintings tops it with its own.
+            # The track ends with an outfit of the pass's own.
             last = t[-1] if t else {}
             if last.get('kind') != 'outfit':
                 err(f"{w}: {track} must end with an outfit")
-            elif own and outfits.get(last['id'], {}).get('pool') != f'pass-{pools}':
+            elif outfits.get(last['id'], {}).get('pool') != f'pass-{pools}':
                 err(f"{w}: {track} ends with {last['id']!r}, not a pass-{pools} outfit of its own")
             if pools == 'free':
                 expect(dict(kinds), {'item': 3, 'outfit': 1, 'beans': n - 4}, f"{w} free track")

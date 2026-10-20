@@ -237,7 +237,8 @@ struct ContentValidationTests {
         let outfits = content.outfits.outfits
         #expect(outfits.count == 35)
         let pools = Dictionary(grouping: outfits, by: \.pool).mapValues(\.count)
-        #expect(pools == [.paid: 25, .earned: 4, .passPaid: 3, .passFree: 3])
+        // The pass's twelve outfits are its own (Josh, 20 Oct: off sale for Beans).
+        #expect(pools == [.paid: 19, .earned: 4, .passPaid: 8, .passFree: 4])
         for outfit in outfits {
             for sprite in outfit.sprites.values {
                 #expect(manifest[sprite] != nil, "\(outfit.id): sprite \(sprite) not in manifest")
@@ -346,10 +347,7 @@ struct ContentValidationTests {
             #expect(season.freeTrack.last?.kind == .outfit, "\(season.id): the free track ends with an outfit")
             let capstone = season.paidTrack.last
             #expect(capstone?.kind == .outfit, "\(season.id): tier 30 of the premium track is the season's outfit")
-            // A season with its own paintings tops its premium track with its own outfit.
-            if season.paidTrack.contains(where: { $0.id?.hasPrefix("pass_") == true }) {
-                #expect(capstone?.id.flatMap { outfits[$0]?.pool } == .passPaid, "\(season.id): the top prize is the season's own")
-            }
+            #expect(capstone?.id.flatMap { outfits[$0]?.pool } == .passPaid, "\(season.id): the top prize is the season's own")
         }
         let christmas = content.seasons.seasons.filter { $0.christmas == true }
         #expect(christmas.map(\.id) == ["midwinter"])

@@ -33,8 +33,8 @@
         "tqback",
         "tqfront"
       ],
-      "pool": "paid",
-      "sku": "housecat.outfit.flatcap",
+      "pool": "pass-paid",
+      "sku": null,
       "earnedBy": null,
       "months": [],
       "sprites": {
@@ -229,8 +229,8 @@
         "tqback",
         "tqfront"
       ],
-      "pool": "paid",
-      "sku": "housecat.outfit.pumpkinhat",
+      "pool": "pass-paid",
+      "sku": null,
       "earnedBy": null,
       "months": [
         10
@@ -386,8 +386,8 @@
         "tqback",
         "tqfront"
       ],
-      "pool": "paid",
-      "sku": "housecat.outfit.xmasjumper",
+      "pool": "pass-paid",
+      "sku": null,
       "earnedBy": null,
       "months": [
         12
@@ -493,8 +493,8 @@
         "tqback",
         "tqfront"
       ],
-      "pool": "paid",
-      "sku": "housecat.outfit.skeleton",
+      "pool": "pass-paid",
+      "sku": null,
       "earnedBy": null,
       "months": [
         10
@@ -560,8 +560,8 @@
         "tqback",
         "tqfront"
       ],
-      "pool": "paid",
-      "sku": "housecat.outfit.froghat",
+      "pool": "pass-paid",
+      "sku": null,
       "earnedBy": null,
       "months": [],
       "sprites": {
@@ -761,8 +761,8 @@
         "tqback",
         "tqfront"
       ],
-      "pool": "paid",
-      "sku": "housecat.outfit.bellcollar",
+      "pool": "pass-free",
+      "sku": null,
       "earnedBy": null,
       "months": [],
       "sprites": {

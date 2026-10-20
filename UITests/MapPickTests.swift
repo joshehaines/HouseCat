@@ -149,7 +149,9 @@ final class MapPickTests: XCTestCase {
             XCTAssertTrue(back.waitForExistence(timeout: 10), "the visit")
             sleep(3)
             snap("visit")
-            back.tap()
+            // Its ✕, one tap (Back to the map does the same).
+            app.buttons["Close"].firstMatch.tap()
+            XCTAssertTrue(waitUntil(timeout: 10) { !back.exists }, "the visit's ✕ closes it")
             XCTAssertTrue(move.waitForExistence(timeout: 10), "back on the world map")
         }
 
@@ -201,14 +203,13 @@ final class MapPickTests: XCTestCase {
     /// Move house from the cat's profile (Josh couldn't find it): the room, the profile's home row, then the map
     /// choosing a new place, closed again. Needs a save with a cat.
     func testMoveHouseFromTheProfile() throws {
-        let app = launch("")
+        // The profile opened for the test (HOUSECAT_SCREEN=profile): on the iPad the room's own buttons sometimes
+        // let a UI test's tap go by, which is the room's to fix, not this test's to find.
+        let app = launch("profile")
         let cat = app.buttons.matching(NSPredicate(format: "label ENDSWITH %@", ", your cat")).firstMatch
-        XCTAssertTrue(cat.waitForExistence(timeout: 60), "the room")
-        sleep(3)
-        front(app)
-        cat.tap()
         let move = app.buttons["Move house"]
-        XCTAssertTrue(move.waitForExistence(timeout: 10), "the profile's home row")
+        XCTAssertTrue(move.waitForExistence(timeout: 60), "the profile's home row")
+        front(app)
         sleep(1)
         snap("profile")
         move.tap()
@@ -217,6 +218,22 @@ final class MapPickTests: XCTestCase {
         snap("move house")
         app.buttons["Close"].firstMatch.tap()
         XCTAssertTrue(cat.waitForExistence(timeout: 10), "back in the room")
+    }
+
+    /// The world map over the room closes with one tap on its ✕ (the button sweep found it did not on the iPad, 19 Oct).
+    /// Opened as the menu's Map opens it (HOUSECAT_SCREEN=roommap), since the room's own first tap is sometimes lost.
+    func testTheMapClosesOverTheRoom() throws {
+        let app = launch("roommap")
+        let move = app.buttons["Move house"]
+        XCTAssertTrue(move.waitForExistence(timeout: 60), "the world map over the room")
+        sleep(3)
+        front(app)
+        snap("map over the room")
+        app.buttons["Close"].firstMatch.tap()
+        let closed = waitUntil(timeout: 8) { !move.exists }
+        snap("after close")
+        XCTAssertTrue(closed, "the ✕ closes the map")
+        XCTAssertTrue(app.buttons["Menu"].firstMatch.waitForExistence(timeout: 5), "back in the room")
     }
 
     /// Puts a shared iPad back on its side after an upright run (the orientation stays after a test ends).

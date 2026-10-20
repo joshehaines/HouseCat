@@ -242,6 +242,7 @@ struct SpinningGlobe: View {
                 let size = geometry.size
                 let base = min(size.width, size.height) * Tuning.World.globeSize
                 let radius = base * pose.zoom
+                let reach = radius + Tuning.World.globeTapReach
                 let offset = camera.offset(at: timeline.date)
                 let centre = CGPoint(x: size.width * (0.5 + offset.x), y: size.height * (0.5 - offset.y))
                 let named = labels(pose: pose, centre: centre, radius: radius)
@@ -270,7 +271,9 @@ struct SpinningGlobe: View {
                     }
                     marks(pose: pose, centre: centre, radius: radius, time: timeline.date)
                 }
-                .contentShape(Rectangle())
+                // Touches on the globe and a fingertip round it; the space beyond is the controls'. Screen-wide, it
+                // took the iPad's taps on the middle of the world map's ✕ (the button sweep, 19 Oct).
+                .contentShape(Path(ellipseIn: CGRect(x: centre.x - reach, y: centre.y - reach, width: 2 * reach, height: 2 * reach)))
                 .gesture(interactive ? drag(radius: radius) : nil)
                 .simultaneousGesture(interactive ? pinch(base: base, centre: centre) : nil)
                 .simultaneousGesture(interactive ? tap(pose: pose, centre: centre, radius: radius, named: named) : nil)

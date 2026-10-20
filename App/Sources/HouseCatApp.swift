@@ -483,6 +483,36 @@ struct RoomScreen: View {
 
     var body: some View {
         screens(progressCards(cards(sheets(hud))))
+            // Under the map, the room takes no touch and VoiceOver skips it.
+            .allowsHitTesting(moving == nil)
+            .accessibilityHidden(moving != nil)
+            // The world map over everything, drawn here rather than presented: as a full-screen cover on the iPad
+            // none of its buttons took a UI test's tap (19 Oct).
+            .overlay {
+                if let model = moving {
+                    worldMap(model)
+                        .transition(.opacity)
+                }
+            }
+            .animation(.spring(duration: 0.4), value: moving == nil)
+    }
+
+    /// The world map from the menu or the profile: Move house, the season, the other cats' homes.
+    private func worldMap(_ model: WorldMapModel) -> some View {
+        let state = GameSession.shared.state(at: GameSession.shared.now())
+        return WorldMapView(
+            model: model,
+            cost: state.moveCost,
+            canAfford: state.beans >= state.moveCost,
+            cancel: { moving = nil },
+            seasonChanged: { GameSession.shared.setSeason($0) },
+            onVisit: { GameSession.shared.saw("home.\($0)") }
+        ) { place, season, style in
+            GameSession.shared.placeHome(place, season: season, style: style)
+            moving = nil
+            restart()
+        }
+        .statusBarHidden()
     }
 
     /// The room and its controls.
@@ -941,21 +971,6 @@ struct RoomScreen: View {
                 GiftBookView(entries: CatScreens.book()) { showBook = false }
                     .zoomedSheet(hudScale, size: sheetSize)
             }
-            .fullScreenCover(item: $moving) { model in
-                let state = GameSession.shared.state(at: GameSession.shared.now())
-                WorldMapView(
-                    model: model,
-                    cost: state.moveCost,
-                    canAfford: state.beans >= state.moveCost,
-                    cancel: { moving = nil },
-                    seasonChanged: { GameSession.shared.setSeason($0) },
-                    onVisit: { GameSession.shared.saw("home.\($0)") }
-                ) { place, season, style in
-                    GameSession.shared.placeHome(place, season: season, style: style)
-                    moving = nil
-                    restart()
-                }
-            }
             .fullScreenCover(item: $editing) { model in
                 CatBuilderView(model: model, cancel: { editing = nil }) { model in
                     GameSession.shared.edit(look: model.look)
@@ -1412,6 +1427,8 @@ struct RoomScreen: View {
                 case "addwidget": await askForWidget()
                 case "together": showTogether = true
                 case "menu": showMenu = true
+                // The world map over the room, as the menu's Map opens it.
+                case "roommap": moving = WorldMapModel(mode: .world, current: GameSession.shared.state(at: GameSession.shared.now()))
                 case "goals": showGoals = true
                 case "profile": showProfile = true
                 case "editlook": editing = CatScreens.builder(mode: .edit)

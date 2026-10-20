@@ -36,10 +36,17 @@ final class PhoneLink: NSObject {
         guard session.activationState == .activated, let data = WatchMessages.encode(event) else { return }
         session.transferUserInfo([WatchMessages.event: data])
         if session.isReachable {
-            session.sendMessage([WatchMessages.event: data], replyHandler: { reply in
-                Self.keep(snapshot: reply[WatchMessages.snapshot] as? Data)
-            }, errorHandler: nil)
+            Self.sendLive(data)
         }
+    }
+
+    /// Straight to the iPhone. Its answer comes on WatchConnectivity's own queue, so the reply is not the main
+    /// actor's (a reply closure made in `send` was, and Swift stopped the app there: every Feed and Stroke with the
+    /// iPhone in reach crashed the Watch app, 20 Oct).
+    private nonisolated static func sendLive(_ data: Data) {
+        WCSession.default.sendMessage([WatchMessages.event: data], replyHandler: { reply in
+            keep(snapshot: reply[WatchMessages.snapshot] as? Data)
+        }, errorHandler: nil)
     }
 
     /// The iPhone's kit is `key`: fetch its files unless they are here.

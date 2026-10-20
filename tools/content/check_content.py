@@ -11,6 +11,11 @@ CONTENT = os.path.join(ROOT, 'Content')
 ASSETS = os.path.join(ROOT, 'assets')
 FILES = ['lines.json', 'catalogue.json', 'gifts.json', 'outfits.json', 'objectives.json', 'seasons.json',
          'minigames.json']
+# The rest of Content/: checked for valid JSON and their words (check_other_files).
+OTHER_FILES = ['arcade.json', 'bundles.json', 'catapult_levels.json', 'credits_sounds.json', 'events.json',
+               'intro.json', 'levels.json', 'match_levels.json', 'names.json', 'outdoors.json', 'pawcross.json',
+               'weather.json']
+NOT_OURS = {'credits_sounds.json'}   # the sounds' own titles, authors and licences, as their makers wrote them
 
 errors, warnings = [], []
 
@@ -29,13 +34,20 @@ AMERICAN = [
     r'\bmommy', r'apartments?', r'cookies?\b', r'sweaters?', r'vacation', r'\byards?\b', r'flashlights?',
     r'pajamas?', r'\bcozy', r'cozier', r'\bcenter', r'theater', r'\bhonor', r'neighbor\b', r'neighbors',
     r'behavior', r'\bhumor', r'flavor', r'\bfavor\b', r'\bfavors\b', r'\blabor\b', r'\brumor', r'\bmold\b',
-    r'\bpants\b', r'\btrash\b', r'garbage', r'diaper', r'elevator', r'sidewalk', r'\bcandy\b(?! cane)',
+    r'\bpants\b', r'\btrash\b', r'garbage', r'diaper', r'elevator', r'sidewalk', r'\bcandy\b(?! canes?\b)',
     r'\bmath\b', r'faucet', r'\bcloset', r'airplane', r'aluminum', r'\bcatalog\b', r'jewelry', r'\bgotten\b',
     r'traveling', r'traveled', r'canceled', r'\bplow', r'\bcheckers?\b', r'\bmustache', r'\bfall\b(?= (?:is|has|season))',
     r'\b(?:this|last|next|in the|in) fall\b', r'\bvest\b', r'\bstroller', r'\bcell ?phone', r'\bsoccer',
-    r'\btoward\b', r'\bpacifier', r'\bpuke\b', r'\bjello\b', r'\bfries\b'
+    r'\btoward\b', r'\bpacifier', r'\bpuke\b', r'\bjello\b', r'\bfries\b',
+    # the rest of ContentValidationTests.americanisms ("candy cane" is British too: a gift and a Midwinter piece)
+    r'\bcolorful', r'\bzucchini', r'\beggplant', r'\bparking lot'
 ]
-IZE_OK = {'size', 'sizes', 'sized', 'prize', 'prizes', 'seize', 'seized', 'capsize', 'maize', 'baize', 'citizen'}
+IZE_OK = {'size', 'sizes', 'sized', 'prize', 'prizes', 'seize', 'seized', 'capsize', 'maize', 'baize', 'citizen',
+          'resize'}
+# No alcohol anywhere (Josh, 18 Oct; rated 4+): ContentValidationTests.alcohol.
+ALCOHOL = [r'\bwines?\b', r'\bchampagne', r'\bprosecco', r'\bbubbly\b', r'\bbeers?\b', r'\blager', r'\bcider\b',
+           r'\bgin\b', r'\brum\b', r'\bvodka', r'\bwhiske?y', r'\bbrandy', r'\bsherry', r'\bbooz', r'\bpubs?\b',
+           r'\bcocktails?\b', r'\bdrunk\b', r'\btipsy', r'\bhangover', r'\bmulled', r'\beggnog']
 META = [r'\bapps?\b', r'\btap\b', r'\btapping\b', r'\bscreens?\b', r'\bbuttons?\b', r'level up', r'\bclick',
         r'\bnotifications?\b', r'\bdownload', r'\bsubscri', r'\bwidget\b', r'\biphone', r'\bipad']
 MONEY = [r'\bmoney\b', r'\bbuy', r'\bbought\b', r'\bpurchas', r'\bshop', r'\bprices?\b', r'\bpay\b', r'\bpaid\b',
@@ -78,6 +90,8 @@ def british(text, where):
             err(f"{where}: -ize spelling {w!r} in {text!r}")
     if EMOJI.search(text):
         err(f"{where}: emoji in {text!r}")
+    for p in hits(ALCOHOL, text):
+        err(f"{where}: alcohol /{p}/ in {text!r}")
 
 
 def line_rules(text, where, ctx=None, meta=True, money=True):
@@ -231,6 +245,7 @@ AFF = {'sit', 'sleep', 'hide', 'perch', 'scratch', 'eat', 'watch', 'bat', 'none'
 POSES = {None, 'sit_side', 'sit_tqfront', 'sit_front', 'sit_back', 'loaf_side', 'loaf_tqfront', 'sleep_curl',
          'stretch_side'}
 FX_NAMES = {'fire', 'steam', 'candle', 'smoke', 'water_trickle', 'water_ripple', 'butterfly', 'robin', 'reactions'}
+CAT_USES = {'on', 'inside', 'front', 'floor', 'beside'}   # Content.swift CatalogueFile.Item.CatUse
 
 
 def check_catalogue(d, manifest, outfits):
@@ -254,7 +269,7 @@ def check_catalogue(d, manifest, outfits):
                  'pool', 'level', 'beans', 'sku', 'description', 'catPose', 'sprites', 'suggestedScale', 'fx']
     for i in d['items']:
         w = f"{f} item {i['id']}"
-        keys_exact(i, item_keys, w)
+        keys_within(i, item_keys, ['catUse', 'rim'], w)
         mv = [v for k, v in manifest.items() if v.get('class') == 'furniture' and f"{v['room']}_{v['item']}" == i['id']]
         if mv and i['room'] != mv[0]['room']:
             err(f"{w}: room {i['room']!r} != manifest {mv[0]['room']!r}")
@@ -294,6 +309,27 @@ def check_catalogue(d, manifest, outfits):
             err(f"{w}: bad catPose {i['catPose']!r}")
         if i['catPose'] is not None and aff == ['none']:
             err(f"{w}: catPose on an item with no affordance")
+        # Where the cat goes to use it (§2), and for one it gets into, the front rim it is drawn behind, per facing.
+        use = i.get('catUse')
+        if use is not None:
+            if use not in CAT_USES:
+                err(f"{w}: bad catUse {use!r}")
+            if aff == ['none']:
+                err(f"{w}: catUse on an item with no affordance")
+            if use in ('floor', 'inside') and i['layer'] != 'floor':
+                err(f"{w}: catUse {use} on a {i['layer']} item")
+        rim = i.get('rim')
+        if (use == 'inside') != (rim is not None):
+            err(f"{w}: a rim is for catUse inside, and inside needs one")
+        elif rim is not None:
+            if set(rim) != set(i['sprites']):
+                err(f"{w}: rim facings {sorted(rim)} != sprite facings {sorted(i['sprites'])}")
+            for face, pts in rim.items():
+                ok = isinstance(pts, list) and len(pts) >= 2 and all(
+                    isinstance(p, list) and len(p) == 2 and all(isinstance(c, (int, float)) and 0 <= c <= 1 for c in p)
+                    for p in pts)
+                if not ok or any(a[0] >= b[0] for a, b in zip(pts, pts[1:])):
+                    err(f"{w}: rim {face} is not points left to right in the sprite (fractions 0-1): {pts}")
         if not isinstance(i['level'], int) or i['level'] < 1:
             err(f"{w}: bad level")
         pool = i['pool']
@@ -492,9 +528,16 @@ def check_outfits(d, manifest):
            sorted(['streak_30', 'streak_100', 'referral', 'launch_event']), 'earnedBy')
     for o in d['outfits']:
         w = f"{f} {o['id']}"
-        keys_exact(o, ['id', 'name', 'slot', 'views', 'pool', 'sku', 'earnedBy', 'months', 'sprites'], w)
+        keys_within(o, ['id', 'name', 'slot', 'views', 'pool', 'sku', 'earnedBy', 'months', 'sprites'], ['fit'], w)
         if o['slot'] not in ('head', 'neck', 'body'):
             err(f"{w}: bad slot")
+        # How wide a hat or neckwear is worn against the head or neck (OutfitFit); body garments are painted to size.
+        fit = o.get('fit')
+        if fit is not None:
+            if o['slot'] == 'body':
+                err(f"{w}: fit on a body garment")
+            elif isinstance(fit, bool) or not isinstance(fit, (int, float)) or not 0 < fit <= 2:
+                err(f"{w}: fit {fit!r} is not a width from 0 to 2 times the head or neck")
         if len(o['name']) > 24:
             err(f"{w}: name over 24")
         british(o['name'], w)
@@ -835,6 +878,36 @@ def check_minigames(d):
         british(g['rules'], w)
 
 
+def prose(x, where):
+    """The words a player reads in a file: strings with a space in them (ids and names have none), not the notes."""
+    if isinstance(x, str):
+        if ' ' in x.strip():
+            yield where, x
+    elif isinstance(x, dict):
+        for k, v in x.items():
+            if k != 'note':
+                yield from prose(v, f"{where}.{k}")
+    elif isinstance(x, list):
+        for n, v in enumerate(x):
+            yield from prose(v, f"{where}[{n}]")
+
+
+def check_other_files():
+    for f in sorted(os.listdir(CONTENT)):
+        if f.endswith('.json') and f not in FILES and f not in OTHER_FILES:
+            warn(f"{f}: a Content file the checker does not know (add it to FILES or OTHER_FILES)")
+    for f in OTHER_FILES:
+        try:
+            with open(os.path.join(CONTENT, f), encoding='utf-8') as fh:
+                d = json.load(fh)
+        except Exception as e:  # noqa: BLE001
+            err(f"{f}: not valid JSON or missing ({e})")
+            continue
+        if f not in NOT_OURS:
+            for where, text in prose(d, f):
+                british(text, where)
+
+
 def main():
     manifest = json.load(open(os.path.join(ASSETS, 'manifest.json')))['files']
     data = load()
@@ -849,6 +922,7 @@ def main():
     check_path(data['objectives.json'], items, outfits)
     check_seasons(data['seasons.json'], items, surfaces, outfits)
     check_minigames(data['minigames.json'])
+    check_other_files()
     report((n_ctx, n_entries, n_lines, len(items), len(surfaces)))
 
 

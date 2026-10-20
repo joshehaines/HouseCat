@@ -637,7 +637,8 @@ struct WorldMapView: View {
                 Text("\(stop.cat.name)'s \(Self.homeWord(stop.home))").font(Theme.title(22)).lineLimit(1)
                 HStack(spacing: 10) {
                     Label("\(stop.place), \(stop.country)", systemImage: "mappin.and.ellipse")
-                    Label(Self.weatherName(stop.weather), systemImage: Self.weatherIcon(stop.weather))
+                    let sky = stop.sky(at: Date())
+                    Label(Self.weatherName(stop.weather, sky: sky), systemImage: Self.weatherIcon(stop.weather, sky: sky))
                     if let zone = TimeZone(identifier: stop.timeZone) {
                         Label(
                             "\(Date().formatted(Date.FormatStyle(date: .omitted, time: .shortened, timeZone: zone))) there",
@@ -1113,9 +1114,11 @@ struct WorldMapView: View {
         }
     }
 
-    static func weatherName(_ weather: Weather) -> String {
+    /// The weather's name at the home's sky now: clear weather is only "Sunny" by day (Josh, 20 Oct: Bali at 2:57 said
+    /// "Sunny").
+    static func weatherName(_ weather: Weather, sky: SkyPhase = .day) -> String {
         switch weather {
-        case .sun: "Sunny"
+        case .sun: sky == .day ? "Sunny" : "Clear"
         case .cloud: "Cloudy"
         case .rain: "Raining"
         case .storm: "Stormy"
@@ -1126,9 +1129,15 @@ struct WorldMapView: View {
         }
     }
 
-    static func weatherIcon(_ weather: Weather) -> String {
+    static func weatherIcon(_ weather: Weather, sky: SkyPhase = .day) -> String {
         switch weather {
-        case .sun: "sun.max"
+        case .sun:
+            switch sky {
+            case .dawn: "sunrise"
+            case .day: "sun.max"
+            case .dusk: "sunset"
+            case .night: "moon.stars"
+            }
         case .cloud: "cloud"
         case .rain: "cloud.rain"
         case .storm: "cloud.bolt.rain"

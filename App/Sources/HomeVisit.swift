@@ -79,7 +79,8 @@ struct HomeVisitView: View {
             Text("\(stop.cat.name)'s \(WorldMapView.homeWord(stop.home)) in \(stop.place)").font(Theme.title(22))
             HStack(spacing: 10) {
                 Label(stop.country, systemImage: "mappin.and.ellipse")
-                Label(WorldMapView.weatherName(stop.weather), systemImage: WorldMapView.weatherIcon(stop.weather))
+                let sky = stop.sky(at: Date())
+                Label(WorldMapView.weatherName(stop.weather, sky: sky), systemImage: WorldMapView.weatherIcon(stop.weather, sky: sky))
                 if let zone = TimeZone(identifier: stop.timeZone) {
                     Label("\(Date().formatted(Date.FormatStyle(date: .omitted, time: .shortened, timeZone: zone))) there", systemImage: "clock")
                 }

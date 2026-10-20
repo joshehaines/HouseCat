@@ -156,7 +156,7 @@ The Apple Watch app and widgets show the cat, its mood and the streak; the Watch
 - **RevenueCat**: set `RevenueCatAPIKey` or leave it empty. The app uses StoreKit 2 directly without it. The privacy policy and the App Privacy answers must match the choice.
 - **PostHog analytics**: same choice. Empty means no analytics and no switch in Settings.
 - **Season dates**: seasons run back to back on `SeasonCalendar` and the pass is always on: Black Cat 5 Oct to 1 Nov 2026 (so TestFlight and App Review see the pass), Housewarming 2 Nov to 30 Nov (the launch season; the launch events still count from 2 Nov, `launchAt` in `Content/seasons.json`), Midwinter every December, First Light to 25 Jan 2027. After that, seasons run again until the 2027 seasons (CONTENT.md §7) are painted.
-- **Premium pass price**: £2.99 a season, the same as a month of Cat Club, which includes it. Raising Cat Club's monthly price would make the pass the clearer buy.
+- **Premium pass price**: £2.99 a season (Josh approved it on 20 Oct), the same as a month of Cat Club, which includes it.
 - **Mac menu-bar cat**: leave it out of 1.0. It has no App Sandbox and can't reach the iPhone's cat, so review would reject it under minimum functionality. To ship it later, it needs the sandbox, the App Group and a privacy manifest.
 - **Co-owning**: left out of 1.0 and planned for 1.1. Leave, Stop sharing, Hide and Report are built (19 Oct). Co-owner names go through the name filter. To ship it, it needs the iCloud container on the App ID, `HouseCatCloudKit` set to true and two-phone testing (CLAUDE.md, "To switch sharing on"). The website and App Store Connect lines it needs are in `sharing-1.1.md`.
 

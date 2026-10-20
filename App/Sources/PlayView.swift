@@ -152,7 +152,8 @@ struct MiniGameView: View {
     var body: some View {
         ZStack {
             if let scene {
-                SpriteView(scene: scene, options: [.ignoresSiblingOrder])
+                // Its own SpriteView per play, so Again shows the new game (HouseCatUI `GameSceneView`).
+                GameSceneView(scene: scene)
                     .ignoresSafeArea()
             } else {
                 Theme.paper.ignoresSafeArea()
@@ -228,6 +229,7 @@ struct MiniGameView: View {
                 .scaleEffect(hurry ? 1.15 : 1)
                 .animation(.spring(duration: 0.25), value: left)
                 .frame(minWidth: 34)
+                .accessibilityIdentifier("game.clock")
             HStack(spacing: 6) {
                 Text("\(Int(progress.score))").font(.system(size: 22, weight: .heavy, design: .rounded))
                     .monospacedDigit()

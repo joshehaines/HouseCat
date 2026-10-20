@@ -161,7 +161,7 @@ struct CatapultPlay: View {
     var body: some View {
         ZStack {
             if let scene {
-                SpriteView(scene: scene, options: [.ignoresSiblingOrder]).ignoresSafeArea()
+                GameSceneView(scene: scene).ignoresSafeArea()
             } else {
                 GamesPaper()
             }

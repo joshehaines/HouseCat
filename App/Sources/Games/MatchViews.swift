@@ -113,7 +113,7 @@ struct MatchPlay: View {
                     side
                         .frame(width: 290)
                     if let scene {
-                        SpriteView(scene: scene, options: [.allowsTransparency, .ignoresSiblingOrder])
+                        GameSceneView(scene: scene, options: [.allowsTransparency, .ignoresSiblingOrder])
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
                 }

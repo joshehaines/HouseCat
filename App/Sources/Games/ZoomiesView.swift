@@ -24,7 +24,8 @@ struct ZoomiesView: View {
     var body: some View {
         ZStack {
             if let scene {
-                SpriteView(scene: scene, options: [.ignoresSiblingOrder]).ignoresSafeArea()
+                // Its own SpriteView per run, so Run again shows the new run (HouseCatUI `GameSceneView`).
+                GameSceneView(scene: scene).ignoresSafeArea()
             } else {
                 GamesPaper()
             }
@@ -66,6 +67,7 @@ struct ZoomiesView: View {
                 Divider().frame(height: 24)
                 Text(progress.score.formatted()).font(Theme.title(21)).monospacedDigit()
                     .contentTransition(.numericText()).animation(.spring(duration: 0.25), value: progress.score)
+                    .accessibilityIdentifier("zoomies.score")
                 let best = GameSession.shared.arcade.best[ArcadeGame.zoomies.rawValue] ?? 0
                 if best > 0 {
                     Text("best \(best.formatted())").font(.caption.weight(.semibold)).foregroundStyle(Theme.inkSoft)

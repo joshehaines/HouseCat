@@ -869,27 +869,35 @@ struct ShopView: View {
             feedback.tap()
             withAnimation(.easeOut(duration: 0.2)) { section = .club }
         } label: {
-            HStack(spacing: 6 * s) {
-                artView(["ui/shop/shop_club.png"])
-                    .frame(width: 104 * s)
-                    .padding(.leading, 8 * s)
-                    .padding(.vertical, 8 * s)
-                VStack(alignment: .leading, spacing: 3 * s) {
-                    HStack(spacing: 4 * s) {
-                        Text("Cat Club").font(Theme.title(17 * s))
-                        PaintedIcon("crown", size: 20 * s)
+            // Beside the pass and the starter the column is narrow (a phone, an upright iPad): a smaller cat and a
+            // shorter line, so nothing is cut short.
+            GeometryReader { space in
+                let narrow = space.size.width < 330 * s
+                HStack(spacing: 6 * s) {
+                    artView(["ui/shop/shop_club.png"])
+                        .frame(width: (narrow ? 80 : 104) * s)
+                        .padding(.leading, 8 * s)
+                        .padding(.vertical, 8 * s)
+                    VStack(alignment: .leading, spacing: 3 * s) {
+                        HStack(spacing: 4 * s) {
+                            Text("Cat Club").font(Theme.title(17 * s)).lineLimit(1).minimumScaleFactor(0.8)
+                            PaintedIcon("crown", size: 20 * s)
+                        }
+                        Text(owned.hasClub ? "You're a member: every perk is on." : narrow ? "+20% Beans and every premium track." : clubSummary)
+                            .font(font(11.5)).foregroundStyle(Theme.inkSoft)
+                            .lineLimit(3)
+                            .minimumScaleFactor(0.85)
+                            .fixedSize(horizontal: false, vertical: true)
+                        Text(owned.hasClub ? "Your membership  ›" : "See Cat Club  ›").font(font(13, .heavy, rounded: true)).foregroundStyle(Self.rust)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.75)
+                            .padding(.top, 2 * s)
                     }
-                    Text(owned.hasClub ? "You're a member: every perk is on." : pass == nil ? clubSummary : "+20% Beans, rooms for half and every premium track.")
-                        .font(font(11.5)).foregroundStyle(Theme.inkSoft)
-                        .lineLimit(3)
-                        .minimumScaleFactor(0.85)
-                        .fixedSize(horizontal: false, vertical: true)
-                    Text(owned.hasClub ? "Your membership  ›" : "See Cat Club  ›").font(font(13, .heavy, rounded: true)).foregroundStyle(Self.rust)
-                        .padding(.top, 2 * s)
+                    .padding(.vertical, 8 * s)
+                    .padding(.trailing, 10 * s)
+                    Spacer(minLength: 0)
                 }
-                .padding(.vertical, 8 * s)
-                .padding(.trailing, 10 * s)
-                Spacer(minLength: 0)
+                .frame(maxHeight: .infinity)
             }
             .goldTile(s, fill: Self.butter)
         }

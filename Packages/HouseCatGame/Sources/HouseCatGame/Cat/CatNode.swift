@@ -1452,6 +1452,12 @@ public final class CatNode: SKNode {
         guard let frames = filmFrames[key], let film = catArt.film(body: look.body, view: view.rawValue, gait: name) else {
             return nil
         }
+        // A hat, glasses or neckwear needs the face found in most of the film's frames (the long-haired chunky cat
+        // walks side-on with its face turned away: the face found in one frame of fourteen fitted its hat to that one,
+        // tiny), else the puppet walks with it on.
+        if let outfit, OutfitFit.kind(outfit) != nil, filmFaceShare(key, film: film, view: view, catArt: catArt) < Tuning.Outfits.filmFaces {
+            return nil
+        }
         // Swapped ears or a bobtail need the film's own followed (else the puppet walks).
         let points = film.points ?? [:]
         if look.ears != "own", points["ear_near_base"] == nil, points["ear_far_base"] == nil {
@@ -1559,6 +1565,21 @@ public final class CatNode: SKNode {
             puppets[view]?.isHidden = false
         }
     }
+
+    /// The share of a film's frames that show the cat's face (both eyes at three-quarters, one side-on); counted once.
+    private func filmFaceShare(_ key: String, film: CatArt.Film, view: View, catArt: CatArt) -> Double {
+        let id = "\(body)/\(key)"
+        if let known = Self.faceShares[id] {
+            return known
+        }
+        let eyes = view == .side ? 1 : 2
+        let found = film.frames.filter { (catArt.face($0)?.eyes.count ?? 0) >= eyes }.count
+        let share = Double(found) / Double(max(1, film.frames.count))
+        Self.faceShares[id] = share
+        return share
+    }
+
+    private static var faceShares: [String: Double] = [:]
 
     /// The face in a film's frame, for fitting outfits: its own, or where the cat blinks (its eyes shut, so no face
     /// is found and the head was measured as if from behind: a hat three times too big for a frame, Josh's "dont fit at

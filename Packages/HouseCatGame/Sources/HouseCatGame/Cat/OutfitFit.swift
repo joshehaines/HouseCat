@@ -278,15 +278,17 @@ public enum OutfitFit {
         }
     }
 
-    /// The eyes in pixels; side-on only the near one (the far one peeking past the nose is closer to it).
+    /// The eyes in pixels; side-on with the far eye peeking past the nose (the two close together for the head's
+    /// width), only the near one. A side head that looks round at you (the Persian's) keeps both.
     static func profileEyes(_ face: CatFace, view: String?) -> [CGPoint] {
         let w = face.size.width, h = face.size.height
         let eyes = face.eyes.map { CGPoint(x: $0.x * w, y: $0.y * h) }
-        guard view == "side", eyes.count >= 2 else { return eyes }
+        guard view == "side", eyes.count >= 2, let width = face.head.map({ ($0.right - $0.left) * w }),
+              hypot(eyes[1].x - eyes[0].x, eyes[1].y - eyes[0].y) < width * CGFloat(Tuning.Outfits.profileEyeSpan) else { return eyes }
         if let nose = face.nose.map({ CGPoint(x: $0.x * w, y: $0.y * h) }) {
             return eyes.max { hypot($0.x - nose.x, $0.y - nose.y) < hypot($1.x - nose.x, $1.y - nose.y) }.map { [$0] } ?? eyes
         }
-        guard let head = face.head else { return [eyes[0]] }
+        guard let head = face.head else { return eyes }
         // No nose: the near eye is the one further in from the head's edges.
         return eyes.max { a, b in
             min(a.x - head.left * w, head.right * w - a.x) < min(b.x - head.left * w, head.right * w - b.x)

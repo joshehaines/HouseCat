@@ -1260,7 +1260,10 @@ public enum Tuning {
         public static let earCoverWidth = 1.1
         /// Side-on, a hat the ears go under sits on the skull, at most this many head lengths above the eye (the
         /// ear-less profile heads measure 0.41 to 0.52; straight up from the head's middle is an ear's tip).
-        public static let profileSkull = 0.5
+        public static let profileSkull = 0.42
+        /// A walk or run film carries a hat, glasses or neckwear only if this share of its frames show the face (else
+        /// the puppet walks in it): the others borrow the nearest frame's.
+        public static let filmFaces = 0.5
     }
 
     public enum House {

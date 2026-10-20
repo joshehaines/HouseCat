@@ -110,6 +110,30 @@ struct CatEarsTests {
         #expect(OutfitFit.tallEars(oriental) && !OutfitFit.tallEars(oriental, wearing: beanie))
     }
 
+    /// A walk film that hides the cat's face (the long-haired chunky cat walks side-on with it turned away) cannot
+    /// carry a hat, so in one the puppet walks; with nothing on its head, or where the film shows the face, the film.
+    @Test func aFilmThatHidesTheFaceLeavesTheHatToThePuppet() throws {
+        let content = try ContentBundle.load(from: repo.appendingPathComponent("Content"))
+        let beanie = try #require(content.outfits.outfits.first { $0.id == "beanie" })
+        for (body, filmsTheHat) in [("long_chunky", false), ("short_slim", true)] {
+            let cat = CatNode(art: art, rig: rig, catArt: catArt, look: catArt.builder.normalized(CatLook(body: body)), height: 150)
+            let scene = SKScene(size: CGSize(width: 400, height: 300))
+            scene.addChild(cat)
+            cat.loadFilmsNow()
+            cat.show(.side, facingRight: false)
+            cat.walk()
+            cat.step(1.0 / 30)
+            #expect(cat.isFilming, "\(body): the film with nothing on")
+            cat.stopCycle()
+            cat.wear(beanie)
+            cat.walk()
+            cat.step(1.0 / 30)
+            #expect(cat.isFilming == filmsTheHat, "\(body) in a beanie")
+            #expect(cat.drawingsOnShow == 1)
+            cat.stopCycle()
+        }
+    }
+
     /// The still pictures (the plaque, the profile, the widget's poses): above a covering hat's rim the cat is cleared,
     /// so fewer of its pixels show there than with the ears left out.
     @Test(arguments: ["short_slim", "siamese", "mainecoon"])

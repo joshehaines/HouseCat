@@ -63,9 +63,10 @@ struct PassView: View {
                     .padding(.vertical, 10 * s)
                     .padding(.leading, lead)
                     .overlay(alignment: .topLeading) {
-                        // Over the hero's corner (it hung half off a 13-inch iPad on its side).
+                        // Over the hero's corner, at least 4 points inside the screen's top (it hung half off a 13-inch
+                        // iPad on its side, and poked over an iPhone's top edge).
                         CloseButton(action: close).scaleEffect(s * 0.9)
-                            .offset(x: lead - 14 * s, y: grow > 0 ? max(-2 * s, grow + 4 - insets.top) : -2 * s)
+                            .offset(x: lead - 14 * s, y: max(-2 * s, grow + 4 - insets.top))
                     }
                     if showPremium {
                         premiumPanel(info, s: s, insets: insets)

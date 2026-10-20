@@ -56,7 +56,7 @@ struct PurrfectMatchTests {
         #expect(!game.canSwap(MatchPoint(0, 0), MatchPoint(1, 0)))
         #expect(game.swap(MatchPoint(0, 0), MatchPoint(1, 0)).isEmpty)
         #expect(!game.canSwap(MatchPoint(0, 0), MatchPoint(2, 0)))
-        #expect(game.movesLeft == 10)
+        #expect(game.movesLeft == 10 + Tuning.Arcade.Match.spareMoves)
         #expect(game.piece(at: MatchPoint(0, 0))?.kind == .yarn)
     }
 
@@ -67,7 +67,7 @@ struct PurrfectMatchTests {
         #expect(Set(first.cleared.keys) == [MatchPoint(0, 4), MatchPoint(1, 4), MatchPoint(2, 4)])
         #expect(first.made.isEmpty)
         #expect(game.collected[.fish, default: 0] >= 3)
-        #expect(game.movesLeft == 9)
+        #expect(game.movesLeft == 9 + Tuning.Arcade.Match.spareMoves)
         // Each of the three columns drops one: four falls a column (the swapped yarn included) and one new piece.
         #expect(first.falls.count == 12)
         #expect(first.spawned.count == 3)
@@ -165,14 +165,14 @@ struct PurrfectMatchTests {
         #expect(game.stars == 0)
         game.swap(MatchPoint(2, 3), MatchPoint(2, 4))
         #expect(game.goalsMet && game.isOver)
-        // 9 moves left at 60 each on top of what the move scored.
-        #expect(game.score >= 30 + 9 * 60)
+        // 9 moves left (and the spare ones) at 60 each on top of what the move scored.
+        #expect(game.score >= 30 + (9 + Tuning.Arcade.Match.spareMoves) * 60)
         #expect(game.stars == 3)
         // Nothing more can be played.
         #expect(game.swap(MatchPoint(0, 0), MatchPoint(0, 1)).isEmpty)
-        // Out of moves with the goals unmet: no stars.
+        // Out of moves with the goals unmet: no stars (a level of one move in all, the spare ones counted).
         var short = Self.game(["y m b c e", "m b c e y", "b c e y m", "c e f m b", "f f y c e"],
-                              level: Self.level(moves: 1, goals: ["collect:fish:30"]))
+                              level: Self.level(moves: 1 - Tuning.Arcade.Match.spareMoves, goals: ["collect:fish:30"]))
         short.swap(MatchPoint(2, 3), MatchPoint(2, 4))
         #expect(short.isOver && !short.goalsMet && short.stars == 0)
     }

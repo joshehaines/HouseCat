@@ -1572,6 +1572,9 @@ public extension Tuning {
         /// Purrfect Match's score: each piece cleared (a special made or set off counts as `specialWorth` pieces),
         /// times the cascade up to `cascadeCap`; each move left when the goals are met.
         public enum Match {
+            /// Moves every level gives on top of its own (Josh, 20 Oct: "lets make the levels slightly easier on the
+            /// games"): more room to meet the goals, and each one left at the end scores `pointsPerMoveLeft`.
+            public static let spareMoves = 2
             public static let pointsPerPiece = 10
             public static let specialWorth = 5
             public static let cascadeCap = 5
@@ -1588,12 +1591,15 @@ public extension Tuning {
         /// till the finger lifts); the cat's half length and the things' lengths along the run; catnip draws biscuits
         /// from any lane within `magnetReach`; a mouse is caught on the ground. The home changes every `zoneLength`
         /// (hall, kitchen, garden, street, round again). Harder stretches come in from `tierTwoFrom` and
-        /// `tierThreeFrom`. Score: a metre is a point, a biscuit and a mouse more; stars at `stars`.
+        /// `tierThreeFrom`. Score: a metre is a point, a biscuit and a mouse more; stars at `stars`. Eased on 20 Oct
+        /// (Josh: "lets make the levels slightly easier on the games"): the cat gathers speed a fifth slower (0.1 a
+        /// second before), the harder stretches come 100 and 300 metres later, and the stars are a fifth lower (500,
+        /// 1,500 and 3,000 before).
         public enum Zoomies {
             public static let lanes = 3
             public static let startSpeed = 7.0
             public static let topSpeed = 12.0
-            public static let speedGain = 0.1
+            public static let speedGain = 0.08
             public static let laneSeconds = 0.16
             public static let jumpSeconds = 0.62
             public static let jumpHeight = 1.2
@@ -1613,11 +1619,11 @@ public extension Tuning {
             public static let zoneLength = 400.0
             public static let runUp = 20.0
             public static let lookAhead = 120.0
-            public static let tierTwoFrom = 300.0
-            public static let tierThreeFrom = 900.0
+            public static let tierTwoFrom = 400.0
+            public static let tierThreeFrom = 1200.0
             public static let biscuitPoints = 5
             public static let mousePoints = 50
-            public static let stars = [500, 1500, 3000]
+            public static let stars = [400, 1200, 2400]
             /// Drawn (ZoomiesScene): this many metres across the screen; the cat's feet this far in from the left;
             /// the back and front lanes' floor lines as shares of the height (the backdrop's floor is its lower 45%),
             /// things at the back drawn this much smaller; the cat this share of the height tall, a jump this share
@@ -1677,6 +1683,9 @@ public extension Tuning {
             public static let restSeconds = 0.6
             public static let longestPounce = 8.0
             public static let levelsPerPlace = 10
+            /// Pounces every level gives on top of its own (Josh, 20 Oct: "lets make the levels slightly easier on
+            /// the games"); the stars still count from the level's par, so one spare is room to miss, not a free star.
+            public static let sparePounces = 1
             /// On the ground the cat keeps this much of its speed each step (it skids to a stop in a moment).
             public static let landingGrip = 0.82
             /// A level settles this long (at most) when it is set up, so it starts at rest; and while no pounce is on
@@ -1688,7 +1697,7 @@ public extension Tuning {
             /// the finger pulls back from wherever it first touches (the cat sits near the screen's edge, with no room
             /// to pull back from it), a full pull `pullMetres` or `pullShare` of the screen's height, whichever is
             /// less; less than `leastPull` puts the cat down again; the dots show the first `aimDots` steps of
-            /// `aimDotSeconds` of the arc.
+            /// `aimDotSeconds` of the arc (16 since 20 Oct, 12 before: more of the arc to aim by).
             public static let frameLeft = 2.0
             public static let frameMargin = 0.9
             public static let frameHeadroom = 1.4
@@ -1698,7 +1707,7 @@ public extension Tuning {
             public static let pullMetres = 2.2
             public static let pullShare = 0.4
             public static let leastPull = 0.12
-            public static let aimDots = 12
+            public static let aimDots = 16
             public static let aimDotSeconds = 0.06
         }
 

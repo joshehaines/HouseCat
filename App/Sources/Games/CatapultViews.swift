@@ -170,7 +170,7 @@ struct CatapultPlay: View {
                 VStack {
                     hud
                     Spacer()
-                    if hint, progress.pouncesLeft == level.pounces, finished == nil {
+                    if hint, progress.pouncesLeft == level.pouncesGiven, finished == nil {
                         Text("Drag back anywhere, aim, and let go")
                             .font(.system(size: 15, weight: .bold)).foregroundStyle(.white)
                             .padding(.horizontal, 16).padding(.vertical, 8)
@@ -209,7 +209,7 @@ struct CatapultPlay: View {
             .padding(.vertical, 5)
             .paper(Capsule())
             HStack(spacing: 4) {
-                ForEach(0 ..< level.pounces, id: \.self) { index in
+                ForEach(0 ..< level.pouncesGiven, id: \.self) { index in
                     pounceToken(used: index >= progress.pouncesLeft)
                 }
                 Text("pounces").font(.caption.weight(.semibold)).foregroundStyle(Theme.inkSoft).padding(.leading, 2)
@@ -303,7 +303,7 @@ struct CatapultPlay: View {
         #if DEBUG
             made.autoplay = ProcessInfo.processInfo.environment["HOUSECAT_AUTOPLAY"] != nil
         #endif
-        progress = CatapultScene.Progress(knocked: 0, mice: level.mice.count, pouncesLeft: level.pounces, flying: false)
+        progress = CatapultScene.Progress(knocked: 0, mice: level.mice.count, pouncesLeft: level.pouncesGiven, flying: false)
         scene = made
     }
 }

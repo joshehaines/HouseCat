@@ -167,7 +167,8 @@ public struct MatchGame: Sendable {
         width = level.width
         height = level.height
         goals = level.parsedGoals
-        movesLeft = level.moves
+        // The level's moves and a couple spare (Josh, 20 Oct: "slightly easier").
+        movesLeft = level.moves + Tuning.Arcade.Match.spareMoves
         self.seed = seed
         kinds = Array(MatchKind.allCases.prefix(min(max(level.kinds, 3), MatchKind.allCases.count)))
         let count = level.width * level.height

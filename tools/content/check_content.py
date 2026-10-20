@@ -871,8 +871,8 @@ def check_minigames(d):
     expect(d['starBeans'], [2, 4, 6], 'star Beans')
     expect(d['passPointsPerPlay'], 5, 'pass points per play')
     unique([g['id'] for g in d['games']], f)
-    want = {'laser_pointer': (20, [30, 80, 150]), 'knock_it_off': (20, [25, 60, 120]), 'string_chase': (20, [5, 25, 70]),
-            'hide_and_seek': (20, [5, 40, 100])}
+    want = {'laser_pointer': (20, [25, 65, 140]), 'knock_it_off': (20, [20, 50, 110]), 'string_chase': (20, [5, 20, 60]),
+            'hide_and_seek': (20, [5, 30, 90])}
     expect({g['id'] for g in d['games']}, set(want), 'mini-games')
     for g in d['games']:
         w = f"{f} {g['id']}"

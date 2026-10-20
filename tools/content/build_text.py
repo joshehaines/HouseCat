@@ -1959,26 +1959,26 @@ MINIGAMES = {
     "games": [
         {"id": "laser_pointer", "name": "Laser Pointer", "durationSeconds": 20,
          "score": "points: each catch scores its combo, twice over when the pounce lands right on the dot",
-         "stars": [30, 80, 150],
+         "stars": [25, 65, 140],
          "rules": "Drag the dot and the cat chases it; close up, it crouches and pounces. Hold the dot still and "
                   "it lands on it: a catch. Catches in a row build a combo, the dot turns golden twice a game, and "
                   "catnip on the floor gives the cat the zoomies. Personality changes chase speed and lines only."},
         {"id": "knock_it_off", "name": "Knock It Off", "durationSeconds": 20,
          "score": "points: each thing knocked off scores its combo",
-         "stars": [25, 60, 120],
+         "stars": [20, 50, 110],
          "rules": "The cat walks the mantel; tap and it swipes off whatever is in front of it. Things keep "
                   "arriving, faster as the game goes on; hits in a row build a combo and quicken the cat, a swipe at "
                   "nothing breaks it. Golden things score three times over; the catnip fish gives a longer reach. "
                   "Personality changes the cat's pace and lines only."},
         {"id": "string_chase", "name": "String Chase", "durationSeconds": 20,
          "score": "points: each sparkle collected scores its combo",
-         "stars": [5, 25, 70],
+         "stars": [5, 20, 60],
          "rules": "Draw a string with one finger and the cat runs along it. Sparkles keep appearing and fade after "
                   "a few seconds; collect them quickly to build a combo. Golden sparkles score three times over; "
                   "catnip gives the cat the zoomies. Personality changes chase speed and lines only."},
         {"id": "hide_and_seek", "name": "Hide and Seek", "durationSeconds": 20,
          "score": "points: each find scores its combo, twice over when quick",
-         "stars": [5, 40, 100],
+         "stars": [5, 30, 90],
          "rules": "The cat hides behind one of five things in the room while your eyes are shut, then peeks out "
                   "now and then. Tap where it is to find it; quick finds score twice over, a wrong guess breaks the "
                   "combo. Its peeks get shorter as the game goes on and the other places rustle to fool you. A "

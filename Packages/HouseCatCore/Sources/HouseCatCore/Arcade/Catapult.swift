@@ -151,6 +151,14 @@ public enum CatapultBeat: Equatable, Sendable {
     case lost
 }
 
+public extension CatapultLevel {
+    /// The pounces a game of this level gives: its own, and a spare (Josh, 20 Oct: "lets make the levels slightly
+    /// easier on the games"). The stars still count from its par.
+    var pouncesGiven: Int {
+        pounces + Tuning.Arcade.Catapult.sparePounces
+    }
+}
+
 public struct CatapultGame: Sendable {
     public let level: CatapultLevel
     public private(set) var world = PounceWorld()
@@ -215,12 +223,17 @@ public struct CatapultGame: Sendable {
         knocked.count == level.mice.count
     }
 
+    /// The pounces this game gives (`CatapultLevel.pouncesGiven`).
+    public var pounces: Int {
+        level.pouncesGiven
+    }
+
     public var over: Bool {
-        !flying && (won || used >= level.pounces)
+        !flying && (won || used >= pounces)
     }
 
     public var pouncesLeft: Int {
-        level.pounces - used
+        pounces - used
     }
 
     public var stars: Int {
@@ -310,7 +323,7 @@ public struct CatapultGame: Sendable {
             beats.append(.settled)
             if won {
                 beats.append(.won)
-            } else if used >= level.pounces {
+            } else if used >= pounces {
                 beats.append(.lost)
             }
         }

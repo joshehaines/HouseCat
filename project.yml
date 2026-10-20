@@ -17,8 +17,8 @@ settings:
     MARKETING_VERSION: "0.1.0"
     CURRENT_PROJECT_VERSION: "1"
     CODE_SIGN_STYLE: Automatic
-    # Empty until the Apple Developer account is live; simulator builds sign locally.
-    DEVELOPMENT_TEAM: ""
+    # Josh's Apple Developer Program team (joined 20 Oct 2026).
+    DEVELOPMENT_TEAM: "3UDHUPMKDF"
     ENABLE_USER_SCRIPT_SANDBOXING: YES
     SWIFT_STRICT_CONCURRENCY: complete
 

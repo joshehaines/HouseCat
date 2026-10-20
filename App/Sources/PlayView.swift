@@ -31,15 +31,16 @@ struct PlayPicker: View {
                 ScrollView(.horizontal, showsIndicators: false) { cards }
             }
         }
-        .padding(22)
+        .padding(18)
         .frame(maxWidth: 760)
         .paper(RoundedRectangle(cornerRadius: 26, style: .continuous))
         .overlay(alignment: .topTrailing) { CloseButton(action: close).offset(x: 10, y: -10) }
         .foregroundStyle(Theme.ink)
     }
 
+    /// Four cards fit across a phone on its side inside the Games menu (about 670 points there).
     private var cards: some View {
-        HStack(alignment: .top, spacing: 14) {
+        HStack(alignment: .top, spacing: 12) {
             ForEach(games, id: \.id) { game in button(game) }
         }
     }
@@ -60,27 +61,35 @@ struct PlayPicker: View {
                     picture.resizable().scaledToFit()
                 }
             }
-            .frame(height: 70)
+            .frame(height: 64)
             .frame(maxWidth: .infinity)
             Text(game.name).font(Theme.title(19))
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
             Text(MiniGameView.howTo(game.id)).font(.caption).foregroundStyle(Theme.inkSoft)
                 .fixedSize(horizontal: false, vertical: true)
             Spacer(minLength: 0)
+            // Two lines, so neither is cut short in a card this narrow: the length and the stars won, then the best.
+            let best = MiniGameView.best(game.id)
             HStack(spacing: 4) {
                 PaintedIcon("clock", size: 16)
-                Text("\(game.durationSeconds) s").font(.caption.weight(.semibold))
-                Spacer()
-                let best = MiniGameView.best(game.id)
-                if best > 0 {
-                    Text("Best \(best)").font(.caption.weight(.semibold)).foregroundStyle(Theme.inkSoft)
-                }
-                ForEach(0 ..< 3, id: \.self) { index in
-                    PaintedIcon("xp_star", size: 14).opacity(MiniGameRules.stars(score: Double(best), thresholds: game.stars) > index ? 1 : 0.3)
+                Text("\(game.durationSeconds) s").font(.caption.weight(.semibold)).fixedSize()
+                Spacer(minLength: 4)
+                HStack(spacing: 2) {
+                    ForEach(0 ..< 3, id: \.self) { index in
+                        PaintedIcon("xp_star", size: 14)
+                            .opacity(MiniGameRules.stars(score: Double(best), thresholds: game.stars) > index ? 1 : 0.3)
+                    }
                 }
             }
+            Text(best > 0 ? "Best \(best)" : "Not played yet")
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(Theme.inkSoft)
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
         }
-        .padding(14)
-        .frame(width: 168, height: 232, alignment: .topLeading)
+        .padding(12)
+        .frame(width: 156, height: 250, alignment: .topLeading)
         .background(RoundedRectangle(cornerRadius: 18, style: .continuous).fill(Theme.paper))
         .overlay(RoundedRectangle(cornerRadius: 18, style: .continuous).strokeBorder(Theme.rim, lineWidth: 1))
     }

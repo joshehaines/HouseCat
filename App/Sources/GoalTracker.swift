@@ -176,11 +176,17 @@ struct GoalTrackerLayer: View {
     let open: (GoalAction) -> Void
     let roomTitle: (RoomID) -> String
     @State private var model = GoalTrackerModel()
+    /// The card's height on screen.
+    @State private var cardHeight: CGFloat = 0
     @Environment(\.hudScale) private var scale
 
     var body: some View {
         GeometryReader { proxy in
             let frame = cardFrame(in: proxy)
+            // The cat's line (its bubble goes up over its head) under the card: the card fades back while the cat
+            // talks, and a tap there reaches the bubble (20 Oct, iPhone: the card hid all but its last line). Not
+            // while a goal on it ticks: Feed meets Breakfast just as the cat says thank you.
+            let talking = bubbleUnder(frame, in: proxy) && model.celebrating.isEmpty
             ZStack(alignment: .topLeading) {
                 if !hidden, let tracker = model.tracker, !tracker.entries.isEmpty {
                     GoalTrackerCard(tracker: tracker, celebrating: model.celebrating, width: frame.width / scale) { entry in
@@ -189,7 +195,11 @@ struct GoalTrackerLayer: View {
                         open(.goals)
                     }
                     .zoomed(scale)
+                    .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { cardHeight = $0 }
                     .tourTarget("goals")
+                    .opacity(talking ? 0.15 : 1)
+                    .allowsHitTesting(!talking)
+                    .animation(.easeOut(duration: 0.25), value: talking)
                     .offset(x: frame.minX, y: frame.minY)
                     .transition(.move(edge: .top).combined(with: .opacity))
                 }
@@ -251,6 +261,13 @@ struct GoalTrackerLayer: View {
         let width = min(CGFloat(Tuning.Goals.cardWidth) * scale, max(CGFloat(Tuning.Goals.cardSmallest) * scale, right - left - 2 * gap))
         let x = min(max(left + gap, (left + right) / 2 - width / 2), proxy.size.width - edge - width)
         return CGRect(x: x, y: CGFloat(Tuning.Stage.hudTop), width: width, height: 0)
+    }
+
+    /// The cat's line is on screen and overlaps the card (`frame`, in the layer's space).
+    private func bubbleUnder(_ frame: CGRect, in proxy: GeometryProxy) -> Bool {
+        guard let bubble = visit.greetingFrame, cardHeight > 0 else { return false }
+        let origin = proxy.frame(in: .global).origin
+        return bubble.intersects(CGRect(x: origin.x + frame.minX, y: origin.y + frame.minY, width: frame.width, height: cardHeight))
     }
 
     private func tapped(_ entry: GoalTracker.Entry) {
@@ -553,24 +570,20 @@ struct ChapterDoneCard: View {
                     .font(.system(size: 15, weight: .semibold, design: .rounded))
                     .foregroundStyle(Theme.inkSoft)
             }
-            HStack(spacing: 16) {
-                if reward.beans > 0 {
-                    HStack(spacing: 4) {
-                        PaintedIcon("bean_coin", size: 26)
-                        Text("+\(reward.beans)")
-                    }
+            // On one line when it fits, else what it pays over what it gives: a gift's name never breaks (the
+            // scratching post did, on a phone).
+            ViewThatFits(in: .horizontal) {
+                HStack(spacing: 16) {
+                    paid
+                    given
                 }
-                if reward.xp > 0 {
-                    HStack(spacing: 4) {
-                        PaintedIcon("xp_star", size: 24)
-                        Text("+\(reward.xp) XP")
-                    }
+                VStack(spacing: 8) {
+                    HStack(spacing: 16) { paid }
+                    HStack(spacing: 16) { given }
                 }
-                ForEach(gifts, id: \.self) { name in
-                    HStack(spacing: 4) {
-                        PaintedIcon("gift_box_with_a_ribbon", size: 24)
-                        Text(name)
-                    }
+                VStack(spacing: 8) {
+                    HStack(spacing: 16) { paid }
+                    given
                 }
             }
             .font(.system(size: 17, weight: .black, design: .rounded))
@@ -589,5 +602,31 @@ struct ChapterDoneCard: View {
         .frame(maxWidth: 380)
         .paper(RoundedRectangle(cornerRadius: 26, style: .continuous))
         .accessibilityElement(children: .contain)
+    }
+
+    /// Its Beans and XP.
+    @ViewBuilder private var paid: some View {
+        if reward.beans > 0 {
+            HStack(spacing: 4) {
+                PaintedIcon("bean_coin", size: 26)
+                Text("+\(reward.beans)")
+            }
+        }
+        if reward.xp > 0 {
+            HStack(spacing: 4) {
+                PaintedIcon("xp_star", size: 24)
+                Text("+\(reward.xp) XP")
+            }
+        }
+    }
+
+    /// The outfit and the piece, each a present with its name.
+    private var given: some View {
+        ForEach(gifts, id: \.self) { name in
+            HStack(spacing: 4) {
+                PaintedIcon("gift_box_with_a_ribbon", size: 24)
+                Text(name).lineLimit(1)
+            }
+        }
     }
 }

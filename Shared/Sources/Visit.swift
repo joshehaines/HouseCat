@@ -14,6 +14,8 @@ final class Visit {
     private(set) var scene: SKScene
     /// The cat's greeting, shown for a few seconds once the room is on screen.
     private(set) var greeting: String?
+    /// Where the greeting's bubble is on screen while it shows (`RoomScreen.speech`), so the goal tracker can make way.
+    var greetingFrame: CGRect?
     /// The cat's name, over its lines.
     var catName: String? {
         GameSession.shared.cat?.name

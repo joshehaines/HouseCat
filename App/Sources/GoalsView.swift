@@ -185,11 +185,13 @@ struct GoalsView: View {
                         }
                     }
                 }
+                // Two lines: the path's longer steps were cut off ("Open the bedroom. It comes wi…").
                 Text(goal.text)
                     .font(.system(size: 11 * scale, weight: .medium, design: .rounded))
                     .foregroundStyle(Theme.inkSoft)
-                    .lineLimit(1)
+                    .lineLimit(2)
                     .minimumScaleFactor(0.85)
+                    .fixedSize(horizontal: false, vertical: true)
                 Capsule().fill(Theme.ink.opacity(0.1))
                     .frame(height: 6 * scale)
                     .overlay(alignment: .leading) {

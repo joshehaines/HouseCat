@@ -1156,6 +1156,9 @@ struct RoomScreen: View {
                         let room = 320 * hudScale
                         GreetingBubble(line, name: visit.catName, pointsDown: head != nil)
                             .onTapGesture { visit.dismissGreeting() }
+                            // The goal tracker fades back while this is under it.
+                            .onGeometryChange(for: CGRect.self) { $0.frame(in: .global).integral } action: { visit.greetingFrame = $0 }
+                            .onDisappear { visit.greetingFrame = nil }
                             .frame(width: width, height: room, alignment: .bottom)
                             .position(x: x, y: bottom - room / 2)
                     }

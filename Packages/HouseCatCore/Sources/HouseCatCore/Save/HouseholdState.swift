@@ -172,7 +172,10 @@ public struct DayTally: Codable, Equatable, Sendable {
     public var fedCats: Set<String> = []
     public var firstVisitAt: Date?
     public var pets = 0
+    /// Quick games played today (the five a day).
     public var plays = 0
+    /// Games-menu games today that counted (they paid; `HouseholdState.countArcadeGame`).
+    public var arcadePlays = 0
     public var napped = false
     public var furnitureXP = 0
     public var newFurnitureXP = 0
@@ -190,6 +193,11 @@ public struct DayTally: Codable, Equatable, Sendable {
 
     public init(day: GameDay) {
         self.day = day
+    }
+
+    /// The cat was played with today: a quick game, or a Games-menu game that counted.
+    public var playedAnyGame: Bool {
+        plays + arcadePlays > 0
     }
 
     /// The Cat Club bonus on today's Beans.

@@ -243,7 +243,7 @@ public struct Wellbeing: Equatable, Sendable {
         let comfort = total > 0 ? had / total : 1
         let fed = today?.fedCats.contains(cat.id) == true
         let strokes = min(Double(today?.pets ?? 0), t.strokesForFullCare) / t.strokesForFullCare
-        let played = (today?.plays ?? 0) > 0
+        let played = today?.playedAnyGame == true
         let care = (fed ? t.fedCare : 0) + strokes * t.strokeCare + (played ? t.playCare : 0)
         let trust = Double(cat.trust.rawValue) / Double(TrustTier.allCases.count - 1)
         let score = min(1, comfort * t.homeShare + care * t.careShare + trust * t.trustShare)

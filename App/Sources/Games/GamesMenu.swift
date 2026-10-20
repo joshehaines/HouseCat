@@ -43,12 +43,15 @@ struct GamesMenu: View {
             if screen == .quick, let games = GameWorld.content?.minigames.games {
                 ZStack {
                     Color.black.opacity(0.35).ignoresSafeArea().onTapGesture { withAnimation { screen = .menu } }
-                    PlayPicker(games: games, playsLeft: GameSession.shared.playsLeft) { game in
-                        playQuick(game)
-                    } close: {
-                        withAnimation { screen = .menu }
+                    // Scaled with the menu behind it (an iPad's is larger).
+                    GamesScaled {
+                        PlayPicker(games: games, playsLeft: GameSession.shared.playsLeft) { game in
+                            playQuick(game)
+                        } close: {
+                            withAnimation { screen = .menu }
+                        }
+                        .padding(24)
                     }
-                    .padding(24)
                 }
                 .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
                 .transition(.opacity)
@@ -66,6 +69,7 @@ struct GamesMenu: View {
                     case "match": .match
                     case "row": .row
                     case "puzzle": .puzzle
+                    case "quick": .quick
                     default: .menu
                     }
                 }

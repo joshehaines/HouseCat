@@ -127,7 +127,7 @@ public enum StreakRepair {
         guard let broken = state.streak.brokenOn, state.streak.brokenLength > 0,
               broken.distance(to: day) <= Tuning.Streak.repairWindowDays, let tally = state.today, tally.day == day
         else { return false }
-        return tally.visited && tally.plays > 0 && state.cats.first.map { state.isFedToday($0.id) } == true
+        return tally.visited && tally.playedAnyGame && state.cats.first.map { state.isFedToday($0.id) } == true
     }
 
     /// What is left to do today to mend it (the card lists these).
@@ -137,7 +137,7 @@ public enum StreakRepair {
         if state.cats.first.map({ state.isFedToday($0.id) }) != true {
             left.append("feed")
         }
-        if tally.plays == 0 {
+        if !tally.playedAnyGame {
             left.append("play")
         }
         return left

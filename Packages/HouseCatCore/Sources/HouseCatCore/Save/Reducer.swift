@@ -687,19 +687,13 @@ extension HouseholdState {
     // MARK: The Games menu
 
     /// A game from the Games menu or the daily puzzle: `ArcadeState` keeps the scores, stars and streak and says what
-    /// it pays; it counts for the goals as a game played (won with a star, three stars).
+    /// it pays; a game that paid counts for the goals as a quick game does (`countArcadeGame`).
     private mutating func applyArcade(_ event: GameEvent, day: GameDay, context: RulesContext) {
         let payout: ArcadePayout
         switch event.kind {
         case let .arcadePlayed(result):
             payout = arcade.record(result, on: day, seed: seed)
-            bump(.playMinigame, context: context)
-            if result.stars >= 1 || result.won {
-                bump(.winMinigame, context: context)
-            }
-            if result.stars >= 3 {
-                bump(.threeStarMinigame, context: context)
-            }
+            countArcadeGame(result, payout: payout, context: context)
         case let .puzzleSolved(solve):
             payout = arcade.record(solve, on: day)
         default:
@@ -708,6 +702,29 @@ extension HouseholdState {
         earn(payout.beans)
         if payout.xp > 0 {
             gainXP(payout.xp, context: context)
+        }
+    }
+
+    /// A Games-menu game counts as a game played with the cat (today's and this week's goals, the lifetime games, wins
+    /// and three-star games the path and the milestones count, and the day's play for the cat's care and a streak's
+    /// mending) only when it paid: one of a score game's paid plays, or a level's new stars, so goals cannot be met by
+    /// playing on for nothing. Two players at Cats in a Row never count (whoever goes first takes the stars), nor a
+    /// cat the game does not have, and there a draw is not a win.
+    private mutating func countArcadeGame(_ result: ArcadeResult, payout: ArcadePayout, context: RulesContext) {
+        if result.game == .row, !ArcadeOpponents.ids.contains(result.opponent ?? "") {
+            return
+        }
+        guard result.game.hasLevels ? payout.newStars > 0 : payout.paidPlay != nil else { return }
+        today?.arcadePlays += 1
+        lifetime.minigamesPlayed += 1
+        bump(.playMinigame, context: context)
+        let won = result.game == .row ? result.won : result.stars >= 1
+        guard won else { return }
+        lifetime.minigameWins += 1
+        bump(.winMinigame, context: context)
+        if result.stars >= 3 {
+            lifetime.threeStarGames += 1
+            bump(.threeStarMinigame, context: context)
         }
     }
 

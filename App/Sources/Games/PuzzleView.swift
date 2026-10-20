@@ -59,7 +59,9 @@ struct PuzzleScreen: View {
                                 .frame(width: 230)
                         }
                         .padding(.horizontal, 18)
-                        .padding(.vertical, 10)
+                        .padding(.top, 8)
+                        // Clear of the screen's bottom edge (the home indicator on a phone).
+                        .padding(.bottom, 22)
                     } else {
                         Spacer()
                         Text("Pat is still setting today's puzzle.").font(Theme.title(22))

@@ -223,7 +223,8 @@ struct IntroView: View {
         made.showcase = true
         scene = made
         if let look = GameWorld.catArt?.builder.preset(stop.cat.preset)?.look {
-            portrait = CatScreens.portrait(look)
+            // The home's own cat as it is, never in the player's outfit.
+            portrait = CatScreens.portrait(look, outfit: nil)
         }
     }
 

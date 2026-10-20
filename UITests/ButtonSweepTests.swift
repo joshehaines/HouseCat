@@ -255,6 +255,19 @@ final class ButtonSweepTests: XCTestCase {
             }
         }
 
+        // Show me how plays the widget's steps (unless the widget is on this device's Home Screen already). Export's
+        // share sheet can still be up on a phone (its ✕ is not always the last Close): swiped away first.
+        let share = app.otherElements["ActivityListView"]
+        for _ in 0 ..< 2 where share.exists {
+            share.swipeDown(velocity: .fast)
+            sleep(1)
+        }
+        if let how = reveal(app.buttons["Show me how"], in: list) {
+            how.tapInFront()
+            XCTAssertTrue(app.descendants(matching: .any)["widgetHowTo"].shows(within: 5), "Show me how shows the steps")
+            snap("widget how to")
+        }
+
         XCTAssertTrue(backToRoom(), "back in the room from Settings")
     }
 
@@ -331,12 +344,20 @@ final class ButtonSweepTests: XCTestCase {
         XCTAssertTrue(backToRoom(), "back in the room")
     }
 
+    /// The add-widget card asks as the reminders card does, and Add to Home Screen goes straight into the steps,
+    /// played on a little Home Screen (no app can add a widget itself).
     func testTheWidgetCard() throws {
         launchIntoTheRoom(screen: "addwidget")
-        let gotIt = app.buttons["Got it"]
-        XCTAssertTrue(gotIt.shows(within: 20), "the add-widget card")
+        let add = app.buttons["Add to Home Screen"]
+        XCTAssertTrue(add.shows(within: 20), "the add-widget card")
         snap("add widget")
         XCTAssertTrue(app.buttons["Not now"].exists, "its Not now")
+        add.tapInFront()
+        let gotIt = app.buttons["Got it"]
+        XCTAssertTrue(gotIt.shows(within: 5), "Add to Home Screen goes straight into the steps")
+        XCTAssertTrue(app.descendants(matching: .any)["widgetHowTo"].exists, "the steps on a little Home Screen")
+        sleep(3)
+        snap("add widget steps")
         gotIt.tapInFront()
         XCTAssertTrue(waitGone(gotIt), "Got it closes it")
         XCTAssertTrue(waitForRoom(), "back in the room")
@@ -366,8 +387,8 @@ final class ButtonSweepTests: XCTestCase {
     func testTheHealthCard() throws {
         launchIntoTheRoom(screen: "health")
         // A debug launch can bring the add-widget card up over it (it was due anyway): that one goes first.
-        if app.buttons["Got it"].shows(within: 3) {
-            app.buttons["Got it"].tapInFront()
+        if app.buttons["Add to Home Screen"].shows(within: 3) {
+            app.buttons["widgetNotNow"].tapInFront()
             sleep(1)
         }
         let notNow = app.buttons["Not now"].firstMatch

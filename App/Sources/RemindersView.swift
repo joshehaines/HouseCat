@@ -146,27 +146,41 @@ struct SettingsView: View {
     }
 }
 
-/// How to put the cat on the Home Screen (SPEC: the widget guide in onboarding and at the day-3 moment).
+/// How to put the cat on the Home Screen (SPEC: the widget guide in onboarding and at the day-3 moment): Show me
+/// how plays the steps on a little Home Screen, as the add-widget card does (`WidgetHowTo`); once the widget is
+/// there it says so.
 struct WidgetGuide: View {
     let catName: String
+    @State private var showing = false
+    @State private var installed = false
+    @State private var entry: WidgetEntry?
+    @Environment(\.scenePhase) private var phase
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Put \(catName) on your Home Screen").font(.headline)
-            step(1, "Touch and hold an empty part of your Home Screen.")
-            step(2, "Tap Edit, then Add Widget.")
-            step(3, "Find HouseCat and choose a size. The medium one has Feed and Pet.")
-            Text("Feeding or petting from the widget counts as your visit for the day.")
+        VStack(alignment: .leading, spacing: 10) {
+            HStack {
+                Text(installed ? "\(catName) is on your Home Screen" : "Put \(catName) on your Home Screen").font(.headline)
+                Spacer()
+                if installed {
+                    Image(systemName: "checkmark.circle.fill").font(.title3).foregroundStyle(Theme.accent)
+                } else if !showing {
+                    HUDButton("Show me how", icon: "house") {
+                        withAnimation(.spring(duration: 0.35)) { showing = true }
+                    }
+                }
+            }
+            if showing, !installed {
+                WidgetHowTo(entry: entry)
+                    .transition(.opacity)
+                    .task { entry = await WidgetPrompt.previewEntry() }
+            }
+            Text("The medium widget has Feed and Pet. Feeding or petting from the widget counts as your visit for the day.")
                 .font(.caption).foregroundStyle(Theme.inkSoft)
         }
-    }
-
-    private func step(_ number: Int, _ text: String) -> some View {
-        HStack(alignment: .firstTextBaseline, spacing: 8) {
-            Text("\(number)").font(.system(size: 13, weight: .heavy, design: .rounded))
-                .frame(width: 22, height: 22)
-                .background(Circle().fill(Theme.accent.opacity(0.18)))
-            Text(text).font(.subheadline)
+        .task(id: phase) {
+            if phase == .active {
+                installed = await WidgetPrompt.installed()
+            }
         }
     }
 }

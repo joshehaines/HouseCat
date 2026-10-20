@@ -1317,8 +1317,6 @@ public enum Tuning {
         public static let gift = 0.7
         public static let levelUp = 0.7
         public static let tap = 0.35
-        /// The intro's tour: the soft meow as each home comes into view.
-        public static let introMeow = 0.3
         /// Rain, wind and snow under everything; a storm louder.
         public static let weather = 0.3
         public static let storm = 0.45

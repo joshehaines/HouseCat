@@ -24,6 +24,7 @@
   "fx": "Animated effects. Loops: fire, candle, steam, smoke, water_trickle, water_ripple, butterfly (fx_<name>_NN.png frames in one cell size + a _strip.png). Sprites: robin poses, reaction icons. fx/fx.json has frame counts, cell sizes and anchors; fx/anchors.json (also copied into each furniture entry as motion_fx) says where flames and steam attach on the moving furniture.",
   "fixture": "Parts of the house drawn by the house view, not catalogue items (the staircase); placed by assets/rooms/houses.json.",
   "world/scenes": "<house>_<biome>_<season>[_dooropen].jpg = the home painted into its place (16:9, noon); _land.png = 1 painting / 0 sky (the sky is drawn in code); _glass.png = window glass, lit in code; scenes.json = door points. Made by tools/asset-pipeline/scenes.py.",
+  "world/intro": "Exteriors painted for the intro's tour alone (Josh, 20 Oct): the London terrace fully decorated, a beach house in Bali; files as world/scenes, door points and house boxes in world/scenes/scenes.json. Kept out of world/scenes so no home's own set picks them up.",
   "world/ground": "2048 px seamless tiles seen from above: the ground around the house in the house view, one per biome plus ground_autumn (a leafy lawn). Same model and brushwork reference as the floors (tools/asset-pipeline/surfaces.py FLOOR_T, gpt_image_2_5, 18 Oct).",
   "ui/shop": "The shop offer illustrations (Cat Club, Starter Pack, Housewarming, Forever Home, Adopt a Cat, Gifts), painted on magenta and keyed, transparent background (gpt_image_2_5, the mascot master plate as reference for the cat, 18 Oct)."
  },
@@ -120440,6 +120441,84 @@
   },
   "ui/profile/profile_corner_sun.jpg": {
    "class": "ui/profile",
+   "px": [
+    2688,
+    1520
+   ]
+  },
+  "world/intro/london_terrace_decorated_city_autumn.jpg": {
+   "class": "world/intro",
+   "house": "london_terrace",
+   "biome": "city",
+   "season": "autumn",
+   "door_open": false,
+   "part": "painting",
+   "job_id": "7ae0b706-5ed3-474d-8328-1548ad3b1caa",
+   "px": [
+    2688,
+    1520
+   ]
+  },
+  "world/intro/london_terrace_decorated_city_autumn_glass.png": {
+   "class": "world/intro",
+   "house": "london_terrace",
+   "biome": "city",
+   "season": "autumn",
+   "door_open": false,
+   "part": "glass",
+   "job_id": "7ae0b706-5ed3-474d-8328-1548ad3b1caa",
+   "px": [
+    2688,
+    1520
+   ]
+  },
+  "world/intro/london_terrace_decorated_city_autumn_land.png": {
+   "class": "world/intro",
+   "house": "london_terrace",
+   "biome": "city",
+   "season": "autumn",
+   "door_open": false,
+   "part": "land",
+   "job_id": "7ae0b706-5ed3-474d-8328-1548ad3b1caa",
+   "px": [
+    2688,
+    1520
+   ]
+  },
+  "world/intro/beach_house_tropical_summer.jpg": {
+   "class": "world/intro",
+   "house": "beach_house",
+   "biome": "tropical",
+   "season": "summer",
+   "door_open": false,
+   "part": "painting",
+   "job_id": "2e133683-3ddf-4bd5-93d6-4750cf9c82a5",
+   "px": [
+    2688,
+    1520
+   ]
+  },
+  "world/intro/beach_house_tropical_summer_glass.png": {
+   "class": "world/intro",
+   "house": "beach_house",
+   "biome": "tropical",
+   "season": "summer",
+   "door_open": false,
+   "part": "glass",
+   "job_id": "2e133683-3ddf-4bd5-93d6-4750cf9c82a5",
+   "px": [
+    2688,
+    1520
+   ]
+  },
+  "world/intro/beach_house_tropical_summer_land.png": {
+   "class": "world/intro",
+   "house": "beach_house",
+   "biome": "tropical",
+   "season": "summer",
+   "door_open": false,
+   "part": "land",
+   "job_id": "2e133683-3ddf-4bd5-93d6-4750cf9c82a5",
    "px": [
     2688,
     1520

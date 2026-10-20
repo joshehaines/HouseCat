@@ -4349,6 +4349,28 @@
    ],
    "scale": 0.3
   },
+  "intro/scenes/beach_house_tropical_summer.jpg": {
+   "file": "intro/scenes/beach_house_tropical_summer.heic",
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "intro/scenes/beach_house_tropical_summer_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "intro/scenes/beach_house_tropical_summer_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
   "intro/scenes/cottage_countryside_spring.jpg": {
    "file": "intro/scenes/cottage_countryside_spring.heic",
    "master": [
@@ -4393,6 +4415,28 @@
    ],
    "scale": 0.75
   },
+  "intro/scenes/london_terrace_decorated_city_autumn.jpg": {
+   "file": "intro/scenes/london_terrace_decorated_city_autumn.heic",
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "intro/scenes/london_terrace_decorated_city_autumn_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "intro/scenes/london_terrace_decorated_city_autumn_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
   "intro/scenes/mansion_flat_desert_summer.jpg": {
    "file": "intro/scenes/mansion_flat_desert_summer.heic",
    "master": [
@@ -4431,28 +4475,6 @@
    "scale": 0.75
   },
   "intro/scenes/mediterranean_rooftop_coast_summer_land.png": {
-   "master": [
-    2688,
-    1520
-   ],
-   "scale": 0.75
-  },
-  "intro/scenes/newbuild_balcony_tropical_summer.jpg": {
-   "file": "intro/scenes/newbuild_balcony_tropical_summer.heic",
-   "master": [
-    2688,
-    1520
-   ],
-   "scale": 0.75
-  },
-  "intro/scenes/newbuild_balcony_tropical_summer_glass.png": {
-   "master": [
-    2688,
-    1520
-   ],
-   "scale": 0.75
-  },
-  "intro/scenes/newbuild_balcony_tropical_summer_land.png": {
    "master": [
     2688,
     1520

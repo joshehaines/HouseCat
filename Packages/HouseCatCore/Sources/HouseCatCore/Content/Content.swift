@@ -489,12 +489,20 @@ public struct IntroFile: Codable, Sendable {
     public var host: String
     public var tagline: String
     public var hello: [String]
+    /// The example homes round the world (the world map shows them all and visits them).
     public var stops: [Stop]
+    /// The ids of the homes the intro flies to, in order (Josh, 20 Oct: "just do a couple houses").
+    public var tour: [String]
     public var outro: String
     public var builder: String
     public var map: String
     public var homes: String
     public var room: [RoomStep]
+
+    /// The homes the intro flies to, in order.
+    public var tourStops: [Stop] {
+        tour.compactMap { id in stops.first { $0.id == id } }
+    }
 }
 
 // MARK: events.json

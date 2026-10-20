@@ -3,8 +3,7 @@
   "host": "Pat",
   "tagline": "A cat, a home, anywhere in the world.",
   "hello": [
-    "Hello! I'm Pat, the maker's own cat. I show new cats around.",
-    "Every cat here lives somewhere real. Let me show you a few."
+    "Hello! I'm Pat, the maker's own cat. Every cat here lives somewhere real. Come and see!"
   ],
   "stops": [
     {
@@ -14,12 +13,12 @@
       "latitude": 51.4946,
       "longitude": -0.1003,
       "timeZone": "Europe/London",
-      "scene": "world/scenes/london_terrace_city_autumn",
-      "home": "A terrace",
+      "scene": "intro/scenes/london_terrace_decorated_city_autumn",
+      "home": "A town house",
       "season": "autumn",
       "weather": "rain",
       "cat": { "preset": "ginger_tabby", "name": "Biscuit", "personality": "velcro" },
-      "line": "Biscuit's terrace is in London. It rains, so she has the windowsill."
+      "line": "Biscuit's town house is done up top to bottom. When it rains, she has the windowsill."
     },
     {
       "id": "chamonix",
@@ -84,12 +83,12 @@
       "latitude": -8.6478,
       "longitude": 115.1385,
       "timeZone": "Asia/Makassar",
-      "scene": "intro/scenes/newbuild_balcony_tropical_summer",
-      "home": "A balcony flat",
+      "scene": "intro/scenes/beach_house_tropical_summer",
+      "home": "A beach house",
       "season": "summer",
       "weather": "sun",
       "cat": { "preset": "bengal", "name": "Mango", "personality": "gremlin" },
-      "line": "Mango watches the sun go down from a balcony in Bali. Then: zoomies."
+      "line": "Mango's beach house in Bali is right on the sand. Sunset on the veranda, then: zoomies."
     },
     {
       "id": "marrakech",
@@ -106,7 +105,8 @@
       "line": "Saffron's flat in Marrakech stays warm all night. No fur needed."
     }
   ],
-  "outro": "Every one of them started with a cat. Let's make yours.",
+  "tour": ["london", "bali"],
+  "outro": "Every home here started with a cat and an empty room. Let's make yours.",
   "builder": "Who's moving in? Every look is free. Start from a cat you like and change anything.",
   "map": "Your home's sky, seasons and weather will follow the place you choose.",
   "homes": "Each home is painted for where you live.",

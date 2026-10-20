@@ -5,8 +5,9 @@ import SpriteKit
 import SwiftUI
 
 /// The intro (a builder game's first minutes, in the house style; Content/intro.json): the logo over a turning
-/// globe, the host saying hello, then a flight round the world to a few homes, each painted where it is with a
-/// cat living in it, before the player makes their own cat. Skip is always there.
+/// globe, the host saying hello, then a flight round the world to the tour's homes (Josh, 20 Oct: two, a fully
+/// decorated London town house in the rain and a beach house in Bali), each painted where it is with a cat living
+/// in it, before the player makes their own cat. Skip is always there.
 struct IntroView: View {
     let intro: IntroFile
     let done: () -> Void
@@ -25,6 +26,11 @@ struct IntroView: View {
     @State private var portrait: CGImage?
     @State private var logoShown = false
 
+    /// The homes the intro flies to, in order.
+    private var stops: [IntroFile.Stop] {
+        intro.tourStops
+    }
+
     var body: some View {
         ZStack {
             SpinningGlobe(camera: camera, markers: markers, interactive: phase == .landing || phase == .outro, shift: globeShift)
@@ -32,7 +38,7 @@ struct IntroView: View {
             case .landing:
                 landing
             case let .visiting(index):
-                visit(intro.stops[index])
+                visit(stops[index])
                     .transition(.asymmetric(insertion: .scale(scale: 0.3).combined(with: .opacity), removal: .opacity))
             default:
                 EmptyView()
@@ -85,7 +91,7 @@ struct IntroView: View {
         case let .flying(i), let .visiting(i): i
         default: nil
         }
-        return intro.stops.enumerated().map { index, stop in
+        return stops.enumerated().map { index, stop in
             GlobeMarker(
                 id: stop.id,
                 latitude: stop.latitude,
@@ -151,10 +157,10 @@ struct IntroView: View {
             }
             .id("hello\(index)")
         case let .flying(index):
-            HostBubble(name: intro.host, text: "Off to \(intro.stops[index].place)…")
+            HostBubble(name: intro.host, text: "Off to \(stops[index].place)…")
                 .id("fly\(index)")
         case let .visiting(index):
-            HostBubble(name: intro.host, text: intro.stops[index].line, button: index + 1 < intro.stops.count ? "Next home" : "Next") {
+            HostBubble(name: intro.host, text: stops[index].line, button: index + 1 < stops.count ? "Next home" : "Next") {
                 leave(index)
             }
             .id("visit\(index)")
@@ -170,7 +176,11 @@ struct IntroView: View {
     // MARK: The tour of homes
 
     private func fly(to index: Int) {
-        let stop = intro.stops[index]
+        guard stops.indices.contains(index) else {
+            phase = .outro
+            return
+        }
+        let stop = stops[index]
         scene = nil
         portrait = nil
         camera.spins = false
@@ -179,20 +189,19 @@ struct IntroView: View {
         prepare(stop)
         Task {
             try? await Task.sleep(for: .seconds(Tuning.World.globeFlightSeconds + Tuning.Intro.pauseOnArrival))
+            // No sound as a home comes into view (Josh, 20 Oct: "Meow is weird on the tutorial, lets remove that").
             if phase == .flying(index) {
-                // A light meow as each home comes into view (Josh, 19 Oct: the door was loud and strange).
-                Sound.play("cat_meow_soft", volume: Tuning.Sound.introMeow)
                 phase = .visiting(index)
             }
         }
     }
 
     private func leave(_ index: Int) {
-        if index + 1 < intro.stops.count {
+        if index + 1 < stops.count {
             fly(to: index + 1)
         } else {
             scene = nil
-            camera.fly(to: 25, intro.stops[index].longitude, zoom: 1)
+            camera.fly(to: 25, stops[index].longitude, zoom: 1)
             camera.spins = true
             phase = .outro
         }

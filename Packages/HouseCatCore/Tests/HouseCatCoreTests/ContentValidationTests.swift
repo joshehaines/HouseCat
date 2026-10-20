@@ -375,9 +375,18 @@ struct ContentValidationTests {
     @Test func theIntroReadsWellAndTakesItsCatsFromTheBuilder() throws {
         let intro = content.intro
         let builder = try CatBuilder.load(from: Self.repo.appendingPathComponent("App/Art/cat/custom/builder.json"))
-        #expect(intro.stops.count >= 4)
         #expect(Set(intro.stops.map(\.id)).count == intro.stops.count)
+        // The tour (Josh, 20 Oct: "just do a couple houses") names stops, each once; the map keeps them all.
+        #expect(!intro.tour.isEmpty)
+        #expect(Set(intro.tour).count == intro.tour.count)
+        #expect(intro.tourStops.map(\.id) == intro.tour, "every tour id is a stop")
+        // Every home's painting is in the app (art.json maps each master path to its file).
+        let artData = try Data(contentsOf: Self.repo.appendingPathComponent("App/Art/art.json"))
+        let art = try #require((try JSONSerialization.jsonObject(with: artData) as? [String: Any])?["files"] as? [String: Any])
         for stop in intro.stops {
+            for suffix in [".jpg", "_land.png", "_glass.png"] {
+                #expect(art[stop.scene + suffix] != nil, "\(stop.id): \(stop.scene + suffix) not in App/Art")
+            }
             #expect(builder.preset(stop.cat.preset) != nil, "\(stop.id): no preset \(stop.cat.preset)")
             #expect(TimeZone(identifier: stop.timeZone) != nil, "\(stop.id): time zone")
             #expect(abs(stop.latitude) <= 90 && abs(stop.longitude) <= 180)

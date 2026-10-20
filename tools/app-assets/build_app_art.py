@@ -90,8 +90,11 @@ SETS = [
     ('arcade/pounce/ledge_*.png', 0.6),
 ]
 # The intro's example homes (see above) and their size.
+# The two the intro flies to (Josh, 20 Oct: the London terrace fully decorated in the rain, a beach house in Bali) are
+# painted for it alone and kept in world/intro, out of the homes' own sets.
 INTRO_SCENES = ['woodland_cabin_snow_winter', 'mediterranean_rooftop_coast_summer', 'houseboat_city_spring',
-                'cottage_countryside_spring', 'newbuild_balcony_tropical_summer', 'mansion_flat_desert_summer']
+                'cottage_countryside_spring', 'mansion_flat_desert_summer', 'london_terrace_decorated_city_autumn',
+                'beach_house_tropical_summer']
 INTRO_SCALE = 0.75
 DATA = ['cat/rig.json', 'rooms/layout_living_demo.json', 'rooms/houses.json', 'fx/anchors.json', 'fx/fx.json', 'world/scenes/scenes.json',
         'world/map/cities.json', 'world/map/map_biome_legend.json', 'outfits/body/variants.json']
@@ -250,6 +253,8 @@ def main():
     for name in INTRO_SCENES:
         for suffix, opaque in (('.jpg', True), ('_land.png', False), ('_glass.png', False)):
             src = os.path.join(scenes, name + suffix)
+            if not os.path.exists(src):
+                src = os.path.join(ASSETS, 'world', 'intro', name + suffix)
             rel = 'intro/scenes/' + name + suffix
             w, h = size(src)
             dst = os.path.join(OUT, os.path.splitext(rel)[0] + ('.heic' if opaque else '.png'))

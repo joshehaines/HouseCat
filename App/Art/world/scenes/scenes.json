@@ -4,6 +4,10 @@
   0.62
  ],
  "doors": {
+  "beach_house_tropical_summer": [
+   0.486,
+   0.542
+  ],
   "cottage_city_autumn": [
    0.3984,
    0.5957
@@ -435,6 +439,10 @@
   "london_terrace_countryside_winter": [
    0.3984,
    0.582
+  ],
+  "london_terrace_decorated_city_autumn": [
+   0.4219,
+   0.6074
   ],
   "london_terrace_desert_autumn": [
    0.4023,
@@ -1030,6 +1038,12 @@
   ]
  },
  "houses": {
+  "beach_house_tropical_summer": [
+   0.245,
+   0.13,
+   0.79,
+   0.76
+  ],
   "cottage_city_autumn": [
    0.3591,
    0.4075,
@@ -1677,6 +1691,12 @@
    0.1432,
    0.625,
    0.8359
+  ],
+  "london_terrace_decorated_city_autumn": [
+   0.3792,
+   0.0745,
+   0.6716,
+   0.8013
   ],
   "london_terrace_desert_autumn": [
    0.3757,

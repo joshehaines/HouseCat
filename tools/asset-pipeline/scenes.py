@@ -5,7 +5,8 @@ Sky flat magenta (keyed to alpha, the sky is drawn in code), glass flat cyan (ke
 
   python3 scenes.py batch <house|all> [start n]   request JSON for generate_image_batch (and batch_scenes_*.json for run.py-style bookkeeping)
   python3 scenes.py record <batchfile> < jobs.json  store job ids in pipeline_state.json under scene:<house>_<biome>_<season>
-  python3 scenes.py key <raw.png> <out_dir> <name>   key a downloaded scene into <name>.jpg, <name>_land.png and <name>_glass.png
+  python3 scenes.py key <raw.png> <out_dir> <name> [x0 y0 x1 y1]   key a downloaded scene into <name>.jpg, <name>_land.png and <name>_glass.png
+                                                     (glass only inside the box, fractions of the picture, when sea or sky water keys as cyan)
   python3 scenes.py doors <raw_dir> <scenes.json>    measure each door from its door-open edit into scenes.json
   python3 scenes.py houses <scene_dir> <scenes.json> measure where each house stands into scenes.json (needs numpy, scipy)
   python3 scenes.py windows <scene_dir> <scenes.json> measure each house's windows the cat can sit in into scenes.json (after houses)
@@ -83,7 +84,7 @@ KEY_EDGE = 0.55
 KEY_RAMP = 0.3
 
 
-def key(raw, out_dir, name):
+def key(raw, out_dir, name, box=None):
     """Key a scene into <name>.jpg (the painting, sky filled with the nearby land colour so no magenta
     bleeds when it is filtered), <name>_land.png (1 = painting, 0 = sky, soft edge) and <name>_glass.png
     (window glass, lit in code). JPEG plus masks is about a sixth of a keyed PNG."""
@@ -99,6 +100,12 @@ def key(raw, out_dir, name):
 
     magenta = key(np.abs(r - 1) + g + np.abs(b - 1))
     cyan = key(r + np.abs(g - 1) + np.abs(b - 1))
+    if box:
+        # A turquoise sea keys as glass (the Bali beach house, 20 Oct): only the house's windows count.
+        h, w = cyan.shape
+        inside = np.zeros_like(cyan)
+        inside[int(box[1] * h):int(box[3] * h), int(box[0] * w):int(box[2] * w)] = 1
+        cyan = cyan * inside
     # Only the sky that reaches the top of the picture is sky: magenta specks in water or snow stay painting.
     labels, count = ndimage.label(magenta > 0)
     if count:
@@ -357,7 +364,7 @@ if __name__ == '__main__':
     elif cmd == 'record':
         record(sys.argv[2], json.load(sys.stdin))
     elif cmd == 'key':
-        print(key(sys.argv[2], sys.argv[3], sys.argv[4]))
+        print(key(sys.argv[2], sys.argv[3], sys.argv[4], [float(a) for a in sys.argv[5:9]] or None))
     elif cmd == 'doors':
         doors(sys.argv[2], sys.argv[3])
     elif cmd == 'houses':

@@ -404,6 +404,63 @@ struct OutfitMatrixTests {
         #expect(found.isEmpty, "\(found.count) problems:\n\(found.prefix(40).joined(separator: "\n"))")
     }
 
+    /// A colour in Lab (D65) from sRGB 0-255.
+    static func lab(_ r: Double, _ g: Double, _ b: Double) -> (Double, Double, Double) {
+        func linear(_ c: Double) -> Double {
+            let v = c / 255
+            return v > 0.04045 ? pow((v + 0.055) / 1.055, 2.4) : v / 12.92
+        }
+        let (lr, lg, lb) = (linear(r), linear(g), linear(b))
+        let x = (0.4124 * lr + 0.3576 * lg + 0.1805 * lb) / 0.9505, y = 0.2126 * lr + 0.7152 * lg + 0.0722 * lb
+        let z = (0.0193 * lr + 0.1192 * lg + 0.9505 * lb) / 1.089
+        func f(_ t: Double) -> Double {
+            t > 0.008856 ? cbrt(t) : 7.787 * t + 16 / 116
+        }
+        return (116 * f(y) - 16, 500 * (f(x) - f(y)), 200 * (f(y) - f(z)))
+    }
+
+    /// Every body garment is the same colour on every body (each body's was painted by its own edit, and some came
+    /// out another colour: the Persian's life vest brown, the long-haired slim cat's Christmas jumper bright red;
+    /// `tools/asset-pipeline/garments/recolour.py`): the middle of its colours over all its pictures no further from the
+    /// garment's usual than a printed garment's print allows. Not the Hawaiian shirt, whose share of flowers differs.
+    @Test func everyGarmentIsOneColourOnEveryBody() throws {
+        let printed: Set = ["xmasjumper", "pyjamas", "skeleton"]
+        var found: [String] = []
+        for garment in outfits where garment.slot == .body && garment.id != "hawaiian" {
+            var middles: [String: (Double, Double, Double)] = [:]
+            for body in catArt.builder.data.bodies {
+                var ls: [Double] = [], as_: [Double] = [], bs: [Double] = []
+                for pose in CatPose.allCases {
+                    guard let path = OutfitFit.garment(garment, body: body.id, pose: pose), art.has(path),
+                          let raster = Self.small(art.url(path)), raster.planes.count == 4 else { continue }
+                    let alpha = raster.planes[3]
+                    for i in stride(from: 0, to: alpha.count, by: 3) where alpha[i] > 240 {
+                        let k = 255 / Double(alpha[i])
+                        let (l, a, b) = Self.lab(Double(raster.planes[0][i]) * k, Double(raster.planes[1][i]) * k, Double(raster.planes[2][i]) * k)
+                        ls.append(l)
+                        as_.append(a)
+                        bs.append(b)
+                    }
+                }
+                func middle(_ v: [Double]) -> Double {
+                    v.isEmpty ? 0 : v.sorted()[v.count / 2]
+                }
+                middles[body.id] = (middle(ls), middle(as_), middle(bs))
+            }
+            func middle(_ v: [Double]) -> Double {
+                v.sorted()[v.count / 2]
+            }
+            let usual = (middle(middles.values.map(\.0)), middle(middles.values.map(\.1)), middle(middles.values.map(\.2)))
+            for (body, m) in middles {
+                let off = ((m.0 - usual.0) * (m.0 - usual.0) + (m.1 - usual.1) * (m.1 - usual.1) + (m.2 - usual.2) * (m.2 - usual.2)).squareRoot()
+                if off > (printed.contains(garment.id) ? 18 : 15) {
+                    found.append("\(garment.id) on \(body): \(Int(off)) from its colour on the other cats")
+                }
+            }
+        }
+        #expect(found.isEmpty, "\(found.joined(separator: "\n"))")
+    }
+
     /// The outfit nodes drawn now (named "outfit", with nothing above them hidden or faded out), in the cat.
     static func drawn(_ cat: CatNode) -> [SKNode] {
         var out: [SKNode] = []

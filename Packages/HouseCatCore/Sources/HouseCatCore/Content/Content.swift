@@ -285,6 +285,10 @@ public struct OutfitsFile: Codable, Sendable {
         public var sprites: [String: String]
         /// How wide it is worn against the head (hats) or the neck (neckwear); nil for the usual (Tuning.Outfits).
         public var fit: Double?
+        /// A hat the cat's own ears go under (a beanie with knitted ears, a cap, a brimmed hat): nothing of the cat
+        /// shows above its rim, so its ears are never seen beside or through it. Nil or false: the ears stay out (a
+        /// crown, a party hat, a headband).
+        public var coversEars: Bool?
 
         /// Whether the cat can be seen in it: hats, glasses and neckwear are fitted to the face in every pose, body
         /// garments painted for every body's torso and resting poses (outfits/body), so all of them now.

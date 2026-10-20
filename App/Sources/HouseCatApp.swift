@@ -349,8 +349,9 @@ enum CatScreens {
             kind: kind,
             view: "tqfront",
             size: outfit.fit,
-            tallEars: OutfitFit.tallEars(look),
-            pose: .sitThreeQuarterFront
+            tallEars: OutfitFit.tallEars(look, wearing: outfit),
+            pose: .sitThreeQuarterFront,
+            coversEars: OutfitFit.coversEars(outfit)
         )?.image ?? image
     }
 

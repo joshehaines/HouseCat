@@ -76,6 +76,56 @@ public enum OutfitFit {
         Tuning.Outfits.tallEars.contains(look.body) || Tuning.Outfits.tallEars.contains(look.ears)
     }
 
+    /// Whether a hat is lifted for this look's tall ears when wearing this outfit: not one the ears go under.
+    public static func tallEars(_ look: CatLook, wearing outfit: OutfitsFile.Outfit) -> Bool {
+        tallEars(look) && !coversEars(outfit)
+    }
+
+    /// Off only to draw the cat as it was before hats covered the ears (the fit sheets' before pictures).
+    nonisolated(unsafe) public static var coversEarsOn = true
+
+    /// Whether the cat's own ears go under this outfit (outfits.json `coversEars`: a hat with knitted ears, a cap, a
+    /// brimmed hat), so they are hidden where it covers them (`EarCover`).
+    public static func coversEars(_ outfit: OutfitsFile.Outfit) -> Bool {
+        coversEarsOn && kind(outfit) == .hat && outfit.coversEars == true
+    }
+
+    /// Where a hat the ears go under hides the cat (Josh, 20 Oct: "show two sets of ears": a beanie's knitted ears
+    /// sat beside the cat's own, a brim had ears through it): everything above the hat's rim, across the head and
+    /// its ears either side, in the sprite's pixels from the top left. The head under the rim is the hat's to cover.
+    public struct EarCover: Equatable, Sendable {
+        /// A point on the rim's line, the way up from it (a unit vector, y down) and how far either side of it.
+        public var origin: CGPoint
+        public var up: CGVector
+        public var half: CGFloat
+
+        /// How much of a point is hidden (0 to 1), feathered over a pixel or two at the edges.
+        public func hides(_ p: CGPoint) -> CGFloat {
+            let dx = p.x - origin.x, dy = p.y - origin.y
+            let above = dx * up.dx + dy * up.dy
+            let along = abs(dx * -up.dy + dy * up.dx)
+            func ramp(_ v: CGFloat) -> CGFloat {
+                min(1, max(0, (v + 1.5) / 3))
+            }
+            return ramp(above) * ramp(half - along)
+        }
+    }
+
+    /// The ear cover for a hat placed on a face (`place`'s placement): the rim's line a little above the rim, as
+    /// wide as the head and its ears either side (Tuning.Outfits.earCoverWidth head widths each way).
+    public static func earCover(_ fit: Placement, shape: OutfitShape, on face: CatFace) -> EarCover? {
+        let t = Tuning.Outfits.self
+        let w = face.size.width, h = face.size.height
+        let eyes = face.eyes.map { CGPoint(x: $0.x * w, y: $0.y * h) }
+        guard let (left, right) = headSpan(face, eyes: eyes, w: w, h: h) else { return nil }
+        // Up the picture, turned as the hat is (its angle is clockwise on screen, y down).
+        let up = CGVector(dx: sin(fit.angle), dy: -cos(fit.angle))
+        let tall = fit.width * shape.size.height / max(1, shape.size.width)
+        let rise = tall * CGFloat(t.earCoverRise)
+        let origin = CGPoint(x: fit.point.x + up.dx * rise, y: fit.point.y + up.dy * rise)
+        return EarCover(origin: origin, up: up, half: (right - left) * CGFloat(t.earCoverWidth))
+    }
+
     /// Lying down, the chin rests on the paws: neckwear is cut to the cat's outline (tucked under, never hanging
     /// below the floor).
     public static func tucksNeckwear(_ pose: CatPose) -> Bool {
@@ -105,7 +155,8 @@ public enum OutfitFit {
         on face: CatFace,
         view: String? = nil,
         size: Double? = nil,
-        tallEars: Bool = false
+        tallEars: Bool = false,
+        coversEars: Bool = false
     ) -> Placement? {
         let t = Tuning.Outfits.self
         let w = face.size.width, h = face.size.height
@@ -120,17 +171,27 @@ public enum OutfitFit {
         let angle: CGFloat = eyes.count >= 2 ? atan2(eyes[1].y - eyes[0].y, eyes[1].x - eyes[0].x) : 0
         switch kind {
         case .hat:
-            guard let (left, right) = headSpan(face, eyes: eyes, w: w, h: h), let head = face.head, let crown = face.crown.map(px)
+            guard let (left, right) = headSpan(face, eyes: eyes, w: w, h: h), let head = face.head, var crown = face.crown.map(px)
             else { return nil }
             let row = head.y * h
             let width = right - left
+            // Side-on, the crown straight up from the head's middle is an ear's tip. A hat the ears go under sits on the
+            // skull instead: no higher than its share of the head's length above the eye (the ear-less profile heads).
+            if coversEars, view == "side" || eyes.count == 1 {
+                crown.y = max(crown.y, row - width * CGFloat(t.profileSkull))
+            }
             guard width > 1, shape.rimWidth > 0 else { return nil }
             // A headband painted side-on (much taller than wide): sized by its height over the head, its end down
             // by the cheek, so the band runs up the side of the head with the antler above. (From behind there is
             // no eye line to measure from, and the back's pictures are not side-on.)
             let lift = eyes.isEmpty ? 0 : row - crown.y
             if ph > pw * CGFloat(t.bandAspect), lift > 0 {
-                let point = CGPoint(x: (left + right) / 2, y: row + lift * CGFloat(t.bandDrop))
+                var point = CGPoint(x: (left + right) / 2, y: row + lift * CGFloat(t.bandDrop))
+                // Side-on, the band goes over the head behind the eye, not down across it (Josh, 20 Oct: outfits
+                // "dont fit at all"): moved back towards the ears.
+                if eyes.count == 1, let eye = eyes.first {
+                    point.x += (point.x >= eye.x ? 1 : -1) * width * CGFloat(t.bandBack)
+                }
                 return Placement(point: point, width: lift * CGFloat(t.bandHeight) * pw / ph, angle: angle, anchor: anchor(shape.rim))
             }
             // The rim: across the head, part way from the eye line up to the crown.
@@ -190,9 +251,10 @@ public enum OutfitFit {
             let point = CGPoint(x: (left + right) / 2, y: neck.y * h)
             var pictureWidth = (right - left) * CGFloat(size ?? t.neckWidth) / shape.topWidth
             // No longer than the head allows: a necklace seen side-on is a narrow strand, so sized by its width
-            // it would hang to the floor.
+            // it would hang to the floor; a strand (much taller than wide: the pearls) no longer than a head.
             if let (hl, hr) = headSpan(face, eyes: eyes, w: w, h: h), ph > 0 {
-                pictureWidth = min(pictureWidth, (hr - hl) * CGFloat(t.neckMaxHeight) * pw / ph)
+                let longest = ph > pw * CGFloat(t.strandAspect) ? t.strandMaxHeight : t.neckMaxHeight
+                pictureWidth = min(pictureWidth, (hr - hl) * CGFloat(longest) * pw / ph)
             }
             let band = CGPoint(x: shape.top.x, y: min(1, shape.top.y + CGFloat(t.neckBandDrop)))
             return Placement(point: point, width: pictureWidth, angle: angle, anchor: anchor(band))
@@ -475,12 +537,13 @@ public enum OutfitFit {
         view: String? = nil,
         size: Double? = nil,
         tallEars: Bool = false,
-        pose: CatPose? = nil
+        pose: CatPose? = nil,
+        coversEars: Bool = false
     ) -> (image: CGImage, extra: Int)? {
         let w = CGFloat(cat.width), h = CGFloat(cat.height)
         var scaled = face
         scaled.size = CGSize(width: w, height: h)
-        guard let fit = place(kind, shape: shape, on: scaled, view: view, size: size, tallEars: tallEars) else { return nil }
+        guard let fit = place(kind, shape: shape, on: scaled, view: view, size: size, tallEars: tallEars, coversEars: coversEars) else { return nil }
         let ow = fit.width, oh = ow * CGFloat(outfit.height) / CGFloat(max(1, outfit.width))
         // How far the outfit reaches above the picture (its top, from its anchor, roughly upright).
         let above = max(0, (1 - fit.anchor.y) * oh - fit.point.y)
@@ -491,6 +554,23 @@ public enum OutfitFit {
             bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
         ) else { return nil }
         context.draw(cat, in: CGRect(x: 0, y: 0, width: w, height: h))
+        // A hat the ears go under: the cat cleared above its rim, across the head and ears (the hat covers the rest).
+        if coversEars, kind == .hat, let cover = earCover(fit, shape: shape, on: scaled) {
+            let along = CGVector(dx: -cover.up.dy, dy: cover.up.dx)
+            let reach = w + h
+            let corners = [
+                CGPoint(x: cover.origin.x - along.dx * cover.half, y: cover.origin.y - along.dy * cover.half),
+                CGPoint(x: cover.origin.x + along.dx * cover.half, y: cover.origin.y + along.dy * cover.half),
+                CGPoint(x: cover.origin.x + along.dx * cover.half + cover.up.dx * reach, y: cover.origin.y + along.dy * cover.half + cover.up.dy * reach),
+                CGPoint(x: cover.origin.x - along.dx * cover.half + cover.up.dx * reach, y: cover.origin.y - along.dy * cover.half + cover.up.dy * reach),
+            ].map { CGPoint(x: $0.x, y: h - $0.y) }
+            context.saveGState()
+            context.setBlendMode(.clear)
+            context.addLines(between: corners)
+            context.closePath()
+            context.fillPath()
+            context.restoreGState()
+        }
         // Into the context's bottom-left frame: the fit point, then the outfit round its anchor, turned.
         func drawOutfit(_ into: CGContext) {
             into.saveGState()

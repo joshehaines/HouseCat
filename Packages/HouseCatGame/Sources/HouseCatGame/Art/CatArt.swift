@@ -85,26 +85,42 @@ public final class CatArt: @unchecked Sendable {
 
     /// A film frame tinted into the look, not kept (the cat keeps its own frames while it has the look). `cutting`
     /// takes the film's own ears or tail out of it (their masks, "ears" or "tail"), for the look's swapped ones to go
-    /// on instead; the head stays whole where an ear joined it.
+    /// on instead; the head stays whole where an ear joined it. The ears' mask was carried through the film and lags
+    /// the ear a little, so it is widened first (Josh, 20 Oct: "two sets of ears": the film's ear rims and tips
+    /// were left beside the swapped ones).
     public func filmFrame(_ path: String, look: CatLook, cutting parts: [String] = []) -> CGImage? {
         guard var output = render(CatBuilder.Sprite(path: path, takesWhite: true), look: look) else { return nil }
         if !parts.isEmpty, let entry = entries[path] {
             let size = (output.width, output.height)
-            func plane(_ name: String) -> [Float]? {
+            func plane(_ name: String, widen: Int = 0) -> [Float]? {
                 guard entry.masks.contains(name), let raster = Raster.read(root.appendingPathComponent("masks/\(name)/\(path)")) else {
                     return nil
                 }
-                let bytes = raster.width == size.0 && raster.height == size.1
+                var bytes = raster.width == size.0 && raster.height == size.1
                     ? raster.planes[0] : Raster.scaled(raster.planes[0], from: (raster.width, raster.height), to: size)
+                if widen > 0 {
+                    bytes = Raster.widened(bytes, width: size.0, height: size.1, by: widen)
+                }
                 return Raster.floats(bytes, scale: 1 / 255)
             }
             let head = plane("head")
+            let widen = max(1, Int((Double(size.1) * Tuning.Puppet.filmCutWiden).rounded()))
+            let smooth = max(1, Int((Double(size.1) * Tuning.Puppet.filmCutSmooth).rounded()))
             for part in parts {
-                guard let cut = plane(part) else { continue }
+                guard let cut = plane(part, widen: part == "ears" ? widen : 0) else { continue }
                 for index in cut.indices {
                     let away = cut[index] - (part == "ears" ? head?[index] ?? 0 : 0)
                     let keep = 1 - min(1, max(0, away * 1.6))
                     output.alpha[index] = UInt8(Float(output.alpha[index]) * keep)
+                }
+            }
+            // Where the ears were, a sliver the head's mask kept of them (an ear's back edge) is smoothed away: the
+            // outline opened (shrunk, then grown back) near the cut only.
+            if parts.contains("ears"), let near = plane("ears", widen: widen + 2 * smooth) {
+                let shrunk = Raster.narrowed(output.alpha, width: size.0, height: size.1, by: smooth)
+                let opened = Raster.widened(shrunk, width: size.0, height: size.1, by: smooth)
+                for index in near.indices where near[index] > 0.5 {
+                    output.alpha[index] = min(output.alpha[index], opened[index])
                 }
             }
         }
@@ -354,6 +370,36 @@ public struct Raster: Sendable {
         var out = [Float](repeating: 0, count: bytes.count)
         vDSP.convertElements(of: bytes, to: &out)
         return scale == 1 ? out : vDSP.multiply(scale, out)
+    }
+
+    /// A plane with every pixel the brightest within `by` pixels of it (a mask grown outwards).
+    static func widened(_ plane: [UInt8], width: Int, height: Int, by radius: Int) -> [UInt8] {
+        var input = plane
+        var output = [UInt8](repeating: 0, count: plane.count)
+        let kernel = UInt(radius * 2 + 1)
+        input.withUnsafeMutableBytes { i in
+            output.withUnsafeMutableBytes { o in
+                var src = vImage_Buffer(data: i.baseAddress, height: vImagePixelCount(height), width: vImagePixelCount(width), rowBytes: width)
+                var dst = vImage_Buffer(data: o.baseAddress, height: vImagePixelCount(height), width: vImagePixelCount(width), rowBytes: width)
+                _ = vImageMax_Planar8(&src, &dst, nil, 0, 0, kernel, kernel, vImage_Flags(kvImageEdgeExtend))
+            }
+        }
+        return output
+    }
+
+    /// A plane with every pixel the darkest within `by` pixels of it (a mask shrunk inwards).
+    static func narrowed(_ plane: [UInt8], width: Int, height: Int, by radius: Int) -> [UInt8] {
+        var input = plane
+        var output = [UInt8](repeating: 0, count: plane.count)
+        let kernel = UInt(radius * 2 + 1)
+        input.withUnsafeMutableBytes { i in
+            output.withUnsafeMutableBytes { o in
+                var src = vImage_Buffer(data: i.baseAddress, height: vImagePixelCount(height), width: vImagePixelCount(width), rowBytes: width)
+                var dst = vImage_Buffer(data: o.baseAddress, height: vImagePixelCount(height), width: vImagePixelCount(width), rowBytes: width)
+                _ = vImageMin_Planar8(&src, &dst, nil, 0, 0, kernel, kernel, vImage_Flags(kvImageEdgeExtend))
+            }
+        }
+        return output
     }
 
     /// A plane resampled to another size (the half-size masks up to their sprite's size).

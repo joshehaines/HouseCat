@@ -250,6 +250,10 @@ struct ContentValidationTests {
             if outfit.pool == .earned {
                 #expect(outfit.earnedBy != nil)
             }
+            // Only a hat covers the ears (glasses, neckwear and garments leave the head as it is).
+            if outfit.coversEars == true {
+                #expect(outfit.slot == .head && !outfit.id.contains("glasses"), "\(outfit.id): coversEars on a hat only")
+            }
         }
     }
 

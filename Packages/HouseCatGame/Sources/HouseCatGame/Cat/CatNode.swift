@@ -244,16 +244,29 @@ public final class CatNode: SKNode {
         }
     }
 
+    /// Tall ears lift a hat, unless they go under it.
     private var hasTallEars: Bool {
-        look.map(OutfitFit.tallEars) ?? false
+        guard let look else { return false }
+        return outfit.map { OutfitFit.tallEars(look, wearing: $0) } ?? OutfitFit.tallEars(look)
     }
 
-    /// The outfit on each puppet view's head, so it turns and bobs with it.
+    /// Whether the outfit on is a hat the cat's ears go under.
+    private var earsUnderHat: Bool {
+        outfit.map(OutfitFit.coversEars) ?? false
+    }
+
+    /// The outfit on each puppet view's head, so it turns and bobs with it. A hat the ears go under hides them: the
+    /// ear parts and anything of the head above its rim (a breed's head is painted with its ears).
     private func layOutfit() {
         for node in outfitNodes {
             node.removeFromParent()
         }
         outfitNodes = []
+        for nodes in parts.values {
+            nodes["head"]?.shader = nil
+            nodes["ear_near"]?.isHidden = false
+            nodes["ear_far"]?.isHidden = false
+        }
         if let outfit, outfit.slot == .body, let look {
             layTorsoGarment(outfit, look: look)
             return
@@ -262,12 +275,46 @@ public final class CatNode: SKNode {
         for view in View.allCases {
             guard let head = parts[view]?["head"], let picture = outfit.sprites[view.rawValue],
                   let shape = OutfitShapes.shape(picture, art: art),
-                  let face = catArt.face(catArt.builder.part("head", view: view.rawValue, look: look).path),
-                  let fit = OutfitFit.place(kind, shape: shape, on: face, view: view.rawValue, size: outfit.fit, tallEars: hasTallEars)
+                  let face = catArt.face(headSprite(view, catArt: catArt, look: look).path),
+                  let fit = OutfitFit.place(kind, shape: shape, on: face, view: view.rawValue, size: outfit.fit, tallEars: hasTallEars, coversEars: earsUnderHat)
             else { continue }
             outfitNodes.append(put(picture, fit: fit, face: face, on: head))
+            if earsUnderHat {
+                cover(head, with: OutfitFit.earCover(fit, shape: shape, on: face), face: face)
+                parts[view]?["ear_near"]?.isHidden = true
+                parts[view]?["ear_far"]?.isHidden = true
+            }
         }
     }
+
+    /// Hides a picture above a hat's rim (`OutfitFit.EarCover`), in a shader so it holds for whatever texture the
+    /// node shows next (a blink, the next frame of a film); nil shows it all again.
+    private func cover(_ node: SKSpriteNode, with cover: OutfitFit.EarCover?, face: CatFace) {
+        guard let cover, face.size.width > 0, face.size.height > 0 else {
+            node.shader = nil
+            return
+        }
+        let shader = SKShader(source: Self.earCoverSource, uniforms: [
+            SKUniform(name: "u_cover_origin", vectorFloat2: SIMD2(Float(cover.origin.x / face.size.width), Float(1 - cover.origin.y / face.size.height))),
+            SKUniform(name: "u_cover_size", vectorFloat2: SIMD2(Float(face.size.width), Float(face.size.height))),
+            // Up the picture with y up, as the texture's coordinates run.
+            SKUniform(name: "u_cover_up", vectorFloat2: SIMD2(Float(cover.up.dx), Float(-cover.up.dy))),
+            SKUniform(name: "u_cover_half", float: Float(cover.half)),
+        ])
+        node.shader = shader
+    }
+
+    /// `EarCover.hides` on the GPU, in the texture's pixels.
+    private static let earCoverSource = """
+    void main() {
+        vec4 colour = texture2D(u_texture, v_tex_coord);
+        vec2 p = (v_tex_coord - u_cover_origin) * u_cover_size;
+        float above = dot(p, u_cover_up);
+        float along = abs(dot(p, vec2(u_cover_up.y, -u_cover_up.x)));
+        float hide = clamp((above + 1.5) / 3.0, 0.0, 1.0) * clamp((u_cover_half - along + 1.5) / 3.0, 0.0, 1.0);
+        gl_FragColor = colour * (1.0 - hide) * v_color_mix.a;
+    }
+    """
 
     /// A body garment on each view's torso, so it moves with the walk (the legs, head and tail stay bare).
     private func layTorsoGarment(_ outfit: OutfitsFile.Outfit, look: CatLook) {
@@ -307,6 +354,7 @@ public final class CatNode: SKNode {
     private func layPoseOutfit(_ pose: CatPose) {
         poseOutfit?.removeFromParent()
         poseOutfit = nil
+        poseNode.shader = nil
         if let outfit, outfit.slot == .body, let catArt, let look {
             layPoseGarment(outfit, pose: pose, catArt: catArt, look: look)
             return
@@ -315,9 +363,12 @@ public final class CatNode: SKNode {
               let view = OutfitFit.view(for: pose), let picture = outfit.sprites[view],
               let shape = OutfitShapes.shape(picture, art: art),
               let face = catArt.face(catArt.builder.pose(pose.rawValue, look: look).path),
-              let fit = OutfitFit.place(kind, shape: shape, on: face, view: view, size: outfit.fit, tallEars: hasTallEars) else { return }
+              let fit = OutfitFit.place(kind, shape: shape, on: face, view: view, size: outfit.fit, tallEars: hasTallEars, coversEars: earsUnderHat) else { return }
         guard kind == .neck, OutfitFit.tucksNeckwear(pose) else {
             poseOutfit = put(picture, fit: fit, face: face, on: poseNode)
+            if earsUnderHat {
+                cover(poseNode, with: OutfitFit.earCover(fit, shape: shape, on: face), face: face)
+            }
             return
         }
         // Lying down, neckwear only where the cat is.
@@ -399,13 +450,45 @@ public final class CatNode: SKNode {
         return catArt.has(path) ? CatBuilder.Sprite(path: path, takesWhite: sprite.takesWhite) : nil
     }
 
-    /// A part's newer painting, if it has one: a profile ear, a single leg.
+    /// A side head painted with its own ear (the long-haired slim body's) painted again with none, for swapped ears
+    /// (Josh, 20 Oct: "show two sets of ears": the painted ear stayed beside the swapped ones); else nil.
+    private func earlessHead(_ name: String, view: View) -> CatBuilder.Sprite? {
+        guard name == "head", view == .side, let catArt, let look, look.ears != "own",
+              Tuning.Puppet.sideHeadsWithEars.contains(look.body) else { return nil }
+        let sprite = catArt.builder.part(name, view: view.rawValue, look: look)
+        let path = sprite.path.replacingOccurrences(of: ".png", with: "_noears.png")
+        return catArt.has(path) ? CatBuilder.Sprite(path: path, takesWhite: sprite.takesWhite) : nil
+    }
+
+    /// A part's newer painting, if it has one: a profile ear, a single leg, a head with no ears.
     private func repainted(_ name: String, view: View) -> CatBuilder.Sprite? {
-        profileEar(name, view: view) ?? singleLeg(name, view: view)
+        profileEar(name, view: view) ?? singleLeg(name, view: view) ?? earlessHead(name, view: view)
+    }
+
+    /// The head's painting in a view, as drawn (a head with no ears for swapped ones), for blinks and outfits.
+    private func headSprite(_ view: View, catArt: CatArt, look: CatLook) -> CatBuilder.Sprite {
+        repainted("head", view: view) ?? catArt.builder.part("head", view: view.rawValue, look: look)
     }
 
     /// Off only to compare with the old cupped ears (the movement renders).
     nonisolated(unsafe) static var profileEars = true
+
+    /// How much larger or smaller than painted a swapped ear is drawn: as tall as the body's own ear in this view
+    /// (the one it stands in for, profile or cupped), times its shape's share. The swap ears' masters are one set for
+    /// every body and were painted larger than a body's own, so on the puppet they stood half as tall again as the
+    /// same ears in the sitting paintings and the ears jumped in size as the cat sat down (Josh, 20 Oct: "The ears on
+    /// the cats need to be looked at, they are very buggy").
+    private func swappedEarScale(_ name: String, view: View, painted: CGSize) -> CGFloat {
+        guard name.hasPrefix("ear_"), let catArt, let look, look.ears != "own",
+              let share = Tuning.Puppet.swapEarLength[look.ears], painted.height > 0 else { return 1 }
+        let own = "parts/cat_\(look.body)_\(view.rawValue)_\(name).png"
+        let profile = own.replacingOccurrences(of: ".png", with: "_profile.png")
+        let takesProfile = Self.profileEars && view == .side && Tuning.Puppet.profileEarBodies.contains(look.body) && catArt.has(profile)
+        let ownHeight = catArt.paintedSize(takesProfile ? profile : own).height
+        // A side head painted with its own ear has a smaller one than its separate (undrawn) ear parts.
+        let body = Tuning.Puppet.swapEarBodyView["\(look.body)/\(view.rawValue)"] ?? 1
+        return ownHeight > 0 ? CGFloat(share * body) * ownHeight / painted.height : 1
+    }
 
     /// A profile ear stands on its base: the middle of its bottom rows, found from its outline.
     private func earPivot(_ sprite: CatBuilder.Sprite) -> CGPoint? {
@@ -453,13 +536,14 @@ public final class CatNode: SKNode {
         let stretch = look.flatMap { catArt?.builder.torsoStretch($0) } ?? 1
         for (name, part) in spec.parts {
             // A side head painted with its own ear (the long-haired slim body's) takes no ear parts over it: two
-            // pairs of ears. Swap ears still go on.
+            // pairs of ears. Swapped ears go on its painting with no ears (`earlessHead`).
             if view == .side, name.hasPrefix("ear_"), Tuning.Puppet.sideHeadsWithEars.contains(body), (look?.ears ?? "own") == "own" {
                 continue
             }
             let (texture, painted) = sprite(part: name, view: view)
-            let width = painted.width * partScale * (name == "torso" ? CGFloat(stretch) : 1)
-            let node = SKSpriteNode(texture: texture, size: CGSize(width: width, height: painted.height * partScale))
+            let earScale = swappedEarScale(name, view: view, painted: painted)
+            let width = painted.width * partScale * (name == "torso" ? CGFloat(stretch) : 1) * earScale
+            let node = SKSpriteNode(texture: texture, size: CGSize(width: width, height: painted.height * partScale * earScale))
             node.anchorPoint = CGPoint(x: part.pivot[0], y: 1 - part.pivot[1])
             if let profile = profileEar(name, view: view), let pivot = earPivot(profile) {
                 node.anchorPoint = pivot
@@ -1328,6 +1412,11 @@ public final class CatNode: SKNode {
         }
     }
 
+    /// Another cat's film frames in the same look, tinted once for many cats (the contact sheets).
+    func shareFilms(from other: CatNode) {
+        filmFrames = other.filmFrames
+    }
+
     /// Whether the film for a view and gait is ready to show (tests).
     func hasFilm(_ view: View, _ gait: Gait) -> Bool {
         filmFrames["\(view.rawValue)/\(gait == .run ? "run" : "walk")"] != nil
@@ -1390,7 +1479,7 @@ public final class CatNode: SKNode {
         guard index != filmFrame else { return }
         filmFrame = index
         filmNode.texture = frames[index]
-        layFilmOutfit(film.frames[index])
+        layFilmOutfit(film, frame: index)
         placeFilmPieces(film, frame: index)
     }
 
@@ -1471,15 +1560,38 @@ public final class CatNode: SKNode {
         }
     }
 
+    /// The face in a film's frame, for fitting outfits: its own, or where the cat blinks (its eyes shut, so no face
+    /// is found and the head was measured as if from behind: a hat three times too big for a frame, Josh's "dont fit at
+    /// all") the nearest frame's in the loop that shows its eyes.
+    private func filmFace(_ film: CatArt.Film, frame index: Int) -> CatFace? {
+        guard let catArt, !film.frames.isEmpty else { return nil }
+        let count = film.frames.count, eyes = view == .side ? 1 : 2
+        for step in 0 ... count / 2 {
+            for i in Set([index - step, index + step]) {
+                if let face = catArt.face(film.frames[(i % count + count) % count]), face.eyes.count >= eyes {
+                    return face
+                }
+            }
+        }
+        return catArt.face(film.frames[index])
+    }
+
     /// A hat, glasses or neckwear on the film's frame, fitted to the face in it as on a resting pose.
-    private func layFilmOutfit(_ path: String) {
+    private func layFilmOutfit(_ film: CatArt.Film, frame index: Int) {
         filmOutfit?.removeFromParent()
         filmOutfit = nil
-        guard let outfit, let kind = OutfitFit.kind(outfit), let catArt, let picture = outfit.sprites[view.rawValue],
-              let shape = OutfitShapes.shape(picture, art: art), let face = catArt.face(path),
-              let fit = OutfitFit.place(kind, shape: shape, on: face, view: view.rawValue, size: outfit.fit, tallEars: hasTallEars)
+        filmNode.shader = nil
+        guard let outfit, let kind = OutfitFit.kind(outfit), let picture = outfit.sprites[view.rawValue],
+              let shape = OutfitShapes.shape(picture, art: art), let face = filmFace(film, frame: index),
+              let fit = OutfitFit.place(kind, shape: shape, on: face, view: view.rawValue, size: outfit.fit, tallEars: hasTallEars, coversEars: earsUnderHat)
         else { return }
         filmOutfit = put(picture, fit: fit, face: face, on: filmNode)
+        if earsUnderHat {
+            cover(filmNode, with: OutfitFit.earCover(fit, shape: shape, on: face), face: face)
+        }
+        for (key, piece) in filmPieces where key.hasPrefix("ear_") {
+            piece.isHidden = earsUnderHat
+        }
     }
 
     // MARK: Life at rest
@@ -1556,7 +1668,7 @@ public final class CatNode: SKNode {
             openPose = poseNode.texture
             poseNode.texture = shut
         } else if let head = parts[view]?["head"], let open = head.texture {
-            guard let shut = catArt.blinkTexture(catArt.builder.part("head", view: view.rawValue, look: look), look: look) else { return }
+            guard let shut = catArt.blinkTexture(headSprite(view, catArt: catArt, look: look), look: look) else { return }
             openHead = (view, open)
             head.texture = shut
         } else {
@@ -1577,6 +1689,15 @@ public final class CatNode: SKNode {
             openHead = nil
         }
         blinkEnds = nil
+    }
+
+    /// Whether the painting or film frame on show is hidden above a hat's rim (a hat the ears go under; tests).
+    var poseCovered: Bool {
+        poseNode.shader != nil
+    }
+
+    var filmCovered: Bool {
+        filmNode.shader != nil
     }
 
     /// How many drawings of the cat are on show (any part see-through or not): always one.

@@ -62,8 +62,9 @@
                               kind: kind,
                               view: view,
                               size: outfit.fit,
-                              tallEars: OutfitFit.tallEars(look),
-                              pose: pose
+                              tallEars: OutfitFit.tallEars(look, wearing: outfit),
+                              pose: pose,
+                              coversEars: OutfitFit.coversEars(outfit)
                           )
                     else { return image }
                     return dressed.image

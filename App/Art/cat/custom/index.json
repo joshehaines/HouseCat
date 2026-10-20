@@ -1515,6 +1515,31 @@
     199
    ]
   },
+  "parts/cat_long_slim_side_head_noears.png": {
+   "masks": [
+    "colourpoint",
+    "features",
+    "fur",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tortie",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    438,
+    568
+   ],
+   "scale": 0.35,
+   "size": [
+    153,
+    199
+   ]
+  },
   "parts/cat_long_slim_side_leg_back_far.png": {
    "masks": [
     "colourpoint",

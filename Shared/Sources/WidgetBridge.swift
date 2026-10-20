@@ -93,7 +93,8 @@ enum WidgetBridge {
         // What the cat has on, in each pose's view (OutfitFit draws it on the pose).
         let worn = GameSession.shared.wornOutfit
         let kind = worn.flatMap(OutfitFit.kind)
-        let tall = OutfitFit.tallEars(look)
+        let tall = worn.map { OutfitFit.tallEars(look, wearing: $0) } ?? OutfitFit.tallEars(look)
+        let covers = worn.map(OutfitFit.coversEars) ?? false
         var outfitPictures: [CatPose: (CGImage, OutfitShape, String)] = [:]
         // A body garment: its picture for each pose and where it goes on the pose's painting.
         var garments: [CatPose: (CGImage, CGRect)] = [:]
@@ -137,7 +138,8 @@ enum WidgetBridge {
                        view: view,
                        size: worn?.fit,
                        tallEars: tall,
-                       pose: pose
+                       pose: pose,
+                       coversEars: covers
                    )
                 {
                     grown = Double(image.height + dressed.extra) / Double(max(1, image.height))

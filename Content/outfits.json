@@ -21,7 +21,8 @@
         "tqback": "outfits/outfit_beanie_tqback.png",
         "tqfront": "outfits/outfit_beanie_tqfront.png"
       },
-      "fit": 1.15
+      "fit": 1.15,
+      "coversEars": true
     },
     {
       "id": "flatcap",
@@ -43,7 +44,8 @@
         "tqback": "outfits/outfit_flatcap_tqback.png",
         "tqfront": "outfits/outfit_flatcap_tqfront.png"
       },
-      "fit": 1.2
+      "fit": 1.2,
+      "coversEars": true
     },
     {
       "id": "buckethat",
@@ -65,7 +67,8 @@
         "tqback": "outfits/outfit_buckethat_tqback.png",
         "tqfront": "outfits/outfit_buckethat_tqfront.png"
       },
-      "fit": 1.35
+      "fit": 1.35,
+      "coversEars": true
     },
     {
       "id": "partyhat",
@@ -241,7 +244,8 @@
         "tqback": "outfits/outfit_pumpkinhat_tqback.png",
         "tqfront": "outfits/outfit_pumpkinhat_tqfront.png"
       },
-      "fit": 1.2
+      "fit": 1.2,
+      "coversEars": true
     },
     {
       "id": "santahat",
@@ -265,7 +269,8 @@
         "tqback": "outfits/outfit_santahat_tqback.png",
         "tqfront": "outfits/outfit_santahat_tqfront.png"
       },
-      "fit": 1.2
+      "fit": 1.2,
+      "coversEars": true
     },
     {
       "id": "antlers",
@@ -526,7 +531,8 @@
         "tqback": "outfits/outfit_beret_tqback.png",
         "tqfront": "outfits/outfit_beret_tqfront.png"
       },
-      "fit": 1.0
+      "fit": 1.0,
+      "coversEars": true
     },
     {
       "id": "strawberryhat",
@@ -548,7 +554,8 @@
         "tqback": "outfits/outfit_strawberryhat_tqback.png",
         "tqfront": "outfits/outfit_strawberryhat_tqfront.png"
       },
-      "fit": 1.15
+      "fit": 1.15,
+      "coversEars": true
     },
     {
       "id": "froghat",
@@ -570,7 +577,8 @@
         "tqback": "outfits/outfit_froghat_tqback.png",
         "tqfront": "outfits/outfit_froghat_tqfront.png"
       },
-      "fit": 1.15
+      "fit": 1.15,
+      "coversEars": true
     },
     {
       "id": "sunhat",
@@ -592,7 +600,8 @@
         "tqback": "outfits/outfit_sunhat_tqback.png",
         "tqfront": "outfits/outfit_sunhat_tqfront.png"
       },
-      "fit": 1.3
+      "fit": 1.3,
+      "coversEars": true
     },
     {
       "id": "nightcap",
@@ -614,7 +623,8 @@
         "tqback": "outfits/outfit_nightcap_tqback.png",
         "tqfront": "outfits/outfit_nightcap_tqfront.png"
       },
-      "fit": 1.2
+      "fit": 1.2,
+      "coversEars": true
     },
     {
       "id": "chefhat",
@@ -636,7 +646,8 @@
         "tqback": "outfits/outfit_chefhat_tqback.png",
         "tqfront": "outfits/outfit_chefhat_tqfront.png"
       },
-      "fit": 1.0
+      "fit": 1.0,
+      "coversEars": true
     },
     {
       "id": "bowler",
@@ -658,7 +669,8 @@
         "tqback": "outfits/outfit_bowler_tqback.png",
         "tqfront": "outfits/outfit_bowler_tqfront.png"
       },
-      "fit": 1.0
+      "fit": 1.0,
+      "coversEars": true
     },
     {
       "id": "cowboyhat",
@@ -680,7 +692,8 @@
         "tqback": "outfits/outfit_cowboyhat_tqback.png",
         "tqfront": "outfits/outfit_cowboyhat_tqfront.png"
       },
-      "fit": 1.45
+      "fit": 1.45,
+      "coversEars": true
     },
     {
       "id": "bunnyears",

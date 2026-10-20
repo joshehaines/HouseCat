@@ -913,11 +913,23 @@ public enum Tuning {
         /// filmed at half speed): a film plays quicker or slower as the cat goes faster or slower than that.
         public static let filmWalkPace = 0.9
         public static let filmRunPace = 1.8
+        /// Cutting a film's own ears out for swapped ones: the ears' mask widened by this much of the frame's height
+        /// (it lags the ear), and the outline near the cut smoothed over this much (an ear's edge the head's mask
+        /// kept), so no rim or tip of the film's ears is left beside the swapped ones.
+        public static let filmCutWiden = 0.03
+        public static let filmCutSmooth = 0.012
         /// The bodies whose side head is a true profile, which take the profile ears in the side view; the others
         /// keep the cupped ears (the long-haired chunky body's side head looks round at you). A side head painted with
         /// its own ear takes no ear parts over it.
         public static let profileEarBodies: Set<String> = ["short_slim", "short_chunky", "siamese", "sphynx"]
         public static let sideHeadsWithEars: Set<String> = ["long_slim"]
+        /// A swapped ear on the puppet is this many times as tall as the body's own ear it stands in for, by shape:
+        /// measured off the sitting paintings (front, three-quarter and side, the four standard bodies), which have
+        /// every shape painted in, so the ears keep their size as the cat sits down.
+        public static let swapEarLength: [String: Double] = ["rounded": 0.72, "folded": 0.53, "tufted": 1.64, "oriental": 1.19]
+        /// And by "<body>/<view>" where that body's own ear parts are not the ear it shows (the long-haired slim side
+        /// head is painted with a smaller ear of its own).
+        public static let swapEarBodyView: [String: Double] = ["long_slim/side": 0.75]
         /// Settling into a painted pose, getting up from one and turning between views (one drawing at a time: the
         /// new one takes over at once, under a squash).
         public static let settleSeconds = 0.35
@@ -1187,12 +1199,19 @@ public enum Tuning {
         public static let bandAspect = 2.0
         public static let bandHeight = 2.5
         public static let bandDrop = 0.25
+        /// Side-on, the band sits this many head lengths behind the head's middle (over the head between the eye
+        /// and the ear; at the middle it ran down across the eye).
+        public static let bandBack = 0.18
         /// A body garment on the puppet: its picture is the torso's with this much of it added on every side (the
         /// garment sheets' TORSO_PAD), drawn over the torso and under the head.
         public static let torsoPad = 0.15
         public static let torsoGarmentZ = 0.0015
         /// The longest neckwear may hang, in head widths (a scarf's tassels reach about 1.5).
         public static let neckMaxHeight = 1.7
+        /// Neckwear painted this many times taller than wide is a strand seen side-on (the pearls): no longer than
+        /// this many head widths, or it hung to the floor.
+        public static let strandAspect = 2.8
+        public static let strandMaxHeight = 1.0
         /// A profile's head is at most this many times the eye's distance to the front of the face long (sitting
         /// it is 5 to 6.4; lying down the row runs on into the body, 8 to 11).
         public static let profileHeadToFront = 6.0
@@ -1232,6 +1251,13 @@ public enum Tuning {
         public static let minimumFeaturePixels = 4
         /// Over the head and its ears.
         public static let zLift = 0.5
+        /// A hat the ears go under (outfits.json `coversEars`) hides the cat above a line this much of the hat's
+        /// height over its rim, this many head widths either side of the head's middle (the ears and their tufts).
+        public static let earCoverRise = 0.05
+        public static let earCoverWidth = 1.1
+        /// Side-on, a hat the ears go under sits on the skull, at most this many head lengths above the eye (the
+        /// ear-less profile heads measure 0.41 to 0.52; straight up from the head's middle is an ear's tip).
+        public static let profileSkull = 0.5
     }
 
     public enum House {

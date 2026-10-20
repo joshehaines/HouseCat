@@ -120523,6 +120523,105 @@
     2688,
     1520
    ]
+  },
+  "cat/custom/base/parts/cat_long_slim_side_head_noears.png": {
+   "class": "cat/custom/base",
+   "kind": "parts",
+   "px": [
+    438,
+    568
+   ],
+   "note": "the side head with its ear painted out, for swapped ears (tools/asset-pipeline/ears/earless_head.py)"
+  },
+  "cat/custom/masks/colourpoint/parts/cat_long_slim_side_head_noears.png": {
+   "class": "cat/custom/mask",
+   "mask": "colourpoint",
+   "of": "base/parts/cat_long_slim_side_head_noears.png",
+   "px": [
+    438,
+    568
+   ]
+  },
+  "cat/custom/masks/features/parts/cat_long_slim_side_head_noears.png": {
+   "class": "cat/custom/mask",
+   "mask": "features",
+   "of": "base/parts/cat_long_slim_side_head_noears.png",
+   "px": [
+    438,
+    568
+   ]
+  },
+  "cat/custom/masks/spotted/parts/cat_long_slim_side_head_noears.png": {
+   "class": "cat/custom/mask",
+   "mask": "spotted",
+   "of": "base/parts/cat_long_slim_side_head_noears.png",
+   "px": [
+    438,
+    568
+   ]
+  },
+  "cat/custom/masks/tabby_classic/parts/cat_long_slim_side_head_noears.png": {
+   "class": "cat/custom/mask",
+   "mask": "tabby_classic",
+   "of": "base/parts/cat_long_slim_side_head_noears.png",
+   "px": [
+    438,
+    568
+   ]
+  },
+  "cat/custom/masks/tabby_mackerel/parts/cat_long_slim_side_head_noears.png": {
+   "class": "cat/custom/mask",
+   "mask": "tabby_mackerel",
+   "of": "base/parts/cat_long_slim_side_head_noears.png",
+   "px": [
+    438,
+    568
+   ]
+  },
+  "cat/custom/masks/tortie/parts/cat_long_slim_side_head_noears.png": {
+   "class": "cat/custom/mask",
+   "mask": "tortie",
+   "of": "base/parts/cat_long_slim_side_head_noears.png",
+   "px": [
+    438,
+    568
+   ]
+  },
+  "cat/custom/masks/white_bicolour/parts/cat_long_slim_side_head_noears.png": {
+   "class": "cat/custom/mask",
+   "mask": "white_bicolour",
+   "of": "base/parts/cat_long_slim_side_head_noears.png",
+   "px": [
+    438,
+    568
+   ]
+  },
+  "cat/custom/masks/white_mitts/parts/cat_long_slim_side_head_noears.png": {
+   "class": "cat/custom/mask",
+   "mask": "white_mitts",
+   "of": "base/parts/cat_long_slim_side_head_noears.png",
+   "px": [
+    438,
+    568
+   ]
+  },
+  "cat/custom/masks/white_tuxedo/parts/cat_long_slim_side_head_noears.png": {
+   "class": "cat/custom/mask",
+   "mask": "white_tuxedo",
+   "of": "base/parts/cat_long_slim_side_head_noears.png",
+   "px": [
+    438,
+    568
+   ]
+  },
+  "cat/custom/masks/white_van/parts/cat_long_slim_side_head_noears.png": {
+   "class": "cat/custom/mask",
+   "mask": "white_van",
+   "of": "base/parts/cat_long_slim_side_head_noears.png",
+   "px": [
+    438,
+    568
+   ]
   }
  }
 }

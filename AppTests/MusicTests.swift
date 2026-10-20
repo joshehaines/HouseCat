@@ -36,10 +36,12 @@ struct MusicTests {
         Music.hush(.miniGame, false)
     }
 
-    /// In a defaults suite of its own: the app's real setting on the simulator is never touched.
+    /// In a defaults suite of its own, new each run: the app's real setting on the simulator is never touched, and a
+    /// removal still pending from the last run cannot leave this one starting with the music off.
     @Test func musicIsOnUntilTurnedOff() throws {
-        let defaults = try #require(UserDefaults(suiteName: "MusicTests"))
-        defer { defaults.removePersistentDomain(forName: "MusicTests") }
+        let suite = "MusicTests-\(UUID().uuidString)"
+        let defaults = try #require(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
         #expect(Music.isOn(in: defaults))
         defaults.set(false, forKey: Music.onKey)
         #expect(!Music.isOn(in: defaults))

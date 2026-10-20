@@ -145,7 +145,8 @@ final class FirstRunTests: XCTestCase {
         XCTAssertTrue(next.waitForExistence(timeout: 60), "the tour's welcome")
         sleep(2)
         snap("9 room")
-        next.tap()
+        // The steps that only ask to be read are passed with Next, until the tour asks for Feed.
+        XCTAssertTrue(readOn(until: "Tap Feed"), "the tour asks for Feed")
         let feed = careButton("Feed")
         XCTAssertTrue(feed.waitForExistence(timeout: 10), "Feed")
         sleep(1)
@@ -196,15 +197,13 @@ final class FirstRunTests: XCTestCase {
             }
         }
         spots.sort { hypot($0.dx - 0.5, $0.dy - 0.55) < hypot($1.dx - 0.5, $1.dy - 0.55) }
-        for _ in 0 ..< 3 {
-            for spot in spots {
-                app.coordinate(withNormalizedOffset: spot).tap()
-                if stroked.waitForExistence(timeout: 0.8) {
-                    return true
-                }
-                // A closed room tapped by mistake offers itself.
-                dismissCards()
+        for spot in spots {
+            app.coordinate(withNormalizedOffset: spot).tap()
+            if stroked.waitForExistence(timeout: 0.8) {
+                return true
             }
+            // A closed room tapped by mistake offers itself.
+            dismissCards()
         }
         return false
     }
@@ -213,10 +212,15 @@ final class FirstRunTests: XCTestCase {
         let play = careButton("Play")
         XCTAssertTrue(play.waitForExistence(timeout: 10), "Play")
         let game = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Knock It Off'")).firstMatch
-        // A card that comes up after the tour (reminders, the widget) can take the tap: a tap outside closes it.
+        // Play opens the Games menu, where the quick games are behind "Play with <cat>". A card that comes up after the
+        // tour (reminders, the widget) can take the tap: a tap outside closes it.
+        let quick = app.buttons.matching(NSPredicate(format: "label BEGINSWITH 'Play with'")).firstMatch
         for _ in 0 ..< 3 where !game.exists {
             dismissCards()
             play.tap()
+            if quick.waitForExistence(timeout: 5) {
+                quick.tap()
+            }
             _ = game.waitForExistence(timeout: 5)
         }
         XCTAssertTrue(game.exists, "the games")
@@ -238,6 +242,11 @@ final class FirstRunTests: XCTestCase {
         snap("16 game result")
         back.tap()
         sleep(2)
+        // Back in the Games menu (if it came through it): closed to the room.
+        if !app.buttons["Decorate"].isHittable {
+            _ = tapIfThere("Close")
+            sleep(1)
+        }
         dismissCards()
     }
 
@@ -283,6 +292,17 @@ final class FirstRunTests: XCTestCase {
     }
 
     // MARK: Helpers
+
+    /// Next on each tour step that only asks to be read, until the host's bubble says `text`.
+    private func readOn(until text: String) -> Bool {
+        let asked = app.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", text)).firstMatch
+        let deadline = Date().addingTimeInterval(30)
+        while !asked.exists, Date() < deadline {
+            _ = tapIfThere("Next")
+            sleep(1)
+        }
+        return asked.exists
+    }
 
     /// The launch curtain (the logo on cream) has gone: the scene's first picture was drawn.
     private func curtainLifts(within seconds: TimeInterval) -> Bool {

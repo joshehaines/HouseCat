@@ -1074,6 +1074,41 @@ public enum Tuning {
         public static let sharpen = 0.6
     }
 
+    /// The cat at a window, seen from outside (Josh, 20 Oct: "have your cat in the window"; `WindowCatRules` picks the
+    /// window and pose, `ExteriorScene` draws it behind the glass).
+    public enum WindowCat {
+        /// It may change window this often through the day (local minutes).
+        public static let slotMinutes = 120
+        /// A window is chosen more often the bigger its glass: its area (a share of the painting) times this.
+        public static let areaWeight = 10000.0
+        /// By day, how often a cat with nothing else on looks out at you rather than side on along the street.
+        public static let lookingOutPercent = 60
+        /// Its height as a share of the window's glass, and its width at most this share of the glass's width.
+        public static let heightShare = 0.62
+        public static let widthShare = 0.9
+        /// Its feet this share of the glass's height below the glass (on the inside sill, behind the frame).
+        public static let sillDrop = 0.04
+        /// The glass and the room's light over the cat, by the sky: multiplies its colours ...
+        public static let tint: [SkyPhase: [Double]] = [
+            .dawn: [0.78, 0.72, 0.74], .day: [0.74, 0.78, 0.84], .dusk: [0.95, 0.78, 0.62], .night: [1.0, 0.8, 0.56],
+        ]
+        /// ... lamplight round its edges after dark (0 by day), the room's lamps behind it ...
+        public static let rim: [SkyPhase: Double] = [.dawn: 0.2, .day: 0, .dusk: 0.45, .night: 0.75]
+        /// ... and the sky caught in the glass in front of it (how much of the glass's colour lies over it).
+        public static let reflection: [SkyPhase: Double] = [.dawn: 0.2, .day: 0.24, .dusk: 0.12, .night: 0.04]
+        /// It fades into or out of a window over this long.
+        public static let fadeSeconds = 0.6
+        /// Outside to look at the house: a tap on the cat's window gets a slow blink, at most this often.
+        public static let blinkEverySeconds = 1.5
+        /// Stepping out, the door closes behind you this far through the camera's draw back.
+        public static let doorClosesAt = 0.45
+        /// Its chirp through the glass, a share of a meow's volume.
+        public static let meowVolume = 0.5
+        /// A tap on its window leans in this much closer on it, over this long.
+        public static let closeUp = 2.6
+        public static let closeUpSeconds = 0.8
+    }
+
     /// The house view: the room you are in with the rest of the home around it (room units unless noted).
     /// The scenery round the house (OutdoorRules): how far out it goes (cells past the plot), how far it keeps
     /// from the rooms, how many pieces at most from how many tries, how far apart (in widths) and how much each

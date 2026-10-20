@@ -8,6 +8,7 @@ Sky flat magenta (keyed to alpha, the sky is drawn in code), glass flat cyan (ke
   python3 scenes.py key <raw.png> <out_dir> <name>   key a downloaded scene into <name>.jpg, <name>_land.png and <name>_glass.png
   python3 scenes.py doors <raw_dir> <scenes.json>    measure each door from its door-open edit into scenes.json
   python3 scenes.py houses <scene_dir> <scenes.json> measure where each house stands into scenes.json (needs numpy, scipy)
+  python3 scenes.py windows <scene_dir> <scenes.json> measure each house's windows the cat can sit in into scenes.json (after houses)
 """
 import json
 import os
@@ -241,6 +242,114 @@ def houses(scene_dir, scenes_json):
     json.dump(index, open(scenes_json, 'w'), indent=1, sort_keys=True)
     print(len(index['houses']), 'houses')
 
+
+# The cat at a window (Josh, 20 Oct: "have your cat in the window"; WindowCatRules in HouseCatCore picks one). From the
+# glass mask: the house's panes (as house_box finds them, out past its box to the side wall), the panes of one window
+# joined across their bars, the door's glass and fanlight left out, glass in a roof (wider than tall) left out, and on
+# the houseboat its reflections in the water. Rows go up from the ground floor's, a new row where the bottoms step up
+# by most of a window's height; a lowest row of small windows is a basement. Only windows big enough to sit in are kept.
+# Checked by eye on contact sheets of all 256 scenes (20 Oct).
+WINDOW_JOIN = 0.004
+WINDOW_REACH = (0.15, 0.45)
+WINDOW_SKYLIGHT = 2.2
+WINDOW_ROW = 0.85
+WINDOW_SEAT = 0.3
+AFLOAT = ('houseboat',)
+
+
+def house_windows(glass_png, house, door, afloat=False):
+    """The windows of the house in a scene as [left, top, right, bottom, row], fractions of the picture."""
+    import numpy as np
+    from PIL import Image
+    from scipy import ndimage
+    glass = np.array(Image.open(glass_png).convert('L')) > 128
+    height, width = glass.shape
+    labels, count = ndimage.label(glass)
+    if count == 0:
+        return []
+    areas = ndimage.sum(glass, labels, range(1, count + 1))
+    left, top, right, bottom = house
+    span = right - left
+    keep = np.zeros_like(glass)
+    for index, box in enumerate(ndimage.find_objects(labels), start=1):
+        w, h = box[1].stop - box[1].start, box[0].stop - box[0].start
+        middle_x, middle_y = (box[1].start + box[1].stop) / 2 / width, (box[0].start + box[0].stop) / 2 / height
+        pane = (w < width * PANE_MOST[0] and h < height * PANE_MOST[1] and areas[index - 1] > width * height * PANE_LEAST
+                and areas[index - 1] / (w * h) > PANE_FILL and 0.2 < w / h < 5)
+        inside = left - span * WINDOW_REACH[0] <= middle_x <= right + span * WINDOW_REACH[1] and top <= middle_y <= bottom
+        if pane and inside:
+            keep |= labels == index
+    joined, _ = ndimage.label(ndimage.binary_dilation(keep, iterations=max(1, int(WINDOW_JOIN * width))))
+    found = []
+    for index, box in enumerate(ndimage.find_objects(joined), start=1):
+        own = (joined[box] == index) & keep[box]
+        ys, xs = np.nonzero(own)
+        x0, x1 = (box[1].start + xs.min()) / width, (box[1].start + xs.max() + 1) / width
+        y0, y1 = (box[0].start + ys.min()) / height, (box[0].start + ys.max() + 1) / height
+        if (x1 - x0) * width > (y1 - y0) * height * WINDOW_SKYLIGHT:
+            continue
+        found.append(([x0, y0, x1, y1], float(own.sum()) / (width * height)))
+    door_x, door_y = door
+
+    def door_glass(box):
+        x0, y0, x1, y1 = box
+        fanlight = (x1 - x0) * width > (y1 - y0) * height * 1.2
+        over = x0 - 0.012 <= door_x <= x1 + 0.012
+        return over and (y1 > door_y - 0.06 or (fanlight and y1 > door_y - 0.14))
+
+    def reflected(box):
+        x0, y0, x1, y1 = box
+        if y0 > door_y:
+            return True
+        for (a0, b0, a1, b1), _ in found:
+            if b1 <= y0 + 0.01 and min(x1, a1) - max(x0, a0) > 0.6 * (x1 - x0) and 0.7 < (a1 - a0) / (x1 - x0) < 1.4:
+                return True
+        return False
+
+    found = [(box, area) for box, area in found if not door_glass(box) and not (afloat and reflected(box))]
+    if not found:
+        return []
+    usual = sorted(box[3] - box[1] for box, _ in found)[len(found) // 2]
+    # A boat's one row of windows runs uphill along its side: never more than one row afloat.
+    rows = []
+    for box, area in sorted(found, key=lambda f: -f[0][3]):
+        if rows and (afloat or sum(b[3] for b, _ in rows[-1]) / len(rows[-1]) - box[3] < WINDOW_ROW * usual):
+            rows[-1].append((box, area))
+        else:
+            rows.append([(box, area)])
+    while len(rows) > 1 and max(b[3] - b[1] for b, _ in rows[0]) < 0.6 * usual:
+        rows.pop(0)
+    # Glass on the ground floor's row straight over the door is the door's own (its panes sit lower or higher in the
+    # door than the measured door point shows: two cottages).
+    rows[0] = [(box, area) for box, area in rows[0] if not box[0] - 0.005 <= door_x <= box[2] + 0.005]
+    rows = [row for row in rows if row]
+    if not rows:
+        return []
+    biggest = max(area for row in rows for _, area in row)
+    return [[round(v, 4) for v in box] + [number] for number, row in enumerate(rows)
+            for box, area in sorted(row, key=lambda f: f[0][0]) if area >= biggest * WINDOW_SEAT]
+
+
+def windows(scene_dir, scenes_json):
+    """Measures every scene's windows (needs its house from `houses`) and writes them into scenes.json."""
+    import glob
+    index = json.load(open(scenes_json))
+    index['windows'] = {}
+    for glass in sorted(glob.glob(os.path.join(scene_dir, '*_glass.png'))):
+        name = os.path.basename(glass)[:-len('_glass.png')]
+        house = index['houses'].get(name)
+        if name.endswith('_dooropen') or not house:
+            continue
+        found = house_windows(glass, house, index['doors'].get(name, index['defaultDoor']), name.startswith(AFLOAT))
+        if found:
+            index['windows'][name] = found
+    # Read again before writing: the measuring takes minutes, and the doors and houses may have moved on meanwhile.
+    measured = index['windows']
+    index = json.load(open(scenes_json))
+    index['windows'] = measured
+    json.dump(index, open(scenes_json, 'w'), indent=1, sort_keys=True)
+    print(len(index['windows']), 'scenes with windows')
+
 if __name__ == '__main__':
     cmd = sys.argv[1]
     if cmd == 'batch':
@@ -253,3 +362,5 @@ if __name__ == '__main__':
         doors(sys.argv[2], sys.argv[3])
     elif cmd == 'houses':
         houses(sys.argv[2], sys.argv[3])
+    elif cmd == 'windows':
+        windows(sys.argv[2], sys.argv[3])

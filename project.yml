@@ -340,6 +340,18 @@ schemes:
       targets:
         - HouseCatTests
         - HouseCatUITests
+  # The first-run smoke test on a Release build (debug switches compiled out), before a TestFlight upload. Only the
+  # UI tests: the hosted unit tests use @testable, which a Release build does not allow.
+  HouseCatSmoke:
+    build:
+      targets:
+        HouseCat: all
+    run:
+      config: Release
+    test:
+      config: Release
+      targets:
+        - HouseCatUITests
   HouseCatMac:
     build:
       targets:

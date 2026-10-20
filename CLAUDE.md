@@ -441,6 +441,10 @@ Josh, 19 Oct: "very basic right now and too long" (and yes to the three reworked
 - On a free-signed device build (`com.housecatgame.housecatdev`, no paid account) there is no App Group: the widget shows a placeholder and Feed and Pet in it do nothing, the Watch gets nothing, and WeatherKit falls back. All of it works in the simulator, where the App Group does.
 - Running the UI tests on the shared simulators: other sessions launch their own HouseCat over yours mid-test. The sweep brings its build back to the front before every tap and wait (`tapInFront`, `shows(within:)`). Installing the test build under its own bundle id and App Group (a scratch copy of `project.yml`) keeps other runs from replacing it or changing its save.
 
+## Josh's sign-off (20 Oct 2026)
+- Josh, 20 Oct: "approve everything". Approved as built: the cat creator's dressing room and the outfit catalogue, the iPad's sharp art, the mini-games (with Hide and Seek), the rooms (an empty first home, furniture at 80%, 3D doors), the room menu and the cat's profile, the shop pages, the goal tracker and the path, the button sweep's fixes, the world map (an easier place pick, moving house, other cats' homes), the cat's walk and run films, the background music, the Games menu with Pawcross as Pat's daily puzzle, the season pass and its £2.99 premium, and the pre-TestFlight fixes (name filter, StoreKit tests, the Release smoke scheme).
+- Not work yet, so not covered by it: the iPad's optional extras ("The iPad, sharp"), painting the 2027 seasons, and co-owning, which stays off for 1.0.
+
 ## Known gaps after the economy pass
 - No real purchase has gone through App Store Connect: the 17 products exist only in `Store/HouseCat.storekit` until the developer team creates them (same IDs). The StoreKit tests prove a pack is handed over once and a look survives a relaunch and a refund.
 - Co-owning, presents, paw prints and friend codes can only be seen with the debug screens until CloudKit is on; nothing has crossed between two real phones ("To switch sharing on" above).

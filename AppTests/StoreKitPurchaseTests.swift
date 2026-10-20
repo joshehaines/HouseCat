@@ -26,12 +26,39 @@ struct StoreKitPurchaseTests {
     }
 
     /// A purchase made the way StoreKit's own sheet would make it, without the sheet (in this simulator the sheet
-    /// asks for an Apple Account sign-in and waits). The service hears it as it hears any transaction.
+    /// asks for an Apple Account sign-in and waits). The service hears it as it hears any transaction. StoreKit's
+    /// current entitlements list a test purchase a moment after `buyProduct` returns, so this waits for it there
+    /// (a Bean pack never shows there) before the service refreshes.
     @discardableResult
     func buy(_ id: String, into service: StoreKitEntitlementService) async throws -> Transaction {
         let transaction = try await session.buyProduct(identifier: id)
+        if catalog.product(id)?.kind != .consumable {
+            let listed = await eventually { await Self.isEntitled(to: transaction.id) }
+            try #require(listed, "\(id) never reached StoreKit's current entitlements")
+        }
         await service.refresh()
         return transaction
+    }
+
+    static func isEntitled(to id: UInt64) async -> Bool {
+        for await result in Transaction.currentEntitlements {
+            if case let .verified(transaction) = result, transaction.id == id {
+                return true
+            }
+        }
+        return false
+    }
+
+    /// Asks again every tenth of a second until it holds, for ten seconds at most.
+    func eventually(_ holds: () async -> Bool) async -> Bool {
+        let deadline = ContinuousClock.now + .seconds(10)
+        while ContinuousClock.now < deadline {
+            if await holds() {
+                return true
+            }
+            try? await Task.sleep(for: .milliseconds(100))
+        }
+        return await holds()
     }
 
     func firstProduct(_ matches: (ShopProduct.Unlock) -> Bool) throws -> ShopProduct {
@@ -61,9 +88,7 @@ struct StoreKitPurchaseTests {
         first.onGrant = { grants.append($0) }
         let pack = try await buy("housecat.beans.pouch", into: first)
         // A pack bought outside the purchase call reaches the app through the unfinished transactions.
-        for _ in 0 ..< 20 where !grants.contains(where: { $0.transactionID == String(pack.id) }) {
-            try await Task.sleep(for: .milliseconds(100))
-        }
+        _ = await eventually { grants.contains { $0.transactionID == String(pack.id) } }
         #expect(grants.contains { $0.productID == "housecat.beans.pouch" && $0.transactionID == String(pack.id) })
         let bundle = try #require(catalog.products.first { if case .bundle = $0.unlock { true } else { false } })
         try await buy(bundle.id, into: first)
@@ -97,9 +122,9 @@ struct StoreKitPurchaseTests {
         #expect(service.entitlements.bundles.count == 1)
         try session.refundTransaction(identifier: UInt(transaction.id))
         // The refund reaches StoreKit's current entitlements shortly after.
-        for _ in 0 ..< 20 where !service.entitlements.bundles.isEmpty {
-            try await Task.sleep(for: .milliseconds(100))
+        _ = await eventually {
             await service.refresh()
+            return service.entitlements.bundles.isEmpty
         }
         #expect(service.entitlements.bundles.isEmpty)
     }

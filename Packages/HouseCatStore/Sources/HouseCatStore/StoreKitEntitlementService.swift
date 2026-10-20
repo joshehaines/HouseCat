@@ -11,6 +11,8 @@ public final class StoreKitEntitlementService: EntitlementService {
     public let catalog: StoreCatalog
     private let cache: EntitlementCache
     @ObservationIgnored private var updates: Task<Void, Never>?
+    /// The refresh running now: the next waits for it.
+    @ObservationIgnored private var refreshing: Task<Void, Never>?
     @ObservationIgnored public var onGrant: (@MainActor (StoreGrant) -> Void)? {
         didSet { deliverUnfinished() }
     }
@@ -61,7 +63,19 @@ public final class StoreKitEntitlementService: EntitlementService {
         updates = nil
     }
 
+    /// One refresh at a time, in the order asked: the transaction listener and a purchase both refresh, and one that
+    /// began before the purchase must not end after it and put back what it saw then.
     public func refresh() async {
+        let previous = refreshing
+        let next = Task { @MainActor in
+            await previous?.value
+            await self.reload()
+        }
+        refreshing = next
+        await next.value
+    }
+
+    private func reload() async {
         var records: [PurchaseRecord] = []
         for await result in Transaction.currentEntitlements {
             records.append(Self.record(result))

@@ -110,7 +110,10 @@ HEIC_QUALITY = '70'
 # the widget's frames and icons (read pixel for pixel, or copied for the widget).
 HEIC_ALPHA = ('world/props/', 'furniture/', 'outfits/', 'world/terrain/', 'ui/shop/', 'arcade/')
 HEIC_ALPHA_QUALITY = '82'
-PREVIEW_WIDTH = 720
+# The house step's home pictures (Josh, 20 Oct: "the which home section needs a re-do"): the chosen home is drawn
+# large, about 430 points wide on a phone (720 wide looked soft there). 960 adds 6 MB; where the app has the home's full
+# summer scene (the London terrace, a home whose pack has arrived) the step draws that instead, sharp on an iPad too.
+PREVIEW_WIDTH = 960
 # The iPad's sharper copies (Josh, 19 Oct: "The iPad quality seems poor"). A 13-inch iPad draws the room with about
 # 1.3 times a phone's pixels at the home zoom (and pinches in to 2.5 times), so furniture from its 0.6 copy was
 # magnified 1.3-2.4 times and looked soft. These get a second, larger copy as iPad-only data sets in

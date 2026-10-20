@@ -264,6 +264,49 @@ final class ButtonSweepTests: XCTestCase {
         }
     }
 
+    /// Menu and the cat's face take every tap, whatever else is going on in the room (the map session, 19 Oct: on the
+    /// iPad a centre tap on Menu was lost three runs in a row, with the tour done and the curtain gone). Each is tapped
+    /// eight times between strokes and feeds, which bring up the cat's lines, toasts and floating XP; a lost tap keeps
+    /// what was on screen and every element under the tap.
+    func testMenuAndTheCatsFaceTakeEveryTap() throws {
+        launchIntoTheRoom()
+        var lost: [String] = []
+        for round in 1 ... 8 {
+            // Something happening in the room first: a stroke or a feed (the cat's line, XP, a toast).
+            if round % 2 == 0 {
+                careButton("Feed").tapInFront()
+            } else {
+                app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.55)).tapInFront()
+            }
+            usleep(useconds_t(300_000 * (round % 4)))
+            for (name, control, opened) in [
+                ("Menu", menuButton(), { self.menuOpen(within: 3) }),
+                ("the cat's face", app.buttons.matching(NSPredicate(format: "label ENDSWITH ', your cat'")).firstMatch,
+                 { self.app.buttons["Edit look"].shows(within: 3) }),
+            ] {
+                guard control.shows(within: 5) else {
+                    XCTFail("no \(name) in round \(round)")
+                    continue
+                }
+                let point = CGPoint(x: control.frame.midX, y: control.frame.midY)
+                control.tapInFront()
+                if opened() {
+                    _ = backToRoom()
+                    continue
+                }
+                lost.append("\(name), round \(round)")
+                snap("lost tap \(name) \(round)")
+                // Everything whose frame holds the tap point, topmost last (the tree's order).
+                let under = app.descendants(matching: .any).allElementsBoundByIndex
+                    .filter { $0.exists && $0.frame.contains(point) && $0.frame.width < app.windows.firstMatch.frame.width }
+                    .map { "\($0.elementType.rawValue) '\($0.label)' \($0.frame)" }
+                keep("tap at \(point)\n" + under.joined(separator: "\n") + "\n\n" + app.debugDescription, named: "lost tap \(name) \(round)")
+                _ = backToRoom()
+            }
+        }
+        XCTAssertTrue(lost.isEmpty, "taps lost: \(lost.joined(separator: "; "))")
+    }
+
     // MARK: Cards that come up on their own
 
     func testTheLevelUpCard() throws {

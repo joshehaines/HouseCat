@@ -84,6 +84,32 @@ struct CatEarsTests {
         }
     }
 
+    /// With a bobtail, the film's own tail is cut out the same way: none of it left where it swung (running, it
+    /// stayed beside the bobtail, a second tail).
+    @Test(arguments: ["short_slim", "short_chunky", "long_chunky", "long_slim"])
+    func aFilmsOwnTailIsCutCleanly(body: String) throws {
+        let look = catArt.builder.normalized(CatLook(body: body, tail: "bobtail"))
+        for view in ["side", "tqfront"] {
+            for gait in ["walk", "run"] {
+                let film = try #require(catArt.film(body: body, view: view, gait: gait))
+                for path in film.frames.prefix(8) {
+                    let frame = try #require(catArt.filmFrame(path, look: look, cutting: ["tail"]))
+                    let alpha = try #require(Raster(frame)).planes[3]
+                    let size = (frame.width, frame.height)
+                    let raster = try #require(Raster.read(catArt.root.appendingPathComponent("masks/tail/\(path)")))
+                    let tail = Raster.scaled(raster.planes[0], from: (raster.width, raster.height), to: size)
+                    let area = tail.filter { $0 > 128 }.count
+                    var left = 0
+                    for index in alpha.indices where tail[index] > 128 && alpha[index] > 96 {
+                        left += 1
+                    }
+                    // Only where the tail joins the rump (the bobtail goes on there).
+                    #expect(left <= max(40, area / 12), "\(path): \(left) of the tail's \(area) pixels left")
+                }
+            }
+        }
+    }
+
     /// A hat the ears go under hides them on the puppet (the ear parts and any painted on the head) and on the
     /// painting, and the still pictures are cleared above its rim; a crown leaves them out.
     @Test func aHatTheEarsGoUnderHidesThem() throws {

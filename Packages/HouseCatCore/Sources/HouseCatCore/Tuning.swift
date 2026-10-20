@@ -921,6 +921,14 @@ public enum Tuning {
         /// kept), so no rim or tip of the film's ears is left beside the swapped ones.
         public static let filmCutWiden = 0.03
         public static let filmCutSmooth = 0.012
+        /// And the tail's for a bobtail: it swings, so its mask lags further.
+        public static let filmTailCutWiden = 0.05
+        public static let filmTailCutSmooth = 0.02
+        /// A bobtail on a film sits on the rump's edge nearest the followed tail root, looked for this far round it
+        /// (of the frame's height).
+        public static let bobtailSeatReach = 0.15
+        /// No lower than this much of the frame's height below the torso's followed middle.
+        public static let bobtailBelowMiddle = 0.04
         /// The bodies whose side head is a true profile, which take the profile ears in the side view; the others
         /// keep the cupped ears (the long-haired chunky body's side head looks round at you). A side head painted with
         /// its own ear takes no ear parts over it.

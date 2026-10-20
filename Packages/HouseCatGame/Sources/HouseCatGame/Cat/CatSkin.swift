@@ -201,9 +201,12 @@ struct TailChain {
 /// A film frame's picture handed back from tinting off the main thread.
 struct FilmImage: @unchecked Sendable {
     let image: CGImage?
+    /// Where a bobtail goes on this frame (CatArt.seatedRoot), in the film's master pixels.
+    let root: CGPoint?
 
-    init(_ image: CGImage?) {
+    init(_ image: CGImage?, root: CGPoint? = nil) {
         self.image = image
+        self.root = root
     }
 }
 

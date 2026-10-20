@@ -97,6 +97,8 @@ public final class CatNode: SKNode {
     private var filmOutfit: SKNode?
     /// The look's swapped ears and bobtail on the film (the puppet's own pieces), where the film's own were cut out.
     private var filmPieces: [String: SKSpriteNode] = [:]
+    /// Where the bobtail sits on each frame of a film (CatArt.seatedRoot), by "<view>/<gait>".
+    private var filmRoots: [String: [CGPoint?]] = [:]
     /// The way the cat is moving over the floor (the parent's axes), for its paws to step back along it; nil, the
     /// way it faces.
     public var moveDirection: CGVector?
@@ -1387,6 +1389,7 @@ public final class CatNode: SKNode {
     private func prepareFilms() {
         filmLook += 1
         filmFrames = [:]
+        filmRoots = [:]
         hideFilm()
         guard Self.films, let catArt, let look else { return }
         let generation = filmLook
@@ -1396,10 +1399,14 @@ public final class CatNode: SKNode {
                 try? await Task.sleep(for: .milliseconds(500))
                 guard self?.filmLook == generation else { return }
                 let images = await Task.detached(priority: .utility) {
-                    film.frames.map { FilmImage(catArt.filmFrame($0, look: look, cutting: cuts)) }
+                    film.frames.indices.map { i in
+                        let image = catArt.filmFrame(film.frames[i], look: look, cutting: cuts)
+                        return FilmImage(image, root: cuts.contains("tail") ? CatArt.seatedRoot(image, film: film, frame: i) : nil)
+                    }
                 }.value
                 guard let self, self.filmLook == generation else { return }
                 self.keep(images.map(\.image), for: key, of: film)
+                self.filmRoots[key] = images.map(\.root)
             }
         }
     }
@@ -1407,14 +1414,18 @@ public final class CatNode: SKNode {
     /// The films' frames made now, on this thread (renders and tests).
     func loadFilmsNow() {
         guard Self.films, let catArt, let look else { return }
+        let cuts = filmCuts(look)
         for (key, film) in filmsOfBody(catArt, look: look) {
-            keep(film.frames.map { catArt.filmFrame($0, look: look, cutting: filmCuts(look)) }, for: key, of: film)
+            let images = film.frames.map { catArt.filmFrame($0, look: look, cutting: cuts) }
+            keep(images, for: key, of: film)
+            filmRoots[key] = cuts.contains("tail") ? images.indices.map { CatArt.seatedRoot(images[$0], film: film, frame: $0) } : nil
         }
     }
 
     /// Another cat's film frames in the same look, tinted once for many cats (the contact sheets).
     func shareFilms(from other: CatNode) {
         filmFrames = other.filmFrames
+        filmRoots = other.filmRoots
     }
 
     /// Whether the film for a view and gait is ready to show (tests).
@@ -1539,7 +1550,10 @@ public final class CatNode: SKNode {
                     let was = hypot(t.x - b.x, t.y - b.y), now = hypot(tip.x - base.x, tip.y - base.y)
                     piece.yScale = was > 1 ? max(0.75, min(1.25, now / was)) : 1
                 }
-            } else if let root = at("tail_root") {
+            } else if let tracked = at("tail_root") {
+                // On the rump's edge nearest the followed root, where that was found.
+                let seated = filmOnShow.flatMap { filmRoots[$0] }.flatMap { frame < $0.count ? $0[frame] : nil }
+                let root = seated.map { CGPoint(x: ($0.x - film.feet[0]) * scale, y: -($0.y - film.feet[1]) * scale) } ?? tracked
                 piece.position = root
                 if let middle = at("torso_middle"), let rootStart = startAt("tail_root"), let middleStart = startAt("torso_middle") {
                     piece.zRotation = (restAngles[view]?["tail_up"] ?? 0)

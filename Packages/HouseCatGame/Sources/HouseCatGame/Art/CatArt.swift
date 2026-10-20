@@ -85,9 +85,10 @@ public final class CatArt: @unchecked Sendable {
 
     /// A film frame tinted into the look, not kept (the cat keeps its own frames while it has the look). `cutting`
     /// takes the film's own ears or tail out of it (their masks, "ears" or "tail"), for the look's swapped ones to go
-    /// on instead; the head stays whole where an ear joined it. The ears' mask was carried through the film and lags
-    /// the ear a little, so it is widened first (Josh, 20 Oct: "two sets of ears": the film's ear rims and tips
-    /// were left beside the swapped ones).
+    /// on instead; the head stays whole where an ear joined it. The masks were carried through the film and lag the
+    /// part, so each is widened first, the outline near the cut smoothed, and any sliver left loose of the body there
+    /// dropped (Josh, 20 Oct: "two sets of ears": the film's ear rims and tips were left beside the swapped ones, and
+    /// the film's tail beside a bobtail).
     public func filmFrame(_ path: String, look: CatLook, cutting parts: [String] = []) -> CGImage? {
         guard var output = render(CatBuilder.Sprite(path: path, takesWhite: true), look: look) else { return nil }
         if !parts.isEmpty, let entry = entries[path] {
@@ -103,28 +104,59 @@ public final class CatArt: @unchecked Sendable {
                 }
                 return Raster.floats(bytes, scale: 1 / 255)
             }
+            func pixels(_ share: Double) -> Int {
+                max(1, Int((Double(size.1) * share).rounded()))
+            }
             let head = plane("head")
-            let widen = max(1, Int((Double(size.1) * Tuning.Puppet.filmCutWiden).rounded()))
-            let smooth = max(1, Int((Double(size.1) * Tuning.Puppet.filmCutSmooth).rounded()))
+            let p = Tuning.Puppet.self
             for part in parts {
-                guard let cut = plane(part, widen: part == "ears" ? widen : 0) else { continue }
+                let ears = part == "ears"
+                let widen = pixels(ears ? p.filmCutWiden : p.filmTailCutWiden)
+                let smooth = pixels(ears ? p.filmCutSmooth : p.filmTailCutSmooth)
+                guard let cut = plane(part, widen: widen) else { continue }
                 for index in cut.indices {
-                    let away = cut[index] - (part == "ears" ? head?[index] ?? 0 : 0)
+                    let away = cut[index] - (ears ? head?[index] ?? 0 : 0)
                     let keep = 1 - min(1, max(0, away * 1.6))
                     output.alpha[index] = UInt8(Float(output.alpha[index]) * keep)
                 }
-            }
-            // Where the ears were, a sliver the head's mask kept of them (an ear's back edge) is smoothed away: the
-            // outline opened (shrunk, then grown back) near the cut only.
-            if parts.contains("ears"), let near = plane("ears", widen: widen + 2 * smooth) {
+                // Near the cut: the outline opened (shrunk, then grown back), taking a sliver the head's mask kept of
+                // an ear (its back edge) or a thin end of tail; then anything there no longer joined to the body.
+                guard let near = plane(part, widen: widen + 4 * smooth) else { continue }
                 let shrunk = Raster.narrowed(output.alpha, width: size.0, height: size.1, by: smooth)
                 let opened = Raster.widened(shrunk, width: size.0, height: size.1, by: smooth)
                 for index in near.indices where near[index] > 0.5 {
                     output.alpha[index] = min(output.alpha[index], opened[index])
                 }
+                Raster.dropLoose(&output.alpha, width: size.0, height: size.1, within: near)
             }
         }
         return output.cgImage
+    }
+
+    /// Where a bobtail goes on a film frame with its own tail cut out: the rump's edge nearest the tail's followed
+    /// root (the followed point drifts off the body in some frames, so the bobtail floated beside the rump), in the
+    /// film's master pixels; nil where there is no rump near it.
+    public static func seatedRoot(_ image: CGImage?, film: Film, frame: Int) -> CGPoint? {
+        guard let image, let track = film.points?["tail_root"], frame < track.count, track[frame].count == 2,
+              film.size.count == 2, film.size[0] > 0, let raster = Raster(image), raster.planes.count == 4 else { return nil }
+        let k = Double(image.width) / film.size[0]
+        let alpha = raster.planes[3], w = raster.width, h = raster.height
+        let cx = track[frame][0] * k, cy = track[frame][1] * k
+        let reach = Int((Double(h) * Tuning.Puppet.bobtailSeatReach).rounded())
+        // A tail joins the rump above the body's middle, never down a hind leg.
+        let middle = film.points?["torso_middle"].flatMap { frame < $0.count && $0[frame].count == 2 ? $0[frame][1] * k : nil }
+        let lowest = min(h - 1, Int(cy) + reach, middle.map { Int($0 + Double(h) * Tuning.Puppet.bobtailBelowMiddle) } ?? h - 1)
+        var best: (Double, Int, Int)?
+        guard max(0, Int(cy) - reach) <= lowest else { return nil }
+        for y in max(0, Int(cy) - reach) ... lowest {
+            for x in max(0, Int(cx) - reach) ... min(w - 1, Int(cx) + reach) where alpha[y * w + x] > 160 {
+                let d = (Double(x) - cx) * (Double(x) - cx) + (Double(y) - cy) * (Double(y) - cy)
+                if best == nil || d < best!.0 {
+                    best = (d, x, y)
+                }
+            }
+        }
+        return best.map { CGPoint(x: Double($0.1) / k, y: Double($0.2) / k) }
     }
 
     public func has(_ path: String) -> Bool {
@@ -385,6 +417,35 @@ public struct Raster: Sendable {
             }
         }
         return output
+    }
+
+    /// Clears the parts of an alpha plane cut loose of its largest piece, where `within` is over a half.
+    static func dropLoose(_ alpha: inout [UInt8], width: Int, height: Int, within: [Float]) {
+        var label = [Int32](repeating: 0, count: alpha.count)
+        var sizes: [Int] = [0]
+        var stack: [Int] = []
+        for start in alpha.indices where alpha[start] > 76 && label[start] == 0 {
+            let id = Int32(sizes.count)
+            var count = 0
+            label[start] = id
+            stack.append(start)
+            while let index = stack.popLast() {
+                count += 1
+                let x = index % width, y = index / width
+                for (nx, ny) in [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)] where nx >= 0 && nx < width && ny >= 0 && ny < height {
+                    let n = ny * width + nx
+                    if label[n] == 0, alpha[n] > 76 {
+                        label[n] = id
+                        stack.append(n)
+                    }
+                }
+            }
+            sizes.append(count)
+        }
+        guard sizes.count > 2, let largest = sizes.indices.dropFirst().max(by: { sizes[$0] < sizes[$1] }) else { return }
+        for index in alpha.indices where label[index] != 0 && Int(label[index]) != largest && within[index] > 0.5 {
+            alpha[index] = 0
+        }
     }
 
     /// A plane with every pixel the darkest within `by` pixels of it (a mask shrunk inwards).

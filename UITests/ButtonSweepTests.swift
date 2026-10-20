@@ -182,6 +182,19 @@ final class ButtonSweepTests: XCTestCase {
         let names = app.buttons.allElementsBoundByIndex.map(\.label) + app.switches.allElementsBoundByIndex.map(\.label)
         XCTContext.runActivity(named: "Settings' controls: \(names.joined(separator: " | "))") { _ in }
 
+        // Show me how plays the widget's steps (unless the widget is on this device's Home Screen already). Checked
+        // first, as Export's share sheet can still be over Settings on a phone afterwards; then back to the top, until
+        // the first switch shows (one swipe more, at the top, would pull the sheet down and close it).
+        if let how = reveal(app.buttons["Show me how"], in: list) {
+            how.tapInFront()
+            XCTAssertTrue(app.descendants(matching: .any)["widgetHowTo"].shows(within: 5), "Show me how shows the steps")
+            snap("widget how to")
+            let first = app.switches["Breakfast"]
+            for _ in 0 ..< 8 where list.exists && !(first.exists && first.isHittable) {
+                list.swipeDown()
+            }
+        }
+
         // The switches turn and turn back. One that asks iOS first (reminders, Health) is answered Don't Allow.
         for toggle in app.switches.allElementsBoundByIndex where toggle.isHittable {
             // Health's switch hands over to iOS's own permission sheet, and a switch without a name may be part of
@@ -253,19 +266,6 @@ final class ButtonSweepTests: XCTestCase {
             if app.alerts.firstMatch.exists {
                 app.alerts.firstMatch.buttons.firstMatch.tapInFront()
             }
-        }
-
-        // Show me how plays the widget's steps (unless the widget is on this device's Home Screen already). Export's
-        // share sheet can still be up on a phone (its ✕ is not always the last Close): swiped away first.
-        let share = app.otherElements["ActivityListView"]
-        for _ in 0 ..< 2 where share.exists {
-            share.swipeDown(velocity: .fast)
-            sleep(1)
-        }
-        if let how = reveal(app.buttons["Show me how"], in: list) {
-            how.tapInFront()
-            XCTAssertTrue(app.descendants(matching: .any)["widgetHowTo"].shows(within: 5), "Show me how shows the steps")
-            snap("widget how to")
         }
 
         XCTAssertTrue(backToRoom(), "back in the room from Settings")

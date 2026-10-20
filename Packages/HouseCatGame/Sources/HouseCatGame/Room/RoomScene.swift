@@ -697,6 +697,8 @@ public final class RoomScene: SKScene {
                     onThoughtTapped?(tag)
                 } else if isOnCat(point) {
                     onCatTapped?()
+                } else if isOnFrontDoor(point) {
+                    onFrontDoorTapped?()
                 } else if let room = closedRoom(at: point) {
                     onClosedRoomTapped?(room)
                 } else if let room = openRoom(at: point), room != house.active {
@@ -713,6 +715,16 @@ public final class RoomScene: SKScene {
             lastTouch = nil
         }
     #endif
+
+    /// Out of the front door (Josh, 20 Oct: "a way to view your house from the outside"): the living room's door.
+    public var onFrontDoorTapped: (() -> Void)?
+
+    /// Whether a scene point is on the living room's front door, while its storey is on screen.
+    func isOnFrontDoor(_ point: CGPoint) -> Bool {
+        guard onFrontDoorTapped != nil, let living = rooms[.living], house.room(.living)?.storey == storey,
+              let door = living.childNode(withName: "door"), let parent = door.parent else { return false }
+        return door.contains(parent.convert(point, from: self))
+    }
 
     /// The closed room under a scene point, if any (its floor or walls).
     func closedRoom(at point: CGPoint) -> RoomID? {

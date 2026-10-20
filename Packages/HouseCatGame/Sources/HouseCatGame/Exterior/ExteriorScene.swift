@@ -22,6 +22,8 @@ public final class ExteriorScene: SKScene {
         /// Where the house stands in the painting, a fraction of it, top-left origin (scenes.json, measured from its
         /// window glass): the view is framed on it. Nil: the painting's middle.
         public var house: CGRect?
+        /// The windows the cat can sit in (scenes.json "windows"), for `seat(_:at:)`.
+        public var windows: [SceneWindow]
 
         public init(
             scene: String,
@@ -29,7 +31,8 @@ public final class ExteriorScene: SKScene {
             door: CGPoint,
             weather: Weather = .sun,
             season: NatureSeason = .summer,
-            house: CGRect? = nil
+            house: CGRect? = nil,
+            windows: [SceneWindow] = []
         ) {
             self.scene = scene
             self.sky = sky
@@ -37,6 +40,7 @@ public final class ExteriorScene: SKScene {
             self.weather = weather
             self.season = season
             self.house = house
+            self.windows = windows
         }
     }
 
@@ -47,12 +51,31 @@ public final class ExteriorScene: SKScene {
     public var onDoorOpens: (@MainActor () -> Void)?
     /// Shown, not entered (set before the scene is presented).
     public var showcase = false
+    /// Stepped out of the room to look at the house (Josh, 20 Oct: "a way to view your house from the outside"): it
+    /// waits for you; a tap on the door, or the app's Go in, goes back in (set before the scene is presented).
+    public var looking = false
+    /// A tap on the cat in its window (it slow-blinks back).
+    public var onCatTapped: (@MainActor () -> Void)?
     private let art: ArtLibrary
     private let cameraNode = SKCameraNode()
     private let skyNode = SKSpriteNode()
     private let painting = SKSpriteNode()
     private let doorOpen = SKSpriteNode()
     private var entering = false
+    /// The cat at a window (`seat`): the window's glass as a crop, the cat tinted by the glass and the room's light
+    /// inside it, the sky caught in the glass over it.
+    public private(set) var windowCat: CatNode?
+    public private(set) var sighting: WindowSighting?
+    private var windowNode: SKCropNode?
+    /// The window's glass over the painting (its own units) and the cat's height sitting looking out, unscaled.
+    private var windowFrame = CGRect.zero
+    private var sittingHeight: CGFloat = 1
+    /// Where across the window it sits (0 its left, 1 its right): the widest run of glass, a bay's middle face.
+    private var seatX: CGFloat = 0.5
+    private var lastUpdate: TimeInterval?
+    private var lastBlink: TimeInterval = -.infinity
+    /// Out to look, closer on the cat's window (a tap on it; another tap steps back).
+    public private(set) var closeUp = false
 
     public init(size: CGSize, art: ArtLibrary, model: Model) {
         self.art = art
@@ -224,6 +247,7 @@ public final class ExteriorScene: SKScene {
     /// shows above it. Works for the square and the wide paintings in any orientation.
     private func layout() {
         guard size.width > 0, size.height > 0, !entering else { return }
+        closeUp = false
         cameraNode.position = CGPoint(x: size.width / 2, y: size.height / 2)
         cameraNode.setScale(1)
         skyNode.size = size
@@ -275,6 +299,7 @@ public final class ExteriorScene: SKScene {
             }
         }
         sharpen()
+        placeWindowCat()
     }
 
     /// The door in scene coordinates.
@@ -290,6 +315,12 @@ public final class ExteriorScene: SKScene {
     override public func didMove(to _: SKView) {
         // Now the screen's scale is known.
         sharpen()
+        // Out to look: out of the front door, the camera drawing back from the doorway to the whole house as the door
+        // closes behind you. Then nothing happens by itself; the door, or the app's Go in, goes back in.
+        if looking {
+            stepOut()
+            return
+        }
         // A showcase (the intro's homes round the world) never opens its door: the camera drifts in slowly.
         if showcase {
             cameraNode.run(.group([
@@ -305,16 +336,285 @@ public final class ExteriorScene: SKScene {
     }
 
     #if os(iOS)
-        override public func touchesBegan(_: Set<UITouch>, with _: UIEvent?) {
+        override public func touchesBegan(_ touches: Set<UITouch>, with _: UIEvent?) {
             guard !showcase else { return }
-            enter()
+            guard looking, let touch = touches.first else {
+                enter()
+                return
+            }
+            tapped(at: touch.location(in: self))
         }
 
     #elseif os(macOS)
-        override public func mouseDown(with _: NSEvent) {
-            enter()
+        override public func mouseDown(with event: NSEvent) {
+            guard looking else {
+                enter()
+                return
+            }
+            tapped(at: event.location(in: self))
         }
     #endif
+
+    /// Out to look: a tap on the cat's window leans in closer on it and gets a slow blink; any tap close up steps
+    /// back; one on the door goes back in.
+    private func tapped(at point: CGPoint) {
+        if closeUp {
+            lookCloser(false)
+            return
+        }
+        if windowNode != nil,
+           windowFrame.insetBy(dx: -windowFrame.width * 0.3, dy: -windowFrame.height * 0.2).contains(painting.convert(point, from: self))
+        {
+            lookCloser(true)
+            let now = lastUpdate ?? 0
+            if now - lastBlink > Tuning.WindowCat.blinkEverySeconds {
+                lastBlink = now
+                windowCat?.blink(slow: true)
+                onCatTapped?()
+            }
+            return
+        }
+        let door = doorPoint, reach = max(painting.size.width * 0.05, 44)
+        if hypot(point.x - door.x, point.y - door.y) < reach {
+            enter()
+        }
+    }
+
+    /// Eases the camera in on the cat's window (a little above its middle, where the cat's head is), or back out.
+    public func lookCloser(_ closer: Bool) {
+        guard !entering, windowNode != nil || !closer else { return }
+        closeUp = closer
+        let target = closer
+            ? CGPoint(x: painting.position.x + windowFrame.midX, y: painting.position.y + windowFrame.midY)
+            : CGPoint(x: size.width / 2, y: size.height / 2)
+        let zoom = closer ? 1 / CGFloat(Tuning.WindowCat.closeUp) : 1
+        let move = SKAction.group([
+            .move(to: target, duration: Tuning.WindowCat.closeUpSeconds),
+            .scale(to: zoom, duration: Tuning.WindowCat.closeUpSeconds),
+        ])
+        move.timingMode = .easeInEaseOut
+        cameraNode.removeAllActions()
+        cameraNode.run(move)
+    }
+
+    override public func update(_ currentTime: TimeInterval) {
+        let dt = lastUpdate.map { min(currentTime - $0, 1.0 / 20) } ?? 0
+        lastUpdate = currentTime
+        windowCat?.step(dt)
+    }
+
+    // MARK: The cat at a window
+
+    /// Puts the cat at one of the windows (`model.windows`), sitting on the inside sill behind the glass: cut to the
+    /// window's panes (its bars and frame in front of it), tinted by the glass and the room's light (lamplit round
+    /// its edges after dark), with the sky caught in the glass over it. It fades in, or out when `sighting` is nil.
+    public func seat(_ cat: CatNode?, at sighting: WindowSighting?, fade: Bool = true) {
+        if let old = windowNode {
+            windowNode = nil
+            windowCat = nil
+            if fade {
+                old.run(.sequence([.fadeOut(withDuration: Tuning.WindowCat.fadeSeconds), .removeFromParent()]))
+            } else {
+                old.removeFromParent()
+            }
+        }
+        self.sighting = sighting
+        guard let cat, let sighting, model.windows.indices.contains(sighting.window) else { return }
+        let window = model.windows[sighting.window]
+        let path = model.scene + "_glass.png"
+        guard art.has(path), let (mask, seat) = Self.windowMask(art.texture(path), window: window) else { return }
+        seatX = seat
+        let crop = SKCropNode()
+        crop.name = "windowCat"
+        crop.zPosition = 0.15
+        crop.maskNode = SKSpriteNode(texture: mask)
+        let sky = model.sky
+        // The cat, in the glass's colour and the room's light.
+        let tint = SKEffectNode()
+        tint.name = "tint"
+        tint.shader = Self.tintShader(sky: sky)
+        cat.childNode(withName: "shadow")?.isHidden = true
+        cat.setScale(1)
+        tint.addChild(cat)
+        cat.show(.tqfront, facingRight: sighting.facingRight)
+        // Sized by how tall it sits looking out, whatever it is doing.
+        cat.settle(into: .sitFront, duration: 0)
+        sittingHeight = max(1, cat.bodyFrame.height)
+        cat.settle(into: sighting.pose.catPose, duration: 0)
+        crop.addChild(tint)
+        // The sky caught in the glass in front of it.
+        let glass = Tuning.Sky.glassByDay, grade = Tuning.Sky.grade[sky] ?? [1, 1, 1]
+        let reflection = SKSpriteNode(texture: mask)
+        reflection.name = "reflection"
+        reflection.color = SKColor(red: glass[0] * grade[0], green: glass[1] * grade[1], blue: glass[2] * grade[2], alpha: 1)
+        reflection.colorBlendFactor = 1
+        reflection.alpha = CGFloat(Tuning.WindowCat.reflection[sky] ?? 0)
+        reflection.zPosition = 0.01
+        crop.addChild(reflection)
+        painting.addChild(crop)
+        windowNode = crop
+        windowCat = cat
+        placeWindowCat()
+        if fade {
+            crop.alpha = 0
+            crop.run(.fadeIn(withDuration: Tuning.WindowCat.fadeSeconds))
+        }
+    }
+
+    /// The window's crop, cat and reflection placed over the painting as it is drawn now.
+    private func placeWindowCat() {
+        guard let crop = windowNode, let cat = windowCat, let sighting, model.windows.indices.contains(sighting.window),
+              painting.size.width > 0
+        else { return }
+        let window = model.windows[sighting.window]
+        let size = painting.size
+        let frame = CGRect(
+            x: (window.left - 0.5) * size.width,
+            y: (1 - window.bottom) * size.height,
+            width: window.width * size.width,
+            height: window.height * size.height
+        )
+        windowFrame = frame
+        crop.position = CGPoint(x: frame.midX, y: frame.midY)
+        (crop.maskNode as? SKSpriteNode)?.size = frame.size
+        (crop.childNode(withName: "reflection") as? SKSpriteNode)?.size = frame.size
+        // Its size by the window: a sitting cat's height a share of the glass's, narrower than the glass.
+        cat.setScale(1)
+        var scale = frame.height * CGFloat(Tuning.WindowCat.heightShare) / sittingHeight
+        let body = cat.bodyFrame
+        if body.width * scale > frame.width * CGFloat(Tuning.WindowCat.widthShare) {
+            scale = frame.width * CGFloat(Tuning.WindowCat.widthShare) / max(1, body.width)
+        }
+        cat.setScale(scale)
+        let drawn = cat.bodyFrame
+        // On the inside sill behind the frame, where the glass is widest, all of it inside the window.
+        let room = max(0, (frame.width - drawn.width) / 2)
+        let across = min(room, max(-room, (seatX - 0.5) * frame.width))
+        cat.position = CGPoint(
+            x: cat.position.x - drawn.midX + across,
+            y: -frame.height / 2 - frame.height * CGFloat(Tuning.WindowCat.sillDrop)
+        )
+        // The rim's width in the tint's own pixels.
+        if let tint = crop.childNode(withName: "tint") as? SKEffectNode {
+            let pixels = max(1, drawn.width * cameraScreenScale), tall = max(1, drawn.height * cameraScreenScale)
+            tint.shader?.uniformNamed("u_px")?.vectorFloat2Value = SIMD2(Float(1.5 / pixels), Float(1.5 / tall))
+        }
+    }
+
+    /// Screen pixels per scene point.
+    private var cameraScreenScale: CGFloat {
+        #if os(iOS)
+            (view?.contentScaleFactor ?? 2) / max(0.01, cameraNode.xScale)
+        #else
+            2 / max(0.01, cameraNode.xScale)
+        #endif
+    }
+
+    /// The window's glass from the scene's mask as an alpha picture for the crop (the mask is grey, white the glass),
+    /// and where across it the glass is widest for a cat's width (`Tuning.WindowCat.seatSpan`): a bay's middle face.
+    static func windowMask(_ glass: SKTexture, window: SceneWindow) -> (SKTexture, CGFloat)? {
+        let image = glass.cgImage()
+        let crop = CGRect(
+            x: window.left * Double(image.width),
+            y: window.top * Double(image.height),
+            width: window.width * Double(image.width),
+            height: window.height * Double(image.height)
+        ).integral
+        guard let cut = image.cropping(to: crop) else { return nil }
+        let width = cut.width, height = cut.height
+        var grey = [UInt8](repeating: 0, count: width * height)
+        var rgba = [UInt8](repeating: 0, count: width * height * 4)
+        var seat: CGFloat = 0.5
+        let made: CGImage? = grey.withUnsafeMutableBytes { greyBytes in
+            guard let context = CGContext(
+                data: greyBytes.baseAddress,
+                width: width,
+                height: height,
+                bitsPerComponent: 8,
+                bytesPerRow: width,
+                space: CGColorSpaceCreateDeviceGray(),
+                bitmapInfo: CGImageAlphaInfo.none.rawValue
+            ) else { return nil }
+            context.draw(cut, in: CGRect(x: 0, y: 0, width: width, height: height))
+            for index in 0 ..< width * height {
+                let value = greyBytes[index]
+                rgba[index * 4] = value
+                rgba[index * 4 + 1] = value
+                rgba[index * 4 + 2] = value
+                rgba[index * 4 + 3] = value
+            }
+            // How much glass each column has, then the run of columns a cat wide with the most.
+            var columns = [Double](repeating: 0, count: width)
+            for row in 0 ..< height {
+                for column in 0 ..< width {
+                    columns[column] += Double(greyBytes[row * width + column])
+                }
+            }
+            let span = max(1, min(width, Int(Double(width) * Tuning.WindowCat.seatSpan)))
+            var run = columns[0 ..< span].reduce(0, +), best = run, start = 0
+            for column in span ..< max(span, width) {
+                run += columns[column] - columns[column - span]
+                if run > best + 1 {
+                    best = run
+                    start = column - span + 1
+                }
+            }
+            seat = (CGFloat(start) + CGFloat(span) / 2) / CGFloat(max(1, width))
+            return rgba.withUnsafeMutableBytes { bytes in
+                CGContext(
+                    data: bytes.baseAddress,
+                    width: width,
+                    height: height,
+                    bitsPerComponent: 8,
+                    bytesPerRow: width * 4,
+                    space: CGColorSpaceCreateDeviceRGB(),
+                    bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+                )?.makeImage()
+            }
+        }
+        return made.map { (SKTexture(cgImage: $0), seat) }
+    }
+
+    /// The cat seen through the glass: its colours multiplied by the glass and the room's light, and after dark the
+    /// lamps behind it lighting its outline.
+    static func tintShader(sky: SkyPhase) -> SKShader {
+        let shader = SKShader(source: """
+        void main() {
+            vec4 c = texture2D(u_texture, v_tex_coord);
+            float around = texture2D(u_texture, v_tex_coord + vec2(u_px.x, 0.0)).a
+                + texture2D(u_texture, v_tex_coord - vec2(u_px.x, 0.0)).a
+                + texture2D(u_texture, v_tex_coord + vec2(0.0, u_px.y)).a
+                + texture2D(u_texture, v_tex_coord - vec2(0.0, u_px.y)).a;
+            float edge = clamp(c.a - around * 0.25, 0.0, 1.0) * u_rim;
+            gl_FragColor = vec4(c.rgb * u_tint + u_lamp * edge * 2.5, c.a);
+        }
+        """)
+        let tint = Tuning.WindowCat.tint[sky] ?? [1, 1, 1], lamp = Tuning.Sky.glassLit
+        shader.uniforms = [
+            SKUniform(name: "u_tint", vectorFloat3: SIMD3(Float(tint[0]), Float(tint[1]), Float(tint[2]))),
+            SKUniform(name: "u_lamp", vectorFloat3: SIMD3(Float(lamp[0]), Float(lamp[1]), Float(lamp[2]))),
+            SKUniform(name: "u_rim", float: Float(Tuning.WindowCat.rim[sky] ?? 0)),
+            SKUniform(name: "u_px", vectorFloat2: SIMD2(0.01, 0.01)),
+        ]
+        return shader
+    }
+
+    /// The push into the door, backwards: from the doorway (the door open) out to the house, the door closing.
+    private func stepOut() {
+        let home = cameraNode.position, seconds = Tuning.Arrival.doorSeconds
+        cameraNode.position = doorPoint
+        cameraNode.setScale(1 / CGFloat(Tuning.Exterior.pushScale))
+        if doorOpen.texture != nil {
+            doorOpen.alpha = 1
+            doorOpen.run(.sequence([
+                .wait(forDuration: seconds * Tuning.WindowCat.doorClosesAt),
+                .fadeOut(withDuration: Tuning.Exterior.doorOpenSeconds),
+            ]))
+        }
+        let pull = SKAction.group([.move(to: home, duration: seconds), .scale(to: 1, duration: seconds)])
+        pull.timingMode = .easeOut
+        cameraNode.run(pull)
+    }
 
     /// The door opens and the camera pushes into it; the room takes over part-way.
     public func enter() {
@@ -324,9 +624,12 @@ public final class ExteriorScene: SKScene {
         entering = true
         onDoorOpens?()
         if doorOpen.texture != nil {
+            doorOpen.removeAllActions()
             doorOpen.run(.fadeIn(withDuration: Tuning.Exterior.doorOpenSeconds))
         }
         let seconds = Tuning.Arrival.doorSeconds
+        // From wherever stepping out had got to.
+        cameraNode.removeAllActions()
         let push = SKAction.group([
             .move(to: target, duration: seconds),
             .scale(to: 1 / CGFloat(Tuning.Exterior.pushScale), duration: seconds),

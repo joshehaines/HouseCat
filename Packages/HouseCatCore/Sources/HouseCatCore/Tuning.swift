@@ -1084,18 +1084,18 @@ public enum Tuning {
         /// By day, how often a cat with nothing else on looks out at you rather than side on along the street.
         public static let lookingOutPercent = 60
         /// Its height as a share of the window's glass, and its width at most this share of the glass's width.
-        public static let heightShare = 0.62
+        public static let heightShare = 0.7
         public static let widthShare = 0.9
         /// Its feet this share of the glass's height below the glass (on the inside sill, behind the frame).
         public static let sillDrop = 0.04
         /// The glass and the room's light over the cat, by the sky: multiplies its colours ...
         public static let tint: [SkyPhase: [Double]] = [
-            .dawn: [0.78, 0.72, 0.74], .day: [0.74, 0.78, 0.84], .dusk: [0.95, 0.78, 0.62], .night: [1.0, 0.8, 0.56],
+            .dawn: [0.92, 0.85, 0.85], .day: [0.9, 0.91, 0.95], .dusk: [0.97, 0.84, 0.72], .night: [1.0, 0.8, 0.56],
         ]
         /// ... lamplight round its edges after dark (0 by day), the room's lamps behind it ...
         public static let rim: [SkyPhase: Double] = [.dawn: 0.2, .day: 0, .dusk: 0.45, .night: 0.75]
         /// ... and the sky caught in the glass in front of it (how much of the glass's colour lies over it).
-        public static let reflection: [SkyPhase: Double] = [.dawn: 0.2, .day: 0.24, .dusk: 0.12, .night: 0.04]
+        public static let reflection: [SkyPhase: Double] = [.dawn: 0.12, .day: 0.12, .dusk: 0.08, .night: 0.03]
         /// It fades into or out of a window over this long.
         public static let fadeSeconds = 0.6
         /// Outside to look at the house: a tap on the cat's window gets a slow blink, at most this often.
@@ -1107,6 +1107,9 @@ public enum Tuning {
         /// A tap on its window leans in this much closer on it, over this long.
         public static let closeUp = 2.6
         public static let closeUpSeconds = 0.8
+        /// It sits where the window has the most glass across this share of its width (a bay's middle face, not the
+        /// middle of the whole bay).
+        public static let seatSpan = 0.35
     }
 
     /// The house view: the room you are in with the rest of the home around it (room units unless noted).

@@ -18,9 +18,11 @@ public struct CatFace: Equatable, Sendable {
     public var neck: (left: CGFloat, right: CGFloat, y: CGFloat)?
     /// The sprite's size in pixels, so distances are measured in one unit.
     public var size: CGSize
+    /// The head's width fixed (a film's usual, as a share of the sprite's width), instead of measured from the eyes.
+    public var span: CGFloat? = nil
 
     public static func == (a: CatFace, b: CatFace) -> Bool {
-        a.eyes == b.eyes && a.nose == b.nose && a.crown == b.crown && a.size == b.size
+        a.eyes == b.eyes && a.nose == b.nose && a.crown == b.crown && a.size == b.size && a.span == b.span
             && a.head?.left == b.head?.left && a.head?.right == b.head?.right && a.head?.y == b.head?.y
             && a.neck?.left == b.neck?.left && a.neck?.right == b.neck?.right && a.neck?.y == b.neck?.y
     }
@@ -200,16 +202,19 @@ public enum OutfitFit {
             guard width > 1, shape.rimWidth > 0 else { return nil }
             // A headband painted side-on (much taller than wide): sized by its height over the head, its end down
             // by the cheek, so the band runs up the side of the head with the antler above. (From behind there is
-            // no eye line to measure from, and the back's pictures are not side-on.)
+            // no eye line to measure from, and the back's pictures are not side-on.) The head's height is its share
+            // of the head's length: measured to the ears' tips, an antler grew half as big again from one frame of a
+            // run to the next as the ears flapped, and was twice the size walking as standing.
             let lift = eyes.isEmpty ? 0 : row - crown.y
             if ph > pw * CGFloat(t.bandAspect), lift > 0 {
-                var point = CGPoint(x: (left + right) / 2, y: row + lift * CGFloat(t.bandDrop))
+                let height = width * CGFloat(t.bandLift)
+                var point = CGPoint(x: (left + right) / 2, y: row + height * CGFloat(t.bandDrop))
                 // Side-on, the band goes over the head behind the eye, not down across it (Josh, 20 Oct: outfits
                 // "dont fit at all"): moved back towards the ears.
                 if eyes.count == 1, let eye = eyes.first {
                     point.x += (point.x >= eye.x ? 1 : -1) * width * CGFloat(t.bandBack)
                 }
-                return Placement(point: point, width: lift * CGFloat(t.bandHeight) * pw / ph, angle: angle, anchor: anchor(shape.rim))
+                return Placement(point: point, width: height * CGFloat(t.bandHeight) * pw / ph, angle: angle, anchor: anchor(shape.rim))
             }
             // The rim: across the head, part way from the eye line up to the crown.
             // Tall ears lift a hat that has holes for them; side-on the crown is already the ear's tip.
@@ -234,7 +239,8 @@ public enum OutfitFit {
                     return min(a.x - head.left * w, head.right * w - a.x) < min(b.x - head.left * w, head.right * w - b.x)
                 }
                 if let near {
-                    let width = (head.right - head.left) * w * CGFloat(t.profileGlassesWidth)
+                    let span = headSpan(face, eyes: [near], w: w, h: h).map { $0.1 - $0.0 } ?? (head.right - head.left) * w
+                    let width = span * CGFloat(t.profileGlassesWidth)
                     return Placement(point: near, width: width, angle: 0, anchor: anchor(CGPoint(x: t.profileLens[0], y: t.profileLens[1])))
                 }
             }
@@ -254,16 +260,46 @@ public enum OutfitFit {
             // A profile: the lens, seen edge on at the front of the picture, on the one eye; the arm runs back
             // over the head.
             guard eyes.count == 1, let eye = eyes.first, let head = face.head else { return nil }
-            let width = (head.right - head.left) * w * CGFloat(t.profileGlassesWidth)
+            // As wide as the head a hat is fitted to (the row through the eye runs on into the body lying down).
+            let span = headSpan(face, eyes: eyes, w: w, h: h).map { $0.1 - $0.0 } ?? (head.right - head.left) * w
+            let width = span * CGFloat(t.profileGlassesWidth)
             return Placement(point: eye, width: width, angle: 0, anchor: anchor(CGPoint(x: t.profileLens[0], y: t.profileLens[1])))
         case .neck:
             guard let neck = face.neck, shape.topWidth > 0 else { return nil }
             var left = neck.left * w, right = neck.right * w
-            // No wider than the head allows (a loaf's neck runs into its body under the chin).
+            // No wider than the head allows (a loaf's neck runs into its body under the chin): centred under the head;
+            // side-on from the throat under the head's middle back towards the nape (centred, half the collar hung in
+            // the air in front of the throat when the head was stretched forward).
             if let (hl, hr) = headSpan(face, eyes: eyes, w: w, h: h), right - left > (hr - hl) * CGFloat(t.neckToHead) {
-                let half = (hr - hl) * CGFloat(t.neckToHead) / 2, middle = (hl + hr) / 2
-                left = middle - half
-                right = middle + half
+                let most = (hr - hl) * CGFloat(t.neckToHead), middle = (hl + hr) / 2
+                // Which way the face looks: the nose's side of the head, else the eye's (a side-on cat that looks round
+                // at you still has its neck behind its throat).
+                let front = face.nose.map { $0.x * w } ?? (eyes.isEmpty ? nil : eyes.map(\.x).reduce(0, +) / CGFloat(eyes.count))
+                if view == "side" || eyes.count == 1, let front {
+                    if front < middle {
+                        left = max(left, middle - most / 2)
+                        right = min(right, left + most)
+                    } else {
+                        right = min(right, middle + most / 2)
+                        left = max(left, right - most)
+                    }
+                } else {
+                    left = middle - most / 2
+                    right = middle + most / 2
+                }
+            }
+            // Side-on, no further back than just behind the head (running, the neck is level with the body, and the row
+            // under the chin met the shoulders: the collar went on them).
+            if view == "side" || eyes.count == 1, let (hl, hr) = headSpan(face, eyes: eyes, w: w, h: h),
+               let front = face.nose.map({ $0.x * w }) ?? (eyes.isEmpty ? nil : eyes.map(\.x).reduce(0, +) / CGFloat(eyes.count))
+            {
+                let middle = (hl + hr) / 2, back: CGFloat = front < middle ? 1 : -1
+                let furthest = middle + back * (hr - hl) * CGFloat(t.profileNeckBack)
+                let shift = back * ((left + right) / 2 - furthest)
+                if shift > 0 {
+                    left -= back * shift
+                    right -= back * shift
+                }
             }
             let point = CGPoint(x: (left + right) / 2, y: neck.y * h)
             var pictureWidth = (right - left) * CGFloat(size ?? t.neckWidth) / shape.topWidth
@@ -301,6 +337,19 @@ public enum OutfitFit {
         let t = Tuning.Outfits.self
         guard let head = face.head else { return nil }
         let left = head.left * w, right = head.right * w
+        // A fixed width: within the row, as near where the eyes put the head's middle as it can be (round the row's
+        // middle where the row is no wider), so it moves smoothly as the row narrows and widens frame by frame.
+        if let fixed = face.span.map({ $0 * w }) {
+            var want = (left + right) / 2
+            if eyes.count >= 2 {
+                want = (eyes[0].x + eyes[1].x) / 2
+            } else if let eye = eyes.first, let nose = face.nose {
+                want = eye.x + (eye.x > nose.x * w ? 1 : -1) * fixed * CGFloat(t.profileHeadBack)
+            }
+            let lowest = left + fixed / 2, highest = right - fixed / 2
+            let middle = lowest <= highest ? min(max(want, lowest), highest) : (left + right) / 2
+            return (middle - fixed / 2, middle + fixed / 2)
+        }
         if eyes.count >= 2 {
             let cap = hypot(eyes[1].x - eyes[0].x, eyes[1].y - eyes[0].y) * CGFloat(t.headToEyes)
             guard right - left > cap else { return (left, right) }
@@ -394,8 +443,12 @@ public enum OutfitFit {
             }
         }
         if let (l, r, y) = head {
-            // The crown straight up from the head's middle.
-            let column = Int((l + r) / 2)
+            // The crown straight up from the head's middle. Where the head is low (running) the row through the eyes
+            // runs on into the body, and its middle was on the cat's back: the "crown" there was just above the eyes,
+            // so a hat shrank to a fraction of the head and neckwear went on the body. The middle is where the eyes
+            // say the head is, as `headSpan` caps it.
+            let (middle, across) = headMiddle(l, r, eyes: eyes, nose: nose, peekingAllowed: headOnly)
+            let column = Int(middle)
             var top = Int(y)
             while top > 0, opaque(column, top - 1) {
                 top -= 1
@@ -418,11 +471,30 @@ public enum OutfitFit {
                         atBottom = true
                     }
                 }
-                if !atBottom, chin < height, let (nl, nr) = run(through: column, row: chin) {
+                // Side-on with the head stretched forward (walking), the neck can be just behind the head's middle:
+                // the nearest of the row within half a head (else the collar was centred under the head, half of it
+                // in the air in front of the throat, and jumped back on frames where the middle met the neck).
+                let within = Int((r - l) / 2)
+                let through = (0 ... max(0, within)).lazy.flatMap { [column + $0, column - $0] }.first { opaque($0, chin) }
+                if !atBottom, chin < height, let through, let (nl, nr) = run(through: through, row: chin) {
                     return (CGFloat(nl), CGFloat(nr), CGFloat(chin))
                 }
                 let half = (r - l) * CGFloat(t.neckToHead) / 2
                 return ((l + r) / 2 - half, (l + r) / 2 + half, CGFloat(chin))
+            }
+            // From behind (no eyes, no nose): the neck is the narrowest row under the head, within a head's width of
+            // it, or that far down on a cat too fluffy to narrow (Josh, 20 Oct: neckwear was never drawn from behind).
+            if eyes.isEmpty, nose == nil {
+                let reach = Int((r - l) * CGFloat(t.backNeckReach))
+                var best: (Int, Int, Int)?
+                for row in stride(from: Int(y) + Int((r - l) * CGFloat(t.backNeckFrom)), to: min(height, Int(y) + reach), by: 2) {
+                    if let (nl, nr) = run(through: column, row: row), best == nil || nr - nl < best!.2 - best!.1 {
+                        best = (row, nl, nr)
+                    }
+                }
+                if let (row, nl, nr) = best {
+                    neck = (CGFloat(nl), CGFloat(nr), CGFloat(row))
+                }
             }
             let span = eyes.count >= 2 ? hypot(eyes[1].x - eyes[0].x, eyes[1].y - eyes[0].y) : 0
             // Two eyes close together on a wide head: a profile with the far eye peeking past the nose.
@@ -433,7 +505,9 @@ public enum OutfitFit {
                 let flat = nose.y - eyeRow < span * CGFloat(t.flatNose)
                 neck = neckAt(Int(max(nose.y + span * CGFloat(t.chinDrop), flat ? eyeRow + span * CGFloat(t.chinBelowEyes) : 0)))
             } else if !eyes.isEmpty || nose != nil {
-                neck = neckAt(Int(y + (r - l) * CGFloat(t.profileChinDrop)))
+                // The chin a share of the head's width under the eye (as wide as the eyes allow, not the row on into
+                // the body: running, the neck was put on the cat's chest).
+                neck = neckAt(Int(y + across * CGFloat(t.profileChinDrop)))
             }
         }
         let w = CGFloat(width), h = CGFloat(height)
@@ -446,6 +520,29 @@ public enum OutfitFit {
             neck: neck.map { (left: $0.0 / w, right: $0.1 / w, y: $0.2 / h) },
             size: CGSize(width: w, height: h)
         )
+    }
+
+    /// The middle and width of a head's outline across the eyes (pixels), no wider than the eyes allow (`headSpan`'s caps). A
+    /// head on its own whose two eyes are close together is a profile with the far eye peeking: its outline's middle.
+    static func headMiddle(_ l: CGFloat, _ r: CGFloat, eyes: [CGPoint], nose: CGPoint?, peekingAllowed: Bool) -> (CGFloat, CGFloat) {
+        let t = Tuning.Outfits.self
+        if eyes.count >= 2 {
+            let span = hypot(eyes[1].x - eyes[0].x, eyes[1].y - eyes[0].y)
+            if peekingAllowed, span < (r - l) * CGFloat(t.profileEyeSpan) {
+                return ((l + r) / 2, r - l)
+            }
+            let cap = span * CGFloat(t.headToEyes)
+            if r - l > cap {
+                return ((eyes[0].x + eyes[1].x) / 2, cap)
+            }
+        } else if let eye = eyes.first, let nose {
+            let cap = hypot(eye.x - nose.x, eye.y - nose.y) * CGFloat(t.headToEyeNose)
+            if r - l > cap {
+                let back: CGFloat = eye.x > nose.x ? 1 : -1
+                return (eye.x + back * cap * CGFloat(t.profileHeadBack), cap)
+            }
+        }
+        return ((l + r) / 2, r - l)
     }
 
     /// An outfit picture's rim, band and lenses, from its alpha.
@@ -551,15 +648,30 @@ public enum OutfitFit {
     }
 
     /// A body garment drawn over a picture of the cat, in `frame` (fractions of the picture, origin top left).
-    public static func dress(_ cat: CGImage, garment: CGImage, frame: CGRect) -> CGImage? {
+    public static func dress(_ cat: CGImage, garment: CGImage, frame: CGRect, clipped: Bool = false) -> CGImage? {
         let w = CGFloat(cat.width), h = CGFloat(cat.height)
-        guard let context = CGContext(
-            data: nil, width: cat.width, height: cat.height, bitsPerComponent: 8, bytesPerRow: 0,
-            space: CGColorSpace(name: CGColorSpace.sRGB) ?? CGColorSpaceCreateDeviceRGB(),
-            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
-        ) else { return nil }
-        context.draw(cat, in: CGRect(x: 0, y: 0, width: w, height: h))
-        context.draw(garment, in: CGRect(x: frame.minX * w, y: (1 - frame.maxY) * h, width: frame.width * w, height: frame.height * h))
+        func canvas() -> CGContext? {
+            CGContext(
+                data: nil, width: cat.width, height: cat.height, bitsPerComponent: 8, bytesPerRow: 0,
+                space: CGColorSpace(name: CGColorSpace.sRGB) ?? CGColorSpaceCreateDeviceRGB(),
+                bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+            )
+        }
+        guard let context = canvas() else { return nil }
+        let whole = CGRect(x: 0, y: 0, width: w, height: h)
+        let rect = CGRect(x: frame.minX * w, y: (1 - frame.maxY) * h, width: frame.width * w, height: frame.height * h)
+        context.draw(cat, in: whole)
+        // Only where the cat is (an ear or tail variant, as `CatNode` draws it).
+        if clipped, let layer = canvas() {
+            layer.draw(garment, in: rect)
+            layer.setBlendMode(.destinationIn)
+            layer.draw(cat, in: whole)
+            if let only = layer.makeImage() {
+                context.draw(only, in: whole)
+                return context.makeImage()
+            }
+        }
+        context.draw(garment, in: rect)
         return context.makeImage()
     }
 
@@ -650,7 +762,9 @@ public enum GarmentPlacement {
 
     private static var offsets: [String: [Double]]?
 
-    /// The garment's rectangle on the drawn painting `drawn`, as fractions of it (origin top left).
+    /// The garment's rectangle on the drawn painting `drawn`, as fractions of it (origin top left): the base painting's
+    /// place in the variant, and its size there (a variant is a painting of its own, a little longer or flatter: the
+    /// long-haired chunky cat's loaves, where a garment moved into place but not resized stuck out above the back).
     public static func frame(drawn: String, base: String, catArt: CatArt, art: ArtLibrary) -> CGRect {
         let whole = CGRect(x: 0, y: 0, width: 1, height: 1)
         guard drawn != base else { return whole }
@@ -661,7 +775,8 @@ public enum GarmentPlacement {
         guard d.width > 0, d.height > 0 else { return whole }
         let key = String((drawn as NSString).lastPathComponent.dropFirst(4).dropLast(4))
         let at = offsets?[key] ?? [Double(d.width - b.width) / 2, Double(d.height - b.height)]
-        return CGRect(x: at[0] / d.width, y: at[1] / d.height, width: b.width / d.width, height: b.height / d.height)
+        let sx = at.count >= 4 ? at[2] : 1, sy = at.count >= 4 ? at[3] : 1
+        return CGRect(x: at[0] / d.width, y: at[1] / d.height, width: b.width * sx / d.width, height: b.height * sy / d.height)
     }
 }
 

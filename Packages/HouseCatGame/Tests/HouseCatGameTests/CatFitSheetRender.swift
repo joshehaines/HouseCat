@@ -16,7 +16,8 @@ private let repo = URL(fileURLWithPath: #filePath)
 /// as a kitten, one row a look (and outfit). HOUSECAT_FIT_SHEET=<folder> writes one PNG a row, `<row>.png`, each cell
 /// `HOUSECAT_FIT_CELL` (260,230,150: width, height, the cat's height) with the cell's name in `columns.txt`.
 /// HOUSECAT_FIT_ROWS=ears renders each body with each ear shape and the bobtail; =outfits every outfit on
-/// HOUSECAT_FIT_BODIES (all eight by default), or HOUSECAT_FIT_OUTFITS=<id,id> only those. HOUSECAT_FIT_LOOK=<preset>
+/// HOUSECAT_FIT_BODIES (all eight by default), or HOUSECAT_FIT_OUTFITS=<id,id> only those (HOUSECAT_FIT_VARIANTS: and
+/// on each swap ear shape and the bobtail). HOUSECAT_FIT_LOOK=<preset>
 /// tints them (a ginger tabby by default, so ears and garments show).
 @MainActor
 @Test func renderTheFitSheets() throws {
@@ -67,7 +68,14 @@ private let repo = URL(fileURLWithPath: #filePath)
     // HOUSECAT_FIT_STATES=<name,name> only those cells; HOUSECAT_FIT_BEFORE draws the outfits as they were before the
     // 20 Oct fit (no hat covering the ears).
     let only = environment["HOUSECAT_FIT_STATES"].map { Set($0.split(separator: ",").map(String.init)) }
-    let states = allStates.filter { only?.contains($0.0) ?? true }
+    var states = allStates.filter { only?.contains($0.0) ?? true }
+    // HOUSECAT_FIT_FRAMES=<view>/<walk|run>: a film's loop instead, HOUSECAT_FIT_FRAMECOUNT (12) moments through it.
+    if let film = environment["HOUSECAT_FIT_FRAMES"]?.split(separator: "/"), film.count == 2, let view = CatNode.View(rawValue: String(film[0])) {
+        let count = Int(environment["HOUSECAT_FIT_FRAMECOUNT"] ?? "") ?? 12
+        states = (0 ..< count).map { i in
+            ("\(film[1]) \(film[0]) \(i)", .film(view, film[1] == "run" ? .run : .walk, at: (Double(i) + 0.5) / Double(count), right: false))
+        }
+    }
     OutfitFit.coversEarsOn = environment["HOUSECAT_FIT_BEFORE"] == nil
     defer { OutfitFit.coversEarsOn = true }
     try states.map(\.0).joined(separator: "\n").write(to: out.appendingPathComponent("columns.txt"), atomically: true, encoding: .utf8)
@@ -81,6 +89,18 @@ private let repo = URL(fileURLWithPath: #filePath)
                 look.weight = body.hasSuffix("_chunky") ? Tuning.Cat.chunkyDefaultWeight : Tuning.Cat.slimDefaultWeight
             for outfit in content.outfits.outfits where wanted?.contains(outfit.id) ?? true {
                 rows.append(("\(outfit.id)__\(body)", catArt.builder.normalized(look), outfit))
+                // HOUSECAT_FIT_VARIANTS: also with each swap ear shape and the bobtail.
+                guard environment["HOUSECAT_FIT_VARIANTS"] != nil, let swaps = catArt.builder.body(body) else { continue }
+                for ears in swaps.earSwaps ? catArt.builder.data.ears.map(\.id).filter({ $0 != "own" }) : [] {
+                    var variant = look
+                    variant.ears = ears
+                    rows.append(("\(outfit.id)__\(body)__\(ears)", catArt.builder.normalized(variant), outfit))
+                }
+                if swaps.tailSwaps {
+                    var variant = look
+                    variant.tail = "bobtail"
+                    rows.append(("\(outfit.id)__\(body)__bobtail", catArt.builder.normalized(variant), outfit))
+                }
             }
         }
     } else {
@@ -185,4 +205,67 @@ private func renderSheetRow(_ renderer: SKRenderer, size: CGSize, device: MTLDev
     let destination = try #require(CGImageDestinationCreateWithURL(url as CFURL, "public.png" as CFString, 1, nil))
     CGImageDestinationAddImage(destination, image, nil)
     #expect(CGImageDestinationFinalize(destination))
+}
+
+/// The still pictures of the cat in its outfit (the plaque's and profile's portrait, the widget's and the Watch's
+/// poses), drawn as `WidgetBridge` and `CatScreens.portrait` draw them. HOUSECAT_STILLS=<folder> writes
+/// `<outfit>__<body>.png`, a cell a resting pose (each fitted to its cell), for HOUSECAT_FIT_OUTFITS on
+/// HOUSECAT_FIT_BODIES in HOUSECAT_FIT_LOOK; `tools/app-assets/fit_sheet.py` stitches them.
+@MainActor
+@Test func renderTheStillPictures() throws {
+    let environment = ProcessInfo.processInfo.environment
+    guard let folder = environment["HOUSECAT_STILLS"] else { return }
+    let out = URL(fileURLWithPath: folder)
+    try FileManager.default.createDirectory(at: out, withIntermediateDirectories: true)
+    let root = repo.appendingPathComponent("App/Art")
+    let art = try ArtLibrary(root: root)
+    let catArt = try CatArt(root: root.appendingPathComponent("cat/custom"))
+    let content = try ContentBundle.load(from: repo.appendingPathComponent("Content"))
+    let base = catArt.builder.data.presets.first { $0.id == (environment["HOUSECAT_FIT_LOOK"] ?? "ginger_tabby") }?.look ?? .midnight
+    let bodies = environment["HOUSECAT_FIT_BODIES"].map { $0.split(separator: ",").map(String.init) } ?? catArt.builder.data.bodies.map(\.id)
+    let wanted = environment["HOUSECAT_FIT_OUTFITS"].map { Set($0.split(separator: ",").map(String.init)) }
+    let poses = CatPose.allCases
+    try poses.map(\.rawValue).joined(separator: "\n").write(to: out.appendingPathComponent("columns.txt"), atomically: true, encoding: .utf8)
+    let cellWidth = 260, cellHeight = 230
+    for body in bodies {
+        var look = base
+        look.body = body
+        look.weight = body.hasSuffix("_chunky") ? Tuning.Cat.chunkyDefaultWeight : Tuning.Cat.slimDefaultWeight
+        look = catArt.builder.normalized(look)
+        for outfit in content.outfits.outfits where wanted?.contains(outfit.id) ?? true {
+            let context = try #require(CGContext(
+                data: nil, width: cellWidth * poses.count, height: cellHeight, bitsPerComponent: 8, bytesPerRow: 0,
+                space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+            ))
+            context.setFillColor(CGColor(red: 0.62, green: 0.74, blue: 0.82, alpha: 1))
+            context.fill(CGRect(x: 0, y: 0, width: cellWidth * poses.count, height: cellHeight))
+            for (index, pose) in poses.enumerated() {
+                let sprite = catArt.builder.pose(pose.rawValue, look: look)
+                guard var image = catArt.image(sprite, look: look) else { continue }
+                if outfit.slot == .body {
+                    let painting = "poses/cat_\(body)_\(pose.rawValue).png"
+                    if let path = OutfitFit.garment(outfit, body: body, pose: pose), art.has(path), let garment = art.image(path) {
+                        let frame = GarmentPlacement.frame(drawn: sprite.path, base: painting, catArt: catArt, art: art)
+                        image = OutfitFit.dress(image, garment: garment, frame: frame, clipped: sprite.path != painting) ?? image
+                    }
+                } else if let kind = OutfitFit.kind(outfit), let view = OutfitFit.view(for: pose), let path = outfit.sprites[view],
+                          let picture = art.image(path), let shape = OutfitShapes.shape(path, art: art), let face = catArt.face(sprite.path),
+                          let dressed = OutfitFit.compose(
+                              image, face: face, outfit: picture, shape: shape, kind: kind, view: view, size: outfit.fit,
+                              tallEars: OutfitFit.tallEars(look, wearing: outfit), pose: pose, coversEars: OutfitFit.coversEars(outfit)
+                          )
+                {
+                    image = dressed.image
+                }
+                let scale = min(Double(cellWidth - 12) / Double(image.width), Double(cellHeight - 12) / Double(image.height))
+                let w = Double(image.width) * scale, h = Double(image.height) * scale
+                context.draw(image, in: CGRect(x: Double(index * cellWidth) + (Double(cellWidth) - w) / 2, y: 6, width: w, height: h))
+            }
+            let image = try #require(context.makeImage())
+            let url = out.appendingPathComponent("\(outfit.id)__\(body).png")
+            let destination = try #require(CGImageDestinationCreateWithURL(url as CFURL, "public.png" as CFString, 1, nil))
+            CGImageDestinationAddImage(destination, image, nil)
+            #expect(CGImageDestinationFinalize(destination))
+        }
+    }
 }

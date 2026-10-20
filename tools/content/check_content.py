@@ -531,7 +531,7 @@ def check_outfits(d, manifest):
            sorted(['streak_30', 'streak_100', 'referral', 'launch_event']), 'earnedBy')
     for o in d['outfits']:
         w = f"{f} {o['id']}"
-        keys_within(o, ['id', 'name', 'slot', 'views', 'pool', 'sku', 'earnedBy', 'months', 'sprites'], ['fit'], w)
+        keys_within(o, ['id', 'name', 'slot', 'views', 'pool', 'sku', 'earnedBy', 'months', 'sprites'], ['fit', 'coversEars'], w)
         if o['slot'] not in ('head', 'neck', 'body'):
             err(f"{w}: bad slot")
         # How wide a hat or neckwear is worn against the head or neck (OutfitFit); body garments are painted to size.
@@ -541,6 +541,9 @@ def check_outfits(d, manifest):
                 err(f"{w}: fit on a body garment")
             elif isinstance(fit, bool) or not isinstance(fit, (int, float)) or not 0 < fit <= 2:
                 err(f"{w}: fit {fit!r} is not a width from 0 to 2 times the head or neck")
+        # A hat the cat's ears go under (OutfitFit hides the cat above its rim): only a hat, never glasses.
+        if 'coversEars' in o and (not isinstance(o['coversEars'], bool) or o['slot'] != 'head' or 'glasses' in o['id']):
+            err(f"{w}: coversEars {o['coversEars']!r} is only for a hat, true or false")
         if len(o['name']) > 24:
             err(f"{w}: name over 24")
         british(o['name'], w)

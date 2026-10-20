@@ -241,7 +241,7 @@ public final class CatArt: @unchecked Sendable {
                 raster.width == size.0 && raster.height == size.1 ? plane : Raster.scaled(plane, from: (raster.width, raster.height), to: size)
             }
         }
-        let face = OutfitFit.face(features: features, alpha: alpha.planes[0], width: size.0, height: size.1, headOnly: path.hasSuffix("_head.png"))
+        let face = OutfitFit.face(features: features, alpha: alpha.planes[0], width: size.0, height: size.1, headOnly: path.hasSuffix("_head.png") || path.hasSuffix("_head_noears.png"))
         lock.withLock { faces[path] = face }
         return face
     }

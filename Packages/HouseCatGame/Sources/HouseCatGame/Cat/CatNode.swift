@@ -1,5 +1,6 @@
 import HouseCatCore
 import SpriteKit
+import Synchronization
 
 /// The cat: a cut-out puppet of painted parts for moving (walk, run, rub), and
 /// the painted resting poses for staying put (sit, loaf, sleep, stretch), with a
@@ -337,19 +338,34 @@ public final class CatNode: SKNode {
         }
     }
 
-    /// A body garment over the resting pose on show, where the pose's base painting sits in it.
+    /// A body garment over the resting pose on show, where the pose's base painting sits in it. On an ear or tail
+    /// variant (a painting of its own, its outline not quite the base's) only where the cat is: a garment painted over
+    /// the long-haired slim cat's tail hung in the air beside its bobtail.
     private func layPoseGarment(_ outfit: OutfitsFile.Outfit, pose: CatPose, catArt: CatArt, look: CatLook) {
         guard let path = OutfitFit.garment(outfit, body: look.body, pose: pose), art.has(path) else { return }
         let drawn = catArt.builder.pose(pose.rawValue, look: look).path
-        let frame = GarmentPlacement.frame(drawn: drawn, base: "poses/cat_\(look.body)_\(pose.rawValue).png", catArt: catArt, art: art)
+        let base = "poses/cat_\(look.body)_\(pose.rawValue).png"
+        let frame = GarmentPlacement.frame(drawn: drawn, base: base, catArt: catArt, art: art)
         let size = poseNode.size
         let node = SKSpriteNode(texture: art.texture(path), size: CGSize(width: frame.width * size.width, height: frame.height * size.height))
         node.anchorPoint = CGPoint(x: 0, y: 1)
         node.position = CGPoint(x: (frame.minX - poseNode.anchorPoint.x) * size.width, y: (1 - frame.minY - poseNode.anchorPoint.y) * size.height)
         node.zPosition = CGFloat(Tuning.Outfits.zLift)
         node.name = "outfit"
-        poseNode.addChild(node)
-        poseOutfit = node
+        guard drawn != base else {
+            poseNode.addChild(node)
+            poseOutfit = node
+            return
+        }
+        let crop = SKCropNode()
+        let mask = SKSpriteNode(texture: poseNode.texture, size: poseNode.size)
+        mask.anchorPoint = poseNode.anchorPoint
+        crop.maskNode = mask
+        crop.zPosition = CGFloat(Tuning.Outfits.zLift)
+        node.zPosition = 0
+        crop.addChild(node)
+        poseNode.addChild(crop)
+        poseOutfit = crop
     }
 
     /// The outfit on the resting pose on show (its own view's picture; a curl is seen from the side).
@@ -1599,8 +1615,115 @@ public final class CatNode: SKNode {
     /// is found and the head was measured as if from behind: a hat three times too big for a frame, Josh's "dont fit at
     /// all") the nearest frame's in the loop that shows its eyes.
     private func filmFace(_ film: CatArt.Film, frame index: Int) -> CatFace? {
-        guard let catArt, !film.frames.isEmpty else { return nil }
-        let count = film.frames.count, eyes = view == .side ? 1 : 2
+        catArt.flatMap { Self.filmFace(film, frame: index, side: view == .side, catArt: $0) }
+    }
+
+    /// `filmFace` for any film (the outfit checks walk every frame of every film with it). The head's outline, crown,
+    /// nose and neck are each where they are on the frames either side as well (the middle of them, measured from the
+    /// eye): one frame's found a little wrong made a collar jump half a head forward for a frame. The head is the
+    /// film's usual size, its crown as high over the eyes as usual: measured frame by frame, a hat changed size by a
+    /// third as the head turned a little (a flat face's nose comes nearer the eye), and rose and fell as the middle of
+    /// the head met an ear or the dip between them.
+    nonisolated static func filmFace(_ film: CatArt.Film, frame index: Int, side: Bool, catArt: CatArt) -> CatFace? {
+        guard index >= 0, index < film.frames.count else { return nil }
+        let key = "\(film.frames[index])|\(side)"
+        if let known = smoothFaces.withLock({ $0[key] }) {
+            return known
+        }
+        let face = smoothFace(film, frame: index, side: side, catArt: catArt)
+        smoothFaces.withLock { $0[key] = face }
+        return face
+    }
+
+    nonisolated private static let smoothFaces = Mutex<[String: CatFace?]>([:])
+
+    nonisolated private static func smoothFace(_ film: CatArt.Film, frame index: Int, side: Bool, catArt: CatArt) -> CatFace? {
+        guard var face = frameFace(film, frame: index, side: side, catArt: catArt), let here = eyeAnchor(face, side: side)
+        else { return frameFace(film, frame: index, side: side, catArt: catArt) }
+        let count = film.frames.count, reach = max(0, min(Tuning.Outfits.filmFaceSmooth, (count - 1) / 2))
+        // The neighbours' faces as offsets from their own eye.
+        let near: [(CatFace, CGPoint)] = (-reach ... reach).compactMap { step in
+            let j = ((index + step) % count + count) % count
+            guard let other = j == index ? face : frameFace(film, frame: j, side: side, catArt: catArt), other.size == face.size,
+                  let eye = eyeAnchor(other, side: side) else { return nil }
+            return (other, eye)
+        }
+        // The middle of them: the highest and lowest left out (one frame's found wrong), the rest averaged (so where
+        // the outline changes, as a long-haired cat's ruff does running, it changes over a few frames, not at once).
+        func middle(_ values: [CGFloat]) -> CGFloat {
+            let sorted = values.sorted()
+            let kept = sorted.count >= 4 ? Array(sorted.dropFirst().dropLast()) : sorted
+            return kept.reduce(0, +) / CGFloat(max(1, kept.count))
+        }
+        func smoothed(_ value: (CatFace) -> CGFloat?, from anchor: (CGPoint) -> CGFloat, at mine: CGFloat) -> CGFloat {
+            let offsets = near.compactMap { other, eye in value(other).map { $0 - anchor(eye) } }
+            return offsets.count * 2 > near.count ? mine + middle(offsets) : value(face) ?? mine
+        }
+        // A feature this frame lacks is filled in where most of the frames either side have it (a nose not found).
+        func has(_ value: (CatFace) -> CGFloat?) -> Bool {
+            value(face) != nil || near.filter { value($0.0) != nil }.count * 2 > near.count
+        }
+        let x: (CGPoint) -> CGFloat = \.x, y: (CGPoint) -> CGFloat = \.y
+        if has({ $0.head?.left }) {
+            face.head = (
+                left: smoothed({ $0.head?.left }, from: x, at: here.x), right: smoothed({ $0.head?.right }, from: x, at: here.x),
+                y: smoothed({ $0.head?.y }, from: y, at: here.y)
+            )
+        }
+        if has({ $0.crown?.x }) {
+            face.crown = CGPoint(x: smoothed({ $0.crown?.x }, from: x, at: here.x), y: smoothed({ $0.crown?.y }, from: y, at: here.y))
+        }
+        if has({ $0.nose?.x }) {
+            face.nose = CGPoint(x: smoothed({ $0.nose?.x }, from: x, at: here.x), y: smoothed({ $0.nose?.y }, from: y, at: here.y))
+        }
+        if has({ $0.neck?.left }) {
+            face.neck = (
+                left: smoothed({ $0.neck?.left }, from: x, at: here.x), right: smoothed({ $0.neck?.right }, from: x, at: here.x),
+                y: smoothed({ $0.neck?.y }, from: y, at: here.y)
+            )
+        }
+        // Facing the viewer, the eyes as far apart as on the frames either side (glasses changed size by a fifth from
+        // one frame to the next), round this frame's middle of them.
+        if !side, face.eyes.count == 2 {
+            let pairs = near.compactMap { other, _ in other.eyes.count == 2 ? other.eyes : nil }
+            if pairs.count * 2 > near.count {
+                let dx = middle(pairs.map { $0[1].x - $0[0].x }) / 2, dy = middle(pairs.map { $0[1].y - $0[0].y }) / 2
+                let mid = CGPoint(x: (face.eyes[0].x + face.eyes[1].x) / 2, y: (face.eyes[0].y + face.eyes[1].y) / 2)
+                face.eyes = [CGPoint(x: mid.x - dx, y: mid.y - dy), CGPoint(x: mid.x + dx, y: mid.y + dy)]
+            }
+        }
+        if let usual = usualHead(film, side: side, catArt: catArt) {
+            face.span = usual.width
+            if let lift = usual.lift, let head = face.head, var crown = face.crown, face.size.height > 0 {
+                crown.y = head.y - lift * face.size.width / face.size.height
+                face.crown = crown
+            }
+        }
+        return face
+    }
+
+    /// The point a face's other features are measured from: the eyes' middle, or side-on the near eye (the one further
+    /// from the nose; a far one can peek past it).
+    nonisolated private static func eyeAnchor(_ face: CatFace, side: Bool) -> CGPoint? {
+        guard !face.eyes.isEmpty else { return nil }
+        if side, face.eyes.count >= 2, let nose = face.nose {
+            return face.eyes.max { hypot($0.x - nose.x, $0.y - nose.y) < hypot($1.x - nose.x, $1.y - nose.y) }
+        }
+        return CGPoint(x: face.eyes.map(\.x).reduce(0, +) / CGFloat(face.eyes.count), y: face.eyes.map(\.y).reduce(0, +) / CGFloat(face.eyes.count))
+    }
+
+    /// One frame's face: its own, or the nearest frame's that shows the eyes at the head's usual size.
+    nonisolated private static func frameFace(_ film: CatArt.Film, frame index: Int, side: Bool, catArt: CatArt) -> CatFace? {
+        guard !film.frames.isEmpty else { return nil }
+        let count = film.frames.count, eyes = side ? 1 : 2
+        // A face is only taken where its head is the film's usual size: a few frames' features were found wrong (a
+        // hat shrank to a fraction of the head for a frame, glasses grew three times, neckwear dropped to the paws).
+        let usual = usualHead(film, side: side, catArt: catArt)
+        func good(_ face: CatFace) -> Bool {
+            guard face.eyes.count >= eyes else { return false }
+            guard let usual, let width = headWidth(face, side: side) else { return true }
+            return abs(width / usual.width - 1) <= Tuning.Outfits.filmFaceSpread
+        }
         // Where the head is in a frame, from the points followed through the film (the ears' bases, else the body).
         func headAt(_ i: Int) -> CGPoint? {
             let points = film.points ?? [:]
@@ -1613,7 +1736,7 @@ public final class CatNode: SKNode {
         for step in 0 ... count / 2 {
             for i in Set([index - step, index + step]) {
                 let j = (i % count + count) % count
-                guard let face = catArt.face(film.frames[j]), face.eyes.count >= eyes else { continue }
+                guard let face = catArt.face(film.frames[j]), good(face) else { continue }
                 // Borrowed from another frame: moved as the head has moved between them (the points are in the
                 // frames' master pixels, the face in the sprite's).
                 guard j != index, let here = headAt(index), let there = headAt(j), film.size.count == 2, film.size[0] > 0 else {
@@ -1625,6 +1748,46 @@ public final class CatNode: SKNode {
         }
         return catArt.face(film.frames[index])
     }
+
+    /// The head's width a hat is fitted to, as a share of the frame's width.
+    nonisolated static func headWidth(_ face: CatFace, side: Bool) -> CGFloat? {
+        let w = face.size.width, h = face.size.height
+        guard w > 0, let (left, right) = OutfitFit.headSpan(face, eyes: OutfitFit.profileEyes(face, view: side ? "side" : "tqfront"), w: w, h: h)
+        else { return nil }
+        return (right - left) / w
+    }
+
+    /// A film's usual head: its width a hat is fitted to and the eye line's height under the crown, as shares of the
+    /// frame's width (the middle of its frames' that show the face), measured once.
+    struct FilmHead: Sendable {
+        var width: CGFloat
+        var lift: CGFloat?
+    }
+
+    nonisolated static func usualHead(_ film: CatArt.Film, side: Bool, catArt: CatArt) -> FilmHead? {
+        guard let first = film.frames.first else { return nil }
+        let key = "\(first)|\(side)"
+        if let known = usualHeads.withLock({ $0[key] }) {
+            return known
+        }
+        let faces = film.frames.compactMap { path -> CatFace? in
+            guard let face = catArt.face(path), face.eyes.count >= (side ? 1 : 2), face.size.width > 0 else { return nil }
+            return face
+        }
+        func middle(_ values: [CGFloat]) -> CGFloat? {
+            values.isEmpty ? nil : values.sorted()[values.count / 2]
+        }
+        let usual = middle(faces.compactMap { headWidth($0, side: side) }).map { width in
+            FilmHead(width: width, lift: middle(faces.compactMap { face in
+                guard let head = face.head, let crown = face.crown else { return nil }
+                return (head.y - crown.y) * face.size.height / face.size.width
+            }))
+        }
+        usualHeads.withLock { $0[key] = usual }
+        return usual
+    }
+
+    nonisolated private static let usualHeads = Mutex<[String: FilmHead?]>([:])
 
     /// A hat, glasses or neckwear on the film's frame, fitted to the face in it as on a resting pose.
     private func layFilmOutfit(_ film: CatArt.Film, frame index: Int) {

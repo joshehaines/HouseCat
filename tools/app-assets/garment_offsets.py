@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 """Where each resting pose's base painting sits inside its ear and tail variants (folded, tufted, bobtail ...),
 which are cropped to their own outline, so a body garment painted for the base pose lands on the variant too.
-Writes assets/outfits/body/variants.json (build_app_art.py copies it into App/Art): {"<body>_<pose>__<variant>": [dx, dy]} in master pixels, the base's
-top-left corner inside the variant. Run from the repo root (needs numpy, Pillow):
+Writes assets/outfits/body/variants.json (build_app_art.py copies it into App/Art): {"<body>_<pose>__<variant>": [dx, dy, sx, sy]}:
+the base's top-left corner inside the variant in master pixels, and how much wider and taller the base is drawn there.
+A variant is a painting of its own, and the long-haired chunky cat's loaves are flatter and longer than its base, so
+a garment moved into place but not resized stuck out above the cat's back (20 Oct); the size is fitted too.
+Run from the repo root (needs numpy, Pillow, SciPy):
   python3 tools/app-assets/garment_offsets.py
 """
 import glob
@@ -11,10 +14,12 @@ import os
 
 import numpy as np
 from PIL import Image
+from scipy import signal
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 POSES = os.path.join(ROOT, 'assets', 'cat', 'custom', 'base', 'poses')
 OUT = os.path.join(ROOT, 'assets', 'outfits', 'body', 'variants.json')
+GARMENTS = os.path.join(ROOT, 'assets', 'outfits', 'body')
 GARMENT_POSES = ('sit_tqfront', 'sit_front', 'sit_side', 'sit_back', 'loaf_tqfront', 'loaf_side')
 
 
@@ -22,36 +27,48 @@ def alpha(path):
     return (np.asarray(Image.open(path).convert('RGBA'))[..., 3] > 127).astype(np.float32)
 
 
-def best_offset(base, variant, reach=60):
-    """The shift of the base inside the variant where the most of the base's middle (the body, clear of the
-    ears at the top and the tail at the sides) matches."""
+SCALES = np.round(np.arange(0.9, 1.101, 0.02), 2)
+STEP = 3  # matched on every third pixel, then refined
+
+
+def shrink(a, k):
+    h, w = a.shape[0] // k * k, a.shape[1] // k * k
+    return a[:h, :w].reshape(h // k, k, w // k, k).mean(axis=(1, 3))
+
+
+def scaled(a, w, h):
+    return np.asarray(Image.fromarray((a * 255).astype(np.uint8)).resize((max(1, w), max(1, h)), Image.BILINEAR)) / 255.0
+
+
+def best_fit(base, variant, garments):
+    """The size and place of the base inside the variant where the garments painted for the base land on the
+    variant's cat (their outline together, `garments`, in the base's pixels), and the base's middle (the body, clear of
+    the ears at the top and the tail at the sides) agrees with the variant's, cat on cat and background on background;
+    a little in favour of the base's own size."""
     bh, bw = base.shape
-    vh, vw = variant.shape
-    core = base[int(bh * 0.35):int(bh * 0.95), int(bw * 0.15):int(bw * 0.85)]
-    cy, cx = int(bh * 0.35), int(bw * 0.15)
-    best, at = -1, (0, 0)
-    # Start from the bottoms lining up and the middles lining up, then search round it.
-    sx0, sy0 = (vw - bw) // 2, vh - bh
-    for dy in range(sy0 - reach, sy0 + reach + 1, 2):
-        for dx in range(sx0 - reach, sx0 + reach + 1, 2):
-            y, x = dy + cy, dx + cx
-            if y < 0 or x < 0 or y + core.shape[0] > vh or x + core.shape[1] > vw:
-                continue
-            score = (variant[y:y + core.shape[0], x:x + core.shape[1]] * core).sum() - 0.5 * np.abs(variant[y:y + core.shape[0], x:x + core.shape[1]] - core).sum()
-            if score > best:
-                best, at = score, (dx, dy)
-    # Refine to the pixel.
-    bx, by = at
-    for dy in range(by - 2, by + 3):
-        for dx in range(bx - 2, bx + 3):
-            y, x = dy + cy, dx + cx
-            if y < 0 or x < 0 or y + core.shape[0] > vh or x + core.shape[1] > vw:
-                continue
-            score = (variant[y:y + core.shape[0], x:x + core.shape[1]] * core).sum() - 0.5 * np.abs(variant[y:y + core.shape[0], x:x + core.shape[1]] - core).sum()
-            if score > best:
-                best, at = score, (dx, dy)
-    overlap = best / max(1.0, core.sum())
-    return at, overlap
+    sign = np.zeros_like(base)
+    top, bottom, left, right = int(bh * 0.35), int(bh * 0.95), int(bw * 0.15), int(bw * 0.85)
+    sign[top:bottom, left:right] = 2 * base[top:bottom, left:right] - 1
+    v = shrink(variant, STEP)
+    on = 2 * v - 1
+    best, fit = None, None
+    for sx in SCALES:
+        for sy in SCALES:
+            w, h = int(round(bw * sx / STEP)), int(round(bh * sy / STEP))
+            t = scaled((sign + 1) / 2, w, h) * 2 - 1
+            t[: int(h * 0.35)] = 0
+            t[int(h * 0.95):] = 0
+            t[:, : int(w * 0.15)] = 0
+            t[:, int(w * 0.85):] = 0
+            agree = signal.correlate(on, t, mode='full') / max(1.0, np.abs(t).sum())
+            g = scaled(garments, w, h)
+            landed = signal.correlate(v, g, mode='full') / max(1.0, g.sum())
+            score = landed + 0.5 * agree - 0.8 * (abs(sx - 1) + abs(sy - 1))
+            i = np.unravel_index(np.argmax(score), score.shape)
+            if best is None or score[i] > best:
+                best, fit = score[i], ((i[1] - (w - 1)) * STEP, (i[0] - (h - 1)) * STEP, sx, sy, landed[i])
+    dx, dy, sx, sy, landed = fit
+    return (int(dx), int(dy), float(sx), float(sy)), float(landed)
 
 
 def main():
@@ -63,13 +80,18 @@ def main():
         if not stem.endswith(GARMENT_POSES):
             continue
         base = alpha(os.path.join(POSES, f'cat_{stem}.png'))
-        (dx, dy), overlap = best_offset(base, alpha(path))
-        out[name] = [int(dx), int(dy)]
+        layers = glob.glob(os.path.join(GARMENTS, f'outfit_*_{stem}.png'))
+        garments = np.zeros_like(base)
+        for layer in layers:
+            garments = np.maximum(garments, alpha(layer))
+        (dx, dy, sx, sy), overlap = best_fit(base, alpha(path), garments)
+        out[name] = [int(dx), int(dy), sx, sy]
         worst.append((overlap, name))
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, 'w') as f:
         json.dump({'note': 'Generated by tools/app-assets/garment_offsets.py: where each pose\'s base painting sits '
-                           'inside its ear and tail variants, [dx, dy] in master pixels (the base\'s top-left corner).',
+                           'inside its ear and tail variants, [dx, dy, sx, sy]: the base\'s top-left corner in master '
+                           'pixels and its width and height there against its own.',
                    'offsets': out}, f, indent=1, sort_keys=True)
         f.write('\n')
     worst.sort()

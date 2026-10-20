@@ -1208,10 +1208,12 @@ public enum Tuning {
         /// The tallest a hat's picture may be, in eye-line-to-crown heights (the others reach about 3, antlers 4).
         public static let hatMaxHeight = 4.3
         /// A hat painted this many times taller than wide is a headband seen side-on (the antlers): its height in
-        /// eye-line-to-crown heights, and how far below the eye line its end comes.
+        /// eye-line-to-crown heights, and how far below the eye line its end comes; the eye line to the crown taken
+        /// as this share of the head's length (the middle of the resting paintings').
         public static let bandAspect = 2.0
         public static let bandHeight = 2.5
         public static let bandDrop = 0.25
+        public static let bandLift = 0.62
         /// Side-on, the band sits this many head lengths behind the head's middle (over the head between the eye
         /// and the ear; at the middle it ran down across the eye).
         public static let bandBack = 0.18
@@ -1244,6 +1246,8 @@ public enum Tuning {
         /// much of the head.
         public static let profileHeadBack = 0.12
         public static let neckToHead = 0.9
+        /// Side-on, neckwear's middle at most this many head lengths behind the head's middle.
+        public static let profileNeckBack = 0.45
         public static let neckWidth = 1.12
         public static let neckBandDrop = 0.12
         public static let chinDrop = 0.48
@@ -1258,6 +1262,14 @@ public enum Tuning {
         /// From behind, the head's row is the first one at least this wide (of the picture), no lower than this.
         public static let backHeadMinWidth = 0.35
         public static let backHeadLowest = 0.4
+        /// From behind, neckwear goes on the narrowest row between these many head widths under the head's row.
+        public static let backNeckFrom = 0.3
+        public static let backNeckReach = 1.0
+        /// A film frame's face is used only when its head is within this much of the film's usual size (else the
+        /// face was mis-measured, and the nearest good frame's is borrowed).
+        public static let filmFaceSpread = 0.2
+        /// A film frame's head outline, crown, nose and neck are the middle of this many frames' either side.
+        public static let filmFaceSmooth = 2
         /// The edges are measured over the middle of the picture, this far in from each side.
         public static let edgeInset = 0.2
         public static let minimumLensCells = 40
@@ -1502,9 +1514,11 @@ public enum Tuning {
         /// The shapes of the painted wide frame and terrain (width over height).
         public static let wideFrameAspect = 2688.0 / 1520.0
         public static let terrainAspect = 672.0 / 380.0
-        /// The kit the app makes: the cat's pictures this tall in pixels, and a version to remake it on change.
+        /// The kit the app makes: the cat's pictures this tall in pixels, and a version to remake it on change (2: the
+        /// outfits refitted on 20 Oct, ears under hats, the antlers, hoodie and life vest repainted, garments on ear and
+        /// tail variants).
         public static let catPixels = 420
-        public static let kitVersion = "1"
+        public static let kitVersion = "2"
         /// The app writes the widget's snapshot this long after the last change.
         public static let publishDelaySeconds = 1.0
     }

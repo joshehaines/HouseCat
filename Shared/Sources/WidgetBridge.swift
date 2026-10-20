@@ -96,13 +96,14 @@ enum WidgetBridge {
         let tall = worn.map { OutfitFit.tallEars(look, wearing: $0) } ?? OutfitFit.tallEars(look)
         let covers = worn.map(OutfitFit.coversEars) ?? false
         var outfitPictures: [CatPose: (CGImage, OutfitShape, String)] = [:]
-        // A body garment: its picture for each pose and where it goes on the pose's painting.
-        var garments: [CatPose: (CGImage, CGRect)] = [:]
+        // A body garment: its picture for each pose, where it goes on the pose's painting, and whether only where the
+        // cat is (an ear or tail variant's painting, as the room draws it).
+        var garments: [CatPose: (CGImage, CGRect, Bool)] = [:]
         if let worn, worn.slot == .body {
             for (pose, sprite, _) in poses {
                 if let path = OutfitFit.garment(worn, body: look.body, pose: pose), art.has(path), let picture = art.image(path) {
                     let base = "poses/cat_\(look.body)_\(pose.rawValue).png"
-                    garments[pose] = (picture, GarmentPlacement.frame(drawn: sprite.path, base: base, catArt: catArt, art: art))
+                    garments[pose] = (picture, GarmentPlacement.frame(drawn: sprite.path, base: base, catArt: catArt, art: art), sprite.path != base)
                 }
             }
         } else if let worn {
@@ -145,7 +146,7 @@ enum WidgetBridge {
                     grown = Double(image.height + dressed.extra) / Double(max(1, image.height))
                     image = dressed.image
                 }
-                if let (garment, frame) = garments[pose], let dressed = OutfitFit.dress(image, garment: garment, frame: frame) {
+                if let (garment, frame, clipped) = garments[pose], let dressed = OutfitFit.dress(image, garment: garment, frame: frame, clipped: clipped) {
                     image = dressed
                 }
                 write(

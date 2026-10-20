@@ -336,7 +336,7 @@ enum CatScreens {
         {
             let base = "poses/cat_\(look.body)_\(CatPose.sitThreeQuarterFront.rawValue).png"
             let frame = GarmentPlacement.frame(drawn: sprite.path, base: base, catArt: catArt, art: art)
-            return OutfitFit.dress(image, garment: garment, frame: frame) ?? image
+            return OutfitFit.dress(image, garment: garment, frame: frame, clipped: sprite.path != base) ?? image
         }
         guard let outfit, let kind = OutfitFit.kind(outfit), let path = outfit.sprites["tqfront"], let art = GameWorld.art,
               let picture = art.image(path), let shape = OutfitShapes.shape(path, art: art), let face = catArt.face(sprite.path)
@@ -1469,7 +1469,7 @@ struct RoomScreen: View {
     private func progressCards(_ content: some View) -> some View {
         content
         #if DEBUG
-            // Screenshot runs: HOUSECAT_SCREEN=levelup|road|streak|pass|addwidget|together|reminders|health|trylook.
+            // Screenshot runs: HOUSECAT_SCREEN=levelup|road|streak|pass|addwidget|together|reminders|health|trylook|outside.
             .task(id: visit.ready && visit.scene is RoomScene) {
                 // HOUSECAT_OUTFIT=<id>: the cat given that outfit and wearing it.
                 if visit.ready, let outfit = ProcessInfo.processInfo.environment["HOUSECAT_OUTFIT"] {
@@ -1506,6 +1506,8 @@ struct RoomScreen: View {
                 // HOUSECAT_TRY=<outfit id> opens the catalogue on that outfit.
                 case "catalogue": tryOutfits(ProcessInfo.processInfo.environment["HOUSECAT_TRY"])
                 case "settings": showSettings = true
+                // Out of the front door, the cat at its window (the outfit checks).
+                case "outside": visit.stepOutside()
                 case "erase": await YourData.deleteEverything()
                 case "trylook":
                     // A look for an open room (the bedroom's first, else the living room's).

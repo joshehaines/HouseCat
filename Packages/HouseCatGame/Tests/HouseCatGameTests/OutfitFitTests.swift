@@ -88,13 +88,18 @@ struct OutfitFitTests {
         }
     }
 
+    /// Side-on a headband is as tall as the head is long allows (not the ears' height, which flaps as the cat runs),
+    /// and no taller than a hat can be.
     @Test func aSideOnHeadbandIsNoTallerThanAHat() throws {
         let f = try headFace("short_slim", "side")
         let antlers = try shape("antlers", "side")
         let fit = try #require(OutfitFit.place(.hat, shape: antlers, on: f, view: "side", size: 1.35))
         let head = try #require(f.head), crown = try #require(f.crown)
         let lift = (head.y - crown.y) * f.size.height
-        #expect(fit.width * antlers.size.height / antlers.size.width <= lift * Tuning.Outfits.bandHeight * 1.01)
+        let (left, right) = try #require(OutfitFit.headSpan(f, eyes: OutfitFit.profileEyes(f, view: "side"), w: f.size.width, h: f.size.height))
+        let height = fit.width * antlers.size.height / antlers.size.width
+        #expect(abs(height - (right - left) * Tuning.Outfits.bandLift * Tuning.Outfits.bandHeight) < 1)
+        #expect(height <= lift * Tuning.Outfits.hatMaxHeight)
     }
 
     @Test(arguments: ["short_slim", "short_chunky", "long_slim", "persian", "mainecoon"])

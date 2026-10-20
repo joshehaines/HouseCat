@@ -137,8 +137,8 @@ The Apple Watch app and widgets show the cat, its mood and the streak; the Watch
 
 ### Apple Developer and App Store Connect
 
-1. **Team**: join the Apple Developer Program, then put the Team ID in `project.yml` (`DEVELOPMENT_TEAM`) and run `xcodegen generate`.
-2. **App IDs**: `com.housecatgame.housecat` and its extensions (`.widgets`, `.downloader`, `.watchkitapp`, `.watchkitapp.complication`). Each needs the App Group `group.com.housecatgame.housecat`. Add these capabilities:
+1. **Team**: done 20 Oct. Josh joined the Apple Developer Program; `DEVELOPMENT_TEAM` is 3UDHUPMKDF in `project.yml`.
+2. **App IDs**: registered on 20 Oct by Xcode's automatic signing (Josh's go-ahead), along with a signed Release archive ("HouseCat 20-10-2026, 15.21" in Xcode's Organizer): `com.housecatgame.housecat` and its extensions (`.widgets`, `.downloader`, `.watchkitapp`, `.watchkitapp.widgets`; the portal refused `.watchkitapp.complication` as not available). Each needs the App Group `group.com.housecatgame.housecat`. Add these capabilities:
    - The app: HealthKit, WeatherKit, In-App Purchase, Background Assets, Push Notifications (not used yet; leave it off).
    - iCloud/CloudKit: only when co-owning ships.
 3. **App record**: create it with the bundle ID above, primary language English (UK), SKU `housecat`.

@@ -279,7 +279,8 @@ targets:
           NSExtensionPointIdentifier: com.apple.widgetkit-extension
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.housecatgame.housecat.watchkitapp.complication
+        # Not .complication: Apple's portal said that identifier "is not available" (20 Oct).
+        PRODUCT_BUNDLE_IDENTIFIER: com.housecatgame.housecat.watchkitapp.widgets
         PRODUCT_NAME: HouseCatWatchComplication
         SKIP_INSTALL: YES
 

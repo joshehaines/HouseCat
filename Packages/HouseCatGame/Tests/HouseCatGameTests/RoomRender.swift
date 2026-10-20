@@ -133,6 +133,41 @@ private let repo = URL(fileURLWithPath: #filePath)
     }
 }
 
+/// A season pass's own set stood round the cat in the living room, to judge each piece's size by eye (Josh, 20 Oct:
+/// "less beans and more items"): the floor pieces in rows across the room in the order the catalogue lists them, a
+/// few to a still, the wall pieces along both walls, the cat sitting among them.
+/// HOUSECAT_RENDER_PASS=<folder> [HOUSECAT_RENDER_SEASON=blackcat] swift test --filter renderThePassSet
+@MainActor
+@Test func renderThePassSet() throws {
+    guard let folder = ProcessInfo.processInfo.environment["HOUSECAT_RENDER_PASS"] else { return }
+    let season = ProcessInfo.processInfo.environment["HOUSECAT_RENDER_SEASON"] ?? "blackcat"
+    let art = try ArtLibrary(root: repo.appendingPathComponent("App/Art"))
+    let content = try ContentBundle.load(from: repo.appendingPathComponent("Content"))
+    let rig = try art.data("cat/rig.json", as: PuppetRig.self)
+    let layout = try art.data("rooms/layout_living_demo.json", as: RoomModel.self)
+    let pieces = content.catalogue.items.filter { $0.room == "pass_\(season)" }
+    let floor = pieces.filter { $0.layer == .floor }
+    let wall = pieces.filter { $0.layer == .wall }
+    // Nine floor spots a still (three rows of three across the room), the cat in the middle of them.
+    let spots: [(Double, Double)] = [(1, 1), (4, 1), (7, 1), (1, 4), (7, 4), (1, 7), (4, 7), (7, 7), (4, 9)]
+    for (page, start) in stride(from: 0, to: floor.count, by: spots.count).enumerated() {
+        var model = layout
+        model.items = zip(floor[start...].prefix(spots.count), spots).map { item, spot in
+            RoomModel.Placement(id: item.id, u: spot.0, v: spot.1, facing: "R", placementID: UUID())
+        }
+        if page == 0 {
+            model.items += wall.enumerated().map { index, item in
+                RoomModel.Placement(id: item.id, u: Double(1 + 3 * (index / 2)), v: 0, facing: index % 2 == 0 ? "R" : "L", up: 2.2, placementID: UUID())
+            }
+        }
+        let scene = RoomScene(size: CGSize(width: 1376, height: 1032), art: art, content: content, model: model)
+        scene.addCat(rig: rig, at: 4.6, 4.6, pose: .sitThreeQuarterFront)
+        scene.zoom = 1
+        scene.fit()
+        try still(scene, to: URL(fileURLWithPath: folder).appendingPathComponent("pass_\(season)_\(page + 1).png"))
+    }
+}
+
 /// One frame of a scene as a PNG, after a few seconds of updates so the camera has settled.
 @MainActor
 private func still(_ scene: SKScene, to url: URL) throws {

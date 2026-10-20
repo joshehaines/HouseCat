@@ -14,7 +14,7 @@ Decision (Josh, 17 Oct): every asset class is generated in Higgsfield and finish
 
 | Folder | Contents | Files |
 |---|---|---|
-| `furniture/<room>/` | Living 16 items, bedroom 14, kitchen 14, garden 12, study 12, attic 12 (the sunbeam and skylight spots are glow sprites, with the painted versions kept as `_painted`), season passes Housewarming 8, Midwinter 8, First Light 8, Housewarming pack 6, founders' plaque 3 finishes (blank, number drawn in code); each R and L | 230 |
+| `furniture/<room>/` | Living 16 items, bedroom 14, kitchen 14, garden 12, study 12, attic 12 (the sunbeam and skylight spots are glow sprites, with the painted versions kept as `_painted`), season passes Housewarming 8 and 31 more (20 Oct), Midwinter 8, First Light 8, Black Cat 37 (20 Oct; the 20 Oct pieces painted on magenta, each L the mirror of its R), Housewarming pack 6, founders' plaque 3 finishes (blank, number drawn in code); each R and L | 230 |
 | `rooms/walls`, `rooms/floors` | 33 wallpapers and 33 floors (5+ per room, plus pass and pack finishes; the living room's fourth and fifth wallpapers and fifth floor added 17 Oct), 2048 px seamless tiles | 66 |
 | `rooms/windows`, `rooms/doors` | 8 window and 8 door frames, each with an `_opening` mask | 32 |
 | `rooms/garden_strips` | 5 garden boundaries (picket fence, brick, drystone, hedge, trellis), horizontally tiling | 5 |

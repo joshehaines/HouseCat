@@ -3064,6 +3064,984 @@
       }
     },
     {
+      "id": "pass_housewarming_keysdish",
+      "name": "New keys",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "The keys to a new front door, on a peach ribbon.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_keysdish_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_keysdish_L.png"
+      },
+      "suggestedScale": 0.3,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_bubblewrap",
+      "name": "Bubble wrap",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "bat",
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Pop. Pop. Pop. Best enjoyed lying on.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_bubblewrap_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_bubblewrap_L.png"
+      },
+      "suggestedScale": 0.8,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_firstcuppa",
+      "name": "First cuppa",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "The kettle was in the first box opened.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_firstcuppa_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_firstcuppa_L.png"
+      },
+      "suggestedScale": 0.75,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_floorcushion",
+      "name": "Floor cushion",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sit",
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Mustard cord. Somewhere to sit till the sofa comes.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_floorcushion_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_floorcushion_L.png"
+      },
+      "suggestedScale": 0.7,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_sleepingbag",
+      "name": "Sleeping bag",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "For the first night, before the bed is built.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_sleepingbag_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_sleepingbag_L.png"
+      },
+      "suggestedScale": 0.9,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_plantgift",
+      "name": "Housewarming plant",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "hide"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A cheese plant with a bow on. From the neighbours.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_plantgift_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_plantgift_L.png"
+      },
+      "suggestedScale": 0.85,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_cardstring",
+      "name": "Housewarming cards",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "wall",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "sway",
+        "pivot": [
+          0.5,
+          0.0
+        ],
+        "period": 6.0
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Cards from friends, pegged on a string.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_cardstring_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_cardstring_L.png"
+      },
+      "suggestedScale": 0.9,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_toolbox",
+      "name": "Toolbox",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A hammer, a screwdriver and a tape measure.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_toolbox_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_toolbox_L.png"
+      },
+      "suggestedScale": 0.4,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_flatpack",
+      "name": "Flat-pack box",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sit",
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A bookcase, eventually. A cat bed, for now.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_flatpack_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_flatpack_L.png"
+      },
+      "suggestedScale": 0.85,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_boxtunnel",
+      "name": "Box tunnel",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "hide"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Three boxes taped into a tunnel. Built for one.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_boxtunnel_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_boxtunnel_L.png"
+      },
+      "suggestedScale": 0.85,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_laundrybag",
+      "name": "Laundry bag",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "hide"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Blue-and-white check, full of soft things.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_laundrybag_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_laundrybag_L.png"
+      },
+      "suggestedScale": 0.6,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_housebed",
+      "name": "House cat bed",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A little house with a roof, a chimney and a cushion.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_housebed_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_housebed_L.png"
+      },
+      "suggestedScale": 0.7,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_velvetsofa",
+      "name": "Teal velvet sofa",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sit",
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Brand new. The plastic is still on one arm.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_velvetsofa_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_velvetsofa_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_eggchair",
+      "name": "Hanging egg chair",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A rattan egg to curl up and swing in.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_eggchair_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_eggchair_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_blanketfort",
+      "name": "Blanket fort",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "hide",
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A quilt over two chairs, and fairy lights.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_blanketfort_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_blanketfort_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_cratetable",
+      "name": "Crate coffee table",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "perch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Four fruit crates and a sheet of glass.",
+      "catPose": "sit_tqfront",
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_cratetable_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_cratetable_L.png"
+      },
+      "suggestedScale": 0.85,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_arclamp",
+      "name": "Arc lamp",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "glow",
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "period": 5.0
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A brass arc with a glowing dome.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_arclamp_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_arclamp_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_beanbag",
+      "name": "Bean bag",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Coral cord, squashed into a perfect dip.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_beanbag_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_beanbag_L.png"
+      },
+      "suggestedScale": 0.75,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_gallerywall",
+      "name": "Gallery wall",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "wall",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Six little frames, hung close together.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_gallerywall_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_gallerywall_L.png"
+      },
+      "suggestedScale": 0.8,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_leaningmirror",
+      "name": "Leaning mirror",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "watch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A tall arched mirror. Someone in it looks familiar.",
+      "catPose": "sit_back",
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_leaningmirror_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_leaningmirror_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null,
+      "catUse": "front"
+    },
+    {
+      "id": "pass_housewarming_plantstand",
+      "name": "Plant stand",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Ivy, a fern and a cactus on three tiers.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_plantstand_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_plantstand_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_blankettrunk",
+      "name": "Blanket trunk",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sleep",
+        "hide"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A wicker trunk of blankets, its lid half open.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_blankettrunk_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_blankettrunk_L.png"
+      },
+      "suggestedScale": 0.8,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_housescratcher",
+      "name": "House scratcher",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "scratch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A cottage to scratch, with a roof on top.",
+      "catPose": "stretch_side",
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_housescratcher_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_housescratcher_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_bicycle",
+      "name": "Bicycle",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Sage green, with a basket of flowers.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_bicycle_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_bicycle_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_swatchboard",
+      "name": "Paint swatches",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "wall",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Which colour for the hall? Still deciding.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_swatchboard_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_swatchboard_L.png"
+      },
+      "suggestedScale": 0.85,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_housecake",
+      "name": "Housewarming cake",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Iced, with a tiny house on top.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_housecake_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_housecake_L.png"
+      },
+      "suggestedScale": 0.4,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_breadsalt",
+      "name": "Bread and salt",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "The old housewarming gift, so a home never goes without.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_breadsalt_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_breadsalt_L.png"
+      },
+      "suggestedScale": 0.4,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_recordcrate",
+      "name": "Record crate",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A crate of records and a suitcase record player.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_recordcrate_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_recordcrate_L.png"
+      },
+      "suggestedScale": 0.8,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_welcomewreath",
+      "name": "Eucalyptus wreath",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "wall",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Silver eucalyptus and a linen bow.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_welcomewreath_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_welcomewreath_L.png"
+      },
+      "suggestedScale": 0.7,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_paperlantern",
+      "name": "Paper lantern",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "bat"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Waiting to be hung. Being batted instead.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_paperlantern_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_paperlantern_L.png"
+      },
+      "suggestedScale": 0.6,
+      "fx": null
+    },
+    {
+      "id": "pass_housewarming_bookstack",
+      "name": "Unpacked books",
+      "set": "pass_housewarming",
+      "room": "pass_housewarming",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A tower of books, a lamp on top. Unpacking can wait.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_housewarming/furn_pass_housewarming_bookstack_R.png",
+        "L": "furniture/pass_housewarming/furn_pass_housewarming_bookstack_L.png"
+      },
+      "suggestedScale": 0.85,
+      "fx": null
+    },
+    {
       "id": "pass_midwinter_knitblanket",
       "name": "Knitted blanket",
       "set": "pass_midwinter",
@@ -3551,6 +4529,1208 @@
         "L": "furniture/pass_firstlight/furn_pass_firstlight_daffodils_L.png"
       },
       "suggestedScale": 0.35,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_conkerbowl",
+      "name": "Conker bowl",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "bat"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "This year's conkers. One will end up under the sofa.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_conkerbowl_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_conkerbowl_L.png"
+      },
+      "suggestedScale": 0.32,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_pumpkintrio",
+      "name": "Pumpkin trio",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Three small pumpkins: orange, cream and striped.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_pumpkintrio_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_pumpkintrio_L.png"
+      },
+      "suggestedScale": 0.42,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_yarnbasket",
+      "name": "Yarn basket",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "bat"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Wool in autumn colours. It will not stay wound for long.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_yarnbasket_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_yarnbasket_L.png"
+      },
+      "suggestedScale": 0.42,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_ghosttoy",
+      "name": "Felt ghost",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "bat"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A felt ghost with a bell inside. Very brave when batted.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_ghosttoy_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_ghosttoy_L.png"
+      },
+      "suggestedScale": 0.3,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_applecrate",
+      "name": "Apple crate",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "perch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Red and green apples, still smelling of the orchard.",
+      "catPose": "sit_tqfront",
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_applecrate_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_applecrate_L.png"
+      },
+      "suggestedScale": 0.55,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_lantern",
+      "name": "Storm lantern",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "glow",
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "period": 5.0
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A brass lantern for long October evenings.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_lantern_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_lantern_L.png"
+      },
+      "suggestedScale": 0.42,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_leafpile",
+      "name": "Leaf pile",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "hide",
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A heap of crunchy leaves. Best jumped into.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_leafpile_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_leafpile_L.png"
+      },
+      "suggestedScale": 0.75,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_cocoa",
+      "name": "Hot chocolate tray",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Two mugs of hot chocolate, marshmallows and ginger biscuits.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_cocoa_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_cocoa_L.png"
+      },
+      "suggestedScale": 0.34,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_candles",
+      "name": "Candle cluster",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "glow",
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "period": 5.0
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Five candles on a slate, for lamplit evenings.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_candles_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_candles_L.png"
+      },
+      "suggestedScale": 0.38,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_batbunting",
+      "name": "Bat bunting",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "wall",
+      "decal": false,
+      "affordances": [
+        "bat"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "sway",
+        "pivot": [
+          0.5,
+          0.0
+        ],
+        "period": 6.0
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Felt bats and paper leaves on a string.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_batbunting_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_batbunting_L.png"
+      },
+      "suggestedScale": 0.9,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_mushroomlamp",
+      "name": "Toadstool lamp",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "glow",
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "period": 5.0
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Three glowing toadstools on a mossy log.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_mushroomlamp_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_mushroomlamp_L.png"
+      },
+      "suggestedScale": 0.4,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_pumpkinpouffe",
+      "name": "Pumpkin pouffe",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sit",
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A knitted pumpkin, just the size for curling up on.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_pumpkinpouffe_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_pumpkinpouffe_L.png"
+      },
+      "suggestedScale": 0.55,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_toadstool",
+      "name": "Toadstool stool",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sit",
+        "perch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-free",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A spotted toadstool to sit on. Not for eating.",
+      "catPose": "sit_tqfront",
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_toadstool_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_toadstool_L.png"
+      },
+      "suggestedScale": 0.55,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_pumpkinbed",
+      "name": "Pumpkin cat bed",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A pumpkin with a velvet cushion inside. Slept on, mostly.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_pumpkinbed_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_pumpkinbed_L.png"
+      },
+      "suggestedScale": 0.65,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_jackolantern",
+      "name": "Jack-o'-lantern",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "watch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "glow",
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "period": 5.0
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Carved with a cat's face. It looks a bit like someone.",
+      "catPose": "sit_tqfront",
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_jackolantern_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_jackolantern_L.png"
+      },
+      "suggestedScale": 0.5,
+      "fx": null,
+      "catUse": "front"
+    },
+    {
+      "id": "pass_blackcat_velvetchair",
+      "name": "Midnight armchair",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sit",
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Plum velvet, brass studs and a knitted throw.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_velvetchair_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_velvetchair_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_catportrait",
+      "name": "Black cat portrait",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "wall",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A very distinguished ancestor, in oils.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_catportrait_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_catportrait_L.png"
+      },
+      "suggestedScale": 0.9,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_moonlamp",
+      "name": "Moon lamp",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "glow",
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "period": 5.0
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A paper full moon on a brass stand.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_moonlamp_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_moonlamp_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_catcastle",
+      "name": "Cardboard castle",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "hide",
+        "perch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Two turrets, one door, one ruler.",
+      "catPose": "sit_tqfront",
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_catcastle_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_catcastle_L.png"
+      },
+      "suggestedScale": 0.8,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_spookytree",
+      "name": "Twisty tree",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "perch",
+        "sleep",
+        "scratch"
+      ],
+      "capacity": 2,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A gnarled cat tree with felt bats in its branches.",
+      "catPose": "sit_tqfront",
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_spookytree_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_spookytree_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_cobwebhammock",
+      "name": "Cobweb hammock",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A crocheted cobweb to nap in. The spider is felt.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_cobwebhammock_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_cobwebhammock_L.png"
+      },
+      "suggestedScale": 0.85,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_owlclock",
+      "name": "Owl clock",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "wall",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A wooden owl that keeps the time.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_owlclock_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_owlclock_L.png"
+      },
+      "suggestedScale": 0.85,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_catrug",
+      "name": "Black cat rug",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 2,
+        "d": 2
+      },
+      "layer": "floor",
+      "decal": true,
+      "affordances": [
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A woven rug with a sleeping cat in the middle. Now two.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_catrug_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_catrug_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_telescope",
+      "name": "Brass telescope",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "watch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "For long clear nights and passing owls.",
+      "catPose": "sit_back",
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_telescope_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_telescope_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null,
+      "catUse": "front"
+    },
+    {
+      "id": "pass_blackcat_grandclock",
+      "name": "Midnight clock",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A grandfather clock with a smiling moon on its face.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_grandclock_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_grandclock_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_applebob",
+      "name": "Apple-bobbing tub",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "watch"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Apples bobbing in a tub. Watched, never bobbed for.",
+      "catPose": "sit_side",
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_applebob_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_applebob_L.png"
+      },
+      "suggestedScale": 0.75,
+      "fx": null,
+      "catUse": "front"
+    },
+    {
+      "id": "pass_blackcat_gramophone",
+      "name": "Gramophone",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A wind-up gramophone with a big brass horn.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_gramophone_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_gramophone_L.png"
+      },
+      "suggestedScale": 0.85,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_ghostlamp",
+      "name": "Ghost lamp",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "glow",
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "period": 5.0
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A little sheet ghost glowing on a side table.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_ghostlamp_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_ghostlamp_L.png"
+      },
+      "suggestedScale": 0.75,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_batcushion",
+      "name": "Bat cushion",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A velvet bat with its wings spread, for napping on.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_batcushion_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_batcushion_L.png"
+      },
+      "suggestedScale": 0.75,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_rockingchair",
+      "name": "Rocking chair",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sit",
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Honey oak and a granny-square blanket.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_rockingchair_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_rockingchair_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_conkertree",
+      "name": "Conker tree",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "hide",
+        "bat"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A young horse chestnut in a pot, turning gold.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_conkertree_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_conkertree_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_humbugjar",
+      "name": "Humbug jar",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Humbugs and toffees in a tall glass jar.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_humbugjar_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_humbugjar_L.png"
+      },
+      "suggestedScale": 0.4,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_catdoorstop",
+      "name": "Cat doorstop",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A cast-iron cat that holds the door. Never moves.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_catdoorstop_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_catdoorstop_L.png"
+      },
+      "suggestedScale": 0.4,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_pumpkinpatch",
+      "name": "Pumpkin patch",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "hide"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Pumpkins and gourds in a long planter.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_pumpkinpatch_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_pumpkinpatch_L.png"
+      },
+      "suggestedScale": 0.85,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_haybale",
+      "name": "Hay bale seat",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 2,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sit",
+        "perch",
+        "sleep"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "A hay bale with a tartan blanket and a small pumpkin.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_haybale_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_haybale_L.png"
+      },
+      "suggestedScale": 0.8,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_lanternstring",
+      "name": "Pumpkin lanterns",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 3,
+        "d": 1
+      },
+      "layer": "wall",
+      "decal": false,
+      "affordances": [
+        "none"
+      ],
+      "capacity": 0,
+      "motion": {
+        "type": "glow",
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "period": 5.0
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Paper pumpkin lanterns on a string.",
+      "catPose": null,
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_lanternstring_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_lanternstring_L.png"
+      },
+      "suggestedScale": null,
+      "fx": null
+    },
+    {
+      "id": "pass_blackcat_booknook",
+      "name": "Ghost story shelf",
+      "set": "pass_blackcat",
+      "room": "pass_blackcat",
+      "footprint": {
+        "w": 1,
+        "d": 1
+      },
+      "layer": "floor",
+      "decal": false,
+      "affordances": [
+        "sleep",
+        "hide"
+      ],
+      "capacity": 1,
+      "motion": {
+        "type": "static"
+      },
+      "pool": "pass-paid",
+      "level": 1,
+      "beans": null,
+      "sku": null,
+      "description": "Old storybooks and a gap on the bottom shelf, cat-sized.",
+      "catPose": "sleep_curl",
+      "sprites": {
+        "R": "furniture/pass_blackcat/furn_pass_blackcat_booknook_R.png",
+        "L": "furniture/pass_blackcat/furn_pass_blackcat_booknook_L.png"
+      },
+      "suggestedScale": null,
       "fx": null
     },
     {
@@ -4486,6 +6666,26 @@
       "beans": null,
       "set": null,
       "sprite": "rooms/walls/wall_study_ochre_linen.png"
+    },
+    {
+      "id": "wall_pass_blackcat_midnight_bats",
+      "kind": "wall",
+      "room": "pass_blackcat",
+      "name": "Midnight bats",
+      "pool": "pass-paid",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/walls/wall_pass_blackcat_midnight_bats.png"
+    },
+    {
+      "id": "floor_pass_blackcat_conker_parquet",
+      "kind": "floor",
+      "room": "pass_blackcat",
+      "name": "Conker parquet",
+      "pool": "pass-paid",
+      "beans": null,
+      "set": null,
+      "sprite": "rooms/floors/floor_pass_blackcat_conker_parquet.png"
     }
   ],
   "excluded": [

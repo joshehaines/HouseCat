@@ -372,7 +372,7 @@ def check_catalogue(d, manifest, outfits):
     pack = [i for i in d['items'] if i['room'] == 'housewarming_pack']
     founders = [i for i in d['items'] if i['room'] == 'founders']
     expect(len(room_items), 80, 'room items')
-    expect(len(pass_items), 23, 'season-pass items (mulled wine excluded)')
+    expect(len(pass_items), 91, 'season-pass items (mulled wine excluded; Black Cat\'s 37 and 31 more for Housewarming, 20 Oct)')
     expect(len(pack), 5, 'Housewarming pack items (champagne excluded)')
     expect(len(founders), 3, "founders' plaque finishes")
     pc = Counter(i['pool'] for i in room_items)
@@ -395,9 +395,11 @@ def check_catalogue(d, manifest, outfits):
     for i in pass_items:
         if i['pool'] not in ('pass-free', 'pass-paid') or i['set'] != i['room']:
             err(f"{f}: {i['id']} pass item pool/set wrong")
-    for rm in ('pass_housewarming', 'pass_midwinter', 'pass_firstlight'):
+    for rm in ('pass_housewarming', 'pass_midwinter', 'pass_firstlight', 'pass_blackcat'):
         c = Counter(i['pool'] for i in pass_items if i['room'] == rm)
-        want = {'pass-free': 3, 'pass-paid': 4 if rm == 'pass_midwinter' else 5}
+        want = {'pass-free': 13, 'pass-paid': 24} if rm == 'pass_blackcat' else \
+            {'pass-free': 14, 'pass-paid': 25} if rm == 'pass_housewarming' else \
+            {'pass-free': 3, 'pass-paid': 4 if rm == 'pass_midwinter' else 5}
         expect(dict(c), want, f'{rm} pools')
     for i in pack:
         if i['pool'] != 'housewarming' or i['sku'] != 'housecat.season.housewarming':
@@ -520,11 +522,11 @@ def check_outfits(d, manifest):
     # The body garments' paintings for each body and pose (outfits/body/) are drawn by GarmentPlacement, not listed here.
     mo = {k for k, v in manifest.items() if v.get('class') == 'outfits' and not k.startswith('outfits/body/')}
     used = set()
-    expect(len(d['outfits']), 35, 'outfits (23, and 12 more on 18 Oct)')
+    expect(len(d['outfits']), 37, 'outfits (23, 12 more on 18 Oct, Black Cat\'s two hats on 20 Oct)')
     # No founders' pack any more; the small crown is the Housewarming pass's (CLAUDE.md, 18 Oct). The pass's twelve
     # outfits are its own, never sold for Beans (Josh, 20 Oct).
     expect(dict(Counter(o['pool'] for o in d['outfits'])),
-           {'paid': 19, 'earned': 4, 'pass-paid': 8, 'pass-free': 4}, 'outfit pools')
+           {'paid': 19, 'earned': 4, 'pass-paid': 9, 'pass-free': 5}, 'outfit pools')
     expect(sorted(o['earnedBy'] for o in d['outfits'] if o['pool'] == 'earned'),
            sorted(['streak_30', 'streak_100', 'referral', 'launch_event']), 'earnedBy')
     for o in d['outfits']:
@@ -771,9 +773,10 @@ def check_path(d, items, outfits):
 
 # ------------------------------------------------------------------ seasons / minigames
 def check_seasons(d, items, surfaces, outfits):
-    """CONTENT.md §7 and build_seasons.py (19 Oct): thirty tiers, the free track's rewards on the first twenty (three
-    pieces and its outfit last), the premium track's on all thirty (pieces, a wallpaper and a floor, a second outfit and
-    the season's own outfit last). A season with no paintings of its own (Black Cat) takes them from the Bean shop."""
+    """CONTENT.md §7 and build_seasons.py (19 Oct; boxes, 20 Oct): thirty tiers, a box on each of the free track's
+    twenty and the premium track's thirty. A box holds one reward or several (Josh, 20 Oct: "more content in them ...
+    less beans and more items"), each with its rarity; Beans alone fill only a few. Items are the season's own pieces
+    (pass_<season>, in the track's pool) or, until its own set is painted, pieces borrowed from the shop (warned)."""
     f = 'seasons.json'
     keys_exact(d, ['version', 'seasonLengthDays', 'tiers', 'freeTiers', 'launchAt', 'seasons'], f)
     expect(d['seasonLengthDays'], 28, 'season length')
@@ -785,6 +788,7 @@ def check_seasons(d, items, surfaces, outfits):
     if d['launchAt'] not in [s['startAt'] for s in d['seasons'] if s['id'] == 'housewarming']:
         err(f"{f}: launchAt {d['launchAt']} is not the start of Housewarming, the launch season")
     from datetime import date
+    rarities = ('common', 'uncommon', 'rare', 'legendary')
     prev_end = None
     for s in d['seasons']:
         w = f"{f} {s['id']}"
@@ -807,23 +811,37 @@ def check_seasons(d, items, surfaces, outfits):
         prev_end = b
         line_rules(s['theme'], w + ' theme', money=False)
         folder = 'pass_' + s['id']
-        own = {i for i, v in items.items() if v['room'] == folder}   # its own paintings (8, Midwinter 7), if any
+        own = {i for i, v in items.items() if v['room'] == folder}
+        borrowed = []
         for track, pools, n in (('freeTrack', 'free', d['freeTiers']), ('paidTrack', 'paid', d['tiers'])):
             t = s[track]
-            expect([r['tier'] for r in t], list(range(1, n + 1)), f"{w} {track} tiers")
-            kinds = Counter(r['kind'] for r in t)
+            tiers = [r['tier'] for r in t]
+            if tiers != sorted(tiers) or sorted(set(tiers)) != list(range(1, n + 1)):
+                err(f"{w} {track}: a box on every tier 1-{n}, in order")
+            boxes = Counter(tiers)
+            if max(boxes.values()) > 2:
+                err(f"{w} {track}: a box holds at most two rewards")
             for r in t:
                 ww = f"{w} {track} tier {r['tier']}"
-                keys_exact(r, ['tier', 'kind', 'id', 'amount'], ww)
+                keys_exact(r, ['tier', 'kind', 'id', 'amount', 'rarity'], ww)
+                if r['rarity'] not in rarities:
+                    err(f"{ww}: rarity {r['rarity']!r}")
                 if r['kind'] == 'beans':
                     if r['id'] is not None or not isinstance(r['amount'], int) or r['amount'] <= 0:
                         err(f"{ww}: bad beans reward")
+                    if r['rarity'] != 'common':
+                        err(f"{ww}: Beans are common")
                 elif r['kind'] == 'item':
                     it = items.get(r['id'])
-                    if own and (not it or it['pool'] != f'pass-{pools}' or it['room'] != folder):
-                        err(f"{ww}: item {r['id']!r} does not resolve to a {folder} pass-{pools} item")
-                    elif not own and (not it or it['pool'] != 'beans'):
-                        err(f"{ww}: item {r['id']!r} is not a piece from the Bean shop")
+                    if not it:
+                        err(f"{ww}: item {r['id']!r} does not resolve")
+                    elif it['room'] == folder:
+                        if it['pool'] != f'pass-{pools}':
+                            err(f"{ww}: {r['id']!r} is {it['pool']}, not pass-{pools}")
+                    elif it['room'].startswith('pass_') or it['pool'] not in ('beans', 'set', 'free'):
+                        err(f"{ww}: item {r['id']!r} is another season's or not the shop's")
+                    else:
+                        borrowed.append(r['id'])
                     if r['amount'] is not None:
                         err(f"{ww}: amount on an item")
                 elif r['kind'] == 'outfit':
@@ -832,35 +850,36 @@ def check_seasons(d, items, surfaces, outfits):
                     # The pass is the only way to its outfits (Josh, 20 Oct): never one the Bean shop sells.
                     elif outfits[r['id']]['pool'] != f'pass-{pools}':
                         err(f"{ww}: outfit {r['id']!r} is {outfits[r['id']]['pool']}, not pass-{pools}")
+                    if r['rarity'] != 'legendary':
+                        err(f"{ww}: outfits are legendary")
                 elif r['kind'] == 'surface':
                     sf = surfaces.get(r['id'])
-                    want_sf = (lambda x: x['pool'] == 'pass-paid' and x['room'] == folder) if own else \
-                        (lambda x: x['pool'] == 'beans')
-                    if not sf or not want_sf(sf) or pools != 'paid':
+                    if not sf or pools != 'paid' or not ((sf['pool'] == 'pass-paid' and sf['room'] == folder) or sf['pool'] == 'beans'):
                         err(f"{ww}: surface {r['id']!r} does not resolve")
                 else:
                     err(f"{ww}: bad kind")
-            # The track ends with an outfit of the pass's own.
-            last = t[-1] if t else {}
-            if last.get('kind') != 'outfit':
+            # The track's last box is an outfit of the pass's own (its main reward).
+            last = [r for r in t if r['tier'] == n][:1]
+            if not last or last[0]['kind'] != 'outfit':
                 err(f"{w}: {track} must end with an outfit")
-            elif outfits.get(last['id'], {}).get('pool') != f'pass-{pools}':
-                err(f"{w}: {track} ends with {last['id']!r}, not a pass-{pools} outfit of its own")
-            if pools == 'free':
-                expect(dict(kinds), {'item': 3, 'outfit': 1, 'beans': n - 4}, f"{w} free track")
-            else:
-                # The pieces the free track's three leave (a season short of a piece pays Beans there instead).
-                paid_items = len(own) - 3 if own else 5
-                expect(dict(kinds), {'item': paid_items, 'surface': 2, 'outfit': 2, 'beans': n - paid_items - 4},
-                       f"{w} paid track")
+            elif outfits.get(last[0]['id'], {}).get('pool') != f'pass-{pools}':
+                err(f"{w}: {track} ends with {last[0]['id']!r}, not a pass-{pools} outfit of its own")
+            # Fewer Beans, more items: Beans alone in at most a third of the free boxes and a fifth of the premium.
+            alone = sum(1 for tier in boxes if all(r['kind'] == 'beans' for r in t if r['tier'] == tier))
+            if alone * (3 if pools == 'free' else 5) > n:
+                err(f"{w} {track}: {alone} boxes of Beans alone")
+            if pools == 'paid':
                 sk = {surfaces[r['id']]['kind'] for r in t if r['kind'] == 'surface' and r['id'] in surfaces}
                 if sk != {'wall', 'floor'}:
                     err(f"{w}: paid track needs a wallpaper and a floor")
-        if s['christmas'] and s['paidTrack'] and s['paidTrack'][-1]['id'] != 'santahat':
+        if s['christmas'] and [r['id'] for r in s['paidTrack'] if r['tier'] == d['tiers']][:1] != ['santahat']:
             err(f"{w}: the Christmas season's top prize is the Santa hat")
-        got = {r['id'] for tr in ('freeTrack', 'paidTrack') for r in s[tr] if r['kind'] == 'item'}
-        if own and got != own:
-            err(f"{w}: track items differ from the season's {len(own)} pieces")
+        got = [r['id'] for tr in ('freeTrack', 'paidTrack') for r in s[tr] if r['kind'] == 'item']
+        unique(got, f"{w} items")
+        if own - set(got):
+            err(f"{w}: its own pieces {sorted(own - set(got))} are on neither track")
+        if borrowed:
+            warn(f"{w}: {len(borrowed)} pieces borrowed from the shop until its own set is painted")
 
 
 def check_minigames(d):

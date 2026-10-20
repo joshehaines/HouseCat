@@ -120622,6 +120622,1882 @@
     438,
     568
    ]
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_pumpkinbed_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "pumpkinbed",
+   "facing": "R",
+   "job_id": "4285bfed-3843-48c6-b8e6-b2780d7a7de3",
+   "ref_room": "grey",
+   "px": [
+    560,
+    652
+   ],
+   "suggested_scale": 0.65
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_pumpkinbed_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "pumpkinbed",
+   "facing": "L",
+   "job_id": "4285bfed-3843-48c6-b8e6-b2780d7a7de3",
+   "ref_room": "grey",
+   "px": [
+    560,
+    652
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_pumpkinbed_R.png",
+   "suggested_scale": 0.65
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_conkerbowl_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "conkerbowl",
+   "facing": "R",
+   "job_id": "57bd235c-e3fd-4cf2-9ad0-46a3b2e54e61",
+   "ref_room": "grey",
+   "px": [
+    380,
+    280
+   ],
+   "suggested_scale": 0.32
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_conkerbowl_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "conkerbowl",
+   "facing": "L",
+   "job_id": "57bd235c-e3fd-4cf2-9ad0-46a3b2e54e61",
+   "ref_room": "grey",
+   "px": [
+    380,
+    280
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_conkerbowl_R.png",
+   "suggested_scale": 0.32
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_catportrait_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "catportrait",
+   "facing": "R",
+   "job_id": "51d949fa-797a-4062-a866-e58618bcd191",
+   "ref_room": "grey",
+   "px": [
+    207,
+    420
+   ],
+   "suggested_scale": 0.9
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_catportrait_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "catportrait",
+   "facing": "L",
+   "job_id": "51d949fa-797a-4062-a866-e58618bcd191",
+   "ref_room": "grey",
+   "px": [
+    207,
+    420
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_catportrait_R.png",
+   "suggested_scale": 0.9
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_yarnbasket_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "yarnbasket",
+   "facing": "R",
+   "job_id": "814868e3-337b-4aef-a0f2-1a0098823861",
+   "ref_room": "grey",
+   "px": [
+    369,
+    400
+   ],
+   "suggested_scale": 0.42
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_yarnbasket_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "yarnbasket",
+   "facing": "L",
+   "job_id": "814868e3-337b-4aef-a0f2-1a0098823861",
+   "ref_room": "grey",
+   "px": [
+    369,
+    400
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_yarnbasket_R.png",
+   "suggested_scale": 0.42
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_velvetchair_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "velvetchair",
+   "facing": "R",
+   "job_id": "c7af1f09-c0ae-4ec1-9493-dd4cd1dc2bdb",
+   "ref_room": "grey",
+   "px": [
+    551,
+    680
+   ]
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_velvetchair_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "velvetchair",
+   "facing": "L",
+   "job_id": "c7af1f09-c0ae-4ec1-9493-dd4cd1dc2bdb",
+   "ref_room": "grey",
+   "px": [
+    551,
+    680
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_velvetchair_R.png"
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_pumpkintrio_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "pumpkintrio",
+   "facing": "R",
+   "job_id": "3903f7ae-f5f4-4864-bd1a-df68bac13217",
+   "ref_room": "grey",
+   "px": [
+    391,
+    380
+   ],
+   "suggested_scale": 0.42
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_pumpkintrio_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "pumpkintrio",
+   "facing": "L",
+   "job_id": "3903f7ae-f5f4-4864-bd1a-df68bac13217",
+   "ref_room": "grey",
+   "px": [
+    391,
+    380
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_pumpkintrio_R.png",
+   "suggested_scale": 0.42
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_ghosttoy_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "ghosttoy",
+   "facing": "R",
+   "job_id": "74a64893-b25c-400a-b756-b8f9c1750f62",
+   "ref_room": "grey",
+   "px": [
+    360,
+    328
+   ],
+   "suggested_scale": 0.3
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_ghosttoy_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "ghosttoy",
+   "facing": "L",
+   "job_id": "74a64893-b25c-400a-b756-b8f9c1750f62",
+   "ref_room": "grey",
+   "px": [
+    360,
+    328
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_ghosttoy_R.png",
+   "suggested_scale": 0.3
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_applecrate_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "applecrate",
+   "facing": "R",
+   "job_id": "c85f6474-0349-4aa9-b8de-346334229765",
+   "ref_room": "grey",
+   "px": [
+    493,
+    460
+   ],
+   "suggested_scale": 0.55
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_applecrate_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "applecrate",
+   "facing": "L",
+   "job_id": "c85f6474-0349-4aa9-b8de-346334229765",
+   "ref_room": "grey",
+   "px": [
+    493,
+    460
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_applecrate_R.png",
+   "suggested_scale": 0.55
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_lantern_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "lantern",
+   "facing": "R",
+   "job_id": "f1c04a41-f969-4350-b42c-361902d7daae",
+   "ref_room": "grey",
+   "px": [
+    175,
+    420
+   ],
+   "suggested_scale": 0.42
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_lantern_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "lantern",
+   "facing": "L",
+   "job_id": "f1c04a41-f969-4350-b42c-361902d7daae",
+   "ref_room": "grey",
+   "px": [
+    175,
+    420
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_lantern_R.png",
+   "suggested_scale": 0.42
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_leafpile_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "leafpile",
+   "facing": "R",
+   "job_id": "fb3c9f5a-94d4-462e-9338-f5c91d5a9c1c",
+   "ref_room": "grey",
+   "px": [
+    600,
+    389
+   ],
+   "suggested_scale": 0.75
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_leafpile_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "leafpile",
+   "facing": "L",
+   "job_id": "fb3c9f5a-94d4-462e-9338-f5c91d5a9c1c",
+   "ref_room": "grey",
+   "px": [
+    600,
+    389
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_leafpile_R.png",
+   "suggested_scale": 0.75
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_batbunting_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "batbunting",
+   "facing": "R",
+   "job_id": "216665d9-7f63-4086-b2fe-8865716033aa",
+   "ref_room": "grey",
+   "px": [
+    620,
+    533
+   ],
+   "suggested_scale": 0.9
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_batbunting_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "batbunting",
+   "facing": "L",
+   "job_id": "216665d9-7f63-4086-b2fe-8865716033aa",
+   "ref_room": "grey",
+   "px": [
+    620,
+    533
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_batbunting_R.png",
+   "suggested_scale": 0.9
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_mushroomlamp_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "mushroomlamp",
+   "facing": "R",
+   "job_id": "1f122f08-6f30-4e5b-87e6-1f1fd3ee24e8",
+   "ref_room": "grey",
+   "px": [
+    267,
+    380
+   ],
+   "suggested_scale": 0.4
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_mushroomlamp_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "mushroomlamp",
+   "facing": "L",
+   "job_id": "1f122f08-6f30-4e5b-87e6-1f1fd3ee24e8",
+   "ref_room": "grey",
+   "px": [
+    267,
+    380
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_mushroomlamp_R.png",
+   "suggested_scale": 0.4
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_cocoa_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "cocoa",
+   "facing": "R",
+   "job_id": "e4888f6c-b610-4946-8cd3-484e677b8d32",
+   "ref_room": "grey",
+   "px": [
+    400,
+    347
+   ],
+   "suggested_scale": 0.34
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_cocoa_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "cocoa",
+   "facing": "L",
+   "job_id": "e4888f6c-b610-4946-8cd3-484e677b8d32",
+   "ref_room": "grey",
+   "px": [
+    400,
+    347
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_cocoa_R.png",
+   "suggested_scale": 0.34
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_candles_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "candles",
+   "facing": "R",
+   "job_id": "cd438b88-ce25-4e47-9aef-5574a747eafc",
+   "ref_room": "grey",
+   "px": [
+    326,
+    400
+   ],
+   "suggested_scale": 0.38
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_candles_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "candles",
+   "facing": "L",
+   "job_id": "cd438b88-ce25-4e47-9aef-5574a747eafc",
+   "ref_room": "grey",
+   "px": [
+    326,
+    400
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_candles_R.png",
+   "suggested_scale": 0.38
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_toadstool_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "toadstool",
+   "facing": "R",
+   "job_id": "8429589d-ad1a-4f21-8c88-a847449e1de3",
+   "ref_room": "grey",
+   "px": [
+    519,
+    520
+   ],
+   "suggested_scale": 0.55
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_toadstool_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "toadstool",
+   "facing": "L",
+   "job_id": "8429589d-ad1a-4f21-8c88-a847449e1de3",
+   "ref_room": "grey",
+   "px": [
+    519,
+    520
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_toadstool_R.png",
+   "suggested_scale": 0.55
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_pumpkinpouffe_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "pumpkinpouffe",
+   "facing": "R",
+   "job_id": "772b52c9-fad9-45ab-ab97-e1fb1cbd1037",
+   "ref_room": "grey",
+   "px": [
+    507,
+    480
+   ],
+   "suggested_scale": 0.55
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_pumpkinpouffe_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "pumpkinpouffe",
+   "facing": "L",
+   "job_id": "772b52c9-fad9-45ab-ab97-e1fb1cbd1037",
+   "ref_room": "grey",
+   "px": [
+    507,
+    480
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_pumpkinpouffe_R.png",
+   "suggested_scale": 0.55
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_jackolantern_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "jackolantern",
+   "facing": "R",
+   "job_id": "e2995f8e-c055-4f04-805c-b6e29407b03c",
+   "ref_room": "grey",
+   "px": [
+    448,
+    440
+   ],
+   "suggested_scale": 0.5
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_jackolantern_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "jackolantern",
+   "facing": "L",
+   "job_id": "e2995f8e-c055-4f04-805c-b6e29407b03c",
+   "ref_room": "grey",
+   "px": [
+    448,
+    440
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_jackolantern_R.png",
+   "suggested_scale": 0.5
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_moonlamp_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "moonlamp",
+   "facing": "R",
+   "job_id": "8daf4624-9c0b-4b54-8c5a-14881cab3bb4",
+   "ref_room": "grey",
+   "px": [
+    407,
+    720
+   ]
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_moonlamp_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "moonlamp",
+   "facing": "L",
+   "job_id": "8daf4624-9c0b-4b54-8c5a-14881cab3bb4",
+   "ref_room": "grey",
+   "px": [
+    407,
+    720
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_moonlamp_R.png"
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_catcastle_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "catcastle",
+   "facing": "R",
+   "job_id": "d1931e57-07c7-4bde-a08f-c0997b430536",
+   "ref_room": "grey",
+   "px": [
+    528,
+    560
+   ],
+   "suggested_scale": 0.8
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_catcastle_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "catcastle",
+   "facing": "L",
+   "job_id": "d1931e57-07c7-4bde-a08f-c0997b430536",
+   "ref_room": "grey",
+   "px": [
+    528,
+    560
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_catcastle_R.png",
+   "suggested_scale": 0.8
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_spookytree_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "spookytree",
+   "facing": "R",
+   "job_id": "85e4d3d1-d18f-4b70-a82d-56c2800f4ed5",
+   "ref_room": "grey",
+   "px": [
+    572,
+    690
+   ]
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_spookytree_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "spookytree",
+   "facing": "L",
+   "job_id": "85e4d3d1-d18f-4b70-a82d-56c2800f4ed5",
+   "ref_room": "grey",
+   "px": [
+    572,
+    690
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_spookytree_R.png"
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_cobwebhammock_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "cobwebhammock",
+   "facing": "R",
+   "job_id": "fe23e4af-407e-44bd-9505-edb2a0dc80fa",
+   "ref_room": "grey",
+   "px": [
+    560,
+    477
+   ],
+   "suggested_scale": 0.85
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_cobwebhammock_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "cobwebhammock",
+   "facing": "L",
+   "job_id": "fe23e4af-407e-44bd-9505-edb2a0dc80fa",
+   "ref_room": "grey",
+   "px": [
+    560,
+    477
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_cobwebhammock_R.png",
+   "suggested_scale": 0.85
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_owlclock_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "owlclock",
+   "facing": "R",
+   "job_id": "f52e84c4-d362-40df-8bd8-57a6b251c4da",
+   "ref_room": "grey",
+   "px": [
+    143,
+    300
+   ],
+   "suggested_scale": 0.85
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_owlclock_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "owlclock",
+   "facing": "L",
+   "job_id": "f52e84c4-d362-40df-8bd8-57a6b251c4da",
+   "ref_room": "grey",
+   "px": [
+    143,
+    300
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_owlclock_R.png",
+   "suggested_scale": 0.85
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_catrug_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "catrug",
+   "facing": "R",
+   "job_id": "f387d669-80a7-46fd-bbdf-b66a4672c07a",
+   "ref_room": "grey",
+   "px": [
+    600,
+    324
+   ]
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_catrug_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "catrug",
+   "facing": "L",
+   "job_id": "f387d669-80a7-46fd-bbdf-b66a4672c07a",
+   "ref_room": "grey",
+   "px": [
+    600,
+    324
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_catrug_R.png"
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_telescope_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "telescope",
+   "facing": "R",
+   "job_id": "c3760efe-23b2-4632-920f-7e2b7dde3b93",
+   "ref_room": "grey",
+   "px": [
+    350,
+    620
+   ]
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_telescope_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "telescope",
+   "facing": "L",
+   "job_id": "c3760efe-23b2-4632-920f-7e2b7dde3b93",
+   "ref_room": "grey",
+   "px": [
+    350,
+    620
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_telescope_R.png"
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_grandclock_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "grandclock",
+   "facing": "R",
+   "job_id": "92064e03-b7d3-4fe7-b9f8-680e638ccd5b",
+   "ref_room": "grey",
+   "px": [
+    326,
+    800
+   ]
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_grandclock_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "grandclock",
+   "facing": "L",
+   "job_id": "92064e03-b7d3-4fe7-b9f8-680e638ccd5b",
+   "ref_room": "grey",
+   "px": [
+    326,
+    800
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_grandclock_R.png"
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_applebob_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "applebob",
+   "facing": "R",
+   "job_id": "44a9431b-6acb-4d1c-a496-f51d4506c3fe",
+   "ref_room": "grey",
+   "px": [
+    440,
+    468
+   ],
+   "suggested_scale": 0.75
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_applebob_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "applebob",
+   "facing": "L",
+   "job_id": "44a9431b-6acb-4d1c-a496-f51d4506c3fe",
+   "ref_room": "grey",
+   "px": [
+    440,
+    468
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_applebob_R.png",
+   "suggested_scale": 0.75
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_gramophone_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "gramophone",
+   "facing": "R",
+   "job_id": "7b672ea1-ed58-4e6a-9845-80c9dd4c009c",
+   "ref_room": "grey",
+   "px": [
+    325,
+    470
+   ],
+   "suggested_scale": 0.85
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_gramophone_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "gramophone",
+   "facing": "L",
+   "job_id": "7b672ea1-ed58-4e6a-9845-80c9dd4c009c",
+   "ref_room": "grey",
+   "px": [
+    325,
+    470
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_gramophone_R.png",
+   "suggested_scale": 0.85
+  },
+  "rooms/walls/wall_pass_blackcat_midnight_bats.png": {
+   "class": "rooms/walls",
+   "tile": true,
+   "mask": false,
+   "px": [
+    2048,
+    2048
+   ],
+   "job_id": "9c00cbf1-f407-4edf-a82c-00938cdc92b8"
+  },
+  "rooms/floors/floor_pass_blackcat_conker_parquet.png": {
+   "class": "rooms/floors",
+   "tile": true,
+   "mask": false,
+   "px": [
+    2048,
+    2048
+   ],
+   "job_id": "c6b1ea0a-07b6-428e-8525-e474086b961f"
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_ghostlamp_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "ghostlamp",
+   "facing": "R",
+   "job_id": "74bd8a60-db2b-4d39-a0d1-0f297c157a85",
+   "ref_room": "grey",
+   "px": [
+    199,
+    440
+   ],
+   "suggested_scale": 0.75
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_ghostlamp_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "ghostlamp",
+   "facing": "L",
+   "job_id": "74bd8a60-db2b-4d39-a0d1-0f297c157a85",
+   "ref_room": "grey",
+   "px": [
+    199,
+    440
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_ghostlamp_R.png",
+   "suggested_scale": 0.75
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_batcushion_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "batcushion",
+   "facing": "R",
+   "job_id": "b9b5fed1-afe2-4cbd-89f8-454b2acf187b",
+   "ref_room": "grey",
+   "px": [
+    460,
+    234
+   ],
+   "suggested_scale": 0.75
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_batcushion_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "batcushion",
+   "facing": "L",
+   "job_id": "b9b5fed1-afe2-4cbd-89f8-454b2acf187b",
+   "ref_room": "grey",
+   "px": [
+    460,
+    234
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_batcushion_R.png",
+   "suggested_scale": 0.75
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_rockingchair_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "rockingchair",
+   "facing": "R",
+   "job_id": "a7fbd486-d93d-4ae9-88de-7635e646237a",
+   "ref_room": "grey",
+   "px": [
+    476,
+    640
+   ]
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_rockingchair_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "rockingchair",
+   "facing": "L",
+   "job_id": "a7fbd486-d93d-4ae9-88de-7635e646237a",
+   "ref_room": "grey",
+   "px": [
+    476,
+    640
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_rockingchair_R.png"
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_conkertree_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "conkertree",
+   "facing": "R",
+   "job_id": "ce181f5e-2380-4f71-8928-0f1b06246839",
+   "ref_room": "grey",
+   "px": [
+    532,
+    740
+   ]
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_conkertree_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "conkertree",
+   "facing": "L",
+   "job_id": "ce181f5e-2380-4f71-8928-0f1b06246839",
+   "ref_room": "grey",
+   "px": [
+    532,
+    740
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_conkertree_R.png"
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_humbugjar_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "humbugjar",
+   "facing": "R",
+   "job_id": "8229c813-aa2b-4fc5-9ac3-1f3baca8c5a2",
+   "ref_room": "grey",
+   "px": [
+    197,
+    360
+   ],
+   "suggested_scale": 0.4
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_humbugjar_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "humbugjar",
+   "facing": "L",
+   "job_id": "8229c813-aa2b-4fc5-9ac3-1f3baca8c5a2",
+   "ref_room": "grey",
+   "px": [
+    197,
+    360
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_humbugjar_R.png",
+   "suggested_scale": 0.4
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_catdoorstop_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "catdoorstop",
+   "facing": "R",
+   "job_id": "f4fa0e5c-b88e-442f-9270-678718d9198a",
+   "ref_room": "grey",
+   "px": [
+    209,
+    340
+   ],
+   "suggested_scale": 0.4
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_catdoorstop_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "catdoorstop",
+   "facing": "L",
+   "job_id": "f4fa0e5c-b88e-442f-9270-678718d9198a",
+   "ref_room": "grey",
+   "px": [
+    209,
+    340
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_catdoorstop_R.png",
+   "suggested_scale": 0.4
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_pumpkinpatch_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "pumpkinpatch",
+   "facing": "R",
+   "job_id": "bdc10e1e-9a03-49f2-9f91-79ab1a5eb4a6",
+   "ref_room": "grey",
+   "px": [
+    620,
+    502
+   ],
+   "suggested_scale": 0.85
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_pumpkinpatch_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "pumpkinpatch",
+   "facing": "L",
+   "job_id": "bdc10e1e-9a03-49f2-9f91-79ab1a5eb4a6",
+   "ref_room": "grey",
+   "px": [
+    620,
+    502
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_pumpkinpatch_R.png",
+   "suggested_scale": 0.85
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_haybale_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "haybale",
+   "facing": "R",
+   "job_id": "f6b45353-9af6-43fe-806c-44529a036db7",
+   "ref_room": "grey",
+   "px": [
+    520,
+    531
+   ],
+   "suggested_scale": 0.8
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_haybale_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "haybale",
+   "facing": "L",
+   "job_id": "f6b45353-9af6-43fe-806c-44529a036db7",
+   "ref_room": "grey",
+   "px": [
+    520,
+    531
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_haybale_R.png",
+   "suggested_scale": 0.8
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_lanternstring_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "lanternstring",
+   "facing": "R",
+   "job_id": "9b20842b-e3f1-4663-9824-0127142b2488",
+   "ref_room": "grey",
+   "px": [
+    640,
+    495
+   ]
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_lanternstring_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "lanternstring",
+   "facing": "L",
+   "job_id": "9b20842b-e3f1-4663-9824-0127142b2488",
+   "ref_room": "grey",
+   "px": [
+    640,
+    495
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_lanternstring_R.png"
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_booknook_R.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "booknook",
+   "facing": "R",
+   "job_id": "2dad1d77-b855-4f10-a8bb-8aad6958a426",
+   "ref_room": "grey",
+   "px": [
+    396,
+    600
+   ]
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_booknook_L.png": {
+   "class": "furniture",
+   "room": "pass_blackcat",
+   "item": "booknook",
+   "facing": "L",
+   "job_id": "2dad1d77-b855-4f10-a8bb-8aad6958a426",
+   "ref_room": "grey",
+   "px": [
+    396,
+    600
+   ],
+   "mirror_of": "furniture/pass_blackcat/furn_pass_blackcat_booknook_R.png"
+  },
+  "outfits/outfit_toadstoolhat_front.png": {
+   "class": "outfits",
+   "px": [
+    559,
+    493
+   ]
+  },
+  "outfits/outfit_toadstoolhat_side.png": {
+   "class": "outfits",
+   "px": [
+    516,
+    486
+   ]
+  },
+  "outfits/outfit_toadstoolhat_tqback.png": {
+   "class": "outfits",
+   "px": [
+    558,
+    570
+   ]
+  },
+  "outfits/outfit_toadstoolhat_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    530,
+    501
+   ]
+  },
+  "outfits/outfit_batheadband_front.png": {
+   "class": "outfits",
+   "px": [
+    866,
+    693
+   ]
+  },
+  "outfits/outfit_batheadband_side.png": {
+   "class": "outfits",
+   "px": [
+    348,
+    742
+   ]
+  },
+  "outfits/outfit_batheadband_tqback.png": {
+   "class": "outfits",
+   "px": [
+    552,
+    733
+   ]
+  },
+  "outfits/outfit_batheadband_tqfront.png": {
+   "class": "outfits",
+   "px": [
+    550,
+    714
+   ]
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_keysdish_R.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "keysdish",
+   "facing": "R",
+   "job_id": "6a0af84a-eb45-4749-9b6a-001d83ce95f6",
+   "ref_room": "grey",
+   "px": [
+    360,
+    304
+   ],
+   "suggested_scale": 0.3
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_keysdish_L.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "keysdish",
+   "facing": "L",
+   "job_id": "6a0af84a-eb45-4749-9b6a-001d83ce95f6",
+   "ref_room": "grey",
+   "px": [
+    360,
+    304
+   ],
+   "mirror_of": "furniture/pass_housewarming/furn_pass_housewarming_keysdish_R.png",
+   "suggested_scale": 0.3
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_bubblewrap_R.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "bubblewrap",
+   "facing": "R",
+   "job_id": "0a20486d-fc84-45a7-a1ea-15e852a5bd31",
+   "ref_room": "grey",
+   "px": [
+    560,
+    437
+   ],
+   "suggested_scale": 0.8
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_bubblewrap_L.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "bubblewrap",
+   "facing": "L",
+   "job_id": "0a20486d-fc84-45a7-a1ea-15e852a5bd31",
+   "ref_room": "grey",
+   "px": [
+    560,
+    437
+   ],
+   "mirror_of": "furniture/pass_housewarming/furn_pass_housewarming_bubblewrap_R.png",
+   "suggested_scale": 0.8
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_firstcuppa_R.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "firstcuppa",
+   "facing": "R",
+   "job_id": "a9a325e5-2b5d-42d8-a1c8-7e0556815a55",
+   "ref_room": "grey",
+   "px": [
+    363,
+    470
+   ],
+   "suggested_scale": 0.75
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_firstcuppa_L.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "firstcuppa",
+   "facing": "L",
+   "job_id": "a9a325e5-2b5d-42d8-a1c8-7e0556815a55",
+   "ref_room": "grey",
+   "px": [
+    363,
+    470
+   ],
+   "mirror_of": "furniture/pass_housewarming/furn_pass_housewarming_firstcuppa_R.png",
+   "suggested_scale": 0.75
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_floorcushion_R.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "floorcushion",
+   "facing": "R",
+   "job_id": "68f0d813-5379-4720-af96-3d8998f6a1ee",
+   "ref_room": "grey",
+   "px": [
+    480,
+    355
+   ],
+   "suggested_scale": 0.7
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_floorcushion_L.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "floorcushion",
+   "facing": "L",
+   "job_id": "68f0d813-5379-4720-af96-3d8998f6a1ee",
+   "ref_room": "grey",
+   "px": [
+    480,
+    355
+   ],
+   "mirror_of": "furniture/pass_housewarming/furn_pass_housewarming_floorcushion_R.png",
+   "suggested_scale": 0.7
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_sleepingbag_R.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "sleepingbag",
+   "facing": "R",
+   "job_id": "7bc35f6e-91e4-44f5-9257-fef98cf1409f",
+   "ref_room": "grey",
+   "px": [
+    640,
+    450
+   ],
+   "suggested_scale": 0.9
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_sleepingbag_L.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "sleepingbag",
+   "facing": "L",
+   "job_id": "7bc35f6e-91e4-44f5-9257-fef98cf1409f",
+   "ref_room": "grey",
+   "px": [
+    640,
+    450
+   ],
+   "mirror_of": "furniture/pass_housewarming/furn_pass_housewarming_sleepingbag_R.png",
+   "suggested_scale": 0.9
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_plantgift_R.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "plantgift",
+   "facing": "R",
+   "job_id": "62fcd955-a6d0-4bbb-b586-41d8e26332ba",
+   "ref_room": "grey",
+   "px": [
+    479,
+    640
+   ],
+   "suggested_scale": 0.85
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_plantgift_L.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "plantgift",
+   "facing": "L",
+   "job_id": "62fcd955-a6d0-4bbb-b586-41d8e26332ba",
+   "ref_room": "grey",
+   "px": [
+    479,
+    640
+   ],
+   "mirror_of": "furniture/pass_housewarming/furn_pass_housewarming_plantgift_R.png",
+   "suggested_scale": 0.85
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_cardstring_R.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "cardstring",
+   "facing": "R",
+   "job_id": "0ce4c8a8-5c8f-4685-9bc5-085fa185ccc1",
+   "ref_room": "grey",
+   "px": [
+    640,
+    461
+   ],
+   "suggested_scale": 0.9
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_cardstring_L.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "cardstring",
+   "facing": "L",
+   "job_id": "0ce4c8a8-5c8f-4685-9bc5-085fa185ccc1",
+   "ref_room": "grey",
+   "px": [
+    640,
+    461
+   ],
+   "mirror_of": "furniture/pass_housewarming/furn_pass_housewarming_cardstring_R.png",
+   "suggested_scale": 0.9
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_toolbox_R.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "toolbox",
+   "facing": "R",
+   "job_id": "31155859-54af-40fc-bb70-f1cd3f13a0d6",
+   "ref_room": "grey",
+   "px": [
+    400,
+    438
+   ],
+   "suggested_scale": 0.4
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_toolbox_L.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "toolbox",
+   "facing": "L",
+   "job_id": "31155859-54af-40fc-bb70-f1cd3f13a0d6",
+   "ref_room": "grey",
+   "px": [
+    400,
+    438
+   ],
+   "mirror_of": "furniture/pass_housewarming/furn_pass_housewarming_toolbox_R.png",
+   "suggested_scale": 0.4
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_flatpack_R.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "flatpack",
+   "facing": "R",
+   "job_id": "c101c9d6-036b-45f3-94d0-fdde1ca78da7",
+   "ref_room": "grey",
+   "px": [
+    620,
+    377
+   ],
+   "suggested_scale": 0.85
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_flatpack_L.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "flatpack",
+   "facing": "L",
+   "job_id": "c101c9d6-036b-45f3-94d0-fdde1ca78da7",
+   "ref_room": "grey",
+   "px": [
+    620,
+    377
+   ],
+   "mirror_of": "furniture/pass_housewarming/furn_pass_housewarming_flatpack_R.png",
+   "suggested_scale": 0.85
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_boxtunnel_R.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "boxtunnel",
+   "facing": "R",
+   "job_id": "edfc24a7-7e72-48e7-9be6-1486049c10be",
+   "ref_room": "grey",
+   "px": [
+    640,
+    520
+   ],
+   "suggested_scale": 0.85
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_boxtunnel_L.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "boxtunnel",
+   "facing": "L",
+   "job_id": "edfc24a7-7e72-48e7-9be6-1486049c10be",
+   "ref_room": "grey",
+   "px": [
+    640,
+    520
+   ],
+   "mirror_of": "furniture/pass_housewarming/furn_pass_housewarming_boxtunnel_R.png",
+   "suggested_scale": 0.85
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_laundrybag_R.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "laundrybag",
+   "facing": "R",
+   "job_id": "210aa6fc-a5b1-4152-925d-7544b4d0cfd8",
+   "ref_room": "grey",
+   "px": [
+    465,
+    480
+   ],
+   "suggested_scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_laundrybag_L.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "laundrybag",
+   "facing": "L",
+   "job_id": "210aa6fc-a5b1-4152-925d-7544b4d0cfd8",
+   "ref_room": "grey",
+   "px": [
+    465,
+    480
+   ],
+   "mirror_of": "furniture/pass_housewarming/furn_pass_housewarming_laundrybag_R.png",
+   "suggested_scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_housebed_R.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "housebed",
+   "facing": "R",
+   "job_id": "b15c8ccc-cf65-4f5f-a7cc-3f98d8bdfed3",
+   "ref_room": "grey",
+   "px": [
+    579,
+    560
+   ],
+   "suggested_scale": 0.7
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_housebed_L.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "housebed",
+   "facing": "L",
+   "job_id": "b15c8ccc-cf65-4f5f-a7cc-3f98d8bdfed3",
+   "ref_room": "grey",
+   "px": [
+    579,
+    560
+   ],
+   "mirror_of": "furniture/pass_housewarming/furn_pass_housewarming_housebed_R.png",
+   "suggested_scale": 0.7
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_velvetsofa_R.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "velvetsofa",
+   "facing": "R",
+   "job_id": "78f7cf95-0a4a-4963-91c0-f5f99804c34a",
+   "ref_room": "grey",
+   "px": [
+    680,
+    622
+   ]
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_velvetsofa_L.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "velvetsofa",
+   "facing": "L",
+   "job_id": "78f7cf95-0a4a-4963-91c0-f5f99804c34a",
+   "ref_room": "grey",
+   "px": [
+    680,
+    622
+   ],
+   "mirror_of": "furniture/pass_housewarming/furn_pass_housewarming_velvetsofa_R.png"
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_eggchair_R.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "eggchair",
+   "facing": "R",
+   "job_id": "a92d3bef-b6a8-4d43-b286-f610c6b26a32",
+   "ref_room": "grey",
+   "px": [
+    441,
+    760
+   ]
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_eggchair_L.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "eggchair",
+   "facing": "L",
+   "job_id": "a92d3bef-b6a8-4d43-b286-f610c6b26a32",
+   "ref_room": "grey",
+   "px": [
+    441,
+    760
+   ],
+   "mirror_of": "furniture/pass_housewarming/furn_pass_housewarming_eggchair_R.png"
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_blanketfort_R.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "blanketfort",
+   "facing": "R",
+   "job_id": "2f966c9b-9bf7-4668-96d2-84b5a559f3e9",
+   "ref_room": "grey",
+   "px": [
+    680,
+    581
+   ]
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_blanketfort_L.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "blanketfort",
+   "facing": "L",
+   "job_id": "2f966c9b-9bf7-4668-96d2-84b5a559f3e9",
+   "ref_room": "grey",
+   "px": [
+    680,
+    581
+   ],
+   "mirror_of": "furniture/pass_housewarming/furn_pass_housewarming_blanketfort_R.png"
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_cratetable_R.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "cratetable",
+   "facing": "R",
+   "job_id": "610cddb4-1805-4270-bda2-578655c50c2a",
+   "ref_room": "grey",
+   "px": [
+    560,
+    450
+   ],
+   "suggested_scale": 0.85
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_cratetable_L.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "cratetable",
+   "facing": "L",
+   "job_id": "610cddb4-1805-4270-bda2-578655c50c2a",
+   "ref_room": "grey",
+   "px": [
+    560,
+    450
+   ],
+   "mirror_of": "furniture/pass_housewarming/furn_pass_housewarming_cratetable_R.png",
+   "suggested_scale": 0.85
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_arclamp_R.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "arclamp",
+   "facing": "R",
+   "job_id": "5a73e8e9-fe47-4225-a9bf-781bcbcba532",
+   "ref_room": "grey",
+   "px": [
+    495,
+    780
+   ]
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_arclamp_L.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "arclamp",
+   "facing": "L",
+   "job_id": "5a73e8e9-fe47-4225-a9bf-781bcbcba532",
+   "ref_room": "grey",
+   "px": [
+    495,
+    780
+   ],
+   "mirror_of": "furniture/pass_housewarming/furn_pass_housewarming_arclamp_R.png"
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_beanbag_R.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "beanbag",
+   "facing": "R",
+   "job_id": "19c48050-123f-41a4-b405-3cdb0d8e5e01",
+   "ref_room": "grey",
+   "px": [
+    520,
+    463
+   ],
+   "suggested_scale": 0.75
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_beanbag_L.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "beanbag",
+   "facing": "L",
+   "job_id": "19c48050-123f-41a4-b405-3cdb0d8e5e01",
+   "ref_room": "grey",
+   "px": [
+    520,
+    463
+   ],
+   "mirror_of": "furniture/pass_housewarming/furn_pass_housewarming_beanbag_R.png",
+   "suggested_scale": 0.75
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_gallerywall_R.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "gallerywall",
+   "facing": "R",
+   "job_id": "ade33eec-f4f0-4eec-ab15-9866d092f7c6",
+   "ref_room": "grey",
+   "px": [
+    480,
+    520
+   ],
+   "suggested_scale": 0.8
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_gallerywall_L.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "gallerywall",
+   "facing": "L",
+   "job_id": "ade33eec-f4f0-4eec-ab15-9866d092f7c6",
+   "ref_room": "grey",
+   "px": [
+    480,
+    520
+   ],
+   "mirror_of": "furniture/pass_housewarming/furn_pass_housewarming_gallerywall_R.png",
+   "suggested_scale": 0.8
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_leaningmirror_R.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "leaningmirror",
+   "facing": "R",
+   "job_id": "91a42942-20bf-4044-b88e-05de2dbeab8c",
+   "ref_room": "grey",
+   "px": [
+    312,
+    700
+   ]
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_leaningmirror_L.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "leaningmirror",
+   "facing": "L",
+   "job_id": "91a42942-20bf-4044-b88e-05de2dbeab8c",
+   "ref_room": "grey",
+   "px": [
+    312,
+    700
+   ],
+   "mirror_of": "furniture/pass_housewarming/furn_pass_housewarming_leaningmirror_R.png"
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_plantstand_R.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "plantstand",
+   "facing": "R",
+   "job_id": "8f467753-0628-44bb-aa77-02ec0aeb71ca",
+   "ref_room": "grey",
+   "px": [
+    437,
+    640
+   ]
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_plantstand_L.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "plantstand",
+   "facing": "L",
+   "job_id": "8f467753-0628-44bb-aa77-02ec0aeb71ca",
+   "ref_room": "grey",
+   "px": [
+    437,
+    640
+   ],
+   "mirror_of": "furniture/pass_housewarming/furn_pass_housewarming_plantstand_R.png"
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_blankettrunk_R.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "blankettrunk",
+   "facing": "R",
+   "job_id": "2dbf3be0-53a7-4030-b4c5-8063dd13864c",
+   "ref_room": "grey",
+   "px": [
+    500,
+    487
+   ],
+   "suggested_scale": 0.8
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_blankettrunk_L.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "blankettrunk",
+   "facing": "L",
+   "job_id": "2dbf3be0-53a7-4030-b4c5-8063dd13864c",
+   "ref_room": "grey",
+   "px": [
+    500,
+    487
+   ],
+   "mirror_of": "furniture/pass_housewarming/furn_pass_housewarming_blankettrunk_R.png",
+   "suggested_scale": 0.8
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_housescratcher_R.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "housescratcher",
+   "facing": "R",
+   "job_id": "1e68ce9d-67bd-4cf1-bda8-0767449c6457",
+   "ref_room": "grey",
+   "px": [
+    363,
+    680
+   ]
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_housescratcher_L.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "housescratcher",
+   "facing": "L",
+   "job_id": "1e68ce9d-67bd-4cf1-bda8-0767449c6457",
+   "ref_room": "grey",
+   "px": [
+    363,
+    680
+   ],
+   "mirror_of": "furniture/pass_housewarming/furn_pass_housewarming_housescratcher_R.png"
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_bicycle_R.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "bicycle",
+   "facing": "R",
+   "job_id": "b1c89f10-4f10-4625-a495-452b21eabc7f",
+   "ref_room": "grey",
+   "px": [
+    640,
+    609
+   ]
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_bicycle_L.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "bicycle",
+   "facing": "L",
+   "job_id": "b1c89f10-4f10-4625-a495-452b21eabc7f",
+   "ref_room": "grey",
+   "px": [
+    640,
+    609
+   ],
+   "mirror_of": "furniture/pass_housewarming/furn_pass_housewarming_bicycle_R.png"
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_swatchboard_R.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "swatchboard",
+   "facing": "R",
+   "job_id": "eb720028-e4db-40cc-b191-5be5ea60efbd",
+   "ref_room": "grey",
+   "px": [
+    420,
+    643
+   ],
+   "suggested_scale": 0.85
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_swatchboard_L.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "swatchboard",
+   "facing": "L",
+   "job_id": "eb720028-e4db-40cc-b191-5be5ea60efbd",
+   "ref_room": "grey",
+   "px": [
+    420,
+    643
+   ],
+   "mirror_of": "furniture/pass_housewarming/furn_pass_housewarming_swatchboard_R.png",
+   "suggested_scale": 0.85
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_housecake_R.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "housecake",
+   "facing": "R",
+   "job_id": "6298b8c8-79c5-4a1b-b3d3-9a056234faaa",
+   "ref_room": "grey",
+   "px": [
+    218,
+    380
+   ],
+   "suggested_scale": 0.4
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_housecake_L.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "housecake",
+   "facing": "L",
+   "job_id": "6298b8c8-79c5-4a1b-b3d3-9a056234faaa",
+   "ref_room": "grey",
+   "px": [
+    218,
+    380
+   ],
+   "mirror_of": "furniture/pass_housewarming/furn_pass_housewarming_housecake_R.png",
+   "suggested_scale": 0.4
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_breadsalt_R.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "breadsalt",
+   "facing": "R",
+   "job_id": "60b7f237-bf0a-48ef-9a8a-bac6f7999f11",
+   "ref_room": "grey",
+   "px": [
+    380,
+    258
+   ],
+   "suggested_scale": 0.4
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_breadsalt_L.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "breadsalt",
+   "facing": "L",
+   "job_id": "60b7f237-bf0a-48ef-9a8a-bac6f7999f11",
+   "ref_room": "grey",
+   "px": [
+    380,
+    258
+   ],
+   "mirror_of": "furniture/pass_housewarming/furn_pass_housewarming_breadsalt_R.png",
+   "suggested_scale": 0.4
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_recordcrate_R.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "recordcrate",
+   "facing": "R",
+   "job_id": "fb6e2a21-bfcf-468c-9781-001d736db71c",
+   "ref_room": "grey",
+   "px": [
+    323,
+    480
+   ],
+   "suggested_scale": 0.8
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_recordcrate_L.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "recordcrate",
+   "facing": "L",
+   "job_id": "fb6e2a21-bfcf-468c-9781-001d736db71c",
+   "ref_room": "grey",
+   "px": [
+    323,
+    480
+   ],
+   "mirror_of": "furniture/pass_housewarming/furn_pass_housewarming_recordcrate_R.png",
+   "suggested_scale": 0.8
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_welcomewreath_R.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "welcomewreath",
+   "facing": "R",
+   "job_id": "c3e28aa4-565c-48f9-a251-b5c8ae40c2f4",
+   "ref_room": "grey",
+   "px": [
+    300,
+    359
+   ],
+   "suggested_scale": 0.7
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_welcomewreath_L.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "welcomewreath",
+   "facing": "L",
+   "job_id": "c3e28aa4-565c-48f9-a251-b5c8ae40c2f4",
+   "ref_room": "grey",
+   "px": [
+    300,
+    359
+   ],
+   "mirror_of": "furniture/pass_housewarming/furn_pass_housewarming_welcomewreath_R.png",
+   "suggested_scale": 0.7
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_paperlantern_R.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "paperlantern",
+   "facing": "R",
+   "job_id": "e7ebc699-f206-4bae-86cb-e970b885407f",
+   "ref_room": "grey",
+   "px": [
+    440,
+    409
+   ],
+   "suggested_scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_paperlantern_L.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "paperlantern",
+   "facing": "L",
+   "job_id": "e7ebc699-f206-4bae-86cb-e970b885407f",
+   "ref_room": "grey",
+   "px": [
+    440,
+    409
+   ],
+   "mirror_of": "furniture/pass_housewarming/furn_pass_housewarming_paperlantern_R.png",
+   "suggested_scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_bookstack_R.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "bookstack",
+   "facing": "R",
+   "job_id": "f92d46a2-cc37-45ee-b8a0-4b0b430b4a04",
+   "ref_room": "grey",
+   "px": [
+    351,
+    560
+   ],
+   "suggested_scale": 0.85
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_bookstack_L.png": {
+   "class": "furniture",
+   "room": "pass_housewarming",
+   "item": "bookstack",
+   "facing": "L",
+   "job_id": "f92d46a2-cc37-45ee-b8a0-4b0b430b4a04",
+   "ref_room": "grey",
+   "px": [
+    351,
+    560
+   ],
+   "mirror_of": "furniture/pass_housewarming/furn_pass_housewarming_bookstack_R.png",
+   "suggested_scale": 0.85
   }
  }
 }

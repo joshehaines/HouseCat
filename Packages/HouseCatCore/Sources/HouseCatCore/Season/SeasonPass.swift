@@ -3,10 +3,30 @@
 /// player earns while it runs plus the goals' bonus pass XP, a free track that ends at tier twenty and a premium
 /// track on every tier to thirty. Premium is its own purchase each season and comes with Cat Club; buying it
 /// mid-season opens every tier already reached; anything reached can be claimed until the season's real last day;
-/// every reward is fixed and shown from the first day; what is claimed is kept forever.
+/// every reward is fixed and shown from the first day; what is claimed is kept forever. A tier on a track is one box,
+/// which may hold more than one reward (Josh, 20 Oct: "the boxes need to be better and I think we need more content in
+/// them ... less beans and more items"): an item with bonus Beans, or two items, all claimed together.
 public enum PassTrack: String, CaseIterable, Codable, Sendable {
     case free
     case paid
+}
+
+/// How special a reward is, shown on its box with its word and diamonds (never by colour alone): the gift book's four
+/// words.
+public enum PassRarity: String, CaseIterable, Codable, Comparable, Sendable {
+    case common
+    case uncommon
+    case rare
+    case legendary
+
+    /// The diamonds beside the word: one to four.
+    public var rank: Int {
+        Self.allCases.firstIndex(of: self).map { $0 + 1 } ?? 1
+    }
+
+    public static func < (lhs: Self, rhs: Self) -> Bool {
+        lhs.rank < rhs.rank
+    }
 }
 
 public struct PassReward: Codable, Hashable, Sendable {
@@ -21,12 +41,29 @@ public struct PassReward: Codable, Hashable, Sendable {
     public var kind: Kind
     public var id: String?
     public var amount: Int?
+    /// Set in content (seasons.json); a reward without one takes its kind's (`grade`).
+    public var rarity: PassRarity?
 
-    public init(tier: Int, kind: Kind, id: String? = nil, amount: Int? = nil) {
+    public init(tier: Int, kind: Kind, id: String? = nil, amount: Int? = nil, rarity: PassRarity? = nil) {
         self.tier = tier
         self.kind = kind
         self.id = id
         self.amount = amount
+        self.rarity = rarity
+    }
+
+    /// The rarity shown: content's, else Beans are common, a piece uncommon, a wallpaper or floor rare and an outfit
+    /// legendary.
+    public var grade: PassRarity {
+        if let rarity {
+            return rarity
+        }
+        switch kind {
+        case .beans: return .common
+        case .item: return .uncommon
+        case .surface: return .rare
+        case .outfit: return .legendary
+        }
     }
 }
 
@@ -81,8 +118,23 @@ public struct SeasonDefinition: Codable, Hashable, Sendable {
         passID != id
     }
 
+    public func track(_ track: PassTrack) -> [PassReward] {
+        track == .free ? freeTrack : paidTrack
+    }
+
+    /// Everything in a tier's box on a track, its main reward first (as content lists them).
+    public func rewards(track: PassTrack, tier: Int) -> [PassReward] {
+        self.track(track).filter { $0.tier == tier }
+    }
+
+    /// A box's main reward: the one its picture shows.
     public func reward(track: PassTrack, tier: Int) -> PassReward? {
-        (track == .free ? freeTrack : paidTrack).first { $0.tier == tier }
+        self.track(track).first { $0.tier == tier }
+    }
+
+    /// The tiers with a box on a track, in order.
+    public func tiers(_ track: PassTrack) -> [Int] {
+        Array(Set(self.track(track).map(\.tier))).sorted()
     }
 
     /// Days left including today, for "the last week shows the days left".
@@ -111,14 +163,24 @@ public struct SeasonProgress: Codable, Equatable, Sendable {
     }
 }
 
-/// What the premium track holds, in a line ("8 pieces, a wallpaper and a floor, 2 outfits, 1,575 Beans").
+/// What a track holds, in a line ("20 pieces, a wallpaper and a floor, 4 outfits, 600 Beans").
 public struct PassContents: Equatable, Sendable {
     public var pieces = 0
     public var wallpapers = 0
     public var floors = 0
     public var outfits = 0
     public var beans = 0
+    /// Every reward, Beans included.
     public var rewards = 0
+    /// Tiers with a box.
+    public var boxes = 0
+    /// Boxes that are Beans and nothing else.
+    public var beanBoxes = 0
+
+    /// Pieces, wallpapers, floors and outfits: everything but Beans.
+    public var items: Int {
+        pieces + wallpapers + floors + outfits
+    }
 }
 
 public enum PassRules {
@@ -142,7 +204,7 @@ public enum PassRules {
         day: GameDay,
         ownsPaidTrack: Bool
     ) -> Bool {
-        guard season.contains(day), tier >= 1, tier <= progress.tier, season.reward(track: track, tier: tier) != nil
+        guard season.contains(day), tier >= 1, tier <= progress.tier, !season.rewards(track: track, tier: tier).isEmpty
         else { return false }
         switch track {
         case .free:
@@ -168,7 +230,7 @@ public enum PassRules {
 
     /// Premium rewards on tiers already reached and not claimed: what buying the pass opens at once.
     public static func openAtOnce(progress: SeasonProgress, season: SeasonDefinition) -> [Int] {
-        season.paidTrack.map(\.tier).filter { $0 <= progress.tier && !progress.claimedPaid.contains($0) }.sorted()
+        season.tiers(.paid).filter { $0 <= progress.tier && !progress.claimedPaid.contains($0) }
     }
 
     /// The next reward up the road, for the room's badge and the pass's header: the first tier above the one reached
@@ -195,6 +257,9 @@ public enum PassRules {
     /// What a track holds, counted (the premium panel's lines; the shop's tile).
     public static func contents(of track: [PassReward]) -> PassContents {
         var contents = PassContents()
+        let boxes = Dictionary(grouping: track, by: \.tier)
+        contents.boxes = boxes.count
+        contents.beanBoxes = boxes.values.count { box in box.allSatisfy { $0.kind == .beans } }
         for reward in track {
             contents.rewards += 1
             switch reward.kind {

@@ -214,6 +214,9 @@ public enum Tuning {
         public static let dailyCap = 150
         /// Sharing the Sunday card: bonus pass XP, once a day.
         public static let sundayCard = 20
+        /// The pass's countdown to the season's real last day turns orange in its last this many days (Josh, 20 Oct:
+        /// "Needs to have a countdown to see how long left").
+        public static let countdownUrgentDays = 3
         /// Seasons are scheduled this many years past the last one seasons.json names (runs again, `SeasonSchedule`).
         public static let scheduleYears = 10
         /// The pass screen is drawn for a landscape phone of this size inside the safe area (points), and scaled to

@@ -3,7 +3,8 @@ import Foundation
 import Testing
 
 /// A four-week season from fixture day 0: Beans on the free track's twenty tiers but an item on 5 and the season's
-/// outfit on 20; on the premium track's thirty, a piece on 1, the wallpaper on 4, Beans, and the outfit on 30.
+/// outfit on 20; on the premium track's thirty, a piece on 1, a box of two (a candle and 40 Beans) on 2, the wallpaper
+/// on 4, Beans, and the outfit on 30.
 private func testSeason(_ f: Fixture, id: String = "housewarming") -> SeasonDefinition {
     SeasonDefinition(
         id: id,
@@ -17,12 +18,13 @@ private func testSeason(_ f: Fixture, id: String = "housewarming") -> SeasonDefi
             default: PassReward(tier: tier, kind: .beans, amount: 10)
             }
         },
-        paidTrack: (1 ... Tuning.Pass.tiers).map { tier in
+        paidTrack: (1 ... Tuning.Pass.tiers).flatMap { tier -> [PassReward] in
             switch tier {
-            case 1: PassReward(tier: 1, kind: .item, id: "pass_housewarming_teachest")
-            case 4: PassReward(tier: 4, kind: .surface, id: "wall_pass_housewarming_apricot_houses")
-            case Tuning.Pass.tiers: PassReward(tier: tier, kind: .outfit, id: "crown")
-            default: PassReward(tier: tier, kind: .beans, amount: 25)
+            case 1: [PassReward(tier: 1, kind: .item, id: "pass_housewarming_teachest", rarity: .legendary)]
+            case 2: [PassReward(tier: 2, kind: .item, id: "pass_housewarming_candle"), PassReward(tier: 2, kind: .beans, amount: 40)]
+            case 4: [PassReward(tier: 4, kind: .surface, id: "wall_pass_housewarming_apricot_houses")]
+            case Tuning.Pass.tiers: [PassReward(tier: tier, kind: .outfit, id: "crown")]
+            default: [PassReward(tier: tier, kind: .beans, amount: 25)]
             }
         }
     )
@@ -152,6 +154,41 @@ struct PassRulesTests {
         #expect(try PassRules.openAtOnce(progress: #require(state.passes["housewarming"]), season: season).isEmpty)
     }
 
+    /// Josh, 20 Oct: "we need more content in them". A box can hold more than one reward: one claim gives all of it,
+    /// once.
+    @Test func aBoxOfTwoGivesBothInOneClaim() {
+        var f = fixture()
+        climb(&f, to: 2)
+        f.add(.passPurchased(seasonID: "housewarming"), day: 3, hour: 9)
+        let before = f.state.beans
+        let season = testSeason(f)
+        #expect(season.rewards(track: .paid, tier: 2).map(\.kind) == [.item, .beans])
+        #expect(season.reward(track: .paid, tier: 2)?.id == "pass_housewarming_candle")
+        f.add(.passTierClaimed(seasonID: "housewarming", track: .paid, tier: 2), day: 3, hour: 10)
+        f.add(.passTierClaimed(seasonID: "housewarming", track: .paid, tier: 2), day: 3, hour: 11)
+        let state = f.state
+        #expect(state.passes["housewarming"]?.claimedPaid == [2])
+        #expect(state.owned["pass_housewarming_candle"] == 1)
+        #expect(state.beans == before + 40)
+        #expect(state.lifetime.passTiersClaimed == 1)
+        // A box is one tier: buying at tier 2 opens tiers 1 and 2, not three rewards' worth of tiers.
+        var progress = SeasonProgress()
+        progress.points = 2 * Tuning.Pass.pointsPerTier
+        #expect(PassRules.openAtOnce(progress: progress, season: season) == [1, 2])
+    }
+
+    /// Each reward's rarity, shown on its box: content's, else its kind's.
+    @Test func everyRewardHasARarity() {
+        let season = testSeason(Fixture(created: false))
+        #expect(season.reward(track: .paid, tier: 1)?.grade == .legendary)
+        #expect(season.reward(track: .paid, tier: 2)?.grade == .uncommon)
+        #expect(season.reward(track: .paid, tier: 4)?.grade == .rare)
+        #expect(season.reward(track: .paid, tier: 3)?.grade == .common)
+        #expect(season.reward(track: .paid, tier: Tuning.Pass.tiers)?.grade == .legendary)
+        #expect(PassRarity.allCases.map(\.rank) == [1, 2, 3, 4])
+        #expect(PassRarity.common < PassRarity.legendary)
+    }
+
     @Test func catClubIncludesThePremiumTrack() {
         var f = fixture()
         busyDay(&f, 0)
@@ -201,7 +238,8 @@ struct PassRulesTests {
     @Test func theTracksAreCountedForThePremiumPanel() {
         let season = testSeason(Fixture(created: false))
         let premium = PassRules.contents(of: season.paidTrack)
-        #expect(premium == PassContents(pieces: 1, wallpapers: 1, floors: 0, outfits: 1, beans: 27 * 25, rewards: 30))
+        #expect(premium == PassContents(pieces: 2, wallpapers: 1, floors: 0, outfits: 1, beans: 26 * 25 + 40, rewards: 31, boxes: 30, beanBoxes: 26))
+        #expect(premium.items == 4)
         #expect(PassRules.contents(of: season.freeTrack).beans == 18 * 10)
     }
 }
@@ -317,17 +355,48 @@ struct PassContentTests {
         #expect(content.seasons.launchDay == GameDay(year: 2026, month: 11, day: 2))
     }
 
-    @Test func premiumIsClearlyBetterThanFree() throws {
+    /// Josh, 20 Oct: "less beans and more items". On both tracks the boxes of Beans alone are a few (a fifth of the
+    /// premium track's, under a third of the free one's), items outnumber them several times over, the free track is
+    /// still worth doing (a dozen pieces and its outfit), premium holds about twice the items, a wallpaper, a floor and
+    /// at least two outfits besides, and the Beans are well under what the pass paid before (565 free, 1,525 premium)
+    /// while premium still pays more. Every top prize is legendary.
+    @Test func moreItemsThanBeansAndPremiumClearlyBetter() throws {
         for season in content.seasons.seasons {
             let definition = try season.definition()
             let free = PassRules.contents(of: definition.freeTrack)
             let premium = PassRules.contents(of: definition.paidTrack)
-            #expect(premium.beans >= 2 * free.beans, "\(season.id)")
-            #expect(premium.pieces >= free.pieces, "\(season.id)")
-            #expect(premium.wallpapers == 1 && premium.floors == 1, "\(season.id)")
-            #expect(premium.outfits == 2 && free.outfits == 1, "\(season.id)")
-            #expect(premium.rewards == Tuning.Pass.tiers && free.rewards == Tuning.Pass.freeTiers, "\(season.id)")
+            #expect(free.boxes == Tuning.Pass.freeTiers && premium.boxes == Tuning.Pass.tiers, "\(season.id)")
+            #expect(free.beanBoxes * 3 <= free.boxes && premium.beanBoxes * 5 <= premium.boxes, "\(season.id): \(free.beanBoxes) and \(premium.beanBoxes) boxes of Beans")
+            #expect(free.items >= 2 * free.beanBoxes && premium.items >= 5 * premium.beanBoxes, "\(season.id)")
+            #expect(free.pieces >= 12 && free.outfits >= 1, "\(season.id): the free track is worth doing")
+            #expect(premium.items >= free.items + 12, "\(season.id): \(premium.items) items against \(free.items)")
+            #expect(premium.wallpapers >= 1 && premium.floors >= 1 && premium.outfits >= 2, "\(season.id)")
+            #expect(premium.beans > free.beans, "\(season.id)")
+            #expect(free.beans <= 350 && premium.beans <= 650, "\(season.id): \(free.beans) and \(premium.beans) Beans")
+            #expect(definition.reward(track: .free, tier: Tuning.Pass.freeTiers)?.grade == .legendary, "\(season.id)")
+            #expect(definition.reward(track: .paid, tier: Tuning.Pass.tiers)?.grade == .legendary, "\(season.id)")
+            #expect(definition.reward(track: .paid, tier: 1)?.kind == .item, "\(season.id): the signature piece on premium tier 1")
         }
+    }
+
+    /// A season with its own set (Black Cat and Housewarming, 20 Oct) gives only its own pieces, each once, on the
+    /// track its pool says, and its own wallpaper and floor: nothing the shop sells.
+    @Test(arguments: ["blackcat", "housewarming"])
+    func aSeasonWithItsOwnSetIsAllItsOwn(_ id: String) throws {
+        let season = try #require(content.seasons.seasons.first { $0.id == id }).definition()
+        let items = Dictionary(uniqueKeysWithValues: content.catalogue.items.map { ($0.id, $0) })
+        for (track, pool) in [(season.freeTrack, ItemPool.passFree), (season.paidTrack, .passPaid)] {
+            for piece in track.filter({ $0.kind == .item }).compactMap(\.id) {
+                let item = try #require(items[piece], "\(piece)")
+                #expect(item.room == "pass_\(id)" && item.pool == pool && item.beans == nil && item.sku == nil, "\(piece)")
+            }
+        }
+        let pieces = (season.freeTrack + season.paidTrack).filter { $0.kind == .item }.compactMap(\.id)
+        #expect(Set(pieces).count == pieces.count, "a piece twice")
+        let own = content.catalogue.items.filter { $0.room == "pass_\(id)" }.map(\.id)
+        #expect(Set(own) == Set(pieces), "every one of its pieces is on a track")
+        let surfaces = season.paidTrack.filter { $0.kind == .surface }.compactMap(\.id)
+        #expect(surfaces.allSatisfy { sid in content.catalogue.surfaces.first { $0.id == sid }?.room == "pass_\(id)" })
     }
 
     @Test func noTwoSeasonsGiveTheSameOutfit() {

@@ -551,17 +551,19 @@ extension HouseholdState {
         }
         passes[seasonID] = progress
         lifetime.passTiersClaimed += 1
-        guard let reward = season.reward(track: track, tier: tier) else { return }
-        switch reward.kind {
-        case .beans: earn(reward.amount ?? 0)
-        case .item: if let id = reward.id {
-                owned[id, default: 0] += 1
-            }
-        case .outfit: if let id = reward.id {
-                ownedOutfits.insert(id)
-            }
-        case .surface: if let id = reward.id {
-                ownedSurfaces.insert(id)
+        // Everything in the tier's box, together.
+        for reward in season.rewards(track: track, tier: tier) {
+            switch reward.kind {
+            case .beans: earn(reward.amount ?? 0)
+            case .item: if let id = reward.id {
+                    owned[id, default: 0] += 1
+                }
+            case .outfit: if let id = reward.id {
+                    ownedOutfits.insert(id)
+                }
+            case .surface: if let id = reward.id {
+                    ownedSurfaces.insert(id)
+                }
             }
         }
     }

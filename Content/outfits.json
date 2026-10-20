@@ -785,6 +785,51 @@
         "tqfront": "outfits/outfit_bellcollar_tqfront.png"
       },
       "fit": 1.0
+    },
+    {
+      "id": "toadstoolhat",
+      "name": "Toadstool hat",
+      "slot": "head",
+      "views": [
+        "front",
+        "side",
+        "tqback",
+        "tqfront"
+      ],
+      "pool": "pass-free",
+      "sku": null,
+      "earnedBy": null,
+      "months": [],
+      "sprites": {
+        "front": "outfits/outfit_toadstoolhat_front.png",
+        "side": "outfits/outfit_toadstoolhat_side.png",
+        "tqback": "outfits/outfit_toadstoolhat_tqback.png",
+        "tqfront": "outfits/outfit_toadstoolhat_tqfront.png"
+      },
+      "fit": 1.15,
+      "coversEars": true
+    },
+    {
+      "id": "batheadband",
+      "name": "Bat wings",
+      "slot": "head",
+      "views": [
+        "front",
+        "side",
+        "tqback",
+        "tqfront"
+      ],
+      "pool": "pass-paid",
+      "sku": null,
+      "earnedBy": null,
+      "months": [],
+      "sprites": {
+        "front": "outfits/outfit_batheadband_front.png",
+        "side": "outfits/outfit_batheadband_side.png",
+        "tqback": "outfits/outfit_batheadband_tqback.png",
+        "tqfront": "outfits/outfit_batheadband_tqfront.png"
+      },
+      "fit": 1.2
     }
   ]
 }

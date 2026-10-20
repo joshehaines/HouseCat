@@ -75,7 +75,7 @@ struct RoomLookTests {
             }
         }
         #expect(outfits[Tuning.Store.starterOutfit]?.wearable == true)
-        #expect(outfits.values.filter(\.wearable).count == 35)
+        #expect(outfits.values.filter(\.wearable).count == 37)
     }
 
     @Test func singlePiecesFromLooksArePricedBySize() throws {

@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "seasonLengthDays": 28,
   "tiers": 30,
   "freeTiers": 20,
@@ -17,305 +17,432 @@
       "freeTrack": [
         {
           "tier": 1,
-          "kind": "beans",
-          "id": null,
-          "amount": 20
+          "kind": "item",
+          "id": "pass_blackcat_conkerbowl",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 2,
           "kind": "beans",
           "id": null,
-          "amount": 20
+          "amount": 25,
+          "rarity": "common"
         },
         {
           "tier": 3,
-          "kind": "beans",
-          "id": null,
-          "amount": 25
+          "kind": "item",
+          "id": "pass_blackcat_pumpkintrio",
+          "amount": null,
+          "rarity": "common"
         },
         {
           "tier": 4,
-          "kind": "beans",
-          "id": null,
-          "amount": 25
+          "kind": "item",
+          "id": "pass_blackcat_yarnbasket",
+          "amount": null,
+          "rarity": "common"
         },
         {
           "tier": 5,
           "kind": "item",
-          "id": "living_clock",
-          "amount": null
+          "id": "pass_blackcat_ghosttoy",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 6,
           "kind": "beans",
           "id": null,
-          "amount": 30
+          "amount": 30,
+          "rarity": "common"
         },
         {
           "tier": 7,
-          "kind": "beans",
-          "id": null,
-          "amount": 30
+          "kind": "item",
+          "id": "pass_blackcat_applecrate",
+          "amount": null,
+          "rarity": "common"
         },
         {
           "tier": 8,
-          "kind": "beans",
-          "id": null,
-          "amount": 35
+          "kind": "item",
+          "id": "pass_blackcat_lantern",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 9,
           "kind": "beans",
           "id": null,
-          "amount": 35
+          "amount": 35,
+          "rarity": "common"
         },
         {
           "tier": 10,
-          "kind": "item",
-          "id": "kitchen_radio",
-          "amount": null
+          "kind": "outfit",
+          "id": "toadstoolhat",
+          "amount": null,
+          "rarity": "legendary"
+        },
+        {
+          "tier": 10,
+          "kind": "beans",
+          "id": null,
+          "amount": 25,
+          "rarity": "common"
         },
         {
           "tier": 11,
-          "kind": "beans",
-          "id": null,
-          "amount": 35
+          "kind": "item",
+          "id": "pass_blackcat_leafpile",
+          "amount": null,
+          "rarity": "rare"
         },
         {
           "tier": 12,
           "kind": "beans",
           "id": null,
-          "amount": 40
+          "amount": 40,
+          "rarity": "common"
         },
         {
           "tier": 13,
-          "kind": "beans",
-          "id": null,
-          "amount": 40
+          "kind": "item",
+          "id": "pass_blackcat_cocoa",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 14,
-          "kind": "beans",
-          "id": null,
-          "amount": 40
+          "kind": "item",
+          "id": "pass_blackcat_candles",
+          "amount": null,
+          "rarity": "uncommon"
+        },
+        {
+          "tier": 14,
+          "kind": "item",
+          "id": "pass_blackcat_batbunting",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 15,
-          "kind": "item",
-          "id": "living_bookcase",
-          "amount": null
+          "kind": "beans",
+          "id": null,
+          "amount": 45,
+          "rarity": "common"
         },
         {
           "tier": 16,
-          "kind": "beans",
-          "id": null,
-          "amount": 45
+          "kind": "item",
+          "id": "pass_blackcat_mushroomlamp",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 17,
-          "kind": "beans",
-          "id": null,
-          "amount": 45
+          "kind": "item",
+          "id": "pass_blackcat_pumpkinpouffe",
+          "amount": null,
+          "rarity": "rare"
         },
         {
           "tier": 18,
           "kind": "beans",
           "id": null,
-          "amount": 50
+          "amount": 50,
+          "rarity": "common"
         },
         {
           "tier": 19,
-          "kind": "beans",
-          "id": null,
-          "amount": 50
+          "kind": "item",
+          "id": "pass_blackcat_toadstool",
+          "amount": null,
+          "rarity": "rare"
         },
         {
           "tier": 20,
           "kind": "outfit",
           "id": "bellcollar",
-          "amount": null
+          "amount": null,
+          "rarity": "legendary"
+        },
+        {
+          "tier": 20,
+          "kind": "beans",
+          "id": null,
+          "amount": 50,
+          "rarity": "common"
         }
       ],
       "paidTrack": [
         {
           "tier": 1,
           "kind": "item",
-          "id": "living_cattree",
-          "amount": null
+          "id": "pass_blackcat_pumpkinbed",
+          "amount": null,
+          "rarity": "legendary"
         },
         {
           "tier": 2,
-          "kind": "beans",
-          "id": null,
-          "amount": 40
+          "kind": "item",
+          "id": "pass_blackcat_ghostlamp",
+          "amount": null,
+          "rarity": "uncommon"
+        },
+        {
+          "tier": 3,
+          "kind": "item",
+          "id": "pass_blackcat_batcushion",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 3,
           "kind": "beans",
           "id": null,
-          "amount": 40
+          "amount": 30,
+          "rarity": "common"
         },
         {
           "tier": 4,
           "kind": "surface",
-          "id": "wall_living_mint_stripe",
-          "amount": null
+          "id": "wall_pass_blackcat_midnight_bats",
+          "amount": null,
+          "rarity": "rare"
         },
         {
           "tier": 5,
-          "kind": "beans",
-          "id": null,
-          "amount": 45
+          "kind": "item",
+          "id": "pass_blackcat_jackolantern",
+          "amount": null,
+          "rarity": "rare"
         },
         {
           "tier": 6,
-          "kind": "beans",
-          "id": null,
-          "amount": 50
+          "kind": "item",
+          "id": "pass_blackcat_humbugjar",
+          "amount": null,
+          "rarity": "common"
         },
         {
           "tier": 7,
           "kind": "beans",
           "id": null,
-          "amount": 50
+          "amount": 60,
+          "rarity": "common"
         },
         {
           "tier": 8,
           "kind": "item",
-          "id": "living_windowseat",
-          "amount": null
+          "id": "pass_blackcat_velvetchair",
+          "amount": null,
+          "rarity": "rare"
+        },
+        {
+          "tier": 9,
+          "kind": "item",
+          "id": "pass_blackcat_owlclock",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 9,
           "kind": "beans",
           "id": null,
-          "amount": 55
+          "amount": 40,
+          "rarity": "common"
         },
         {
           "tier": 10,
-          "kind": "beans",
-          "id": null,
-          "amount": 60
+          "kind": "item",
+          "id": "pass_blackcat_catportrait",
+          "amount": null,
+          "rarity": "rare"
+        },
+        {
+          "tier": 10,
+          "kind": "item",
+          "id": "pass_blackcat_catdoorstop",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 11,
-          "kind": "beans",
-          "id": null,
-          "amount": 60
+          "kind": "item",
+          "id": "pass_blackcat_cobwebhammock",
+          "amount": null,
+          "rarity": "rare"
         },
         {
           "tier": 12,
           "kind": "outfit",
           "id": "pumpkinhat",
-          "amount": null
+          "amount": null,
+          "rarity": "legendary"
         },
         {
           "tier": 13,
-          "kind": "beans",
-          "id": null,
-          "amount": 65
+          "kind": "item",
+          "id": "pass_blackcat_lanternstring",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 14,
           "kind": "beans",
           "id": null,
-          "amount": 70
+          "amount": 75,
+          "rarity": "common"
         },
         {
           "tier": 15,
-          "kind": "surface",
-          "id": "floor_living_honey_boards",
-          "amount": null
+          "kind": "item",
+          "id": "pass_blackcat_catcastle",
+          "amount": null,
+          "rarity": "legendary"
+        },
+        {
+          "tier": 15,
+          "kind": "beans",
+          "id": null,
+          "amount": 50,
+          "rarity": "common"
         },
         {
           "tier": 16,
-          "kind": "beans",
-          "id": null,
-          "amount": 75
+          "kind": "surface",
+          "id": "floor_pass_blackcat_conker_parquet",
+          "amount": null,
+          "rarity": "rare"
         },
         {
           "tier": 17,
-          "kind": "beans",
-          "id": null,
-          "amount": 75
+          "kind": "item",
+          "id": "pass_blackcat_rockingchair",
+          "amount": null,
+          "rarity": "rare"
         },
         {
           "tier": 18,
           "kind": "item",
-          "id": "bedroom_catbed",
-          "amount": null
+          "id": "pass_blackcat_conkertree",
+          "amount": null,
+          "rarity": "uncommon"
+        },
+        {
+          "tier": 18,
+          "kind": "beans",
+          "id": null,
+          "amount": 40,
+          "rarity": "common"
         },
         {
           "tier": 19,
-          "kind": "beans",
-          "id": null,
-          "amount": 80
+          "kind": "item",
+          "id": "pass_blackcat_applebob",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 20,
-          "kind": "beans",
-          "id": null,
-          "amount": 85
+          "kind": "item",
+          "id": "pass_blackcat_moonlamp",
+          "amount": null,
+          "rarity": "rare"
+        },
+        {
+          "tier": 20,
+          "kind": "item",
+          "id": "pass_blackcat_catrug",
+          "amount": null,
+          "rarity": "rare"
         },
         {
           "tier": 21,
           "kind": "beans",
           "id": null,
-          "amount": 85
+          "amount": 90,
+          "rarity": "common"
         },
         {
           "tier": 22,
-          "kind": "item",
-          "id": "garden_sunpatch",
-          "amount": null
+          "kind": "outfit",
+          "id": "batheadband",
+          "amount": null,
+          "rarity": "legendary"
         },
         {
           "tier": 23,
-          "kind": "beans",
-          "id": null,
-          "amount": 90
+          "kind": "item",
+          "id": "pass_blackcat_gramophone",
+          "amount": null,
+          "rarity": "rare"
+        },
+        {
+          "tier": 24,
+          "kind": "item",
+          "id": "pass_blackcat_haybale",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 24,
           "kind": "beans",
           "id": null,
-          "amount": 95
+          "amount": 60,
+          "rarity": "common"
         },
         {
           "tier": 25,
-          "kind": "beans",
-          "id": null,
-          "amount": 95
+          "kind": "item",
+          "id": "pass_blackcat_pumpkinpatch",
+          "amount": null,
+          "rarity": "rare"
         },
         {
           "tier": 26,
           "kind": "item",
-          "id": "kitchen_catflap",
-          "amount": null
+          "id": "pass_blackcat_spookytree",
+          "amount": null,
+          "rarity": "legendary"
         },
         {
           "tier": 27,
           "kind": "beans",
           "id": null,
-          "amount": 100
+          "amount": 100,
+          "rarity": "common"
         },
         {
           "tier": 28,
-          "kind": "beans",
-          "id": null,
-          "amount": 105
+          "kind": "item",
+          "id": "pass_blackcat_booknook",
+          "amount": null,
+          "rarity": "rare"
         },
         {
           "tier": 29,
-          "kind": "beans",
-          "id": null,
-          "amount": 105
+          "kind": "item",
+          "id": "pass_blackcat_telescope",
+          "amount": null,
+          "rarity": "rare"
+        },
+        {
+          "tier": 29,
+          "kind": "item",
+          "id": "pass_blackcat_grandclock",
+          "amount": null,
+          "rarity": "rare"
         },
         {
           "tier": 30,
           "kind": "outfit",
           "id": "skeleton",
-          "amount": null
+          "amount": null,
+          "rarity": "legendary"
         }
       ]
     },
@@ -331,305 +458,432 @@
       "freeTrack": [
         {
           "tier": 1,
-          "kind": "beans",
-          "id": null,
-          "amount": 20
+          "kind": "item",
+          "id": "pass_housewarming_keysdish",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 2,
           "kind": "beans",
           "id": null,
-          "amount": 20
+          "amount": 25,
+          "rarity": "common"
         },
         {
           "tier": 3,
-          "kind": "beans",
-          "id": null,
-          "amount": 25
+          "kind": "item",
+          "id": "pass_housewarming_movingboxes",
+          "amount": null,
+          "rarity": "common"
         },
         {
           "tier": 4,
-          "kind": "beans",
-          "id": null,
-          "amount": 25
+          "kind": "item",
+          "id": "pass_housewarming_bubblewrap",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 5,
           "kind": "item",
-          "id": "pass_housewarming_movingboxes",
-          "amount": null
+          "id": "pass_housewarming_firstcuppa",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 6,
           "kind": "beans",
           "id": null,
-          "amount": 30
+          "amount": 30,
+          "rarity": "common"
         },
         {
           "tier": 7,
-          "kind": "beans",
-          "id": null,
-          "amount": 30
+          "kind": "item",
+          "id": "pass_housewarming_painttins",
+          "amount": null,
+          "rarity": "common"
         },
         {
           "tier": 8,
-          "kind": "beans",
-          "id": null,
-          "amount": 35
+          "kind": "item",
+          "id": "pass_housewarming_floorcushion",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 9,
           "kind": "beans",
           "id": null,
-          "amount": 35
+          "amount": 35,
+          "rarity": "common"
         },
         {
           "tier": 10,
           "kind": "item",
-          "id": "pass_housewarming_painttins",
-          "amount": null
+          "id": "pass_housewarming_plantgift",
+          "amount": null,
+          "rarity": "rare"
+        },
+        {
+          "tier": 10,
+          "kind": "beans",
+          "id": null,
+          "amount": 25,
+          "rarity": "common"
         },
         {
           "tier": 11,
-          "kind": "beans",
-          "id": null,
-          "amount": 35
+          "kind": "item",
+          "id": "pass_housewarming_toolbox",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 12,
           "kind": "beans",
           "id": null,
-          "amount": 40
+          "amount": 40,
+          "rarity": "common"
         },
         {
           "tier": 13,
-          "kind": "beans",
-          "id": null,
-          "amount": 40
+          "kind": "item",
+          "id": "pass_housewarming_takeaway",
+          "amount": null,
+          "rarity": "common"
         },
         {
           "tier": 14,
-          "kind": "beans",
-          "id": null,
-          "amount": 40
+          "kind": "item",
+          "id": "pass_housewarming_cardstring",
+          "amount": null,
+          "rarity": "uncommon"
+        },
+        {
+          "tier": 14,
+          "kind": "item",
+          "id": "pass_housewarming_flatpack",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 15,
-          "kind": "item",
-          "id": "pass_housewarming_takeaway",
-          "amount": null
+          "kind": "beans",
+          "id": null,
+          "amount": 45,
+          "rarity": "common"
         },
         {
           "tier": 16,
-          "kind": "beans",
-          "id": null,
-          "amount": 45
+          "kind": "item",
+          "id": "pass_housewarming_sleepingbag",
+          "amount": null,
+          "rarity": "rare"
         },
         {
           "tier": 17,
-          "kind": "beans",
-          "id": null,
-          "amount": 45
+          "kind": "item",
+          "id": "pass_housewarming_laundrybag",
+          "amount": null,
+          "rarity": "common"
         },
         {
           "tier": 18,
           "kind": "beans",
           "id": null,
-          "amount": 50
+          "amount": 50,
+          "rarity": "common"
         },
         {
           "tier": 19,
-          "kind": "beans",
-          "id": null,
-          "amount": 50
+          "kind": "item",
+          "id": "pass_housewarming_boxtunnel",
+          "amount": null,
+          "rarity": "rare"
         },
         {
           "tier": 20,
           "kind": "outfit",
           "id": "scarf",
-          "amount": null
+          "amount": null,
+          "rarity": "legendary"
+        },
+        {
+          "tier": 20,
+          "kind": "beans",
+          "id": null,
+          "amount": 50,
+          "rarity": "common"
         }
       ],
       "paidTrack": [
         {
           "tier": 1,
           "kind": "item",
-          "id": "pass_housewarming_fairylights",
-          "amount": null
+          "id": "pass_housewarming_housebed",
+          "amount": null,
+          "rarity": "legendary"
         },
         {
           "tier": 2,
-          "kind": "beans",
-          "id": null,
-          "amount": 40
+          "kind": "item",
+          "id": "pass_housewarming_candle",
+          "amount": null,
+          "rarity": "uncommon"
+        },
+        {
+          "tier": 3,
+          "kind": "item",
+          "id": "pass_housewarming_beanbag",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 3,
           "kind": "beans",
           "id": null,
-          "amount": 40
+          "amount": 30,
+          "rarity": "common"
         },
         {
           "tier": 4,
           "kind": "surface",
           "id": "wall_pass_housewarming_apricot_houses",
-          "amount": null
+          "amount": null,
+          "rarity": "rare"
         },
         {
           "tier": 5,
-          "kind": "beans",
-          "id": null,
-          "amount": 45
+          "kind": "item",
+          "id": "pass_housewarming_fairylights",
+          "amount": null,
+          "rarity": "rare"
         },
         {
           "tier": 6,
-          "kind": "beans",
-          "id": null,
-          "amount": 50
+          "kind": "item",
+          "id": "pass_housewarming_breadsalt",
+          "amount": null,
+          "rarity": "common"
         },
         {
           "tier": 7,
           "kind": "beans",
           "id": null,
-          "amount": 50
+          "amount": 60,
+          "rarity": "common"
         },
         {
           "tier": 8,
           "kind": "item",
-          "id": "pass_housewarming_teachest",
-          "amount": null
+          "id": "pass_housewarming_velvetsofa",
+          "amount": null,
+          "rarity": "rare"
+        },
+        {
+          "tier": 9,
+          "kind": "item",
+          "id": "pass_housewarming_swatchboard",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 9,
           "kind": "beans",
           "id": null,
-          "amount": 55
+          "amount": 40,
+          "rarity": "common"
         },
         {
           "tier": 10,
-          "kind": "beans",
-          "id": null,
-          "amount": 60
+          "kind": "item",
+          "id": "pass_housewarming_gallerywall",
+          "amount": null,
+          "rarity": "rare"
+        },
+        {
+          "tier": 10,
+          "kind": "item",
+          "id": "pass_housewarming_housecake",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 11,
-          "kind": "beans",
-          "id": null,
-          "amount": 60
+          "kind": "item",
+          "id": "pass_housewarming_teachest",
+          "amount": null,
+          "rarity": "rare"
         },
         {
           "tier": 12,
           "kind": "outfit",
           "id": "flatcap",
-          "amount": null
+          "amount": null,
+          "rarity": "legendary"
         },
         {
           "tier": 13,
-          "kind": "beans",
-          "id": null,
-          "amount": 65
+          "kind": "item",
+          "id": "pass_housewarming_plantstand",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 14,
           "kind": "beans",
           "id": null,
-          "amount": 70
+          "amount": 75,
+          "rarity": "common"
         },
         {
           "tier": 15,
-          "kind": "surface",
-          "id": "floor_pass_housewarming_birch",
-          "amount": null
+          "kind": "item",
+          "id": "pass_housewarming_eggchair",
+          "amount": null,
+          "rarity": "legendary"
+        },
+        {
+          "tier": 15,
+          "kind": "beans",
+          "id": null,
+          "amount": 50,
+          "rarity": "common"
         },
         {
           "tier": 16,
-          "kind": "beans",
-          "id": null,
-          "amount": 75
+          "kind": "surface",
+          "id": "floor_pass_housewarming_birch",
+          "amount": null,
+          "rarity": "rare"
         },
         {
           "tier": 17,
-          "kind": "beans",
-          "id": null,
-          "amount": 75
+          "kind": "item",
+          "id": "pass_housewarming_recordcrate",
+          "amount": null,
+          "rarity": "rare"
         },
         {
           "tier": 18,
           "kind": "item",
-          "id": "pass_housewarming_picnicblanket",
-          "amount": null
+          "id": "pass_housewarming_leaningmirror",
+          "amount": null,
+          "rarity": "rare"
+        },
+        {
+          "tier": 18,
+          "kind": "beans",
+          "id": null,
+          "amount": 40,
+          "rarity": "common"
         },
         {
           "tier": 19,
-          "kind": "beans",
-          "id": null,
-          "amount": 80
+          "kind": "item",
+          "id": "pass_housewarming_welcomewreath",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 20,
-          "kind": "beans",
-          "id": null,
-          "amount": 85
+          "kind": "item",
+          "id": "pass_housewarming_picnicblanket",
+          "amount": null,
+          "rarity": "rare"
+        },
+        {
+          "tier": 20,
+          "kind": "item",
+          "id": "pass_housewarming_paperlantern",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 21,
           "kind": "beans",
           "id": null,
-          "amount": 85
+          "amount": 90,
+          "rarity": "common"
         },
         {
           "tier": 22,
           "kind": "item",
-          "id": "pass_housewarming_stepladder",
-          "amount": null
+          "id": "pass_housewarming_cratetable",
+          "amount": null,
+          "rarity": "rare"
         },
         {
           "tier": 23,
-          "kind": "beans",
-          "id": null,
-          "amount": 90
+          "kind": "item",
+          "id": "pass_housewarming_stepladder",
+          "amount": null,
+          "rarity": "uncommon"
+        },
+        {
+          "tier": 24,
+          "kind": "item",
+          "id": "pass_housewarming_blankettrunk",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 24,
           "kind": "beans",
           "id": null,
-          "amount": 95
+          "amount": 60,
+          "rarity": "common"
         },
         {
           "tier": 25,
-          "kind": "beans",
-          "id": null,
-          "amount": 95
+          "kind": "item",
+          "id": "pass_housewarming_blanketfort",
+          "amount": null,
+          "rarity": "legendary"
         },
         {
           "tier": 26,
           "kind": "item",
-          "id": "pass_housewarming_candle",
-          "amount": null
+          "id": "pass_housewarming_bookstack",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 27,
           "kind": "beans",
           "id": null,
-          "amount": 100
+          "amount": 100,
+          "rarity": "common"
         },
         {
           "tier": 28,
-          "kind": "beans",
-          "id": null,
-          "amount": 105
+          "kind": "item",
+          "id": "pass_housewarming_bicycle",
+          "amount": null,
+          "rarity": "rare"
         },
         {
           "tier": 29,
-          "kind": "beans",
-          "id": null,
-          "amount": 105
+          "kind": "item",
+          "id": "pass_housewarming_arclamp",
+          "amount": null,
+          "rarity": "rare"
+        },
+        {
+          "tier": 29,
+          "kind": "item",
+          "id": "pass_housewarming_housescratcher",
+          "amount": null,
+          "rarity": "rare"
         },
         {
           "tier": 30,
           "kind": "outfit",
           "id": "crown",
-          "amount": null
+          "amount": null,
+          "rarity": "legendary"
         }
       ]
     },
@@ -645,305 +899,432 @@
       "freeTrack": [
         {
           "tier": 1,
-          "kind": "beans",
-          "id": null,
-          "amount": 20
+          "kind": "item",
+          "id": "pass_midwinter_logbasket",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 2,
           "kind": "beans",
           "id": null,
-          "amount": 20
+          "amount": 25,
+          "rarity": "common"
         },
         {
           "tier": 3,
-          "kind": "beans",
-          "id": null,
-          "amount": 25
+          "kind": "item",
+          "id": "bedroom_slippers",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 4,
-          "kind": "beans",
-          "id": null,
-          "amount": 25
+          "kind": "item",
+          "id": "study_mug",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 5,
           "kind": "item",
-          "id": "pass_midwinter_logbasket",
-          "amount": null
+          "id": "pass_midwinter_hotwaterbottle",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 6,
           "kind": "beans",
           "id": null,
-          "amount": 30
+          "amount": 30,
+          "rarity": "common"
         },
         {
           "tier": 7,
-          "kind": "beans",
-          "id": null,
-          "amount": 30
+          "kind": "item",
+          "id": "kitchen_kettle",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 8,
-          "kind": "beans",
-          "id": null,
-          "amount": 35
+          "kind": "item",
+          "id": "attic_oillamp",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 9,
           "kind": "beans",
           "id": null,
-          "amount": 35
+          "amount": 35,
+          "rarity": "common"
         },
         {
           "tier": 10,
           "kind": "item",
-          "id": "pass_midwinter_hotwaterbottle",
-          "amount": null
+          "id": "pass_midwinter_wreath",
+          "amount": null,
+          "rarity": "uncommon"
+        },
+        {
+          "tier": 10,
+          "kind": "beans",
+          "id": null,
+          "amount": 25,
+          "rarity": "common"
         },
         {
           "tier": 11,
-          "kind": "beans",
-          "id": null,
-          "amount": 35
+          "kind": "item",
+          "id": "bedroom_readinglamp",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 12,
           "kind": "beans",
           "id": null,
-          "amount": 40
+          "amount": 40,
+          "rarity": "common"
         },
         {
           "tier": 13,
-          "kind": "beans",
-          "id": null,
-          "amount": 40
+          "kind": "item",
+          "id": "kitchen_breadbin",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 14,
-          "kind": "beans",
-          "id": null,
-          "amount": 40
+          "kind": "item",
+          "id": "attic_suitcase",
+          "amount": null,
+          "rarity": "uncommon"
+        },
+        {
+          "tier": 14,
+          "kind": "item",
+          "id": "bedroom_alarmclock",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 15,
-          "kind": "item",
-          "id": "pass_midwinter_wreath",
-          "amount": null
+          "kind": "beans",
+          "id": null,
+          "amount": 45,
+          "rarity": "common"
         },
         {
           "tier": 16,
-          "kind": "beans",
-          "id": null,
-          "amount": 45
+          "kind": "item",
+          "id": "kitchen_fruitbowl",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 17,
-          "kind": "beans",
-          "id": null,
-          "amount": 45
+          "kind": "item",
+          "id": "bedroom_laundry",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 18,
           "kind": "beans",
           "id": null,
-          "amount": 50
+          "amount": 50,
+          "rarity": "common"
         },
         {
           "tier": 19,
-          "kind": "beans",
-          "id": null,
-          "amount": 50
+          "kind": "item",
+          "id": "attic_cobweb",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 20,
           "kind": "outfit",
           "id": "antlers",
-          "amount": null
+          "amount": null,
+          "rarity": "legendary"
+        },
+        {
+          "tier": 20,
+          "kind": "beans",
+          "id": null,
+          "amount": 50,
+          "rarity": "common"
         }
       ],
       "paidTrack": [
         {
           "tier": 1,
           "kind": "item",
-          "id": "pass_midwinter_knitblanket",
-          "amount": null
+          "id": "pass_midwinter_firtree",
+          "amount": null,
+          "rarity": "legendary"
         },
         {
           "tier": 2,
-          "kind": "beans",
-          "id": null,
-          "amount": 40
+          "kind": "item",
+          "id": "living_record",
+          "amount": null,
+          "rarity": "uncommon"
+        },
+        {
+          "tier": 3,
+          "kind": "item",
+          "id": "attic_wireless",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 3,
           "kind": "beans",
           "id": null,
-          "amount": 40
+          "amount": 30,
+          "rarity": "common"
         },
         {
           "tier": 4,
           "kind": "surface",
           "id": "wall_pass_midwinter_tartan",
-          "amount": null
+          "amount": null,
+          "rarity": "rare"
         },
         {
           "tier": 5,
-          "kind": "beans",
-          "id": null,
-          "amount": 45
+          "kind": "item",
+          "id": "pass_midwinter_snowglobe",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 6,
-          "kind": "beans",
-          "id": null,
-          "amount": 50
+          "kind": "item",
+          "id": "garden_festoon",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 7,
           "kind": "beans",
           "id": null,
-          "amount": 50
+          "amount": 60,
+          "rarity": "common"
         },
         {
           "tier": 8,
           "kind": "item",
-          "id": "pass_midwinter_snowglobe",
-          "amount": null
+          "id": "attic_rockinghorse",
+          "amount": null,
+          "rarity": "uncommon"
+        },
+        {
+          "tier": 9,
+          "kind": "item",
+          "id": "living_radiator",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 9,
           "kind": "beans",
           "id": null,
-          "amount": 55
+          "amount": 40,
+          "rarity": "common"
         },
         {
           "tier": 10,
-          "kind": "beans",
-          "id": null,
-          "amount": 60
+          "kind": "item",
+          "id": "pass_midwinter_knitblanket",
+          "amount": null,
+          "rarity": "rare"
+        },
+        {
+          "tier": 10,
+          "kind": "item",
+          "id": "bedroom_hammock",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 11,
-          "kind": "beans",
-          "id": null,
-          "amount": 60
+          "kind": "item",
+          "id": "attic_dustyarmchair",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 12,
           "kind": "outfit",
           "id": "xmasjumper",
-          "amount": null
+          "amount": null,
+          "rarity": "legendary"
         },
         {
           "tier": 13,
-          "kind": "beans",
-          "id": null,
-          "amount": 65
+          "kind": "item",
+          "id": "bedroom_bedrug",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 14,
           "kind": "beans",
           "id": null,
-          "amount": 70
+          "amount": 75,
+          "rarity": "common"
         },
         {
           "tier": 15,
-          "kind": "surface",
-          "id": "floor_pass_midwinter_cherry",
-          "amount": null
+          "kind": "item",
+          "id": "living_fireplace",
+          "amount": null,
+          "rarity": "uncommon"
+        },
+        {
+          "tier": 15,
+          "kind": "beans",
+          "id": null,
+          "amount": 50,
+          "rarity": "common"
         },
         {
           "tier": 16,
-          "kind": "beans",
-          "id": null,
-          "amount": 75
+          "kind": "surface",
+          "id": "floor_pass_midwinter_cherry",
+          "amount": null,
+          "rarity": "rare"
         },
         {
           "tier": 17,
-          "kind": "beans",
-          "id": null,
-          "amount": 75
+          "kind": "item",
+          "id": "study_globe",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 18,
           "kind": "item",
           "id": "pass_midwinter_sledge",
-          "amount": null
+          "amount": null,
+          "rarity": "rare"
+        },
+        {
+          "tier": 18,
+          "kind": "beans",
+          "id": null,
+          "amount": 40,
+          "rarity": "common"
         },
         {
           "tier": 19,
-          "kind": "beans",
-          "id": null,
-          "amount": 80
+          "kind": "item",
+          "id": "attic_rolledrug",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 20,
-          "kind": "beans",
-          "id": null,
-          "amount": 85
+          "kind": "item",
+          "id": "bedroom_mirror",
+          "amount": null,
+          "rarity": "uncommon"
+        },
+        {
+          "tier": 20,
+          "kind": "item",
+          "id": "kitchen_herbshelf",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 21,
           "kind": "beans",
           "id": null,
-          "amount": 85
+          "amount": 90,
+          "rarity": "common"
         },
         {
           "tier": 22,
           "kind": "item",
-          "id": "pass_midwinter_firtree",
-          "amount": null
+          "id": "study_desklamp",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 23,
-          "kind": "beans",
-          "id": null,
-          "amount": 90
+          "kind": "item",
+          "id": "attic_telescope",
+          "amount": null,
+          "rarity": "uncommon"
+        },
+        {
+          "tier": 24,
+          "kind": "item",
+          "id": "study_noticeboard",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 24,
           "kind": "beans",
           "id": null,
-          "amount": 95
+          "amount": 60,
+          "rarity": "common"
         },
         {
           "tier": 25,
-          "kind": "beans",
-          "id": null,
-          "amount": 95
+          "kind": "item",
+          "id": "bedroom_curtains",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 26,
-          "kind": "beans",
-          "id": null,
-          "amount": 100
+          "kind": "item",
+          "id": "kitchen_fountain",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 27,
           "kind": "beans",
           "id": null,
-          "amount": 100
+          "amount": 100,
+          "rarity": "common"
         },
         {
           "tier": 28,
-          "kind": "beans",
-          "id": null,
-          "amount": 105
+          "kind": "item",
+          "id": "study_blind",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 29,
-          "kind": "beans",
-          "id": null,
-          "amount": 105
+          "kind": "item",
+          "id": "garden_deckchair",
+          "amount": null,
+          "rarity": "uncommon"
+        },
+        {
+          "tier": 29,
+          "kind": "item",
+          "id": "garden_gardenhammock",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 30,
           "kind": "outfit",
           "id": "santahat",
-          "amount": null
+          "amount": null,
+          "rarity": "legendary"
         }
       ]
     },
@@ -959,123 +1340,164 @@
       "freeTrack": [
         {
           "tier": 1,
-          "kind": "beans",
-          "id": null,
-          "amount": 20
+          "kind": "item",
+          "id": "pass_firstlight_seedtrays",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 2,
           "kind": "beans",
           "id": null,
-          "amount": 20
+          "amount": 25,
+          "rarity": "common"
         },
         {
           "tier": 3,
-          "kind": "beans",
-          "id": null,
-          "amount": 25
+          "kind": "item",
+          "id": "garden_flowerpots",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 4,
-          "kind": "beans",
-          "id": null,
-          "amount": 25
+          "kind": "item",
+          "id": "kitchen_herbshelf",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 5,
           "kind": "item",
-          "id": "pass_firstlight_seedtrays",
-          "amount": null
+          "id": "pass_firstlight_wellies",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 6,
           "kind": "beans",
           "id": null,
-          "amount": 30
+          "amount": 30,
+          "rarity": "common"
         },
         {
           "tier": 7,
-          "kind": "beans",
-          "id": null,
-          "amount": 30
+          "kind": "item",
+          "id": "study_mug",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 8,
-          "kind": "beans",
-          "id": null,
-          "amount": 35
+          "kind": "item",
+          "id": "kitchen_fruitbowl",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 9,
           "kind": "beans",
           "id": null,
-          "amount": 35
+          "amount": 35,
+          "rarity": "common"
         },
         {
           "tier": 10,
           "kind": "item",
-          "id": "pass_firstlight_wellies",
-          "amount": null
+          "id": "pass_firstlight_pegbag",
+          "amount": null,
+          "rarity": "uncommon"
+        },
+        {
+          "tier": 10,
+          "kind": "beans",
+          "id": null,
+          "amount": 25,
+          "rarity": "common"
         },
         {
           "tier": 11,
-          "kind": "beans",
-          "id": null,
-          "amount": 35
+          "kind": "item",
+          "id": "bedroom_slippers",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 12,
           "kind": "beans",
           "id": null,
-          "amount": 40
+          "amount": 40,
+          "rarity": "common"
         },
         {
           "tier": 13,
-          "kind": "beans",
-          "id": null,
-          "amount": 40
+          "kind": "item",
+          "id": "kitchen_kettle",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 14,
-          "kind": "beans",
-          "id": null,
-          "amount": 40
+          "kind": "item",
+          "id": "bedroom_readinglamp",
+          "amount": null,
+          "rarity": "uncommon"
+        },
+        {
+          "tier": 14,
+          "kind": "item",
+          "id": "kitchen_breadbin",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 15,
-          "kind": "item",
-          "id": "pass_firstlight_pegbag",
-          "amount": null
+          "kind": "beans",
+          "id": null,
+          "amount": 45,
+          "rarity": "common"
         },
         {
           "tier": 16,
-          "kind": "beans",
-          "id": null,
-          "amount": 45
+          "kind": "item",
+          "id": "bedroom_alarmclock",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 17,
-          "kind": "beans",
-          "id": null,
-          "amount": 45
+          "kind": "item",
+          "id": "kitchen_doormat",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 18,
           "kind": "beans",
           "id": null,
-          "amount": 50
+          "amount": 50,
+          "rarity": "common"
         },
         {
           "tier": 19,
-          "kind": "beans",
-          "id": null,
-          "amount": 50
+          "kind": "item",
+          "id": "garden_wateringcan",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 20,
           "kind": "outfit",
           "id": "bandana",
-          "amount": null
+          "amount": null,
+          "rarity": "legendary"
+        },
+        {
+          "tier": 20,
+          "kind": "beans",
+          "id": null,
+          "amount": 50,
+          "rarity": "common"
         }
       ],
       "paidTrack": [
@@ -1083,181 +1505,267 @@
           "tier": 1,
           "kind": "item",
           "id": "pass_firstlight_tulips",
-          "amount": null
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 2,
-          "kind": "beans",
-          "id": null,
-          "amount": 40
+          "kind": "item",
+          "id": "garden_washingline",
+          "amount": null,
+          "rarity": "uncommon"
+        },
+        {
+          "tier": 3,
+          "kind": "item",
+          "id": "garden_deckchair",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 3,
           "kind": "beans",
           "id": null,
-          "amount": 40
+          "amount": 30,
+          "rarity": "common"
         },
         {
           "tier": 4,
           "kind": "surface",
           "id": "wall_pass_firstlight_primrose_daffodil",
-          "amount": null
+          "amount": null,
+          "rarity": "rare"
         },
         {
           "tier": 5,
-          "kind": "beans",
-          "id": null,
-          "amount": 45
+          "kind": "item",
+          "id": "pass_firstlight_birdbox",
+          "amount": null,
+          "rarity": "rare"
         },
         {
           "tier": 6,
-          "kind": "beans",
-          "id": null,
-          "amount": 50
+          "kind": "item",
+          "id": "study_globe",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 7,
           "kind": "beans",
           "id": null,
-          "amount": 50
+          "amount": 60,
+          "rarity": "common"
         },
         {
           "tier": 8,
           "kind": "item",
-          "id": "pass_firstlight_birdbox",
-          "amount": null
+          "id": "bedroom_curtains",
+          "amount": null,
+          "rarity": "uncommon"
+        },
+        {
+          "tier": 9,
+          "kind": "item",
+          "id": "garden_pond",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 9,
           "kind": "beans",
           "id": null,
-          "amount": 55
+          "amount": 40,
+          "rarity": "common"
         },
         {
           "tier": 10,
-          "kind": "beans",
-          "id": null,
-          "amount": 60
+          "kind": "item",
+          "id": "pass_firstlight_hamper",
+          "amount": null,
+          "rarity": "rare"
+        },
+        {
+          "tier": 10,
+          "kind": "item",
+          "id": "garden_gardenhammock",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 11,
-          "kind": "beans",
-          "id": null,
-          "amount": 60
+          "kind": "item",
+          "id": "kitchen_fountain",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 12,
           "kind": "outfit",
           "id": "froghat",
-          "amount": null
+          "amount": null,
+          "rarity": "legendary"
         },
         {
           "tier": 13,
-          "kind": "beans",
-          "id": null,
-          "amount": 65
+          "kind": "item",
+          "id": "pass_firstlight_butterflyjar",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 14,
           "kind": "beans",
           "id": null,
-          "amount": 70
+          "amount": 75,
+          "rarity": "common"
         },
         {
           "tier": 15,
-          "kind": "surface",
-          "id": "floor_pass_firstlight_green_tiles",
-          "amount": null
+          "kind": "item",
+          "id": "bedroom_hammock",
+          "amount": null,
+          "rarity": "uncommon"
+        },
+        {
+          "tier": 15,
+          "kind": "beans",
+          "id": null,
+          "amount": 50,
+          "rarity": "common"
         },
         {
           "tier": 16,
-          "kind": "beans",
-          "id": null,
-          "amount": 75
+          "kind": "surface",
+          "id": "floor_pass_firstlight_green_tiles",
+          "amount": null,
+          "rarity": "rare"
         },
         {
           "tier": 17,
-          "kind": "beans",
-          "id": null,
-          "amount": 75
+          "kind": "item",
+          "id": "study_desklamp",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 18,
           "kind": "item",
-          "id": "pass_firstlight_hamper",
-          "amount": null
+          "id": "pass_firstlight_daffodils",
+          "amount": null,
+          "rarity": "uncommon"
+        },
+        {
+          "tier": 18,
+          "kind": "beans",
+          "id": null,
+          "amount": 40,
+          "rarity": "common"
         },
         {
           "tier": 19,
-          "kind": "beans",
-          "id": null,
-          "amount": 80
+          "kind": "item",
+          "id": "garden_festoon",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 20,
-          "kind": "beans",
-          "id": null,
-          "amount": 85
+          "kind": "item",
+          "id": "study_blind",
+          "amount": null,
+          "rarity": "uncommon"
+        },
+        {
+          "tier": 20,
+          "kind": "item",
+          "id": "bedroom_mirror",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 21,
           "kind": "beans",
           "id": null,
-          "amount": 85
+          "amount": 90,
+          "rarity": "common"
         },
         {
           "tier": 22,
           "kind": "item",
-          "id": "pass_firstlight_butterflyjar",
-          "amount": null
+          "id": "attic_telescope",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 23,
-          "kind": "beans",
-          "id": null,
-          "amount": 90
+          "kind": "item",
+          "id": "living_radiator",
+          "amount": null,
+          "rarity": "uncommon"
+        },
+        {
+          "tier": 24,
+          "kind": "item",
+          "id": "attic_rolledrug",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 24,
           "kind": "beans",
           "id": null,
-          "amount": 95
+          "amount": 60,
+          "rarity": "common"
         },
         {
           "tier": 25,
-          "kind": "beans",
-          "id": null,
-          "amount": 95
+          "kind": "item",
+          "id": "living_record",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 26,
           "kind": "item",
-          "id": "pass_firstlight_daffodils",
-          "amount": null
+          "id": "bedroom_bedrug",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 27,
           "kind": "beans",
           "id": null,
-          "amount": 100
+          "amount": 100,
+          "rarity": "common"
         },
         {
           "tier": 28,
-          "kind": "beans",
-          "id": null,
-          "amount": 105
+          "kind": "item",
+          "id": "study_noticeboard",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 29,
-          "kind": "beans",
-          "id": null,
-          "amount": 105
+          "kind": "item",
+          "id": "attic_wireless",
+          "amount": null,
+          "rarity": "uncommon"
+        },
+        {
+          "tier": 29,
+          "kind": "item",
+          "id": "attic_rockinghorse",
+          "amount": null,
+          "rarity": "uncommon"
         },
         {
           "tier": 30,
           "kind": "outfit",
           "id": "flowercrown",
-          "amount": null
+          "amount": null,
+          "rarity": "legendary"
         }
       ]
     }

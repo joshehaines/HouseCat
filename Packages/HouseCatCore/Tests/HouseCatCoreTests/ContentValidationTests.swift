@@ -170,8 +170,9 @@ struct ContentValidationTests {
         let rooms: Set = ["living", "bedroom", "kitchen", "garden", "study", "attic"]
         let roomItems = content.catalogue.items.filter { rooms.contains($0.room) }
         #expect(roomItems.count == 80)
-        // 113 painted, less the two alcohol items (mulled wine, champagne) excluded on 18 Oct.
-        #expect(content.catalogue.items.count == 111)
+        // 113 painted, less the two alcohol items (mulled wine, champagne) excluded on 18 Oct, and the season pass's
+        // own sets of 20 Oct: Black Cat's 37 and 31 more for Housewarming.
+        #expect(content.catalogue.items.count == 179)
         let excluded = Set((content.catalogue.excluded ?? []).map(\.id))
         #expect(excluded == ["pass_midwinter_mulledwine", "housewarming_pack_champagne"])
         #expect(content.catalogue.items.allSatisfy { !excluded.contains($0.id) })
@@ -235,10 +236,11 @@ struct ContentValidationTests {
 
     @Test func outfitsMatchTheBrief() {
         let outfits = content.outfits.outfits
-        #expect(outfits.count == 35)
+        #expect(outfits.count == 37)
         let pools = Dictionary(grouping: outfits, by: \.pool).mapValues(\.count)
-        // The pass's twelve outfits are its own (Josh, 20 Oct: off sale for Beans).
-        #expect(pools == [.paid: 19, .earned: 4, .passPaid: 8, .passFree: 4])
+        // The pass's fourteen outfits are its own (Josh, 20 Oct: off sale for Beans), Black Cat's toadstool hat and bat
+        // wings among them.
+        #expect(pools == [.paid: 19, .earned: 4, .passPaid: 9, .passFree: 5])
         for outfit in outfits {
             for sprite in outfit.sprites.values {
                 #expect(manifest[sprite] != nil, "\(outfit.id): sprite \(sprite) not in manifest")
@@ -338,8 +340,12 @@ struct ContentValidationTests {
             #expect(slot.start == definition.startDay && slot.end == definition.endDay, "\(season.id) is off the season calendar")
             #expect(slot.isChristmas == (season.christmas == true), "\(season.id): Christmas flag")
             #expect(season.sku == "housecat.pass.\(season.id)")
-            #expect(season.freeTrack.map(\.tier) == Array(1 ... Tuning.Pass.freeTiers), "\(season.id): free tiers 1–20 in order")
-            #expect(season.paidTrack.map(\.tier) == Array(1 ... Tuning.Pass.tiers), "\(season.id): premium tiers 1–30 in order")
+            // A box on every tier, in order; a box may hold more than one reward (Josh, 20 Oct: "more content in them").
+            #expect(definition.tiers(.free) == Array(1 ... Tuning.Pass.freeTiers), "\(season.id): free tiers 1–20")
+            #expect(definition.tiers(.paid) == Array(1 ... Tuning.Pass.tiers), "\(season.id): premium tiers 1–30")
+            #expect(season.freeTrack.map(\.tier) == season.freeTrack.map(\.tier).sorted(), "\(season.id): free track in order")
+            #expect(season.paidTrack.map(\.tier) == season.paidTrack.map(\.tier).sorted(), "\(season.id): premium track in order")
+            #expect((season.freeTrack + season.paidTrack).allSatisfy { $0.rarity != nil }, "\(season.id): every reward has a rarity")
             for reward in season.freeTrack + season.paidTrack {
                 switch reward.kind {
                 case .beans: #expect((reward.amount ?? 0) > 0)
@@ -348,8 +354,8 @@ struct ContentValidationTests {
                 case .surface: #expect(reward.id.map(surfaces.contains) == true, "\(season.id): unknown surface \(reward.id ?? "nil")")
                 }
             }
-            #expect(season.freeTrack.last?.kind == .outfit, "\(season.id): the free track ends with an outfit")
-            let capstone = season.paidTrack.last
+            #expect(definition.reward(track: .free, tier: Tuning.Pass.freeTiers)?.kind == .outfit, "\(season.id): the free track ends with an outfit")
+            let capstone = definition.reward(track: .paid, tier: Tuning.Pass.tiers)
             #expect(capstone?.kind == .outfit, "\(season.id): tier 30 of the premium track is the season's outfit")
             #expect(capstone?.id.flatMap { outfits[$0]?.pool } == .passPaid, "\(season.id): the top prize is the season's own")
         }

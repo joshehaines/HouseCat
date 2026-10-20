@@ -249,26 +249,20 @@ extension GameSession {
         recordClubDay(active: club)
     }
 
-    /// Claims a tier; the reward, if the claim counted.
+    /// Claims a tier's box; everything in it, if the claim counted (none if not).
     @discardableResult
-    func claim(season: String, track: PassTrack, tier: Int) -> PassReward? {
+    func claim(season: String, track: PassTrack, tier: Int) -> [PassReward] {
         let before = state(at: now()).passes[season]?.claimed(track) ?? []
         append(.passTierClaimed(seasonID: season, track: track, tier: tier), at: now())
         let after = state(at: now())
-        guard after.passes[season]?.claimed(track).contains(tier) == true, !before.contains(tier) else { return nil }
-        return rules.season(id: season)?.reward(track: track, tier: tier)
+        guard after.passes[season]?.claimed(track).contains(tier) == true, !before.contains(tier) else { return [] }
+        return rules.season(id: season)?.rewards(track: track, tier: tier) ?? []
     }
 
     /// Claims everything waiting, free track first, tier by tier; the rewards that counted.
     func claimAll(_ info: PassInfo) -> [PassReward] {
-        var claimed: [PassReward] = []
-        for tier in info.claimableFree {
-            claim(season: info.season.id, track: .free, tier: tier).map { claimed.append($0) }
-        }
-        for tier in info.claimablePaid {
-            claim(season: info.season.id, track: .paid, tier: tier).map { claimed.append($0) }
-        }
-        return claimed
+        info.claimableFree.flatMap { claim(season: info.season.id, track: .free, tier: $0) }
+            + info.claimablePaid.flatMap { claim(season: info.season.id, track: .paid, tier: $0) }
     }
 
     // MARK: Streaks

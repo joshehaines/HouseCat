@@ -2907,6 +2907,968 @@
    "ref": "grey",
    "scale": 0.6
   },
+  "furniture/pass_blackcat/furn_pass_blackcat_applebob_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_applebob_L.heic",
+   "master": [
+    440,
+    468
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_applebob_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_applebob_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_applebob_R.heic",
+   "master": [
+    440,
+    468
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_applebob_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_applecrate_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_applecrate_L.heic",
+   "master": [
+    493,
+    460
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_applecrate_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_applecrate_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_applecrate_R.heic",
+   "master": [
+    493,
+    460
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_applecrate_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_batbunting_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_batbunting_L.heic",
+   "master": [
+    620,
+    533
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_batbunting_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_batbunting_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_batbunting_R.heic",
+   "master": [
+    620,
+    533
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_batbunting_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_batcushion_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_batcushion_L.heic",
+   "master": [
+    460,
+    234
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_batcushion_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_batcushion_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_batcushion_R.heic",
+   "master": [
+    460,
+    234
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_batcushion_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_booknook_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_booknook_L.heic",
+   "master": [
+    396,
+    600
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_booknook_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_booknook_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_booknook_R.heic",
+   "master": [
+    396,
+    600
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_booknook_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_candles_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_candles_L.heic",
+   "master": [
+    326,
+    400
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_candles_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_candles_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_candles_R.heic",
+   "master": [
+    326,
+    400
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_candles_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_catcastle_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_catcastle_L.heic",
+   "master": [
+    528,
+    560
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_catcastle_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_catcastle_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_catcastle_R.heic",
+   "master": [
+    528,
+    560
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_catcastle_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_catdoorstop_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_catdoorstop_L.heic",
+   "master": [
+    209,
+    340
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_catdoorstop_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_catdoorstop_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_catdoorstop_R.heic",
+   "master": [
+    209,
+    340
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_catdoorstop_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_catportrait_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_catportrait_L.heic",
+   "master": [
+    207,
+    420
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_catportrait_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_catportrait_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_catportrait_R.heic",
+   "master": [
+    207,
+    420
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_catportrait_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_catrug_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_catrug_L.heic",
+   "master": [
+    600,
+    324
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_catrug_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_catrug_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_catrug_R.heic",
+   "master": [
+    600,
+    324
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_catrug_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_cobwebhammock_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_cobwebhammock_L.heic",
+   "master": [
+    560,
+    477
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_cobwebhammock_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_cobwebhammock_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_cobwebhammock_R.heic",
+   "master": [
+    560,
+    477
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_cobwebhammock_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_cocoa_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_cocoa_L.heic",
+   "master": [
+    400,
+    347
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_cocoa_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_cocoa_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_cocoa_R.heic",
+   "master": [
+    400,
+    347
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_cocoa_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_conkerbowl_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_conkerbowl_L.heic",
+   "master": [
+    380,
+    280
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_conkerbowl_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_conkerbowl_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_conkerbowl_R.heic",
+   "master": [
+    380,
+    280
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_conkerbowl_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_conkertree_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_conkertree_L.heic",
+   "master": [
+    532,
+    740
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_conkertree_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_conkertree_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_conkertree_R.heic",
+   "master": [
+    532,
+    740
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_conkertree_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_ghostlamp_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_ghostlamp_L.heic",
+   "master": [
+    199,
+    440
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_ghostlamp_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_ghostlamp_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_ghostlamp_R.heic",
+   "master": [
+    199,
+    440
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_ghostlamp_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_ghosttoy_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_ghosttoy_L.heic",
+   "master": [
+    360,
+    328
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_ghosttoy_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_ghosttoy_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_ghosttoy_R.heic",
+   "master": [
+    360,
+    328
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_ghosttoy_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_gramophone_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_gramophone_L.heic",
+   "master": [
+    325,
+    470
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_gramophone_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_gramophone_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_gramophone_R.heic",
+   "master": [
+    325,
+    470
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_gramophone_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_grandclock_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_grandclock_L.heic",
+   "master": [
+    326,
+    800
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_grandclock_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_grandclock_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_grandclock_R.heic",
+   "master": [
+    326,
+    800
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_grandclock_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_haybale_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_haybale_L.heic",
+   "master": [
+    520,
+    531
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_haybale_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_haybale_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_haybale_R.heic",
+   "master": [
+    520,
+    531
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_haybale_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_humbugjar_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_humbugjar_L.heic",
+   "master": [
+    197,
+    360
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_humbugjar_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_humbugjar_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_humbugjar_R.heic",
+   "master": [
+    197,
+    360
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_humbugjar_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_jackolantern_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_jackolantern_L.heic",
+   "master": [
+    448,
+    440
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_jackolantern_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_jackolantern_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_jackolantern_R.heic",
+   "master": [
+    448,
+    440
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_jackolantern_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_lantern_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_lantern_L.heic",
+   "master": [
+    175,
+    420
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_lantern_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_lantern_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_lantern_R.heic",
+   "master": [
+    175,
+    420
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_lantern_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_lanternstring_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_lanternstring_L.heic",
+   "master": [
+    640,
+    495
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_lanternstring_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_lanternstring_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_lanternstring_R.heic",
+   "master": [
+    640,
+    495
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_lanternstring_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_leafpile_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_leafpile_L.heic",
+   "master": [
+    600,
+    389
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_leafpile_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_leafpile_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_leafpile_R.heic",
+   "master": [
+    600,
+    389
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_leafpile_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_moonlamp_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_moonlamp_L.heic",
+   "master": [
+    407,
+    720
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_moonlamp_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_moonlamp_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_moonlamp_R.heic",
+   "master": [
+    407,
+    720
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_moonlamp_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_mushroomlamp_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_mushroomlamp_L.heic",
+   "master": [
+    267,
+    380
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_mushroomlamp_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_mushroomlamp_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_mushroomlamp_R.heic",
+   "master": [
+    267,
+    380
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_mushroomlamp_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_owlclock_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_owlclock_L.heic",
+   "master": [
+    143,
+    300
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_owlclock_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_owlclock_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_owlclock_R.heic",
+   "master": [
+    143,
+    300
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_owlclock_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_pumpkinbed_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_pumpkinbed_L.heic",
+   "master": [
+    560,
+    652
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_pumpkinbed_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_pumpkinbed_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_pumpkinbed_R.heic",
+   "master": [
+    560,
+    652
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_pumpkinbed_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_pumpkinpatch_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_pumpkinpatch_L.heic",
+   "master": [
+    620,
+    502
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_pumpkinpatch_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_pumpkinpatch_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_pumpkinpatch_R.heic",
+   "master": [
+    620,
+    502
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_pumpkinpatch_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_pumpkinpouffe_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_pumpkinpouffe_L.heic",
+   "master": [
+    507,
+    480
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_pumpkinpouffe_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_pumpkinpouffe_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_pumpkinpouffe_R.heic",
+   "master": [
+    507,
+    480
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_pumpkinpouffe_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_pumpkintrio_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_pumpkintrio_L.heic",
+   "master": [
+    391,
+    380
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_pumpkintrio_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_pumpkintrio_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_pumpkintrio_R.heic",
+   "master": [
+    391,
+    380
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_pumpkintrio_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_rockingchair_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_rockingchair_L.heic",
+   "master": [
+    476,
+    640
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_rockingchair_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_rockingchair_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_rockingchair_R.heic",
+   "master": [
+    476,
+    640
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_rockingchair_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_spookytree_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_spookytree_L.heic",
+   "master": [
+    572,
+    690
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_spookytree_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_spookytree_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_spookytree_R.heic",
+   "master": [
+    572,
+    690
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_spookytree_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_telescope_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_telescope_L.heic",
+   "master": [
+    350,
+    620
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_telescope_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_telescope_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_telescope_R.heic",
+   "master": [
+    350,
+    620
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_telescope_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_toadstool_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_toadstool_L.heic",
+   "master": [
+    519,
+    520
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_toadstool_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_toadstool_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_toadstool_R.heic",
+   "master": [
+    519,
+    520
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_toadstool_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_velvetchair_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_velvetchair_L.heic",
+   "master": [
+    551,
+    680
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_velvetchair_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_velvetchair_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_velvetchair_R.heic",
+   "master": [
+    551,
+    680
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_velvetchair_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_yarnbasket_L.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_yarnbasket_L.heic",
+   "master": [
+    369,
+    400
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_yarnbasket_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_blackcat/furn_pass_blackcat_yarnbasket_R.png": {
+   "file": "furniture/pass_blackcat/furn_pass_blackcat_yarnbasket_R.heic",
+   "master": [
+    369,
+    400
+   ],
+   "pad": {
+    "asset": "furniture.pass_blackcat.furn_pass_blackcat_yarnbasket_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
   "furniture/pass_firstlight/furn_pass_firstlight_birdbox_L.png": {
    "file": "furniture/pass_firstlight/furn_pass_firstlight_birdbox_L.heic",
    "master": [
@@ -3115,6 +4077,240 @@
    "ref": "grey",
    "scale": 0.6
   },
+  "furniture/pass_housewarming/furn_pass_housewarming_arclamp_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_arclamp_L.heic",
+   "master": [
+    495,
+    780
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_arclamp_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_arclamp_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_arclamp_R.heic",
+   "master": [
+    495,
+    780
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_arclamp_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_beanbag_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_beanbag_L.heic",
+   "master": [
+    520,
+    463
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_beanbag_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_beanbag_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_beanbag_R.heic",
+   "master": [
+    520,
+    463
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_beanbag_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_bicycle_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_bicycle_L.heic",
+   "master": [
+    640,
+    609
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_bicycle_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_bicycle_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_bicycle_R.heic",
+   "master": [
+    640,
+    609
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_bicycle_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_blanketfort_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_blanketfort_L.heic",
+   "master": [
+    680,
+    581
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_blanketfort_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_blanketfort_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_blanketfort_R.heic",
+   "master": [
+    680,
+    581
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_blanketfort_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_blankettrunk_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_blankettrunk_L.heic",
+   "master": [
+    500,
+    487
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_blankettrunk_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_blankettrunk_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_blankettrunk_R.heic",
+   "master": [
+    500,
+    487
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_blankettrunk_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_bookstack_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_bookstack_L.heic",
+   "master": [
+    351,
+    560
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_bookstack_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_bookstack_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_bookstack_R.heic",
+   "master": [
+    351,
+    560
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_bookstack_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_boxtunnel_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_boxtunnel_L.heic",
+   "master": [
+    640,
+    520
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_boxtunnel_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_boxtunnel_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_boxtunnel_R.heic",
+   "master": [
+    640,
+    520
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_boxtunnel_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_breadsalt_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_breadsalt_L.heic",
+   "master": [
+    380,
+    258
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_breadsalt_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_breadsalt_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_breadsalt_R.heic",
+   "master": [
+    380,
+    258
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_breadsalt_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_bubblewrap_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_bubblewrap_L.heic",
+   "master": [
+    560,
+    437
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_bubblewrap_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_bubblewrap_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_bubblewrap_R.heic",
+   "master": [
+    560,
+    437
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_bubblewrap_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
   "furniture/pass_housewarming/furn_pass_housewarming_candle_L.png": {
    "file": "furniture/pass_housewarming/furn_pass_housewarming_candle_L.heic",
    "master": [
@@ -3141,6 +4337,84 @@
    "ref": "grey",
    "scale": 0.6
   },
+  "furniture/pass_housewarming/furn_pass_housewarming_cardstring_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_cardstring_L.heic",
+   "master": [
+    640,
+    461
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_cardstring_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_cardstring_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_cardstring_R.heic",
+   "master": [
+    640,
+    461
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_cardstring_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_cratetable_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_cratetable_L.heic",
+   "master": [
+    560,
+    450
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_cratetable_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_cratetable_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_cratetable_R.heic",
+   "master": [
+    560,
+    450
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_cratetable_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_eggchair_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_eggchair_L.heic",
+   "master": [
+    441,
+    760
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_eggchair_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_eggchair_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_eggchair_R.heic",
+   "master": [
+    441,
+    760
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_eggchair_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
   "furniture/pass_housewarming/furn_pass_housewarming_fairylights_L.png": {
    "file": "furniture/pass_housewarming/furn_pass_housewarming_fairylights_L.heic",
    "master": [
@@ -3162,6 +4436,266 @@
    ],
    "pad": {
     "asset": "furniture.pass_housewarming.furn_pass_housewarming_fairylights_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_firstcuppa_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_firstcuppa_L.heic",
+   "master": [
+    363,
+    470
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_firstcuppa_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_firstcuppa_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_firstcuppa_R.heic",
+   "master": [
+    363,
+    470
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_firstcuppa_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_flatpack_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_flatpack_L.heic",
+   "master": [
+    620,
+    377
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_flatpack_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_flatpack_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_flatpack_R.heic",
+   "master": [
+    620,
+    377
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_flatpack_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_floorcushion_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_floorcushion_L.heic",
+   "master": [
+    480,
+    355
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_floorcushion_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_floorcushion_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_floorcushion_R.heic",
+   "master": [
+    480,
+    355
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_floorcushion_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_gallerywall_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_gallerywall_L.heic",
+   "master": [
+    480,
+    520
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_gallerywall_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_gallerywall_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_gallerywall_R.heic",
+   "master": [
+    480,
+    520
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_gallerywall_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_housebed_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_housebed_L.heic",
+   "master": [
+    579,
+    560
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_housebed_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_housebed_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_housebed_R.heic",
+   "master": [
+    579,
+    560
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_housebed_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_housecake_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_housecake_L.heic",
+   "master": [
+    218,
+    380
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_housecake_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_housecake_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_housecake_R.heic",
+   "master": [
+    218,
+    380
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_housecake_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_housescratcher_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_housescratcher_L.heic",
+   "master": [
+    363,
+    680
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_housescratcher_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_housescratcher_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_housescratcher_R.heic",
+   "master": [
+    363,
+    680
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_housescratcher_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_keysdish_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_keysdish_L.heic",
+   "master": [
+    360,
+    304
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_keysdish_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_keysdish_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_keysdish_R.heic",
+   "master": [
+    360,
+    304
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_keysdish_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_laundrybag_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_laundrybag_L.heic",
+   "master": [
+    465,
+    480
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_laundrybag_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_laundrybag_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_laundrybag_R.heic",
+   "master": [
+    465,
+    480
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_laundrybag_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_leaningmirror_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_leaningmirror_L.heic",
+   "master": [
+    312,
+    700
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_leaningmirror_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_leaningmirror_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_leaningmirror_R.heic",
+   "master": [
+    312,
+    700
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_leaningmirror_R",
     "scale": 1.0
    },
    "ref": "grey",
@@ -3219,6 +4753,32 @@
    "ref": "grey",
    "scale": 0.6
   },
+  "furniture/pass_housewarming/furn_pass_housewarming_paperlantern_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_paperlantern_L.heic",
+   "master": [
+    440,
+    409
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_paperlantern_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_paperlantern_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_paperlantern_R.heic",
+   "master": [
+    440,
+    409
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_paperlantern_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
   "furniture/pass_housewarming/furn_pass_housewarming_picnicblanket_L.png": {
    "file": "furniture/pass_housewarming/furn_pass_housewarming_picnicblanket_L.heic",
    "master": [
@@ -3245,6 +4805,110 @@
    "ref": "grey",
    "scale": 0.6
   },
+  "furniture/pass_housewarming/furn_pass_housewarming_plantgift_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_plantgift_L.heic",
+   "master": [
+    479,
+    640
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_plantgift_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_plantgift_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_plantgift_R.heic",
+   "master": [
+    479,
+    640
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_plantgift_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_plantstand_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_plantstand_L.heic",
+   "master": [
+    437,
+    640
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_plantstand_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_plantstand_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_plantstand_R.heic",
+   "master": [
+    437,
+    640
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_plantstand_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_recordcrate_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_recordcrate_L.heic",
+   "master": [
+    323,
+    480
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_recordcrate_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_recordcrate_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_recordcrate_R.heic",
+   "master": [
+    323,
+    480
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_recordcrate_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_sleepingbag_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_sleepingbag_L.heic",
+   "master": [
+    640,
+    450
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_sleepingbag_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_sleepingbag_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_sleepingbag_R.heic",
+   "master": [
+    640,
+    450
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_sleepingbag_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
   "furniture/pass_housewarming/furn_pass_housewarming_stepladder_L.png": {
    "file": "furniture/pass_housewarming/furn_pass_housewarming_stepladder_L.heic",
    "master": [
@@ -3266,6 +4930,32 @@
    ],
    "pad": {
     "asset": "furniture.pass_housewarming.furn_pass_housewarming_stepladder_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_swatchboard_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_swatchboard_L.heic",
+   "master": [
+    420,
+    643
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_swatchboard_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_swatchboard_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_swatchboard_R.heic",
+   "master": [
+    420,
+    643
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_swatchboard_R",
     "scale": 1.0
    },
    "ref": "grey",
@@ -3318,6 +5008,84 @@
    ],
    "pad": {
     "asset": "furniture.pass_housewarming.furn_pass_housewarming_teachest_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_toolbox_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_toolbox_L.heic",
+   "master": [
+    400,
+    438
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_toolbox_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_toolbox_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_toolbox_R.heic",
+   "master": [
+    400,
+    438
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_toolbox_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_velvetsofa_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_velvetsofa_L.heic",
+   "master": [
+    680,
+    622
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_velvetsofa_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_velvetsofa_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_velvetsofa_R.heic",
+   "master": [
+    680,
+    622
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_velvetsofa_R",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_welcomewreath_L.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_welcomewreath_L.heic",
+   "master": [
+    300,
+    359
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_welcomewreath_L",
+    "scale": 1.0
+   },
+   "ref": "grey",
+   "scale": 0.6
+  },
+  "furniture/pass_housewarming/furn_pass_housewarming_welcomewreath_R.png": {
+   "file": "furniture/pass_housewarming/furn_pass_housewarming_welcomewreath_R.heic",
+   "master": [
+    300,
+    359
+   ],
+   "pad": {
+    "asset": "furniture.pass_housewarming.furn_pass_housewarming_welcomewreath_R",
     "scale": 1.0
    },
    "ref": "grey",
@@ -9751,6 +11519,38 @@
    ],
    "scale": 0.5
   },
+  "outfits/outfit_batheadband_front.png": {
+   "file": "outfits/outfit_batheadband_front.heic",
+   "master": [
+    866,
+    693
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_batheadband_side.png": {
+   "file": "outfits/outfit_batheadband_side.heic",
+   "master": [
+    348,
+    742
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_batheadband_tqback.png": {
+   "file": "outfits/outfit_batheadband_tqback.heic",
+   "master": [
+    552,
+    733
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_batheadband_tqfront.png": {
+   "file": "outfits/outfit_batheadband_tqfront.heic",
+   "master": [
+    550,
+    714
+   ],
+   "scale": 0.5
+  },
   "outfits/outfit_beanie_front.png": {
    "file": "outfits/outfit_beanie_front.heic",
    "master": [
@@ -10775,6 +12575,38 @@
    ],
    "scale": 0.5
   },
+  "outfits/outfit_toadstoolhat_front.png": {
+   "file": "outfits/outfit_toadstoolhat_front.heic",
+   "master": [
+    559,
+    493
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_toadstoolhat_side.png": {
+   "file": "outfits/outfit_toadstoolhat_side.heic",
+   "master": [
+    516,
+    486
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_toadstoolhat_tqback.png": {
+   "file": "outfits/outfit_toadstoolhat_tqback.heic",
+   "master": [
+    558,
+    570
+   ],
+   "scale": 0.5
+  },
+  "outfits/outfit_toadstoolhat_tqfront.png": {
+   "file": "outfits/outfit_toadstoolhat_tqfront.heic",
+   "master": [
+    530,
+    501
+   ],
+   "scale": 0.5
+  },
   "outfits/outfit_xmasjumper_front.png": {
    "file": "outfits/outfit_xmasjumper_front.heic",
    "master": [
@@ -11008,6 +12840,14 @@
   },
   "rooms/floors/floor_living_walnut_boards.png": {
    "file": "rooms/floors/floor_living_walnut_boards.heic",
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/floors/floor_pass_blackcat_conker_parquet.png": {
+   "file": "rooms/floors/floor_pass_blackcat_conker_parquet.heic",
    "master": [
     2048,
     2048
@@ -11377,6 +13217,14 @@
   },
   "rooms/walls/wall_living_terracotta_damask.png": {
    "file": "rooms/walls/wall_living_terracotta_damask.heic",
+   "master": [
+    2048,
+    2048
+   ],
+   "scale": 0.25
+  },
+  "rooms/walls/wall_pass_blackcat_midnight_bats.png": {
+   "file": "rooms/walls/wall_pass_blackcat_midnight_bats.heic",
    "master": [
     2048,
     2048

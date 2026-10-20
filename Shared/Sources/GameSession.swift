@@ -799,7 +799,9 @@ final class GameSession {
         append(.householdCreated(seed: UInt64.random(in: 1 ... UInt64.max), clock: DayClock()), at: date)
         #if DEBUG
             if let id = ProcessInfo.processInfo.environment["HOUSECAT_CAT"], let preset = GameWorld.catArt?.builder.preset(id) {
-                append(.catAdopted(catID: Self.catID, name: "Pip", personality: .velcro, isKitten: false), at: date)
+                // HOUSECAT_NAME: a name to try the screens with (the longest a name can be, say).
+                let name = ProcessInfo.processInfo.environment["HOUSECAT_NAME"] ?? "Pip"
+                append(.catAdopted(catID: Self.catID, name: name, personality: .velcro, isKitten: false), at: date)
                 append(.catLookSet(catID: Self.catID, look: preset.look), at: date)
                 if gift {
                     append(.arrived, at: date.addingTimeInterval(300))

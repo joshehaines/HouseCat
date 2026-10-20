@@ -162,7 +162,8 @@ struct StarsRow: View {
     }
 }
 
-/// A coloured title band across the top of a card.
+/// A coloured title band across the top of a card. The title keeps clear of the card's rounded corners and gold rim
+/// (Josh, 20 Oct: a title as wide as the card ran under them).
 struct CardBand: View {
     let title: String
     let colour: Color
@@ -174,6 +175,7 @@ struct CardBand: View {
             .shadow(color: .black.opacity(0.25), radius: 0, y: 1)
             .lineLimit(1)
             .minimumScaleFactor(0.7)
+            .padding(.horizontal, 16)
             .frame(maxWidth: .infinity)
             .padding(.vertical, 6)
             .background(LinearGradient(colors: [colour.mix(with: .white, by: 0.12), colour], startPoint: .top, endPoint: .bottom))

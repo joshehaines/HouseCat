@@ -258,7 +258,16 @@ struct GamesMenu: View {
             withAnimation { screen = .quick }
         } label: {
             VStack(spacing: 0) {
-                CardBand(title: "Play with \(catName)", colour: GamesLook.quick)
+                // "Play with" in the band and the cat's name under it, sized to fit (Josh, 20 Oct: "Play with
+                // "whoever" is off the screen when clicking games": "Play with <name>" in the band ran into the card's
+                // corners, and a long name was cut short).
+                CardBand(title: "Play with", colour: GamesLook.quick)
+                Text(catName)
+                    .font(Theme.title(17))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
+                    .padding(.horizontal, 12)
+                    .padding(.top, 5)
                 ZStack(alignment: .bottomTrailing) {
                     if let cat = GameSession.shared.cat, let portrait = CatScreens.portrait(cat.look) {
                         Image(decorative: portrait, scale: 1).resizable().scaledToFit().padding(.vertical, 8).padding(.trailing, 26)
@@ -273,6 +282,7 @@ struct GamesMenu: View {
                 HStack(spacing: 3) {
                     PaintedIcon("clock", size: 15)
                     Text(plays > 0 ? "\(plays) plays left" : "Just for fun today").font(.system(size: 11.5, weight: .bold))
+                        .lineLimit(1).minimumScaleFactor(0.8)
                 }
                 .padding(.horizontal, 8)
                 .padding(.vertical, 2)
@@ -284,6 +294,7 @@ struct GamesMenu: View {
             .goldCard()
         }
         .buttonStyle(PressStyle())
+        .accessibilityLabel("Play with \(catName). \(plays > 0 ? "\(plays) plays left" : "Just for fun today")")
     }
 
     // MARK: What each card says

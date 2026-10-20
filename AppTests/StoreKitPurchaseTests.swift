@@ -14,7 +14,7 @@ struct StoreKitPurchaseTests {
     let session: SKTestSession
     let catalog: StoreCatalog
 
-    init() throws {
+    init() async throws {
         let bundle = Bundle(for: BundleToken.self)
         let configuration = try #require(bundle.url(forResource: "HouseCat", withExtension: "storekit"))
         session = try SKTestSession(contentsOf: configuration)
@@ -23,6 +23,24 @@ struct StoreKitPurchaseTests {
         session.disableDialogs = true
         let content = try #require(bundle.url(forResource: "Content", withExtension: nil))
         catalog = try StoreCatalog(content: ContentBundle.load(from: content))
+        // The last test's purchases can outlive clearTransactions, an unfinished one most of all (buying the same
+        // season pass again straight away failed with .unknown, 1 run in 5): what is left is finished and deleted, and
+        // the test starts once StoreKit owns nothing.
+        for await result in Transaction.unfinished {
+            await result.unsafePayloadValue.finish()
+        }
+        for await result in Transaction.currentEntitlements {
+            try? session.deleteTransaction(identifier: UInt(result.unsafePayloadValue.id))
+        }
+        let cleared = await eventually { await Self.ownsNothing() }
+        try #require(cleared, "the last test's purchases are still in StoreKit's current entitlements")
+    }
+
+    static func ownsNothing() async -> Bool {
+        for await _ in Transaction.currentEntitlements {
+            return false
+        }
+        return true
     }
 
     /// A purchase made the way StoreKit's own sheet would make it, without the sheet (in this simulator the sheet

@@ -47,8 +47,11 @@ Your cat lives on your Home Screen and your Apple Watch too: in your own window 
 
 - **iPhone 6.9"** (landscape, 2868 × 1320): `iphone-6.9/`
 - **iPad 13"** (landscape, 2752 × 2064): `ipad-13/`
+- **Apple Watch** (46 mm, 416 × 496): `watch/`. App Store Connect asks for these because the Watch app ships inside the iPhone app.
 
 Both sets were taken on 19 Oct from the current build, each screen from a fresh launch with the debug switches in `CLAUDE.md` ("Debug"): a seeded home (`HOUSECAT_HOUSE=full HOUSECAT_CAT=midnight` on a fresh install, `HOUSECAT_SKIP_STORE=1`), with any `HOUSECAT_SCREEN` value so the day-3 cards stay away. The simulator draws the Dynamic Island into iPhone screenshots, which a phone's own screenshots never include, so it is painted out from the picture round it (OpenCV inpainting). The order and captions are in the table below the checklist. On iPad the room's controls and cards are drawn 1.6× on the 13-inch (`Tuning.Stage.hudDesignWidth`), so the iPad set was retaken the same way after that change.
+
+The Watch set was taken on 20 Oct on the Apple Watch Series 12 (46mm) simulator paired with the iPhone 18 Pro, from a debug build: the iPhone app first, with the seeded home (`HOUSECAT_HOUSE=full HOUSECAT_CAT=midnight HOUSECAT_SKIP_STORE=1` on a fresh install), so the Watch has its snapshot; then the Watch app, freshly installed so no older snapshot is left on it, with `HOUSECAT_WATCH_TAPS=pet` and `=feed` for the cat's replies and `HOUSECAT_SCREEN=complications` for every complication family.
 
 The shop is not in the marketing set: a simulator launch from the command line has no test products, so it shows the catalogue's UK prices in a debug build (`HOUSECAT_SKIP_STORE=1`) and "…" otherwise. For each in-app purchase's review screenshot, use `iphone-6.9/review_beans.png` (the five Bean packs), `review_offers.png` (the Starter Pack), `review_room_looks.png` (the room looks) and `review_cat_club.png` (both plans, with the billed price on the button), all taken 19 Oct from the redesigned shop with `HOUSECAT_SCREEN=shop HOUSECAT_SHOP=beans|offers|looks|club`; or run from Xcode (the scheme loads `Store/HouseCat.storekit`) for StoreKit's own prices.
 
@@ -149,7 +152,7 @@ The Apple Watch app and widgets show the cat, its mood and the streak; the Watch
 7. **App Privacy, age rating and export compliance**: as above.
 8. **Pricing and availability**: free. Turn off Mac and Vision Pro availability.
 9. **TestFlight**: archive the HouseCat scheme (Release) and upload. Test on a real iPhone and iPad: buy each kind of product in the sandbox, and check Restore on a second device.
-10. **Screenshots**: upload `iphone-6.9/01-08` and `ipad-13/01-08` (not the `review_*` files, which are for the in-app purchases).
+10. **Screenshots**: upload `iphone-6.9/01-08`, `ipad-13/01-08` and `watch/01-04` (not the `review_*` files, which are for the in-app purchases).
 
 ### Decisions before submitting
 
@@ -181,3 +184,10 @@ Captions are for overlay text if wanted. Apple shows the screenshots as they are
 | 6 | 06_profile.png | 06_profile.png | Your cat, its look, its book |
 | 7 | 07_intro.png | 07_intro.png | A cat, a home, anywhere in the world |
 | 8 | 08_level_up.png | 08_level_up.png | Level up and open new rooms |
+
+| # | Watch file | Caption |
+| --- | --- | --- |
+| 1 | 01_cat.png | Your cat and your streak on your wrist |
+| 2 | 02_stroke.png | A stroke from your wrist |
+| 3 | 03_fed.png | Breakfast without opening your phone |
+| 4 | 04_complications.png | The streak on your watch face |

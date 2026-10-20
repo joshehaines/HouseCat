@@ -1703,9 +1703,9 @@ ctx('want.window', "nowhere to watch the world from: the cat would love a window
     ('chirp', ["No lookout post. The birds go unwatched.",
                "I need somewhere to plot against the pigeons.",
                "A window seat. For surveillance purposes."]),
-    ('purr', ["A sunny window spot would be perfect.",
+    ('purr', ["A soft spot by the window would be perfect.",
               "Watching the world from somewhere warm. One day.",
-              "Window. Sun. Nap. That's the plan."]))
+              "Window. Cushion. Nap. That's the plan."]))
 
 ctx('want.toy', "nothing to bat about: the cat would love something to play with",
     ('short', ["Nothing to bat about. I'll bat at the air, I suppose.",

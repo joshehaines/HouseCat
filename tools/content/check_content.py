@@ -481,11 +481,13 @@ def check_outfits(d, manifest):
     f = 'outfits.json'
     keys_exact(d, ['version', 'outfits'], f)
     unique([o['id'] for o in d['outfits']], f)
-    mo = {k for k, v in manifest.items() if v.get('class') == 'outfits'}
+    # The body garments' paintings for each body and pose (outfits/body/) are drawn by GarmentPlacement, not listed here.
+    mo = {k for k, v in manifest.items() if v.get('class') == 'outfits' and not k.startswith('outfits/body/')}
     used = set()
-    expect(len(d['outfits']), 23, 'outfits')
+    expect(len(d['outfits']), 35, 'outfits (23, and 12 more on 18 Oct)')
+    # No founders' pack any more; the small crown is the Housewarming pass's (CLAUDE.md, 18 Oct).
     expect(dict(Counter(o['pool'] for o in d['outfits'])),
-           {'paid': 12, 'earned': 4, 'pass-paid': 3, 'pass-free': 3, 'founders': 1}, 'outfit pools')
+           {'paid': 25, 'earned': 4, 'pass-paid': 3, 'pass-free': 3}, 'outfit pools')
     expect(sorted(o['earnedBy'] for o in d['outfits'] if o['pool'] == 'earned'),
            sorted(['streak_30', 'streak_100', 'referral', 'launch_event']), 'earnedBy')
     for o in d['outfits']:
@@ -517,14 +519,30 @@ def check_outfits(d, manifest):
             err(f"{w}: bad months")
     if used != mo:
         err(f"{f}: outfit sprites differ from manifest: {sorted(mo ^ used)[:5]}")
+    # Each body garment is painted over every body's resting poses and torso views: the same set for each.
+    worn = defaultdict(set)
+    for p in (k for k, v in manifest.items() if v.get('class') == 'outfits' and k.startswith('outfits/body/')):
+        name = os.path.basename(p)[len('outfit_'):-len('.png')]
+        owner = [o['id'] for o in d['outfits'] if o['slot'] == 'body' and name.startswith(o['id'] + '_')]
+        if len(owner) != 1:
+            err(f"{f}: body garment painting {p} names no body outfit")
+            continue
+        worn[owner[0]].add(name[len(owner[0]) + 1:])
+        if not os.path.isfile(os.path.join(ASSETS, p)):
+            err(f"{f}: body garment painting {p!r} not on disk")
+    body = [o['id'] for o in d['outfits'] if o['slot'] == 'body']
+    every = set().union(*worn.values()) if worn else set()
+    for oid in body:
+        if worn[oid] != every or not every:
+            err(f"{f}: {oid} is not painted for {sorted(every - worn[oid])[:5] or 'any body'}")
     by = {o['id']: o for o in d['outfits']}
     if by.get('santahat', {}).get('months') != [12]:
         err(f"{f}: Santa hat should be December")
     for oid in ('pumpkinhat', 'skeleton'):
         if by.get(oid, {}).get('months') != [10]:
             err(f"{f}: {oid} should be October")
-    if by.get('crown', {}).get('pool') != 'founders':
-        err(f"{f}: the small crown is the founders' outfit")
+    if by.get('crown', {}).get('pool') != 'pass-paid':
+        err(f"{f}: the small crown is the Housewarming pass's top prize (pass-paid)")
     return by
 
 
@@ -709,12 +727,19 @@ def check_path(d, items, outfits):
 
 # ------------------------------------------------------------------ seasons / minigames
 def check_seasons(d, items, surfaces, outfits):
+    """CONTENT.md §7 and build_seasons.py (19 Oct): thirty tiers, the free track's rewards on the first twenty (three
+    pieces and its outfit last), the premium track's on all thirty (pieces, a wallpaper and a floor, a second outfit and
+    the season's own outfit last). A season with no paintings of its own (Black Cat) takes them from the Bean shop."""
     f = 'seasons.json'
-    keys_exact(d, ['version', 'seasonLengthDays', 'tiers', 'seasons'], f)
+    keys_exact(d, ['version', 'seasonLengthDays', 'tiers', 'freeTiers', 'launchAt', 'seasons'], f)
     expect(d['seasonLengthDays'], 28, 'season length')
-    expect(d['tiers'], 20, 'tiers')
-    expect(len(d['seasons']), 3, 'seasons')
+    expect(d['tiers'], 30, 'tiers')
+    expect(d['freeTiers'], 20, 'free tiers')
+    expect([s['id'] for s in d['seasons']], ['blackcat', 'housewarming', 'midwinter', 'firstlight'], 'seasons')
     unique([s['id'] for s in d['seasons']], f)
+    expect([s['id'] for s in d['seasons'] if s['christmas']], ['midwinter'], 'Christmas seasons')
+    if d['launchAt'] not in [s['startAt'] for s in d['seasons'] if s['id'] == 'housewarming']:
+        err(f"{f}: launchAt {d['launchAt']} is not the start of Housewarming, the launch season")
     from datetime import date
     prev_end = None
     for s in d['seasons']:
@@ -738,9 +763,10 @@ def check_seasons(d, items, surfaces, outfits):
         prev_end = b
         line_rules(s['theme'], w + ' theme', money=False)
         folder = 'pass_' + s['id']
-        for track, pools in (('freeTrack', 'free'), ('paidTrack', 'paid')):
+        own = {i for i, v in items.items() if v['room'] == folder}   # its own paintings (8, Midwinter 7), if any
+        for track, pools, n in (('freeTrack', 'free', d['freeTiers']), ('paidTrack', 'paid', d['tiers'])):
             t = s[track]
-            expect([r['tier'] for r in t], list(range(1, 21)), f"{w} {track} tiers")
+            expect([r['tier'] for r in t], list(range(1, n + 1)), f"{w} {track} tiers")
             kinds = Counter(r['kind'] for r in t)
             for r in t:
                 ww = f"{w} {track} tier {r['tier']}"
@@ -750,33 +776,44 @@ def check_seasons(d, items, surfaces, outfits):
                         err(f"{ww}: bad beans reward")
                 elif r['kind'] == 'item':
                     it = items.get(r['id'])
-                    if not it or it['pool'] != f'pass-{pools}' or it['room'] != folder or r['amount'] is not None:
+                    if own and (not it or it['pool'] != f'pass-{pools}' or it['room'] != folder):
                         err(f"{ww}: item {r['id']!r} does not resolve to a {folder} pass-{pools} item")
+                    elif not own and (not it or it['pool'] != 'beans'):
+                        err(f"{ww}: item {r['id']!r} is not a piece from the Bean shop")
+                    if r['amount'] is not None:
+                        err(f"{ww}: amount on an item")
                 elif r['kind'] == 'outfit':
-                    o = outfits.get(r['id'])
-                    if not o or o['pool'] != f'pass-{pools}' or r['amount'] is not None:
-                        err(f"{ww}: outfit {r['id']!r} is not a pass-{pools} outfit")
+                    if r['id'] not in outfits or r['amount'] is not None:
+                        err(f"{ww}: outfit {r['id']!r} does not resolve")
                 elif r['kind'] == 'surface':
                     sf = surfaces.get(r['id'])
-                    if not sf or sf['pool'] != 'pass-paid' or sf['room'] != folder or pools != 'paid':
+                    want_sf = (lambda x: x['pool'] == 'pass-paid' and x['room'] == folder) if own else \
+                        (lambda x: x['pool'] == 'beans')
+                    if not sf or not want_sf(sf) or pools != 'paid':
                         err(f"{ww}: surface {r['id']!r} does not resolve")
                 else:
                     err(f"{ww}: bad kind")
+            # The track ends with an outfit; a season with its own paintings tops it with its own.
+            last = t[-1] if t else {}
+            if last.get('kind') != 'outfit':
+                err(f"{w}: {track} must end with an outfit")
+            elif own and outfits.get(last['id'], {}).get('pool') != f'pass-{pools}':
+                err(f"{w}: {track} ends with {last['id']!r}, not a pass-{pools} outfit of its own")
             if pools == 'free':
-                expect(dict(kinds), {'item': 3, 'outfit': 1, 'beans': 16}, f"{w} free track")
+                expect(dict(kinds), {'item': 3, 'outfit': 1, 'beans': n - 4}, f"{w} free track")
             else:
-                paid_items = 4 if s['id'] == 'midwinter' else 5
-                expect(dict(kinds), {'item': paid_items, 'surface': 2, 'outfit': 1, 'beans': 17 - paid_items},
+                # The pieces the free track's three leave (a season short of a piece pays Beans there instead).
+                paid_items = len(own) - 3 if own else 5
+                expect(dict(kinds), {'item': paid_items, 'surface': 2, 'outfit': 2, 'beans': n - paid_items - 4},
                        f"{w} paid track")
-                if t[19]['kind'] != 'outfit':
-                    err(f"{w}: paid tier 20 must be the season's outfit")
                 sk = {surfaces[r['id']]['kind'] for r in t if r['kind'] == 'surface' and r['id'] in surfaces}
                 if sk != {'wall', 'floor'}:
                     err(f"{w}: paid track needs a wallpaper and a floor")
+        if s['christmas'] and s['paidTrack'] and s['paidTrack'][-1]['id'] != 'santahat':
+            err(f"{w}: the Christmas season's top prize is the Santa hat")
         got = {r['id'] for tr in ('freeTrack', 'paidTrack') for r in s[tr] if r['kind'] == 'item'}
-        want = {i for i, v in items.items() if v['room'] == folder}
-        if got != want:
-            err(f"{w}: track items differ from the season's 8 items")
+        if own and got != own:
+            err(f"{w}: track items differ from the season's {len(own)} pieces")
 
 
 def check_minigames(d):

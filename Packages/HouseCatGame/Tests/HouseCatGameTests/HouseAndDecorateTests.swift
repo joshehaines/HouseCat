@@ -261,6 +261,45 @@ private func touchPoint(of id: String, in scene: RoomScene) throws -> CGPoint {
     #expect(!director.isIdle)
 }
 
+/// Josh's iPad, 20 Oct: "When feeding, the paw logo that pops up is up side down". Every reaction icon over the cat,
+/// and the thought bubble that rides on it, stays the right way up and unmirrored whichever way the cat faces (the
+/// puppet flips only its own pictures).
+@MainActor
+@Test func reactionIconsStayTheRightWayUpWhicheverWayTheCatFaces() throws {
+    let fixture = try Fixture()
+    let scene = try fixture.scene()
+    let director = try scene.addCat(rig: fixture.art.data("cat/rig.json", as: PuppetRig.self), at: 5, 5, pose: .sitSide)
+    let room = try #require(scene.activeRoom)
+    func upright(_ node: SKNode) -> Bool {
+        var x: CGFloat = 1, y: CGFloat = 1, turn: CGFloat = 0
+        var next: SKNode? = node
+        while let current = next {
+            x *= current.xScale
+            y *= current.yScale
+            turn += current.zRotation
+            next = current.parent
+        }
+        return x > 0 && y > 0 && abs(turn) < 0.001
+    }
+    for facingRight in [false, true] {
+        let way = facingRight ? "right" : "left"
+        director.cat.show(.side, facingRight: facingRight)
+        for icon in ["heart", "zzz", "notes", "sparkle", "question", "exclaim", "paw"] {
+            let before = Set(room.children.map(ObjectIdentifier.init))
+            scene.react(icon)
+            let added = room.children.filter { !before.contains(ObjectIdentifier($0)) }
+            #expect(added.count == 1, "\(icon) pops up")
+            for node in added {
+                #expect(upright(node), "\(icon), the cat facing \(way)")
+            }
+        }
+        scene.think(about: "fx/reactions/fx_reactions_heart.png", tag: "test")
+        let bubble = try #require(director.cat.childNode(withName: "thought"))
+        #expect(upright(bubble), "the thought bubble, the cat facing \(way)")
+        #expect(bubble.children.allSatisfy(upright), "the thought bubble's picture, the cat facing \(way)")
+    }
+}
+
 @MainActor
 @Test func aPieceFromTheInventoryLandsWhereItFitsPickedUp() throws {
     let fixture = try Fixture()

@@ -118,7 +118,8 @@ struct RoomTourOverlay: View {
         .allowsHitTesting(false)
     }
 
-    /// The paw points at the control from below it (or above, near the bottom of the screen).
+    /// The paw points at the control from below it (or above, near the bottom of the screen), always the right way up
+    /// (Josh's iPad, 20 Oct: turned over under the cat at its bowl it was "up side down").
     private func paw(at rect: CGRect, in size: CGSize) -> some View {
         let below = rect.maxY + 60 < size.height
         return TimelineView(.animation) { timeline in
@@ -126,7 +127,6 @@ struct RoomTourOverlay: View {
             if let paw = CatScreens.picture("fx/reactions/fx_reactions_paw.png") {
                 paw.resizable().scaledToFit()
                     .frame(width: 44, height: 44)
-                    .rotationEffect(.degrees(below ? 180 : 0))
                     .shadow(color: .black.opacity(0.35), radius: 3, y: 2)
                     .position(x: rect.midX, y: below ? rect.maxY + 30 + bob : rect.minY - 30 - bob)
             }

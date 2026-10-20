@@ -310,7 +310,8 @@ struct GoalTrackerLayer: View {
     }
 }
 
-/// The paw that points at a control, from below it (or above, near the bottom of the screen).
+/// The paw that points at a control, from below it (or above, near the bottom of the screen). Always the right way
+/// up, toes at the top (Josh's iPad, 20 Oct: turned over under the cat at its bowl it was "up side down").
 private struct GoalPaw: View {
     let rect: CGRect
     let size: CGSize
@@ -322,7 +323,6 @@ private struct GoalPaw: View {
             if let paw = CatScreens.picture("fx/reactions/fx_reactions_paw.png") {
                 paw.resizable().scaledToFit()
                     .frame(width: 44, height: 44)
-                    .rotationEffect(.degrees(below ? 180 : 0))
                     .shadow(color: .black.opacity(0.35), radius: 3, y: 2)
                     .position(x: rect.midX, y: below ? rect.maxY + 30 + bob : rect.minY - 30 - bob)
             }

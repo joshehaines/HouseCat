@@ -121654,28 +121654,28 @@
    "class": "outfits",
    "px": [
     866,
-    693
+    221
    ]
   },
   "outfits/outfit_batheadband_side.png": {
    "class": "outfits",
    "px": [
     348,
-    742
+    265
    ]
   },
   "outfits/outfit_batheadband_tqback.png": {
    "class": "outfits",
    "px": [
-    552,
-    733
+    547,
+    278
    ]
   },
   "outfits/outfit_batheadband_tqfront.png": {
    "class": "outfits",
    "px": [
     550,
-    714
+    258
    ]
   },
   "furniture/pass_housewarming/furn_pass_housewarming_keysdish_R.png": {

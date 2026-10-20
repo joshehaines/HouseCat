@@ -11523,7 +11523,7 @@
    "file": "outfits/outfit_batheadband_front.heic",
    "master": [
     866,
-    693
+    221
    ],
    "scale": 0.5
   },
@@ -11531,15 +11531,15 @@
    "file": "outfits/outfit_batheadband_side.heic",
    "master": [
     348,
-    742
+    265
    ],
    "scale": 0.5
   },
   "outfits/outfit_batheadband_tqback.png": {
    "file": "outfits/outfit_batheadband_tqback.heic",
    "master": [
-    552,
-    733
+    547,
+    278
    ],
    "scale": 0.5
   },
@@ -11547,7 +11547,7 @@
    "file": "outfits/outfit_batheadband_tqfront.heic",
    "master": [
     550,
-    714
+    258
    ],
    "scale": 0.5
   },

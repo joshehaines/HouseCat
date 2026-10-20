@@ -26,8 +26,8 @@ struct OutfitAvailabilityTests {
     }
 
     @Test func aSeasonalOutfitIsSoldInItsMonthsOnly() throws {
-        #expect(try availability("pumpkinhat", month: 3) == .outOfSeason(months: [10]))
-        #expect(try availability("pumpkinhat", month: 10) == .forSale(beans: Tuning.Beans.outfit))
+        #expect(try availability("bunnyears", month: 10) == .outOfSeason(months: [3, 4]))
+        #expect(try availability("bunnyears", month: 4) == .forSale(beans: Tuning.Beans.outfit))
     }
 
     @Test func ownedAndWornComeFirst() throws {
@@ -43,7 +43,25 @@ struct OutfitAvailabilityTests {
         #expect(try availability("hoodie") == .earned(source: "streak_30"))
         #expect(try availability("bowtie") == .earned(source: "streak_100"))
         #expect(try availability("buckethat") == .earned(source: "referral"))
-        #expect(try availability("bandana") == .pass(club: false))
-        #expect(try availability("crown") == .pass(club: true))
+        #expect(try availability("bandana") == .pass(premium: false))
+        #expect(try availability("crown") == .pass(premium: true))
+        // The pass is the only way to the pass's outfits (Josh, 20 Oct), the pumpkin hat even in October.
+        #expect(try availability("bellcollar") == .pass(premium: false))
+        #expect(try availability("pumpkinhat", month: 10) == .pass(premium: true))
+        #expect(try availability("flatcap") == .pass(premium: true))
+    }
+
+    /// Nothing is shown that cannot be had yet: the bucket hat (inviting a friend) and the party hat (the launch
+    /// event) stay out until something grants them; every pass outfit shown is a reward in seasons.json.
+    @Test func onlyOutfitsThatCanBeHadAreShown() throws {
+        let shown = outfits.values.filter { OutfitAvailability.isShown($0, owned: []) }.map(\.id)
+        #expect(!shown.contains("buckethat") && !shown.contains("partyhat"))
+        #expect(shown.contains("hoodie") && shown.contains("bowtie") && shown.contains("beanie") && shown.contains("crown"))
+        #expect(shown.count == outfits.count - 2)
+        #expect(try OutfitAvailability.isShown(#require(outfits["partyhat"]), owned: ["partyhat"]), "had anyway, it shows")
+        let seasons = try String(contentsOf: Self.repo.appendingPathComponent("Content/seasons.json"), encoding: .utf8)
+        for outfit in outfits.values where outfit.pool == .passFree || outfit.pool == .passPaid {
+            #expect(seasons.contains("\"\(outfit.id)\""), "\(outfit.id) is a pass reward")
+        }
     }
 }

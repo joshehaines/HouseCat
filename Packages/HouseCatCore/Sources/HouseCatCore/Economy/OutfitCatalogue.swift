@@ -9,8 +9,9 @@ public enum OutfitAvailability: Equatable, Sendable {
     case outOfSeason(months: [Int])
     /// Earned in play (outfits.json `earnedBy`: "streak_30", "referral", "launch_event", "level_<n>").
     case earned(source: String)
-    /// A season pass reward, on the free track or Cat Club's paid one.
-    case pass(club: Bool)
+    /// A season pass reward: on the free track, or on the premium one (the season's own pass, or Cat Club). Never sold
+    /// for Beans (Josh, 20 Oct: the pass is the only way to get them).
+    case pass(premium: Bool)
 
     public static func of(_ outfit: OutfitsFile.Outfit, owned: Set<String>, worn: String?, on day: GameDay) -> OutfitAvailability {
         if outfit.id == worn {
@@ -23,9 +24,22 @@ public enum OutfitAvailability: Equatable, Sendable {
         case .paid:
             return ShopRules
                 .isOnSale(months: outfit.months, on: day) ? .forSale(beans: Tuning.Beans.outfit) : .outOfSeason(months: outfit.months)
-        case .passFree: return .pass(club: false)
-        case .passPaid: return .pass(club: true)
+        case .passFree: return .pass(premium: false)
+        case .passPaid: return .pass(premium: true)
         case .earned, .founders: return .earned(source: outfit.earnedBy ?? outfit.pool.rawValue)
+        }
+    }
+
+    /// Whether the catalogue shows it ("Nothing is shown that cannot work yet"): every outfit sold or given by the
+    /// season pass, and what a streak earns (the rules hand those over); not one earned some other way that nothing
+    /// grants yet (inviting a friend, the launch event), unless the household has it.
+    public static func isShown(_ outfit: OutfitsFile.Outfit, owned: Set<String>) -> Bool {
+        if owned.contains(outfit.id) {
+            return true
+        }
+        switch outfit.pool {
+        case .paid, .passFree, .passPaid: return true
+        case .earned, .founders: return outfit.earnedBy?.hasPrefix("streak_") == true
         }
     }
 

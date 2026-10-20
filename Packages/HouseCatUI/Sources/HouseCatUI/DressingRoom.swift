@@ -62,7 +62,7 @@ public struct DressingRoomLayout<Top: View, Bottom: View, Panel: View, Hint: Vie
     private let panel: (WardrobeMetrics) -> Panel
     private let hint: Hint
     @State private var s: CGFloat = 1
-    @State private var sceneOrigin: CGPoint = .zero
+    @State private var sceneFrame: CGRect = .zero
     @State private var stageFrame: CGRect = .zero
     @ScaledMetric(relativeTo: .body) private var textScale: CGFloat = 100
     @Environment(\.controlFeedback) private var feedback
@@ -118,7 +118,7 @@ public struct DressingRoomLayout<Top: View, Bottom: View, Panel: View, Hint: Vie
         .environment(\.hudScale, s)
         .modifier(FullScreenGame())
         .onChange(of: stageFrame) { _, _ in tellStage() }
-        .onChange(of: sceneOrigin) { _, _ in tellStage() }
+        .onChange(of: sceneFrame) { _, _ in tellStage() }
     }
 
     static var page: LinearGradient {
@@ -129,10 +129,11 @@ public struct DressingRoomLayout<Top: View, Bottom: View, Panel: View, Hint: Vie
         WardrobeMetrics(s: s, t: s * textScale / 100)
     }
 
-    /// The part of the room the controls leave open, for the scene to put the cat in the middle of.
+    /// The part of the room the controls leave open, for the scene to put the cat in the middle of: measured
+    /// against the room's own frame each time either moves (turning an iPad changes both).
     private func tellStage() {
-        guard stageFrame.width > 1 else { return }
-        scene?.setOpenRect(stageFrame.offsetBy(dx: -sceneOrigin.x, dy: -sceneOrigin.y))
+        guard stageFrame.width > 1, sceneFrame.width > 1 else { return }
+        scene?.setOpenRect(stageFrame.offsetBy(dx: -sceneFrame.minX, dy: -sceneFrame.minY))
     }
 
     // MARK: Layouts
@@ -185,7 +186,7 @@ public struct DressingRoomLayout<Top: View, Bottom: View, Panel: View, Hint: Vie
     private var room: some View {
         if let scene {
             SpriteView(scene: scene, preferredFramesPerSecond: 60)
-                .onGeometryChange(for: CGPoint.self) { $0.frame(in: .global).origin } action: { sceneOrigin = $0 }
+                .onGeometryChange(for: CGRect.self) { $0.frame(in: .global) } action: { sceneFrame = $0 }
                 .accessibilityElement()
                 .accessibilityLabel(sceneLabel)
                 .accessibilityHint("Swipe up or down to turn the cat round.")

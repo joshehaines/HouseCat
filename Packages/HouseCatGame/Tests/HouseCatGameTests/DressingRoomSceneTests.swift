@@ -82,3 +82,17 @@ private func dressingRoom(_ size: CGSize, look: CatLook = .midnight) throws -> D
     #expect(scene.stage.xScale > whole * 1.8)
     #expect(scene.angle == .front)
 }
+
+/// An open part measured in another layout (an iPad turned upright) never puts the cat out of sight: it is kept
+/// inside the view, and the cat stands in what is left of it.
+@MainActor
+@Test func aStaleOpenPartStillShowsTheCat() throws {
+    let size = CGSize(width: 1032, height: 596)
+    let scene = try dressingRoom(size)
+    // The landscape gap between the drawers and the open drawer, handed to the upright room.
+    scene.setOpenRect(CGRect(x: 260, y: 70, width: 450, height: 860))
+    let drawn = scene.drawnFrame()
+    let bottom = scene.stage.convert(CGPoint(x: drawn.midX, y: drawn.minY), to: scene)
+    let top = scene.stage.convert(CGPoint(x: drawn.midX, y: drawn.maxY), to: scene)
+    #expect(bottom.y >= 0 && top.y <= size.height, "the cat is in the view (\(bottom.y) to \(top.y))")
+}

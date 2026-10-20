@@ -97,7 +97,9 @@ final class OutfitCatalogueModel: Identifiable {
     init?(opening: String? = nil) {
         let session = GameSession.shared
         guard let art = GameWorld.art, let catArt = GameWorld.catArt, let rig = GameWorld.rig, let cat = session.cat else { return nil }
-        outfits = (session.content?.outfits.outfits ?? []).filter(\.wearable)
+        // Only what can be had: nothing shown that cannot work yet (an outfit for inviting a friend, say).
+        let owned = session.ownedOutfits
+        outfits = (session.content?.outfits.outfits ?? []).filter { $0.wearable && OutfitAvailability.isShown($0, owned: owned) }
         scene = DressingRoomScene(size: CGSize(width: 800, height: 400), art: art, catArt: catArt, rig: rig, look: cat.look)
         refresh()
         let start = opening.flatMap { id in outfits.first { $0.id == id } } ?? outfits.first { $0.id == worn }
@@ -396,7 +398,7 @@ struct OutfitCatalogueView: View {
     private func shortLock(_ status: OutfitAvailability) -> String {
         switch status {
         case let .outOfSeason(months): months.first.map(Self.month) ?? "Seasonal"
-        case let .pass(club): club ? "Cat Club" : "Season pass"
+        case let .pass(premium): premium ? "Premium pass" : "Season pass"
         case let .earned(source): Self.earning(source, short: true)
         case .wearing, .owned, .forSale: ""
         }
@@ -420,7 +422,7 @@ struct OutfitCatalogueView: View {
         case .owned: "In your cat's wardrobe"
         case let .forSale(beans: price): "\(price) Beans"
         case let .outOfSeason(months): "On sale in \(months.map(Self.month).formatted(.list(type: .or)))"
-        case let .pass(club): club ? "A reward on Cat Club's season track" : "A season pass reward"
+        case let .pass(premium): premium ? "A reward on a season's premium track" : "A season pass reward"
         case let .earned(source): Self.earning(source, short: false)
         }
     }
@@ -437,11 +439,7 @@ struct OutfitCatalogueView: View {
         if source.hasPrefix("level_"), let level = Int(source.dropFirst("level_".count)) {
             return short ? "Level \(level)" : "Earned at level \(level)"
         }
-        switch source {
-        case "referral": return short ? "Invite a friend" : "Earned when a friend you invite joins"
-        case "launch_event": return short ? "Launch event" : "Given during the launch event"
-        default: return short ? "Earned" : "Earned in play"
-        }
+        return short ? "Earned" : "Earned in play"
     }
 
     // MARK: The foot: buy, put on, take off, or what unlocks it

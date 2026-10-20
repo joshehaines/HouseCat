@@ -150,8 +150,12 @@ public final class DressingRoomScene: SKScene {
     func layoutStage(animated: Bool) {
         guard size.width > 0, size.height > 0 else { return }
         let painted = room.size
-        let open = openRect.map { CGRect(x: $0.minX, y: size.height - $0.maxY, width: $0.width, height: $0.height) }
-            ?? CGRect(origin: .zero, size: size)
+        let bounds = CGRect(origin: .zero, size: size)
+        // The open part, from the bottom, kept inside the view (one measured before a turn is never trusted past
+        // its edges); none, or almost none of it inside, and the whole view stands in for it.
+        let measured = openRect.map { CGRect(x: $0.minX, y: size.height - $0.maxY, width: $0.width, height: $0.height) }
+        let inside = measured.map { $0.intersection(bounds) } ?? bounds
+        let open = inside.isNull || inside.height < size.height * 0.3 || inside.width < size.width * 0.15 ? bounds : inside
         let catHeight = CGFloat(Tuning.Builder.podiumWidth * Tuning.Builder.catOnPodium)
         let cover = max(size.width / painted.width, size.height / painted.height)
         let wanted = min(open.height * CGFloat(Tuning.Builder.catInStage), open.width * CGFloat(Tuning.Builder.catInStageWidth))

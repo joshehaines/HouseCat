@@ -26,7 +26,12 @@ final class Visit {
 
     /// What VoiceOver says for the scene: the home and the room, or where the cat is and what it last said.
     var accessibilityDescription: String {
-        guard scene is RoomScene else { return "Your home, from outside. Double-tap to go in." }
+        guard scene is RoomScene else {
+            if let exterior = scene as? ExteriorScene, exterior.windowCat != nil {
+                return "Your home, from outside, with \(catName ?? "your cat") at the window. Double-tap to go in."
+            }
+            return "Your home, from outside. Double-tap to go in."
+        }
         let name = catName ?? "Your cat"
         if let greeting {
             return "\(roomTitle). \(name) says: \(greeting)"
@@ -299,10 +304,21 @@ final class Visit {
                     }
                 #endif
             }
-            // Build the room once the exterior is on screen, behind its first seconds.
-            Task { @MainActor [weak self] in
+            // Build the room once the exterior is on screen, behind its first seconds; then the cat shows at a
+            // window, where its day has put it (one that runs to greet you is at the window by the door).
+            Task { @MainActor [weak self, weak exterior] in
                 try? await Task.sleep(for: .seconds(Tuning.Exterior.roomBuildDelay))
-                _ = self?.preparedRoom()
+                guard let self, let house = preparedRoom() as? RoomScene, let exterior, let arrival else { return }
+                let session = GameSession.shared
+                GameWorld.seatCat(
+                    in: exterior,
+                    house: house,
+                    room: arrival.start.room ?? .living,
+                    activity: arrival.style == .ignores ? .sulk : arrival.start.activity,
+                    watchingYou: arrival.style == .runs,
+                    state: session.state(at: session.now()),
+                    at: session.now()
+                )
             }
         } else {
             scene = SKScene(size: size)
@@ -375,6 +391,8 @@ final class Visit {
                 say(GameSession.shared.line(Want.perch.lineContext))
             case "offer":
                 trustRose = Tuning.Store.offerTrustTier
+            case "outside":
+                stepOutside()
             case let screen where screen.hasPrefix("game:"):
                 openGame = String(screen.dropFirst("game:".count))
             default:
@@ -382,6 +400,69 @@ final class Visit {
             }
         }
     #endif
+
+    // MARK: Outside
+
+    /// Out of the front door to look at the house (Josh, 20 Oct: "Need a way to view your house from the outside as
+    /// well and then have your cat in the window"): the home as it is now, in its weather, season and time of day,
+    /// the cat at a window as it is inside. The room waits as it was.
+    private(set) var outside = false
+    /// The cat came to the window to watch you go, so it comes to you when you are back in.
+    @ObservationIgnored private var watchedYouGo = false
+
+    func stepOutside() {
+        guard let house = scene as? RoomScene, let view = house.view, !outside else { return }
+        if previewing != nil {
+            endPreview()
+        }
+        if decorating {
+            toggleDecorating()
+        }
+        greeting = nil
+        let session = GameSession.shared
+        let now = session.now()
+        let state = session.state(at: now)
+        guard let exterior = GameWorld.exteriorScene(size: house.size, at: now, state: state, looking: true) else { return }
+        // A cat that follows you comes to the window by the door to watch you go.
+        watchedYouGo = session.followsYou && house.catActivity != .sleep && !Naps.shared.isNapping
+        GameWorld.seatCat(
+            in: exterior,
+            house: house,
+            room: house.catRoom,
+            activity: house.catActivity,
+            watchingYou: watchedYouGo,
+            state: state,
+            at: now,
+            fade: false
+        )
+        exterior.onDoorOpens = { Sound.play("door_open", volume: Tuning.Sound.door) }
+        exterior.onCatTapped = {
+            // A chirp, muffled by the glass.
+            if let meow = Sound.meow(.chirp) {
+                Sound.play(meow, volume: Tuning.Sound.meow * Tuning.WindowCat.meowVolume)
+            }
+        }
+        exterior.onEnter = { [weak self, weak exterior] in
+            guard let self, let room = self.room else { return }
+            exterior?.view?.presentScene(room, transition: .crossFade(withDuration: Tuning.Exterior.roomFadeSeconds))
+            scene = room
+            outside = false
+            if watchedYouGo, let house = room as? RoomScene {
+                house.send(BehaviourChoice(activity: .nearPlayer, room: activeRoom), pace: .trot)
+            }
+        }
+        Sound.play("door_open", volume: Tuning.Sound.door)
+        Sound.weather(exterior.model.weather)
+        view.presentScene(exterior, transition: .crossFade(withDuration: Tuning.Exterior.roomFadeSeconds))
+        scene = exterior
+        outside = true
+        session.saw("outside")
+    }
+
+    /// Back in through the front door, to the room as it was.
+    func goBackIn() {
+        (scene as? ExteriorScene)?.enter()
+    }
 
     /// Shows the greeting while the cat notices you, then lets it go (SPEC: three seconds at most).
     private func greet() {
@@ -933,6 +1014,7 @@ final class Visit {
             house.onRoomTapped = { [weak self] in self?.go(to: $0) }
             house.onActiveRoomChanged = { [weak self] in self?.roomShown($0) }
             house.onCatTapped = { [weak self] in self?.petCat() }
+            house.onFrontDoorTapped = { [weak self] in self?.stepOutside() }
             house.onActivityChosen = { [weak self] in self?.catChose($0) }
             house.onThoughtTapped = { [weak self] _ in self?.openWanted() }
             house.onGiftTapped = { [weak self] in self?.collectGift() }

@@ -135,7 +135,11 @@ public enum WindowCatRules {
             return WindowSighting(window: near, pose: .lookingOut, facingRight: windows[near].middleX < door)
         }
         let wanted = row(storey: context.storey, storeys: context.storeys, rows: Set(windows.map(\.row)).sorted())
-        let candidates = windows.indices.filter { windows[$0].row == wanted }
+        // Not the slim side lights of a bay or a narrow stair window, where it would hardly show.
+        let widest = windows.filter { $0.row == wanted }.map(\.width).max() ?? 0
+        let candidates = windows.indices.filter {
+            windows[$0].row == wanted && windows[$0].width >= widest * Tuning.WindowCat.narrowest
+        }
         let index: Int
         if context.activity == .windowWatch {
             // At the window: the biggest one on its floor.

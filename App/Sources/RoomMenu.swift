@@ -84,7 +84,9 @@ struct RoomMenu: View {
                     feedback.tap()
                     choose(room)
                 }
-                LazyVGrid(columns: [GridItem(.fixed(80), spacing: 9), GridItem(.fixed(80))], spacing: 13) {
+                // Two abreast; three once there are more than six (Outside, 20 Oct, made a seventh possible), so the
+                // card never runs past a phone's height.
+                LazyVGrid(columns: Array(repeating: GridItem(.fixed(80), spacing: 9), count: items.count > 6 ? 3 : 2), spacing: 13) {
                     ForEach(items) { item in
                         ChunkyTile(item.title, icon: item.icon, waiting: item.dot, action: item.action)
                     }

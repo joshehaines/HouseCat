@@ -60,6 +60,8 @@ enum GameWorld {
         var defaultDoor: [Double]
         var doors: [String: [Double]]
         var houses: [String: [Double]]?
+        /// Each scene's windows the cat can sit in: [left, top, right, bottom, row] (scenes.py windows).
+        var windows: [String: [[Double]]]?
     }
 
     /// A painted scene's front door (a fraction of the picture), from scenes.json.
@@ -70,7 +72,7 @@ enum GameWorld {
     }
 
     /// The home's exterior at this moment: its painting for its biome and season, its sky for the local time.
-    static func exteriorScene(size: CGSize, at date: Date, state: HouseholdState) -> ExteriorScene? {
+    static func exteriorScene(size: CGSize, at date: Date, state: HouseholdState, looking: Bool = false) -> ExteriorScene? {
         guard let art, let index = try? art.data("world/scenes/scenes.json", as: SceneIndex.self) else { return nil }
         let now = now(state: state, at: date)
         let style = style(state)
@@ -88,9 +90,54 @@ enum GameWorld {
             door: CGPoint(x: door[0], y: door[1]),
             weather: now.weather,
             season: now.season,
-            house: house
+            house: house,
+            windows: (index.windows?[name] ?? []).compactMap(SceneWindow.init)
         )
-        return ExteriorScene(size: size, art: art, model: model)
+        let scene = ExteriorScene(size: size, art: art, model: model)
+        scene.looking = looking
+        return scene
+    }
+
+    /// The cat at a window of the exterior (Josh, 20 Oct: "have your cat in the window"; `WindowCatRules` says which
+    /// and how): on the floor of the room it is in, as it is there, in its look and outfit.
+    static func seatCat(
+        in exterior: ExteriorScene,
+        house: RoomScene,
+        room: RoomID,
+        activity: Activity?,
+        watchingYou: Bool,
+        state: HouseholdState,
+        at date: Date,
+        fade: Bool = true
+    ) {
+        guard let art, let rig, !exterior.model.windows.isEmpty else { return }
+        let cat = state.cats.first
+        let context = WindowCatRules.Context(
+            storey: house.house.room(room)?.storey ?? 0,
+            storeys: (house.storeys.max() ?? 0) + 1,
+            activity: activity,
+            mood: state.mood(of: GameSession.catID, at: date),
+            sky: exterior.model.sky,
+            watchingYou: watchingYou,
+            door: exterior.model.door.x
+        )
+        guard let sighting = WindowCatRules.sighting(
+            windows: exterior.model.windows,
+            context: context,
+            household: state.seed,
+            day: state.clock.day(of: date),
+            minutes: state.clock.localMinutes(of: date)
+        ) else { return }
+        let node = CatNode(
+            art: art,
+            rig: rig,
+            catArt: catArt,
+            look: cat?.look ?? .midnight,
+            isKitten: cat?.isKittenStage(on: state.clock.day(of: date)) ?? false,
+            height: 100
+        )
+        node.wear(GameSession.shared.wornOutfit)
+        exterior.seat(node, at: sighting, fade: fade)
     }
 
     /// The sky over the home at its local time.

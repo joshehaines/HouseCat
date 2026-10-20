@@ -7,7 +7,7 @@ struct WindowCatTests {
     /// A terrace's windows: the bay and a sash downstairs, two sashes up.
     let windows = [
         SceneWindow(left: 0.47, top: 0.56, right: 0.55, bottom: 0.69, row: 0),
-        SceneWindow(left: 0.39, top: 0.58, right: 0.42, bottom: 0.66, row: 0),
+        SceneWindow(left: 0.37, top: 0.58, right: 0.42, bottom: 0.66, row: 0),
         SceneWindow(left: 0.40, top: 0.34, right: 0.43, bottom: 0.44, row: 1),
         SceneWindow(left: 0.50, top: 0.38, right: 0.54, bottom: 0.49, row: 1),
     ]
@@ -65,6 +65,27 @@ struct WindowCatTests {
         }
         #expect(counts[0, default: 0] > counts[1, default: 0])
         #expect(counts[1, default: 0] > 0)
+    }
+
+    @Test func itNeverSitsInASlimSideLight() throws {
+        // A mansion block's ground floor: a bay with slim side lights, and a sash.
+        let block = [
+            SceneWindow(left: 0.50, top: 0.60, right: 0.53, bottom: 0.70, row: 0),
+            SceneWindow(left: 0.53, top: 0.60, right: 0.54, bottom: 0.70, row: 0),
+            SceneWindow(left: 0.40, top: 0.60, right: 0.425, bottom: 0.69, row: 0),
+        ]
+        for seed in UInt64(0) ..< 60 {
+            for minutes in stride(from: 0, to: 24 * 60, by: Tuning.WindowCat.slotMinutes) {
+                let seen = try #require(WindowCatRules.sighting(
+                    windows: block,
+                    context: .init(storey: 0, storeys: 2, activity: .sit, sky: .day),
+                    household: seed,
+                    day: day,
+                    minutes: minutes
+                ))
+                #expect(seen.window != 1)
+            }
+        }
     }
 
     @Test func aCatWatchingYouIsAtTheWindowNearestTheDoorLookingOut() throws {

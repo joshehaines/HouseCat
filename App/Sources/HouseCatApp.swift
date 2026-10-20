@@ -571,6 +571,13 @@ struct RoomScreen: View {
                     roomMenu
                 }
             }
+            // Outside to look at the house: where it is, and Go in.
+            .overlay {
+                if visit.outside {
+                    outsideControls
+                }
+            }
+            .animation(.easeOut(duration: 0.3), value: visit.outside)
             // The goals: the next one or two always on screen, top middle (Josh, 19 Oct: "dont know what to do";
             // App/Sources/GoalTracker.swift). It celebrates every goal met, so the note that did is gone.
             .overlayPreferenceValue(TourTargets.self) { targets in
@@ -1144,6 +1151,38 @@ struct RoomScreen: View {
         .ignoresSafeArea()
     }
 
+    /// Outside to look at the house (Visit.stepOutside): the home's town top left, Go in bottom right where the Shop
+    /// is in the room. A tap on the door goes in too, and one on the cat in its window gets a slow blink.
+    private var outsideControls: some View {
+        let edge = CGFloat(Tuning.Stage.hudEdge), top = CGFloat(Tuning.Stage.hudTop), bottom = CGFloat(Tuning.Stage.hudBottom)
+        let session = GameSession.shared
+        let town = WorldMapView.town((session.state(at: session.now()).home.place ?? .london).name)
+        return ZStack {
+            HStack(spacing: 6 * hudScale) {
+                PaintedIcon("map_pin", size: 26 * hudScale)
+                Text(town)
+                    .font(Theme.title(17 * hudScale))
+                    .foregroundStyle(Theme.ink)
+                    .lineLimit(1)
+            }
+            .padding(.leading, 10 * hudScale)
+            .padding(.trailing, 16 * hudScale)
+            .padding(.vertical, 7 * hudScale)
+            .paper(Capsule())
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel("Your home in \(town)")
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            .padding(.leading, edge)
+            .padding(.top, top)
+            GameButton("Go in", icon: "house", style: .gold, size: 72) { visit.goBackIn() }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+                .padding(.trailing, edge)
+                .padding(.bottom, bottom)
+        }
+        .ignoresSafeArea()
+        .transition(.opacity)
+    }
+
     /// The cat's line in a bubble over its head, following it about the room (top middle when it is out of sight),
     /// and a note ("+10 Beans") up top.
     private var speech: some View {
@@ -1218,7 +1257,16 @@ struct RoomScreen: View {
     private var menuItems: [RoomMenu.Item] {
         let session = GameSession.shared
         let pass = session.passInfo(club: store?.entitlements.hasClub == true)
-        var items: [RoomMenu.Item] = [
+        var items: [RoomMenu.Item] = []
+        // Out of the front door to look at the house, the cat at a window (Josh, 20 Oct); only once the home's outside
+        // paintings are on the device (a home's pack may still be on its way).
+        if HomePacks.isReady(GameWorld.style(session.state(at: session.now()))) {
+            items.append(RoomMenu.Item(id: "outside", title: "Outside", icon: "house") {
+                showMenu = false
+                visit.stepOutside()
+            })
+        }
+        items += [
             RoomMenu.Item(id: "goals", title: "Goals", icon: "objectives_clipboard_with_a_tick", dot: CatScreens.goalsMet().count > GoalsSeen.count) {
                 showMenu = false
                 GoalsSeen.count = CatScreens.goalsMet().count

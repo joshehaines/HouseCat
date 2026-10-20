@@ -34,6 +34,13 @@ enum HomePacks {
 
     /// Adds the pack's art if it is already on the device, else asks for it; `ready` runs once it is here.
     static func prepare(_ style: HouseStyle, ready: (@MainActor () -> Void)? = nil) {
+        #if DEBUG
+            // Another home's cold open and outside view in a simulator, from the packs build_home_packs.py made:
+            // HOUSECAT_PACKS=~/Library/Caches/HouseCat/packs (each home_<style>/homes/<style>/art.json).
+            if !isReady(style), let folder = ProcessInfo.processInfo.environment["HOUSECAT_PACKS"], let art = GameWorld.art {
+                try? art.add(packAt: URL(fileURLWithPath: folder).appendingPathComponent("home_\(style.rawValue)/homes/\(style.rawValue)"))
+            }
+        #endif
         guard !isReady(style) else {
             ready?()
             return

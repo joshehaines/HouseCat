@@ -86,6 +86,8 @@ Only the household owner's devices write these (see §6).
                                                                 rub (haptic), walk to the chosen furniture, settle in a pose
 ```
 
+Outside and back (20 Oct): Menu → Outside, or a tap on the living room's front door, calls `Visit.stepOutside()`, which builds the `ExteriorScene` for now with `looking` set (the camera draws back out of the doorway; nothing auto-advances) and keeps the `RoomScene` as it was; Go in, or a tap on the door, runs the usual push and presents that same room again. In both the cold open and the outside view `GameWorld.seatCat` puts the cat at a window: `WindowCatRules` (HouseCatCore) picks the window from the scene's measured windows (`scenes.json` "windows", `tools/asset-pipeline/scenes.py windows`) by the storey of the room it is in, the part of the day and what it is doing, and `ExteriorScene.seat` draws a `CatNode` in an `SKCropNode` cut to that window's glass, tinted by an effect-node shader.
+
 The room scene is the house view: `RoomScene` builds a `RoomNode` per room of the storey on screen from a `HouseModel` (the home's plan in `assets/rooms/houses.json` plus the save's opened rooms, placed furniture and surfaces), on a ground plane, with the cat in the active room. Decorate mode lives in `RoomScene+Decorate.swift`: hit-test, snap with `PlacementRules.snap`, colour with `PlacementRules.fits`, and report a `DecorateChange` that `GameSession.record` appends as `itemMoved` / `itemStored`.
 
 Care and idle: `GameSession.feed()` / `pet(taps:)` append `fed` / `petted` and pick the line with `CareLines`; the scene's `send(_:)`, `react(_:)` and `nextActivity` hook carry them out. `Sound` (Shared) plays App/Audio.

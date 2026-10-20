@@ -1102,6 +1102,8 @@ public enum Tuning {
     public enum WindowCat {
         /// It may change window this often through the day (local minutes).
         public static let slotMinutes = 120
+        /// A window narrower than this share of the widest on its floor is never chosen (a bay's side lights).
+        public static let narrowest = 0.55
         /// A window is chosen more often the bigger its glass: its area (a share of the painting) times this.
         public static let areaWeight = 10000.0
         /// By day, how often a cat with nothing else on looks out at you rather than side on along the street.

@@ -385,7 +385,7 @@ public final class CatNode: SKNode {
         guard kind == .neck, OutfitFit.tucksNeckwear(pose) else {
             poseOutfit = put(picture, fit: fit, face: face, on: poseNode)
             if earsUnderHat, OutfitFit.hidesUnderHat(pose) {
-                cover(poseNode, with: OutfitFit.earCover(fit, shape: shape, on: face, view: view), face: face)
+                cover(poseNode, with: OutfitFit.earCover(fit, shape: shape, on: face, view: view, pose: pose), face: face)
             }
             return
         }

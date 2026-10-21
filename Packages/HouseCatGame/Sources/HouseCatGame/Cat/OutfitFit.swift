@@ -135,8 +135,10 @@ public enum OutfitFit {
     }
 
     /// The ear cover for a hat placed on a face (`place`'s placement): the rim's line a little above the rim, as
-    /// wide as the head and its ears either side (Tuning.Outfits.earCoverWidth head widths each way).
-    public static func earCover(_ fit: Placement, shape: OutfitShape, on face: CatFace, view: String? = nil) -> EarCover? {
+    /// wide as the head and its ears either side (Tuning.Outfits.earCoverWidth head widths each way). Stretching, only
+    /// over the head (`stretchEarCover`): side-on the ears stand on it, and the shoulders rise just behind it, above
+    /// the rim (a notch was cut out of them, 21 Oct).
+    public static func earCover(_ fit: Placement, shape: OutfitShape, on face: CatFace, view: String? = nil, pose: CatPose? = nil) -> EarCover? {
         let t = Tuning.Outfits.self
         let w = face.size.width, h = face.size.height
         let eyes = profileEyes(face, view: view)
@@ -146,7 +148,7 @@ public enum OutfitFit {
         let tall = fit.width * shape.size.height / max(1, shape.size.width)
         let rise = tall * CGFloat(t.earCoverRise)
         let origin = CGPoint(x: fit.point.x + up.dx * rise, y: fit.point.y + up.dy * rise)
-        return EarCover(origin: origin, up: up, half: (right - left) * CGFloat(t.earCoverWidth))
+        return EarCover(origin: origin, up: up, half: (right - left) * CGFloat(pose == .stretchSide ? t.stretchEarCover : t.earCoverWidth))
     }
 
     /// Lying down, curled up or stretching, the chin rests on the paws or the tail: neckwear is cut to the cat's
@@ -767,7 +769,7 @@ public enum OutfitFit {
         ) else { return nil }
         context.draw(cat, in: CGRect(x: 0, y: 0, width: w, height: h))
         // A hat the ears go under: the cat cleared above its rim, across the head and ears (the hat covers the rest).
-        if coversEars, kind == .hat, pose.map(hidesUnderHat) ?? true, let cover = earCover(fit, shape: shape, on: scaled, view: view) {
+        if coversEars, kind == .hat, pose.map(hidesUnderHat) ?? true, let cover = earCover(fit, shape: shape, on: scaled, view: view, pose: pose) {
             let along = CGVector(dx: -cover.up.dy, dy: cover.up.dx)
             let reach = w + h
             let corners = [

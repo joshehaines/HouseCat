@@ -290,6 +290,51 @@ struct OutfitMatrixTests {
         }
     }
 
+    /// Stretching, a hat the ears go under clears the ears and no more: the shoulders rise just behind the head, above
+    /// the rim, and a cover as wide as a sitting cat's cut a notch out of them (21 Oct). The cat's pixels cleared where
+    /// the hat is not drawn come to a sliver of a head.
+    @Test func stretchingAHatTheEarsGoUnderLeavesTheShoulders() throws {
+        var found: [String] = []
+        for body in catArt.builder.data.bodies {
+            let look = catArt.builder.normalized(CatLook(body: body.id))
+            let sprite = catArt.builder.pose(CatPose.stretchSide.rawValue, look: look)
+            let image = try #require(catArt.image(sprite, look: look))
+            let before = try #require(Raster(image)).planes[3]
+            let face = try #require(OutfitFit.restingFace(.stretchSide, look: look, catArt: catArt, art: art, for: .hat))
+            var scaled = face
+            scaled.size = CGSize(width: image.width, height: image.height)
+            let eyes = OutfitFit.profileEyes(scaled, view: "side")
+            let (left, right) = try #require(OutfitFit.headSpan(scaled, eyes: eyes, w: scaled.size.width, h: scaled.size.height))
+            for id in ["beanie", "santahat", "cowboyhat", "flatcap"] {
+                let outfit = try #require(outfits.first { $0.id == id })
+                let path = try #require(outfit.sprites["side"])
+                let picture = try #require(art.image(path))
+                let shape = try #require(OutfitShapes.shape(path, art: art))
+                let made = try #require(OutfitFit.compose(
+                    image, face: face, outfit: picture, shape: shape, kind: .hat, view: "side", size: outfit.fit,
+                    tallEars: OutfitFit.tallEars(look, wearing: outfit), pose: .stretchSide, coversEars: true
+                ))
+                let after = try #require(Raster(made.image)).planes[3]
+                var cleared = 0
+                for y in 0 ..< image.height {
+                    for x in 0 ..< image.width where before[y * image.width + x] > 128 && after[(y + made.extra) * made.image.width + x] < 128 {
+                        cleared += 1
+                    }
+                }
+                let share = Double(cleared) / Double((right - left) * (right - left))
+                if share > Self.stretchCleared {
+                    found.append("\(id) on \(body.id) stretching: \(Int(share * 100))% of a head cleared beside the hat")
+                }
+            }
+        }
+        #expect(found.isEmpty, "\(found.joined(separator: "\n"))")
+    }
+
+    /// At most this share of a head's area (its width squared) cleared beside the hat: 0.09 at most with the cover over
+    /// the head alone; 0.12 to 0.32 with a sitting cat's (the short-haired chunky cat, the long-haired slim cat, the
+    /// Persian and the Maine Coon).
+    static let stretchCleared = 0.11
+
     /// A body garment's painting against the cat it is drawn over: the share of it off the cat (beyond a sliver of
     /// the cat's own outline), and how much of the cat it covers. `variant`: an ear or tail variant's painting, where
     /// the game draws it only where the cat is.

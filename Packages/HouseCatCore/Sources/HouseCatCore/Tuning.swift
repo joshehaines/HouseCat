@@ -1290,6 +1290,9 @@ public enum Tuning {
         /// height over its rim, this many head widths either side of the head's middle (the ears and their tufts).
         public static let earCoverRise = 0.05
         public static let earCoverWidth = 1.1
+        /// Stretching, only this many head widths either side: the ears stand on the head side-on, and the shoulders
+        /// rise just behind it, above the rim.
+        public static let stretchEarCover = 0.55
         /// Side-on, a hat the ears go under sits on the skull, at most this many head lengths above the eye (the
         /// ear-less profile heads measure 0.41 to 0.52; straight up from the head's middle is an ear's tip).
         public static let profileSkull = 0.42

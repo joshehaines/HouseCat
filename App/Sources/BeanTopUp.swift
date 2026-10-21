@@ -30,7 +30,9 @@ final class StorePrices {
                         displayPrice: "£" + $0.priceGBP,
                         kind: $0.kind,
                         price: Decimal(string: $0.priceGBP),
-                        currencyCode: "GBP"
+                        currencyCode: "GBP",
+                        // The trial as a new player gets it (StoreKit decides for real).
+                        trialDays: $0.id == StoreCatalog.clubYearly ? StoreCatalog.yearlyTrialDays : nil
                     ))
                 }
                 products = Dictionary(pounds, uniquingKeysWith: { a, _ in a })
@@ -90,7 +92,10 @@ enum ShopPurchase {
             #if DEBUG
                 // Debug runs without StoreKit: the Beans as if bought, so the flow can be seen.
                 if let content = GameWorld.content {
-                    GameSession.shared.grant(StoreGrant(productID: id, transactionID: "debug-\(UUID().uuidString)"), catalog: StoreCatalog(content: content))
+                    GameSession.shared.grant(
+                        StoreGrant(productID: id, transactionID: "debug-\(UUID().uuidString)"),
+                        catalog: StoreCatalog(content: content)
+                    )
                     return .bought
                 }
             #endif

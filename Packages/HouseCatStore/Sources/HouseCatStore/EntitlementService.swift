@@ -10,6 +10,10 @@ public struct ProductInfo: Equatable, Sendable {
     /// The price as a number and its currency, for sums the shop shows ("bought one by one, £81.74").
     public var price: Decimal?
     public var currencyCode: String?
+    /// A free trial's length in days, only when the product has one AND this player may take it (StoreKit's
+    /// `Product.SubscriptionInfo.isEligibleForIntroOffer`: a current or former subscriber gets no trial, so the
+    /// paywall must not promise one). Nil means the plain renewal price is all there is to say.
+    public var trialDays: Int?
 
     public init(
         id: String,
@@ -17,7 +21,8 @@ public struct ProductInfo: Equatable, Sendable {
         displayPrice: String,
         kind: ShopProduct.Kind,
         price: Decimal? = nil,
-        currencyCode: String? = nil
+        currencyCode: String? = nil,
+        trialDays: Int? = nil
     ) {
         self.id = id
         self.displayName = displayName
@@ -25,6 +30,7 @@ public struct ProductInfo: Equatable, Sendable {
         self.kind = kind
         self.price = price
         self.currencyCode = currencyCode
+        self.trialDays = trialDays
     }
 }
 

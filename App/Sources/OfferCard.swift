@@ -30,7 +30,7 @@ struct OfferCard: View {
     let content: ContentBundle?
     let look: () -> Void
     let close: () -> Void
-    @State private var prices: [String: String] = [:]
+    @State private var products: [String: ProductInfo] = [:]
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
@@ -48,13 +48,15 @@ struct OfferCard: View {
                     art: "ui/shop/shop_starter.png",
                     title: "Starter Pack",
                     detail: "\(Tuning.Beans.starterPack.formatted()) Beans, the knitted beanie and an armchair. Once only.",
-                    price: prices[StoreCatalog.starter]
+                    price: products[StoreCatalog.starter]?.displayPrice
                 )
                 offer(
                     art: "ui/shop/shop_club.png",
                     title: "Cat Club",
                     detail: "+20% Beans, rooms for half the Beans and every season's paid track.",
-                    price: prices[StoreCatalog.clubYearly].map { "\(StoreCatalog.yearlyTrialDays) days free, then \($0) a year" }
+                    // The trial only for a player StoreKit says may take it (ProductInfo.trialDays).
+                    price: products[StoreCatalog.clubYearly]
+                        .map { ClubWording.offerLine(yearPrice: $0.displayPrice, trialDays: $0.trialDays) }
                 )
             }
             HStack(spacing: 10) {
@@ -88,11 +90,19 @@ struct OfferCard: View {
     }
 
     private func loadPrices() async {
-        if let store, let products = try? await store.products() {
-            prices = Dictionary(products.map { ($0.id, $0.displayPrice) }, uniquingKeysWith: { a, _ in a })
+        if let store, let found = try? await store.products() {
+            products = Dictionary(found.map { ($0.id, $0) }, uniquingKeysWith: { a, _ in a })
         } else if let content {
-            // No StoreKit (debug runs): the catalogue's own UK prices.
-            prices = Dictionary(StoreCatalog(content: content).products.map { ($0.id, "£" + $0.priceGBP) }, uniquingKeysWith: { a, _ in a })
+            // No StoreKit (debug runs): the catalogue's own UK prices, the trial as a new player gets it.
+            products = Dictionary(StoreCatalog(content: content).products.map { product in
+                (product.id, ProductInfo(
+                    id: product.id,
+                    displayName: product.displayName,
+                    displayPrice: "£" + product.priceGBP,
+                    kind: product.kind,
+                    trialDays: product.id == StoreCatalog.clubYearly ? StoreCatalog.yearlyTrialDays : nil
+                ))
+            }, uniquingKeysWith: { a, _ in a })
         }
     }
 }

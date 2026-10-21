@@ -1283,11 +1283,12 @@ struct ShopView: View {
     }
 
     private var clubTerms: String {
-        let year = price(StoreCatalog.clubYearly) ?? "…", month = price(StoreCatalog.clubMonthly) ?? "…"
-        let plan = yearly
-            ? "\(StoreCatalog.yearlyTrialDays) days free, then \(year) a year."
-            : "\(month) a month, from today."
-        return plan + " Renews automatically until you cancel, at least a day before it renews, in Settings."
+        ClubWording.terms(
+            yearly: yearly,
+            yearPrice: price(StoreCatalog.clubYearly),
+            monthPrice: price(StoreCatalog.clubMonthly),
+            trialDays: prices.products[StoreCatalog.clubYearly]?.trialDays
+        )
     }
 
     /// Restore Purchases, the terms and the privacy policy, on the page that sells the subscription.
@@ -1321,10 +1322,12 @@ struct ShopView: View {
         .padding(.vertical, 8 * s)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(RoundedRectangle(cornerRadius: 13 * s, style: .continuous).fill(.white.opacity(0.1)))
+    /// The trial is named only when StoreKit says this player may take it (`ProductInfo.trialDays`; App Review
+    /// 3.1.2): a lapsed or current subscriber sees the renewal price alone.
         .overlay(RoundedRectangle(cornerRadius: 13 * s, style: .continuous).strokeBorder(.white.opacity(0.13), lineWidth: 1))
     }
 
-    /// A plan card: the yearly one with its trial and its price a month, the monthly one.
+    /// A plan card: the yearly one with its trial (when this player gets one) and its price a month, the monthly one.
     private func plan(yearly isYearly: Bool) -> some View {
         let chosen = yearly == isYearly
         let id = isYearly ? StoreCatalog.clubYearly : StoreCatalog.clubMonthly
@@ -1338,8 +1341,7 @@ struct ShopView: View {
             VStack(alignment: .leading, spacing: 1 * s) {
                 Text(price(id).map { isYearly ? "Yearly · \($0)" : "Monthly · \($0)" } ?? "…")
                     .font(font(15, .heavy, rounded: true))
-                Text(isYearly ? "\(StoreCatalog.yearlyTrialDays) days free" + (perMonth.map { " · \($0) a month" } ?? "") :
-                    "Billed every month")
+                Text(ClubWording.planLine(yearly: isYearly, perMonth: perMonth, trialDays: prices.products[id]?.trialDays))
                     .font(font(11, .semibold))
                     .opacity(0.88)
             }

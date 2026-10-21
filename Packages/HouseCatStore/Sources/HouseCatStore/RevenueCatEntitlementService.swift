@@ -57,14 +57,34 @@ public final class RevenueCatEntitlementService: EntitlementService {
     }
 
     public func products() async throws -> [ProductInfo] {
-        await Purchases.shared.products(catalog.productIDs).compactMap { product in
+        let products = await Purchases.shared.products(catalog.productIDs)
+        // Who may take an introductory offer (RevenueCat asks StoreKit's eligibility for each subscription).
+        let eligibility = await Purchases.shared.checkTrialOrIntroDiscountEligibility(productIdentifiers: products.map(\.productIdentifier))
+        return products.compactMap { product in
             guard let entry = catalog.product(product.productIdentifier) else { return nil }
             return ProductInfo(
                 id: product.productIdentifier,
                 displayName: product.localizedTitle,
                 displayPrice: product.localizedPriceString,
-                kind: entry.kind
+                kind: entry.kind,
+                price: product.price,
+                currencyCode: product.currencyCode,
+                trialDays: Self.trialDays(of: product, eligibility: eligibility[product.productIdentifier])
             )
+        }
+    }
+
+    /// The free trial this player would get, in days: the product's introductory offer when it is a free trial and
+    /// RevenueCat says the player is eligible; nil otherwise (`ProductInfo.trialDays`).
+    static func trialDays(of product: StoreProduct, eligibility: IntroEligibility?) -> Int? {
+        guard let offer = product.introductoryDiscount, offer.paymentMode == .freeTrial,
+              eligibility?.status == .eligible else { return nil }
+        let period = offer.subscriptionPeriod
+        return switch period.unit {
+        case .day: period.value
+        case .week: period.value * 7
+        case .month: period.value * 30
+        case .year: period.value * 365
         }
     }
 

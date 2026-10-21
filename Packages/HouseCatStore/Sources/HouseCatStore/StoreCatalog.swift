@@ -61,7 +61,7 @@ public struct StoreCatalog: Sendable {
         "housecat.pass.\(passID)"
     }
 
-    /// Its name in App Store Connect (35 characters at most).
+    /// Its name in App Store Connect (30 characters at most, Apple's limit for a display name).
     public static func passDisplayName(season name: String) -> String {
         "\(name) Premium Pass"
     }
@@ -93,7 +93,13 @@ public struct StoreCatalog: Sendable {
             displayName: "Starter Pack"
         ))
         for bundle in bundles {
-            products.append(.init(id: bundle.sku, kind: .nonConsumable, priceGBP: bundle.price, unlock: .bundle(bundle.id), displayName: bundle.name))
+            products.append(.init(
+                id: bundle.sku,
+                kind: .nonConsumable,
+                priceGBP: bundle.price,
+                unlock: .bundle(bundle.id),
+                displayName: bundle.name
+            ))
         }
         for pass in passes {
             products.append(.init(
@@ -135,7 +141,13 @@ public struct StoreCatalog: Sendable {
 
     /// Every season's pass.
     public var passProducts: [ShopProduct] {
-        products.filter { if case .pass = $0.unlock { true } else { false } }
+        products.filter {
+            if case .pass = $0.unlock {
+                true
+            } else {
+                false
+            }
+        }
     }
 
     public var productIDs: [String] {

@@ -107,16 +107,39 @@ public final class StoreKitEntitlementService: EntitlementService {
     }
 
     public func products() async throws -> [ProductInfo] {
-        try await Product.products(for: catalog.productIDs).compactMap { product in
-            guard let entry = catalog.product(product.id) else { return nil }
-            return ProductInfo(
+        var infos: [ProductInfo] = []
+        for product in try await Product.products(for: catalog.productIDs) {
+            guard let entry = catalog.product(product.id) else { continue }
+            await infos.append(ProductInfo(
                 id: product.id,
                 displayName: product.displayName,
                 displayPrice: product.displayPrice,
                 kind: entry.kind,
                 price: product.price,
-                currencyCode: product.priceFormatStyle.currencyCode
-            )
+                currencyCode: product.priceFormatStyle.currencyCode,
+                trialDays: Self.trialDays(of: product)
+            ))
+        }
+        return infos
+    }
+
+    /// The free trial this player would get on a subscription, in days: the product's introductory offer when it is
+    /// a free trial and StoreKit says the player is eligible (`isEligibleForIntroOffer` is false for anyone who has
+    /// had, or has, a subscription in the group, which `Product.SubscriptionInfo.Status` would also show). Nil
+    /// otherwise, so the paywall shows the renewal price alone (App Review 3.1.2).
+    static func trialDays(of product: Product) async -> Int? {
+        guard let subscription = product.subscription, let offer = subscription.introductoryOffer,
+              offer.paymentMode == .freeTrial, await subscription.isEligibleForIntroOffer else { return nil }
+        return days(of: offer.period)
+    }
+
+    static func days(of period: Product.SubscriptionPeriod) -> Int {
+        switch period.unit {
+        case .day: period.value
+        case .week: period.value * 7
+        case .month: period.value * 30
+        case .year: period.value * 365
+        @unknown default: period.value
         }
     }
 

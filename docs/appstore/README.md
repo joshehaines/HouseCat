@@ -103,7 +103,7 @@ The shop is not in the marketing set: a simulator launch from the command line h
 - **Export compliance**: `ITSAppUsesNonExemptEncryption` is NO. The app uses only Apple's HTTPS.
 - **Content rights**: the app contains no third-party content beyond the credited cat recordings (Wikimedia Commons, credited in Licences and credits).
 - **Sign-in required**: No. There is no account and no demo login.
-- **Version**: 1.0, build 1. The Info.plists set these; raise the build number for each upload.
+- **Version**: 1.0, build 1. `project.yml` sets these once for every target (`MARKETING_VERSION`, `CURRENT_PROJECT_VERSION`; the Info.plists read them): raise `CURRENT_PROJECT_VERSION` for each upload and run `xcodegen generate`.
 
 ## Notes for App Review (paste into "Notes")
 

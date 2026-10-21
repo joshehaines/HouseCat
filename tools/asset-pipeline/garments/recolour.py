@@ -6,7 +6,8 @@ opaque pixels over all nine layers; the garment's own is the middle of the eight
 further from it than RECOLOUR (or PATTERNED for a printed garment, whose share of print varies) has its pixels moved
 by the difference, each as much as it is near the layer's colour (SPREAD), so the painted light and shade stay and a
 life vest's black straps or a jumper's white snowflakes keep theirs. Not the Hawaiian shirt: how much of it is
-teal and how much flowers differs by body, so its middle colour does not say its colour (moved, the Persian's went mint).
+teal and how much flowers differs by body, so its middle colour does not say its colour (moved, the Persian's went mint);
+the Persian's, a darker teal, was repainted instead and only its teal (the middle of its teal pixels) moved to the others'.
 python recolour.py                    the colours, and what would change
 python recolour.py --preview <out>    a sheet of each change: the layer as it is, as it would be, another body's
 python recolour.py --apply            writes the masters into assets/outfits/body/ and the app's HEIC copies (0.4)"""

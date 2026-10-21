@@ -57,7 +57,7 @@ The shop is not in the marketing set: a simulator launch from the command line h
 
 ## In-app purchases (21, matching `Store/HouseCat.storekit`)
 
-| Product ID | Type | Price | Display name (35) | Description (55) |
+| Product ID | Type | Price | Display name (30) | Description (45) |
 | --- | --- | --- | --- | --- |
 | housecat.beans.handful | Consumable | £0.99 | A handful of Beans | 500 Beans for furniture, outfits, rooms and presents. |
 | housecat.beans.pouch | Consumable | £1.99 | A pouch of Beans | 1,200 Beans for furniture, outfits, rooms and presents. |
@@ -82,7 +82,8 @@ The shop is not in the marketing set: a simulator launch from the command line h
 | housecat.club.yearly | Auto-renewable (group "Cat Club", level 1) | £19.99 / year, 1-week free trial | Cat Club Yearly | +20% Beans, rooms for half the Beans and free moves. |
 
 - The Housewarming look's product ID keeps its earlier name, because IDs can never be renamed once live.
-- Family Sharing is on for Cat Club only, as the StoreKit configuration has it. A room look's pieces go into one household's save.
+- Apple's limits are 30 characters for a display name and 45 for a description (App Store Connect's in-app purchase reference, checked 21 Oct); some descriptions above run longer, so check each saved one in App Store Connect ends on a whole word.
+- Family Sharing is on for Cat Club only, as the StoreKit configuration has it. A room look's pieces go into one household's save. Turning Family Sharing on in App Store Connect cannot be undone.
 - Each season sells its own premium pass (Josh, 19 Oct: the pass is the main thing sold): `housecat.pass.<season>`, non-consumable, paid once, brought back by Restore Purchases, the same price every season. Cat Club includes every season's premium track as well. Create one for each season in `Content/seasons.json` (four now) and add each new season's before it starts. A season that has no pass of its own runs an earlier one again (`SeasonSchedule`) and sells that one's pass, so no product is ever missing.
 - Each product needs a review screenshot (see Screenshots) and, for the subscription group, a display name ("Cat Club").
 
@@ -131,6 +132,8 @@ Weather comes from WeatherKit for the home's pinned place (no device location is
 Your data, in Settings: Export my data shares the whole save as a file; Delete all my data (two confirmations) deletes the save, the widget's files, preferences and reminders, and starts again from the intro. There is no account to delete.
 
 The Apple Watch app and widgets show the cat, its mood and the streak; the Watch can feed and stroke.
+
+Nothing is hidden or dormant (Guideline 2.5.19): co-owning a cat with another person is built but switched off for 1.0 (no control reaches it; it ships in a later version with iCloud sharing). Seasons change by the calendar (the Black Cat season until 1 November, then Housewarming), so the pass's rewards you see depend on the date. Debug switches are compiled out of this build. The Mac menu-bar app is not part of this submission.
 ```
 
 ## Launch checklist: what Josh does
@@ -153,6 +156,11 @@ The Apple Watch app and widgets show the cat, its mood and the streak; the Watch
 8. **Pricing and availability**: free. Turn off Mac and Vision Pro availability.
 9. **TestFlight**: archive the HouseCat scheme (Release) and upload. Test on a real iPhone and iPad: buy each kind of product in the sandbox, and check Restore on a second device.
 10. **Screenshots**: upload `iphone-6.9/01-08`, `ipad-13/01-08` and `watch/01-04` (not the `review_*` files, which are for the in-app purchases).
+11. **Legal name**: the account's legal name reads "JOSHUA EDWARD HAINCS" (seen 20 Oct). Ask Apple Developer Support to correct it before the Paid Apps Agreement goes Active, so tax forms and payouts match the bank account.
+12. **EU trader status (Digital Services Act)**: in App Store Connect → Business → Compliance, declare trader status and give a verified address, phone and email (the support address is fine). Selling in-app purchases makes you a trader; Apple asks at first submission and won't distribute in the EU without it.
+13. **Age rating**: answer the current questionnaire (the 2025 one with the 13+/16+/18+ tiers and the social-media questions added in September 2026); the answers in "Listing" above still apply. Expect 4+.
+14. **WeatherKit**: on developer.apple.com, open the App ID `com.housecatgame.housecat` and check WeatherKit is ticked under both Capabilities and App Services. Without the App Services tick, weather requests fail on a real device with a 401 and the app falls back to no weather.
+15. **App Store Connect API key** (for uploading the home packs and builds from the command line): Users and Access → Integrations → App Store Connect API → Team Keys → Generate, role App Manager; download the `.p8` once, and keep the Key ID and Issuer ID with it.
 
 ### Decisions before submitting
 

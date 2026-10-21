@@ -14,7 +14,9 @@ import System
 @MainActor
 enum HomePacks {
     static func id(_ style: HouseStyle) -> String {
-        "home.\(style.rawValue)"
+    /// Letters, digits and hyphens only: App Store Connect rejected `home.cottage` and `home_cottage` as invalid
+    /// asset pack ids on 21 Oct 2026, so the style's underscores become hyphens (`home-mansion-flat`).
+        "home-\(style.rawValue.replacingOccurrences(of: "_", with: "-"))"
     }
 
     /// Whether the home's exteriors can be drawn now.

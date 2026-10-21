@@ -8,7 +8,7 @@ inside the app (tools/app-assets/build_app_art.py) and has no pack.
 
 Writes to ~/Library/Caches/HouseCat/packs (hundreds of MB; never into the repo):
   home_<style>/homes/<style>/...   the pack's files (the pack's paths start homes/<style>/ so packs never collide)
-  home_<style>.json                its manifest (asset-pack id home.<style>, on demand, iOS)
+  home_<style>.json                its manifest (asset-pack id home-<style> with hyphens, on demand, iOS)
   home_<style>.aar                 the archive from `xcrun ba-package`, to upload to App Store Connect
 Standard library plus macOS `sips` and `xcrun ba-package`.
 """
@@ -56,7 +56,8 @@ def build(home):
     with open(os.path.join(content, 'art.json'), 'w') as f:
         json.dump({"note": f"The {home} exteriors (tools/app-assets/build_home_packs.py).", "files": index}, f, indent=1, sort_keys=True)
     manifest = {
-        "assetPackID": f"home.{home}",
+        # Letters, digits and hyphens only: App Store Connect rejects dots and underscores (HomePacks.id).
+        "assetPackID": f"home-{home.replace('_', '-')}",
         "downloadPolicy": {"onDemand": {}},
         "fileSelectors": [{"directory": "homes"}],
         "platforms": ["iOS"],
@@ -66,6 +67,8 @@ def build(home):
     with open(path, 'w') as f:
         json.dump(manifest, f, indent=1)
     archive = os.path.join(OUT, pack + '.aar')
+    if os.path.exists(archive):
+        os.remove(archive)   # ba-package refuses to overwrite
     subprocess.run(['xcrun', 'ba-package', 'package', path, '-o', archive, '--quiet'], cwd=OUT, check=True)
     total = sum(os.path.getsize(os.path.join(dp, n)) for dp, _, ns in os.walk(root) for n in ns)
     print(f'{pack}: {len(index)} files, {total / 1e6:.0f} MB, {os.path.getsize(archive) / 1e6:.0f} MB archive')

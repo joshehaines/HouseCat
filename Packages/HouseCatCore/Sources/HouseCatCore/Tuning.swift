@@ -919,6 +919,14 @@ public enum Tuning {
         /// filmed at half speed): a film plays quicker or slower as the cat goes faster or slower than that.
         public static let filmWalkPace = 0.9
         public static let filmRunPace = 1.8
+        /// Films beyond the walk and run (Josh, 21 Oct: "animations for all movement of the cat"): standing still in a
+        /// view that has a film the cat holds the walk film's most gathered picture (never the puppet between films),
+        /// and a film that stops mid-stride plays on to it within this long; a sit-down film plays over this long and
+        /// backwards to get up over this long; a scratch film rises over `scratchRiseSeconds`, rakes round its loop as
+        /// filmed and comes down over `scratchRiseSeconds` again; in the air the run film's most stretched picture.
+        public static let filmFinishSeconds = 0.6
+        public static let filmSitSeconds = 0.9
+        public static let filmRiseSeconds = 0.55
         /// Cutting a film's own ears out for swapped ones: the ears' mask widened by this much of the frame's height
         /// (it lags the ear), and the outline near the cut smoothed over this much (an ear's edge the head's mask
         /// kept), so no rim or tip of the film's ears is left beside the swapped ones.
@@ -1231,6 +1239,12 @@ public enum Tuning {
         /// garment sheets' TORSO_PAD), drawn over the torso and under the head.
         public static let torsoPad = 0.15
         public static let torsoGarmentZ = 0.0015
+        /// A body garment on a film's frames (21 Oct): each frame carries a map of the torso in its own picture's
+        /// coordinates (masks/uv, made by tools/asset-pipeline/walk/filmwalk.py, which keeps the same numbers), its
+        /// red and green over this range (past the torso, so the garment's padding fits), and the garment is drawn
+        /// where the map's blue says it may be: this far outside the cat's outline (of its standing height).
+        public static let filmMapRange = [-0.25, 1.25]
+        public static let filmGarmentReach = 0.08
         /// The longest neckwear may hang, in head widths (a scarf's tassels reach about 1.5).
         public static let neckMaxHeight = 1.7
         /// Neckwear painted this many times taller than wide is a strand seen side-on (the pearls): no longer than

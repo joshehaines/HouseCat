@@ -164,7 +164,19 @@ private func paintOver(_ catArt: CatArt, pass: String) -> (CatBuilder.Sprite) ->
             raster.width == width && raster.height == height
                 ? values : Raster.scaled(values, from: (raster.width, raster.height), to: (width, height))
         }
-        if pass == "ids" {
+        // The torso alone, painted with where each pixel is in its own picture (red across, green down, blue where
+        // it is), so a film carries a map of the torso for a body garment to be drawn on its frames; every other
+        // part is left out (clear).
+        let hidden = pass == "uv" && !sprite.path.contains("_torso")
+        if pass == "uv", !hidden {
+            for y in 0 ..< height {
+                for x in 0 ..< width {
+                    r[y * width + x] = UInt8(max(0, min(255, x * 255 / max(1, width - 1))))
+                    g[y * width + x] = UInt8(max(0, min(255, y * 255 / max(1, height - 1))))
+                    b[y * width + x] = 255
+                }
+            }
+        } else if pass == "ids" {
             // Each part its own grey: the torso, head, ears and tail, and each leg.
             let shades: [(String, UInt8)] = [
                 ("leg_front_near", 160), ("leg_front_far", 190), ("leg_back_near", 220), ("leg_back_far", 250),
@@ -196,7 +208,7 @@ private func paintOver(_ catArt: CatArt, pass: String) -> (CatBuilder.Sprite) ->
         }
         var pixels = [UInt8](repeating: 0, count: width * height * 4)
         for index in 0 ..< width * height {
-            let a = Int(painting.alpha[index])
+            let a = hidden ? 0 : Int(painting.alpha[index])
             pixels[index * 4] = UInt8(Int(r[index]) * a / 255)
             pixels[index * 4 + 1] = UInt8(Int(g[index]) * a / 255)
             pixels[index * 4 + 2] = UInt8(Int(b[index]) * a / 255)

@@ -36,6 +36,16 @@ public final class CatArt: @unchecked Sendable {
         /// followed through the frames, and where they were in the start frame; in the frames' master pixels.
         public var points: [String: [[Double]]]?
         public var start: [String: [Double]]?
+        /// A one-shot film ("clip": a scratch, a sit-down) rather than a stride, with its loop (a scratch's raking:
+        /// frame indices from and to); a stride's most gathered frame (the cat standing) and most stretched (a leap).
+        public var kind: String?
+        public var loop: [Int]?
+        public var stand: Int?
+        public var stretch: Int?
+
+        public var isClip: Bool {
+            kind == "clip"
+        }
     }
 
     private struct FilmIndex: Decodable {
@@ -89,8 +99,23 @@ public final class CatArt: @unchecked Sendable {
     /// part, so each is widened first, the outline near the cut smoothed, and any sliver left loose of the body there
     /// dropped (Josh, 20 Oct: "two sets of ears": the film's ear rims and tips were left beside the swapped ones, and
     /// the film's tail beside a bobtail).
-    public func filmFrame(_ path: String, look: CatLook, cutting parts: [String] = []) -> CGImage? {
+    public func filmFrame(_ path: String, look: CatLook, cutting parts: [String] = [], garment: CGImage? = nil) -> CGImage? {
         guard var output = render(CatBuilder.Sprite(path: path, takesWhite: true), look: look) else { return nil }
+        if let garment, let layer = filmGarment(path, garment: garment, size: (output.width, output.height)) {
+            // The garment over the fur (straight alpha, as the frame's planes are).
+            for index in output.alpha.indices where layer.alpha[index] > 0 {
+                let ga = Float(layer.alpha[index]) / 255, oa = Float(output.alpha[index]) / 255
+                let ra = ga + oa * (1 - ga)
+                guard ra > 0 else { continue }
+                func over(_ g: UInt8, _ o: UInt8) -> UInt8 {
+                    UInt8(max(0, min(255, ((Float(g) * ga + Float(o) * oa * (1 - ga)) / ra).rounded())))
+                }
+                output.r[index] = over(layer.r[index], output.r[index])
+                output.g[index] = over(layer.g[index], output.g[index])
+                output.b[index] = over(layer.b[index], output.b[index])
+                output.alpha[index] = UInt8(max(0, min(255, (ra * 255).rounded())))
+            }
+        }
         if !parts.isEmpty, let entry = entries[path] {
             let size = (output.width, output.height)
             func plane(_ name: String, widen: Int = 0) -> [Float]? {
@@ -131,6 +156,73 @@ public final class CatArt: @unchecked Sendable {
             }
         }
         return output.cgImage
+    }
+
+    /// Whether a film's frames carry the torso's map, so a body garment can be drawn on them.
+    public func filmTakesGarments(_ film: Film) -> Bool {
+        film.frames.first.flatMap { entries[$0]?.masks.contains("uv") } ?? false
+    }
+
+    /// A body garment's picture laid on a film frame where the frame's map of the torso puts it (masks/uv: red and
+    /// green where each pixel is in the torso's own picture, blue where a garment may be drawn), as the puppet carries
+    /// the same picture on its torso, `Tuning.Outfits.torsoPad` wider than the torso each way; straight-alpha planes
+    /// at `size`, or nil where the frame has no map. The picture is sampled between its pixels.
+    func filmGarment(_ path: String, garment: CGImage, size: (Int, Int)) -> (r: [UInt8], g: [UInt8], b: [UInt8], alpha: [UInt8])? {
+        guard let entry = entries[path], entry.masks.contains("uv"),
+              let map = Raster.read(root.appendingPathComponent("masks/uv/\(path)")), map.planes.count >= 3,
+              let picture = Raster(garment), picture.planes.count == 4, picture.width > 1, picture.height > 1 else { return nil }
+        let (w, h) = size
+        let planes = map.planes.prefix(3).map { plane in
+            map.width == w && map.height == h ? plane : Raster.scaled(plane, from: (map.width, map.height), to: (w, h))
+        }
+        let range = Tuning.Outfits.filmMapRange
+        let low = Float(range[0]), span = Float(range[1] - range[0])
+        let spread = Float(1 + 2 * Tuning.Outfits.torsoPad)
+        let premultiplied = [.premultipliedFirst, .premultipliedLast].contains(garment.alphaInfo)
+        let gw = picture.width, gh = picture.height
+        var r = [UInt8](repeating: 0, count: w * h), g = r, b = r, a = r
+        // The garment's planes, straight alpha.
+        var pr = picture.planes[0], pg = picture.planes[1], pb = picture.planes[2]
+        let pa = picture.planes[3]
+        if premultiplied {
+            for i in pa.indices where pa[i] > 0 && pa[i] < 255 {
+                let k = 255 / Float(pa[i])
+                pr[i] = UInt8(min(255, (Float(pr[i]) * k).rounded()))
+                pg[i] = UInt8(min(255, (Float(pg[i]) * k).rounded()))
+                pb[i] = UInt8(min(255, (Float(pb[i]) * k).rounded()))
+            }
+        }
+        for y in 0 ..< h {
+            for x in 0 ..< w {
+                let index = y * w + x
+                let allowed = Float(planes[2][index]) / 255
+                guard allowed > 0.004 else { continue }
+                let u = Float(planes[0][index]) / 255 * span + low
+                let v = Float(planes[1][index]) / 255 * span + low
+                let gx = ((u - 0.5) / spread + 0.5) * Float(gw) - 0.5
+                let gy = ((v - 0.5) / spread + 0.5) * Float(gh) - 0.5
+                guard gx > -1, gy > -1, gx < Float(gw), gy < Float(gh) else { continue }
+                let x0 = Int(gx.rounded(.down)), y0 = Int(gy.rounded(.down))
+                let fx = gx - Float(x0), fy = gy - Float(y0)
+                func sample(_ plane: [UInt8], weighted: Bool) -> Float {
+                    func at(_ px: Int, _ py: Int) -> Float {
+                        guard px >= 0, py >= 0, px < gw, py < gh else { return 0 }
+                        let value = Float(plane[py * gw + px])
+                        // Colour weighted by alpha, so a clear neighbour does not darken the edge.
+                        return weighted ? value * Float(pa[py * gw + px]) / 255 : value
+                    }
+                    return at(x0, y0) * (1 - fx) * (1 - fy) + at(x0 + 1, y0) * fx * (1 - fy)
+                        + at(x0, y0 + 1) * (1 - fx) * fy + at(x0 + 1, y0 + 1) * fx * fy
+                }
+                let alpha = sample(pa, weighted: false) / 255
+                guard alpha > 0.003 else { continue }
+                a[index] = UInt8(max(0, min(255, (alpha * allowed * 255).rounded())))
+                r[index] = UInt8(max(0, min(255, (sample(pr, weighted: true) / alpha).rounded())))
+                g[index] = UInt8(max(0, min(255, (sample(pg, weighted: true) / alpha).rounded())))
+                b[index] = UInt8(max(0, min(255, (sample(pb, weighted: true) / alpha).rounded())))
+            }
+        }
+        return (r, g, b, a)
     }
 
     /// Where a bobtail goes on a film frame with its own tail cut out: the rump's edge nearest the tail's followed

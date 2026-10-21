@@ -46,15 +46,21 @@ func everyBodyWalksAndRunsAsAFilm(preset: String) throws {
             #expect(cat.isFilming, "\(preset) \(view) \(gait): the film")
             #expect(cat.drawingsOnShow == 1, "\(preset) \(view) \(gait): one cat")
             cat.stopCycle()
-            #expect(!cat.isFilming, "\(preset) \(view): standing, the puppet")
+            // Standing still: the walk film's standing picture, held (21 Oct), never the puppet popping in between.
+            for _ in 0 ..< 30 {
+                cat.step(1.0 / 30)
+            }
+            #expect(cat.isFilming, "\(preset) \(view): standing, the film's standing picture")
             #expect(cat.drawingsOnShow == 1)
         }
     }
-    // Coming straight at you, the puppet (there is no film from the front).
+    // Coming straight at you: the front film where the body has one (short_slim first, 21 Oct), else the puppet.
     cat.show(.front, facingRight: false)
     cat.walk()
     cat.step(1.0 / 30)
-    #expect(!cat.isFilming)
+    let front = catArt.film(body: look.body, view: "front", gait: "walk") != nil
+    #expect(cat.isFilming == front, "\(preset): coming at you, \(front ? "the film" : "the puppet")")
+    #expect(cat.drawingsOnShow == 1)
     cat.stopCycle()
     // Sitting down from the film: the film through the dip, then the painting alone.
     cat.show(.side, facingRight: false)
@@ -93,4 +99,65 @@ func everyBodyWalksAndRunsAsAFilm(preset: String) throws {
         #expect(!cat.isFilming, "in a garment, the puppet")
         #expect(cat.drawingsOnShow == 1)
     }
+}
+
+/// Scratching and sitting down are films where the body has them (21 Oct, Midnight's body first): the scratch film
+/// rises and rakes round its loop until the cat is told to stop, then comes down the way it went up; the sit-down film
+/// plays once, forwards, and the painting takes over on its last picture; getting up plays it backwards. Standing in
+/// between, the walk film's standing picture; one drawing of the cat throughout.
+@MainActor
+@Test func scratchingAndSittingDownAreFilms() throws {
+    let art = try ArtLibrary(root: repo.appendingPathComponent("App/Art"))
+    let catArt = try CatArt(art: art)
+    let rig = try art.data("cat/rig.json", as: PuppetRig.self)
+    let look = catArt.builder.normalized(CatLook(body: "short_slim"))
+    let cat = CatNode(art: art, rig: rig, catArt: catArt, look: look, height: 150)
+    let scene = SKScene(size: CGSize(width: 800, height: 600))
+    scene.addChild(cat)
+    cat.loadFilmsNow()
+    cat.show(.side, facingRight: false)
+    cat.step(1.0 / 30)
+    #expect(cat.isFilming, "standing: the walk film's standing picture")
+    cat.scratch()
+    for _ in 0 ..< 60 {
+        cat.step(1.0 / 30)
+        #expect(cat.drawingsOnShow == 1)
+    }
+    #expect(cat.isScratching)
+    #expect(cat.isFilming, "scratching on the film")
+    let fall = cat.stopScratching()
+    #expect(fall > 0, "down off the post takes time on the film")
+    for _ in 0 ..< Int(fall * 30) + 3 {
+        cat.step(1.0 / 30)
+        #expect(cat.drawingsOnShow == 1)
+    }
+    #expect(!cat.isScratching)
+    #expect(cat.isFilming, "standing again on the film")
+    let sits = cat.settle(into: .sitSide)
+    #expect(sits >= Tuning.Puppet.filmSitSeconds, "the sit-down film plays")
+    for _ in 0 ..< Int(sits * 30) - 2 {
+        cat.step(1.0 / 30)
+        #expect(cat.drawingsOnShow == 1)
+        #expect(cat.isFilming, "sitting down on the film")
+    }
+    for _ in 0 ..< 6 {
+        cat.step(1.0 / 30)
+    }
+    #expect(cat.pose == .sitSide)
+    #expect(!cat.isFilming, "sat: the painting")
+    #expect(cat.drawingsOnShow == 1)
+    let rises = cat.rise(to: .side, facingRight: false)
+    #expect(rises >= Tuning.Puppet.filmRiseSeconds, "getting up plays the film backwards")
+    for _ in 0 ..< Int(rises * 30) + 3 {
+        cat.step(1.0 / 30)
+        #expect(cat.drawingsOnShow == 1)
+    }
+    #expect(cat.pose == nil)
+    #expect(cat.isFilming, "up: the walk film's standing picture")
+    // In a jump, the run film's stretched picture; landed, standing.
+    cat.leap(true)
+    #expect(cat.isFilming)
+    cat.leap(false)
+    #expect(cat.isFilming)
+    #expect(cat.drawingsOnShow == 1)
 }

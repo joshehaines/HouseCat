@@ -160,15 +160,15 @@ public final class CatDirector {
         case let .wait(t):
             duration = t
         case let .settle(pose):
-            cat.settle(into: pose)
-            duration = Tuning.Puppet.settleSeconds + Tuning.Puppet.sitDownSeconds
+            // On a sit-down film it takes as long as the film (after any stride finishing).
+            let takes = cat.settle(into: pose)
+            duration = max(Tuning.Puppet.settleSeconds + Tuning.Puppet.sitDownSeconds, takes + Tuning.Puppet.settleSeconds)
             speedNow = 0
         case let .glance(pose):
             cat.settle(into: pose, duration: Tuning.Puppet.glanceFadeSeconds)
             duration = Tuning.Puppet.glanceFadeSeconds
         case let .rise(view):
-            cat.rise(to: view, facingRight: cat.facingRight)
-            duration = Tuning.Puppet.riseSeconds
+            duration = max(Tuning.Puppet.riseSeconds, cat.rise(to: view, facingRight: cat.facingRight))
         case let .move(target, pace):
             pivoted = false
             let distance = hypot(target.x - floorPoint.x, target.y - floorPoint.y)
@@ -211,14 +211,23 @@ public final class CatDirector {
         case let .scratch(seconds):
             cat.scratch()
             duration = seconds
+            falling = false
             speedNow = 0
         }
     }
+
+    /// Scratching: the cat is on its way down (the step lasts that much longer).
+    private var falling = false
 
     public func update(_ dt: TimeInterval) {
         cat.step(dt)
         guard let step = current else { return }
         elapsed += dt
+        if case .scratch = step, !falling, elapsed >= duration {
+            // Down off the post takes its own time on the scratch film.
+            falling = true
+            duration += cat.stopScratching()
+        }
         let t = duration > 0 ? min(1, elapsed / duration) : 1
         var surface = lift
         switch step {
@@ -245,6 +254,10 @@ public final class CatDirector {
             if elapsed < jumpStart {
                 break
             }
+            if elapsed - dt < jumpStart {
+                // Off the ground: the run film's stretched picture, held through the arc.
+                cat.leap(true)
+            }
             let k = CGFloat(min(1, (elapsed - jumpStart) / p.jumpSeconds))
             let glide = k * k * (3 - 2 * k)
             floorPoint = CGPoint(x: from.point.x + (target.x - from.point.x) * glide, y: from.point.y + (target.y - from.point.y) * glide)
@@ -254,16 +267,13 @@ public final class CatDirector {
             if elapsed >= jumpEnd, elapsed - dt < jumpEnd {
                 lift = height
                 surface = height
+                cat.leap(false)
                 cat.squash(CGFloat(p.squash))
             }
             if t >= 1 {
                 floorPoint = target
                 lift = height
                 surface = height
-            }
-        case .scratch:
-            if t >= 1 {
-                cat.stopScratching()
             }
         default:
             break

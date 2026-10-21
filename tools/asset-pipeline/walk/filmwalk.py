@@ -1,6 +1,8 @@
-"""The cat's walk and run as films (Josh, 19 Oct: of the rebuilt puppet and a generated film, "B is the best by far").
+"""The cat's walk and run as films (Josh, 19 Oct: of the rebuilt puppet and a generated film, "B is the best by far"),
+and from 21 Oct ("can we do animations for all movement of the cat") its other movements too: the walk and run coming
+straight at you (the front view), scratching, and sitting down.
 
-Each body has a white-cat film per view (side, three-quarter front) and gait (walk; run, filmed in slow motion):
+Each body has a white-cat film per view (side, three-quarter front, front) and gait (walk; run, filmed in slow motion):
 Higgsfield Kling 3.0 pro, 5 s, 1080p, started from the puppet's own white frame on chroma green, the camera tracking
 the cat so it walks in place (assets/cat/films/<body>_<view>_<gait>.mp4). The same frame is rendered again from every
 coat mask, a part-by-part shade, the parts' coverage and a few points (`renderThePuppetsMovement`,
@@ -25,14 +27,26 @@ the puppet's parts:
   6. The stride's pictures, cropped round the cat and scaled to the puppet's size: white painting (JPEG), alpha, the fur,
      pattern and white-marking masks at half size, the features at full size, and the film's own ears, tail and head
      (to swap ears and tails), with films/films.json.
+  7. A map of the torso (the start frame's `uv` pass: where each of its pixels is in the torso's own picture) carried
+     through the film and smoothed to a bend (a quadratic fit over the torso, the tracked map's residue blended in),
+     written as masks/uv (red across the torso's picture, green down it, over -0.25..1.25 so a garment's padding fits;
+     blue where a garment may be drawn: round the cat, not over its head or ears), so the game draws a body garment on
+     the film's frames where the puppet's torso would carry it (CatArt.filmFrame).
+
+Clips (`CLIPS`: a scratch, a sit-down) are one-shot films, not strides: every picture from the start to the last that
+differs is kept (at most so many), the chain forward alone, and a scratch keeps a loop too (the raking, the likest
+pair of frames in its second half, `loop` in films.json, so the game can rake for as long as it likes and come back
+down the way it went up); a sit-down's last picture is the painting the game settles into, so its feet are where that
+last picture stands.
 
     uv run --with numpy --with pillow --with scipy --with scikit-image --with opencv-python-headless --with torch \\
         --with torchvision --with imageio-ffmpeg python tools/asset-pipeline/walk/filmwalk.py \\
         <film.mp4> <start folder> <body> <view> <gait> <start frame> <out> [breed scale]
 
-<start folder> holds <view>_<gait>_<pass>_<frame>.png (and _points_<frame>.json) from the render; <out> is
-assets/cat/films/frames (build_cat_art.py copies it into App/Art/cat/custom): base|alpha|masks/<kind>/films/
-cat_<body>_<view>_<gait>_NN.png and films/films.json. All of it: tools/asset-pipeline/walk/films.sh.
+<start folder> holds <view>_<gait>_<pass>_<frame>.png (and _points_<frame>.json) from the render (a clip's start frame
+is the standing cat: <view>_stand_<pass>_000.png); <out> is assets/cat/films/frames (build_cat_art.py copies it into
+App/Art/cat/custom): base|alpha|masks/<kind>/films/cat_<body>_<view>_<gait>_NN.png and films/films.json. All of it:
+tools/asset-pipeline/walk/films.sh.
 """
 import json
 import os
@@ -65,6 +79,8 @@ MOST_FRAMES = {'walk': 40, 'run': 16}
 # after `SETTLE` pictures.
 PERIOD = {'walk': (0.55, 1.75), 'run': (1.0, 3.75)}
 SETTLE = 4
+# One-shot films: kept whole (at most so many pictures), and a scratch's raking loop (seconds a stroke).
+CLIPS = {'scratch': {'most': 40, 'loop': (0.3, 1.3)}, 'sit': {'most': 24, 'loop': None}}
 # Two frames differing by less than this (mean, 0-255) are the same picture shown again.
 REPEAT = 2.5
 # Flow is worked at this width (the stored frames are smaller still).
@@ -74,6 +90,11 @@ TRACK_WIDTH = 960
 MASKS = ['whiskers', 'tabby_classic', 'tabby_mackerel', 'spotted', 'tortie', 'colourpoint', 'white_bicolour',
          'white_mitts', 'white_tuxedo', 'white_van']
 PARTS = {'ears': 'part-_ear_', 'tail': 'part-_tail', 'head': 'part-_head'}
+# The torso's map (`uv` pass) is kept over this range of the torso's picture, so a garment's padding round it fits.
+UV_LOW, UV_HIGH = -0.25, 1.25
+# A garment may be drawn this far outside the cat's outline (of the cat's standing height): the puppet's garment is
+# drawn on a rectangle Tuning.Outfits.torsoPad wider than the torso's picture.
+GARMENT_REACH = 0.08
 
 
 def probe(path):
@@ -243,15 +264,27 @@ def leg_map(ids, alpha):
     return legs & np.isfinite(distance), distance, front
 
 
-def leg_profiles(ids, solid, layers):
+def leg_ends(view):
+    """Which legs are told apart: side on and at three-quarters the front legs are left of the torso's middle, the
+    hind right; coming straight at you all four hang below it, so they share one profile."""
+    return ['all'] if view == 'front' else ['front', 'back']
+
+
+def leg_side(end, legs, front):
+    if end == 'all':
+        return legs
+    return legs & (front if end == 'front' else ~front)
+
+
+def leg_profiles(ids, solid, layers, view):
     """Each end's legs' masks from the body down to the paw, in `LEG_STEPS` steps, and how long the legs are."""
     found = leg_map(ids, solid)
     if found is None:
         return {}
     legs, distance, front = found
     profiles = {}
-    for end in ('front', 'back'):
-        inside = legs & (front if end == 'front' else ~front)
+    for end in leg_ends(view):
+        inside = leg_side(end, legs, front)
         if inside.sum() < 50:
             continue
         length = float(np.percentile(distance[inside], 98))
@@ -283,7 +316,7 @@ def legs_patterned(ids, alpha, profiles, tracked):
         for end, (length, profile) in profiles.items():
             if name not in profile:
                 continue
-            side = legs & (front if end == 'front' else ~front)
+            side = leg_side(end, legs, front)
             steps = np.clip((np.where(side, distance, 0) / length * (LEG_STEPS - 1)).round().astype(int), 0, LEG_STEPS - 1)
             value = np.where(side, weight * profile[name][steps] + (1 - weight) * layer, value)
         out[name] = value
@@ -304,9 +337,83 @@ def irises(rgb, ids, tracked):
     return out
 
 
+def torso_map(uv_start, mx, my, alpha, head, reach_px):
+    """The torso's map in a film frame: the start frame's `uv` pass (red across, green down, blue where the torso is,
+    over black) looked up where each pixel came from, then made a smooth bend: a quadratic fit of the tracked map over
+    the torso, with the tracked map's residue (blurred) blended back in where the torso is solid, so the map holds
+    where the tracking frays (the edges, a leg crossing) and reaches past the torso for a garment's padding. Returns
+    u, v over the whole frame (the torso's picture coordinates, 0..1 on it) and where a garment may be drawn: round the
+    cat within `reach_px`, not over its head or ears."""
+    carried = np.stack([cv2.remap(uv_start[..., c], mx, my, cv2.INTER_LINEAR) for c in range(3)], -1)
+    cover = carried[..., 2]
+    inside = (cover > 0.6) & (alpha > 0.5)
+    if inside.sum() < 200:
+        return None
+    h, w = alpha.shape
+    ys, xs = np.nonzero(inside)
+    u = carried[..., 0][inside] / cover[inside]
+    v = carried[..., 1][inside] / cover[inside]
+    # Normalised coordinates about the torso's middle, so the fit is well conditioned.
+    cx, cy, s = xs.mean(), ys.mean(), max(xs.std(), ys.std(), 1)
+    nx, ny = (xs - cx) / s, (ys - cy) / s
+
+    def basis(px, py):
+        return np.stack([np.ones_like(px), px, py, px * px, px * py, py * py], -1)
+
+    A = basis(nx, ny)
+    cu, *_ = np.linalg.lstsq(A, u, rcond=None)
+    cv_, *_ = np.linalg.lstsq(A, v, rcond=None)
+    # Once more without the worst tenth (pixels tracked wrong).
+    err = np.hypot(A @ cu - u, A @ cv_ - v)
+    keep = err <= np.percentile(err, 90)
+    cu, *_ = np.linalg.lstsq(A[keep], u[keep], rcond=None)
+    cv_, *_ = np.linalg.lstsq(A[keep], v[keep], rcond=None)
+    gx, gy = np.meshgrid((np.arange(w) - cx) / s, (np.arange(h) - cy) / s)
+    whole = basis(gx, gy)
+    fu, fv = whole @ cu, whole @ cv_
+    # The tracked map's residue over the fit, blurred and faded at the torso's edge, where the torso is solid.
+    ru = np.zeros((h, w), np.float32)
+    rv = np.zeros((h, w), np.float32)
+    ru[inside] = u - (A @ cu)
+    rv[inside] = v - (A @ cv_)
+    weight = cv2.GaussianBlur(inside.astype(np.float32), (0, 0), 6)
+    blur_u = cv2.GaussianBlur(ru * inside, (0, 0), 6) / np.maximum(weight, 1e-3)
+    blur_v = cv2.GaussianBlur(rv * inside, (0, 0), 6) / np.maximum(weight, 1e-3)
+    fade = cv2.GaussianBlur(cv2.erode(inside.astype(np.uint8), np.ones((9, 9), np.uint8)).astype(np.float32), (0, 0), 4)
+    fu = fu + blur_u * fade
+    fv = fv + blur_v * fade
+    # Round the torso as tracked (not the whole cat: the garment's hem went down the legs to the paws), and on or just
+    # off the cat.
+    around = grown((cover > 0.3) & (alpha > 0.3), reach_px) & grown(alpha > 0.5, max(2, reach_px // 3))
+    not_head = cv2.GaussianBlur(np.clip(1 - head, 0, 1).astype(np.float32), (0, 0), 1.5)
+    allowed = cv2.GaussianBlur(around.astype(np.float32), (0, 0), 1.2) * not_head
+    return fu.astype(np.float32), fv.astype(np.float32), allowed
+
+
+def save_uv(u, v, allowed, path):
+    """The torso's map as an RGB picture: red and green the map over UV_LOW..UV_HIGH, blue where a garment goes."""
+    def channel(values):
+        return np.clip((values - UV_LOW) / (UV_HIGH - UV_LOW), 0, 1) * 255
+    rgb = np.stack([channel(u), channel(v), np.clip(allowed, 0, 1) * 255], -1).round().astype(np.uint8)
+    Image.fromarray(rgb).save(path, optimize=True)
+
+
+def likeness_loop(thumbs, shown, lo, hi, first):
+    """The likest pair of pictures from `first` on whose distance apart in film frames is within lo..hi."""
+    best = None
+    for a in range(first, len(thumbs)):
+        for b in range(a + 1, len(thumbs)):
+            if lo <= shown[b] - shown[a] <= hi:
+                score = float(np.abs(thumbs[a] - thumbs[b]).mean()) + 0.02 * (shown[b] - shown[a])
+                if best is None or score < best[0]:
+                    best = (score, a, b)
+    return best
+
+
 def main():
     film, start_dir, body, view, gait, start, out = sys.argv[1:8]
     breed = float(sys.argv[8]) if len(sys.argv) > 8 else 1.0
+    clip = CLIPS.get(gait)
     # Tracked at `TRACK_WIDTH`; the stored frames are read again at full size, only those.
     W, H = probe(film)
     f = W / TRACK_WIDTH
@@ -320,12 +427,14 @@ def main():
         rgb, alpha = key(frame)
         small.append((rgb.clip(0, 255).astype(np.uint8), alpha.astype(np.float32)))
         shown.append(t)
-    # A stride is looked for from the first `SETTLE + 20` pictures, so no more are tracked than its longest end needs.
-    low, high = (round(s * 24) for s in PERIOD[gait])
-    last = shown[min(len(shown) - 1, SETTLE + 20)] + high
-    small = [picture for picture, t in zip(small, shown) if t <= last]
+    if clip is None:
+        # A stride is looked for from the first `SETTLE + 20` pictures, so no more are tracked than its longest end needs.
+        low, high = (round(s * 24) for s in PERIOD[gait])
+        last = shown[min(len(shown) - 1, SETTLE + 20)] + high
+        small = [picture for picture, t in zip(small, shown) if t <= last]
     count = len(small)
-    prefix = f'{start_dir}/{view}_{gait}'
+    # A clip's start frame is the standing cat (`<view>_stand_<pass>_000.png`); a stride's the walk's or run's.
+    prefix = f'{start_dir}/{view}_{"stand" if clip else gait}'
 
     def pass_image(name, mode='L'):
         return np.asarray(Image.open(f'{prefix}_{name}_{start}.png').convert(mode))
@@ -354,46 +463,57 @@ def main():
             band[: rows.max() - max(3, h // 70)] = False
             lows[t] = -back[band]
 
-    # The stride: frames alike at its two ends (small greys of the cat), then the one whose ends also map to the same
-    # places in the first frame (the same legs where they were, not swapped near for far).
     thumbs = [cv2.resize(cv2.cvtColor(rgb, cv2.COLOR_RGB2GRAY).astype(np.float32) * alpha, (240, 135),
                          interpolation=cv2.INTER_AREA) for rgb, alpha in small]
-    candidates = []
-    for a in range(SETTLE, min(count, SETTLE + 20)):
-        for b in range(a + 1, count):
-            if low <= shown[b] - shown[a] <= high:
-                candidates.append((float(np.abs(thumbs[a] - thumbs[b]).mean()), a, b))
-    candidates.sort()
-    best = None
-    for score, a, b in candidates[:60]:
-        inside = (small[a][1] > 0.5) & (small[b][1] > 0.5)
-        drift = float(np.hypot(maps[a][0].astype(np.float32) - maps[b][0], maps[a][1].astype(np.float32) - maps[b][1])[inside].mean())
-        # The shortest stride that comes round cleanly (a longer loop is two or three strides, fewer frames each).
-        total = score + drift * 0.5 + 0.02 * a + 0.03 * (shown[b] - shown[a])
-        if best is None or total < best[0]:
-            best = (total, a, b, score, drift)
-    _, a, b, score, drift = best
-    print(f'  stride {a}->{b} ({b - a} frames), likeness {score:.2f}, legs {drift:.1f}px', flush=True)
+    loop = None
+    if clip is None:
+        # The stride: frames alike at its two ends (small greys of the cat), then the one whose ends also map to the
+        # same places in the first frame (the same legs where they were, not swapped near for far).
+        candidates = []
+        for a in range(SETTLE, min(count, SETTLE + 20)):
+            for b in range(a + 1, count):
+                if low <= shown[b] - shown[a] <= high:
+                    candidates.append((float(np.abs(thumbs[a] - thumbs[b]).mean()), a, b))
+        candidates.sort()
+        best = None
+        for score, a, b in candidates[:60]:
+            inside = (small[a][1] > 0.5) & (small[b][1] > 0.5)
+            drift = float(np.hypot(maps[a][0].astype(np.float32) - maps[b][0], maps[a][1].astype(np.float32) - maps[b][1])[inside].mean())
+            # The shortest stride that comes round cleanly (a longer loop is two or three strides, fewer frames each).
+            total = score + drift * 0.5 + 0.02 * a + 0.03 * (shown[b] - shown[a])
+            if best is None or total < best[0]:
+                best = (total, a, b, score, drift)
+        _, a, b, score, drift = best
+        print(f'  stride {a}->{b} ({b - a} frames), likeness {score:.2f}, legs {drift:.1f}px', flush=True)
 
-    # The stride's maps: the chain forward from its start blended with a chain back from its end, tied to its start.
-    behind = {b: follow(maps[a], flow(small[b], small[a]), grid)}
-    for t in range(b - 1, a - 1, -1):
-        behind[t] = follow(behind[t + 1], flow(small[t], small[t + 1]), grid)
-    closed = []
-    for t in range(a, b):
-        k = (t - a) / (b - a)
-        closed.append(((1 - k) * maps[t][0].astype(np.float32) + k * behind[t][0],
-                       (1 - k) * maps[t][1].astype(np.float32) + k * behind[t][1]))
+        # The stride's maps: the chain forward from its start blended with a chain back from its end, tied to its start.
+        behind = {b: follow(maps[a], flow(small[b], small[a]), grid)}
+        for t in range(b - 1, a - 1, -1):
+            behind[t] = follow(behind[t + 1], flow(small[t], small[t + 1]), grid)
+        closed = []
+        for t in range(a, b):
+            k = (t - a) / (b - a)
+            closed.append(((1 - k) * maps[t][0].astype(np.float32) + k * behind[t][0],
+                           (1 - k) * maps[t][1].astype(np.float32) + k * behind[t][1]))
+    else:
+        # The whole clip, the chain forward alone.
+        a, b = 0, count
+        closed = [(m[0].astype(np.float32), m[1].astype(np.float32)) for m in maps]
+        print(f'  clip of {count} pictures ({(shown[-1] - shown[0]) / 24:.2f} s)', flush=True)
 
     if os.environ.get('FILMWALK_DEBUG'):
         np.savez_compressed(os.environ['FILMWALK_DEBUG'], mx=np.stack([m[0] for m in closed]).astype(np.float16),
                             my=np.stack([m[1] for m in closed]).astype(np.float16),
                             alpha=np.stack([small[t][1] for t in range(a, b)]).astype(np.float16),
                             rgb=np.stack([small[t][0] for t in range(a, b)]))
-    moves = np.concatenate([lows[t] for t in range(a + 1, b + 1) if t in lows])
-    hist, xe, ye = np.histogram2d(moves[:, 0], moves[:, 1], bins=120, range=[[-30, 30], [-30, 30]])
-    i, j = np.unravel_index(np.argmax(cv2.GaussianBlur(hist, (5, 5), 1)), hist.shape)
-    floor_step = np.array([(xe[i] + xe[i + 1]) / 2, (ye[j] + ye[j + 1]) / 2]) * f
+    moved = [lows[t] for t in range(a + 1, b) if t in lows]
+    if moved:
+        moves = np.concatenate(moved)
+        hist, xe, ye = np.histogram2d(moves[:, 0], moves[:, 1], bins=120, range=[[-30, 30], [-30, 30]])
+        i, j = np.unravel_index(np.argmax(cv2.GaussianBlur(hist, (5, 5), 1)), hist.shape)
+        floor_step = np.array([(xe[i] + xe[i + 1]) / 2, (ye[j] + ye[j + 1]) / 2]) * f
+    else:
+        floor_step = np.zeros(2)
     print(f'  floor {floor_step.round(2)} px a frame', flush=True)
 
     # The start pose's masks and parts (rendered over black: divided by the cat's coverage, from a pass of every part
@@ -407,6 +527,10 @@ def main():
             layers[name] = np.clip(image / coverage, 0, 1)
     features = cv2.resize(pass_image('features', 'RGB').astype(np.float32) / 255, (w, h), interpolation=cv2.INTER_AREA)
     features = np.clip(features / coverage[..., None], 0, 1)
+    # The torso's map, rendered alone (premultiplied over black: blue is the torso's own coverage).
+    uv_start = None
+    if os.path.exists(f'{prefix}_uv_{start}.png'):
+        uv_start = cv2.resize(pass_image('uv', 'RGB').astype(np.float32) / 255, (w, h), interpolation=cv2.INTER_AREA)
     # The part shades over black are anti-aliased at the edges, where a leg half over the black would read as the head:
     # divided by the coverage, taken where the cat is solid, and each edge pixel takes its nearest solid pixel's.
     raw = cv2.resize(pass_image('ids').astype(np.float32), (w, h), interpolation=cv2.INTER_AREA)
@@ -422,12 +546,24 @@ def main():
     where[nearest[cy, cx]] = cy * w + cx
     ids = ids.reshape(-1)[where[nearest]].reshape(h, w)
     ids[solid_pass < 0.4] = 0
-    profiles = leg_profiles(ids, solid_pass, {name: layers[name] for name in MASKS if name in layers})
+    profiles = leg_profiles(ids, solid_pass, {name: layers[name] for name in MASKS if name in layers}, view)
 
     # The stored frames: evenly over the stride, cropped round the cat over the whole stride, scaled.
     # (A longer loop, two strides of a slow gallop, keeps 12 pictures a second of film so it plays no choppier.)
-    kept = min(b - a, max(MOST_FRAMES[gait], round((shown[b] - shown[a]) / 2)))
-    picks = [a + int(round(k * (b - a) / kept)) for k in range(kept)]
+    if clip is None:
+        kept = min(b - a, max(MOST_FRAMES[gait], round((shown[b] - shown[a]) / 2)))
+        picks = [a + int(round(k * (b - a) / kept)) for k in range(kept)]
+    else:
+        # A clip keeps its first and last pictures whatever else is dropped.
+        kept = min(count, clip['most'])
+        picks = sorted(set(int(round(k * (count - 1) / max(1, kept - 1))) for k in range(kept)))
+        kept = len(picks)
+        if clip['loop']:
+            lo, hi = (round(s * 24) for s in clip['loop'])
+            found = likeness_loop([thumbs[t] for t in picks], [shown[t] for t in picks], lo, hi, kept // 2)
+            if found:
+                loop = [found[1], found[2]]
+                print(f'  loop {loop[0]}->{loop[1]} of {kept}, likeness {found[0]:.2f}', flush=True)
     union = np.zeros((h, w), bool)
     for t in range(a, b):
         union |= small[t][1] > 0.02
@@ -442,21 +578,27 @@ def main():
     half = (max(1, size[0] // 2), max(1, size[1] // 2))
     # The CatNode's origin (its feet on the floor) in the film: the floor where the planted paws stand over the stride,
     # and the render's middle moved as far as the cat has drifted across the frame since the start (the camera follows
-    # it, not exactly).
+    # it, not exactly). A sit-down's origin is under its last picture, which is the painting the game settles into; a
+    # scratch's under its first, the standing cat (its hind feet stay put).
     floors = [np.nonzero((small[t][1] > 0.5).any(axis=1))[0].max() + 1 for t in range(a, b)]
 
     def middle(alpha):
         return np.nonzero(alpha > 0.5)[1].mean()
 
-    drift_x = (np.mean([middle(small[t][1]) for t in range(a, b)]) - middle(alpha0)) * f
+    if clip is None:
+        drift_x = (np.mean([middle(small[t][1]) for t in range(a, b)]) - middle(alpha0)) * f
+    else:
+        anchor = small[b - 1][1] if gait == 'sit' else small[0][1]
+        drift_x = (middle(anchor) - middle(alpha0)) * f
     feet = (W / 2 + drift_x, float(np.median(floors)) * f)
+    reach_px = int(round(RENDER_HEIGHT * breed * GARMENT_REACH / f))
 
     def crop(image, to, small_scale=False):
         x0, y0, x1, y1 = sbox if small_scale else box
         return cv2.resize(image[y0:y1, x0:x1], to, interpolation=cv2.INTER_AREA)
 
     name = f'cat_{body}_{view}_{gait}'
-    for folder in ['films', 'base/films', 'alpha/films'] + [f'masks/{m}/films' for m in MASKS + ['fur', 'features'] + list(PARTS)]:
+    for folder in ['films', 'base/films', 'alpha/films'] + [f'masks/{m}/films' for m in MASKS + ['fur', 'features', 'uv'] + list(PARTS)]:
         os.makedirs(f'{out}/{folder}', exist_ok=True)
     entries = {}
     tracked_points = {}
@@ -489,6 +631,15 @@ def main():
                 moved = cv2.remap(layers[layer], mx, my, cv2.INTER_LINEAR)
                 save_mask(crop(moved, half, True), f'{out}/masks/{part}/{rel}')
                 present.append(part)
+        if uv_start is not None:
+            head = cv2.remap(layers['part-_head'], mx, my, cv2.INTER_LINEAR) if 'part-_head' in layers else np.zeros((h, w), np.float32)
+            if 'part-_ear_' in layers:
+                head = np.maximum(head, cv2.remap(layers['part-_ear_'], mx, my, cv2.INTER_LINEAR))
+            mapped = torso_map(uv_start, mx, my, small[t][1], head, reach_px)
+            if mapped is not None:
+                u, v, allowed = mapped
+                save_uv(crop(u, half, True), crop(v, half, True), crop(allowed, half, True), f'{out}/masks/uv/{rel}')
+                present.append('uv')
         entries[rel] = {'masks': sorted(present), 'master': [box[2] - box[0], box[3] - box[1]],
                         'scale': scale, 'size': list(size)}
         # Each point where the pixel that came from it is (the nearest), in the frame's master pixels.
@@ -502,7 +653,7 @@ def main():
     index = json.load(open(index_path)) if os.path.exists(index_path) else {'films': {}, 'files': {}}
     index['files'] = {k: v for k, v in index['files'].items() if not k.startswith(f'films/{name}_')}
     index['files'].update(entries)
-    index['films'][f'{body}/{view}/{gait}'] = {
+    entry = {
         'frames': [f'films/{name}_{k:02d}.png' for k in range(kept)],
         # The cat's standing height (the CatNode's, breed and all) in the frames' master pixels.
         'height': height_px,
@@ -511,13 +662,19 @@ def main():
         'size': [box[2] - box[0], box[3] - box[1]],
         # How far the floor goes by in a stride (master pixels, x right and y down) and how long a stride is filmed.
         'stride': [float(floor_step[0] * (b - a)), float(floor_step[1] * (b - a))],
-        'seconds': (shown[b] - shown[a]) / 24,
+        'seconds': (shown[b - 1 if clip else b] - shown[a]) / 24,
         # Points of the start frame followed through the frames (master pixels from the top left, a pair a frame).
         'points': tracked_points,
         # Where the same points were in the start frame, against the frames' master pixels.
         'start': {k: [v[0] - box[0], v[1] - box[1]] for k, v in start_points.items()},
-        'source': {'film': os.path.basename(film), 'from': shown[a], 'to': shown[b]},
+        'source': {'film': os.path.basename(film), 'from': shown[a], 'to': shown[b - 1 if clip else b]},
     }
+    if clip:
+        # A one-shot film (played once, a scratch raking round its loop until it is done).
+        entry['kind'] = 'clip'
+        if loop:
+            entry['loop'] = loop
+    index['films'][f'{body}/{view}/{gait}'] = entry
     json.dump(index, open(index_path, 'w'), indent=1, sort_keys=True)
     print(f'  {kept} frames {size[0]}x{size[1]}, box {box}', flush=True)
 

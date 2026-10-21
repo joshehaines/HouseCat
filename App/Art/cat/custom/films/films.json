@@ -10090,6 +10090,876 @@
     350
    ]
   },
+  "films/cat_short_slim_front_run_00.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    376,
+    808
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    164,
+    352
+   ]
+  },
+  "films/cat_short_slim_front_run_01.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    376,
+    808
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    164,
+    352
+   ]
+  },
+  "films/cat_short_slim_front_run_02.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    376,
+    808
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    164,
+    352
+   ]
+  },
+  "films/cat_short_slim_front_run_03.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    376,
+    808
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    164,
+    352
+   ]
+  },
+  "films/cat_short_slim_front_run_04.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    376,
+    808
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    164,
+    352
+   ]
+  },
+  "films/cat_short_slim_front_run_05.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    376,
+    808
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    164,
+    352
+   ]
+  },
+  "films/cat_short_slim_front_run_06.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    376,
+    808
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    164,
+    352
+   ]
+  },
+  "films/cat_short_slim_front_run_07.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    376,
+    808
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    164,
+    352
+   ]
+  },
+  "films/cat_short_slim_front_run_08.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    376,
+    808
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    164,
+    352
+   ]
+  },
+  "films/cat_short_slim_front_run_09.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    376,
+    808
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    164,
+    352
+   ]
+  },
+  "films/cat_short_slim_front_run_10.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    376,
+    808
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    164,
+    352
+   ]
+  },
+  "films/cat_short_slim_front_run_11.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    376,
+    808
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    164,
+    352
+   ]
+  },
+  "films/cat_short_slim_front_run_12.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    376,
+    808
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    164,
+    352
+   ]
+  },
+  "films/cat_short_slim_front_run_13.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    376,
+    808
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    164,
+    352
+   ]
+  },
+  "films/cat_short_slim_front_run_14.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    376,
+    808
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    164,
+    352
+   ]
+  },
+  "films/cat_short_slim_front_run_15.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    376,
+    808
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    164,
+    352
+   ]
+  },
+  "films/cat_short_slim_front_run_16.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    376,
+    808
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    164,
+    352
+   ]
+  },
+  "films/cat_short_slim_front_run_17.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    376,
+    808
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    164,
+    352
+   ]
+  },
+  "films/cat_short_slim_front_walk_00.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    386,
+    820
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    168,
+    357
+   ]
+  },
+  "films/cat_short_slim_front_walk_01.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    386,
+    820
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    168,
+    357
+   ]
+  },
+  "films/cat_short_slim_front_walk_02.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    386,
+    820
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    168,
+    357
+   ]
+  },
+  "films/cat_short_slim_front_walk_03.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    386,
+    820
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    168,
+    357
+   ]
+  },
+  "films/cat_short_slim_front_walk_04.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    386,
+    820
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    168,
+    357
+   ]
+  },
+  "films/cat_short_slim_front_walk_05.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    386,
+    820
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    168,
+    357
+   ]
+  },
+  "films/cat_short_slim_front_walk_06.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    386,
+    820
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    168,
+    357
+   ]
+  },
+  "films/cat_short_slim_front_walk_07.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    386,
+    820
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    168,
+    357
+   ]
+  },
+  "films/cat_short_slim_front_walk_08.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    386,
+    820
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    168,
+    357
+   ]
+  },
+  "films/cat_short_slim_front_walk_09.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    386,
+    820
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    168,
+    357
+   ]
+  },
+  "films/cat_short_slim_front_walk_10.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    386,
+    820
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    168,
+    357
+   ]
+  },
+  "films/cat_short_slim_front_walk_11.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    386,
+    820
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    168,
+    357
+   ]
+  },
   "films/cat_short_slim_side_run_00.png": {
    "masks": [
     "colourpoint",
@@ -10536,6 +11406,1855 @@
    "size": [
     588,
     410
+   ]
+  },
+  "films/cat_short_slim_side_scratch_00.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_01.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_02.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_03.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_04.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_05.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_06.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_07.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_08.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_09.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_10.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_11.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_12.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_13.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_14.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_15.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_16.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_17.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_18.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_19.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_20.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_21.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_22.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_23.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_24.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_25.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_26.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_27.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_28.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_29.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_30.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_31.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_32.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_33.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_34.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_35.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_36.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_37.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_38.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_scratch_39.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    1092,
+    1040
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    476,
+    453
+   ]
+  },
+  "films/cat_short_slim_side_sit_00.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    956,
+    862
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    417,
+    376
+   ]
+  },
+  "films/cat_short_slim_side_sit_01.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    956,
+    862
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    417,
+    376
+   ]
+  },
+  "films/cat_short_slim_side_sit_02.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    956,
+    862
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    417,
+    376
+   ]
+  },
+  "films/cat_short_slim_side_sit_03.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    956,
+    862
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    417,
+    376
+   ]
+  },
+  "films/cat_short_slim_side_sit_04.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    956,
+    862
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    417,
+    376
+   ]
+  },
+  "films/cat_short_slim_side_sit_05.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    956,
+    862
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    417,
+    376
+   ]
+  },
+  "films/cat_short_slim_side_sit_06.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    956,
+    862
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    417,
+    376
+   ]
+  },
+  "films/cat_short_slim_side_sit_07.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    956,
+    862
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    417,
+    376
+   ]
+  },
+  "films/cat_short_slim_side_sit_08.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    956,
+    862
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    417,
+    376
+   ]
+  },
+  "films/cat_short_slim_side_sit_09.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    956,
+    862
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    417,
+    376
+   ]
+  },
+  "films/cat_short_slim_side_sit_10.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    956,
+    862
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    417,
+    376
+   ]
+  },
+  "films/cat_short_slim_side_sit_11.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    956,
+    862
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    417,
+    376
+   ]
+  },
+  "films/cat_short_slim_side_sit_12.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    956,
+    862
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    417,
+    376
+   ]
+  },
+  "films/cat_short_slim_side_sit_13.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    956,
+    862
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    417,
+    376
+   ]
+  },
+  "films/cat_short_slim_side_sit_14.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    956,
+    862
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    417,
+    376
+   ]
+  },
+  "films/cat_short_slim_side_sit_15.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    956,
+    862
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    417,
+    376
+   ]
+  },
+  "films/cat_short_slim_side_sit_16.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    956,
+    862
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    417,
+    376
+   ]
+  },
+  "films/cat_short_slim_side_sit_17.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    956,
+    862
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    417,
+    376
+   ]
+  },
+  "films/cat_short_slim_side_sit_18.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    956,
+    862
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    417,
+    376
+   ]
+  },
+  "films/cat_short_slim_side_sit_19.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    956,
+    862
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    417,
+    376
+   ]
+  },
+  "films/cat_short_slim_side_sit_20.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    956,
+    862
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    417,
+    376
+   ]
+  },
+  "films/cat_short_slim_side_sit_21.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "whiskers",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    956,
+    862
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    417,
+    376
+   ]
+  },
+  "films/cat_short_slim_side_sit_22.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    956,
+    862
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    417,
+    376
+   ]
+  },
+  "films/cat_short_slim_side_sit_23.png": {
+   "masks": [
+    "colourpoint",
+    "ears",
+    "features",
+    "fur",
+    "head",
+    "spotted",
+    "tabby_classic",
+    "tabby_mackerel",
+    "tail",
+    "tortie",
+    "uv",
+    "white_bicolour",
+    "white_mitts",
+    "white_tuxedo",
+    "white_van"
+   ],
+   "master": [
+    956,
+    862
+   ],
+   "scale": 0.4358974358974359,
+   "size": [
+    417,
+    376
    ]
   },
   "films/cat_short_slim_side_walk_00.png": {
@@ -17301,6 +20020,7 @@
     "from": 24,
     "to": 64
    },
+   "stand": 13,
    "start": {
     "ear_far_base": [
      332.49871826171875,
@@ -17327,6 +20047,7 @@
      620.5308837890625
     ]
    },
+   "stretch": 5,
    "stride": [
     2140.0,
     -20.0
@@ -17714,6 +20435,7 @@
     "from": 31,
     "to": 45
    },
+   "stand": 12,
    "start": {
     "ear_far_base": [
      186.5804443359375,
@@ -17740,6 +20462,7 @@
      528.4696655273438
     ]
    },
+   "stretch": 7,
    "stride": [
     455.0,
     -7.0
@@ -18177,6 +20900,7 @@
     "from": 24,
     "to": 48
    },
+   "stand": 8,
    "start": {
     "ear_far_base": [
      337.96954345703125,
@@ -18203,6 +20927,7 @@
      613.1259155273438
     ]
    },
+   "stretch": 3,
    "stride": [
     12.0,
     444.0
@@ -18740,6 +21465,7 @@
     "from": 8,
     "to": 28
    },
+   "stand": 8,
    "start": {
     "ear_far_base": [
      190.2496337890625,
@@ -18766,6 +21492,7 @@
      445.064697265625
     ]
    },
+   "stretch": 0,
    "stride": [
     650.0,
     -30.0
@@ -18939,6 +21666,7 @@
     "from": 23,
     "to": 49
    },
+   "stand": 6,
    "start": {
     "tail_root": [
      789.4761962890625,
@@ -18949,6 +21677,7 @@
      351.9208984375
     ]
    },
+   "stretch": 15,
    "stride": [
     1339.0,
     -13.0
@@ -19158,6 +21887,7 @@
     "from": 5,
     "to": 25
    },
+   "stand": 0,
    "start": {
     "tail_root": [
      641.1390380859375,
@@ -19168,6 +21898,7 @@
      341.85968017578125
     ]
    },
+   "stretch": 9,
    "stride": [
     330.0,
     -10.0
@@ -19605,6 +22336,7 @@
     "from": 25,
     "to": 53
    },
+   "stand": 1,
    "start": {
     "ear_far_base": [
      207.75836181640625,
@@ -19631,6 +22363,7 @@
      439.72088623046875
     ]
    },
+   "stretch": 8,
    "stride": [
     1274.0,
     -126.0
@@ -20018,6 +22751,7 @@
     "from": 25,
     "to": 53
    },
+   "stand": 4,
    "start": {
     "ear_far_base": [
      163.9515380859375,
@@ -20044,6 +22778,7 @@
      429.65966796875
     ]
    },
+   "stretch": 9,
    "stride": [
     469.0,
     -35.0
@@ -20217,6 +22952,7 @@
     "from": 23,
     "to": 47
    },
+   "stand": 12,
    "start": {
     "tail_root": [
      1168.99560546875,
@@ -20227,6 +22963,7 @@
      471.08709716796875
     ]
    },
+   "stretch": 8,
    "stride": [
     1236.0,
     12.0
@@ -20436,6 +23173,7 @@
     "from": 26,
     "to": 66
    },
+   "stand": 7,
    "start": {
     "tail_root": [
      1016.113525390625,
@@ -20446,6 +23184,7 @@
      494.35400390625
     ]
    },
+   "stretch": 2,
    "stride": [
     950.0,
     -10.0
@@ -20619,6 +23358,7 @@
     "from": 24,
     "to": 60
    },
+   "stand": 11,
    "start": {
     "tail_root": [
      931.7117919921875,
@@ -20629,6 +23369,7 @@
      466.673095703125
     ]
    },
+   "stretch": 3,
    "stride": [
     1854.0,
     -162.0
@@ -20829,6 +23570,7 @@
     "from": 8,
     "to": 27
    },
+   "stand": 13,
    "start": {
     "tail_root": [
      791.8477783203125,
@@ -20839,6 +23581,7 @@
      455.94000244140625
     ]
    },
+   "stretch": 8,
    "stride": [
     465.5,
     -47.5
@@ -21138,6 +23881,7 @@
     "from": 19,
     "to": 79
    },
+   "stand": 3,
    "start": {
     "tail_root": [
      1121.495849609375,
@@ -21148,6 +23892,7 @@
      470.6329345703125
     ]
    },
+   "stretch": 16,
    "stride": [
     3270.0,
     30.0
@@ -21312,6 +24057,7 @@
     "from": 18,
     "to": 48
    },
+   "stand": 7,
    "start": {
     "tail_root": [
      917.795166015625,
@@ -21322,6 +24068,7 @@
      430.57171630859375
     ]
    },
+   "stretch": 11,
    "stride": [
     832.5,
     -52.5
@@ -21495,6 +24242,7 @@
     "from": 23,
     "to": 68
    },
+   "stand": 9,
    "start": {
     "tail_root": [
      771.04150390625,
@@ -21505,6 +24253,7 @@
      415.25390625
     ]
    },
+   "stretch": 1,
    "stride": [
     1057.5,
     -67.5
@@ -21885,6 +24634,7 @@
     "from": 17,
     "to": 56
    },
+   "stand": 17,
    "start": {
     "tail_root": [
      658.9774169921875,
@@ -21895,6 +24645,7 @@
      521.1926879882812
     ]
    },
+   "stretch": 37,
    "stride": [
     643.5,
     -58.5
@@ -22332,6 +25083,7 @@
     "from": 26,
     "to": 52
    },
+   "stand": 4,
    "start": {
     "ear_far_base": [
      260.326416015625,
@@ -22358,6 +25110,7 @@
      495.6229248046875
     ]
    },
+   "stretch": 15,
    "stride": [
     -662.5,
     -62.5
@@ -22770,6 +25523,7 @@
     "from": 21,
     "to": 36
    },
+   "stand": 12,
    "start": {
     "ear_far_base": [
      131.9447021484375,
@@ -22796,6 +25550,7 @@
      495.56170654296875
     ]
    },
+   "stretch": 6,
    "stride": [
     292.5,
     -7.5
@@ -23233,6 +25988,7 @@
     "from": 30,
     "to": 90
    },
+   "stand": 4,
    "start": {
     "ear_far_base": [
      391.91497802734375,
@@ -23259,6 +26015,7 @@
      426.66290283203125
     ]
    },
+   "stretch": 1,
    "stride": [
     -1305.0,
     1665.0
@@ -23571,6 +26328,7 @@
     "from": 24,
     "to": 46
    },
+   "stand": 9,
    "start": {
     "ear_far_base": [
      139.993408203125,
@@ -23597,9 +26355,890 @@
      406.6016845703125
     ]
    },
+   "stretch": 5,
    "stride": [
     566.5,
     -49.5
+   ]
+  },
+  "short_slim/front/run": {
+   "feet": [
+    166.56929088082268,
+    760.0
+   ],
+   "frames": [
+    "films/cat_short_slim_front_run_00.png",
+    "films/cat_short_slim_front_run_01.png",
+    "films/cat_short_slim_front_run_02.png",
+    "films/cat_short_slim_front_run_03.png",
+    "films/cat_short_slim_front_run_04.png",
+    "films/cat_short_slim_front_run_05.png",
+    "films/cat_short_slim_front_run_06.png",
+    "films/cat_short_slim_front_run_07.png",
+    "films/cat_short_slim_front_run_08.png",
+    "films/cat_short_slim_front_run_09.png",
+    "films/cat_short_slim_front_run_10.png",
+    "films/cat_short_slim_front_run_11.png",
+    "films/cat_short_slim_front_run_12.png",
+    "films/cat_short_slim_front_run_13.png",
+    "films/cat_short_slim_front_run_14.png",
+    "films/cat_short_slim_front_run_15.png",
+    "films/cat_short_slim_front_run_16.png",
+    "films/cat_short_slim_front_run_17.png"
+   ],
+   "height": 780.0,
+   "points": {
+    "ear_far_base": [
+     [
+      102.0,
+      288.0
+     ],
+     [
+      102.0,
+      318.0
+     ],
+     [
+      102.0,
+      336.0
+     ],
+     [
+      100.0,
+      342.0
+     ],
+     [
+      100.0,
+      326.0
+     ],
+     [
+      100.0,
+      294.0
+     ],
+     [
+      98.0,
+      264.0
+     ],
+     [
+      100.0,
+      238.0
+     ],
+     [
+      100.0,
+      224.0
+     ],
+     [
+      100.0,
+      212.0
+     ],
+     [
+      100.0,
+      194.0
+     ],
+     [
+      100.0,
+      182.0
+     ],
+     [
+      102.0,
+      180.0
+     ],
+     [
+      102.0,
+      184.0
+     ],
+     [
+      104.0,
+      196.0
+     ],
+     [
+      102.0,
+      220.0
+     ],
+     [
+      102.0,
+      248.0
+     ],
+     [
+      104.0,
+      270.0
+     ]
+    ],
+    "ear_far_tip": [
+     [
+      64.0,
+      156.0
+     ],
+     [
+      68.0,
+      186.0
+     ],
+     [
+      64.0,
+      210.0
+     ],
+     [
+      58.0,
+      226.0
+     ],
+     [
+      52.0,
+      212.0
+     ],
+     [
+      44.0,
+      186.0
+     ],
+     [
+      40.0,
+      158.0
+     ],
+     [
+      36.0,
+      136.0
+     ],
+     [
+      38.0,
+      124.0
+     ],
+     [
+      42.0,
+      108.0
+     ],
+     [
+      38.0,
+      84.0
+     ],
+     [
+      36.0,
+      64.0
+     ],
+     [
+      34.0,
+      54.0
+     ],
+     [
+      42.0,
+      50.0
+     ],
+     [
+      46.0,
+      54.0
+     ],
+     [
+      54.0,
+      72.0
+     ],
+     [
+      60.0,
+      104.0
+     ],
+     [
+      64.0,
+      126.0
+     ]
+    ],
+    "ear_near_base": [
+     [
+      202.0,
+      278.0
+     ],
+     [
+      202.0,
+      306.0
+     ],
+     [
+      202.0,
+      322.0
+     ],
+     [
+      202.0,
+      328.0
+     ],
+     [
+      202.0,
+      312.0
+     ],
+     [
+      202.0,
+      280.0
+     ],
+     [
+      202.0,
+      248.0
+     ],
+     [
+      200.0,
+      222.0
+     ],
+     [
+      200.0,
+      208.0
+     ],
+     [
+      200.0,
+      194.0
+     ],
+     [
+      200.0,
+      176.0
+     ],
+     [
+      200.0,
+      162.0
+     ],
+     [
+      200.0,
+      160.0
+     ],
+     [
+      200.0,
+      164.0
+     ],
+     [
+      202.0,
+      178.0
+     ],
+     [
+      202.0,
+      202.0
+     ],
+     [
+      202.0,
+      230.0
+     ],
+     [
+      202.0,
+      254.0
+     ]
+    ],
+    "ear_near_tip": [
+     [
+      228.0,
+      188.0
+     ],
+     [
+      228.0,
+      196.0
+     ],
+     [
+      168.0,
+      182.0
+     ],
+     [
+      172.0,
+      150.0
+     ],
+     [
+      174.0,
+      124.0
+     ],
+     [
+      172.0,
+      106.0
+     ],
+     [
+      176.0,
+      74.0
+     ],
+     [
+      188.0,
+      44.0
+     ],
+     [
+      184.0,
+      44.0
+     ],
+     [
+      184.0,
+      40.0
+     ],
+     [
+      172.0,
+      54.0
+     ],
+     [
+      236.0,
+      82.0
+     ],
+     [
+      236.0,
+      76.0
+     ],
+     [
+      236.0,
+      76.0
+     ],
+     [
+      234.0,
+      90.0
+     ],
+     [
+      232.0,
+      112.0
+     ],
+     [
+      230.0,
+      140.0
+     ],
+     [
+      230.0,
+      164.0
+     ]
+    ],
+    "tail_root": [
+     [
+      234.0,
+      528.0
+     ],
+     [
+      230.0,
+      572.0
+     ],
+     [
+      228.0,
+      572.0
+     ],
+     [
+      240.0,
+      454.0
+     ],
+     [
+      240.0,
+      440.0
+     ],
+     [
+      238.0,
+      416.0
+     ],
+     [
+      238.0,
+      380.0
+     ],
+     [
+      236.0,
+      366.0
+     ],
+     [
+      236.0,
+      354.0
+     ],
+     [
+      234.0,
+      346.0
+     ],
+     [
+      236.0,
+      326.0
+     ],
+     [
+      238.0,
+      314.0
+     ],
+     [
+      238.0,
+      304.0
+     ],
+     [
+      238.0,
+      304.0
+     ],
+     [
+      230.0,
+      446.0
+     ],
+     [
+      238.0,
+      342.0
+     ],
+     [
+      226.0,
+      498.0
+     ],
+     [
+      228.0,
+      530.0
+     ]
+    ],
+    "torso_middle": [
+     [
+      158.0,
+      450.0
+     ],
+     [
+      158.0,
+      482.0
+     ],
+     [
+      158.0,
+      498.0
+     ],
+     [
+      156.0,
+      504.0
+     ],
+     [
+      158.0,
+      488.0
+     ],
+     [
+      158.0,
+      458.0
+     ],
+     [
+      154.0,
+      430.0
+     ],
+     [
+      154.0,
+      402.0
+     ],
+     [
+      154.0,
+      390.0
+     ],
+     [
+      152.0,
+      380.0
+     ],
+     [
+      152.0,
+      362.0
+     ],
+     [
+      154.0,
+      352.0
+     ],
+     [
+      154.0,
+      338.0
+     ],
+     [
+      154.0,
+      336.0
+     ],
+     [
+      154.0,
+      352.0
+     ],
+     [
+      156.0,
+      374.0
+     ],
+     [
+      156.0,
+      402.0
+     ],
+     [
+      158.0,
+      430.0
+     ]
+    ]
+   },
+   "seconds": 1.4583333333333333,
+   "size": [
+    376,
+    808
+   ],
+   "source": {
+    "film": "short_slim_front_run.mp4",
+    "from": 34,
+    "to": 69
+   },
+   "stand": 16,
+   "start": {
+    "ear_far_base": [
+     98.754638671875,
+     111.228759765625
+    ],
+    "ear_far_tip": [
+     91.13275146484375,
+     -2.97216796875
+    ],
+    "ear_near_base": [
+     199.8709716796875,
+     111.3907470703125
+    ],
+    "ear_near_tip": [
+     208.0872802734375,
+     -1.4871826171875
+    ],
+    "tail_root": [
+     242.1646728515625,
+     476.93707275390625
+    ],
+    "torso_middle": [
+     148.03851318359375,
+     374.8328857421875
+    ]
+   },
+   "stretch": 9,
+   "stride": [
+    27.0,
+    -153.0
+   ]
+  },
+  "short_slim/front/walk": {
+   "feet": [
+    224.19565399712656,
+    786.0
+   ],
+   "frames": [
+    "films/cat_short_slim_front_walk_00.png",
+    "films/cat_short_slim_front_walk_01.png",
+    "films/cat_short_slim_front_walk_02.png",
+    "films/cat_short_slim_front_walk_03.png",
+    "films/cat_short_slim_front_walk_04.png",
+    "films/cat_short_slim_front_walk_05.png",
+    "films/cat_short_slim_front_walk_06.png",
+    "films/cat_short_slim_front_walk_07.png",
+    "films/cat_short_slim_front_walk_08.png",
+    "films/cat_short_slim_front_walk_09.png",
+    "films/cat_short_slim_front_walk_10.png",
+    "films/cat_short_slim_front_walk_11.png"
+   ],
+   "height": 780.0,
+   "points": {
+    "ear_far_base": [
+     [
+      188.0,
+      146.0
+     ],
+     [
+      186.0,
+      152.0
+     ],
+     [
+      188.0,
+      144.0
+     ],
+     [
+      190.0,
+      124.0
+     ],
+     [
+      190.0,
+      120.0
+     ],
+     [
+      194.0,
+      136.0
+     ],
+     [
+      198.0,
+      150.0
+     ],
+     [
+      204.0,
+      154.0
+     ],
+     [
+      204.0,
+      138.0
+     ],
+     [
+      200.0,
+      122.0
+     ],
+     [
+      196.0,
+      116.0
+     ],
+     [
+      194.0,
+      128.0
+     ]
+    ],
+    "ear_far_tip": [
+     [
+      150.0,
+      46.0
+     ],
+     [
+      136.0,
+      46.0
+     ],
+     [
+      130.0,
+      38.0
+     ],
+     [
+      124.0,
+      32.0
+     ],
+     [
+      128.0,
+      20.0
+     ],
+     [
+      140.0,
+      32.0
+     ],
+     [
+      156.0,
+      46.0
+     ],
+     [
+      154.0,
+      44.0
+     ],
+     [
+      148.0,
+      36.0
+     ],
+     [
+      130.0,
+      26.0
+     ],
+     [
+      138.0,
+      18.0
+     ],
+     [
+      140.0,
+      34.0
+     ]
+    ],
+    "ear_near_base": [
+     [
+      274.0,
+      150.0
+     ],
+     [
+      272.0,
+      156.0
+     ],
+     [
+      274.0,
+      148.0
+     ],
+     [
+      274.0,
+      128.0
+     ],
+     [
+      274.0,
+      120.0
+     ],
+     [
+      278.0,
+      136.0
+     ],
+     [
+      282.0,
+      152.0
+     ],
+     [
+      288.0,
+      156.0
+     ],
+     [
+      290.0,
+      142.0
+     ],
+     [
+      288.0,
+      126.0
+     ],
+     [
+      284.0,
+      118.0
+     ],
+     [
+      282.0,
+      132.0
+     ]
+    ],
+    "ear_near_tip": [
+     [
+      292.0,
+      68.0
+     ],
+     [
+      296.0,
+      70.0
+     ],
+     [
+      292.0,
+      68.0
+     ],
+     [
+      280.0,
+      56.0
+     ],
+     [
+      280.0,
+      52.0
+     ],
+     [
+      280.0,
+      64.0
+     ],
+     [
+      284.0,
+      76.0
+     ],
+     [
+      292.0,
+      80.0
+     ],
+     [
+      306.0,
+      62.0
+     ],
+     [
+      304.0,
+      52.0
+     ],
+     [
+      300.0,
+      46.0
+     ],
+     [
+      296.0,
+      56.0
+     ]
+    ],
+    "tail_root": [
+     [
+      286.0,
+      472.0
+     ],
+     [
+      282.0,
+      480.0
+     ],
+     [
+      280.0,
+      488.0
+     ],
+     [
+      276.0,
+      464.0
+     ],
+     [
+      274.0,
+      446.0
+     ],
+     [
+      276.0,
+      446.0
+     ],
+     [
+      280.0,
+      474.0
+     ],
+     [
+      280.0,
+      490.0
+     ],
+     [
+      286.0,
+      480.0
+     ],
+     [
+      288.0,
+      468.0
+     ],
+     [
+      292.0,
+      460.0
+     ],
+     [
+      290.0,
+      472.0
+     ]
+    ],
+    "torso_middle": [
+     [
+      248.0,
+      422.0
+     ],
+     [
+      248.0,
+      416.0
+     ],
+     [
+      238.0,
+      416.0
+     ],
+     [
+      228.0,
+      392.0
+     ],
+     [
+      222.0,
+      382.0
+     ],
+     [
+      220.0,
+      396.0
+     ],
+     [
+      220.0,
+      414.0
+     ],
+     [
+      222.0,
+      426.0
+     ],
+     [
+      238.0,
+      424.0
+     ],
+     [
+      248.0,
+      408.0
+     ],
+     [
+      256.0,
+      390.0
+     ],
+     [
+      254.0,
+      402.0
+     ]
+    ]
+   },
+   "seconds": 1.0,
+   "size": [
+    386,
+    820
+   ],
+   "source": {
+    "film": "short_slim_front_walk.mp4",
+    "from": 21,
+    "to": 45
+   },
+   "stand": 5,
+   "start": {
+    "ear_far_base": [
+     153.547119140625,
+     107.34356689453125
+    ],
+    "ear_far_tip": [
+     145.250732421875,
+     -6.810302734375
+    ],
+    "ear_near_base": [
+     254.66265869140625,
+     106.908203125
+    ],
+    "ear_near_tip": [
+     262.21197509765625,
+     -6.01629638671875
+    ],
+    "tail_root": [
+     291.3955078125,
+     475.160888671875
+    ],
+    "torso_middle": [
+     200.03851318359375,
+     370.57171630859375
+    ]
+   },
+   "stretch": 9,
+   "stride": [
+    -186.0,
+    -54.0
    ]
   },
   "short_slim/side/run": {
@@ -24034,6 +27673,7 @@
     "from": 24,
     "to": 55
    },
+   "stand": 1,
    "start": {
     "ear_far_base": [
      340.53985595703125,
@@ -24060,9 +27700,1742 @@
      549.9379272460938
     ]
    },
+   "stretch": 7,
    "stride": [
     1844.5,
     46.5
+   ]
+  },
+  "short_slim/side/scratch": {
+   "feet": [
+    436.05587710499276,
+    1022.0
+   ],
+   "frames": [
+    "films/cat_short_slim_side_scratch_00.png",
+    "films/cat_short_slim_side_scratch_01.png",
+    "films/cat_short_slim_side_scratch_02.png",
+    "films/cat_short_slim_side_scratch_03.png",
+    "films/cat_short_slim_side_scratch_04.png",
+    "films/cat_short_slim_side_scratch_05.png",
+    "films/cat_short_slim_side_scratch_06.png",
+    "films/cat_short_slim_side_scratch_07.png",
+    "films/cat_short_slim_side_scratch_08.png",
+    "films/cat_short_slim_side_scratch_09.png",
+    "films/cat_short_slim_side_scratch_10.png",
+    "films/cat_short_slim_side_scratch_11.png",
+    "films/cat_short_slim_side_scratch_12.png",
+    "films/cat_short_slim_side_scratch_13.png",
+    "films/cat_short_slim_side_scratch_14.png",
+    "films/cat_short_slim_side_scratch_15.png",
+    "films/cat_short_slim_side_scratch_16.png",
+    "films/cat_short_slim_side_scratch_17.png",
+    "films/cat_short_slim_side_scratch_18.png",
+    "films/cat_short_slim_side_scratch_19.png",
+    "films/cat_short_slim_side_scratch_20.png",
+    "films/cat_short_slim_side_scratch_21.png",
+    "films/cat_short_slim_side_scratch_22.png",
+    "films/cat_short_slim_side_scratch_23.png",
+    "films/cat_short_slim_side_scratch_24.png",
+    "films/cat_short_slim_side_scratch_25.png",
+    "films/cat_short_slim_side_scratch_26.png",
+    "films/cat_short_slim_side_scratch_27.png",
+    "films/cat_short_slim_side_scratch_28.png",
+    "films/cat_short_slim_side_scratch_29.png",
+    "films/cat_short_slim_side_scratch_30.png",
+    "films/cat_short_slim_side_scratch_31.png",
+    "films/cat_short_slim_side_scratch_32.png",
+    "films/cat_short_slim_side_scratch_33.png",
+    "films/cat_short_slim_side_scratch_34.png",
+    "films/cat_short_slim_side_scratch_35.png",
+    "films/cat_short_slim_side_scratch_36.png",
+    "films/cat_short_slim_side_scratch_37.png",
+    "films/cat_short_slim_side_scratch_38.png",
+    "films/cat_short_slim_side_scratch_39.png"
+   ],
+   "height": 780.0,
+   "kind": "clip",
+   "loop": [
+    31,
+    38
+   ],
+   "points": {
+    "ear_far_base": [
+     [
+      108.0,
+      328.0
+     ],
+     [
+      92.0,
+      374.0
+     ],
+     [
+      106.0,
+      436.0
+     ],
+     [
+      162.0,
+      438.0
+     ],
+     [
+      208.0,
+      436.0
+     ],
+     [
+      324.0,
+      344.0
+     ],
+     [
+      384.0,
+      286.0
+     ],
+     [
+      432.0,
+      232.0
+     ],
+     [
+      448.0,
+      174.0
+     ],
+     [
+      416.0,
+      48.0
+     ],
+     [
+      390.0,
+      28.0
+     ],
+     [
+      354.0,
+      76.0
+     ],
+     [
+      342.0,
+      144.0
+     ],
+     [
+      318.0,
+      194.0
+     ],
+     [
+      344.0,
+      182.0
+     ],
+     [
+      382.0,
+      140.0
+     ],
+     [
+      394.0,
+      124.0
+     ],
+     [
+      388.0,
+      122.0
+     ],
+     [
+      354.0,
+      150.0
+     ],
+     [
+      324.0,
+      192.0
+     ],
+     [
+      334.0,
+      190.0
+     ],
+     [
+      374.0,
+      150.0
+     ],
+     [
+      386.0,
+      134.0
+     ],
+     [
+      374.0,
+      132.0
+     ],
+     [
+      330.0,
+      176.0
+     ],
+     [
+      318.0,
+      196.0
+     ],
+     [
+      344.0,
+      172.0
+     ],
+     [
+      366.0,
+      136.0
+     ],
+     [
+      358.0,
+      128.0
+     ],
+     [
+      324.0,
+      174.0
+     ],
+     [
+      310.0,
+      198.0
+     ],
+     [
+      314.0,
+      196.0
+     ],
+     [
+      354.0,
+      154.0
+     ],
+     [
+      364.0,
+      128.0
+     ],
+     [
+      354.0,
+      132.0
+     ],
+     [
+      348.0,
+      130.0
+     ],
+     [
+      334.0,
+      148.0
+     ],
+     [
+      316.0,
+      182.0
+     ],
+     [
+      316.0,
+      196.0
+     ],
+     [
+      350.0,
+      172.0
+     ]
+    ],
+    "ear_far_tip": [
+     [
+      106.0,
+      194.0
+     ],
+     [
+      86.0,
+      242.0
+     ],
+     [
+      110.0,
+      302.0
+     ],
+     [
+      194.0,
+      316.0
+     ],
+     [
+      252.0,
+      320.0
+     ],
+     [
+      414.0,
+      248.0
+     ],
+     [
+      448.0,
+      204.0
+     ],
+     [
+      494.0,
+      150.0
+     ],
+     [
+      512.0,
+      88.0
+     ],
+     [
+      456.0,
+      0.0
+     ],
+     [
+      456.0,
+      0.0
+     ],
+     [
+      422.0,
+      10.0
+     ],
+     [
+      402.0,
+      94.0
+     ],
+     [
+      376.0,
+      154.0
+     ],
+     [
+      410.0,
+      132.0
+     ],
+     [
+      448.0,
+      110.0
+     ],
+     [
+      462.0,
+      96.0
+     ],
+     [
+      454.0,
+      86.0
+     ],
+     [
+      410.0,
+      120.0
+     ],
+     [
+      380.0,
+      160.0
+     ],
+     [
+      400.0,
+      154.0
+     ],
+     [
+      442.0,
+      116.0
+     ],
+     [
+      458.0,
+      104.0
+     ],
+     [
+      442.0,
+      100.0
+     ],
+     [
+      396.0,
+      138.0
+     ],
+     [
+      384.0,
+      158.0
+     ],
+     [
+      420.0,
+      136.0
+     ],
+     [
+      448.0,
+      108.0
+     ],
+     [
+      438.0,
+      104.0
+     ],
+     [
+      394.0,
+      138.0
+     ],
+     [
+      378.0,
+      158.0
+     ],
+     [
+      396.0,
+      152.0
+     ],
+     [
+      438.0,
+      122.0
+     ],
+     [
+      450.0,
+      108.0
+     ],
+     [
+      440.0,
+      106.0
+     ],
+     [
+      420.0,
+      112.0
+     ],
+     [
+      402.0,
+      130.0
+     ],
+     [
+      382.0,
+      160.0
+     ],
+     [
+      390.0,
+      164.0
+     ],
+     [
+      428.0,
+      138.0
+     ]
+    ],
+    "ear_near_base": [
+     [
+      164.0,
+      322.0
+     ],
+     [
+      148.0,
+      368.0
+     ],
+     [
+      162.0,
+      436.0
+     ],
+     [
+      224.0,
+      450.0
+     ],
+     [
+      268.0,
+      460.0
+     ],
+     [
+      372.0,
+      382.0
+     ],
+     [
+      428.0,
+      328.0
+     ],
+     [
+      474.0,
+      276.0
+     ],
+     [
+      492.0,
+      218.0
+     ],
+     [
+      464.0,
+      90.0
+     ],
+     [
+      438.0,
+      70.0
+     ],
+     [
+      402.0,
+      114.0
+     ],
+     [
+      392.0,
+      178.0
+     ],
+     [
+      378.0,
+      234.0
+     ],
+     [
+      416.0,
+      222.0
+     ],
+     [
+      446.0,
+      184.0
+     ],
+     [
+      452.0,
+      168.0
+     ],
+     [
+      438.0,
+      166.0
+     ],
+     [
+      402.0,
+      198.0
+     ],
+     [
+      380.0,
+      240.0
+     ],
+     [
+      404.0,
+      236.0
+     ],
+     [
+      444.0,
+      196.0
+     ],
+     [
+      454.0,
+      176.0
+     ],
+     [
+      436.0,
+      170.0
+     ],
+     [
+      392.0,
+      218.0
+     ],
+     [
+      388.0,
+      240.0
+     ],
+     [
+      428.0,
+      210.0
+     ],
+     [
+      452.0,
+      180.0
+     ],
+     [
+      434.0,
+      172.0
+     ],
+     [
+      390.0,
+      218.0
+     ],
+     [
+      382.0,
+      240.0
+     ],
+     [
+      404.0,
+      236.0
+     ],
+     [
+      448.0,
+      198.0
+     ],
+     [
+      452.0,
+      180.0
+     ],
+     [
+      436.0,
+      184.0
+     ],
+     [
+      414.0,
+      190.0
+     ],
+     [
+      396.0,
+      212.0
+     ],
+     [
+      386.0,
+      244.0
+     ],
+     [
+      398.0,
+      252.0
+     ],
+     [
+      438.0,
+      218.0
+     ]
+    ],
+    "ear_near_tip": [
+     [
+      158.0,
+      176.0
+     ],
+     [
+      138.0,
+      212.0
+     ],
+     [
+      170.0,
+      274.0
+     ],
+     [
+      240.0,
+      290.0
+     ],
+     [
+      300.0,
+      296.0
+     ],
+     [
+      426.0,
+      228.0
+     ],
+     [
+      486.0,
+      174.0
+     ],
+     [
+      530.0,
+      120.0
+     ],
+     [
+      546.0,
+      62.0
+     ],
+     [
+      524.0,
+      0.0
+     ],
+     [
+      488.0,
+      0.0
+     ],
+     [
+      448.0,
+      42.0
+     ],
+     [
+      432.0,
+      70.0
+     ],
+     [
+      398.0,
+      96.0
+     ],
+     [
+      428.0,
+      92.0
+     ],
+     [
+      490.0,
+      56.0
+     ],
+     [
+      508.0,
+      50.0
+     ],
+     [
+      492.0,
+      38.0
+     ],
+     [
+      442.0,
+      72.0
+     ],
+     [
+      402.0,
+      110.0
+     ],
+     [
+      418.0,
+      116.0
+     ],
+     [
+      478.0,
+      70.0
+     ],
+     [
+      510.0,
+      52.0
+     ],
+     [
+      488.0,
+      46.0
+     ],
+     [
+      410.0,
+      98.0
+     ],
+     [
+      416.0,
+      100.0
+     ],
+     [
+      400.0,
+      58.0
+     ],
+     [
+      464.0,
+      104.0
+     ],
+     [
+      452.0,
+      100.0
+     ],
+     [
+      408.0,
+      86.0
+     ],
+     [
+      388.0,
+      100.0
+     ],
+     [
+      406.0,
+      150.0
+     ],
+     [
+      448.0,
+      122.0
+     ],
+     [
+      460.0,
+      106.0
+     ],
+     [
+      450.0,
+      104.0
+     ],
+     [
+      428.0,
+      110.0
+     ],
+     [
+      408.0,
+      130.0
+     ],
+     [
+      390.0,
+      156.0
+     ],
+     [
+      380.0,
+      132.0
+     ],
+     [
+      434.0,
+      134.0
+     ]
+    ],
+    "tail_root": [
+     [
+      714.0,
+      636.0
+     ],
+     [
+      716.0,
+      650.0
+     ],
+     [
+      720.0,
+      696.0
+     ],
+     [
+      734.0,
+      736.0
+     ],
+     [
+      748.0,
+      762.0
+     ],
+     [
+      766.0,
+      808.0
+     ],
+     [
+      756.0,
+      812.0
+     ],
+     [
+      752.0,
+      810.0
+     ],
+     [
+      720.0,
+      774.0
+     ],
+     [
+      666.0,
+      662.0
+     ],
+     [
+      578.0,
+      646.0
+     ],
+     [
+      514.0,
+      708.0
+     ],
+     [
+      514.0,
+      764.0
+     ],
+     [
+      542.0,
+      804.0
+     ],
+     [
+      576.0,
+      786.0
+     ],
+     [
+      576.0,
+      744.0
+     ],
+     [
+      570.0,
+      726.0
+     ],
+     [
+      568.0,
+      722.0
+     ],
+     [
+      558.0,
+      742.0
+     ],
+     [
+      558.0,
+      782.0
+     ],
+     [
+      560.0,
+      792.0
+     ],
+     [
+      582.0,
+      756.0
+     ],
+     [
+      574.0,
+      732.0
+     ],
+     [
+      562.0,
+      722.0
+     ],
+     [
+      564.0,
+      764.0
+     ],
+     [
+      580.0,
+      776.0
+     ],
+     [
+      570.0,
+      758.0
+     ],
+     [
+      564.0,
+      732.0
+     ],
+     [
+      534.0,
+      742.0
+     ],
+     [
+      562.0,
+      770.0
+     ],
+     [
+      550.0,
+      782.0
+     ],
+     [
+      582.0,
+      774.0
+     ],
+     [
+      614.0,
+      748.0
+     ],
+     [
+      572.0,
+      728.0
+     ],
+     [
+      558.0,
+      730.0
+     ],
+     [
+      542.0,
+      718.0
+     ],
+     [
+      536.0,
+      734.0
+     ],
+     [
+      540.0,
+      768.0
+     ],
+     [
+      562.0,
+      782.0
+     ],
+     [
+      582.0,
+      772.0
+     ]
+    ],
+    "torso_middle": [
+     [
+      434.0,
+      566.0
+     ],
+     [
+      438.0,
+      570.0
+     ],
+     [
+      456.0,
+      592.0
+     ],
+     [
+      496.0,
+      590.0
+     ],
+     [
+      528.0,
+      592.0
+     ],
+     [
+      582.0,
+      592.0
+     ],
+     [
+      592.0,
+      592.0
+     ],
+     [
+      576.0,
+      596.0
+     ],
+     [
+      518.0,
+      574.0
+     ],
+     [
+      428.0,
+      438.0
+     ],
+     [
+      376.0,
+      408.0
+     ],
+     [
+      338.0,
+      458.0
+     ],
+     [
+      342.0,
+      532.0
+     ],
+     [
+      370.0,
+      584.0
+     ],
+     [
+      396.0,
+      576.0
+     ],
+     [
+      394.0,
+      536.0
+     ],
+     [
+      366.0,
+      508.0
+     ],
+     [
+      348.0,
+      504.0
+     ],
+     [
+      344.0,
+      536.0
+     ],
+     [
+      360.0,
+      578.0
+     ],
+     [
+      386.0,
+      574.0
+     ],
+     [
+      404.0,
+      544.0
+     ],
+     [
+      390.0,
+      508.0
+     ],
+     [
+      364.0,
+      508.0
+     ],
+     [
+      360.0,
+      558.0
+     ],
+     [
+      376.0,
+      576.0
+     ],
+     [
+      388.0,
+      554.0
+     ],
+     [
+      370.0,
+      522.0
+     ],
+     [
+      336.0,
+      510.0
+     ],
+     [
+      342.0,
+      554.0
+     ],
+     [
+      358.0,
+      574.0
+     ],
+     [
+      386.0,
+      570.0
+     ],
+     [
+      402.0,
+      544.0
+     ],
+     [
+      380.0,
+      500.0
+     ],
+     [
+      358.0,
+      506.0
+     ],
+     [
+      338.0,
+      508.0
+     ],
+     [
+      336.0,
+      524.0
+     ],
+     [
+      346.0,
+      558.0
+     ],
+     [
+      378.0,
+      574.0
+     ],
+     [
+      398.0,
+      560.0
+     ]
+    ]
+   },
+   "seconds": 5.0,
+   "size": [
+    1092,
+    1040
+   ],
+   "source": {
+    "film": "short_slim_side_scratch.mp4",
+    "from": 0,
+    "to": 120
+   },
+   "start": {
+    "ear_far_base": [
+     107.591064453125,
+     327.60406494140625
+    ],
+    "ear_far_tip": [
+     107.26934814453125,
+     188.2166748046875
+    ],
+    "ear_near_base": [
+     163.97357177734375,
+     322.91143798828125
+    ],
+    "ear_near_tip": [
+     165.26446533203125,
+     162.4957275390625
+    ],
+    "tail_root": [
+     713.4375,
+     635.1798095703125
+    ],
+    "torso_middle": [
+     433.62353515625,
+     565.8908081054688
+    ]
+   },
+   "stride": [
+    56.0,
+    -56.0
+   ]
+  },
+  "short_slim/side/sit": {
+   "feet": [
+    446.0240355291969,
+    824.0
+   ],
+   "frames": [
+    "films/cat_short_slim_side_sit_00.png",
+    "films/cat_short_slim_side_sit_01.png",
+    "films/cat_short_slim_side_sit_02.png",
+    "films/cat_short_slim_side_sit_03.png",
+    "films/cat_short_slim_side_sit_04.png",
+    "films/cat_short_slim_side_sit_05.png",
+    "films/cat_short_slim_side_sit_06.png",
+    "films/cat_short_slim_side_sit_07.png",
+    "films/cat_short_slim_side_sit_08.png",
+    "films/cat_short_slim_side_sit_09.png",
+    "films/cat_short_slim_side_sit_10.png",
+    "films/cat_short_slim_side_sit_11.png",
+    "films/cat_short_slim_side_sit_12.png",
+    "films/cat_short_slim_side_sit_13.png",
+    "films/cat_short_slim_side_sit_14.png",
+    "films/cat_short_slim_side_sit_15.png",
+    "films/cat_short_slim_side_sit_16.png",
+    "films/cat_short_slim_side_sit_17.png",
+    "films/cat_short_slim_side_sit_18.png",
+    "films/cat_short_slim_side_sit_19.png",
+    "films/cat_short_slim_side_sit_20.png",
+    "films/cat_short_slim_side_sit_21.png",
+    "films/cat_short_slim_side_sit_22.png",
+    "films/cat_short_slim_side_sit_23.png"
+   ],
+   "height": 780.0,
+   "kind": "clip",
+   "points": {
+    "ear_far_base": [
+     [
+      96.0,
+      180.0
+     ],
+     [
+      100.0,
+      188.0
+     ],
+     [
+      110.0,
+      202.0
+     ],
+     [
+      114.0,
+      206.0
+     ],
+     [
+      116.0,
+      210.0
+     ],
+     [
+      122.0,
+      218.0
+     ],
+     [
+      126.0,
+      222.0
+     ],
+     [
+      128.0,
+      234.0
+     ],
+     [
+      128.0,
+      246.0
+     ],
+     [
+      120.0,
+      268.0
+     ],
+     [
+      114.0,
+      276.0
+     ],
+     [
+      112.0,
+      282.0
+     ],
+     [
+      114.0,
+      288.0
+     ],
+     [
+      118.0,
+      296.0
+     ],
+     [
+      126.0,
+      308.0
+     ],
+     [
+      164.0,
+      314.0
+     ],
+     [
+      180.0,
+      316.0
+     ],
+     [
+      198.0,
+      320.0
+     ],
+     [
+      216.0,
+      334.0
+     ],
+     [
+      252.0,
+      334.0
+     ],
+     [
+      276.0,
+      332.0
+     ],
+     [
+      300.0,
+      332.0
+     ],
+     [
+      340.0,
+      326.0
+     ],
+     [
+      350.0,
+      330.0
+     ]
+    ],
+    "ear_far_tip": [
+     [
+      94.0,
+      46.0
+     ],
+     [
+      98.0,
+      54.0
+     ],
+     [
+      106.0,
+      70.0
+     ],
+     [
+      110.0,
+      74.0
+     ],
+     [
+      118.0,
+      82.0
+     ],
+     [
+      122.0,
+      92.0
+     ],
+     [
+      126.0,
+      98.0
+     ],
+     [
+      130.0,
+      110.0
+     ],
+     [
+      126.0,
+      120.0
+     ],
+     [
+      122.0,
+      140.0
+     ],
+     [
+      116.0,
+      150.0
+     ],
+     [
+      114.0,
+      156.0
+     ],
+     [
+      124.0,
+      170.0
+     ],
+     [
+      142.0,
+      186.0
+     ],
+     [
+      168.0,
+      206.0
+     ],
+     [
+      212.0,
+      222.0
+     ],
+     [
+      224.0,
+      226.0
+     ],
+     [
+      224.0,
+      230.0
+     ],
+     [
+      248.0,
+      240.0
+     ],
+     [
+      272.0,
+      244.0
+     ],
+     [
+      288.0,
+      244.0
+     ],
+     [
+      308.0,
+      248.0
+     ],
+     [
+      356.0,
+      246.0
+     ],
+     [
+      360.0,
+      254.0
+     ]
+    ],
+    "ear_near_base": [
+     [
+      152.0,
+      176.0
+     ],
+     [
+      156.0,
+      184.0
+     ],
+     [
+      164.0,
+      198.0
+     ],
+     [
+      168.0,
+      202.0
+     ],
+     [
+      170.0,
+      206.0
+     ],
+     [
+      176.0,
+      214.0
+     ],
+     [
+      180.0,
+      218.0
+     ],
+     [
+      182.0,
+      230.0
+     ],
+     [
+      180.0,
+      242.0
+     ],
+     [
+      172.0,
+      262.0
+     ],
+     [
+      166.0,
+      270.0
+     ],
+     [
+      162.0,
+      276.0
+     ],
+     [
+      164.0,
+      286.0
+     ],
+     [
+      168.0,
+      294.0
+     ],
+     [
+      178.0,
+      308.0
+     ],
+     [
+      216.0,
+      320.0
+     ],
+     [
+      232.0,
+      322.0
+     ],
+     [
+      252.0,
+      326.0
+     ],
+     [
+      266.0,
+      334.0
+     ],
+     [
+      296.0,
+      330.0
+     ],
+     [
+      316.0,
+      328.0
+     ],
+     [
+      340.0,
+      330.0
+     ],
+     [
+      380.0,
+      322.0
+     ],
+     [
+      388.0,
+      328.0
+     ]
+    ],
+    "ear_near_tip": [
+     [
+      146.0,
+      28.0
+     ],
+     [
+      146.0,
+      34.0
+     ],
+     [
+      154.0,
+      50.0
+     ],
+     [
+      158.0,
+      54.0
+     ],
+     [
+      158.0,
+      56.0
+     ],
+     [
+      166.0,
+      70.0
+     ],
+     [
+      170.0,
+      76.0
+     ],
+     [
+      170.0,
+      86.0
+     ],
+     [
+      170.0,
+      98.0
+     ],
+     [
+      164.0,
+      124.0
+     ],
+     [
+      156.0,
+      130.0
+     ],
+     [
+      156.0,
+      138.0
+     ],
+     [
+      168.0,
+      152.0
+     ],
+     [
+      186.0,
+      172.0
+     ],
+     [
+      210.0,
+      192.0
+     ],
+     [
+      254.0,
+      226.0
+     ],
+     [
+      238.0,
+      226.0
+     ],
+     [
+      278.0,
+      234.0
+     ],
+     [
+      284.0,
+      242.0
+     ],
+     [
+      296.0,
+      240.0
+     ],
+     [
+      314.0,
+      240.0
+     ],
+     [
+      334.0,
+      242.0
+     ],
+     [
+      378.0,
+      240.0
+     ],
+     [
+      382.0,
+      250.0
+     ]
+    ],
+    "tail_root": [
+     [
+      702.0,
+      488.0
+     ],
+     [
+      698.0,
+      498.0
+     ],
+     [
+      688.0,
+      526.0
+     ],
+     [
+      684.0,
+      540.0
+     ],
+     [
+      680.0,
+      552.0
+     ],
+     [
+      674.0,
+      578.0
+     ],
+     [
+      670.0,
+      590.0
+     ],
+     [
+      662.0,
+      610.0
+     ],
+     [
+      650.0,
+      624.0
+     ],
+     [
+      630.0,
+      628.0
+     ],
+     [
+      620.0,
+      620.0
+     ],
+     [
+      606.0,
+      620.0
+     ],
+     [
+      590.0,
+      646.0
+     ],
+     [
+      578.0,
+      668.0
+     ],
+     [
+      566.0,
+      690.0
+     ],
+     [
+      556.0,
+      730.0
+     ],
+     [
+      554.0,
+      740.0
+     ],
+     [
+      552.0,
+      744.0
+     ],
+     [
+      552.0,
+      746.0
+     ],
+     [
+      554.0,
+      748.0
+     ],
+     [
+      554.0,
+      750.0
+     ],
+     [
+      554.0,
+      750.0
+     ],
+     [
+      550.0,
+      750.0
+     ],
+     [
+      548.0,
+      750.0
+     ]
+    ],
+    "torso_middle": [
+     [
+      422.0,
+      418.0
+     ],
+     [
+      422.0,
+      426.0
+     ],
+     [
+      424.0,
+      442.0
+     ],
+     [
+      424.0,
+      448.0
+     ],
+     [
+      424.0,
+      454.0
+     ],
+     [
+      426.0,
+      466.0
+     ],
+     [
+      426.0,
+      470.0
+     ],
+     [
+      424.0,
+      478.0
+     ],
+     [
+      420.0,
+      484.0
+     ],
+     [
+      406.0,
+      488.0
+     ],
+     [
+      396.0,
+      482.0
+     ],
+     [
+      392.0,
+      484.0
+     ],
+     [
+      392.0,
+      502.0
+     ],
+     [
+      394.0,
+      512.0
+     ],
+     [
+      402.0,
+      524.0
+     ],
+     [
+      428.0,
+      558.0
+     ],
+     [
+      438.0,
+      570.0
+     ],
+     [
+      446.0,
+      574.0
+     ],
+     [
+      458.0,
+      578.0
+     ],
+     [
+      468.0,
+      578.0
+     ],
+     [
+      474.0,
+      580.0
+     ],
+     [
+      482.0,
+      586.0
+     ],
+     [
+      494.0,
+      590.0
+     ],
+     [
+      492.0,
+      594.0
+     ]
+    ]
+   },
+   "seconds": 2.9166666666666665,
+   "size": [
+    956,
+    862
+   ],
+   "source": {
+    "film": "short_slim_side_sit.mp4",
+    "from": 0,
+    "to": 70
+   },
+   "start": {
+    "ear_far_base": [
+     95.591064453125,
+     179.60406494140625
+    ],
+    "ear_far_tip": [
+     95.26934814453125,
+     40.2166748046875
+    ],
+    "ear_near_base": [
+     151.97357177734375,
+     174.91143798828125
+    ],
+    "ear_near_tip": [
+     153.26446533203125,
+     14.4957275390625
+    ],
+    "tail_root": [
+     701.4375,
+     487.1798095703125
+    ],
+    "torso_middle": [
+     421.62353515625,
+     417.89080810546875
+    ]
+   },
+   "stride": [
+    46.5,
+    15.5
    ]
   },
   "short_slim/side/walk": {
@@ -24447,6 +29820,7 @@
     "from": 37,
     "to": 65
    },
+   "stand": 11,
    "start": {
     "ear_far_base": [
      117.0517578125,
@@ -24473,6 +29847,7 @@
      431.876708984375
     ]
    },
+   "stretch": 1,
    "stride": [
     707.0,
     -7.0
@@ -24910,6 +30285,7 @@
     "from": 15,
     "to": 60
    },
+   "stand": 15,
    "start": {
     "ear_far_base": [
      278.2801513671875,
@@ -24936,6 +30312,7 @@
      401.57391357421875
     ]
    },
+   "stretch": 9,
    "stride": [
     2137.5,
     -22.5
@@ -25973,6 +31350,7 @@
     "from": 21,
     "to": 62
    },
+   "stand": 27,
    "start": {
     "ear_far_base": [
      184.3472900390625,
@@ -25999,6 +31377,7 @@
      377.5126953125
     ]
    },
+   "stretch": 15,
    "stride": [
     635.5,
     -61.5
@@ -26436,6 +31815,7 @@
     "from": 24,
     "to": 61
    },
+   "stand": 14,
    "start": {
     "ear_far_base": [
      373.88348388671875,
@@ -26462,6 +31842,7 @@
      494.2288818359375
     ]
    },
+   "stretch": 1,
    "stride": [
     1720.5,
     -18.5
@@ -27099,6 +32480,7 @@
     "from": 7,
     "to": 31
    },
+   "stand": 17,
    "start": {
     "ear_far_base": [
      175.20281982421875,
@@ -27125,6 +32507,7 @@
      418.16766357421875
     ]
    },
+   "stretch": 9,
    "stride": [
     732.0,
     -12.0
@@ -27298,6 +32681,7 @@
     "from": 25,
     "to": 60
    },
+   "stand": 14,
    "start": {
     "tail_root": [
      912.0498046875,
@@ -27308,6 +32692,7 @@
      398.51190185546875
     ]
    },
+   "stretch": 9,
    "stride": [
     1732.5,
     -122.5
@@ -27580,6 +32965,7 @@
     "from": 23,
     "to": 50
    },
+   "stand": 25,
    "start": {
     "tail_root": [
      749.40576171875,
@@ -27590,6 +32976,7 @@
      416.45068359375
     ]
    },
+   "stretch": 19,
    "stride": [
     553.5,
     -40.5
@@ -28027,6 +33414,7 @@
     "from": 19,
     "to": 64
    },
+   "stand": 8,
    "start": {
     "ear_far_base": [
      434.5089111328125,
@@ -28053,6 +33441,7 @@
      470.76690673828125
     ]
    },
+   "stretch": 5,
    "stride": [
     2182.5,
     -22.5
@@ -28815,6 +34204,7 @@
     "from": 14,
     "to": 43
    },
+   "stand": 19,
    "start": {
     "ear_far_base": [
      147.3043212890625,
@@ -28841,6 +34231,7 @@
      446.7056884765625
     ]
    },
+   "stretch": 11,
    "stride": [
     391.5,
     -14.5
@@ -29278,6 +34669,7 @@
     "from": 15,
     "to": 56
    },
+   "stand": 15,
    "start": {
     "ear_far_base": [
      282.6168212890625,
@@ -29304,6 +34696,7 @@
      435.2808837890625
     ]
    },
+   "stretch": 6,
    "stride": [
     2029.5,
     -61.5
@@ -29691,6 +35084,7 @@
     "from": 23,
     "to": 37
    },
+   "stand": 1,
    "start": {
     "ear_far_base": [
      141.5260009765625,
@@ -29717,6 +35111,7 @@
      375.21966552734375
     ]
    },
+   "stretch": 8,
    "stride": [
     329.0,
     -21.0

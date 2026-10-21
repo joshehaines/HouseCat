@@ -93,6 +93,58 @@ func theCatSitsOnTheSillInsideItsWindow(size: CGSize) throws {
     }
 }
 
+/// The decorate tray's pictures are small copies decoded when made (21 Oct: a list of HEIC pictures decoded together hung
+/// the app on the tray's Shop tab): a HEIC furniture piece and a HEIC wallpaper come back at most the card's size, and
+/// the same picture is kept, not made again.
+@MainActor
+@Test func cardPicturesAreSmallAndKept() throws {
+    let art = try #require(art)
+    for path in ["furniture/living/furn_living_armchair_R.png", "rooms/walls/wall_attic_pine_planks.png"] {
+        #expect(art.has(path), "\(path)")
+        let small = try #require(art.thumbnail(path, pixels: Tuning.Stage.cardPicturePixels), "\(path)")
+        #expect(max(small.width, small.height) <= Tuning.Stage.cardPicturePixels, "\(path)")
+        #expect(max(small.width, small.height) >= Tuning.Stage.cardPicturePixels / 2, "\(path)")
+        #expect(art.thumbnail(path, pixels: Tuning.Stage.cardPicturePixels) === small)
+        // Plain pixels, redrawn (not ImageIO's picture, which goes back to its HEIC file each time it is drawn).
+        #expect(small.alphaInfo == .premultipliedLast && small.bitsPerComponent == 8, "\(path)")
+    }
+}
+
+/// The tray's pictures are made off the main thread and arrive in batches: none is there before it is asked for, each
+/// is there once `ready` has run for the last batch, and asking again while they are on their way makes none twice.
+@MainActor
+@Test func cardPicturesArriveFromOffTheMainThread() async throws {
+    let repo = URL(fileURLWithPath: #filePath)
+        .deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
+        .deletingLastPathComponent().deletingLastPathComponent()
+    let fresh = try ArtLibrary(root: repo.appendingPathComponent("App/Art"))
+    let paths = ["furniture/living/furn_living_armchair_R.png", "furniture/living/furn_living_bookcase_R.png",
+                 "furniture/living/furn_living_coffee_R.png", "rooms/walls/wall_attic_pine_planks.png"]
+    let pixels = Tuning.Stage.cardPicturePixels
+    #expect(paths.allSatisfy { fresh.cachedThumbnail($0, pixels: pixels) == nil })
+    final class Calls {
+        var count = 0
+    }
+    let calls = Calls()
+    await withCheckedContinuation { (done: CheckedContinuation<Void, Never>) in
+        fresh.makeThumbnails(paths, pixels: pixels, batch: 3) {
+            calls.count += 1
+            if calls.count == 2 {
+                done.resume()
+            }
+        }
+        // Asked again on the way: nothing more is made.
+        fresh.makeThumbnails(paths, pixels: pixels, batch: 3) {
+            calls.count += 100
+        }
+    }
+    #expect(calls.count == 2)
+    for path in paths {
+        let small = try #require(fresh.cachedThumbnail(path, pixels: pixels), "\(path)")
+        #expect(max(small.width, small.height) <= pixels)
+    }
+}
+
 /// Stills of the cat at a window for judging by eye without a simulator: each scene in each sky, framed as a phone on
 /// its side (at twice its points) and a 13-inch iPad frame it, the cat at the window the rules pick for the ground
 /// floor (or `HOUSECAT_RENDER_STOREY`), in the pose they pick or `HOUSECAT_RENDER_POSE`.

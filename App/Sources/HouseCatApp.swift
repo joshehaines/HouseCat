@@ -326,6 +326,18 @@ enum CatScreens {
         GameWorld.art?.image(path).map { Image(decorative: $0, scale: 1) }
     }
 
+    /// A card's picture in a list (the decorate tray): its small copy once made, nil until then. A list of full pictures
+    /// left SwiftUI decoding dozens of HEIC files at once, which hung the app on the tray's Shop tab (21 Oct); the
+    /// copies are made off the main thread, one at a time (`ArtLibrary.makeThumbnails`, asked for by `cardPictures`).
+    static func cardPicture(_ path: String) -> Image? {
+        GameWorld.art?.cachedThumbnail(path, pixels: Tuning.Stage.cardPicturePixels).map { Image(decorative: $0, scale: 1) }
+    }
+
+    /// Asks for the cards' pictures not made yet; `ready` runs as each few arrive.
+    static func cardPictures(_ paths: [String], ready: @escaping @MainActor () -> Void) {
+        GameWorld.art?.makeThumbnails(paths, pixels: Tuning.Stage.cardPicturePixels, batch: Tuning.Stage.cardPictureBatch, ready: ready)
+    }
+
     /// The cat sitting three-quarter front in its look, wearing what it has on.
     static func portrait(_ look: CatLook, outfit: OutfitsFile.Outfit? = GameSession.shared.wornOutfit) -> CGImage? {
         guard let catArt = GameWorld.catArt else { return nil }
@@ -630,6 +642,10 @@ struct RoomScreen: View {
             .animation(.easeOut(duration: 0.25), value: visit.decorating)
             .onChange(of: visit.decorating) { _, decorating in
                 (visit.scene as? RoomScene)?.bottomInset = decorating ? DecorateTray.height(scale: hudScale) : restInset
+                // The shop's pictures are started now, so they are usually here before its tab is opened.
+                if decorating {
+                    CatScreens.cardPictures(visit.shopEntries.map(\.sprite)) { visit.cardPicturesArrived() }
+                }
             }
             .onChange(of: hudScale) {
                 // An iPad turned or its window resized: the room lifts to match.
@@ -1621,7 +1637,15 @@ struct RoomScreen: View {
     }
 
     private func trayEntries() -> [DecorateTray.Entry] {
-        switch visit.trayMode {
+        // Drawn again as the cards' pictures arrive (made off the main thread; a card shows its box until then).
+        _ = visit.cardPictures
+        let sprites: [String] = switch visit.trayMode {
+        case .furniture: visit.inventory.map(\.sprite)
+        case .shop: visit.shopEntries.map(\.sprite)
+        case .walls, .floors: visit.surfaceOptions.options.map(\.sprite)
+        }
+        CatScreens.cardPictures(sprites) { visit.cardPicturesArrived() }
+        return switch visit.trayMode {
         case .furniture: visit.inventory.map(trayEntry)
         case .shop: visit.shopEntries.map(shopEntry)
         case .walls, .floors: surfaceEntries()
@@ -1630,7 +1654,7 @@ struct RoomScreen: View {
 
     /// A Bean-shop piece with its price (or the level it needs).
     private func shopEntry(_ entry: GameSession.ShopEntry) -> DecorateTray.Entry {
-        let image = CatScreens.picture(entry.sprite)
+        let image = CatScreens.cardPicture(entry.sprite)
         let (price, enabled, short) = switch entry.status {
         case let .buyable(price): ("\(price) Beans", true, false)
         // Short of Beans: still tappable, for a top-up (Josh, 18 Oct).
@@ -1644,14 +1668,14 @@ struct RoomScreen: View {
     private func surfaceEntries() -> [DecorateTray.Entry] {
         let (options, current) = visit.surfaceOptions
         return options.map { surface in
-            let image = CatScreens.picture(surface.sprite)
+            let image = CatScreens.cardPicture(surface.sprite)
             return DecorateTray.Entry(id: surface.id, name: surface.name, count: 1, image: image, selected: surface.id == current)
         }
     }
 
     /// A tray entry with the piece's picture from the app art.
     private func trayEntry(_ entry: GameSession.InventoryEntry) -> DecorateTray.Entry {
-        let image = CatScreens.picture(entry.sprite)
+        let image = CatScreens.cardPicture(entry.sprite)
         return DecorateTray.Entry(id: entry.id, name: entry.name, count: entry.count, image: image)
     }
 

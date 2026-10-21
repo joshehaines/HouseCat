@@ -1420,6 +1420,11 @@ public enum Tuning {
         public static let hudDesignWidth = 720.0
         public static let hudDesignHeight = 500.0
         public static let hudLargestScale = 1.6
+        /// A card's picture in a list (the decorate tray's 60-point pictures): at most this many pixels on its longer
+        /// side, enough for a phone's 3x and an iPad's 1.6 at 2x.
+        public static let cardPicturePixels = 240
+        /// They are made off the main thread one at a time, and the tray is drawn again after each this many.
+        public static let cardPictureBatch = 6
         /// A sheet over the room on an iPad (the profile, the settings, the book): this size (points) at the
         /// controls' scale, kept `sheetMargin` inside the window.
         public static let sheetWidth = 700.0

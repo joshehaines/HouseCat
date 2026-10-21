@@ -358,6 +358,9 @@ final class Visit {
             case "walls":
                 toggleDecorating()
                 trayMode = .walls
+            case "shoptray":
+                toggleDecorating()
+                trayMode = .shop
             case "feed":
                 feed()
             case "pet":
@@ -535,6 +538,13 @@ final class Visit {
     }
 
     var trayMode = TrayMode.furniture
+
+    /// Counts up as the tray's card pictures arrive (made off the main thread), so the tray draws them.
+    private(set) var cardPictures = 0
+
+    func cardPicturesArrived() {
+        cardPictures += 1
+    }
 
     /// The surfaces for the tray's walls or floors mode, with the one up now.
     var surfaceOptions: (options: [CatalogueFile.Surface], current: String?) {

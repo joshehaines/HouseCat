@@ -22,9 +22,11 @@ struct HealthCard: View {
             }
             // As tall as its tallest tile, the three the same (on an iPad's tall screen they stretched to fill it).
             .fixedSize(horizontal: false, vertical: true)
-            Text("Only these three, read from Health on this device. Nothing is written to Health or sent anywhere, and a day without is never held against you.")
-                .font(.caption).foregroundStyle(Theme.inkSoft)
-                .fixedSize(horizontal: false, vertical: true)
+            Text(
+                "Only these three, read from Health on this device. Nothing is written to Health or sent anywhere, and a day without is never held against you."
+            )
+            .font(.caption).foregroundStyle(Theme.inkSoft)
+            .fixedSize(horizontal: false, vertical: true)
             HStack(spacing: 10) {
                 Spacer()
                 HUDButton("Not now") {
@@ -91,6 +93,48 @@ struct HealthSettingsCard: View {
                 HealthLayer.on = on
             }
         }
+    }
+}
+
+/// "Help improve HouseCat?", once, on the second day of care (Josh, 21 Oct: a card in the house style rather than
+/// only the switch in Settings; `AnalyticsRules` keeps it off the days the reminders and Health cards have). Plain
+/// about what is sent and what never is; Not now never asks again, and the Settings switch stays either way.
+struct AnalyticsPromptCard: View {
+    let done: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 8) {
+                PaintedIcon("group_of_three_paw_prints", size: 34)
+                Text("Help improve HouseCat?").font(Theme.title(22))
+            }
+            Text(
+                "Send anonymous counts of what gets used, such as how many people finish the tour or open the shop. No account, no names or places, nothing you type, and never tracked across other apps or websites."
+            )
+            .font(.subheadline)
+            .fixedSize(horizontal: false, vertical: true)
+            Text("You can change this any time in Settings.")
+                .font(.caption).foregroundStyle(Theme.inkSoft)
+            HStack(spacing: 10) {
+                Spacer()
+                HUDButton("Not now") {
+                    Analytics.asked = true
+                    done()
+                }
+                .accessibilityIdentifier("analyticsNotNow")
+                HUDButton("Yes, help", icon: "group_of_three_paw_prints", prominent: true) {
+                    Analytics.on = true
+                    Analytics.asked = true
+                    done()
+                }
+                .accessibilityIdentifier("analyticsYes")
+            }
+        }
+        .padding(20)
+        .frame(maxWidth: 520)
+        .paper(RoundedRectangle(cornerRadius: 24, style: .continuous))
+        .foregroundStyle(Theme.ink)
+        .accessibilityIdentifier("analyticsCard")
     }
 }
 

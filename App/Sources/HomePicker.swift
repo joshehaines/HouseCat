@@ -5,7 +5,8 @@ import SwiftUI
 
 /// Onboarding's house step (SPEC "The session loop": cat, geography, house, first arrival): the eight homes,
 /// each painted where you pinned yours, a summer picture. The London terrace's exteriors are in the app; the
-/// others arrive as a download (HomePacks), and until then the visit simply starts inside.
+/// others arrive as a download (HomePacks), and until then the visit simply starts inside. Choosing one of those says
+/// how big the download is on the "Before you move in" card (on an iPad too) before it is asked for.
 ///
 /// Josh, 19 Oct: "put a bigger warning when choosing a house, they should understand that the colours etc will be
 /// different based on season etc." So the home you pick can be seen at four times of day, and through the year when
@@ -65,6 +66,18 @@ struct HomePicker: View {
             if home != nil, let current = GameSession.shared.state(at: GameSession.shared.now()).home.style {
                 chosen = current
             }
+            // So the download note can say whether it would come over mobile data.
+            HomePacks.watchNetwork()
+            #if DEBUG
+                // Screenshot runs: HOUSECAT_HOME=<style> starts on that home, HOUSECAT_HOME_CONFIRM=1 on its card.
+                let environment = ProcessInfo.processInfo.environment
+                if let name = environment["HOUSECAT_HOME"], let style = HouseStyle(rawValue: name) {
+                    chosen = style
+                }
+                if environment["HOUSECAT_HOME_CONFIRM"] == "1" {
+                    confirming = true
+                }
+            #endif
         }
         .onChange(of: chosen) { _, _ in
             if seasonPaintings == nil {
@@ -166,7 +179,7 @@ struct HomePicker: View {
             .overlay(alignment: .bottomLeading) { skyChips(s).padding(10 * s) }
             .overlay(alignment: .topTrailing) {
                 if let seasons = seasonPaintings {
-                    seasonChips(seasons.map { $0.0 }, s).padding(10 * s)
+                    seasonChips(seasons.map(\.0), s).padding(10 * s)
                 }
             }
             .overlay(alignment: .leading) { arrow("chevron.left", by: -1, s).padding(.leading, 10 * s) }
@@ -378,7 +391,8 @@ struct HomePicker: View {
         let corner = 22 * s
         return Button {
             feedback.tap()
-            if compact {
+            // A phone confirms on the card; so does any home whose exteriors are a download, for the note on its size.
+            if compact || HomePacks.needsDownload(chosen) {
                 withAnimation(.spring(duration: 0.3)) { confirming = true }
             } else {
                 done(chosen)
@@ -518,9 +532,11 @@ struct HomePicker: View {
             .padding(.trailing, 12 * s)
             .padding(.vertical, 3 * s)
             .background(Capsule().fill(Theme.accent))
-            Text("Its colours, its light and the garden follow \(town)'s real seasons, weather and time of day. Rainy days are grey, and nights are dark. Try the times on the picture.")
-                .font(.system(size: 14 * s))
-                .fixedSize(horizontal: false, vertical: true)
+            Text(
+                "Its colours, its light and the garden follow \(town)'s real seasons, weather and time of day. Rainy days are grey, and nights are dark. Try the times on the picture."
+            )
+            .font(.system(size: 14 * s))
+            .fixedSize(horizontal: false, vertical: true)
             Text(nowLine)
                 .font(.system(size: 14 * s, weight: .semibold))
                 .padding(10 * s)
@@ -568,7 +584,10 @@ struct HomePicker: View {
                                     .padding(6)
                             }
                         }
-                        .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(Theme.accent, lineWidth: tile.now ? 4 : 0))
+                        .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(
+                            Theme.accent,
+                            lineWidth: tile.now ? 4 : 0
+                        ))
                 }
             }
         }
@@ -593,9 +612,21 @@ struct HomePicker: View {
                     PaintedIcon("weather_sun_and_cloud", size: 30)
                     Text("Before you move in").font(Theme.title(24))
                 }
-                Text("Your \(chosen.inSentence) is painted for \(place). Its colours, light and garden follow the real seasons, weather and time of day there.")
-                    .font(.system(size: 15))
-                    .fixedSize(horizontal: false, vertical: true)
+                Text(
+                    "Your \(chosen.inSentence) is painted for \(place). Its colours, light and garden follow the real seasons, weather and time of day there."
+                )
+                .font(.system(size: 15))
+                .fixedSize(horizontal: false, vertical: true)
+                // A home whose exteriors are a download says how big before it is asked for (App Review 4.2.3).
+                if let note = HomePacks.downloadNote(for: chosen) {
+                    HStack(alignment: .top, spacing: 6) {
+                        Image(systemName: "arrow.down.circle.fill").foregroundStyle(Theme.accent)
+                        Text(note).fixedSize(horizontal: false, vertical: true)
+                    }
+                    .font(.system(size: 15, weight: .semibold))
+                    .accessibilityElement(children: .combine)
+                    .accessibilityIdentifier("downloadNote")
+                }
                 strip("Through the day", tiles: SkyPhase.allCases.map { sky in
                     Tile(id: sky.rawValue, label: Self.skyName(sky), now: sky == now.sky) {
                         AnyView(Self.painting(style: chosen, biome: biome, sky: sky))

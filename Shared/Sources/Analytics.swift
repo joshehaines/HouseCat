@@ -3,7 +3,8 @@ import HouseCatCore
 
 /// Anonymous usage counts (SPEC "Tech stack": PostHog, no identifiers; App Review 5.1.1: honest privacy labels;
 /// UK AADC: high privacy by default). Off unless both a PostHog key is set (Info.plist `PostHogAPIKey`, empty
-/// until the project exists) and the player has switched it on in the cat's settings. Each launch uses a fresh
+/// until the project exists) and the player has said yes, to the "Help improve HouseCat?" card on the second day
+/// of care (`AnalyticsPromptCard`) or the switch in the cat's settings. Each launch uses a fresh
 /// random id, people's profiles are never made, and only the funnel is counted: no names, no places, no text.
 @MainActor
 enum Analytics {
@@ -38,8 +39,20 @@ enum Analytics {
         set { defaults.set(newValue, forKey: "analytics.on") }
     }
 
+    /// "Help improve HouseCat?" has been answered (yes or Not now): it is never asked again.
+    static var asked: Bool {
+        get { defaults.bool(forKey: "analytics.asked") }
+        set { defaults.set(newValue, forKey: "analytics.asked") }
+    }
+
     static var isAvailable: Bool {
         key != nil
+    }
+
+    /// Whether the card is due this visit (`AnalyticsRules`): a key is set, it has not been answered, it is the
+    /// second day of care, and the Health card is not asking today.
+    static func shouldAsk(_ state: HouseholdState) -> Bool {
+        isAvailable && AnalyticsRules.shouldAsk(state, asked: asked, healthAsked: HealthLayer.asked)
     }
 
     /// Counts one thing. `detail` is a fixed word (a game's id, a product id), never anything typed.

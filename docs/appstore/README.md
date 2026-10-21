@@ -89,18 +89,14 @@ The shop is not in the marketing set: a simulator launch from the command line h
 
 ## App Privacy (the App Store Connect questionnaire)
 
-As built, with the PostHog and RevenueCat keys empty (`project.yml`):
+1.0 ships with RevenueCat (purchases) and PostHog (anonymous usage counts, opt-in), their keys set in `project.yml` before the upload (Josh, 21 Oct: "ok lets implement both"; the steps are in the checklist). Answer as if both keys are set, and the two privacy manifests (`App/Resources/PrivacyInfo.xcprivacy`, RevenueCat's own) already say the same.
 
-- **Data collection**: "No, we do not collect data from this app."
-  - The save, Health results and settings stay on the device.
-  - Weather requests send the pinned place's coordinates to Apple WeatherKit. Place search goes to Apple Maps. Purchases go through Apple. Apple, not us, is responsible for those.
-
-If keys are added before launch, answer "Yes" and declare:
-
-- **PostHog** (if its key is set): Usage Data, then Product Interaction. Purpose: Analytics. Not linked to the user. Not used for tracking. The privacy manifest already declares this.
-- **RevenueCat** (if its key is set): Purchases, then Purchase History. Purpose: App Functionality. Not linked to the user (RevenueCat's anonymous ID only). Not used for tracking. RevenueCat's own SDK manifest declares the same.
-
-**Tracking**: No. There is no IDFA and no App Tracking Transparency prompt.
+- **Data collection**: "Yes, we collect data from this app."
+- **Purchases → Purchase History**: collected. Used for: App Functionality. Linked to the user's identity: No (RevenueCat keeps an anonymous app user ID; no name, email or account). Used for tracking: No.
+- **Usage Data → Product Interaction**: collected. Used for: Analytics. Linked to the user's identity: No (a fresh random ID each launch, no person profiles). Used for tracking: No. Sent only after the player says yes to "Help improve HouseCat?" (the card on the second day, or the switch in Settings); off by default.
+- Nothing else is collected: the save, Health results and settings stay on the device. Weather requests send the pinned place's coordinates to Apple WeatherKit, place search goes to Apple Maps and purchases go through Apple; Apple, not us, is responsible for those.
+- **Tracking**: No. There is no IDFA, no App Tracking Transparency prompt and nothing is shared with data brokers.
+- If 1.0 goes out with a key still empty, that data is simply not collected; the answers above then say more than happens, which is allowed, so leave them.
 
 ## Other App Store Connect answers
 
@@ -127,7 +123,9 @@ Optional Apple Health (steps, sleep, workouts; read only) is offered on the thir
 
 Notifications are local, at times the player chooses, offered after the first feed.
 
-Weather comes from WeatherKit for the home's pinned place (no device location is used). The Apple Weather mark and link are in Settings.
+Weather comes from WeatherKit for the home's pinned place (no device location is used). The Apple Weather mark and link are shown wherever that weather is on screen: under the room, top left outside the house, on the world map's home card, in Settings and in Licences; the widget carries the Apple Weather mark in words. The weather of the intro's example homes is part of the story, not WeatherKit's.
+
+Anonymous usage counts (PostHog, EU) are off until the player says yes to "Help improve HouseCat?", a card on the second day of play, or switches them on in Settings; no account, no names, nothing typed.
 
 Your data, in Settings: Export my data shares the whole save as a file; Delete all my data (two confirmations) deletes the save, the widget's files, preferences and reminders, and starts again from the intro. There is no account to delete.
 
@@ -173,12 +171,30 @@ Nothing is hidden or dormant (Guideline 2.5.19): co-owning a cat with another pe
 
 ### Decisions before submitting
 
-- **RevenueCat**: set `RevenueCatAPIKey` or leave it empty. The app uses StoreKit 2 directly without it. The privacy policy and the App Privacy answers must match the choice.
-- **PostHog analytics**: same choice. Empty means no analytics and no switch in Settings.
+- **RevenueCat and PostHog**: both in 1.0 (Josh, 21 Oct: "ok lets implement both"). Each comes alive the moment its key is set in `project.yml` (`RevenueCatAPIKey`, `PostHogAPIKey`) and the project is regenerated; empty, the app uses StoreKit 2 directly and shows no analytics card or switch. The App Privacy answers above assume both keys are set. The steps are under "RevenueCat and PostHog" in the checklist.
 - **Season dates**: seasons run back to back on `SeasonCalendar` and the pass is always on: Black Cat 5 Oct to 1 Nov 2026 (so TestFlight and App Review see the pass), Housewarming 2 Nov to 30 Nov (the launch season; the launch events still count from 2 Nov, `launchAt` in `Content/seasons.json`), Midwinter every December, First Light to 25 Jan 2027. After that, seasons run again until the 2027 seasons (CONTENT.md §7) are painted.
 - **Premium pass price**: £2.99 a season (Josh approved it on 20 Oct), the same as a month of Cat Club, which includes it.
 - **Mac menu-bar cat**: leave it out of 1.0. It has no App Sandbox and can't reach the iPhone's cat, so review would reject it under minimum functionality. To ship it later, it needs the sandbox, the App Group and a privacy manifest.
 - **Co-owning**: left out of 1.0 and planned for 1.1. Leave, Stop sharing, Hide and Report are built (19 Oct). Co-owner names go through the name filter. To ship it, it needs the iCloud container on the App ID, `HouseCatCloudKit` set to true and two-phone testing (CLAUDE.md, "To switch sharing on"). The website and App Store Connect lines it needs are in `sharing-1.1.md`.
+
+### RevenueCat and PostHog (Josh, 21 Oct: both in 1.0)
+
+RevenueCat, click by click:
+
+1. revenuecat.com → Sign up (the free plan covers the launch; it charges only past $2,500 a month of tracked revenue) → "Create new project" → name it HouseCat.
+2. App Store Connect → Users and Access → Integrations → In-App Purchase → "Generate In-App Purchase Key" → name it RevenueCat → Generate → Download the `.p8` once (it can't be downloaded again) and note the Key ID beside it and the Issuer ID shown above the list. This is the key RevenueCat needs; the App Store Connect API key in step 15 above is a different one.
+3. RevenueCat → Project settings → Apps → "+ New" → App Store → App name HouseCat, Bundle ID `com.housecatgame.housecat` → under "In-app purchase key configuration" upload the `.p8`, paste the Key ID and the Issuer ID → Save.
+4. On the same app page RevenueCat shows "Apple Server to Server notification URL" → Copy. App Store Connect → Apps → HouseCat → App Information → "App Store Server Notifications" → paste it into Production Server URL and Sandbox Server URL, Version 2 Notifications → Save. (So RevenueCat hears renewals, refunds and Ask to Buy; the app derives entitlements itself either way.)
+5. RevenueCat → Product catalog → Products → "+ New" (or "Import" once App Store Connect has the 21 products and the key is set): every ID from the table above. Entitlements → "+ New" → identifier `club` → attach `housecat.club.monthly` and `housecat.club.yearly`. The app works out room looks and passes from the product IDs, so no other entitlement is needed; `club` keeps the dashboard honest.
+6. RevenueCat → Project settings → API keys → "Public app-specific API keys" → copy the App Store one (`appl_…`) → paste into `project.yml` as `RevenueCatAPIKey` → `xcodegen generate` → rebuild. Never the secret key, and never commit anything but the public one.
+7. Check: a sandbox purchase on a TestFlight build shows under RevenueCat → Customers within a minute.
+
+PostHog, click by click:
+
+1. posthog.com → Get started → choose **EU Cloud** (the app posts to `eu.i.posthog.com`, `Tuning.Analytics.endpoint`; US Cloud would silently receive nothing) → Create project → name it HouseCat → skip the SDK wizard (the app sends its events itself, with no PostHog SDK).
+2. Project settings → "Project API key" (`phc_…`) → paste into `project.yml` as `PostHogAPIKey` → `xcodegen generate` → rebuild.
+3. Project settings → Persons & groups: leave person profiles off for anonymous events (the app already sends every event with `$process_person_profile: false`). Nothing else to set.
+4. Check: on a build with the key, say yes on the "Help improve HouseCat?" card (`HOUSECAT_SCREEN=analytics` shows it at once in a debug build), play, and the events (`intro_finished`, `first_feed`, `shop_opened`…) appear under Activity.
 
 ### Website (Hostinger)
 

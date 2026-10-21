@@ -131,3 +131,13 @@ public enum HealthRules {
         "health.\(goal.rawValue)"
     }
 }
+
+/// Anonymous usage counts are opt-in (UK AADC: high privacy by default): "Help improve HouseCat?" is asked once, on
+/// its own day, never on a day the Health card asks (Josh, 21 Oct 2026: a first-launch card instead of only the
+/// switch in Settings, the prompts kept apart). Not now never asks again; the Settings switch stays.
+public enum AnalyticsRules {
+    public static func shouldAsk(_ state: HouseholdState, asked: Bool, healthAsked: Bool) -> Bool {
+        guard !asked, (state.cats.first?.careDays ?? 0) >= Tuning.Analytics.askOnCareDay else { return false }
+        return !HealthRules.shouldAsk(state, asked: healthAsked)
+    }
+}

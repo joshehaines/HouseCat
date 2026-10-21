@@ -333,6 +333,9 @@ public enum Tuning {
     /// Anonymous usage counts (Shared Analytics): PostHog's EU capture endpoint.
     public enum Analytics {
         public static let endpoint = URL(string: "https://eu.i.posthog.com/capture/")!
+        /// "Help improve HouseCat?" is asked once, on this day of looking after the cat (the first day has the tour and
+        /// the reminders card, the third the Health card: each prompt on its own day).
+        public static let askOnCareDay = 2
     }
 
     /// The intro (Content/intro.json): how close the globe comes to each home, and the pause before it opens.
@@ -1114,6 +1117,13 @@ public enum Tuning {
         /// Its feet this share of the glass's height below the glass (on the inside sill, behind the frame).
         public static let sillDrop = 0.04
         /// The glass and the room's light over the cat, by the sky: multiplies its colours ...
+        /// Each downloaded home's exterior pack, in megabytes as `build_home_packs.py` reported them (21 Oct 2026),
+        /// told to the player before the pack is asked for (App Review 4.2.3: say the size, and ask). The London
+        /// terrace is in the app. Update after rebuilding the packs.
+        public static let packMegabytes: [HouseStyle: Int] = [
+            .cottage: 49, .georgianTownhouse: 48, .houseboat: 53, .mansionFlat: 49,
+            .mediterraneanRooftop: 50, .newbuildBalcony: 45, .woodlandCabin: 50,
+        ]
         public static let tint: [SkyPhase: [Double]] = [
             .dawn: [0.92, 0.85, 0.85], .day: [0.9, 0.91, 0.95], .dusk: [0.97, 0.84, 0.72], .night: [1.0, 0.8, 0.56],
         ]

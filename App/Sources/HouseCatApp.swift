@@ -435,6 +435,8 @@ struct RoomScreen: View {
     @State private var askingWidget = false
     @State private var showTogether = false
     /// A present the other owner left, opened at this visit.
+    /// "Help improve HouseCat?" (AnalyticsPromptCard), on the second day of care.
+    @State private var askingAnalytics = false
     @State private var present: OutfitGift?
     @State private var editing: CatBuilderModel?
     /// The outfit catalogue, trying outfits on the cat in the dressing room.
@@ -882,9 +884,13 @@ struct RoomScreen: View {
             .task(id: visit.ready) {
                 guard visit.ready, !tour.isRunning else { return }
                 let session = GameSession.shared
-                if HealthLayer.isAvailable, HealthRules.shouldAsk(session.state(at: session.now()), asked: HealthLayer.asked),
-                   !Self.debugScreenRun
-                {
+                var healthDue = HealthLayer.isAvailable && HealthRules.shouldAsk(session.state(at: session.now()), asked: HealthLayer.asked)
+                    && !Self.debugScreenRun
+                #if DEBUG
+                    // HOUSECAT_SCREEN=analytics shows the analytics card even on a save the Health card would take.
+                    healthDue = healthDue && ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"] != "analytics"
+                #endif
+                if healthDue {
                     try? await Task.sleep(for: .seconds(Tuning.Care.lineSeconds + 2))
                     askingHealth = true
                 } else {
@@ -892,12 +898,38 @@ struct RoomScreen: View {
                         visit.say(session.line(HealthRules.line(goal)))
                         visit.refreshStats()
                     }
-                    await askForWidget()
+                    // Day 2: may the app count what gets used? (Its own day, apart from the reminders and Health.)
+                    var analyticsDue = Analytics.shouldAsk(session.state(at: session.now())) && !Self.debugScreenRun
+                    #if DEBUG
+                        analyticsDue = analyticsDue || ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"] == "analytics"
+                    #endif
+                    if analyticsDue {
+                        try? await Task.sleep(for: .seconds(Tuning.Care.lineSeconds + 2))
+                        askingAnalytics = true
+                    } else {
+                        await askForWidget()
+                    }
+                }
+            }
+            .overlay {
+                if askingAnalytics {
+                    ZStack {
+                        Color.black.opacity(0.35).ignoresSafeArea()
+                        AnalyticsPromptCard {
+                            askingAnalytics = false
+                            Task { await askForWidget() }
+                        }
+                        .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
+                        .padding(24)
+                        .zoomed(hudScale)
+                    }
+                    .transition(.opacity)
                 }
             }
             .overlay {
                 if askingHealth {
                     ZStack {
+            .animation(.easeOut(duration: 0.25), value: askingAnalytics)
                         Color.black.opacity(0.35).ignoresSafeArea()
                         HealthCard(catName: visit.catName ?? "Your cat") {
                             askingHealth = false
@@ -1039,7 +1071,7 @@ struct RoomScreen: View {
     private static var debugScreenRun: Bool {
         #if DEBUG
             let screen = ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"]
-            return screen != nil && screen != "health" && screen != "addwidget"
+            return screen != nil && screen != "health" && screen != "addwidget" && screen != "analytics"
         #else
             return false
         #endif
@@ -1048,8 +1080,8 @@ struct RoomScreen: View {
     /// The add-widget card, when it is due and nothing else is on screen (after the first feed, on day 3).
     private func askForWidget() async {
         try? await Task.sleep(for: .seconds(1.2))
-        guard !Self.debugScreenRun, visit.ready, visit.scene is RoomScene, !tour.isRunning, !visit.askReminders, !askingHealth, !offering,
-              visit.levelReached == nil, !askingWidget else { return }
+        guard !Self.debugScreenRun, visit.ready, visit.scene is RoomScene, !tour.isRunning, !visit.askReminders, !askingHealth,
+              !askingAnalytics, !offering, visit.levelReached == nil, !askingWidget else { return }
         let session = GameSession.shared
         if await WidgetPrompt.take(session.state(at: session.now())) != nil {
             askingWidget = true

@@ -186,9 +186,12 @@ public struct Toast: View {
 /// Closes a sheet: a cream disc with a cross.
 public struct CloseButton: View {
     @Environment(\.controlFeedback) private var feedback
+    private let scale: CGFloat
     private let action: () -> Void
 
-    public init(action: @escaping () -> Void) {
+    /// `scale` draws it that much larger with real metrics (the cross's font and the disc), never a stretched layer.
+    public init(scale: CGFloat = 1, action: @escaping () -> Void) {
+        self.scale = scale
         self.action = action
     }
 
@@ -198,9 +201,9 @@ public struct CloseButton: View {
             action()
         } label: {
             Image(systemName: "xmark")
-                .font(.system(size: 15, weight: .bold))
+                .font(.system(size: 15 * scale, weight: .bold))
                 .foregroundStyle(Theme.ink)
-                .frame(width: 36, height: 36)
+                .frame(width: 36 * scale, height: 36 * scale)
                 .paper(Circle())
         }
         .buttonStyle(PressStyle())

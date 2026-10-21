@@ -41,8 +41,7 @@ public struct CatBuilderView<Hint: View>: View {
             top: { m in
                 HStack(alignment: .top, spacing: 8 * m.s) {
                     if let cancel {
-                        CloseButton(action: cancel)
-                            .scaleEffect(m.s, anchor: .topLeading)
+                        CloseButton(scale: m.s, action: cancel)
                             .frame(width: 36 * m.s, height: 36 * m.s, alignment: .topLeading)
                     }
                     Spacer(minLength: 0)

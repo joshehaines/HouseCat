@@ -295,8 +295,7 @@ struct OutfitCatalogueView: View {
 
     private func top(_ m: WardrobeMetrics) -> some View {
         HStack(alignment: .top, spacing: 8 * m.s) {
-            CloseButton(action: close)
-                .scaleEffect(m.s, anchor: .topLeading)
+            CloseButton(scale: m.s, action: close)
                 .frame(width: 36 * m.s, height: 36 * m.s, alignment: .topLeading)
             Spacer(minLength: 0)
             Nameplate(model.outfit(model.trying)?.name ?? "Nothing on", subtitle: model.outfit(model.trying).map(plateLine), metrics: m)

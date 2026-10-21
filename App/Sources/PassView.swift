@@ -166,7 +166,7 @@ struct PassView: View {
     private func header(_ info: GameSession.PassInfo, s: CGFloat) -> some View {
         let step = PassRules.toNextTier(info.progress)
         return HStack(spacing: 8 * s) {
-            CloseButton(action: close).scaleEffect(s * 0.92).frame(width: 34 * s, height: 34 * s)
+            CloseButton(scale: s * 0.92, action: close).frame(width: 34 * s, height: 34 * s)
             HStack(spacing: 10 * s) {
                 VStack(alignment: .leading, spacing: 0) {
                     Text("SEASON PASS").font(.system(size: 9 * s, weight: .heavy, design: .rounded)).tracking(1.8 * s)
@@ -893,7 +893,7 @@ struct PassView: View {
             .background(Self.premiumFill, in: RoundedRectangle(cornerRadius: 26 * s, style: .continuous))
             .overlay(RoundedRectangle(cornerRadius: 26 * s, style: .continuous).strokeBorder(GameHUD.deepGold, lineWidth: 2.5 * s))
             .overlay(alignment: .topTrailing) {
-                CloseButton { showPremium = false }.scaleEffect(s * 0.85).offset(x: 6 * s, y: -6 * s)
+                CloseButton(scale: s * 0.85) { showPremium = false }.offset(x: 6 * s, y: -6 * s)
             }
             // Close sits over the panel's corner, so the panel keeps clear of a screen edge with no safe area.
             .padding(.vertical, max(12 * s, 26 * s - insets.top))

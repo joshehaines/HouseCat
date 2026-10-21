@@ -280,8 +280,7 @@ struct ShopView: View {
             ForEach(sections) { tab($0) }
             Spacer(minLength: 4 * s)
             balance
-            CloseButton { dismiss() }
-                .scaleEffect(s)
+            CloseButton(scale: s) { dismiss() }
                 .frame(width: 36 * s, height: 36 * s)
         }
         .padding(.horizontal, 8 * s)
@@ -1502,7 +1501,7 @@ struct ShopView: View {
             .fixedSize(horizontal: false, vertical: true)
             .goldPanel(s)
             .overlay(alignment: .topTrailing) {
-                CloseButton { detail = nil }.scaleEffect(s).offset(x: 12 * s, y: -12 * s)
+                CloseButton(scale: s) { detail = nil }.offset(x: 12 * s, y: -12 * s)
             }
         }
     }

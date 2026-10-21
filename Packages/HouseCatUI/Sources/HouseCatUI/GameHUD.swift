@@ -1,4 +1,7 @@
 import SwiftUI
+#if canImport(UIKit)
+    import UIKit
+#endif
 
 /// The room's controls laid out as a builder game lays out its base (Josh, 18 Oct: the menu): the player's
 /// plaque top left, the Beans and the streak as bars top right, the care actions as big round buttons along the
@@ -379,9 +382,20 @@ public struct ResourceBar: View {
 public extension View {
     /// Drawn `scale` times larger as a whole (an iPad's `hudScale`): laid out in a space `scale` times smaller, then
     /// enlarged, so a card drawn for a phone on its side keeps its words, pictures, padding and corners in proportion.
-    /// The controls inside draw at scale 1 (the zoom enlarges them).
+    /// The controls inside draw at scale 1 (the zoom enlarges them). The words and pictures get real pixels
+    /// (`SharpZoom`): SwiftUI's `scaleEffect` draws the view at its base size and stretches the picture, which went
+    /// soft on an iPad (Josh, 21 Oct: "the font is blurry, make that much sharper"). A phone (scale 1) is untouched.
+    @ViewBuilder
     func zoomed(_ scale: CGFloat) -> some View {
-        Zoom(scale: scale) { environment(\.hudScale, 1).scaleEffect(scale) }
+        if scale == 1 {
+            self
+        } else {
+            #if canImport(UIKit)
+                SharpZoom(scale: scale, content: environment(\.hudScale, 1))
+            #else
+                Zoom(scale: scale) { environment(\.hudScale, 1).scaleEffect(scale) }
+            #endif
+        }
     }
 
     /// A sheet's content `zoomed` and the sheet `size` (an iPad's); without a size the sheet is the system's own.
@@ -423,3 +437,94 @@ private struct SheetSize: PresentationSizing {
         ProposedViewSize(size)
     }
 }
+
+#if canImport(UIKit)
+    /// The content in a UIKit view of its own, laid out `scale` times smaller and enlarged by a UIKit transform, and
+    /// rendered at `scale` times the screen's pixel density (its display scale, as a trait and in the environment):
+    /// every word, line and picture is drawn for the pixels it ends up on, and UIKit controls inside (a switch, a
+    /// time picker) draw themselves the same way. The view takes `scale` times the content's size. Checked at 100%
+    /// pixels on 21 Oct: `scaleEffect` left the text soft; `drawingGroup` would sharpen it but draws no UIKit controls.
+    private struct SharpZoom<Content: View>: UIViewControllerRepresentable {
+        let scale: CGFloat
+        let content: Content
+
+        func makeUIViewController(context: Context) -> SharpZoomController {
+            SharpZoomController(scale: scale, root: root(context))
+        }
+
+        func updateUIViewController(_ controller: SharpZoomController, context: Context) {
+            controller.scale = scale
+            controller.host.rootView = root(context)
+        }
+
+        func sizeThatFits(_ proposal: ProposedViewSize, uiViewController controller: SharpZoomController, context _: Context) -> CGSize? {
+            controller.size(fitting: proposal)
+        }
+
+        /// The content with the environment it would have had in place (a hosting view starts a fresh one), at the
+        /// zoom's pixel density.
+        private func root(_ context: Context) -> AnyView {
+            AnyView(
+                content
+                    .environment(\.self, context.environment)
+                    .environment(\.displayScale, context.environment.displayScale * scale)
+            )
+        }
+    }
+
+    /// Hosts the zoomed content (`SharpZoom`): a child hosting controller, its view `scale` times smaller than this
+    /// one's and transformed up to fill it.
+    final class SharpZoomController: UIViewController {
+        let host: UIHostingController<AnyView>
+        var scale: CGFloat {
+            didSet {
+                if scale != oldValue {
+                    view.setNeedsLayout()
+                }
+            }
+        }
+
+        init(scale: CGFloat, root: AnyView) {
+            self.scale = scale
+            host = UIHostingController(rootView: root)
+            super.init(nibName: nil, bundle: nil)
+            view.backgroundColor = .clear
+            host.view.backgroundColor = .clear
+            // The safe area is the business of the view around this one: inside, the content fills what it is given.
+            host.safeAreaRegions = []
+            addChild(host)
+            view.addSubview(host.view)
+            host.didMove(toParent: self)
+        }
+
+        @available(*, unavailable)
+        required init?(coder _: NSCoder) {
+            fatalError("init(coder:) is not supported")
+        }
+
+        override func viewDidLayoutSubviews() {
+            super.viewDidLayoutSubviews()
+            // Set before it is read: an override that was never set traps when read (iPad, 21 Oct).
+            let pixels = traitCollection.displayScale * scale
+            if !host.traitOverrides.contains(UITraitDisplayScale.self) || host.traitOverrides.displayScale != pixels {
+                host.traitOverrides.displayScale = pixels
+            }
+            let bounds = view.bounds
+            host.view.transform = .identity
+            host.view.bounds = CGRect(x: 0, y: 0, width: bounds.width / scale, height: bounds.height / scale)
+            host.view.center = CGPoint(x: bounds.midX, y: bounds.midY)
+            host.view.transform = CGAffineTransform(scaleX: scale, y: scale)
+        }
+
+        /// `scale` times the content's size for the space proposed (the content is offered the space `scale` times
+        /// smaller; a dimension left open is as good as unlimited).
+        func size(fitting proposal: ProposedViewSize) -> CGSize {
+            let room = CGSize(
+                width: (proposal.width ?? UIView.layoutFittingExpandedSize.width) / scale,
+                height: (proposal.height ?? UIView.layoutFittingExpandedSize.height) / scale
+            )
+            let fit = host.sizeThatFits(in: room)
+            return CGSize(width: fit.width * scale, height: fit.height * scale)
+        }
+    }
+#endif

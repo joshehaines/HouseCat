@@ -226,9 +226,11 @@ public final class CatArt: @unchecked Sendable {
         return texture
     }
 
-    /// Where the face is in a sprite (its features mask and alpha), for fitting outfits; cached.
-    public func face(_ path: String) -> CatFace? {
-        if let cached = lock.withLock({ faces[path] }) {
+    /// Where the face is in a sprite (its features mask and alpha), for fitting outfits; cached. `closedEyes`: where
+    /// the eyes are, as fractions of the sprite, when they are shut and so not in the mask (curled up or stretching).
+    public func face(_ path: String, closedEyes: [CGPoint] = []) -> CatFace? {
+        let key = closedEyes.isEmpty ? path : "\(path)|\(closedEyes.map { "\($0.x),\($0.y)" }.joined(separator: ";"))"
+        if let cached = lock.withLock({ faces[key] }) {
             return cached
         }
         guard let entry = entries[path], let alpha = Raster.read(root.appendingPathComponent("alpha/\(path)")) else { return nil }
@@ -241,8 +243,24 @@ public final class CatArt: @unchecked Sendable {
                 raster.width == size.0 && raster.height == size.1 ? plane : Raster.scaled(plane, from: (raster.width, raster.height), to: size)
             }
         }
+        // Shut eyes drawn into the iris planes as small discs, left to right.
+        if !closedEyes.isEmpty {
+            if features.count < 3 {
+                features = Array(repeating: [UInt8](repeating: 0, count: size.0 * size.1), count: 3)
+            }
+            let radius = max(3, size.0 / 60)
+            for (i, eye) in closedEyes.prefix(2).enumerated() {
+                features[i] = [UInt8](repeating: 0, count: size.0 * size.1)
+                let cx = Int(eye.x * CGFloat(size.0)), cy = Int(eye.y * CGFloat(size.1))
+                for y in max(0, cy - radius) ... min(size.1 - 1, cy + radius) {
+                    for x in max(0, cx - radius) ... min(size.0 - 1, cx + radius) where (x - cx) * (x - cx) + (y - cy) * (y - cy) <= radius * radius {
+                        features[i][y * size.0 + x] = 255
+                    }
+                }
+            }
+        }
         let face = OutfitFit.face(features: features, alpha: alpha.planes[0], width: size.0, height: size.1, headOnly: path.hasSuffix("_head.png") || path.hasSuffix("_head_noears.png"))
-        lock.withLock { faces[path] = face }
+        lock.withLock { faces[key] = face }
         return face
     }
 

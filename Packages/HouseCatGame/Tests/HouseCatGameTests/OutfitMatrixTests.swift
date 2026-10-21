@@ -42,6 +42,10 @@ struct OutfitMatrixTests {
         /// For a film: which, and the frame.
         var film: String?
         var frame: Int?
+        /// For a resting pose: which (curled up or stretching its eyes are shut, and put where they were measured),
+        /// and the look's tail.
+        var pose: CatPose?
+        var tail = "own"
     }
 
     static let standardEars = ["own", "rounded", "folded", "tufted", "oriental"]
@@ -67,7 +71,9 @@ struct OutfitMatrixTests {
                         let look = CatLook(body: body.id, ears: ear, tail: tail)
                         let path = catArt.builder.pose(pose.rawValue, look: look).path
                         guard catArt.has(path) else { continue }
-                        out.append(Picture(name: "\(body.id) \(pose.rawValue) \(ear) \(tail)", path: path, view: view, ears: ear, body: body.id))
+                        out.append(Picture(
+                            name: "\(body.id) \(pose.rawValue) \(ear) \(tail)", path: path, view: view, ears: ear, body: body.id, pose: pose, tail: tail
+                        ))
                     }
                 }
             }
@@ -86,15 +92,21 @@ struct OutfitMatrixTests {
         return out
     }
 
-    func face(_ picture: Picture) -> CatFace? {
+    /// The face an outfit of `kind` is fitted to on a picture, as the game finds it.
+    func face(_ picture: Picture, kind: OutfitFit.Kind? = nil) -> CatFace? {
         if let key = picture.film, let frame = picture.frame, let film = catArt.films[key] {
             return CatNode.filmFace(film, frame: frame, side: picture.view == "side", catArt: catArt)
+        }
+        if let pose = picture.pose {
+            let look = CatLook(body: picture.body, ears: picture.ears, tail: picture.tail)
+            return OutfitFit.restingFace(pose, look: look, catArt: catArt, art: art, for: kind)
         }
         return catArt.face(picture.path)
     }
 
     /// An outfit fitted to a picture, measured against its face: in head widths from the eyes' middle (x right, y
-    /// down), its width against the head, and where on the face the head was found.
+    /// down; curled up, along the head as it lies, x along the shut eyes and y square to them), its width against the
+    /// head, and where on the face the head was found.
     struct Measure {
         var picture: Picture
         var outfit: String
@@ -114,7 +126,7 @@ struct OutfitMatrixTests {
 
     func measure(_ picture: Picture, _ outfit: OutfitsFile.Outfit, kind: OutfitFit.Kind) -> Measure? {
         guard let path = outfit.sprites[picture.view == "tqback" ? "tqback" : picture.view],
-              let shape = OutfitShapes.shape(path, art: art), let face = face(picture) else { return nil }
+              let shape = OutfitShapes.shape(path, art: art), let face = face(picture, kind: kind) else { return nil }
         let look = CatLook(body: picture.body, ears: picture.ears)
         let tall = OutfitFit.tallEars(look, wearing: outfit)
         var m = Measure(picture: picture, outfit: outfit.id, kind: kind, placed: false)
@@ -122,8 +134,11 @@ struct OutfitMatrixTests {
             kind, shape: shape, on: face, view: picture.view, size: outfit.fit, tallEars: tall, coversEars: OutfitFit.coversEars(outfit)
         ) else { return m }
         let w = face.size.width, h = face.size.height
-        let eyes = OutfitFit.profileEyes(face, view: picture.view)
-        guard let (left, right) = OutfitFit.headSpan(face, eyes: eyes, w: w, h: h), right - left > 1 else { return m }
+        // Measured from the eyes themselves (asleep, glasses are fitted to eyes pushed up onto the forehead).
+        let asleep = picture.pose == .sleepCurl
+        let plain = asleep && kind == .glasses ? self.face(picture) ?? face : face
+        let eyes = OutfitFit.profileEyes(plain, view: picture.view)
+        guard let (left, right) = OutfitFit.headSpan(plain, eyes: eyes, w: w, h: h), right - left > 1 else { return m }
         let hw = right - left
         let anchor = eyes.isEmpty
             ? CGPoint(x: (left + right) / 2, y: (face.head?.y ?? 0) * h)
@@ -141,6 +156,13 @@ struct OutfitMatrixTests {
         m.dx = (fit.point.x - anchor.x) / hw
         m.dy = (fit.point.y - anchor.y) / hw
         m.angle = fit.angle
+        if asleep, eyes.count == 2 {
+            // Along the head as it lies: turned so the eyes are level.
+            let e = eyes.sorted { $0.x < $1.x }
+            let tilt = atan2(e[1].y - e[0].y, e[1].x - e[0].x)
+            (m.dx, m.dy) = (m.dx * cos(tilt) + m.dy * sin(tilt), m.dy * cos(tilt) - m.dx * sin(tilt))
+            m.angle -= tilt
+        }
         if let key = picture.film, let film = catArt.films[key], film.size.count == 2 {
             let k = film.size[0] / w
             m.point = CGPoint(x: fit.point.x * k, y: fit.point.y * k)
@@ -196,7 +218,12 @@ struct OutfitMatrixTests {
         case .glasses:
             within("width against the head", m.width, 0.6, 2.0)
             within("distance across from the eyes", m.dx, -0.3, 0.3)
-            within("height off the eyes", m.dy, -0.12, 0.12)
+            if m.picture.pose == .sleepCurl {
+                // Asleep, pushed up off the shut eyes onto the forehead.
+                within("height above the shut eyes", m.dy, -0.45, -0.1)
+            } else {
+                within("height off the eyes", m.dy, -0.12, 0.12)
+            }
         case .neck:
             within("width against the head", m.width, 0.15, 1.0)
             // Under the chin; side-on behind the throat, no further back than just behind the head.
@@ -210,7 +237,7 @@ struct OutfitMatrixTests {
     /// against the head and its place on the face in range.
     @Test func everyOutfitSitsWhereItBelongsOnEveryPicture() {
         let measures = allMeasures()
-        #expect(measures.count > 20000)
+        #expect(measures.count > 25000)
         let found = measures.flatMap(problems)
         #expect(found.isEmpty, "\(found.count) problems:\n\(found.prefix(40).joined(separator: "\n"))")
     }
@@ -237,6 +264,30 @@ struct OutfitMatrixTests {
             }
         }
         #expect(found.isEmpty, "\(found.count) jumps:\n\(found.sorted().prefix(40).joined(separator: "\n"))")
+    }
+
+    /// Curled up asleep with its eyes shut, a hat sits on the crown above them and glasses are pushed up onto the
+    /// forehead, between the eyes and the crown; stretching, the shut eye is found (`outfits/poses.json`, or the
+    /// features mask), so glasses go on it.
+    @Test func asleepAHatSitsOnTheCrownAndGlassesOnTheForehead() throws {
+        for body in catArt.builder.data.bodies {
+            let look = CatLook(body: body.id)
+            let curled = try #require(OutfitFit.restingFace(.sleepCurl, look: look, catArt: catArt, art: art), "\(body.id)")
+            try #require(curled.eyes.count == 2, "\(body.id) curled up")
+            let crown = try #require(curled.crown, "\(body.id)")
+            let glasses = try #require(OutfitFit.restingFace(.sleepCurl, look: look, catArt: catArt, art: art, for: .glasses))
+            let w = curled.size.width, h = curled.size.height
+            func middle(_ face: CatFace) -> CGPoint {
+                CGPoint(x: (face.eyes[0].x + face.eyes[1].x) / 2 * w, y: (face.eyes[0].y + face.eyes[1].y) / 2 * h)
+            }
+            let eyes = middle(curled), lifted = middle(glasses), top = CGPoint(x: crown.x * w, y: crown.y * h)
+            #expect(top.y < eyes.y, "\(body.id): the crown is above the eyes")
+            let up = hypot(top.x - eyes.x, top.y - eyes.y)
+            #expect(hypot(lifted.x - eyes.x, lifted.y - eyes.y) > up * 0.2, "\(body.id): the glasses are off the eyes")
+            #expect(hypot(top.x - lifted.x, top.y - lifted.y) < up, "\(body.id): the glasses are up toward the crown")
+            let stretching = try #require(OutfitFit.restingFace(.stretchSide, look: look, catArt: catArt, art: art), "\(body.id)")
+            #expect(!stretching.eyes.isEmpty, "\(body.id) stretching")
+        }
     }
 
     /// A body garment's painting against the cat it is drawn over: the share of it off the cat (beyond a sliver of
@@ -389,7 +440,7 @@ struct OutfitMatrixTests {
     /// covering a fair share of it (the life vest that was only straps).
     @Test func everyGarmentStaysOnTheCat() throws {
         let fits = try garmentFits()
-        #expect(fits.count > 2500)
+        #expect(fits.count > 3300)
         var found: [String] = []
         for f in fits {
             let torso = f.name.hasSuffix("torso")
@@ -422,30 +473,33 @@ struct OutfitMatrixTests {
     /// Every body garment is the same colour on every body (each body's was painted by its own edit, and some came
     /// out another colour: the Persian's life vest brown, the long-haired slim cat's Christmas jumper bright red;
     /// `tools/asset-pipeline/garments/recolour.py`): the middle of its colours over all its pictures no further from the
-    /// garment's usual than a printed garment's print allows. Not the Hawaiian shirt, whose share of flowers differs.
+    /// garment's usual. A printed garment by its ground, the darker half of it (the black under the skeleton's bones, the
+    /// red under the jumper's snowflakes): how much is print differs by body, and the onesie's middle fell on the black
+    /// for some cats and among the bones for others (21 Oct). Not the Hawaiian shirt, whose share of flowers differs.
     @Test func everyGarmentIsOneColourOnEveryBody() throws {
         let printed: Set = ["xmasjumper", "pyjamas", "skeleton"]
         var found: [String] = []
         for garment in outfits where garment.slot == .body && garment.id != "hawaiian" {
             var middles: [String: (Double, Double, Double)] = [:]
             for body in catArt.builder.data.bodies {
-                var ls: [Double] = [], as_: [Double] = [], bs: [Double] = []
+                var pixels: [(Double, Double, Double)] = []
                 for pose in CatPose.allCases {
                     guard let path = OutfitFit.garment(garment, body: body.id, pose: pose), art.has(path),
                           let raster = Self.small(art.url(path)), raster.planes.count == 4 else { continue }
                     let alpha = raster.planes[3]
                     for i in stride(from: 0, to: alpha.count, by: 3) where alpha[i] > 240 {
                         let k = 255 / Double(alpha[i])
-                        let (l, a, b) = Self.lab(Double(raster.planes[0][i]) * k, Double(raster.planes[1][i]) * k, Double(raster.planes[2][i]) * k)
-                        ls.append(l)
-                        as_.append(a)
-                        bs.append(b)
+                        pixels.append(Self.lab(Double(raster.planes[0][i]) * k, Double(raster.planes[1][i]) * k, Double(raster.planes[2][i]) * k))
                     }
                 }
                 func middle(_ v: [Double]) -> Double {
                     v.isEmpty ? 0 : v.sorted()[v.count / 2]
                 }
-                middles[body.id] = (middle(ls), middle(as_), middle(bs))
+                if printed.contains(garment.id), !pixels.isEmpty {
+                    let cut = middle(pixels.map(\.0))
+                    pixels = pixels.filter { $0.0 <= cut }
+                }
+                middles[body.id] = (middle(pixels.map(\.0)), middle(pixels.map(\.1)), middle(pixels.map(\.2)))
             }
             func middle(_ v: [Double]) -> Double {
                 v.sorted()[v.count / 2]
@@ -453,7 +507,7 @@ struct OutfitMatrixTests {
             let usual = (middle(middles.values.map(\.0)), middle(middles.values.map(\.1)), middle(middles.values.map(\.2)))
             for (body, m) in middles {
                 let off = ((m.0 - usual.0) * (m.0 - usual.0) + (m.1 - usual.1) * (m.1 - usual.1) + (m.2 - usual.2) * (m.2 - usual.2)).squareRoot()
-                if off > (printed.contains(garment.id) ? 18 : 15) {
+                if off > 15 {
                     found.append("\(garment.id) on \(body): \(Int(off)) from its colour on the other cats")
                 }
             }
@@ -490,9 +544,9 @@ struct OutfitMatrixTests {
 
     /// One outfit of each kind (where every outfit goes is measured above) on every body as the game draws it,
     /// standing in each view, walking and running and in every resting pose, facing either way: drawn wherever the cat
-    /// can wear it (never curled up or stretching, glasses never from behind), turned with the cat and mirrored with
-    /// it, a hat or glasses or neckwear at the cat's front when it stands, walks or runs, and a hat the ears go under
-    /// hiding them.
+    /// can wear it (curled up and stretching too since 21 Oct; glasses never from behind), turned with the cat and
+    /// mirrored with it, a hat or glasses or neckwear at the cat's front when it stands, walks or runs, and a hat the
+    /// ears go under hiding them (curled up, the hat on the crown covers them by itself).
     @Test func theCatWearsEveryOutfitInEveryStateFacingEitherWay() throws {
         let rig = try art.data("cat/rig.json", as: PuppetRig.self)
         var found: [String] = []
@@ -553,7 +607,7 @@ struct OutfitMatrixTests {
                         checked += 1
                         let label = "\(outfit.id) on \(body.id) \(name) facing \(right ? "right" : "left")"
                         let nodes = Self.drawn(cat)
-                        let bare = poseOf == .sleepCurl || poseOf == .stretchSide || (kind == .glasses && poseOf == .sitBack)
+                        let bare = kind == .glasses && poseOf == .sitBack
                         if bare {
                             if !nodes.isEmpty {
                                 found.append("\(label): drawn")
@@ -591,7 +645,7 @@ struct OutfitMatrixTests {
                                 found.append("\(label): not where it is facing left, mirrored")
                             }
                         }
-                        if OutfitFit.coversEars(outfit), kind == .hat {
+                        if OutfitFit.coversEars(outfit), kind == .hat, poseOf.map(OutfitFit.hidesUnderHat) ?? true {
                             for node in nodes {
                                 let under = (node.parent as? SKSpriteNode)?.shader != nil
                                 if !under {

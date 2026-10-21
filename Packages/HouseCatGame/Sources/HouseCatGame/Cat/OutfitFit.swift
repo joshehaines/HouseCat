@@ -1,4 +1,5 @@
 import CoreGraphics
+import Synchronization
 import Foundation
 import HouseCatCore
 
@@ -106,6 +107,12 @@ public enum OutfitFit {
         coversEarsOn && kind(outfit) == .hat && outfit.coversEars == true
     }
 
+    /// Whether a hat the ears go under hides the cat above its rim on this pose. Not curled up: above the rim there is
+    /// the curled body behind the head, which was cut away on a slant; the hat, worn on the crown, covers the ears.
+    public static func hidesUnderHat(_ pose: CatPose) -> Bool {
+        pose != .sleepCurl
+    }
+
     /// Where a hat the ears go under hides the cat (Josh, 20 Oct: "show two sets of ears": a beanie's knitted ears
     /// sat beside the cat's own, a brim had ears through it): everything above the hat's rim, across the head and
     /// its ears either side, in the sprite's pixels from the top left. The head under the rim is the hat's to cover.
@@ -142,23 +149,68 @@ public enum OutfitFit {
         return EarCover(origin: origin, up: up, half: (right - left) * CGFloat(t.earCoverWidth))
     }
 
-    /// Lying down, the chin rests on the paws: neckwear is cut to the cat's outline (tucked under, never hanging
-    /// below the floor).
+    /// Lying down, curled up or stretching, the chin rests on the paws or the tail: neckwear is cut to the cat's
+    /// outline (tucked under, never hanging below the floor).
     public static func tucksNeckwear(_ pose: CatPose) -> Bool {
-        pose == .loafSide || pose == .loafThreeQuarterFront
+        pose == .loafSide || pose == .loafThreeQuarterFront || pose == .sleepCurl || pose == .stretchSide
     }
 
-    /// The outfit picture for a pose (its view), or nil for a pose an outfit is not drawn on (curled asleep or
-    /// mid-stretch, eyes shut).
+    /// The outfit picture for a pose (its view). Curled up asleep the face is turned three-quarters to us; mid-stretch
+    /// the cat is side-on (Josh, 21 Oct: they had worn nothing).
     public static func view(for pose: CatPose) -> String? {
         switch pose {
         case .sitFront: "front"
         case .sitBack: "tqback"
-        case .sitThreeQuarterFront, .loafThreeQuarterFront: "tqfront"
-        case .sitSide, .loafSide: "side"
-        // Eyes shut: the face cannot be found, and these are brief.
-        case .sleepCurl, .stretchSide: nil
+        case .sitThreeQuarterFront, .loafThreeQuarterFront, .sleepCurl: "tqfront"
+        case .sitSide, .loafSide, .stretchSide: "side"
         }
+    }
+
+    /// Where the eyes are on a pose's painting when they are shut (curled up, stretching: not in its features mask),
+    /// measured on each body's base painting (`outfits/poses.json`, master pixels, left to right).
+    private struct PoseFile: Decodable {
+        var eyes: [String: [[Double]]]
+    }
+
+    private static let closedEyes = Mutex<[String: [[Double]]]?>(nil)
+
+    /// The face an outfit is fitted to on a resting pose's painting in a look. Where the eyes are shut they are put
+    /// where they were measured (on an ear or tail variant, where the base painting sits in it). Curled up, the head
+    /// lies inside the body's round outline, so the crown is set a share of the eye span above the eyes (straight up
+    /// from them, the outline's top was the top of the curl); and glasses, asleep, are pushed up onto the forehead.
+    @MainActor
+    public static func restingFace(_ pose: CatPose, look: CatLook, catArt: CatArt, art: ArtLibrary, for kind: Kind? = nil) -> CatFace? {
+        let drawn = catArt.builder.pose(pose.rawValue, look: look).path
+        let base = "poses/cat_\(look.body)_\(pose.rawValue).png"
+        let all = closedEyes.withLock { known in
+            if known == nil {
+                known = (try? art.data("outfits/poses.json", as: PoseFile.self))?.eyes ?? [:]
+            }
+            return known ?? [:]
+        }
+        let master = catArt.paintedSize(base)
+        guard let measured = all["\(look.body)_\(pose.rawValue)"], master.width > 0, master.height > 0 else { return catArt.face(drawn) }
+        let frame = GarmentPlacement.frame(drawn: drawn, base: base, catArt: catArt, art: art)
+        let eyes = measured.filter { $0.count == 2 }.map {
+            CGPoint(x: frame.minX + $0[0] / master.width * frame.width, y: frame.minY + $0[1] / master.height * frame.height)
+        }
+        guard var face = catArt.face(drawn, closedEyes: eyes) else { return nil }
+        guard pose == .sleepCurl, face.eyes.count == 2 else { return face }
+        let t = Tuning.Outfits.self
+        let w = face.size.width, h = face.size.height
+        let a = CGPoint(x: face.eyes[0].x * w, y: face.eyes[0].y * h), b = CGPoint(x: face.eyes[1].x * w, y: face.eyes[1].y * h)
+        let span = hypot(b.x - a.x, b.y - a.y), mid = CGPoint(x: (a.x + b.x) / 2, y: (a.y + b.y) / 2)
+        guard span > 1 else { return face }
+        // Up the face: square to the eye line.
+        let up = CGVector(dx: (b.y - a.y) / span, dy: -(b.x - a.x) / span)
+        let crown = CGPoint(x: mid.x + up.dx * span * CGFloat(t.curledCrown), y: mid.y + up.dy * span * CGFloat(t.curledCrown))
+        face.crown = CGPoint(x: crown.x / w, y: crown.y / h)
+        if kind == .glasses {
+            let lift = span * CGFloat(t.asleepGlassesLift)
+            face.eyes = [a, b].map { CGPoint(x: ($0.x + up.dx * lift) / w, y: ($0.y + up.dy * lift) / h) }
+            face.nose = face.nose.map { CGPoint(x: $0.x + up.dx * lift / w, y: $0.y + up.dy * lift / h) }
+        }
+        return face
     }
 
     /// Where an outfit goes on a face, or nil when this face cannot carry it.
@@ -219,7 +271,10 @@ public enum OutfitFit {
             // The rim: across the head, part way from the eye line up to the crown.
             // Tall ears lift a hat that has holes for them; side-on the crown is already the ear's tip.
             let rise = (row - crown.y) * CGFloat(t.hatRise + (tallEars && eyes.count != 1 ? t.tallEarsLift : 0))
-            let point = CGPoint(x: (left + right) / 2, y: row - rise)
+            // A head laid on its side (curled up) has its crown up and across: the rim goes up the face, square to the
+            // eye line. An upright head's hat goes straight up, as it always has.
+            let across = abs(angle) > CGFloat(t.lyingTilt) ? sin(angle) * rise / max(0.2, cos(angle)) : 0
+            let point = CGPoint(x: (left + right) / 2 + across, y: row - rise)
             var pictureWidth = width * CGFloat(size ?? t.hatWidth) / shape.rimWidth
             // No taller than a hat can be over this head: a headband painted side-on is narrow, so sized by its
             // width it would tower over the cat.
@@ -287,6 +342,11 @@ public enum OutfitFit {
                     left = middle - most / 2
                     right = middle + most / 2
                 }
+            }
+            if let (hl, hr) = headSpan(face, eyes: eyes, w: w, h: h), right - left < (hr - hl) * CGFloat(t.neckLeast) {
+                let least = (hr - hl) * CGFloat(t.neckLeast), middle = (left + right) / 2
+                left = middle - least / 2
+                right = middle + least / 2
             }
             // Side-on, no further back than just behind the head (running, the neck is level with the body, and the row
             // under the chin met the shoulders: the collar went on them).
@@ -639,6 +699,7 @@ public enum OutfitFit {
     /// mid-stretch).
     public static func garment(_ outfit: OutfitsFile.Outfit, body: String, pose: CatPose) -> String? {
         guard outfit.slot == .body, view(for: pose) != nil else { return nil }
+        // (Curled up and stretching are painted too, since 21 Oct.)
         return "outfits/body/outfit_\(outfit.id)_\(body)_\(pose.rawValue).png"
     }
 
@@ -706,7 +767,7 @@ public enum OutfitFit {
         ) else { return nil }
         context.draw(cat, in: CGRect(x: 0, y: 0, width: w, height: h))
         // A hat the ears go under: the cat cleared above its rim, across the head and ears (the hat covers the rest).
-        if coversEars, kind == .hat, let cover = earCover(fit, shape: shape, on: scaled, view: view) {
+        if coversEars, kind == .hat, pose.map(hidesUnderHat) ?? true, let cover = earCover(fit, shape: shape, on: scaled, view: view) {
             let along = CGVector(dx: -cover.up.dy, dy: cover.up.dx)
             let reach = w + h
             let corners = [

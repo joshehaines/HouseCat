@@ -380,11 +380,11 @@ public final class CatNode: SKNode {
         guard let outfit, let kind = OutfitFit.kind(outfit), let catArt, let look,
               let view = OutfitFit.view(for: pose), let picture = outfit.sprites[view],
               let shape = OutfitShapes.shape(picture, art: art),
-              let face = catArt.face(catArt.builder.pose(pose.rawValue, look: look).path),
+              let face = OutfitFit.restingFace(pose, look: look, catArt: catArt, art: art, for: kind),
               let fit = OutfitFit.place(kind, shape: shape, on: face, view: view, size: outfit.fit, tallEars: hasTallEars, coversEars: earsUnderHat) else { return }
         guard kind == .neck, OutfitFit.tucksNeckwear(pose) else {
             poseOutfit = put(picture, fit: fit, face: face, on: poseNode)
-            if earsUnderHat {
+            if earsUnderHat, OutfitFit.hidesUnderHat(pose) {
                 cover(poseNode, with: OutfitFit.earCover(fit, shape: shape, on: face, view: view), face: face)
             }
             return

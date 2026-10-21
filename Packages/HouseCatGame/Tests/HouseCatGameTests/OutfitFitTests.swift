@@ -48,9 +48,10 @@ struct OutfitFitTests {
         }
     }
 
-    @Test func aCurledOrStretchingCatWearsNothingAndOneFromBehindKeepsItsHat() throws {
-        #expect(OutfitFit.view(for: .sleepCurl) == nil)
-        #expect(OutfitFit.view(for: .stretchSide) == nil)
+    @Test func aCurledOrStretchingCatIsDressedAndOneFromBehindKeepsItsHat() throws {
+        // Curled up the face is turned three-quarters to us; stretching, side-on (since 21 Oct).
+        #expect(OutfitFit.view(for: .sleepCurl) == "tqfront")
+        #expect(OutfitFit.view(for: .stretchSide) == "side")
         let back = try face("short_slim", "sit_back")
         #expect(back.eyes.isEmpty)
         let beanie = try shape("beanie", "tqback"), glasses = try shape("roundglasses", "tqback")

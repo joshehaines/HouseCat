@@ -53,7 +53,7 @@
                     let sprite = catArt.builder.pose(pose.rawValue, look: look)
                     guard let image = catArt.image(sprite, look: look) else { return nil }
                     guard let view = OutfitFit.view(for: pose), let path = outfit.sprites[view], let picture = art.image(path),
-                          let shape = OutfitShapes.shape(path, art: art), let face = catArt.face(sprite.path),
+                          let shape = OutfitShapes.shape(path, art: art), let face = OutfitFit.restingFace(pose, look: look, catArt: catArt, art: art, for: kind),
                           let dressed = OutfitFit.compose(
                               image,
                               face: face,

@@ -96,6 +96,8 @@ enum WidgetBridge {
         let tall = worn.map { OutfitFit.tallEars(look, wearing: $0) } ?? OutfitFit.tallEars(look)
         let covers = worn.map(OutfitFit.coversEars) ?? false
         var outfitPictures: [CatPose: (CGImage, OutfitShape, String)] = [:]
+        // Each pose's face for it (curled up and stretching, where the eyes are shut, as measured).
+        var faces: [CatPose: CatFace] = [:]
         // A body garment: its picture for each pose, where it goes on the pose's painting, and whether only where the
         // cat is (an ear or tail variant's painting, as the room draws it).
         var garments: [CatPose: (CGImage, CGRect, Bool)] = [:]
@@ -112,6 +114,7 @@ enum WidgetBridge {
                    let shape = OutfitShapes.shape(path, art: art)
                 {
                     outfitPictures[pose] = (picture, shape, view)
+                    faces[pose] = OutfitFit.restingFace(pose, look: look, catArt: catArt, art: art, for: OutfitFit.kind(worn))
                 }
             }
         }
@@ -129,7 +132,7 @@ enum WidgetBridge {
                 // A hat may stand above the picture: the canvas grows, and the third size is the cat's own height
                 // (what the widget scales every pose by).
                 var grown = 1.0
-                if let kind, let (picture, shape, view) = outfitPictures[pose], let face = catArt.face(sprite.path),
+                if let kind, let (picture, shape, view) = outfitPictures[pose], let face = faces[pose],
                    let dressed = OutfitFit.compose(
                        image,
                        face: face,

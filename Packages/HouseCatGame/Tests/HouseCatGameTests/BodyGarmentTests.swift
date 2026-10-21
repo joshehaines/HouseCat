@@ -50,11 +50,16 @@ struct BodyGarmentTests {
         }
     }
 
-    @Test func aCurledOrStretchingCatWearsNoGarmentAndNothingElseHasOne() throws {
-        let jumper = try #require(garments.first { $0.id == "fisherman" })
-        #expect(OutfitFit.garment(jumper, body: "short_slim", pose: .sleepCurl) == nil)
-        #expect(OutfitFit.garment(jumper, body: "short_slim", pose: .stretchSide) == nil)
-        #expect(OutfitFit.garment(jumper, body: "short_slim", pose: .loafSide) != nil)
+    @Test func aCurledOrStretchingCatWearsItsGarmentAndNothingElseHasOne() throws {
+        // Painted over every pose, curled up asleep and stretching too (since 21 Oct; they had worn nothing).
+        for outfit in garments {
+            for body in catArt.builder.data.bodies.map(\.id) {
+                for pose in [CatPose.sleepCurl, .stretchSide] {
+                    let path = try #require(OutfitFit.garment(outfit, body: body, pose: pose))
+                    #expect(art.has(path), "\(path)")
+                }
+            }
+        }
         let content = try ContentBundle.load(from: repo.appendingPathComponent("Content"))
         let beanie = try #require(content.outfits.outfits.first { $0.id == "beanie" })
         #expect(OutfitFit.garment(beanie, body: "short_slim", pose: .sitFront) == nil)
@@ -99,8 +104,11 @@ struct BodyGarmentTests {
             cat.settle(into: .sitThreeQuarterFront, duration: 0)
             let onPose = try #require(cat.poseOutfit as? SKSpriteNode, "\(body) sitting")
             #expect(onPose.size.width > 10 && onPose.size.height > 10)
-            cat.settle(into: .sleepCurl, duration: 0)
-            #expect(cat.poseOutfit == nil, "\(body) curled up")
+            for pose in [CatPose.sleepCurl, .stretchSide] {
+                cat.settle(into: pose, duration: 0)
+                let resting = try #require(cat.poseOutfit, "\(body) \(pose)")
+                #expect(resting.calculateAccumulatedFrame().width > 10, "\(body) \(pose)")
+            }
             cat.wear(nil)
             #expect(cat.parts[.side]?["torso"]?.childNode(withName: "outfit") == nil)
         }

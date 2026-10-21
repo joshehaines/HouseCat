@@ -1246,6 +1246,9 @@ public enum Tuning {
         /// much of the head.
         public static let profileHeadBack = 0.12
         public static let neckToHead = 0.9
+        /// And no narrower than this share of it: stretching, the chin rests between the front legs and the row under
+        /// it can be a sliver (the long-haired slim cat with oriental ears wore a bow tie four pixels wide).
+        public static let neckLeast = 0.3
         /// Side-on, neckwear's middle at most this many head lengths behind the head's middle.
         public static let profileNeckBack = 0.45
         public static let neckWidth = 1.12
@@ -1270,6 +1273,13 @@ public enum Tuning {
         public static let filmFaceSpread = 0.2
         /// A film frame's head outline, crown, nose and neck are the middle of this many frames' either side.
         public static let filmFaceSmooth = 2
+        /// Curled up asleep: the crown this many eye spans up the face from the eyes, and glasses pushed up onto the
+        /// forehead this many.
+        public static let curledCrown = 1.1
+        public static let asleepGlassesLift = 0.6
+        /// A head whose eye line tilts more than this (radians) lies on its side (curled up, 0.35 to 0.48): its hat goes
+        /// up the face, square to the eye line. Upright heads tilt at most 0.14 (every picture, 21 Oct).
+        public static let lyingTilt = 0.25
         /// The edges are measured over the middle of the picture, this far in from each side.
         public static let edgeInset = 0.2
         public static let minimumLensCells = 40
@@ -1521,9 +1531,9 @@ public enum Tuning {
         public static let terrainAspect = 672.0 / 380.0
         /// The kit the app makes: the cat's pictures this tall in pixels, and a version to remake it on change (2: the
         /// outfits refitted on 20 Oct, ears under hats, the antlers, hoodie and life vest repainted, garments on ear and
-        /// tail variants).
+        /// tail variants; 3: outfits worn curled up asleep and stretching, 21 Oct).
         public static let catPixels = 420
-        public static let kitVersion = "2"
+        public static let kitVersion = "3"
         /// The app writes the widget's snapshot this long after the last change.
         public static let publishDelaySeconds = 1.0
     }

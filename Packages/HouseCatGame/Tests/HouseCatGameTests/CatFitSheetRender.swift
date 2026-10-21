@@ -249,7 +249,7 @@ private func renderSheetRow(_ renderer: SKRenderer, size: CGSize, device: MTLDev
                         image = OutfitFit.dress(image, garment: garment, frame: frame, clipped: sprite.path != painting) ?? image
                     }
                 } else if let kind = OutfitFit.kind(outfit), let view = OutfitFit.view(for: pose), let path = outfit.sprites[view],
-                          let picture = art.image(path), let shape = OutfitShapes.shape(path, art: art), let face = catArt.face(sprite.path),
+                          let picture = art.image(path), let shape = OutfitShapes.shape(path, art: art), let face = OutfitFit.restingFace(pose, look: look, catArt: catArt, art: art, for: kind),
                           let dressed = OutfitFit.compose(
                               image, face: face, outfit: picture, shape: shape, kind: kind, view: view, size: outfit.fit,
                               tallEars: OutfitFit.tallEars(look, wearing: outfit), pose: pose, coversEars: OutfitFit.coversEars(outfit)

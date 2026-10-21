@@ -91,7 +91,8 @@ func theViewIsFramedOnTheHouse(size: CGSize) throws {
     #expect(node.position.x - node.size.width / 2 <= 0.5 && node.position.x + node.size.width / 2 >= size.width - 0.5)
 }
 
-/// Every painting has where its house stands, and its door is on the house.
+/// Every painting has where its house stands, and its door is on the house: every home in every place and season, and
+/// the intro's own (Josh, 20 Oct: the London terrace fully decorated and a beach house in Bali, painted for it alone).
 @MainActor
 @Test func everyPaintingKnowsWhereItsHouseIs() throws {
     struct Index: Decodable {
@@ -100,7 +101,18 @@ func theViewIsFramedOnTheHouse(size: CGSize) throws {
     }
     let art = try #require(art)
     let index = try art.data("world/scenes/scenes.json", as: Index.self)
-    #expect(index.houses.count == 256)
+    let homes = Set(HouseStyle.allCases.flatMap { house in
+        Biome.allCases.flatMap { biome in NatureSeason.allCases.map { "\(house.rawValue)_\(biome.rawValue)_\($0.rawValue)" } }
+    })
+    let repo = URL(fileURLWithPath: #filePath)
+        .deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
+        .deletingLastPathComponent().deletingLastPathComponent()
+    let intro = try JSONDecoder().decode(IntroFile.self, from: Data(contentsOf: repo.appendingPathComponent("Content/intro.json")))
+    let introScenes = Set(intro.stops.compactMap { $0.scene.split(separator: "/").last.map(String.init) })
+    #expect(Set(index.houses.keys) == homes.union(introScenes), "a box for every home's painting and every intro scene")
+    for name in introScenes {
+        #expect(index.doors[name] != nil, "\(name): door")
+    }
     for (name, box) in index.houses {
         #expect(box.count == 4 && box[0] < box[2] && box[1] < box[3] && box.allSatisfy { (0 ... 1).contains($0) }, "\(name)")
         if let door = index.doors[name] {

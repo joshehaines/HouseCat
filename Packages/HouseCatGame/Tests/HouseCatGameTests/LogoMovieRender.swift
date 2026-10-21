@@ -32,7 +32,8 @@ private let repo = URL(fileURLWithPath: #filePath)
         (.intro, .dark, "intro_logo.mov"),
     ]
     for (act, ink, name) in films {
-        let scene = LogoScene(size: CGSize(width: 1, height: 1), art: art, rig: rig, ink: ink, act: act)
+        // Midnight as its films (21 Oct), tinted from the builder's art.
+        let scene = LogoScene(size: CGSize(width: 1, height: 1), art: art, rig: rig, ink: ink, act: act, catArt: try CatArt(art: art))
         if let curl {
             scene.curlFrames = curl.frames
             scene.curlFrameRate = curl.rate

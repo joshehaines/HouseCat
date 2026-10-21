@@ -94,10 +94,12 @@ public final class LogoScene: SKScene {
 
     /// The cat is the painted mascot, the plain black short-haired set (`cat/base/short_slim`, `cat/poses/plain`): lit
     /// warm from behind like the brand's cat, so it reads on cream and on the night sky, and nothing to tint.
-    public init(size: CGSize, art: ArtLibrary, rig: PuppetRig, ink: Ink, act: Act) {
+    public init(size: CGSize, art: ArtLibrary, rig: PuppetRig, ink: Ink, act: Act, catArt: CatArt? = nil) {
         self.act = act
         let height = CGFloat(Logo.catHeight)
-        cat = CatNode(art: art, rig: rig, height: height)
+        // With the builder's art, Midnight runs in as its films (21 Oct: the puppet's run was the last procedural
+        // leg swing), tinted black like the room's Midnight; without, the plain painted set.
+        cat = CatNode(art: art, rig: rig, catArt: catArt, look: catArt == nil ? nil : .midnight, height: height)
         shadow = Self.softDisc(colour: CGColor(red: 0, green: 0, blue: 0, alpha: 1))
         glow = ink == .dark ? Self.softDisc(colour: CGColor(red: 1, green: 0.93, blue: 0.8, alpha: 1)) : nil
         super.init(size: size)
@@ -129,6 +131,9 @@ public final class LogoScene: SKScene {
         } else {
             // Off to the left, running; the first frame is the wordmark alone, as the launch screen shows it.
             feet = CGPoint(x: -CGFloat(Logo.boxSize[0]) * 3, y: CGFloat(Logo.baseline))
+            if catArt != nil {
+                cat.loadFilmsNow()
+            }
             cat.show(.side, facingRight: true)
             cat.move(.run)
         }
@@ -328,6 +333,8 @@ public final class LogoScene: SKScene {
                 if !airborne {
                     airborne = true
                     cat.stopCycle()
+                    // On its films, the run's stretched picture held through the leap.
+                    cat.leap(true)
                     legRest = (cat.parts[cat.view] ?? [:]).filter { $0.key.hasPrefix("leg_") }.mapValues(\.zRotation)
                 }
                 let u = CGFloat(air)
@@ -342,6 +349,7 @@ public final class LogoScene: SKScene {
             } else if !landed {
                 landed = true
                 restLegs()
+                cat.leap(false)
                 feet = to
                 pivot.zRotation = 0
                 cat.squash(CGFloat(Tuning.Puppet.squash * Logo.leapSquash))

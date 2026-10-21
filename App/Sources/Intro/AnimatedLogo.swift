@@ -77,7 +77,8 @@ struct AnimatedLogo<Picture: View>: View {
                     art: art,
                     rig: rig,
                     ink: ink,
-                    act: reduceMotion ? .still : act
+                    act: reduceMotion ? .still : act,
+                    catArt: GameWorld.catArt
                 )
             }
     }

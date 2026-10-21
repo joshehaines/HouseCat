@@ -1,7 +1,8 @@
 """Builds an edit sheet for one body: its six resting poses and the puppet standing in its three views, on grey,
 with a mask of each body below the head (the puppet's: its torso part). `tint` darkens the cats so a pale garment
 stands out from the fur when it is cut out.
-python sheet.py <body> <dark|white|ginger> -> work/sheets/<body>_<tint>.png, _mask.png, .json (tile placements)"""
+python sheet.py <body> <dark|white|ginger> -> work/sheets/<body>_<tint>.png, _mask.png, .json (tile placements)
+python sheet.py <body> <tint> rest <garment>: the curled-up and stretching poses for one garment (build_rest)"""
 import json, os, sys
 import numpy as np
 from PIL import Image
@@ -24,11 +25,22 @@ def centroid(m):
 
 FIXES = f'{REPO}/tools/app-assets/features_fixes'
 
+CLOSED = json.load(open(f'{REPO}/assets/outfits/poses.json'))['eyes']
+
 def features(rel):
-    """A features mask (R, G = the irises, B = the nose), the repaired one when there is one."""
+    """A features mask (R, G = the irises, B = the nose), the repaired one when there is one. Curled up or stretching
+    the eyes are shut, so not in the mask: they are drawn in where assets/outfits/poses.json measured them."""
     for root in (FIXES, f'{REPO}/assets/cat/custom/masks/features'):
         if os.path.exists(f'{root}/{rel}'):
-            return np.asarray(Image.open(f'{root}/{rel}').convert('RGB'))
+            f = np.asarray(Image.open(f'{root}/{rel}').convert('RGB')).copy()
+            key = os.path.basename(rel)[4:-4]
+            if key in CLOSED:
+                src = Image.open(f'{REPO}/assets/cat/custom/base/{rel}')
+                sx, sy = f.shape[1] / src.width, f.shape[0] / src.height
+                yy, xx = np.mgrid[0:f.shape[0], 0:f.shape[1]]
+                for i, (x, y) in enumerate(CLOSED[key]):
+                    f[..., i][np.hypot(xx - x * sx, yy - y * sy) < 6 * max(sx, sy)] = 255
+            return f
     return None
 
 def face_points(feats):
@@ -41,7 +53,8 @@ def scale_ref(eyes, nose):
         return np.hypot(eyes[1][0] - eyes[0][0], eyes[1][1] - eyes[0][1]), np.mean(eyes, 0)
     return (np.hypot(eyes[0][0] - nose[0], eyes[0][1] - nose[1]) if nose else None), np.array(eyes[0])
 
-PART_VIEW = {'sit_tqfront': 'tqfront', 'loaf_tqfront': 'tqfront', 'sit_front': 'front', 'sit_side': 'side', 'loaf_side': 'side'}
+PART_VIEW = {'sit_tqfront': 'tqfront', 'loaf_tqfront': 'tqfront', 'sit_front': 'front', 'sit_side': 'side', 'loaf_side': 'side',
+             'sleep_curl': 'tqfront', 'stretch_side': 'side'}
 
 def head_template(body, view):
     """The puppet's head in a view: its opaque shape, and the scale length and anchor of its face."""
@@ -126,6 +139,8 @@ def head_region(body, src, feats, pose):
         if len(below) and rows[neck] < 0.8 * np.median(below):
             region |= opaque & (yy < neck)
         return ndimage.binary_dilation(region, iterations=max(2, int(0.02 * h)))
+    if pose == 'sleep_curl':
+        return curled_head(src, feats, rgb, opaque, yy, xx, h, w)
     shape, tref, tanchor = head_template(body, PART_VIEW[pose])
     eyes, nose = face_points(feats)
     if len(eyes) == 1 and (nose is None or nose[1] < eyes[0][1] - 5 or abs(nose[0] - eyes[0][0]) > 0.4 * w):
@@ -160,6 +175,27 @@ def head_region(body, src, feats, pose):
     pts += list(zip(exs[::7], eys[::7]))
     face = hull(pts, (h, w))
     region |= ndimage.binary_dilation(face, iterations=max(3, int(0.3 * (pref if len(eyes) == 2 else 2 * pref))))
+    return ndimage.binary_dilation(region, iterations=max(2, int(0.02 * h))) & ndimage.binary_dilation(opaque, iterations=20)
+
+def curled_head(src, feats, rgb, opaque, yy, xx, h, w):
+    """Curled up the head lies tilted inside the round body: an oval turned with the eye line round the eyes and
+    nose, with the face and the pink inner ears (the standing head's shape, stamped upright, left straight edges)."""
+    eyes, nose = face_points(feats)
+    (ax, ay), (bx, by) = eyes[0], eyes[1]
+    span = np.hypot(bx - ax, by - ay)
+    ux, uy = (bx - ax) / span, (by - ay) / span          # along the eye line
+    dx, dy = -uy, ux                                      # down the face
+    if dy < 0:
+        dx, dy = -dx, -dy
+    cx, cy = (ax + bx) / 2 + dx * 0.25 * span, (ay + by) / 2 + dy * 0.25 * span
+    along = (xx - cx) * ux + (yy - cy) * uy
+    down = (xx - cx) * dx + (yy - cy) * dy
+    region = (along / (1.5 * span)) ** 2 + (down / (1.15 * span)) ** 2 < 1
+    # The ears, each with a round border (a hull round them left straight edges in the garment behind the head).
+    ears = inner_ears(rgb, opaque, max(e[1] for e in eyes), ((ax + bx) / 2, (ay + by) / 2), 2.6 * span)
+    r = max(3, int(0.35 * span))
+    disc = np.hypot(*np.mgrid[-r:r + 1, -r:r + 1]) <= r
+    region |= ndimage.binary_dilation(ears, structure=disc)
     return ndimage.binary_dilation(region, iterations=max(2, int(0.02 * h))) & ndimage.binary_dilation(opaque, iterations=20)
 
 def assemble(body, view):
@@ -254,5 +290,54 @@ def build(body, tint):
     a[mask > 0] = a[mask > 0] * 0.5 + np.array([255, 40, 40]) * 0.5
     Image.fromarray(a.astype(np.uint8)).resize((W // 2, H // 2)).save(f'{stem}_preview.png')
 
+REST = ['sleep_curl', 'stretch_side']
+REFS = ['sit_tqfront', 'loaf_side']
+
+def build_rest(body, tint, garment):
+    """The curled-up and stretching poses to dress (masked like the others), on a sheet of four: under them the same
+    cat sitting and lying in the garment already painted for it (not masked), so the new ones match it.
+    -> work/sheets/<body>_<tint>_rest_<garment>.png, <body>_rest_mask.png, <body>_<tint>_rest_<garment>.json"""
+    sheet = Image.new('RGB', (W, H), BG)
+    mask = np.zeros((H, W), np.uint8)
+    tiles = []
+    tw_, th_ = W // 2, H // 2
+    for i, (kind, name) in enumerate([('pose', p) for p in REST] + [('ref', p) for p in REFS]):
+        src = Image.open(f'{REPO}/assets/cat/custom/base/poses/cat_{body}_{name}.png').convert('RGBA')
+        pad = 40
+        s = min((tw_ - 2 * pad) / src.width, (th_ - 2 * pad) / src.height)
+        tw, th = int(round(src.width * s)), int(round(src.height * s))
+        ox, oy = (i % 2) * tw_ + (tw_ - tw) // 2, (i // 2) * th_ + (th_ - th) // 2
+        small = tinted(src, tint)
+        if kind == 'ref':
+            small.alpha_composite(Image.open(f'{REPO}/assets/outfits/body/outfit_{garment}_{body}_{name}.png').convert('RGBA'))
+        small = small.resize((tw, th), Image.LANCZOS)
+        sheet.paste(small, (ox, oy), small)
+        if kind == 'pose':
+            feats = features(f'poses/cat_{body}_{name}.png')
+            alpha = np.asarray(src)[..., 3] / 255.0
+            head = head_region(body, src, feats, name)
+            body_m = ndimage.binary_opening((alpha > 0.5) & ~head, iterations=4)
+            lab, n = ndimage.label(body_m)
+            if n:
+                sizes = ndimage.sum(body_m, lab, range(1, n + 1))
+                body_m = np.isin(lab, [i + 1 for i, a in enumerate(sizes) if a >= 0.15 * sizes.max()])
+            body_m = ndimage.binary_dilation(body_m, iterations=14) & ~ndimage.binary_erosion(head, iterations=2)
+            m = Image.fromarray((body_m * 255).astype(np.uint8)).resize((tw, th), Image.BILINEAR)
+            region = mask[oy:oy + th, ox:ox + tw]
+            np.maximum(region, (np.asarray(m) > 127).astype(np.uint8) * 255, out=region)
+        tiles.append({'kind': kind, 'name': name, 'x': ox, 'y': oy, 'w': tw, 'h': th, 'scale': s, 'src': [src.width, src.height]})
+    os.makedirs(f'{WORK}/sheets', exist_ok=True)
+    stem = f'{WORK}/sheets/{body}_{tint}_rest_{garment}'
+    sheet.save(f'{stem}.png')
+    Image.fromarray(mask).save(f'{WORK}/sheets/{body}_rest_mask.png')
+    json.dump({'body': body, 'tint': tint, 'size': [W, H], 'tiles': tiles}, open(f'{stem}.json', 'w'), indent=1)
+    a = np.asarray(sheet).astype(float)
+    a[mask > 0] = a[mask > 0] * 0.5 + np.array([255, 40, 40]) * 0.5
+    Image.fromarray(a.astype(np.uint8)).resize((W // 2, H // 2)).save(f'{stem}_preview.png')
+
 if __name__ == '__main__':
-    build(sys.argv[1], sys.argv[2])
+    # python sheet.py <body> <tint> [rest <garment>]: the curled-up and stretching sheet for one garment
+    if len(sys.argv) > 4 and sys.argv[3] == 'rest':
+        build_rest(sys.argv[1], sys.argv[2], sys.argv[4])
+    else:
+        build(sys.argv[1], sys.argv[2])

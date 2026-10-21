@@ -1,0 +1,109 @@
+{
+ "note": "Where the closed eyes are on the curled-up and stretching paintings (their features masks have no irises), in the base painting's master pixels, left to right; measured by eye on 21 Oct. OutfitFit.restingFace fits hats, glasses and neckwear by them, and tools/asset-pipeline/garments/sheet.py keeps garments off the head.",
+ "eyes": {
+  "short_slim_sleep_curl": [
+   [
+    160,
+    281
+   ],
+   [
+    244,
+    248
+   ]
+  ],
+  "short_chunky_sleep_curl": [
+   [
+    177,
+    320
+   ],
+   [
+    276,
+    284
+   ]
+  ],
+  "long_slim_sleep_curl": [
+   [
+    173,
+    271
+   ],
+   [
+    261,
+    226
+   ]
+  ],
+  "long_chunky_sleep_curl": [
+   [
+    152,
+    310
+   ],
+   [
+    247,
+    272
+   ]
+  ],
+  "persian_sleep_curl": [
+   [
+    163,
+    311
+   ],
+   [
+    256,
+    274
+   ]
+  ],
+  "siamese_sleep_curl": [
+   [
+    159,
+    273
+   ],
+   [
+    236,
+    233
+   ]
+  ],
+  "sphynx_sleep_curl": [
+   [
+    158,
+    279
+   ],
+   [
+    244,
+    243
+   ]
+  ],
+  "mainecoon_sleep_curl": [
+   [
+    156,
+    300
+   ],
+   [
+    250,
+    266
+   ]
+  ],
+  "short_slim_stretch_side": [
+   [
+    223,
+    366
+   ]
+  ],
+  "short_chunky_stretch_side": [
+   [
+    194,
+    380
+   ]
+  ],
+  "siamese_stretch_side": [
+   [
+    248,
+    355
+   ]
+  ],
+  "sphynx_stretch_side": [
+   [
+    227,
+    383
+   ]
+  ]
+ }
+}

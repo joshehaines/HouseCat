@@ -20,7 +20,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 POSES = os.path.join(ROOT, 'assets', 'cat', 'custom', 'base', 'poses')
 OUT = os.path.join(ROOT, 'assets', 'outfits', 'body', 'variants.json')
 GARMENTS = os.path.join(ROOT, 'assets', 'outfits', 'body')
-GARMENT_POSES = ('sit_tqfront', 'sit_front', 'sit_side', 'sit_back', 'loaf_tqfront', 'loaf_side')
+GARMENT_POSES = ('sit_tqfront', 'sit_front', 'sit_side', 'sit_back', 'loaf_tqfront', 'loaf_side', 'sleep_curl', 'stretch_side')
 
 
 def alpha(path):

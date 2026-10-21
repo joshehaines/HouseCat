@@ -38,12 +38,13 @@ def garment_region(changed, diff, threshold):
         region = np.isin(lab_, [i + 1 for i, s in enumerate(sizes) if s >= max(150, 0.03 * sizes.max())])
     return ndimage.binary_opening(region, iterations=1)
 
-def extract(body, tint, garment, edited_path, threshold=16.0):
-    stem = f'{WORK}/sheets/{body}_{tint}'
+def extract(body, tint, garment, edited_path, threshold=16.0, rest=False):
+    """`rest`: an edit of sheet.py's curled-up and stretching sheet (its reference tiles are left alone)."""
+    stem = f'{WORK}/sheets/{body}_{tint}' + (f'_rest_{garment}' if rest else '')
     meta = json.load(open(f'{stem}.json'))
     before = np.asarray(Image.open(f'{stem}.png').convert('RGB')).astype(np.float32)
     after = np.asarray(Image.open(edited_path).convert('RGB')).astype(np.float32)
-    mask = np.asarray(Image.open(f'{stem}_mask.png')) > 127
+    mask = np.asarray(Image.open(f'{WORK}/sheets/{body}_rest_mask.png' if rest else f'{stem}_mask.png')) > 127
     diff = np.linalg.norm(lab(after) - lab(before), axis=-1)
     outside = diff[~ndimage.binary_dilation(mask, iterations=6)]
     changed = (ndimage.gaussian_filter(diff, 1.5) > threshold) & mask
@@ -51,6 +52,8 @@ def extract(body, tint, garment, edited_path, threshold=16.0):
     os.makedirs(out_dir, exist_ok=True)
     report = {'outside_p99': round(float(np.percentile(outside, 99)), 1), 'cover': {}}
     for t in meta['tiles']:
+        if t['kind'] == 'ref':
+            continue
         x, y, w, h = t['x'], t['y'], t['w'], t['h']
         region = garment_region(changed[y:y + h, x:x + w], diff[y:y + h, x:x + w], threshold)
         alpha = np.clip(ndimage.gaussian_filter(region.astype(np.float32), 0.8), 0, 1)

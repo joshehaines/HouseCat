@@ -97,7 +97,7 @@ INTRO_SCENES = ['woodland_cabin_snow_winter', 'mediterranean_rooftop_coast_summe
                 'beach_house_tropical_summer']
 INTRO_SCALE = 0.75
 DATA = ['cat/rig.json', 'rooms/layout_living_demo.json', 'rooms/houses.json', 'fx/anchors.json', 'fx/fx.json', 'world/scenes/scenes.json',
-        'world/map/cities.json', 'world/map/map_biome_legend.json', 'outfits/body/variants.json']
+        'world/map/cities.json', 'world/map/map_biome_legend.json', 'outfits/body/variants.json', 'outfits/poses.json']
 
 
 # Opaque pictures are written as HEIC (half the size of JPEG for the same look); the index maps the master's path

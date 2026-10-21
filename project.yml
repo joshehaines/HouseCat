@@ -85,6 +85,8 @@ targets:
         # Empty until the PostHog project exists: analytics stay off (Shared/Sources/Analytics.swift).
         PostHogAPIKey: ""
         NSHealthShareUsageDescription: "Your cat notices your steps, sleep and workouts and gives you extra XP when you meet a goal. HouseCat only reads them, and they stay on this device."
+        # Apple requires this string too for any app that calls HealthKit's requestAuthorization, even with nothing to write (App Store Connect refused the first upload without it, 21 Oct).
+        NSHealthUpdateUsageDescription: "HouseCat never writes anything to Health. Apple asks every app that can read Health data to carry this notice."
         # An invite link opens in the app.
         CKSharingSupported: true
         # The nap timer on the Lock Screen and in the Dynamic Island.

@@ -45,6 +45,8 @@
 	<false/>
 	<key>NSHealthShareUsageDescription</key>
 	<string>Your cat notices your steps, sleep and workouts and gives you extra XP when you meet a goal. HouseCat only reads them, and they stay on this device.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>HouseCat never writes anything to Health. Apple asks every app that can read Health data to carry this notice.</string>
 	<key>NSSupportsLiveActivities</key>
 	<true/>
 	<key>PostHogAPIKey</key>

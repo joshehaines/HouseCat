@@ -30,7 +30,8 @@ def main():
     size = (max(1, round(painting.width * scale)), max(1, round(painting.height * scale)))
     painting = painting.resize(size, Image.LANCZOS)
     frame = Image.new('RGBA', FRAME, GREEN + (255,))
-    feet_y = FRAME[1] - round(height / 7)
+    # The render puts the cat's feet a seventh of the unscaled height up, whatever the breed's scale.
+    feet_y = FRAME[1] - round(RENDER_HEIGHT / 7)
     frame.alpha_composite(painting, (FRAME[0] // 2 - size[0] // 2, feet_y - size[1]))
     frame.convert('RGB').save(out)
     print(f'{out}: {pose} {size[0]}x{size[1]}, feet at y={feet_y}')

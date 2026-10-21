@@ -80,7 +80,13 @@ MOST_FRAMES = {'walk': 40, 'run': 16}
 PERIOD = {'walk': (0.55, 1.75), 'run': (1.0, 3.75)}
 SETTLE = 4
 # One-shot films: kept whole (at most so many pictures), and a scratch's raking loop (seconds a stroke).
-CLIPS = {'scratch': {'most': 40, 'loop': (0.3, 1.3)}, 'sit': {'most': 24, 'loop': None}}
+CLIPS = {'scratch': {'most': 40, 'loop': (0.3, 1.3)}, 'sit': {'most': 24, 'loop': None},
+         'jumpup': {'most': 24, 'loop': None, 'origins': True}, 'jumpdown': {'most': 24, 'loop': None, 'origins': True}}
+# Walking away, seen from behind, starts from the cat sitting with its back to you (posestart.py), so its stride is
+# looked for only once it has got up and walked a while.
+SETTLE_BY_VIEW = {'tqback': 40}
+# A jump's feet count as on the ground while its lowest point stays within this share of the cat's height of where it
+# started (or, after the leap, of where it ends).
 # Two frames differing by less than this (mean, 0-255) are the same picture shown again.
 REPEAT = 2.5
 # Flow is worked at this width (the stored frames are smaller still).
@@ -122,6 +128,12 @@ def key(rgb):
     a = rgb.astype(np.float32)
     green = a[..., 1] - np.maximum(a[..., 0], a[..., 2])
     alpha = np.clip((CLEAR - green) / (CLEAR - SOLID), 0, 1)
+    # Anything green in hue and colourful is background too, however dark (Kling draws the "invisible" ledge a cat
+    # jumps onto, or the surface it scratches, as a shaded green block; the cat itself is white, grey and pink).
+    hsv = cv2.cvtColor(rgb, cv2.COLOR_RGB2HSV_FULL).astype(np.float32)
+    hue, sat = hsv[..., 0] * 360 / 255, hsv[..., 1] / 255
+    greenish = (hue > 55) & (hue < 185) & (sat > 0.3)
+    alpha = np.where(greenish, 0.0, alpha)
     # Only the cat: a haze of dust kicked up behind a running cat is let go (what is not near the cat's solid body).
     solid = (alpha > 0.6).astype(np.uint8)
     count, labels, stats, _ = cv2.connectedComponentsWithStats(solid, connectivity=8)
@@ -430,7 +442,8 @@ def main():
     if clip is None:
         # A stride is looked for from the first `SETTLE + 20` pictures, so no more are tracked than its longest end needs.
         low, high = (round(s * 24) for s in PERIOD[gait])
-        last = shown[min(len(shown) - 1, SETTLE + 20)] + high
+        settle = SETTLE_BY_VIEW.get(view, SETTLE)
+        last = shown[min(len(shown) - 1, settle + 20)] + high
         small = [picture for picture, t in zip(small, shown) if t <= last]
     count = len(small)
     # A clip's start frame is the standing cat (`<view>_stand_<pass>_000.png`); a stride's the walk's or run's.
@@ -470,7 +483,7 @@ def main():
         # The stride: frames alike at its two ends (small greys of the cat), then the one whose ends also map to the
         # same places in the first frame (the same legs where they were, not swapped near for far).
         candidates = []
-        for a in range(SETTLE, min(count, SETTLE + 20)):
+        for a in range(settle, min(count, settle + 20)):
             for b in range(a + 1, count):
                 if low <= shown[b] - shown[a] <= high:
                     candidates.append((float(np.abs(thumbs[a] - thumbs[b]).mean()), a, b))
@@ -590,7 +603,7 @@ def main():
     else:
         anchor = small[b - 1][1] if gait == 'sit' else small[0][1]
         drift_x = (middle(anchor) - middle(alpha0)) * f
-    feet = (W / 2 + drift_x, float(np.median(floors)) * f)
+    feet = (W / 2 + drift_x, float(floors[0] if clip and clip.get('origins') else np.median(floors)) * f)
     reach_px = int(round(RENDER_HEIGHT * breed * GARMENT_REACH / f))
 
     def crop(image, to, small_scale=False):
@@ -602,6 +615,7 @@ def main():
         os.makedirs(f'{out}/{folder}', exist_ok=True)
     entries = {}
     tracked_points = {}
+    head_areas = []
     full = decode(film, frames=[shown[t] for t in picks])
     for k, t in enumerate(picks):
         rgb, alpha = key(full[k])
@@ -631,6 +645,8 @@ def main():
                 moved = cv2.remap(layers[layer], mx, my, cv2.INTER_LINEAR)
                 save_mask(crop(moved, half, True), f'{out}/masks/{part}/{rel}')
                 present.append(part)
+                if part == 'head':
+                    head_areas.append(float(((moved > 0.5) & inside).sum()))
         if uv_start is not None:
             head = cv2.remap(layers['part-_head'], mx, my, cv2.INTER_LINEAR) if 'part-_head' in layers else np.zeros((h, w), np.float32)
             if 'part-_ear_' in layers:
@@ -674,6 +690,29 @@ def main():
         entry['kind'] = 'clip'
         if loop:
             entry['loop'] = loop
+        if clip.get('origins') and head_areas and head_areas[0] > 0:
+            # The camera came closer or drew back as it jumped (it was told not to): each picture's scale against
+            # the first, from the followed head's area (the head keeps its size, whatever the legs do), smoothed.
+            raw_scales = [float(np.sqrt(head_areas[0] / max(1.0, area))) for area in head_areas]
+            entry['scales'] = [float(v) for v in np.convolve(np.pad(raw_scales, 2, mode='edge'), np.ones(5) / 5, mode='valid')]
+        if clip.get('origins') and 'torso_middle' in tracked_points:
+            # A jump: where the game's origin is in each picture (master pixels from the box's top left): under the
+            # feet while they are on the ground (the start, and the end once it has leapt), the body's followed
+            # middle in the air, so the game's own arc carries the cat and the film gives it the leap.
+            lows = [floors[t - a] * f - box[1] for t in picks]
+            torso = tracked_points['torso_middle']
+            eps = height_px * 0.03
+            origin0 = [feet[0] - box[0], feet[1] - box[1]]
+            origins, leapt = [], False
+            for k in range(len(picks)):
+                on_start = abs(lows[k] - lows[0]) < eps and not leapt
+                on_end = leapt and abs(lows[k] - lows[-1]) < eps
+                if not on_start and not on_end:
+                    leapt = True
+                x = origin0[0] + (torso[k][0] - torso[0][0])
+                y = lows[k] if (on_start or on_end) else origin0[1] + (torso[k][1] - torso[0][1])
+                origins.append([float(x), float(y)])
+            entry['origins'] = origins
     index['films'][f'{body}/{view}/{gait}'] = entry
     json.dump(index, open(index_path, 'w'), indent=1, sort_keys=True)
     print(f'  {kept} frames {size[0]}x{size[1]}, box {box}', flush=True)

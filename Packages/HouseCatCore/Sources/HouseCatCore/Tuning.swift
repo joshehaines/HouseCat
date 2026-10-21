@@ -944,6 +944,9 @@ public enum Tuning {
         /// keep the cupped ears (the long-haired chunky body's side head looks round at you). A side head painted with
         /// its own ear takes no ear parts over it.
         public static let profileEarBodies: Set<String> = ["short_slim", "short_chunky", "siamese", "sphynx"]
+        /// A body's own profile ears drawn smaller than painted (the short-haired chunky cat's were painted tall and
+        /// narrow: "rabbit ears", seen 19 Oct; the puppet shows only until its films are ready, since 21 Oct).
+        public static let profileEarScale: [String: Double] = ["short_chunky": 0.78]
         public static let sideHeadsWithEars: Set<String> = ["long_slim"]
         /// A swapped ear on the puppet is this many times as tall as the body's own ear it stands in for, by shape:
         /// measured off the sitting paintings (front, three-quarter and side, the four standard bodies), which have

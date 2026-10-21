@@ -123,7 +123,7 @@ public final class CatDirector {
 
     /// The way a move to `target` faces: the side view across the room or away, the three-quarter view coming
     /// towards you at a slant, the front view coming straight at you.
-    func heading(to target: CGPoint) -> (view: CatNode.View, right: Bool) {
+    func heading(to target: CGPoint, gait: CatNode.Gait = .walk) -> (view: CatNode.View, right: Bool) {
         let dx = target.x - floorPoint.x, dy = target.y - floorPoint.y
         let right = dx > 0
         if dy < 0, abs(dx) < -dy * 0.55 {
@@ -131,6 +131,10 @@ public final class CatDirector {
         }
         if dy < 0, -dy > abs(dx) * 0.4 {
             return (.tqfront, right)
+        }
+        // Going away: seen from behind, where the cat has that film ready for the gait (21 Oct); else side on.
+        if dy > 0, dy > abs(dx) * 0.4, cat.filmReady(.tqback, gait) {
+            return (.tqback, right)
         }
         return (.side, right)
     }
@@ -142,8 +146,8 @@ public final class CatDirector {
         }
         let step = steps.removeFirst()
         // Going the other way from the side view: turn through the three-quarter view first.
-        if case let .move(target, _) = step, !pivoted, cat.pose == nil, cat.view == .side {
-            let (view, right) = heading(to: target)
+        if case let .move(target, pace) = step, !pivoted, cat.pose == nil, cat.view == .side {
+            let (view, right) = heading(to: target, gait: pace.gait)
             if view == .side, right != cat.facingRight, hypot(target.x - floorPoint.x, target.y - floorPoint.y) > 1 {
                 pivoted = true
                 speedNow = 0
@@ -178,18 +182,21 @@ public final class CatDirector {
             profile = made
             duration = max(made.duration, distance < 1 ? 0 : Tuning.Puppet.minMoveSeconds * 0.5)
             perchDepth = nil
-            let (view, right) = heading(to: target)
+            let (view, right) = heading(to: target, gait: pace.gait)
             if view != cat.view {
                 cat.turn(to: view, facingRight: right)
             } else if right != cat.facingRight {
                 cat.show(view, facingRight: right)
             }
             cat.move(pace.gait)
-        case .hop:
+        case let .hop(_, height):
             cat.stopCycle()
             let p = Tuning.Puppet.self
             duration = p.crouchSeconds + p.jumpSeconds + p.landSeconds
-            cat.squash(CGFloat(p.squash) * 1.4)
+            // The body's jump film over the whole jump (21 Oct); without one, the crouch is a squash.
+            if !cat.jump(up: height > from.lift, seconds: duration) {
+                cat.squash(CGFloat(p.squash) * 1.4)
+            }
             speedNow = 0
         case let .face(view, right):
             cat.turn(to: view, facingRight: right)
@@ -254,7 +261,7 @@ public final class CatDirector {
             if elapsed < jumpStart {
                 break
             }
-            if elapsed - dt < jumpStart {
+            if elapsed - dt < jumpStart, !cat.jumpingOnFilm {
                 // Off the ground: the run film's stretched picture, held through the arc.
                 cat.leap(true)
             }
@@ -267,8 +274,10 @@ public final class CatDirector {
             if elapsed >= jumpEnd, elapsed - dt < jumpEnd {
                 lift = height
                 surface = height
-                cat.leap(false)
-                cat.squash(CGFloat(p.squash))
+                if !cat.jumpingOnFilm {
+                    cat.leap(false)
+                    cat.squash(CGFloat(p.squash))
+                }
             }
             if t >= 1 {
                 floorPoint = target

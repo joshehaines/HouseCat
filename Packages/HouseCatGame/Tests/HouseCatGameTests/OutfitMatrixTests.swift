@@ -473,6 +473,32 @@ struct OutfitMatrixTests {
                     if let f = fit("\(garment.id) on \(body.id) \(view.rawValue) torso", garment: path, over: torso, frame: frame, variant: false) {
                         out.append(f)
                     }
+                    // On the films' frames (21 Oct): the garment drawn where each frame's map of the torso puts it,
+                    // every third frame of every film in this view that carries the map.
+                    guard let picture = art.image(path) else { continue }
+                    for gait in ["walk", "run", "scratch", "sit"] {
+                        guard let film = catArt.film(body: body.id, view: view.rawValue, gait: gait), catArt.filmTakesGarments(film) else { continue }
+                        for (k, frameName) in film.frames.enumerated() where k % 3 == 0 {
+                            guard let alpha = Raster.read(catArt.root.appendingPathComponent("alpha/\(frameName)")),
+                                  let layer = catArt.filmGarment(frameName, garment: picture, size: (alpha.width, alpha.height)) else { continue }
+                            let cat = Self.outline(alpha, widen: 0.012)
+                            let drawn = Self.outline(Raster(width: alpha.width, height: alpha.height, planes: [layer.alpha]), widen: 0)
+                            var cells = 0, off = 0, covered = 0
+                            for index in drawn.opaque.indices where drawn.opaque[index] {
+                                cells += 1
+                                if !cat.near[index] {
+                                    off += 1
+                                } else if cat.opaque[index] {
+                                    covered += 1
+                                }
+                            }
+                            let catCells = cat.opaque.filter { $0 }.count
+                            out.append(GarmentFit(
+                                name: "\(garment.id) on \(body.id) \(view.rawValue) \(gait) film \(k)",
+                                off: Double(off) / Double(max(1, cells)), cover: Double(covered) / Double(max(1, catCells)), variant: false
+                            ))
+                        }
+                    }
                 }
             }
         }
@@ -488,8 +514,9 @@ struct OutfitMatrixTests {
         #expect(fits.count > 3300)
         var found: [String] = []
         for f in fits {
-            let torso = f.name.hasSuffix("torso")
-            let mostOff = torso ? 0.08 : f.variant ? 0.1 : 0.12
+            let torso = f.name.hasSuffix("torso"), film = f.name.contains(" film ")
+            // On a film frame the garment is cut to the map's reach round the torso, so it is never far off the cat.
+            let mostOff = torso ? 0.08 : film ? 0.06 : f.variant ? 0.1 : 0.12
             if f.off > mostOff {
                 found.append("\(f.name): \(Int(f.off * 100))% off the cat")
             }
@@ -651,6 +678,13 @@ struct OutfitMatrixTests {
                         }
                         checked += 1
                         let label = "\(outfit.id) on \(body.id) \(name) facing \(right ? "right" : "left")"
+                        // A body garment on a film is drawn into its frames (21 Oct), not as a node of its own.
+                        if outfit.slot == .body, cat.isFilming {
+                            if !cat.filmGarmentOn {
+                                found.append("\(label): the film without its garment")
+                            }
+                            continue
+                        }
                         let nodes = Self.drawn(cat)
                         let bare = kind == .glasses && poseOf == .sitBack
                         if bare {

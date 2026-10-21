@@ -42,6 +42,10 @@ public final class CatArt: @unchecked Sendable {
         public var loop: [Int]?
         public var stand: Int?
         public var stretch: Int?
+        /// A jump's origin in each frame (master pixels): its feet while they are on the ground, its body in the air;
+        /// and each frame's scale against the first (the camera came closer or drew back).
+        public var origins: [[Double]]?
+        public var scales: [Double]?
 
         public var isClip: Bool {
             kind == "clip"

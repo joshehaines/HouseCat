@@ -12,6 +12,18 @@ public final class CatNode: SKNode {
         case side
         case tqfront
         case front
+        /// Walking away, seen from behind at three-quarters: a film only (21 Oct), no puppet; so not among
+        /// `allCases`, which are the puppet's views.
+        case tqback
+
+        public static var allCases: [View] {
+            [.side, .tqfront, .front]
+        }
+
+        /// The views a film can come in.
+        public static var filmViews: [View] {
+            allCases + [.tqback]
+        }
     }
 
     public private(set) var body: String
@@ -282,6 +294,10 @@ public final class CatNode: SKNode {
         // A body garment goes into the films' frames (or comes out of them): tinted again.
         if wasDressed || outfit?.slot == .body {
             prepareFilms()
+        } else if pose == nil, cycle == nil, clip == nil {
+            // Standing: the film's standing picture with the outfit fitted, or the puppet where the film cannot
+            // carry it (a hat on a film that hides the face).
+            standFilm()
         }
     }
 
@@ -597,7 +613,12 @@ public final class CatNode: SKNode {
                 continue
             }
             let (texture, painted) = sprite(part: name, view: view)
-            let earScale = swappedEarScale(name, view: view, painted: painted)
+            var earScale = swappedEarScale(name, view: view, painted: painted)
+            if name.hasPrefix("ear_"), (look?.ears ?? "own") == "own", profileEar(name, view: view) != nil,
+               let smaller = Tuning.Puppet.profileEarScale[body]
+            {
+                earScale *= CGFloat(smaller)
+            }
             let width = painted.width * partScale * (name == "torso" ? CGFloat(stretch) : 1) * earScale
             let node = SKSpriteNode(texture: texture, size: CGSize(width: width, height: painted.height * partScale * earScale))
             node.anchorPoint = CGPoint(x: part.pivot[0], y: 1 - part.pivot[1])
@@ -1146,6 +1167,11 @@ public final class CatNode: SKNode {
 
     /// Starts (or changes to) a gait, keeping the stride's place.
     public func move(_ gait: Gait) {
+        // A stride finishing on its standing picture gives way to the new stride (a scratch is stopped first).
+        if let playing = clip, !playing.scratch {
+            clip = nil
+            filmSettling = false
+        }
         cycle = (gait, cycle?.phase ?? 0)
     }
 
@@ -1193,6 +1219,27 @@ public final class CatNode: SKNode {
             self?.standFilm()
         })
     }
+
+    /// A jump onto furniture (up) or down off it as the body's jump film (21 Oct), played over the jump's whole time
+    /// (the crouch, the arc and the landing), each picture drawn about its own origin (its feet while they are on the
+    /// ground, its body in the air: films.json `origins`) so the game's arc carries it where it is going. False
+    /// without the film.
+    @discardableResult
+    public func jump(up: Bool, seconds: TimeInterval) -> Bool {
+        guard standsAsFilm, pose == nil, let (key, film, frames) = film(named: up ? "jumpup" : "jumpdown"), film.isClip, frames.count > 1 else {
+            return false
+        }
+        jumpingOnFilm = true
+        clip = Clip(key: key, film: film, frames: frames, from: 0, to: frames.count - 1, seconds: max(0.1, seconds), then: { [weak self] in
+            self?.jumpingOnFilm = false
+            self?.standFilm()
+        })
+        showFilm(key, film: film, frames: frames, frame: 0)
+        return true
+    }
+
+    /// Whether a jump film is playing (the director then leaves the crouch and landing to it).
+    public private(set) var jumpingOnFilm = false
 
     /// In the air (a jump onto furniture, or down): the run film's most stretched picture, held; landed, standing.
     public func leap(_ airborne: Bool) {
@@ -1355,8 +1402,7 @@ public final class CatNode: SKNode {
             scratching(t + dt)
             return
         }
-        guard var current = cycle, let nodes = parts[view], let rests = restAngles[view],
-              let spec = rig.sets[body]?[view.rawValue] else { return }
+        guard var current = cycle else { return }
         let p = Tuning.Puppet.self
         if let (key, film, frames) = film(for: current.gait) {
             // The film plays at its own pace, quicker or slower as the cat goes faster or slower than a filmed cat
@@ -1370,6 +1416,8 @@ public final class CatNode: SKNode {
             return
         }
         hideFilm()
+        // The puppet, in a view it has (seen from behind there is only the film).
+        guard let nodes = parts[view], let rests = restAngles[view], let spec = rig.sets[body]?[view.rawValue] else { return }
         let rad = CGFloat.pi / 180
         let (stride, beat, pace, swingScale) = switch current.gait {
         case .walk: (p.walkStride, p.walkHz, p.walkSpeed, 1.0)
@@ -1599,12 +1647,14 @@ public final class CatNode: SKNode {
     /// The body garment the films' frames were tinted with (drawn into them where each frame's map of the torso puts
     /// it, as the puppet carries it on its torso); nil, none. Josh, 21 Oct: "animations for all movement of the cat".
     private var filmDressed: String?
+    /// The views whose films carry it (a garment is painted for the puppet's views; none from behind).
+    private var filmDressedViews: Set<String> = []
 
     /// The garment's picture for each view the films come in, when the cat wears one.
     private func filmGarments() -> [String: FilmImage] {
         guard let outfit, outfit.slot == .body, let look else { return [:] }
         var pictures: [String: FilmImage] = [:]
-        for view in View.allCases {
+        for view in View.filmViews {
             if let path = OutfitFit.garment(outfit, body: look.body, view: view.rawValue), art.has(path), let image = art.image(path) {
                 pictures[view.rawValue] = FilmImage(image)
             }
@@ -1635,6 +1685,7 @@ public final class CatNode: SKNode {
         let garments = filmGarments()
         let dressed = garments.isEmpty ? nil : outfit?.id
         filmDressed = dressed
+        filmDressedViews = Set(garments.keys)
         for (key, film) in filmsOfBody(catArt, look: look) {
             let garment = catArt.filmTakesGarments(film) ? garments[String(key.prefix { $0 != "/" })] : nil
             Task { [weak self] in
@@ -1663,6 +1714,7 @@ public final class CatNode: SKNode {
         let cuts = filmCuts(look)
         let garments = filmGarments()
         filmDressed = garments.isEmpty ? nil : outfit?.id
+        filmDressedViews = Set(garments.keys)
         for (key, film) in filmsOfBody(catArt, look: look) {
             let garment = catArt.filmTakesGarments(film) ? garments[String(key.prefix { $0 != "/" })] : nil
             let images = film.frames.map { catArt.filmFrame($0, look: look, cutting: cuts, garment: garment?.image) }
@@ -1676,6 +1728,7 @@ public final class CatNode: SKNode {
         filmFrames = other.filmFrames
         filmRoots = other.filmRoots
         filmDressed = other.filmDressed
+        filmDressedViews = other.filmDressedViews
     }
 
     /// Whether the film for a view and gait is ready to show (tests).
@@ -1689,8 +1742,8 @@ public final class CatNode: SKNode {
     }
 
     private func filmsOfBody(_ catArt: CatArt, look: CatLook) -> [(String, CatArt.Film)] {
-        View.allCases.flatMap { view in
-            ["walk", "run", "scratch", "sit"].compactMap { gait in
+        View.filmViews.flatMap { view in
+            ["walk", "run", "scratch", "sit", "jumpup", "jumpdown"].compactMap { gait in
                 catArt.film(body: look.body, view: view.rawValue, gait: gait).map { ("\(view.rawValue)/\(gait)", $0) }
             }
         }
@@ -1710,16 +1763,25 @@ public final class CatNode: SKNode {
         film(named: gait == .run ? "run" : "walk")
     }
 
-    /// The film of that name ("walk", "run", "scratch", "sit") in the view on show, if this cat has it ready.
-    private func film(named name: String) -> (String, CatArt.Film, [SKTexture])? {
+    /// Whether the film for a view and gait is ready and fit for the cat as it is (its ears and tail, what it wears),
+    /// so a move can be shown in that view (the director picks the view seen from behind only when it can).
+    public func filmReady(_ view: View, _ gait: Gait) -> Bool {
+        film(named: gait == .run ? "run" : "walk", in: view) != nil
+    }
+
+    /// The film of that name ("walk", "run", "scratch", "sit", "jumpup", "jumpdown") in the view on show (or the
+    /// view given), if this cat has it ready.
+    private func film(named name: String, in view: View? = nil) -> (String, CatArt.Film, [SKTexture])? {
+        let view = view ?? self.view
         guard filmsAllowed, let catArt, let look else { return nil }
         let key = "\(view.rawValue)/\(name)"
         guard let frames = filmFrames[key], let film = catArt.film(body: look.body, view: view.rawValue, gait: name) else {
             return nil
         }
-        // A body garment is in the frames where the film carries the torso's map; else the puppet walks in it.
+        // A body garment is in the frames where the film carries the torso's map and the garment is painted for the
+        // view; else the puppet walks in it (or, seen from behind, another view is chosen).
         if let outfit, outfit.slot == .body {
-            guard catArt.filmTakesGarments(film), filmDressed == outfit.id else { return nil }
+            guard catArt.filmTakesGarments(film), filmDressed == outfit.id, filmDressedViews.contains(view.rawValue) else { return nil }
         } else if filmDressed != nil {
             return nil
         }
@@ -1762,6 +1824,15 @@ public final class CatNode: SKNode {
             restoreEyes()
         }
         filmFrame = index
+        // A jump's pictures each about their own origin (the feet on the ground, the body in the air), and each at
+        // its own scale where the camera moved.
+        if let origins = film.origins, index < origins.count, origins[index].count == 2, film.size.count == 2 {
+            filmNode.anchorPoint = CGPoint(x: origins[index][0] / film.size[0], y: 1 - origins[index][1] / film.size[1])
+        } else if film.origins != nil {
+            filmNode.anchorPoint = CGPoint(x: film.feet[0] / film.size[0], y: 1 - film.feet[1] / film.size[1])
+        }
+        let scale = height / CGFloat(film.height) * CGFloat(film.scales.flatMap { index < $0.count ? $0[index] : nil } ?? 1)
+        filmNode.size = CGSize(width: film.size[0] * scale, height: film.size[1] * scale)
         filmNode.texture = frames[index]
         layFilmOutfit(film, frame: index)
         placeFilmPieces(film, frame: index)
@@ -1834,6 +1905,7 @@ public final class CatNode: SKNode {
     private func hideFilm() {
         clip = nil
         filmSettling = false
+        jumpingOnFilm = false
         guard filmOnShow != nil || !filmHolder.isHidden else { return }
         if openFilm != nil {
             restoreEyes()

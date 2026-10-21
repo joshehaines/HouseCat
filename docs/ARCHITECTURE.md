@@ -111,7 +111,7 @@ Care and idle: `GameSession.feed()` / `pet(taps:)` append `fed` / `petted` and p
 - The nap: `Naps` (Shared) keeps the nap in progress in the App Group, starts and ends the ActivityKit activity (`NapAttributes`, shared with the widget extension, which draws `NapLiveActivity`), and records `napCompleted` through `GameSession.completeNap` once the time is up.
 
 ### Homes, packs and the shop (18 Oct)
-- `HomePacks` (Shared) asks Background Assets for a home's pack (`home.<style>`), waits for it with `ensureLocalAvailability`, and adds its `homes/<style>/art.json` to the art library (`ArtLibrary.add(packAt:)`); `GameWorld.exteriorScene` only names scenes the library has. The `HouseCatDownloader` extension (`StoreDownloaderExtension`) lets the system fetch packs before launch.
+- `HomePacks` (Shared) asks Background Assets for a home's pack (`home-<style>`, hyphens for the style's underscores), waits for it with `ensureLocalAvailability`, and adds its `homes/<style>/art.json` to the art library (`ArtLibrary.add(packAt:)`); `GameWorld.exteriorScene` only names scenes the library has. The `HouseCatDownloader` extension (`StoreDownloaderExtension`) lets the system fetch packs before launch.
 - `ShopView` (App) is the shop: sections, offer tiles, the Cat Club page, the detail panel and `Celebration`. Prices and the value sums come from `ProductInfo` (`price` and `currencyCode` beside `displayPrice`); `ChunkyButton` and `Ribbon` are in HouseCatUI's `Theme`. The layout's scale comes from the screen size alone (a GeometryReader around it), never from what it sizes.
 
 ### The economy and progress pass (18 Oct)

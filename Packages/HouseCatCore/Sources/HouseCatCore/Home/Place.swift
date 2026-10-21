@@ -189,14 +189,27 @@ public struct HomeNow: Equatable, Sendable {
     public var weather: Weather
     /// Minutes past midnight at the home.
     public var localMinutes: Int
+    /// The weather is Apple Weather's (WeatherKit's report for this place and hour, on Auto), so the screen showing
+    /// it carries the Apple Weather mark and link (CLAUDE.md "Store and review rules"); false for the simulation
+    /// and for the Christmas event's snow.
+    public var weatherIsReal: Bool
 
-    public init(place: HomePlace, biome: Biome, season: NatureSeason, sky: SkyPhase, weather: Weather, localMinutes: Int) {
+    public init(
+        place: HomePlace,
+        biome: Biome,
+        season: NatureSeason,
+        sky: SkyPhase,
+        weather: Weather,
+        localMinutes: Int,
+        weatherIsReal: Bool = false
+    ) {
         self.place = place
         self.biome = biome
         self.season = season
         self.sky = sky
         self.weather = weather
         self.localMinutes = localMinutes
+        self.weatherIsReal = weatherIsReal
     }
 }
 
@@ -220,14 +233,15 @@ public extension HouseholdState {
             tables: tables
         )
         let real = WeatherRules.weather(at: date, home: home, report: report, simulated: simulated)
-        let weather = EventRules.snowing(on: clock.day(of: date), context: context) ? .snow : real
+        let eventSnow = EventRules.snowing(on: clock.day(of: date), context: context)
         return HomeNow(
             place: place,
             biome: place.biome,
             season: season,
             sky: .at(localMinutes: minutes),
-            weather: weather,
-            localMinutes: minutes
+            weather: eventSnow ? .snow : real,
+            localMinutes: minutes,
+            weatherIsReal: !eventSnow && WeatherRules.isReal(at: date, home: home, report: report)
         )
     }
 }

@@ -75,8 +75,18 @@ public extension WeatherRules {
     /// The weather at the home at `date`: the real report's hour when the season is Auto and the report is
     /// for this place, otherwise the day's simulated weather.
     static func weather(at date: Date, home: HomeSettings, report: WeatherReport?, simulated: Weather) -> Weather {
-        guard home.season == .auto, let report, report.isFor(home.place ?? .london), let hour = report.hour(at: date)
-        else { return simulated }
+        guard let hour = realHour(at: date, home: home, report: report) else { return simulated }
         return hour.weather
+    }
+
+    /// Whether the weather shown at `date` is Apple Weather's: the season is Auto and the report is for this place
+    /// and reaches this hour. The Apple Weather mark and link go wherever this is true.
+    static func isReal(at date: Date, home: HomeSettings, report: WeatherReport?) -> Bool {
+        realHour(at: date, home: home, report: report) != nil
+    }
+
+    private static func realHour(at date: Date, home: HomeSettings, report: WeatherReport?) -> WeatherReport.Hour? {
+        guard home.season == .auto, let report, report.isFor(home.place ?? .london) else { return nil }
+        return report.hour(at: date)
     }
 }

@@ -40,6 +40,35 @@ struct RealWeatherTests {
         #expect(simulated == f.state.homeNow(at: noon, weather: tables, report: nil).weather)
     }
 
+    /// The Apple Weather mark goes only where Apple's weather is on screen: a report for this place and hour on
+    /// Auto, not the simulation, not a fixed season's weather, not another town's report.
+    @Test func theHomeKnowsWhenItsWeatherIsApplesForTheMark() {
+        var f = Fixture()
+        f.add(.homePlaced(.london), day: 0)
+        let noon = f.at(1, 12)
+        let rain = report(at: .london, from: f.at(1, 6), .rain)
+        #expect(f.state.homeNow(at: noon, weather: tables, report: rain).weatherIsReal)
+        #expect(!f.state.homeNow(at: noon, weather: tables, report: nil).weatherIsReal)
+        // Past the report's hours: the simulation, so no mark.
+        #expect(!f.state.homeNow(at: f.at(3, 12), weather: tables, report: rain).weatherIsReal)
+        // A report taken somewhere else is not this home's weather.
+        let elsewhere = HomePlace(name: "Leeds", latitude: 53.8, longitude: -1.55, timeZoneID: "Europe/London", biome: .city)
+        #expect(!f.state.homeNow(at: noon, weather: tables, report: report(at: elsewhere, from: f.at(1, 6), .rain)).weatherIsReal)
+        // A fixed season keeps the simulation whatever the report says.
+        f.add(.seasonSet(.fixed(.winter)), day: 1)
+        #expect(!f.state.homeNow(at: f.at(1, 13), weather: tables, report: rain).weatherIsReal)
+    }
+
+    @Test func theWidgetSceneCarriesWhetherItsWeatherIsApples() {
+        var f = Fixture()
+        f.add(.homePlaced(.london), day: 0)
+        let noon = f.at(1, 12)
+        let rain = report(at: .london, from: f.at(1, 6), .rain)
+        let state = WidgetRules.state(at: noon, save: f.state, context: .empty)
+        #expect(WidgetRules.scene(for: state, save: f.state, weather: tables, report: rain).weatherIsReal)
+        #expect(!WidgetRules.scene(for: state, save: f.state, weather: tables, report: nil).weatherIsReal)
+    }
+
     @Test func aFixedSeasonOrAnotherPlaceKeepsTheSimulation() {
         var f = Fixture()
         f.add(.homePlaced(.london), day: 0)

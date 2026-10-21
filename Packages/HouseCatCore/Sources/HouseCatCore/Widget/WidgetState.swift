@@ -186,6 +186,8 @@ public struct WidgetScene: Codable, Equatable, Sendable {
     public var weather: Weather
     /// From the real weather report, when there is one.
     public var temperatureC: Double?
+    /// The weather is Apple Weather's (`HomeNow.weatherIsReal`), so the widget shows the Apple Weather mark.
+    public var weatherIsReal = false
 }
 
 /// What a widget's buttons do (SPEC "Widgets, the Duolingo layer"): Feed and Pet append the same events as
@@ -214,7 +216,8 @@ public extension WidgetRules {
             season: home.season,
             sky: home.sky,
             weather: home.weather,
-            temperatureC: real?.temperatureC
+            temperatureC: real?.temperatureC,
+            weatherIsReal: home.weatherIsReal
         )
     }
 
@@ -226,7 +229,13 @@ public extension WidgetRules {
         weather tables: WeatherFile,
         report: WeatherReport?
     ) -> [WidgetScene] {
-        timeline(from: date, save: save, context: context).map { scene(for: $0, save: save, weather: tables, report: report, context: context) }
+        timeline(from: date, save: save, context: context).map { scene(
+            for: $0,
+            save: save,
+            weather: tables,
+            report: report,
+            context: context
+        ) }
     }
 
     /// The event a widget button appends, or nil when there is nothing to do (the bowl is already full).

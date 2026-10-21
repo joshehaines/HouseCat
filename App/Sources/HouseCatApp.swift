@@ -595,6 +595,24 @@ struct RoomScreen: View {
             .overlayPreferenceValue(TourTargets.self) { targets in
                 if visit.scene is RoomScene, visit.ready {
                     GoalTrackerLayer(
+            // Apple Weather's mark wherever its weather is on screen (its attribution rule): under the room's bottom
+            // edge, where nothing else sits, while the weather in the windows is Apple's; and on the cold open,
+            // top left with the weather, where the town goes once you are outside to look.
+            .overlay(alignment: .bottom) {
+                if visit.ready, visit.scene is RoomScene, !visit.decorating, visit.previewing == nil, let now = appleWeatherNow {
+                    WeatherMark(caption: WeatherMark.caption(now, at: GameSession.shared.now()))
+                        .padding(.bottom, Tuning.Stage.hudBottom)
+                        .transition(.opacity)
+                }
+            }
+            .overlay(alignment: .topLeading) {
+                if visit.ready, visit.scene is ExteriorScene, !visit.outside, let now = appleWeatherNow {
+                    WeatherMark(caption: WeatherMark.caption(now, at: GameSession.shared.now()))
+                        .padding(.leading, Tuning.Stage.hudEdge)
+                        .padding(.top, Tuning.Stage.hudTop)
+                        .transition(.opacity)
+                }
+            }
                         visit: visit,
                         targets: targets,
                         hidden: trackerHidden,
@@ -1167,26 +1185,41 @@ struct RoomScreen: View {
         .ignoresSafeArea()
     }
 
-    /// Outside to look at the house (Visit.stepOutside): the home's town top left, Go in bottom right where the Shop
-    /// is in the room. A tap on the door goes in too, and one on the cat in its window gets a slow blink.
+    /// The home now, when the weather on screen is Apple Weather's (so its mark is due); nil while it is the game's
+    /// own (a fixed season, no report yet, the Christmas snow).
+    private var appleWeatherNow: HomeNow? {
+        let session = GameSession.shared
+        let now = GameWorld.now(state: session.state(at: session.now()), at: session.now())
+        return now.weatherIsReal ? now : nil
+    }
+
+    /// Outside to look at the house (Visit.stepOutside): the home's town top left with the weather under it, Go in
+    /// bottom right where the Shop is in the room. A tap on the door goes in too, and one on the cat in its window
+    /// gets a slow blink.
     private var outsideControls: some View {
         let edge = CGFloat(Tuning.Stage.hudEdge), top = CGFloat(Tuning.Stage.hudTop), bottom = CGFloat(Tuning.Stage.hudBottom)
         let session = GameSession.shared
         let town = WorldMapView.town((session.state(at: session.now()).home.place ?? .london).name)
         return ZStack {
-            HStack(spacing: 6 * hudScale) {
-                PaintedIcon("map_pin", size: 26 * hudScale)
-                Text(town)
-                    .font(Theme.title(17 * hudScale))
-                    .foregroundStyle(Theme.ink)
-                    .lineLimit(1)
+            VStack(alignment: .leading, spacing: 6 * hudScale) {
+                HStack(spacing: 6 * hudScale) {
+                    PaintedIcon("map_pin", size: 26 * hudScale)
+                    Text(town)
+                        .font(Theme.title(17 * hudScale))
+                        .foregroundStyle(Theme.ink)
+                        .lineLimit(1)
+                }
+                .padding(.leading, 10 * hudScale)
+                .padding(.trailing, 16 * hudScale)
+                .padding(.vertical, 7 * hudScale)
+                .paper(Capsule())
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel("Your home in \(town)")
+                // The weather you are standing in, with Apple's mark when it is Apple's.
+                if let now = appleWeatherNow {
+                    WeatherMark(caption: WeatherMark.caption(now, at: session.now()))
+                }
             }
-            .padding(.leading, 10 * hudScale)
-            .padding(.trailing, 16 * hudScale)
-            .padding(.vertical, 7 * hudScale)
-            .paper(Capsule())
-            .accessibilityElement(children: .combine)
-            .accessibilityLabel("Your home in \(town)")
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             .padding(.leading, edge)
             .padding(.top, top)

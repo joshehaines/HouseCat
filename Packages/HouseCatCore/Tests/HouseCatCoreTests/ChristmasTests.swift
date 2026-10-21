@@ -53,6 +53,8 @@ struct ChristmasTests {
         // Whatever the weather would be, it snows in December.
         let december = GameDay(year: 2026, month: 12, day: 10)
         #expect(state.homeNow(at: noon(december), weather: content.weather, context: context).weather == .snow)
+        // The event's snow is the game's, not Apple Weather's, so no mark goes with it.
+        #expect(!state.homeNow(at: noon(december), weather: content.weather, context: context).weatherIsReal)
         #expect(EventRules.snowing(on: GameDay(year: 2027, month: 1, day: 6), context: context))
         // Before and after, the weather is the day's own.
         for day in [GameDay(year: 2026, month: 11, day: 30), GameDay(year: 2027, month: 1, day: 7)] {

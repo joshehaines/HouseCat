@@ -699,15 +699,25 @@ struct WorldMapView: View {
                 Text("YOUR HOME").font(.system(size: 12, weight: .heavy)).tracking(0.6).foregroundStyle(Theme.inkSoft)
                 Text(model.home?.name ?? model.placeName).font(Theme.title(22)).lineLimit(1).minimumScaleFactor(0.6)
                     .accessibilityIdentifier("homeName")
+                let session = GameSession.shared
+                let now = GameWorld.now(state: session.state(at: session.now()), at: session.now())
                 HStack(spacing: 10) {
                     Text(model.homeStyle.name)
                     if let time = model.localTime {
                         Label("\(time) there", systemImage: "clock")
                     }
+                    // The weather at home now only when it is real (a fixed season's is the game's own, and is
+                    // named by the season menu beside).
+                    if now.weatherIsReal {
+                        Label(Self.weatherName(now.weather, sky: now.sky), systemImage: Self.weatherIcon(now.weather, sky: now.sky))
+                    }
                 }
                 .font(.system(size: 15))
                 .foregroundStyle(Theme.inkSoft)
                 .lineLimit(1)
+                if now.weatherIsReal {
+                    WeatherMark().padding(.top, 4)
+                }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             seasonMenu
@@ -824,7 +834,8 @@ struct WorldMapView: View {
         let rows = Array(model.matches.prefix(compact ? 3 : 5))
         return VStack(spacing: 0) {
             if rows.isEmpty {
-                Text(model.search.failed ? "Apple Maps can't be reached just now." : model.search.answered ? "No town found by that name." : "Looking…")
+                Text(model.search.failed ? "Apple Maps can't be reached just now." : model.search
+                    .answered ? "No town found by that name." : "Looking…")
                     .font(.system(size: 16))
                     .foregroundStyle(Theme.inkSoft)
                     .frame(maxWidth: .infinity, minHeight: 50, alignment: .leading)

@@ -290,7 +290,11 @@ struct ShopView: View {
                 if let plank = CatScreens.picture("ui/shop/shop_plank.png") {
                     plank.resizable().interpolation(.high)
                 } else {
-                    LinearGradient(colors: [Color(red: 0.84, green: 0.56, blue: 0.24), Color(red: 0.7, green: 0.42, blue: 0.16)], startPoint: .top, endPoint: .bottom)
+                    LinearGradient(
+                        colors: [Color(red: 0.84, green: 0.56, blue: 0.24), Color(red: 0.7, green: 0.42, blue: 0.16)],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
                 }
             }
             .shadow(color: Color(red: 0.3, green: 0.15, blue: 0.04).opacity(0.4), radius: 5 * s, y: 4 * s)
@@ -339,16 +343,31 @@ struct ShopView: View {
                     bottomTrailingRadius: (on ? 6 : 12) * s, topTrailingRadius: 12 * s, style: .continuous
                 )
                 if on {
-                    shape.fill(LinearGradient(colors: [Theme.cream, Color(red: 0.97, green: 0.9, blue: 0.78)], startPoint: .top, endPoint: .bottom))
-                        .overlay(shape.strokeBorder(Self.deepGold, lineWidth: 2.5 * s))
-                        .overlay(shape.inset(by: 2.5 * s).strokeBorder(Color(red: 1, green: 0.95, blue: 0.82), lineWidth: 1.2 * s))
-                        .shadow(color: Color(red: 0.3, green: 0.12, blue: 0).opacity(0.35), radius: 4 * s, y: 3 * s)
+                    shape.fill(LinearGradient(
+                        colors: [Theme.cream, Color(red: 0.97, green: 0.9, blue: 0.78)],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    ))
+                    .overlay(shape.strokeBorder(Self.deepGold, lineWidth: 2.5 * s))
+                    .overlay(shape.inset(by: 2.5 * s).strokeBorder(Color(red: 1, green: 0.95, blue: 0.82), lineWidth: 1.2 * s))
+                    .shadow(color: Color(red: 0.3, green: 0.12, blue: 0).opacity(0.35), radius: 4 * s, y: 3 * s)
                 } else {
-                    shape.fill(LinearGradient(colors: [Color(red: 0.73, green: 0.47, blue: 0.19), Color(red: 0.6, green: 0.37, blue: 0.13)], startPoint: .top, endPoint: .bottom))
-                        .overlay(shape.strokeBorder(
-                            LinearGradient(colors: [Color(red: 1, green: 0.88, blue: 0.66).opacity(0.5), Color(red: 0.25, green: 0.1, blue: 0).opacity(0.35)], startPoint: .top, endPoint: .bottom),
-                            lineWidth: 1.2 * s
-                        ))
+                    shape.fill(LinearGradient(
+                        colors: [Color(red: 0.73, green: 0.47, blue: 0.19), Color(red: 0.6, green: 0.37, blue: 0.13)],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    ))
+                    .overlay(shape.strokeBorder(
+                        LinearGradient(
+                            colors: [
+                                Color(red: 1, green: 0.88, blue: 0.66).opacity(0.5),
+                                Color(red: 0.25, green: 0.1, blue: 0).opacity(0.35),
+                            ],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        ),
+                        lineWidth: 1.2 * s
+                    ))
                 }
             }
             .contentShape(Rectangle())
@@ -375,7 +394,11 @@ struct ShopView: View {
             } label: {
                 Image(systemName: "plus").font(font(13, .black)).foregroundStyle(.white)
                     .frame(width: 25 * s, height: 25 * s)
-                    .background(Circle().fill(LinearGradient(colors: [Self.green.mix(with: .white, by: 0.2), Self.green], startPoint: .top, endPoint: .bottom)))
+                    .background(Circle().fill(LinearGradient(
+                        colors: [Self.green.mix(with: .white, by: 0.2), Self.green],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )))
                     .overlay(Circle().strokeBorder(.white, lineWidth: 1.5 * s))
             }
             .buttonStyle(PressStyle())
@@ -384,7 +407,11 @@ struct ShopView: View {
         .padding(.leading, 6 * s)
         .padding(.trailing, 4 * s)
         .frame(height: 34 * s)
-        .background(Capsule().fill(LinearGradient(colors: [Theme.cream, Color(red: 0.96, green: 0.89, blue: 0.77)], startPoint: .top, endPoint: .bottom)))
+        .background(Capsule().fill(LinearGradient(
+            colors: [Theme.cream, Color(red: 0.96, green: 0.89, blue: 0.77)],
+            startPoint: .top,
+            endPoint: .bottom
+        )))
         .overlay(Capsule().strokeBorder(Self.deepGold, lineWidth: 2 * s))
         .shadow(color: .black.opacity(0.25), radius: 3 * s, y: 2 * s)
         .padding(.leading, 10 * s)
@@ -637,7 +664,8 @@ struct ShopView: View {
                 title: outfit.name,
                 art: [outfit.sprites["tqfront"] ?? ""],
                 // A real last day, never a countdown.
-                ribbon: ShopRules.lastSaleDay(months: outfit.months, from: today).map { "Until \($0.date.day) \(Self.monthName($0.month))" },
+                ribbon: ShopRules.lastSaleDay(months: outfit.months, from: today)
+                    .map { "Until \($0.date.day) \(Self.monthName($0.month))" },
                 contents: [.init(icon: "cat_face", text: "Fits every cat")],
                 note: prices.value(ofBeans: Tuning.Beans.outfit).map { "\(Tuning.Beans.outfit) Beans is about \($0)." },
                 tint: Color(red: 0.96, green: 0.88, blue: 0.8),
@@ -786,11 +814,16 @@ struct ShopView: View {
         if reward.kind == .item, let id = reward.id, let picture = Pieces.picture(id) {
             picture.resizable().interpolation(.high).scaledToFit()
         } else if reward.kind == .outfit, let id = reward.id,
-                  let path = content?.outfits.outfits.first(where: { $0.id == id })?.sprites["tqfront"], let picture = CatScreens.picture(path)
+                  let path = content?.outfits.outfits.first(where: { $0.id == id })?.sprites["tqfront"],
+                  let picture = CatScreens.picture(path)
         {
             picture.resizable().interpolation(.high).scaledToFit()
         } else {
-            PaintedIcon(reward.kind == .beans ? "bean_coin" : reward.kind == .outfit ? "jumper_on_hanger" : reward.kind == .item ? "sofa_for_furniture" : "wallpaper_roll", size: 30 * s)
+            PaintedIcon(
+                reward.kind == .beans ? "bean_coin" : reward.kind == .outfit ? "jumper_on_hanger"
+                    : reward.kind == .item ? "sofa_for_furniture" : "wallpaper_roll",
+                size: 30 * s
+            )
         }
     }
 
@@ -882,12 +915,14 @@ struct ShopView: View {
                             Text("Cat Club").font(Theme.title(17 * s)).lineLimit(1).minimumScaleFactor(0.8)
                             PaintedIcon("crown", size: 20 * s)
                         }
-                        Text(owned.hasClub ? "You're a member: every perk is on." : narrow ? "+20% Beans and every premium track." : clubSummary)
+                        Text(owned.hasClub ? "You're a member: every perk is on."
+                            : narrow ? "+20% Beans and every premium track." : clubSummary)
                             .font(font(11.5)).foregroundStyle(Theme.inkSoft)
                             .lineLimit(3)
                             .minimumScaleFactor(0.85)
                             .fixedSize(horizontal: false, vertical: true)
-                        Text(owned.hasClub ? "Your membership  ›" : "See Cat Club  ›").font(font(13, .heavy, rounded: true)).foregroundStyle(Self.rust)
+                        Text(owned.hasClub ? "Your membership  ›" : "See Cat Club  ›").font(font(13, .heavy, rounded: true))
+                            .foregroundStyle(Self.rust)
                             .lineLimit(1)
                             .minimumScaleFactor(0.75)
                             .padding(.top, 2 * s)
@@ -979,7 +1014,8 @@ struct ShopView: View {
                     }
                 }
                 .frame(width: 150 * s, height: 10 * s)
-                Text("\(points)/\(Tuning.Pass.pointsPerTier) points").font(font(11, .bold)).monospacedDigit().foregroundStyle(.white.opacity(0.85))
+                Text("\(points)/\(Tuning.Pass.pointsPerTier) points").font(font(11, .bold)).monospacedDigit()
+                    .foregroundStyle(.white.opacity(0.85))
             }
         }
         .accessibilityElement(children: .combine)
@@ -1071,12 +1107,14 @@ struct ShopView: View {
                 Text(offer.title).font(Theme.title(16 * s)).lineLimit(1).minimumScaleFactor(0.7)
                 Spacer(minLength: 0)
                 if let room {
-                    Text(Visit.title(of: room, upstairs: false)).font(font(10.5, .bold, rounded: true)).foregroundStyle(Theme.inkSoft).lineLimit(1)
+                    Text(Visit.title(of: room, upstairs: false)).font(font(10.5, .bold, rounded: true)).foregroundStyle(Theme.inkSoft)
+                        .lineLimit(1)
                 }
             }
             .padding(.horizontal, 12 * s)
             .padding(.top, 8 * s)
-            Text(mine ? "Yours: \(lookSummary(offer).lowercased())" : open || room == nil ? lookSummary(offer) : "\(lookSummary(offer)) · its room opens at level \(room?.requiredLevel ?? 1)")
+            Text(mine ? "Yours: \(lookSummary(offer).lowercased())" : open || room == nil ? lookSummary(offer) :
+                "\(lookSummary(offer)) · its room opens at level \(room?.requiredLevel ?? 1)")
                 .font(font(11, .semibold))
                 .foregroundStyle(Theme.inkSoft)
                 .lineLimit(2)
@@ -1092,7 +1130,8 @@ struct ShopView: View {
                             addLook(bundle)
                         }
                     } else {
-                        Label("Owned", systemImage: "checkmark.circle.fill").font(font(15, .heavy, rounded: true)).foregroundStyle(Self.green)
+                        Label("Owned", systemImage: "checkmark.circle.fill").font(font(15, .heavy, rounded: true))
+                            .foregroundStyle(Self.green)
                             .frame(maxWidth: .infinity)
                             .frame(height: 38 * s)
                     }
@@ -1257,7 +1296,8 @@ struct ShopView: View {
                         // The price that will be charged is on the button itself (App Review 3.1.2: the billed
                         // amount is the clearest pricing on the page, the free days second).
                         PriceButton(
-                            text: yearly ? "\(price(StoreCatalog.clubYearly) ?? "…") a year" : "\(price(StoreCatalog.clubMonthly) ?? "…") a month",
+                            text: yearly ? "\(price(StoreCatalog.clubYearly) ?? "…") a year" :
+                                "\(price(StoreCatalog.clubMonthly) ?? "…") a month",
                             style: .gold
                         ) {
                             feedback.tap()
@@ -1281,6 +1321,8 @@ struct ShopView: View {
         .frame(maxHeight: Tuning.Shop.pageHeight * s * Tuning.Shop.cardGrowth)
     }
 
+    /// The trial is named only when StoreKit says this player may take it (`ProductInfo.trialDays`; App Review
+    /// 3.1.2): a lapsed or current subscriber sees the renewal price alone.
     private var clubTerms: String {
         ClubWording.terms(
             yearly: yearly,
@@ -1321,8 +1363,6 @@ struct ShopView: View {
         .padding(.vertical, 8 * s)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(RoundedRectangle(cornerRadius: 13 * s, style: .continuous).fill(.white.opacity(0.1)))
-    /// The trial is named only when StoreKit says this player may take it (`ProductInfo.trialDays`; App Review
-    /// 3.1.2): a lapsed or current subscriber sees the renewal price alone.
         .overlay(RoundedRectangle(cornerRadius: 13 * s, style: .continuous).strokeBorder(.white.opacity(0.13), lineWidth: 1))
     }
 
@@ -1373,11 +1413,16 @@ struct ShopView: View {
     private static let honey = Color(red: 0.84, green: 0.6, blue: 0.18)
     private static let plum = Color(red: 0.5, green: 0.34, blue: 0.56)
     private static let butter = LinearGradient(
-        colors: [Color(red: 1, green: 0.97, blue: 0.88), Color(red: 0.97, green: 0.88, blue: 0.7)], startPoint: .topLeading, endPoint: .bottomTrailing
+        colors: [Color(red: 1, green: 0.97, blue: 0.88), Color(red: 0.97, green: 0.88, blue: 0.7)], startPoint: .topLeading,
+        endPoint: .bottomTrailing
     )
     /// Cat Club's and the pass's evening blue to plum.
     private static let dusk = LinearGradient(
-        colors: [Color(red: 0.2, green: 0.38, blue: 0.47), Color(red: 0.31, green: 0.24, blue: 0.43), Color(red: 0.37, green: 0.25, blue: 0.46)],
+        colors: [
+            Color(red: 0.2, green: 0.38, blue: 0.47),
+            Color(red: 0.31, green: 0.24, blue: 0.43),
+            Color(red: 0.37, green: 0.25, blue: 0.46),
+        ],
         startPoint: .topLeading,
         endPoint: .bottomTrailing
     )
@@ -1395,7 +1440,11 @@ struct ShopView: View {
             .padding(.top, 5 * s)
             .frame(maxWidth: .infinity)
             .frame(height: 36 * s)
-            .background(LinearGradient(colors: [colour.mix(with: .white, by: 0.15), colour.mix(with: .black, by: 0.08)], startPoint: .top, endPoint: .bottom))
+            .background(LinearGradient(
+                colors: [colour.mix(with: .white, by: 0.15), colour.mix(with: .black, by: 0.08)],
+                startPoint: .top,
+                endPoint: .bottom
+            ))
             .overlay(alignment: .bottom) { Rectangle().fill(.black.opacity(0.12)).frame(height: 1.5 * s) }
     }
 
@@ -1407,7 +1456,10 @@ struct ShopView: View {
             .background {
                 Ellipse()
                     .fill(RadialGradient(
-                        colors: [(warm ? Color(red: 1, green: 0.94, blue: 0.72) : Color(red: 1, green: 0.9, blue: 0.62).opacity(0.55)), .clear],
+                        colors: [
+                            warm ? Color(red: 1, green: 0.94, blue: 0.72) : Color(red: 1, green: 0.9, blue: 0.62).opacity(0.55),
+                            .clear,
+                        ],
                         center: .center,
                         startRadius: 0,
                         endRadius: 110 * s
@@ -1440,7 +1492,12 @@ struct ShopView: View {
             .frame(maxWidth: .infinity)
             .frame(height: (compact ? 30 : 38) * s)
         } else if let cost = offer.beanPrice {
-            PriceButton(text: cost > beans ? "Top up" : cost.formatted(), icon: cost > beans ? nil : "bean_coin", style: .beans, compact: compact)
+            PriceButton(
+                text: cost > beans ? "Top up" : cost.formatted(),
+                icon: cost > beans ? nil : "bean_coin",
+                style: .beans,
+                compact: compact
+            )
         } else {
             PriceButton(text: buying == offer.id ? "…" : price(offer.id) ?? "…", style: .money, compact: compact)
         }
@@ -1469,7 +1526,11 @@ struct ShopView: View {
         ZStack {
             Color.black.opacity(0.45).ignoresSafeArea().onTapGesture { detail = nil }
             VStack(spacing: 0) {
-                band(offer.title, colour: offer.bundle != nil ? Self.green.mix(with: .white, by: 0.1) : offer.beanPrice != nil ? Self.plum : Self.terracotta)
+                band(
+                    offer.title,
+                    colour: offer.bundle != nil ? Self.green.mix(with: .white, by: 0.1)
+                        : offer.beanPrice != nil ? Self.plum : Self.terracotta
+                )
                 HStack(spacing: 20 * s) {
                     artView(offer.art).frame(width: 250 * s, height: 190 * s)
                     VStack(alignment: .leading, spacing: 9 * s) {
@@ -1536,10 +1597,12 @@ struct ShopView: View {
                     }
                     .buttonStyle(PressStyle())
                 } else if !roomOpen {
-                    Text("For the \(Visit.title(of: bundle.room, upstairs: false).lowercased()), which opens at level \(bundle.room.requiredLevel).")
-                        .font(font(11, .semibold))
-                        .foregroundStyle(Theme.inkSoft)
-                        .fixedSize(horizontal: false, vertical: true)
+                    Text(
+                        "For the \(Visit.title(of: bundle.room, upstairs: false).lowercased()), which opens at level \(bundle.room.requiredLevel)."
+                    )
+                    .font(font(11, .semibold))
+                    .foregroundStyle(Theme.inkSoft)
+                    .fixedSize(horizontal: false, vertical: true)
                 }
             }
         } else if isOwned(offer) {
@@ -1690,9 +1753,11 @@ struct PriceButton: View {
         .frame(height: (compact ? 30 : 38) * s)
         .background {
             ZStack {
-                Capsule().fill(style == .cream ? Color(red: 0.74, green: 0.56, blue: 0.3) : colour.mix(with: .black, by: 0.32)).offset(y: (compact ? 3 : 4) * s)
+                Capsule().fill(style == .cream ? Color(red: 0.74, green: 0.56, blue: 0.3) : colour.mix(with: .black, by: 0.32))
+                    .offset(y: (compact ? 3 : 4) * s)
                 Capsule().fill(LinearGradient(colors: [colour.mix(with: .white, by: 0.2), colour], startPoint: .top, endPoint: .bottom))
-                Capsule().strokeBorder(style == .cream ? GameHUD.deepGold.opacity(0.8) : .white.opacity(0.35), lineWidth: 1.5 * s).padding(0.5)
+                Capsule().strokeBorder(style == .cream ? GameHUD.deepGold.opacity(0.8) : .white.opacity(0.35), lineWidth: 1.5 * s)
+                    .padding(0.5)
             }
         }
         .padding(.bottom, (compact ? 3 : 4) * s)

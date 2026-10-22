@@ -7,3 +7,4 @@ xcuserdata/
 .swiftpm/
 *.xcodeproj/
 tools/asset-pipeline/garments/work/
+__pycache__/

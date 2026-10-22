@@ -125,9 +125,9 @@ public enum Tuning {
         public static let outfit = 450
         /// The Bean packs, smallest to largest (StoreCatalog prices them at £0.99, £1.99, £3.99, £9.99, £19.99:
         /// each bigger pack gives more Beans a pound).
-        public static let packs = [500, 1_200, 2_600, 7_000, 15_000]
+        public static let packs = [500, 1200, 2600, 7000, 15000]
         /// The once-only starter offer at £1.99 (the pouch's price, more Beans).
-        public static let starterPack = 2_000
+        public static let starterPack = 2000
         public static let housewarmingAllowance = 150
         public static let dailyArrival = 10
         public static let levelUp = 100
@@ -633,7 +633,18 @@ public enum Tuning {
         /// country first, then these from round the world.
         public static let suggestedCities = 8
         public static let suggestedAtHome = 3
-        public static let suggestedWorld = ["London", "New York", "Paris", "Tokyo", "Sydney", "Toronto", "Cape Town", "São Paulo", "Mumbai", "Berlin"]
+        public static let suggestedWorld = [
+            "London",
+            "New York",
+            "Paris",
+            "Tokyo",
+            "Sydney",
+            "Toronto",
+            "Cape Town",
+            "São Paulo",
+            "Mumbai",
+            "Berlin",
+        ]
     }
 
     /// Debug launches only (HOUSECAT_HOUSE=full).
@@ -1109,6 +1120,13 @@ public enum Tuning {
         /// its edges stay crisp. The full-size masters would cost 33 MB more (Josh, 19 Oct: the iPad looked soft).
         public static let sharpenFrom = 1.2
         public static let sharpen = 0.6
+        /// Each downloaded home's exterior pack, in megabytes as `build_home_packs.py` reported them (21 Oct 2026),
+        /// told to the player before the pack is asked for (App Review 4.2.3: say the size, and ask). The London
+        /// terrace is in the app. Update after rebuilding the packs.
+        public static let packMegabytes: [HouseStyle: Int] = [
+            .cottage: 49, .georgianTownhouse: 48, .houseboat: 53, .mansionFlat: 49,
+            .mediterraneanRooftop: 50, .newbuildBalcony: 45, .woodlandCabin: 50,
+        ]
     }
 
     /// The cat at a window, seen from outside (Josh, 20 Oct: "have your cat in the window"; `WindowCatRules` picks the
@@ -1128,13 +1146,6 @@ public enum Tuning {
         /// Its feet this share of the glass's height below the glass (on the inside sill, behind the frame).
         public static let sillDrop = 0.04
         /// The glass and the room's light over the cat, by the sky: multiplies its colours ...
-        /// Each downloaded home's exterior pack, in megabytes as `build_home_packs.py` reported them (21 Oct 2026),
-        /// told to the player before the pack is asked for (App Review 4.2.3: say the size, and ask). The London
-        /// terrace is in the app. Update after rebuilding the packs.
-        public static let packMegabytes: [HouseStyle: Int] = [
-            .cottage: 49, .georgianTownhouse: 48, .houseboat: 53, .mansionFlat: 49,
-            .mediterraneanRooftop: 50, .newbuildBalcony: 45, .woodlandCabin: 50,
-        ]
         public static let tint: [SkyPhase: [Double]] = [
             .dawn: [0.92, 0.85, 0.85], .day: [0.9, 0.91, 0.95], .dusk: [0.97, 0.84, 0.72], .night: [1.0, 0.8, 0.56],
         ]
@@ -1596,6 +1607,7 @@ public enum Tuning {
 }
 
 // MARK: - The Games menu (19 Oct 2026; Josh: "build out the games section massively - this needs to be the retention
+
 // angle and daily use"). CLAUDE.md "The Games menu".
 
 public extension Tuning {

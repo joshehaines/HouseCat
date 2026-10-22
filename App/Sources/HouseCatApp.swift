@@ -318,7 +318,10 @@ enum CatScreens {
         let session = GameSession.shared
         let now = session.now()
         let state = session.state(at: now)
-        return state.profile(of: GameSession.catID, on: state.clock.day(of: now), catalogue: session.content?.affordances).map { ($0, state.xp) }
+        return state.profile(of: GameSession.catID, on: state.clock.day(of: now), catalogue: session.content?.affordances).map { (
+            $0,
+            state.xp
+        ) }
     }
 
     /// A picture from the app's art by its master path (whatever format it is stored in).
@@ -432,11 +435,11 @@ struct RoomScreen: View {
     @State private var offering = false
     @State private var track: EventDefinition?
     @State private var askingHealth = false
+    /// "Help improve HouseCat?" (AnalyticsPromptCard), on the second day of care.
+    @State private var askingAnalytics = false
     @State private var askingWidget = false
     @State private var showTogether = false
     /// A present the other owner left, opened at this visit.
-    /// "Help improve HouseCat?" (AnalyticsPromptCard), on the second day of care.
-    @State private var askingAnalytics = false
     @State private var present: OutfitGift?
     @State private var editing: CatBuilderModel?
     /// The outfit catalogue, trying outfits on the cat in the dressing room.
@@ -592,11 +595,6 @@ struct RoomScreen: View {
                 }
             }
             .animation(.easeOut(duration: 0.3), value: visit.outside)
-            // The goals: the next one or two always on screen, top middle (Josh, 19 Oct: "dont know what to do";
-            // App/Sources/GoalTracker.swift). It celebrates every goal met, so the note that did is gone.
-            .overlayPreferenceValue(TourTargets.self) { targets in
-                if visit.scene is RoomScene, visit.ready {
-                    GoalTrackerLayer(
             // Apple Weather's mark wherever its weather is on screen (its attribution rule): under the room's bottom
             // edge, where nothing else sits, while the weather in the windows is Apple's; and on the cold open,
             // top left with the weather, where the town goes once you are outside to look.
@@ -615,6 +613,11 @@ struct RoomScreen: View {
                         .transition(.opacity)
                 }
             }
+            // The goals: the next one or two always on screen, top middle (Josh, 19 Oct: "dont know what to do";
+            // App/Sources/GoalTracker.swift). It celebrates every goal met, so the note that did is gone.
+            .overlayPreferenceValue(TourTargets.self) { targets in
+                if visit.scene is RoomScene, visit.ready {
+                    GoalTrackerLayer(
                         visit: visit,
                         targets: targets,
                         hidden: trackerHidden,
@@ -926,10 +929,10 @@ struct RoomScreen: View {
                     .transition(.opacity)
                 }
             }
+            .animation(.easeOut(duration: 0.25), value: askingAnalytics)
             .overlay {
                 if askingHealth {
                     ZStack {
-            .animation(.easeOut(duration: 0.25), value: askingAnalytics)
                         Color.black.opacity(0.35).ignoresSafeArea()
                         HealthCard(catName: visit.catName ?? "Your cat") {
                             askingHealth = false
@@ -1095,123 +1098,123 @@ struct RoomScreen: View {
         return GeometryReader { geometry in
             let tall = geometry.size.height > geometry.size.width
             ZStack {
-            // Top left: the plaque (or Turn, Store and Done while decorating), the map and the book under it.
-            VStack(alignment: .leading, spacing: 12 * hudScale) {
-                if visit.decorating {
-                    DecorateBar(
-                        decorating: true,
-                        hasSelection: visit.selected != nil,
-                        canDecorate: visit.canDecorate,
-                        toggle: { visit.toggleDecorating() },
-                        turn: { visit.turnSelection() },
-                        store: { visit.storeSelection() }
-                    )
-                } else {
-                    PlayerBadge(
-                        portrait: portrait,
-                        name: visit.catName ?? "Your cat",
-                        title: GameSession.shared.levelInfo.title,
-                        level: visit.stats.level,
-                        progress: visit.stats.progress,
-                        onPortrait: { showProfile = true },
-                        onLevel: { showRoad = true }
-                    )
-                    .overlay(alignment: .bottomLeading) {
-                        if let gain = visit.xpGain {
-                            XPFloat(amount: gain.amount).id(gain.id).offset(x: 64 * hudScale, y: 32 * hudScale).transition(.opacity)
-                        }
-                    }
-                    .animation(.easeOut(duration: 0.3), value: visit.xpGain)
-                    if calm {
-                        // One menu for the rooms, the map, the book, the pass and the rest (Josh, 19 Oct: calmer).
-                        GameButton("Menu", icon: "house", size: 50, dot: menuWaiting) {
-                            tour.heard(.opened("menu"))
-                            showMenu = true
-                        }
-                            .tourTarget("menu")
-                            .transition(.opacity)
-                    }
-                }
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-            .padding(.leading, edge)
-            .padding(.top, top)
-
-            // Top right: the Beans and the streak (the season's tiles are in the menu).
-            HStack(alignment: .top, spacing: 10 * hudScale) {
-                VStack(alignment: .trailing, spacing: 8 * hudScale) {
-                    ResourceBar(
-                        icon: "bean_coin",
-                        value: visit.stats.beans.formatted(),
-                        label: "\(visit.stats.beans) Beans. Get more.",
-                        plus: true
-                    ) { openShop(.beans) }
-                    ResourceBar(
-                        icon: "streak_paw_print_with_a_small_flame",
-                        value: visit.stats.streak == 1 ? "1 day" : "\(visit.stats.streak) days",
-                        label: "\(visit.stats.streak) day streak. Shows the streak."
-                    ) { showStreak = true }
-                    // The season pass, always on: the tier, the bar to the next one and the next reward (Josh, 19 Oct).
-                    if calm, let pass = passBadgeInfo {
-                        PassBadge(info: pass) { showPass = true }
-                    }
-                }
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
-            .padding(.trailing, edge)
-            .padding(.top, top)
-
-            if calm {
-                // Bottom left: Feed, Play and the nap, with whether each is done today.
-                if visit.canDecorate {
-                    let session = GameSession.shared
-                    let fed = session.state(at: session.now()).isFedToday(GameSession.catID)
-                    let plays = session.playsLeft
-                    HStack(alignment: .bottom, spacing: 12 * hudScale) {
-                        CareButton("Feed", icon: "feed_bowl", badge: fed ? "✓" : nil, lit: !fed) { visit.feed() }
-                            .tourTarget("feed")
-                        CareButton("Play", icon: "play_laser_dot", badge: plays > 0 ? "\(plays)" : nil) {
-                            tour.heard(.opened("play"))
-                            // Always the Games menu: after the day's five quick plays its quick games say "Just for
-                            // fun today", and the rest have their own rules (Josh's iPad, 19 Oct: Play seemed dead,
-                            // only a line from the cat once the five were used).
-                            showGames = true
-                        }
-                        .tourTarget("play")
-                        CareButton(naps.isNapping ? "Wake" : "Nap", icon: "nap_moon", lit: naps.isNapping) {
-                            tour.heard(.opened("nap"))
-                            if naps.isNapping {
-                                visit.wakeFromNap()
-                            } else {
-                                offeringNap = true
+                // Top left: the plaque (or Turn, Store and Done while decorating), the map and the book under it.
+                VStack(alignment: .leading, spacing: 12 * hudScale) {
+                    if visit.decorating {
+                        DecorateBar(
+                            decorating: true,
+                            hasSelection: visit.selected != nil,
+                            canDecorate: visit.canDecorate,
+                            toggle: { visit.toggleDecorating() },
+                            turn: { visit.turnSelection() },
+                            store: { visit.storeSelection() }
+                        )
+                    } else {
+                        PlayerBadge(
+                            portrait: portrait,
+                            name: visit.catName ?? "Your cat",
+                            title: GameSession.shared.levelInfo.title,
+                            level: visit.stats.level,
+                            progress: visit.stats.progress,
+                            onPortrait: { showProfile = true },
+                            onLevel: { showRoad = true }
+                        )
+                        .overlay(alignment: .bottomLeading) {
+                            if let gain = visit.xpGain {
+                                XPFloat(amount: gain.amount).id(gain.id).offset(x: 64 * hudScale, y: 32 * hudScale).transition(.opacity)
                             }
                         }
-                        .tourTarget("nap")
+                        .animation(.easeOut(duration: 0.3), value: visit.xpGain)
+                        if calm {
+                            // One menu for the rooms, the map, the book, the pass and the rest (Josh, 19 Oct: calmer).
+                            GameButton("Menu", icon: "house", size: 50, dot: menuWaiting) {
+                                tour.heard(.opened("menu"))
+                                showMenu = true
+                            }
+                            .tourTarget("menu")
+                            .transition(.opacity)
+                        }
                     }
-                    .id(visit.stats)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
-                    .padding(.leading, edge)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                .padding(.leading, edge)
+                .padding(.top, top)
+
+                // Top right: the Beans and the streak (the season's tiles are in the menu).
+                HStack(alignment: .top, spacing: 10 * hudScale) {
+                    VStack(alignment: .trailing, spacing: 8 * hudScale) {
+                        ResourceBar(
+                            icon: "bean_coin",
+                            value: visit.stats.beans.formatted(),
+                            label: "\(visit.stats.beans) Beans. Get more.",
+                            plus: true
+                        ) { openShop(.beans) }
+                        ResourceBar(
+                            icon: "streak_paw_print_with_a_small_flame",
+                            value: visit.stats.streak == 1 ? "1 day" : "\(visit.stats.streak) days",
+                            label: "\(visit.stats.streak) day streak. Shows the streak."
+                        ) { showStreak = true }
+                        // The season pass, always on: the tier, the bar to the next one and the next reward (Josh, 19 Oct).
+                        if calm, let pass = passBadgeInfo {
+                            PassBadge(info: pass) { showPass = true }
+                        }
+                    }
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+                .padding(.trailing, edge)
+                .padding(.top, top)
+
+                if calm {
+                    // Bottom left: Feed, Play and the nap, with whether each is done today.
+                    if visit.canDecorate {
+                        let session = GameSession.shared
+                        let fed = session.state(at: session.now()).isFedToday(GameSession.catID)
+                        let plays = session.playsLeft
+                        HStack(alignment: .bottom, spacing: 12 * hudScale) {
+                            CareButton("Feed", icon: "feed_bowl", badge: fed ? "✓" : nil, lit: !fed) { visit.feed() }
+                                .tourTarget("feed")
+                            CareButton("Play", icon: "play_laser_dot", badge: plays > 0 ? "\(plays)" : nil) {
+                                tour.heard(.opened("play"))
+                                // Always the Games menu: after the day's five quick plays its quick games say "Just for
+                                // fun today", and the rest have their own rules (Josh's iPad, 19 Oct: Play seemed dead,
+                                // only a line from the cat once the five were used).
+                                showGames = true
+                            }
+                            .tourTarget("play")
+                            CareButton(naps.isNapping ? "Wake" : "Nap", icon: "nap_moon", lit: naps.isNapping) {
+                                tour.heard(.opened("nap"))
+                                if naps.isNapping {
+                                    visit.wakeFromNap()
+                                } else {
+                                    offeringNap = true
+                                }
+                            }
+                            .tourTarget("nap")
+                        }
+                        .id(visit.stats)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
+                        .padding(.leading, edge)
+                        .padding(.bottom, bottom)
+                        .transition(.opacity)
+                    }
+
+                    // Bottom right: Decorate and the Shop.
+                    HStack(alignment: .bottom, spacing: 12 * hudScale) {
+                        if visit.canDecorate {
+                            GameButton("Decorate", icon: "decorate_paintbrush", size: 60) { visit.toggleDecorating() }
+                                .tourTarget("decorate")
+                        }
+                        GameButton("Shop", icon: "shop_bag", style: .gold, size: 72) {
+                            tour.heard(.opened("shop"))
+                            openShop(nil)
+                        }
+                        .tourTarget("shop")
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+                    .padding(.trailing, edge)
                     .padding(.bottom, bottom)
                     .transition(.opacity)
                 }
-
-                // Bottom right: Decorate and the Shop.
-                HStack(alignment: .bottom, spacing: 12 * hudScale) {
-                    if visit.canDecorate {
-                        GameButton("Decorate", icon: "decorate_paintbrush", size: 60) { visit.toggleDecorating() }
-                            .tourTarget("decorate")
-                    }
-                    GameButton("Shop", icon: "shop_bag", style: .gold, size: 72) {
-                        tour.heard(.opened("shop"))
-                        openShop(nil)
-                    }
-                        .tourTarget("shop")
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-                .padding(.trailing, edge)
-                .padding(.bottom, bottom)
-                .transition(.opacity)
-            }
             }
         }
         .ignoresSafeArea()
@@ -1348,7 +1351,12 @@ struct RoomScreen: View {
             })
         }
         items += [
-            RoomMenu.Item(id: "goals", title: "Goals", icon: "objectives_clipboard_with_a_tick", dot: CatScreens.goalsMet().count > GoalsSeen.count) {
+            RoomMenu.Item(
+                id: "goals",
+                title: "Goals",
+                icon: "objectives_clipboard_with_a_tick",
+                dot: CatScreens.goalsMet().count > GoalsSeen.count
+            ) {
                 showMenu = false
                 GoalsSeen.count = CatScreens.goalsMet().count
                 showGoals = true

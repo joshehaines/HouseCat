@@ -139,7 +139,7 @@ public enum Tuning {
         public static let tourReward = 100
     }
 
-    /// The house ladder bottom to top (docs/LADDER.md, approved by Josh 22 Oct). Prices are placeholders until
+    /// The house ladder bottom to top (docs/LADDER.md, approved by Josh 22 Oct; places round the world, London at the top). Prices are placeholders until
     /// `LadderTests` holds them against real Bean income. The first rung is the run-down terrace, drawn as the
     /// London terrace until its own painting exists.
     public enum Ladder {
@@ -152,14 +152,17 @@ public enum Tuning {
             public var room: RoomID?
         }
 
+        /// The second house is the tutorial's last step: the tour's welcome and the housewarming allowance buy it
+        /// (Josh, 22 Oct: "the tutorial should get you out of the first house").
         public static let rungs: [Spec] = [
-            Spec(style: .londonTerrace, place: HomePlace(name: "Manchester", latitude: 53.4808, longitude: -2.2426, timeZoneID: "Europe/London", biome: .city), price: 0, level: 1, tasks: 0, room: .living),
-            Spec(style: .houseboat, place: HomePlace(name: "Amsterdam", latitude: 52.3676, longitude: 4.9041, timeZoneID: "Europe/Amsterdam", biome: .city), price: 1500, level: 3, tasks: 3, room: .bedroom),
-            Spec(style: .woodlandCabin, place: HomePlace(name: "Oslo", latitude: 59.9139, longitude: 10.7522, timeZoneID: "Europe/Oslo", biome: .forest), price: 4000, level: 5, tasks: 4, room: .kitchen),
-            Spec(style: .cottage, place: HomePlace(name: "The Cotswolds", latitude: 51.8850, longitude: -1.7590, timeZoneID: "Europe/London", biome: .countryside), price: 9000, level: 8, tasks: 5, room: .garden),
-            Spec(style: .newbuildBalcony, place: HomePlace(name: "Toronto", latitude: 43.6532, longitude: -79.3832, timeZoneID: "America/Toronto", biome: .city), price: 18000, level: 11, tasks: 5, room: .study),
-            Spec(style: .mediterraneanRooftop, place: HomePlace(name: "Barcelona", latitude: 41.3874, longitude: 2.1686, timeZoneID: "Europe/Madrid", biome: .coast), price: 32000, level: 14, tasks: 6, room: .attic),
-            Spec(style: .georgianTownhouse, place: HomePlace(name: "Bath", latitude: 51.3811, longitude: -2.3590, timeZoneID: "Europe/London", biome: .city), price: 55000, level: 17, tasks: 6, room: nil),
+            // A made-up town, so no real place is the bottom (Josh, 22 Oct: "too offensive to have a place as the worst").
+            Spec(style: .londonTerrace, place: HomePlace(name: "Puddlebury", latitude: 52.2, longitude: -1.5, timeZoneID: "Europe/London", biome: .city), price: 0, level: 1, tasks: 0, room: .living),
+            Spec(style: .houseboat, place: HomePlace(name: "Amsterdam", latitude: 52.3676, longitude: 4.9041, timeZoneID: "Europe/Amsterdam", biome: .city), price: 200, level: 1, tasks: 0, room: .bedroom),
+            Spec(style: .woodlandCabin, place: HomePlace(name: "Vancouver", latitude: 49.2827, longitude: -123.1207, timeZoneID: "America/Vancouver", biome: .forest), price: 4000, level: 5, tasks: 4, room: .kitchen),
+            Spec(style: .cottage, place: HomePlace(name: "Queenstown", latitude: -45.0312, longitude: 168.6626, timeZoneID: "Pacific/Auckland", biome: .countryside), price: 9000, level: 8, tasks: 5, room: .garden),
+            Spec(style: .newbuildBalcony, place: HomePlace(name: "Tokyo", latitude: 35.6762, longitude: 139.6503, timeZoneID: "Asia/Tokyo", biome: .city), price: 18000, level: 11, tasks: 5, room: .study),
+            Spec(style: .mediterraneanRooftop, place: HomePlace(name: "Santorini", latitude: 36.3932, longitude: 25.4615, timeZoneID: "Europe/Athens", biome: .coast), price: 32000, level: 14, tasks: 6, room: .attic),
+            Spec(style: .georgianTownhouse, place: HomePlace(name: "New York", latitude: 40.7128, longitude: -74.0060, timeZoneID: "America/New_York", biome: .city), price: 55000, level: 17, tasks: 6, room: nil),
             Spec(style: .mansionFlat, place: .london, price: 90000, level: 20, tasks: 7, room: nil),
         ]
     }

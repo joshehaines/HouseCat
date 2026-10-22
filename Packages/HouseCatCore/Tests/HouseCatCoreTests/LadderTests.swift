@@ -11,7 +11,7 @@ struct LadderTests {
         #expect(rungs.last?.place == .london && rungs.last?.style == .mansionFlat)
         #expect(Set(rungs.map(\.style)).count == 8, "every house once")
         for (lower, upper) in zip(rungs, rungs.dropFirst()) {
-            #expect(upper.price > lower.price && upper.level > lower.level && upper.tasks >= lower.tasks)
+            #expect(upper.price > lower.price && upper.level >= lower.level && upper.tasks >= lower.tasks)
         }
         // Each step costs more than the one before it, so the climb slows.
         let steps = zip(rungs.dropFirst(), rungs.dropFirst(2)).map { $1.price - $0.price }
@@ -22,17 +22,28 @@ struct LadderTests {
     }
 
     @Test func levelAndTasksComeBeforeBeans() {
-        let next = HouseLadder.rung(2)
-        #expect(HouseLadder.block(above: 1, level: 1, tasksDone: 9, beans: 99999) == .needsLevel(next.level))
-        #expect(HouseLadder.block(above: 1, level: 9, tasksDone: 0, beans: 99999) == .needsTasks(done: 0, of: next.tasks))
-        #expect(HouseLadder.block(above: 1, level: 9, tasksDone: 9, beans: 10) == .needsBeans(next.price))
-        #expect(HouseLadder.block(above: 1, level: 9, tasksDone: 9, beans: next.price) == nil)
+        let next = HouseLadder.rung(3)
+        #expect(HouseLadder.block(above: 2, level: 1, tasksDone: 9, beans: 99999) == .needsLevel(next.level))
+        #expect(HouseLadder.block(above: 2, level: 9, tasksDone: 0, beans: 99999) == .needsTasks(done: 0, of: next.tasks))
+        #expect(HouseLadder.block(above: 2, level: 9, tasksDone: 9, beans: 10) == .needsBeans(next.price))
+        #expect(HouseLadder.block(above: 2, level: 9, tasksDone: 9, beans: next.price) == nil)
         #expect(HouseLadder.block(above: 8, level: 99, tasksDone: 99, beans: 999_999) == .atTheTop)
     }
 
-    @Test func aNewHouseholdStartsAtTheBottom() {
+    @Test func aNewHouseholdStartsAtTheBottomInAMadeUpTown() {
         let state = Fixture().state
         #expect(state.rung == 1 && state.nextRung?.number == 2)
+        #expect(state.homePlace.name == "Puddlebury")
+    }
+
+    /// The tutorial gets you out of the first house: the housewarming allowance and the tour's welcome buy the second.
+    @Test func theTutorialsBeansBuyTheSecondHouse() {
+        var f = Fixture()
+        f.add(.arrived, day: 0, hour: 8)
+        f.add(.tourFinished, day: 0, hour: 8, minute: 10)
+        #expect(f.state.beans >= HouseLadder.rung(2).price)
+        f.add(.houseBought(rung: 2, beans: HouseLadder.rung(2).price), day: 0, hour: 8, minute: 11)
+        #expect(f.state.rung == 2 && f.state.openedRooms.contains(.bedroom))
     }
 
     @Test func aSaveFromBeforeTheLadderKeepsItsRooms() {
@@ -46,11 +57,13 @@ struct LadderTests {
     @Test func buyingTheNextHouseNeverSkipsAndOpensItsRoom() {
         var f = Fixture()
         f.add(.purchaseBeansGranted(transactionID: "t1", beans: 50000), day: 0)
-        // Level 1: refused, whatever the Beans.
-        f.add(.houseBought(rung: 2, beans: 1500), day: 0)
-        #expect(f.state.rung == 1)
+        f.add(.houseBought(rung: 2, beans: HouseLadder.rung(2).price), day: 0)
+        #expect(f.state.rung == 2)
+        // Level 1: the third house is refused, whatever the Beans.
+        f.add(.houseBought(rung: 3, beans: HouseLadder.rung(3).price), day: 0)
+        #expect(f.state.rung == 2)
         var day = 0
-        while f.state.level < HouseLadder.rung(2).level, day < 40 {
+        while f.state.level < HouseLadder.rung(3).level, day < 60 {
             f.add(.arrived, day: day, hour: 8)
             f.add(.fed(catID: f.cat), day: day, hour: 8)
             for goal in GameEvent.HealthGoal.allCases {
@@ -58,18 +71,19 @@ struct LadderTests {
             }
             day += 1
         }
-        #expect(f.state.level >= HouseLadder.rung(2).level)
-        f.add(.houseBought(rung: 3, beans: 4000), day: day) // a skip: refused
-        f.add(.houseBought(rung: 2, beans: 100), day: day) // underpaid: refused
-        #expect(f.state.rung == 1)
+        #expect(f.state.level >= HouseLadder.rung(3).level)
+        let price = HouseLadder.rung(3).price
+        f.add(.houseBought(rung: 4, beans: HouseLadder.rung(4).price), day: day) // a skip: refused
+        f.add(.houseBought(rung: 3, beans: 100), day: day) // underpaid: refused
+        #expect(f.state.rung == 2)
         let before = f.state.beans
-        f.add(.houseBought(rung: 2, beans: 1500), day: day)
+        f.add(.houseBought(rung: 3, beans: price), day: day)
         let state = f.state
-        #expect(state.rung == 2)
-        #expect(state.home.style == .houseboat && state.home.place?.name == "Amsterdam")
-        #expect(state.openedRooms.contains(.bedroom))
-        #expect(state.beans == before - 1500)
-        f.add(.houseBought(rung: 2, beans: 1500), day: day) // the same house twice: refused
-        #expect(f.state.beans == before - 1500)
+        #expect(state.rung == 3)
+        #expect(state.homeStyle == .woodlandCabin && state.homePlace.name == "Vancouver")
+        #expect(state.openedRooms.contains(.kitchen))
+        #expect(state.beans == before - price)
+        f.add(.houseBought(rung: 3, beans: price), day: day) // the same house twice: refused
+        #expect(f.state.beans == before - price)
     }
 }

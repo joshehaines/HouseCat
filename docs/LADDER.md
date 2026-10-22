@@ -9,16 +9,16 @@ run-down terrace. Climb the ladder one house at a time with Beans, never skippin
 3. Reveal: the camera rises through every rung, bottom to top, ending on the London mansion flat ("one day").
 4. Back to the bottom rung, inside; the room tour starts.
 
-## Rungs (city is fixed; its real weather is used)
+## Rungs (city is fixed, round the world; its real weather is used — Josh, 22 Oct: "make it world wide places")
 | # | House | City | Price (Beans) | Also needs | Opens room | Rough time to reach* |
 |---|---|---|---|---|---|---|
-| 1 | Run-down terrace (new art) | Manchester | start | — | Living room | day 1 |
-| 2 | Houseboat | Amsterdam | 1,500 | level 3 + 3 house tasks | Bedroom | day 3–4 |
-| 3 | Woodland cabin | Oslo | 4,000 | level 5 + 4 tasks | Kitchen | week 2 |
-| 4 | Cottage | Cotswolds | 9,000 | level 8 + 5 tasks | Garden | week 3–4 |
-| 5 | New-build balcony flat | Toronto | 18,000 | level 11 + 5 tasks | Study | week 6 |
-| 6 | Mediterranean rooftop | Barcelona | 32,000 | level 14 + 6 tasks | Attic | month 2–3 |
-| 7 | Georgian townhouse | Bath | 55,000 | level 17 + 6 tasks | — | month 4 |
+| 1 | Run-down terrace (new art) | Puddlebury (made up) | start | — | Living room | day 1 |
+| 2 | Houseboat | Amsterdam | 200 | the tutorial | Bedroom | day 1 (end of the tutorial) |
+| 3 | Woodland cabin | Vancouver | 4,000 | level 5 + 4 tasks | Kitchen | week 2 |
+| 4 | Cottage | Queenstown, NZ | 9,000 | level 8 + 5 tasks | Garden | week 3–4 |
+| 5 | New-build balcony flat | Tokyo | 18,000 | level 11 + 5 tasks | Study | week 6 |
+| 6 | Mediterranean rooftop | Santorini | 32,000 | level 14 + 6 tasks | Attic | month 2–3 |
+| 7 | Georgian townhouse | New York | 55,000 | level 17 + 6 tasks | — | month 4 |
 | 8 | Mansion flat | London | 90,000 | level 20 + 7 tasks | — | month 6 |
 
 \*For a player who plays daily without buying Beans. These prices are placeholders, to be tuned against

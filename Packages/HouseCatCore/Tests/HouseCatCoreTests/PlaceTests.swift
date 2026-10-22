@@ -135,21 +135,22 @@ private func cities() throws -> CitiesFile {
 @Test func theHomeKeepsItsOwnTimeSeasonAndWeather() throws {
     let tables = try ContentBundle.load(from: repo.appendingPathComponent("Content")).weather
     var fixture = Fixture()
-    // The home is the ladder's city: Manchester at the bottom, on London's clock.
+    // The home is the ladder's city: made-up Puddlebury at the bottom, on London's clock.
     let noonLondon = fixture.at(0, 12)
     var now = fixture.state.homeNow(at: noonLondon, weather: tables)
     #expect(now.place == HouseLadder.rung(1).place)
-    #expect(now.sky == .day)
+    #expect(now.localMinutes == 12 * 60)
     #expect(now.season == .autumn)
-    // Up the ladder in Toronto it is seven in the morning (an old pin is ignored).
+    // Up the ladder in Tokyo it is nine at night (an old pin is ignored).
     fixture.add(.homePlaced(.london), day: 0, hour: 9)
     var state = fixture.state
     state.home.rung = 5
     now = state.homeNow(at: noonLondon, weather: tables)
-    #expect(now.place.name == "Toronto")
+    #expect(now.place.name == "Tokyo")
     #expect(now.season == .autumn)
     #expect(now.biome == .city)
-    #expect(now.localMinutes == 7 * 60)
+    #expect(now.sky == .night)
+    #expect(now.localMinutes == 21 * 60)
     // A season fixed by the player wins over the calendar.
     fixture.add(.seasonSet(.fixed(.winter)), day: 0, hour: 9)
     #expect(fixture.state.homeNow(at: noonLondon, weather: tables).season == .winter)

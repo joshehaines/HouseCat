@@ -49,7 +49,7 @@ enum PlaceLabels {
 }
 
 extension CatScreens {
-    /// The home in a line for the profile: "Manchester · London terrace".
+    /// The home in a line for the profile: "Puddlebury · London terrace".
     static func homeLine() -> String {
         let session = GameSession.shared
         let state = session.state(at: session.now())

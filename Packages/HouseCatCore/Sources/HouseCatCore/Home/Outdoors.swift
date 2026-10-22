@@ -29,6 +29,8 @@ public struct OutdoorsFile: Codable, Sendable {
         /// What it is in the garden's plan (OutdoorPlan.Role): "tree", "hedge", "rock", "feature", "seat",
         /// "birdtable", "pots", "shed", "line", "lamp".
         public var role: String?
+        /// Whose picture it is, when a place borrows a biome's piece (`places`): world/props/<from>_<id>.png.
+        public var from: String?
     }
 
     /// A street behind the house (Josh, 19 Oct: a city should look like a city): a road along the plot this many
@@ -41,9 +43,13 @@ public struct OutdoorsFile: Codable, Sendable {
     public var version: Int
     public var biomes: [String: [Prop]]
     public var streets: [String: Street]?
+    /// A house's own town (Josh, 22 Oct: "base it around the house the user is in, London being a city"): the
+    /// ladder's places with their own scenery (Amsterdam's canal houses, Tokyo's vending machines), by
+    /// `HomePlace.setting`; a place without a list has its biome's.
+    public var places: [String: [Prop]]?
 
-    public func props(_ biome: Biome) -> [Prop] {
-        biomes[biome.rawValue] ?? []
+    public func props(_ biome: Biome, setting: String? = nil) -> [Prop] {
+        setting.flatMap { places?[$0] } ?? biomes[biome.rawValue] ?? []
     }
 }
 
@@ -84,7 +90,7 @@ public struct OutdoorPiece: Equatable, Sendable {
 
 public enum OutdoorRules {
     /// The picture for a piece: its winter one on snow or in winter, its autumn one in autumn, else the summer one.
-    public static func sprite(_ prop: OutdoorsFile.Prop, biome: Biome, season: NatureSeason, snowy: Bool) -> String {
+    public static func sprite(_ prop: OutdoorsFile.Prop, biome: Biome, setting: String? = nil, season: NatureSeason, snowy: Bool) -> String {
         if let fixed = prop.sprite {
             return fixed
         }
@@ -96,12 +102,12 @@ public enum OutdoorRules {
             nil
         }
         let suffix = wanted.flatMap { prop.seasons.contains($0) ? "_\($0)" : nil } ?? ""
-        return "world/props/\(biome.rawValue)_\(prop.id)\(suffix).png"
+        return "world/props/\(prop.from ?? setting ?? biome.rawValue)_\(prop.id)\(suffix).png"
     }
 
     /// The street behind a plot, for a biome that has one.
-    public static func street(biome: Biome, rooms: [(u: Double, v: Double)], file: OutdoorsFile) -> OutdoorStreet? {
-        guard let street = file.streets?[biome.rawValue], !rooms.isEmpty else { return nil }
+    public static func street(biome: Biome, setting: String? = nil, rooms: [(u: Double, v: Double)], file: OutdoorsFile) -> OutdoorStreet? {
+        guard let street = setting.flatMap({ file.streets?[$0] }) ?? file.streets?[biome.rawValue], !rooms.isEmpty else { return nil }
         let cells = Double(Tuning.Room.gridWidth), reach = Tuning.Outdoors.reach
         let minU = rooms.map(\.u).min() ?? 0, maxU = (rooms.map(\.u).max() ?? 0) + cells
         let minV = rooms.map(\.v).min() ?? 0
@@ -113,13 +119,16 @@ public enum OutdoorRules {
     /// same garden. Pieces keep a margin from every room; tall ones only behind the house.
     public static func layout(
         biome: Biome,
+        setting: String? = nil,
         rooms: [(u: Double, v: Double)],
         seed: UInt64,
         season: NatureSeason,
         snowy: Bool,
         file: OutdoorsFile
     ) -> [OutdoorPiece] {
-        let props = file.props(biome)
+        // A place's own pieces only when it has its own list (its setting picture prefix goes with them).
+        let setting = setting.flatMap { file.places?[$0] == nil ? nil : $0 }
+        let props = file.props(biome, setting: setting)
         let total = props.map(\.weight).reduce(0, +)
         guard !rooms.isEmpty, total > 0 else { return [] }
         let t = Tuning.Outdoors.self
@@ -137,9 +146,9 @@ public enum OutdoorRules {
             }
         }
         var pieces: [OutdoorPiece] = []
-        let street = street(biome: biome, rooms: rooms, file: file)
+        let street = street(biome: biome, setting: setting, rooms: rooms, file: file)
         if let street {
-            pieces = streetPieces(street, props: props, biome: biome, season: season, snowy: snowy, unit: unit)
+            pieces = streetPieces(street, props: props, biome: biome, setting: setting, season: season, snowy: snowy, unit: unit)
         }
         // The garden's plan: each spot gets one of its role's pieces, in turn by weight along a line.
         func choices(_ role: OutdoorPlan.Role) -> [OutdoorsFile.Prop] {
@@ -154,7 +163,7 @@ public enum OutdoorRules {
             guard clearOfRooms(spot.u, spot.v, width / 2) else { continue }
             let behind = spot.u < minU - t.margin || spot.v < minV - t.margin
             guard !prop.tall || behind else { continue }
-            let picture = sprite(prop, biome: biome, season: season, snowy: snowy)
+            let picture = sprite(prop, biome: biome, setting: setting, season: season, snowy: snowy)
             let sheds: String? = if picture.hasSuffix("_autumn.png") {
                 "leaf"
             } else if season == .spring, prop.blossom == true, !snowy {
@@ -184,6 +193,7 @@ public enum OutdoorRules {
         _ street: OutdoorStreet,
         props: [OutdoorsFile.Prop],
         biome: Biome,
+        setting: String?,
         season: NatureSeason,
         snowy: Bool,
         unit: () -> Double
@@ -198,7 +208,7 @@ public enum OutdoorRules {
         func piece(_ prop: OutdoorsFile.Prop, u: Double, v: Double) -> OutdoorPiece {
             OutdoorPiece(
                 prop: prop.id,
-                sprite: sprite(prop, biome: biome, season: season, snowy: snowy),
+                sprite: sprite(prop, biome: biome, setting: setting, season: season, snowy: snowy),
                 u: u,
                 v: v,
                 width: prop.width,

@@ -98,6 +98,7 @@ public enum HouseBuilder {
         let scenery = outdoors.map {
             OutdoorRules.layout(
                 biome: now.biome,
+                setting: now.place.setting,
                 rooms: plot,
                 seed: state.seed,
                 season: now.season,
@@ -112,7 +113,7 @@ public enum HouseBuilder {
             ground: ground(now.biome, season: now.season, weather: now.weather),
             stairs: plan.stairs,
             scenery: scenery,
-            street: outdoors.flatMap { OutdoorRules.street(biome: now.biome, rooms: plot, file: $0) }
+            street: outdoors.flatMap { OutdoorRules.street(biome: now.biome, setting: now.place.setting, rooms: plot, file: $0) }
         )
     }
 }

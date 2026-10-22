@@ -16334,6 +16334,54 @@
    ],
    "scale": 0.35714285714285715
   },
+  "world/props/amsterdam_bicycle.png": {
+   "file": "world/props/amsterdam_bicycle.heic",
+   "master": [
+    1172,
+    1278
+   ],
+   "scale": 0.3
+  },
+  "world/props/amsterdam_boat.png": {
+   "file": "world/props/amsterdam_boat.heic",
+   "master": [
+    1366,
+    1332
+   ],
+   "scale": 0.3
+  },
+  "world/props/amsterdam_cafe.png": {
+   "file": "world/props/amsterdam_cafe.heic",
+   "master": [
+    1664,
+    2554
+   ],
+   "scale": 0.3
+  },
+  "world/props/amsterdam_cargobike.png": {
+   "file": "world/props/amsterdam_cargobike.heic",
+   "master": [
+    1318,
+    1310
+   ],
+   "scale": 0.3
+  },
+  "world/props/amsterdam_flowerstall.png": {
+   "file": "world/props/amsterdam_flowerstall.heic",
+   "master": [
+    1212,
+    1796
+   ],
+   "scale": 0.3
+  },
+  "world/props/amsterdam_terraces.png": {
+   "file": "world/props/amsterdam_terraces.heic",
+   "master": [
+    2364,
+    2474
+   ],
+   "scale": 0.3
+  },
   "world/props/city_busstop.png": {
    "file": "world/props/city_busstop.heic",
    "master": [
@@ -16638,6 +16686,30 @@
    ],
    "scale": 0.3
   },
+  "world/props/london_cafe.png": {
+   "file": "world/props/london_cafe.heic",
+   "master": [
+    1484,
+    2190
+   ],
+   "scale": 0.3
+  },
+  "world/props/london_taxi.png": {
+   "file": "world/props/london_taxi.heic",
+   "master": [
+    1610,
+    1284
+   ],
+   "scale": 0.3
+  },
+  "world/props/london_terraces.png": {
+   "file": "world/props/london_terraces.heic",
+   "master": [
+    1972,
+    2294
+   ],
+   "scale": 0.3
+  },
   "world/props/mountain_boulder.png": {
    "file": "world/props/mountain_boulder.heic",
    "master": [
@@ -16686,6 +16758,86 @@
    ],
    "scale": 0.3
   },
+  "world/props/newyork_cafe.png": {
+   "file": "world/props/newyork_cafe.heic",
+   "master": [
+    2042,
+    2586
+   ],
+   "scale": 0.3
+  },
+  "world/props/newyork_hydrant.png": {
+   "file": "world/props/newyork_hydrant.heic",
+   "master": [
+    648,
+    1304
+   ],
+   "scale": 0.3
+  },
+  "world/props/newyork_mailbox.png": {
+   "file": "world/props/newyork_mailbox.heic",
+   "master": [
+    820,
+    1334
+   ],
+   "scale": 0.3
+  },
+  "world/props/newyork_taxi.png": {
+   "file": "world/props/newyork_taxi.heic",
+   "master": [
+    1676,
+    1208
+   ],
+   "scale": 0.3
+  },
+  "world/props/newyork_terraces.png": {
+   "file": "world/props/newyork_terraces.heic",
+   "master": [
+    2682,
+    2618
+   ],
+   "scale": 0.3
+  },
+  "world/props/newyork_wagon.png": {
+   "file": "world/props/newyork_wagon.heic",
+   "master": [
+    1832,
+    1330
+   ],
+   "scale": 0.3
+  },
+  "world/props/santorini_bench.png": {
+   "file": "world/props/santorini_bench.heic",
+   "master": [
+    1292,
+    1658
+   ],
+   "scale": 0.3
+  },
+  "world/props/santorini_bougainvillea.png": {
+   "file": "world/props/santorini_bougainvillea.heic",
+   "master": [
+    1304,
+    1560
+   ],
+   "scale": 0.3
+  },
+  "world/props/santorini_olive.png": {
+   "file": "world/props/santorini_olive.heic",
+   "master": [
+    1428,
+    2222
+   ],
+   "scale": 0.3
+  },
+  "world/props/santorini_pots.png": {
+   "file": "world/props/santorini_pots.heic",
+   "master": [
+    1078,
+    1460
+   ],
+   "scale": 0.3
+  },
   "world/props/snow_rock.png": {
    "file": "world/props/snow_rock.heic",
    "master": [
@@ -16707,6 +16859,54 @@
    "master": [
     1087,
     2216
+   ],
+   "scale": 0.3
+  },
+  "world/props/tokyo_cafe.png": {
+   "file": "world/props/tokyo_cafe.heic",
+   "master": [
+    1950,
+    2092
+   ],
+   "scale": 0.3
+  },
+  "world/props/tokyo_keicar.png": {
+   "file": "world/props/tokyo_keicar.heic",
+   "master": [
+    1376,
+    1390
+   ],
+   "scale": 0.3
+  },
+  "world/props/tokyo_pole.png": {
+   "file": "world/props/tokyo_pole.heic",
+   "master": [
+    450,
+    2334
+   ],
+   "scale": 0.3
+  },
+  "world/props/tokyo_taxi.png": {
+   "file": "world/props/tokyo_taxi.heic",
+   "master": [
+    1870,
+    1336
+   ],
+   "scale": 0.3
+  },
+  "world/props/tokyo_terraces.png": {
+   "file": "world/props/tokyo_terraces.heic",
+   "master": [
+    2950,
+    2560
+   ],
+   "scale": 0.3
+  },
+  "world/props/tokyo_vending.png": {
+   "file": "world/props/tokyo_vending.heic",
+   "master": [
+    918,
+    1742
    ],
    "scale": 0.3
   },

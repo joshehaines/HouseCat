@@ -10,13 +10,16 @@ public struct HomePlace: Codable, Hashable, Sendable {
     public var longitude: Double
     public var timeZoneID: String
     public var biome: Biome
+    /// The town's own scenery round the house (OutdoorsFile.places), for the ladder's places.
+    public var setting: String?
 
-    public init(name: String, latitude: Double, longitude: Double, timeZoneID: String, biome: Biome) {
+    public init(name: String, latitude: Double, longitude: Double, timeZoneID: String, biome: Biome, setting: String? = nil) {
         self.name = name
         self.latitude = latitude
         self.longitude = longitude
         self.timeZoneID = timeZoneID
         self.biome = biome
+        self.setting = setting
     }
 
     /// The seasons are the other way round south of the equator.

@@ -181,13 +181,13 @@ public enum Tuning {
         public static let rungs: [Spec] = [
             // A made-up town, so no real place is the bottom (Josh, 22 Oct: "too offensive to have a place as the worst").
             Spec(style: .londonTerrace, place: HomePlace(name: "Puddlebury", latitude: 52.2, longitude: -1.5, timeZoneID: "Europe/London", biome: .city), price: 0, level: 1, tasks: 0, room: .living),
-            Spec(style: .houseboat, place: HomePlace(name: "Amsterdam", latitude: 52.3676, longitude: 4.9041, timeZoneID: "Europe/Amsterdam", biome: .city), price: 200, level: 1, tasks: 0, room: .bedroom),
+            Spec(style: .houseboat, place: HomePlace(name: "Amsterdam", latitude: 52.3676, longitude: 4.9041, timeZoneID: "Europe/Amsterdam", biome: .city, setting: "amsterdam"), price: 200, level: 1, tasks: 0, room: .bedroom),
             Spec(style: .woodlandCabin, place: HomePlace(name: "Vancouver", latitude: 49.2827, longitude: -123.1207, timeZoneID: "America/Vancouver", biome: .forest), price: 700, level: 5, tasks: 4, room: .kitchen),
             Spec(style: .cottage, place: HomePlace(name: "Queenstown", latitude: -45.0312, longitude: 168.6626, timeZoneID: "Pacific/Auckland", biome: .countryside), price: 1500, level: 7, tasks: 5, room: .garden),
-            Spec(style: .newbuildBalcony, place: HomePlace(name: "Tokyo", latitude: 35.6762, longitude: 139.6503, timeZoneID: "Asia/Tokyo", biome: .city), price: 2500, level: 9, tasks: 5, room: .study),
-            Spec(style: .mediterraneanRooftop, place: HomePlace(name: "Santorini", latitude: 36.3932, longitude: 25.4615, timeZoneID: "Europe/Athens", biome: .coast), price: 3800, level: 12, tasks: 6, room: .attic),
-            Spec(style: .georgianTownhouse, place: HomePlace(name: "New York", latitude: 40.7128, longitude: -74.0060, timeZoneID: "America/New_York", biome: .city), price: 5200, level: 15, tasks: 6, room: nil),
-            Spec(style: .mansionFlat, place: .london, price: 7000, level: 18, tasks: 7, room: nil),
+            Spec(style: .newbuildBalcony, place: HomePlace(name: "Tokyo", latitude: 35.6762, longitude: 139.6503, timeZoneID: "Asia/Tokyo", biome: .city, setting: "tokyo"), price: 2500, level: 9, tasks: 5, room: .study),
+            Spec(style: .mediterraneanRooftop, place: HomePlace(name: "Santorini", latitude: 36.3932, longitude: 25.4615, timeZoneID: "Europe/Athens", biome: .coast, setting: "santorini"), price: 3800, level: 12, tasks: 6, room: .attic),
+            Spec(style: .georgianTownhouse, place: HomePlace(name: "New York", latitude: 40.7128, longitude: -74.0060, timeZoneID: "America/New_York", biome: .city, setting: "newyork"), price: 5200, level: 15, tasks: 6, room: nil),
+            Spec(style: .mansionFlat, place: HomePlace(name: "London", latitude: 51.4946, longitude: -0.1003, timeZoneID: "Europe/London", biome: .city, setting: "london"), price: 7000, level: 18, tasks: 7, room: nil),
         ]
     }
 

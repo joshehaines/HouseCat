@@ -8,7 +8,7 @@ struct LadderTests {
         let rungs = HouseLadder.rungs
         #expect(rungs.count == 8)
         #expect(rungs.first?.price == 0 && rungs.first?.room == .living)
-        #expect(rungs.last?.place == .london && rungs.last?.style == .mansionFlat)
+        #expect(rungs.last?.place.name == "London" && rungs.last?.style == .mansionFlat)
         #expect(Set(rungs.map(\.style)).count == 8, "every house once")
         for (lower, upper) in zip(rungs, rungs.dropFirst()) {
             #expect(upper.price > lower.price && upper.level >= lower.level && upper.tasks >= lower.tasks)

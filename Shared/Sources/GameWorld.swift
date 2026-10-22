@@ -23,6 +23,9 @@ enum GameWorld {
             if let name = ProcessInfo.processInfo.environment["HOUSECAT_HOME"], let style = HouseStyle(rawValue: name) {
                 return style
             }
+            if let rung = ProcessInfo.processInfo.environment["HOUSECAT_RUNG"].flatMap(Int.init) {
+                return HouseLadder.rung(rung).style
+            }
         #endif
         return state.homeStyle
     }
@@ -38,6 +41,11 @@ enum GameWorld {
         )
         #if DEBUG
             let environment = ProcessInfo.processInfo.environment
+            // HOUSECAT_RUNG=5: a house up the ladder, in its town, whatever the save has.
+            if let rung = environment["HOUSECAT_RUNG"].flatMap(Int.init) {
+                now.place = HouseLadder.rung(rung).place
+                now.biome = now.place.biome
+            }
             if let name = environment["HOUSECAT_BIOME"], let biome = Biome(rawValue: name) {
                 now.biome = biome
             }

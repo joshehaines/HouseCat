@@ -1059,8 +1059,9 @@ public enum Tuning {
         public static let reactionRise = 70.0
         public static let reactionSeconds = 1.4
         public static let tapPadding = 20.0
-        /// Settled this long, the cat picks its next activity from the behaviour table.
-        public static let idleSeconds = 25.0
+        /// Settled this long, the cat picks its next activity from the behaviour table (Josh, 22 Oct: "the cat's movement
+        /// is happening too much, make him sit down and move less": every hold about doubled, a slower amble).
+        public static let idleSeconds = 50.0
         /// Where the cat sits on furniture, as a fraction of the sprite's height.
         public static let seatHeight = 0.32
         public static let perchHeight = 0.9
@@ -1068,7 +1069,7 @@ public enum Tuning {
         public static let besideGap = 0.4
         public static let besideForward = 0.3
         /// Paces between walk and run (room units a second): an amble about the room and a trot to somewhere it wants.
-        public static let strollSpeed = 120.0
+        public static let strollSpeed = 95.0
         public static let trotSpeed = 250.0
         /// Zoomies are faster than a run.
         public static let dashSpeed = 430.0
@@ -1139,8 +1140,8 @@ public enum Tuning {
         /// How long the cat keeps at an activity once there (seconds, shortest and longest), by activity; others
         /// take `idleSeconds`.
         public static let hold: [String: [Double]] = [
-            "sleep": [70, 160], "sunbeamLoaf": [35, 80], "floorLoaf": [25, 50], "sit": [18, 40], "perch": [20, 45],
-            "hide": [22, 50], "windowWatch": [25, 55], "nearPlayer": [14, 28], "bowlNag": [15, 30], "sulk": [30, 60],
+            "sleep": [140, 300], "sunbeamLoaf": [70, 150], "floorLoaf": [50, 100], "sit": [40, 80], "perch": [40, 90],
+            "hide": [40, 90], "windowWatch": [50, 110], "nearPlayer": [30, 60], "bowlNag": [20, 40], "sulk": [50, 100],
             "scratch": [4, 8], "zoomies": [6, 12], "knockOff": [8, 16],
         ]
         /// While settled, a fidget (a glance, a slow blink) every this many seconds.

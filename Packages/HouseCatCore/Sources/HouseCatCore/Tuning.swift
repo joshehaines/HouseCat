@@ -541,8 +541,9 @@ public enum Tuning {
         /// The tracker card (points, on a phone; an iPad draws it at the controls' scale): its width, the narrowest
         /// it may get between the badge and the Beans, its gap from each, and the room kept for the column under the
         /// Beans (its widest is the season pass's badge, about 194: 176 left its ticket under the card).
-        public static let cardWidth = 300.0
-        public static let cardSmallest = 236.0
+        /// Smaller since 22 Oct (Josh: "the main objectives bar at the top middle is too big"): one goal on show.
+        public static let cardWidth = 250.0
+        public static let cardSmallest = 200.0
         public static let cardGap = 10.0
         public static let beansReserve = 204.0
         /// A goal met stays ticked on the card this long before the next slides in.
@@ -1527,10 +1528,10 @@ public enum Tuning {
     /// multiples of the whole active room filling the view; the view follows the cat when the room is bigger
     /// than the screen, and leans in for a moment when you greet, stroke or feed the cat.
     public enum Camera {
-        /// Where a visit starts: on the cat, about a quarter of the screen's height (Josh, 19 Oct: the cat is the
-        /// product; the whole room shows only to decorate). A phone's screen is small, so closer than an iPad's.
-        public static let homeZoomPhone = 2.7
-        public static let homeZoomPad = 2.1
+        /// Where a visit starts: as far out as a pinch goes, the whole house round the room, and you pinch in (Josh,
+        /// 22 Oct: "make the default zoom when a player loads in as far away as it currently lets you").
+        public static let homeZoomPhone = 0.6
+        public static let homeZoomPad = 0.6
         /// A pinch goes from the house around the room to a close look at the cat.
         public static let minZoom = 0.6
         public static let maxZoom = 4.5

@@ -15,7 +15,7 @@ public struct HouseModel: Sendable {
         /// A garden, balcony or terrace: low walls, outdoor light.
         public var outdoor: Bool
         public var model: RoomModel
-        /// What opening it takes, when it is closed ("Level 6 · 800 Beans").
+        /// What opening it takes, when it is closed ("With the cottage").
         public var lockLabel: String?
 
         public init(id: RoomID, storey: Int, u: Double, v: Double, outdoor: Bool, model: RoomModel, lockLabel: String?) {

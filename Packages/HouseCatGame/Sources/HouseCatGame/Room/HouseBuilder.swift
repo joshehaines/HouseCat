@@ -80,7 +80,9 @@ public enum HouseBuilder {
                     model.floor = Tuning.House.bareFloor
                 }
             }
-            let label = "Level \(spot.room.requiredLevel) · \(RoomRules.cost(of: spot.room, clubActive: false)) Beans"
+            // Rooms come with houses up the ladder (docs/LADDER.md): the closed one names its house.
+            let rung = HouseLadder.rung(HouseLadder.rung(opening: spot.room))
+            let label = "With the \(rung.name.lowercased())"
             return HouseModel.Room(
                 id: spot.room,
                 storey: spot.storey,

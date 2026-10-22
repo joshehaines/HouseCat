@@ -126,6 +126,11 @@ public struct GoalTracker: Equatable, Sendable {
         return GoalTracker(chapter: nil, entries: Array(entries.prefix(slots)))
     }
 
+    /// The tracker showing only its first `count` goals (the room's card shows one).
+    public func limited(to count: Int) -> GoalTracker {
+        GoalTracker(chapter: chapter, entries: Array(entries.prefix(count)))
+    }
+
     /// The first room not yet open, in the order the levels open them.
     static func nextRoom(_ state: HouseholdState) -> RoomID? {
         RoomID.allCases.filter { !state.openedRooms.contains($0) }.min { $0.requiredLevel < $1.requiredLevel }

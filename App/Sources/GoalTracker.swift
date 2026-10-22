@@ -176,6 +176,8 @@ struct GoalTrackerLayer: View {
     let open: (GoalAction) -> Void
     let roomTitle: (RoomID) -> String
     @State private var model = GoalTrackerModel()
+    /// Folded away to a small Goals tab by the player (Josh, 22 Oct: "a button that can hide it away").
+    @AppStorage("goalTrackerFolded") private var folded = false
     /// The card's height on screen.
     @State private var cardHeight: CGFloat = 0
     @Environment(\.hudScale) private var scale
@@ -188,8 +190,34 @@ struct GoalTrackerLayer: View {
             // while a goal on it ticks: Feed meets Breakfast just as the cat says thank you.
             let talking = bubbleUnder(frame, in: proxy) && model.celebrating.isEmpty
             ZStack(alignment: .topLeading) {
-                if !hidden, let tracker = model.tracker, !tracker.entries.isEmpty {
-                    GoalTrackerCard(tracker: tracker, celebrating: model.celebrating, width: frame.width / scale) { entry in
+                if !hidden, folded, model.tracker != nil {
+                    // Folded: a small tab where the card was; a tap brings the card back.
+                    Button {
+                        folded = false
+                    } label: {
+                        HStack(spacing: 5) {
+                            PaintedIcon("objectives_clipboard_with_a_tick", size: 16)
+                            Text("Goals").font(.system(size: 12, weight: .heavy, design: .rounded)).foregroundStyle(Theme.ink)
+                            Image(systemName: "chevron.down").font(.system(size: 10, weight: .heavy)).foregroundStyle(Theme.inkSoft)
+                        }
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 6)
+                        .background(Capsule().fill(Theme.cream))
+                        .overlay(Capsule().strokeBorder(GameHUD.lip.opacity(0.35), lineWidth: 1))
+                        .shadow(color: Theme.shadow, radius: 3, y: 2)
+                    }
+                    .buttonStyle(PressStyle())
+                    .accessibilityLabel("Show goals")
+                    .zoomed(scale)
+                    .offset(x: frame.midX - 45 * scale, y: frame.minY)
+                    .transition(.opacity)
+                } else if !hidden, let tracker = model.tracker, !tracker.entries.isEmpty {
+                    GoalTrackerCard(
+                        tracker: tracker.limited(to: 1),
+                        celebrating: model.celebrating,
+                        width: frame.width / scale,
+                        fold: { folded = true }
+                    ) { entry in
                         tapped(entry)
                     } all: {
                         open(.goals)
@@ -336,12 +364,15 @@ struct GoalTrackerCard: View {
     let tracker: GoalTracker
     let celebrating: [String: GoalReward]
     let width: CGFloat
+    /// Folds the card away to a small tab.
+    var fold: (() -> Void)?
     let tap: (GoalTracker.Entry) -> Void
     let all: () -> Void
     @Environment(\.controlFeedback) private var feedback
 
     var body: some View {
         VStack(spacing: 4) {
+            HStack(spacing: 6) {
             Button {
                 feedback.tap()
                 all()
@@ -371,6 +402,21 @@ struct GoalTrackerCard: View {
             }
             .buttonStyle(PressStyle())
             .accessibilityLabel(tracker.chapter.map { "\($0.name), \($0.done) of \($0.of) done. All goals." } ?? "All goals")
+                if let fold {
+                    Button {
+                        feedback.tap()
+                        fold()
+                    } label: {
+                        Image(systemName: "chevron.up")
+                            .font(.system(size: 11, weight: .heavy))
+                            .foregroundStyle(Theme.inkSoft)
+                            .frame(width: 24, height: 22)
+                            .contentShape(Rectangle())
+                    }
+                    .buttonStyle(PressStyle())
+                    .accessibilityLabel("Hide goals")
+                }
+            }
             ForEach(tracker.entries) { entry in
                 GoalRow(entry: entry, reward: celebrating[entry.id]) {
                     feedback.tap()

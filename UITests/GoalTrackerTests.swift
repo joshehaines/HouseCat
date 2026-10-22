@@ -2,8 +2,8 @@ import XCTest
 
 /// The goal tracker on the room (CLAUDE.md "Goals you always see"), played as a new player meets it: a fresh save in
 /// memory (`HOUSECAT_FRESH`, the device's save left alone) with a cat already made (`HOUSECAT_CAT`), the tour skipped.
-/// The card shows Moving in and its first goals; Feed meets Breakfast, which ticks; a stroke meets Hello, you, and
-/// Playtime slides in; a tap on Playtime opens the Games menu; All goals opens the Goals page. A debug build. Run on
+/// The card shows Moving in and its next goal; Feed meets Breakfast, which ticks; a stroke meets Hello, you, and
+/// Make it cosy slides in; a tap on it opens Decorate; All goals opens the Goals page. A debug build. Run on
 /// the iPhone 18 Pro Max and the 13-inch iPad: `xcodebuild test … -only-testing:HouseCatUITests/GoalTrackerTests`.
 /// Every screen is attached, and written to `SHOTS` when the runner has it (`TEST_RUNNER_SHOTS=<folder>`).
 @MainActor
@@ -50,16 +50,17 @@ final class GoalTrackerTests: XCTestCase {
         XCTAssertTrue(sawTick || !goalRow("Breakfast").exists, "Breakfast ticked, or met and moved on")
         dismissCards()
 
-        // A stroke meets Hello, you; Playtime comes onto the card.
+        // A stroke meets Hello, you; Make it cosy comes onto the card (it shows one goal since 22 Oct).
         XCTAssertTrue(goalRow("Hello, you").shows(within: 5), "Hello, you next on the tracker")
-        XCTAssertTrue(strokeTheCat(until: goalRow("Playtime")), "a stroke meets Hello, you and Playtime slides in")
+        XCTAssertTrue(strokeTheCat(until: goalRow("Make it cosy")), "a stroke meets Hello, you and Make it cosy slides in")
         dismissCards()
-        snap("playtime next")
+        snap("make it cosy next")
 
-        // A tap on Playtime opens the Games menu.
-        XCTAssertTrue(tap(goalRow("Playtime"), until: gamesOpen), "Playtime opens the game picker")
-        snap("games from playtime")
-        closeTop()
+        // A tap on Make it cosy opens Decorate.
+        let done = app.buttons["Done"].firstMatch
+        XCTAssertTrue(tap(goalRow("Make it cosy"), until: { done.shows(within: 5) }), "Make it cosy opens Decorate")
+        snap("decorate from make it cosy")
+        done.tap()
 
         // All goals opens the Goals page, the two met ticked.
         XCTAssertTrue(chapterHeader().shows(within: 10), "the tracker back on the room")

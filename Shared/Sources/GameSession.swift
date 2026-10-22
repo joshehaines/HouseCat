@@ -510,7 +510,16 @@ final class GameSession {
         return state(at: now()).unplaced().compactMap { id, count in
             guard let item = items[id], let sprite = item.sprites["R"] ?? item.sprites.values.first else { return nil }
             return InventoryEntry(id: id, name: item.name, count: count, sprite: sprite)
-        }.sorted { $0.name < $1.name }
+        }.sorted { a, b in
+            // The tour's pieces first, in the order it asks for them (sofa, rug, coffee table), then by name.
+            let order = Tuning.Room.starterPieces
+            switch (order.firstIndex(of: a.id), order.firstIndex(of: b.id)) {
+            case let (x?, y?): return x < y
+            case (.some, nil): return true
+            case (nil, .some): return false
+            default: return a.name < b.name
+            }
+        }
     }
 
     /// The Bean catalogue for a room (its own pieces first), with what each needs.

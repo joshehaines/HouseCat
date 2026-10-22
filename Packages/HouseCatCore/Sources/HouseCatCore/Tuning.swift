@@ -890,8 +890,8 @@ public enum Tuning {
     /// The arrival (SPEC "The session loop").
     public enum Arrival {
         public static let exteriorAfterMinutesAway = 60
-        public static let exteriorAutoAdvanceSeconds = 2.5
-        public static let doorSeconds = 1.2
+        public static let exteriorAutoAdvanceSeconds = 3.0
+        public static let doorSeconds = 2.0
         public static let greetingMaxSeconds = 3.0
         /// From this trust tier the cat is visible in the window.
         public static let catInWindowFromTier = 3
@@ -1188,11 +1188,13 @@ public enum Tuning {
     public enum Exterior {
         public static let focusWidth = 0.42
         public static let focusHeight = 0.8
-        /// How far the camera pushes into the door, and when the room starts to fade in.
-        public static let pushScale = 3.2
-        public static let roomFadeAt = 0.65
-        public static let roomFadeSeconds = 0.5
-        public static let doorOpenSeconds = 0.3
+        /// How far the camera pushes into the door, and when the room takes over: through a dip to the warm cream
+        /// of the hall rather than a cross-fade of two scenes at different zooms (Josh, 22 Oct: going into the house
+        /// "looks very glitchy").
+        public static let pushScale = 2.2
+        public static let roomFadeAt = 0.7
+        public static let roomFadeSeconds = 0.9
+        public static let doorOpenSeconds = 0.6
         /// The room is built this long after the exterior appears, so the first frame is not held up.
         public static let roomBuildDelay = 0.4
         /// The painting is drawn larger than its pixels on a big screen (1.8 times on a 13-inch iPad, 2.4 upright;

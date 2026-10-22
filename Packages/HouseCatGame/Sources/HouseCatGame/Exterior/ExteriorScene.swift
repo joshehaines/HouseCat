@@ -683,7 +683,7 @@ public final class ExteriorScene: SKScene {
             .move(to: target, duration: seconds),
             .scale(to: 1 / CGFloat(Tuning.Exterior.pushScale), duration: seconds),
         ])
-        push.timingMode = .easeIn
+        push.timingMode = .easeInEaseOut
         cameraNode.run(push)
         run(.sequence([.wait(forDuration: seconds * Tuning.Exterior.roomFadeAt), .run { [weak self] in self?.onEnter?() }]))
     }

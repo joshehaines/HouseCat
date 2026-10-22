@@ -124,6 +124,9 @@ final class Visit {
 
     @ObservationIgnored private var statsRead = false
 
+    /// The warm cream the view dips through from the doorway into the room.
+    static let hallCream = SKColor(red: 0.99, green: 0.95, blue: 0.88, alpha: 1)
+
     /// A short note over the room ("+10 Beans", "Level 3"), gone after a moment.
     private(set) var toast: String?
     /// The painted icon that goes with the toast.
@@ -294,7 +297,7 @@ final class Visit {
                 guard let self else { return }
                 let room = preparedRoom()
                 // Present from the exterior's own view so the push flows straight into the room.
-                exterior?.view?.presentScene(room, transition: .crossFade(withDuration: Tuning.Exterior.roomFadeSeconds))
+                exterior?.view?.presentScene(room, transition: .fade(with: Self.hallCream, duration: Tuning.Exterior.roomFadeSeconds))
                 scene = room
                 greet()
                 #if DEBUG
@@ -447,7 +450,7 @@ final class Visit {
         }
         exterior.onEnter = { [weak self, weak exterior] in
             guard let self, let room = self.room else { return }
-            exterior?.view?.presentScene(room, transition: .crossFade(withDuration: Tuning.Exterior.roomFadeSeconds))
+            exterior?.view?.presentScene(room, transition: .fade(with: Self.hallCream, duration: Tuning.Exterior.roomFadeSeconds))
             scene = room
             outside = false
             if watchedYouGo, let house = room as? RoomScene {
@@ -456,7 +459,7 @@ final class Visit {
         }
         Sound.play("door_open", volume: Tuning.Sound.door)
         Sound.weather(exterior.model.weather)
-        view.presentScene(exterior, transition: .crossFade(withDuration: Tuning.Exterior.roomFadeSeconds))
+        view.presentScene(exterior, transition: .fade(with: Self.hallCream, duration: Tuning.Exterior.roomFadeSeconds))
         scene = exterior
         outside = true
         session.saw("outside")

@@ -14,6 +14,8 @@ final class RoomTour {
     /// What the player did, as the tour hears it.
     enum Heard {
         case fed, petted, placed
+        /// A piece was placed or moved: the furnishing steps look at the living room's layout.
+        case arranged
         case decorating(Bool)
         /// A control the tour points at was used (Play, the nap, the menu, the shop).
         case opened(String)
@@ -69,6 +71,15 @@ final class RoomTour {
             return
         }
         guard let wait = step?.waitFor else { return }
+        if [.sofaAgainstWall, .rugDown, .tableOnRug].contains(wait) {
+            let session = GameSession.shared
+            if case .arranged = event, let catalogue = session.content?.catalogue, let index,
+               TourLayout.done(wait, placed: session.state(at: session.now()).placed, catalogue: catalogue)
+            {
+                move(to: index + 1)
+            }
+            return
+        }
         let matches = switch (wait, event) {
         case (.fed, .fed), (.petted, .petted), (.placed, .placed), (.decorating, .decorating(true)), (.decorated, .decorating(false)): true
         default: false

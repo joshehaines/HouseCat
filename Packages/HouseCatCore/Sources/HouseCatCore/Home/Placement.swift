@@ -160,3 +160,32 @@ public extension HouseholdState {
             .sorted { $0.id < $1.id }
     }
 }
+
+/// Whether the living room is laid out as the tour's furnishing steps ask (`IntroFile.RoomStep.Wait`).
+public enum TourLayout {
+    public static func done(_ wait: IntroFile.RoomStep.Wait, placed: [PlacedItem], catalogue: CatalogueFile) -> Bool {
+        let living = placed.filter { $0.room == .living }
+        func footprint(_ piece: PlacedItem) -> (x: ClosedRange<Int>, y: ClosedRange<Int>)? {
+            guard let item = catalogue.items.first(where: { $0.id == piece.itemID }) else { return nil }
+            let (w, d) = piece.facing == .left ? (item.footprint.d, item.footprint.w) : (item.footprint.w, item.footprint.d)
+            return (piece.x ... piece.x + max(0, w - 1), piece.y ... piece.y + max(0, d - 1))
+        }
+        switch wait {
+        case .sofaAgainstWall:
+            // Against one of the back walls (the room's cells start at them).
+            return living.contains { $0.itemID == Tuning.Room.tourSofa && ($0.x == 0 || $0.y == 0) }
+        case .rugDown:
+            return living.contains { $0.itemID == Tuning.Room.tourRug }
+        case .tableOnRug:
+            let rugs = living.filter { $0.itemID == Tuning.Room.tourRug }.compactMap(footprint)
+            return living.filter { $0.itemID == Tuning.Room.tourTable }.compactMap(footprint).contains { table in
+                rugs.contains { rug in
+                    rug.x.contains(table.x.lowerBound) && rug.x.contains(table.x.upperBound)
+                        && rug.y.contains(table.y.lowerBound) && rug.y.contains(table.y.upperBound)
+                }
+            }
+        default:
+            return false
+        }
+    }
+}

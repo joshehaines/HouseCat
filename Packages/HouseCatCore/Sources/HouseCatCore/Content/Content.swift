@@ -475,6 +475,9 @@ public struct IntroFile: Codable, Sendable {
     public struct RoomStep: Codable, Sendable, Identifiable {
         public enum Wait: String, Codable, Sendable {
             case fed, petted, decorating, placed, decorated
+            /// The tutorial's furnishing (Josh, 22 Oct: "couch in the corner with back to the wall, carpet and table on
+            /// top"): the sofa against a back wall, the rug down, the coffee table on the rug (`TourLayout`).
+            case sofaAgainstWall, rugDown, tableOnRug
         }
 
         public var id: String

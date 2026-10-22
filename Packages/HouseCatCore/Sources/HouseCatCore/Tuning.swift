@@ -17,7 +17,11 @@ public enum Tuning {
         /// where the demo layout puts them.
         public static let firstHome: Set<String> = ["kitchen_bowl", "living_box"]
         /// Waiting in the tray for the tour's Decorate step.
-        public static let starterPieces = ["living_sofa"]
+        public static let starterPieces = ["living_sofa", "living_rug", "living_coffee"]
+        /// The tour's furnishing: the sofa against a wall, the rug, the coffee table on the rug (all three given).
+        public static let tourSofa = "living_sofa"
+        public static let tourRug = "living_rug"
+        public static let tourTable = "living_coffee"
     }
 
     /// The game day and the parts of it (SPEC "Care and the visit streak", "Widgets").

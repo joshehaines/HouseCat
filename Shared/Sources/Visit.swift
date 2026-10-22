@@ -794,6 +794,7 @@ final class Visit {
         inventory = GameSession.shared.inventory()
         refreshStats()
         RoomTour.shared.heard(.placed)
+        RoomTour.shared.heard(.arranged)
     }
 
     func offer(_ room: RoomID) {
@@ -1018,7 +1019,10 @@ final class Visit {
         if let house = built as? RoomScene {
             storeys = house.storeys
             storey = house.storey
-            house.onDecorate = { [weak self] in GameSession.shared.record($0, in: self?.activeRoom ?? .living) }
+            house.onDecorate = { [weak self] in
+                GameSession.shared.record($0, in: self?.activeRoom ?? .living)
+                RoomTour.shared.heard(.arranged)
+            }
             house.onSelect = { [weak self] in self?.selected = $0 }
             house.onClosedRoomTapped = { [weak self] in self?.offer($0) }
             house.nextActivity = { [weak self] catRoom in

@@ -23,6 +23,7 @@ final class FirstRunTests: XCTestCase {
             throw XCTSkip("Needs a fresh install: the save already has a cat.")
         }
         try makeTheCat()
+        try watchTheCutscene()
         try goInside()
         try takeTheTour()
         try playAGame()
@@ -81,6 +82,16 @@ final class FirstRunTests: XCTestCase {
         XCTAssertTrue(bringHome.waitForExistence(timeout: 5), "the name is taken")
         snap("4 named")
         bringHome.tap()
+    }
+
+    /// The run-down house in the rain, the cat at its door, then the ladder climbed to London.
+    private func watchTheCutscene() throws {
+        sleep(6)
+        snap("5 cutscene door")
+        let done = app.buttons["cutsceneDone"]
+        XCTAssertTrue(done.waitForExistence(timeout: 45), "the cutscene climbs the ladder")
+        snap("6 cutscene ladder")
+        done.tap()
     }
 
     private func goInside() throws {

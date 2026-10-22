@@ -79,7 +79,9 @@ enum GameWorld {
         // A home whose pack has not arrived has no cold open yet (HomePacks); otherwise its painting for the
         // biome and season, falling back to another season if one is missing.
         let seasons = [now.season] + NatureSeason.allCases.filter { $0 != now.season }
-        guard let path = seasons.map({ HouseBuilder.scene(style, now.biome, $0) }).first(where: { art.has("\($0).jpg") })
+        // The ladder's first house is the run-down one (docs/LADDER.md), painted for itself.
+        let firstHouse = state.rung == 1 ? seasons.map { "world/scenes/\(Tuning.Cutscene.firstHouseScene)_\(now.biome.rawValue)_\($0.rawValue)" } : []
+        guard let path = (firstHouse + seasons.map({ HouseBuilder.scene(style, now.biome, $0) })).first(where: { art.has("\($0).jpg") })
         else { return nil }
         let name = String(path.dropFirst("world/scenes/".count))
         let door = index.doors[name] ?? index.defaultDoor
@@ -96,6 +98,42 @@ enum GameWorld {
         let scene = ExteriorScene(size: size, art: art, model: model)
         scene.looking = looking
         return scene
+    }
+
+    /// The opening cutscene's house (docs/LADDER.md): the first house in the rain at dusk, shown, not entered.
+    static func cutsceneScene(size: CGSize) -> ExteriorScene? {
+        guard let art, let index = try? art.data("world/scenes/scenes.json", as: SceneIndex.self) else { return nil }
+        let name = "\(Tuning.Cutscene.firstHouseScene)_city_autumn"
+        guard art.has("world/scenes/\(name).jpg") else { return nil }
+        let door = index.doors[name] ?? index.defaultDoor
+        let house = index.houses?[name].flatMap { $0.count == 4 ? CGRect(x: $0[0], y: $0[1], width: $0[2] - $0[0], height: $0[3] - $0[1]) : nil }
+        let model = ExteriorScene.Model(
+            scene: "world/scenes/\(name)",
+            sky: .dusk,
+            door: CGPoint(x: door[0], y: door[1]),
+            weather: .rain,
+            season: .autumn,
+            house: house
+        )
+        let scene = ExteriorScene(size: size, art: art, model: model)
+        scene.showcase = true
+        return scene
+    }
+
+    /// The player's cat as it is, for the cutscene's doorway.
+    static func playerCat(state: HouseholdState, at date: Date) -> CatNode? {
+        guard let art, let rig else { return nil }
+        let cat = state.cats.first
+        let node = CatNode(
+            art: art,
+            rig: rig,
+            catArt: catArt,
+            look: cat?.look ?? .midnight,
+            isKitten: cat?.isKittenStage(on: state.clock.day(of: date)) ?? false,
+            height: 100
+        )
+        node.wear(GameSession.shared.wornOutfit)
+        return node
     }
 
     /// The cat at a window of the exterior (Josh, 20 Oct: "have your cat in the window"; `WindowCatRules` says which

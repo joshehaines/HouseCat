@@ -401,6 +401,55 @@ public final class ExteriorScene: SKScene {
         let dt = lastUpdate.map { min(currentTime - $0, 1.0 / 20) } ?? 0
         lastUpdate = currentTime
         windowCat?.step(dt)
+        doorCat?.step(dt)
+    }
+
+    // MARK: The cutscene's greeting
+
+    /// The cat that came to the door (the opening cutscene).
+    public private(set) var doorCat: CatNode?
+
+    /// The opening cutscene (docs/LADDER.md): the door opens and the cat walks out onto the step towards you, then
+    /// sits. Use on a showcase, so the door never opens by itself.
+    public func greet(_ cat: CatNode) {
+        guard doorCat == nil else { return }
+        removeAction(forKey: "autoAdvance")
+        onDoorOpens?()
+        if doorOpen.texture != nil {
+            doorOpen.removeAllActions()
+            doorOpen.run(.fadeIn(withDuration: Tuning.Exterior.doorOpenSeconds))
+        }
+        let height = painting.size.height * CGFloat(Tuning.Cutscene.catHeight)
+        cat.childNode(withName: "shadow")?.isHidden = true
+        cat.setScale(1)
+        cat.show(.front, facingRight: true)
+        let scale = height / max(1, cat.bodyFrame.height)
+        cat.setScale(scale)
+        // Its feet on the threshold, the bottom of the door.
+        cat.position = CGPoint(x: doorPoint.x, y: doorPoint.y - painting.size.height * CGFloat(Tuning.Cutscene.thresholdDrop))
+        cat.zPosition = 1.5
+        cat.alpha = 0
+        addChild(cat)
+        doorCat = cat
+        let walk = CGFloat(Tuning.Cutscene.walkSeconds)
+        let open = Tuning.Exterior.doorOpenSeconds
+        cat.run(.sequence([
+            .wait(forDuration: open * 0.6),
+            .fadeIn(withDuration: 0.4),
+            .run { [weak cat] in cat?.walk() },
+            .group([
+                .moveBy(x: 0, y: -painting.size.height * CGFloat(Tuning.Cutscene.walkDrop), duration: walk),
+                .scale(to: scale * CGFloat(Tuning.Cutscene.walkGrowth), duration: walk),
+            ]),
+            .run { [weak cat] in
+                cat?.stopCycle()
+                _ = cat?.settle(into: .sitFront)
+            },
+        ]))
+        // The camera leans in as the cat comes out (only closer, never off the painting's edge).
+        let lean = SKAction.scale(to: cameraNode.xScale * 0.85, duration: open + walk)
+        lean.timingMode = .easeInEaseOut
+        cameraNode.run(lean)
     }
 
     // MARK: The cat at a window

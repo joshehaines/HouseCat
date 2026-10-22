@@ -18120,6 +18120,50 @@
    ],
    "scale": 0.75
   },
+  "world/scenes/rundown_terrace_city_autumn.jpg": {
+   "file": "world/scenes/rundown_terrace_city_autumn.heic",
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/rundown_terrace_city_autumn_dooropen.jpg": {
+   "file": "world/scenes/rundown_terrace_city_autumn_dooropen.heic",
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/rundown_terrace_city_autumn_dooropen_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/rundown_terrace_city_autumn_dooropen_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/rundown_terrace_city_autumn_glass.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
+  "world/scenes/rundown_terrace_city_autumn_land.png": {
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.75
+  },
   "world/terrain/terr_city_autumn.png": {
    "file": "world/terrain/terr_city_autumn.heic",
    "master": [

@@ -167,6 +167,27 @@ public enum Tuning {
         ]
     }
 
+    /// The opening cutscene (docs/LADDER.md; Josh, 22 Oct: "a run down house in the rain and your cat comes to the door
+    /// to meet you").
+    public enum Cutscene {
+        /// The painting of the ladder's first house, in world/scenes (its cold open uses it too).
+        public static let firstHouseScene = "rundown_terrace"
+        /// Rain on the house before the door opens.
+        public static let doorOpensAfter = 2.5
+        /// The cat in the doorway as a share of the painting's height, then how much nearer it walks.
+        public static let catHeight = 0.09
+        /// The door's bottom below its centre, a share of the painting's height.
+        public static let thresholdDrop = 0.09
+        public static let walkGrowth = 2.3
+        public static let walkDrop = 0.17
+        public static let walkSeconds = 2.6
+        /// How long each house of the ladder is on screen as the camera climbs, and the last (London) longer.
+        public static let rungSeconds = 1.6
+        /// The greeting holds this long before the ladder, unless Next is pressed.
+        public static let ladderAfter = 4.0
+        public static let topSeconds = 3.0
+    }
+
     /// Room gating: a level AND Beans above the allowance (CLAUDE.md "First arrival").
     public enum Rooms {
         public static let bedroomLevel = 2

@@ -13,6 +13,8 @@ struct HouseCatApp: App {
     @State private var visit: Visit?
     /// Adoption (onboarding's cat creation) when the save has no cat yet.
     @State private var adopting: CatBuilderModel?
+    /// The opening cutscene after adoption, with the cat's name.
+    @State private var cutscene: String?
     /// Debug: the widget gallery instead of the game.
     @State private var gallery = false
     @Environment(\.scenePhase) private var scenePhase
@@ -40,6 +42,12 @@ struct HouseCatApp: App {
                     }
                     // A new visit is a new screen: SpriteView keeps showing its first scene otherwise.
                     .id(ObjectIdentifier(visit))
+                } else if let cutscene {
+                    Cutscene(catName: cutscene) {
+                        self.cutscene = nil
+                        visit = Visit(size: CGSize(width: 1024, height: 768), lastActive: nil)
+                    }
+                    .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
                 } else if let adopting {
                     // The host's line sits over the cat, clear of the drawers.
                     CatBuilderView(model: adopting) {
@@ -50,8 +58,8 @@ struct HouseCatApp: App {
                         guard let name = model.checkedName else { return }
                         GameSession.shared.adopt(name: name, personality: model.personality, look: model.look)
                         self.adopting = nil
-                        // Then home: the bottom rung of the house ladder (docs/LADDER.md; the world map is gone).
-                        visit = Visit(size: CGSize(width: 1024, height: 768), lastActive: nil)
+                        // Then the cutscene, then home: the bottom rung of the house ladder (docs/LADDER.md).
+                        cutscene = name
                     }
                     .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
                 } else {
@@ -171,6 +179,11 @@ struct HouseCatApp: App {
         #if DEBUG
             // HOUSECAT_SCREEN=creator: the cat creator as a new player meets it
             // (HOUSECAT_CREATOR=<drawer> opens a drawer: looks, body, coat, pattern, white, eyes, nose, earsTail, age, name).
+            // HOUSECAT_SCREEN=cutscene: the opening cutscene alone, for the cat in the save.
+            if ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"] == "cutscene" {
+                cutscene = GameSession.shared.cat?.name ?? "Pip"
+                return
+            }
             if ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"] == "creator" {
                 adopting = CatScreens.builder(mode: .adopt)
                 return

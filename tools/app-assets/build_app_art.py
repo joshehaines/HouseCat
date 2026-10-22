@@ -60,6 +60,8 @@ SETS = [
     # The exterior: the demo home's painted scenes in every biome and season (door closed and open), and every
     # terrain seen through the rooms' windows.
     ('world/scenes/london_terrace_*', 0.75),
+    # The ladder's first house, run down in Puddlebury, for its cold open and the opening cutscene (docs/LADDER.md).
+    ('world/scenes/rundown_terrace_*', 0.75),
     ('world/terrain/terr_*.png', 0.25),
     # The ground around the house, per biome.
     ('world/ground/ground_*.png', 0.25),

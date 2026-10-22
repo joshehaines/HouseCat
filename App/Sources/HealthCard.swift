@@ -10,40 +10,42 @@ struct HealthCard: View {
     let done: () -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack(spacing: 8) {
-                PaintedIcon("trust_heart_with_a_paw_print", size: 34)
-                Text("\(catName) notices how your day went").font(Theme.title(22))
-            }
-            HStack(spacing: 10) {
-                tile("group_of_three_paw_prints", "\(Tuning.Health.stepsGoal.formatted()) steps", xp: Tuning.XP.stepsGoalMet, goal: .steps)
-                tile("nap_moon", "\(Int(Tuning.Health.sleepGoalHours)) hours' sleep", xp: Tuning.XP.sleepGoalMet, goal: .sleep)
-                tile("play_laser_dot", "A workout", xp: Tuning.XP.workoutLogged, goal: .workout)
-            }
-            // As tall as its tallest tile, the three the same (on an iPad's tall screen they stretched to fill it).
-            .fixedSize(horizontal: false, vertical: true)
-            Text(
-                "Only these three, read from Health on this device. Nothing is written to Health or sent anywhere, and a day without is never held against you."
-            )
-            .font(.caption).foregroundStyle(Theme.inkSoft)
-            .fixedSize(horizontal: false, vertical: true)
-            HStack(spacing: 10) {
-                Spacer()
-                HUDButton("Not now") {
-                    HealthLayer.asked = true
-                    done()
+        PaintedPanel(corner: 24) {
+            PanelHeader("\(catName) notices your day", subtitle: "Steps, sleep and workouts, from Health", icon: "trust_heart_with_a_paw_print")
+        } content: {
+            VStack(alignment: .leading, spacing: 12) {
+                HStack(spacing: 10) {
+                    tile("group_of_three_paw_prints", "\(Tuning.Health.stepsGoal.formatted()) steps", xp: Tuning.XP.stepsGoalMet, goal: .steps)
+                    tile("nap_cat", "\(Int(Tuning.Health.sleepGoalHours)) hours' sleep", xp: Tuning.XP.sleepGoalMet, goal: .sleep)
+                    tile("play_feather", "A workout", xp: Tuning.XP.workoutLogged, goal: .workout)
                 }
-                HUDButton("Connect Health", icon: "trust_heart_with_a_paw_print", prominent: true) {
-                    Task {
-                        await HealthLayer.ask()
+                // As tall as its tallest tile, the three the same (on an iPad's tall screen they stretched to fill it).
+                .fixedSize(horizontal: false, vertical: true)
+                Text(
+                    "Only these three, read from Health on this device. Nothing is written to Health or sent anywhere, and a day without is never held against you."
+                )
+                .font(.caption).foregroundStyle(Theme.inkSoft)
+                .fixedSize(horizontal: false, vertical: true)
+                HStack(spacing: 14) {
+                    Spacer()
+                    Button("Not now") {
+                        HealthLayer.asked = true
                         done()
                     }
+                    .font(.system(size: 15, weight: .heavy, design: .rounded))
+                    .foregroundStyle(Theme.inkSoft)
+                    ChunkyButton("Connect Health") {
+                        Task {
+                            await HealthLayer.ask()
+                            done()
+                        }
+                    }
+                    .frame(maxWidth: 220)
                 }
             }
+            .padding(18)
         }
-        .padding(20)
         .frame(maxWidth: 560)
-        .paper(RoundedRectangle(cornerRadius: 24, style: .continuous))
         .foregroundStyle(Theme.ink)
     }
 

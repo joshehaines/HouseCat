@@ -210,27 +210,111 @@ struct StreakCard: View {
     @Environment(\.controlFeedback) private var feedback
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 14) {
-            HStack(alignment: .top) {
-                PaintedIcon("streak_paw_print_with_a_small_flame", size: 54)
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(info.current == 1 ? "1 day" : "\(info.current) days").font(Theme.title(28))
-                    Text("Your best: \(info.longest == 1 ? "1 day" : "\(info.longest) days"). A missed day is forgiven once a week.")
-                        .font(.subheadline)
-                        .foregroundStyle(Theme.inkSoft)
+        // Duolingo-sized (Josh, 22 Oct: "lets make the streak a bigger deal, think how Duolingo does their streaks"):
+        // the flame and the number big, the week's days lit, the next milestone and what it pays, then the safety nets.
+        PaintedPanel(corner: 24) {
+            PanelHeader("Your streak", subtitle: "Best: \(days(info.longest))", icon: "streak_paw_print_with_a_small_flame", close: close)
+        } content: {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 14) {
+                    hero
+                    weekStrip
+                    if let next = info.nextMilestone {
+                        milestone(next)
+                    }
+                    HStack(spacing: 8) {
+                        Image(systemName: "shield.lefthalf.filled").foregroundStyle(Color(red: 0.3, green: 0.55, blue: 0.85))
+                        Text(info.graceUsed ? "This week's free miss is used." : "One missed day a week is forgiven.")
+                            .font(.system(size: 13, weight: .semibold, design: .rounded))
+                            .foregroundStyle(Theme.inkSoft)
+                    }
+                    if info.repairable > 0, info.repairUntil != nil {
+                        repair
+                    }
+                    holiday
                 }
-                Spacer()
-                CloseButton(action: close)
+                .padding(18)
             }
-            if info.repairable > 0, info.repairUntil != nil {
-                repair
-            }
-            holiday
+            .scrollBounceBehavior(.basedOnSize)
         }
-        .padding(20)
         .frame(maxWidth: 560)
-        .paper(RoundedRectangle(cornerRadius: 24, style: .continuous))
+        .containerRelativeFrame(.vertical) { height, _ in min(height - 48, 620) }
         .foregroundStyle(Theme.ink)
+    }
+
+    private func days(_ n: Int) -> String {
+        n == 1 ? "1 day" : "\(n) days"
+    }
+
+    /// The flame and the run, as big as Duolingo makes them.
+    private var hero: some View {
+        HStack(spacing: 16) {
+            ZStack {
+                Circle().fill(RadialGradient(colors: [GameHUD.gold.opacity(0.55), .clear], center: .center, startRadius: 4, endRadius: 60))
+                    .frame(width: 120, height: 120)
+                PaintedIcon("streak_paw_print_with_a_small_flame", size: 84)
+                    .grayscale(info.current == 0 ? 1 : 0)
+            }
+            VStack(alignment: .leading, spacing: 2) {
+                Text("\(info.current)")
+                    .font(.system(size: 64, weight: .black, design: .rounded))
+                    .foregroundStyle(LinearGradient(colors: [GameHUD.gold, Theme.accent], startPoint: .top, endPoint: .bottom))
+                    .shadow(color: Theme.accent.opacity(0.3), radius: 0, y: 3)
+                    .contentTransition(.numericText())
+                Text(info.current == 1 ? "day streak" : "day streak").font(Theme.title(20))
+                Text(info.visitedToday ? "\(catName) saw you today. Come back tomorrow to make it \(info.current + 1)." :
+                    "Visit \(catName) today to keep it burning.")
+                    .font(.system(size: 13, weight: .semibold, design: .rounded))
+                    .foregroundStyle(Theme.inkSoft)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+        .accessibilityElement(children: .combine)
+    }
+
+    /// Monday to Sunday: a flame on each day kept, a shield on a forgiven one, today ringed.
+    private var weekStrip: some View {
+        HStack(spacing: 6) {
+            ForEach(Array(info.week.enumerated()), id: \.offset) { index, entry in
+                VStack(spacing: 4) {
+                    Text(["M", "T", "W", "T", "F", "S", "S"][index])
+                        .font(.system(size: 12, weight: .heavy, design: .rounded))
+                        .foregroundStyle(entry.today ? Theme.accent : Theme.inkSoft)
+                    ZStack {
+                        Circle().fill(entry.kept ? AnyShapeStyle(LinearGradient(colors: [GameHUD.gold, Theme.accent], startPoint: .top, endPoint: .bottom)) :
+                            AnyShapeStyle(Theme.ink.opacity(0.08)))
+                        if entry.forgiven {
+                            Image(systemName: "shield.lefthalf.filled").font(.system(size: 14, weight: .bold)).foregroundStyle(.white)
+                        } else if entry.kept {
+                            Image(systemName: "flame.fill").font(.system(size: 15, weight: .bold)).foregroundStyle(.white)
+                        }
+                    }
+                    .frame(width: 36, height: 36)
+                    .overlay(Circle().strokeBorder(entry.today ? Theme.accent : .clear, lineWidth: 2.5).padding(-3))
+                }
+                .frame(maxWidth: .infinity)
+            }
+        }
+        .padding(12)
+        .background(RoundedRectangle(cornerRadius: 16, style: .continuous).fill(Theme.cream))
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("This week: \(info.week.filter(\.kept).count) days kept")
+    }
+
+    /// The next milestone and its Beans, with how far there is to go.
+    private func milestone(_ next: (days: Int, beans: Int)) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack {
+                Text("Next: a \(next.days)-day streak").font(.system(size: 15, weight: .heavy, design: .rounded))
+                Spacer()
+                PaintedIcon("bean_coin", size: 18)
+                Text("+\(next.beans)").font(.system(size: 14, weight: .heavy, design: .rounded))
+            }
+            ProgressView(value: Double(info.current), total: Double(next.days)).tint(Theme.accent)
+            Text("\(days(next.days - info.current)) to go").font(.system(size: 12, weight: .semibold)).foregroundStyle(Theme.inkSoft)
+        }
+        .padding(12)
+        .background(RoundedRectangle(cornerRadius: 16, style: .continuous).fill(Theme.cream))
     }
 
     /// A broken run, mendable: what is left to do today, then Mend it.
@@ -298,5 +382,48 @@ struct StreakCard: View {
             }
         }
         .onAppear { pauseDays = min(7, max(1, info.pauseDaysLeft)) }
+    }
+}
+
+/// The day's streak, celebrated on the first visit of the day as Duolingo does (Josh, 22 Oct: "make the streak a
+/// bigger deal"): the flame swells, the number ticks up from yesterday's, and the week lights today's day.
+struct StreakCelebration: View {
+    let catName: String
+    let done: () -> Void
+    @State private var info = GameSession.shared.streakInfo
+    @State private var shown = 0
+    @State private var flame = 0.4
+
+    var body: some View {
+        ZStack {
+            Color.black.opacity(0.55).ignoresSafeArea().onTapGesture(perform: done)
+            VStack(spacing: 10) {
+                ZStack {
+                    Circle().fill(RadialGradient(colors: [GameHUD.gold.opacity(0.7), .clear], center: .center, startRadius: 6, endRadius: 110))
+                        .frame(width: 220, height: 220)
+                    PaintedIcon("streak_paw_print_with_a_small_flame", size: 140)
+                        .scaleEffect(flame)
+                }
+                Text("\(shown)")
+                    .font(.system(size: 88, weight: .black, design: .rounded))
+                    .foregroundStyle(LinearGradient(colors: [GameHUD.gold, Theme.accent], startPoint: .top, endPoint: .bottom))
+                    .contentTransition(.numericText(value: Double(shown)))
+                    .shadow(color: .black.opacity(0.35), radius: 0, y: 4)
+                Text("day streak!").font(Theme.title(30)).foregroundStyle(.white)
+                Text("\(catName) is so glad you came back.").font(.system(size: 16, weight: .semibold, design: .rounded))
+                    .foregroundStyle(.white.opacity(0.85))
+                ChunkyButton("Keep it up", action: done).frame(maxWidth: 240).padding(.top, 6)
+            }
+            .multilineTextAlignment(.center)
+        }
+        .onAppear {
+            shown = max(0, info.current - 1)
+            Sound.play("ui_streak_milestone", volume: Tuning.Sound.levelUp)
+            withAnimation(.spring(duration: 0.7, bounce: 0.5)) { flame = 1 }
+            Task { @MainActor in
+                try? await Task.sleep(for: .seconds(0.7))
+                withAnimation(.spring(duration: 0.5)) { shown = info.current }
+            }
+        }
     }
 }

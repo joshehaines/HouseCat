@@ -6,15 +6,13 @@ import SwiftUI
 /// The room view's one menu (Josh, 19 Oct: the room was crowded with controls, and the room arrows went): the
 /// home's rooms to go to, then the map, the gift book, the pass, the gift track and the together quest.
 /// Redrawn as a builder game's menu (Josh, 19 Oct: "the menu UI needs a full re-design as well to suit the app
-/// more"): a painted card with a warm band, the home as a dollhouse cut open floor by floor under its roof (each
-/// room its own wallpaper and floor, the closed ones dark with a padlock and what opening them takes, a garden or
-/// balcony beside the house under the sky), and the other places as chunky tiles. Both lists come from the app, so
+/// more"): a painted card with a warm band, the home you live in (its painting, its place on the ladder and its rooms
+/// as chips; the dollhouse it replaced looked crude, Josh 22 Oct), and the other places as chunky tiles. Both lists come from the app, so
 /// a new place is one more item.
 struct RoomMenu: View {
-    /// What opening a closed room takes.
+    /// What opening a closed room takes: the house up the ladder it comes with (docs/LADDER.md).
     struct Lock {
-        let level: Int
-        let beans: Int
+        let house: String
     }
 
     struct Room: Identifiable {
@@ -80,7 +78,7 @@ struct RoomMenu: View {
             .frame(height: 46)
         } content: {
             HStack(alignment: .top, spacing: 14) {
-                Dollhouse(catName: catName, rooms: rooms) { room in
+                HomeCard(catName: catName, rooms: rooms) { room in
                     feedback.tap()
                     choose(room)
                 }
@@ -104,281 +102,108 @@ struct RoomMenu: View {
     }
 }
 
-/// The home cut open like a dollhouse: its storeys top to bottom, each room side by side in a timber frame on a
-/// beam, the roof over the top (a single room up there sits in the gable), the garden or balcony beside its storey,
-/// all on a strip of grass under a pale sky.
-private struct Dollhouse: View {
+/// The home you live in for the menu (Josh, 22 Oct: "the menu section needs to look a lot better, currently the house
+/// looks awful"): the house's own painting in its town, its name and place, how far up the ladder it is, and its
+/// rooms as chips to go to (a closed one says the house it comes with).
+private struct HomeCard: View {
     let catName: String
     let rooms: [RoomMenu.Room]
     let choose: (RoomID) -> Void
 
-    private let tile = CGSize(width: 96, height: 62)
-    private let gap: CGFloat = 4
-    private let overhang: CGFloat = 10
-    private static let timber = Color(red: 0.48, green: 0.29, blue: 0.17)
-
     var body: some View {
-        let storeys = Set(rooms.map(\.storey)).sorted(by: >)
-        let widest = max(1, storeys.map { indoor($0).count }.max() ?? 1)
-        let width = CGFloat(widest) * tile.width + CGFloat(widest - 1) * gap + gap * 2
-        let top = storeys.first ?? 0
-        // A single room on the top floor, nothing beside it, sits in the gable rather than under the roof.
-        let gable = storeys.count > 1 && indoor(top).count == 1 && outdoor(top).isEmpty
-        VStack(alignment: .leading, spacing: 0) {
-            Roof()
-                .frame(width: width + overhang * 2, height: gable ? 94 : 44)
-                .overlay(alignment: .bottom) {
-                    if gable, let room = indoor(top).first {
-                        RoomTile(room: room, size: tile, catName: catName, choose: choose)
-                            .padding([.horizontal, .top], gap)
-                            .background { Self.timber }
-                    }
+        let state = GameSession.shared.state(at: GameSession.shared.now())
+        let rung = state.currentRung
+        VStack(alignment: .leading, spacing: 8) {
+            ZStack(alignment: .bottomLeading) {
+                housePicture(rung)
+                    .frame(width: 260, height: 146)
+                    .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                VStack(alignment: .leading, spacing: 1) {
+                    Text(rung.name).font(Theme.title(17)).foregroundStyle(.white)
+                    Text("\(rung.place.name) · house \(rung.number) of \(HouseLadder.top)")
+                        .font(.system(size: 11, weight: .heavy, design: .rounded))
+                        .foregroundStyle(.white.opacity(0.9))
                 }
-            ForEach(storeys.filter { !(gable && $0 == top) }, id: \.self) { storey in
-                HStack(alignment: .bottom, spacing: 6) {
-                    VStack(spacing: 0) {
-                        HStack(spacing: gap) {
-                            ForEach(indoor(storey)) { RoomTile(room: $0, size: tile, catName: catName, choose: choose) }
-                        }
-                        .padding([.horizontal, .top], gap)
-                        .frame(width: width)
-                        .background { Self.timber }
-                        beam(width, colours: [Color(red: 0.6, green: 0.39, blue: 0.25), Color(red: 0.43, green: 0.25, blue: 0.14)])
-                    }
-                    if !outdoor(storey).isEmpty {
-                        VStack(spacing: 0) {
-                            HStack(spacing: gap) {
-                                ForEach(outdoor(storey)) { RoomTile(room: $0, size: tile, catName: catName, choose: choose) }
-                            }
-                            beam(nil, colours: [Color(red: 0.55, green: 0.6, blue: 0.35), Color(red: 0.37, green: 0.44, blue: 0.22)])
-                        }
-                    }
-                }
-                .padding(.leading, overhang)
+                .shadow(color: .black.opacity(0.7), radius: 3)
+                .padding(8)
             }
-            // The grass the house stands on.
-            LinearGradient(
-                colors: [Color(red: 0.53, green: 0.76, blue: 0.37), Color(red: 0.37, green: 0.6, blue: 0.27)],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .frame(height: 12)
-            .padding(.horizontal, -10)
-        }
-        .padding(.horizontal, 10)
-        .padding(.top, 8)
-        .background(alignment: .top) { sky }
-        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous).strokeBorder(Theme.rim, lineWidth: 1))
-    }
-
-    private func indoor(_ storey: Int) -> [RoomMenu.Room] {
-        rooms.filter { $0.storey == storey && !$0.outdoor }
-    }
-
-    private func outdoor(_ storey: Int) -> [RoomMenu.Room] {
-        rooms.filter { $0.storey == storey && $0.outdoor }
-    }
-
-    private func beam(_ width: CGFloat?, colours: [Color]) -> some View {
-        LinearGradient(colors: colours, startPoint: .top, endPoint: .bottom)
-            .frame(width: width, height: 7)
-    }
-
-    /// A pale sky with a few soft clouds.
-    private var sky: some View {
-        LinearGradient(
-            colors: [
-                Color(red: 0.75, green: 0.88, blue: 0.94),
-                Color(red: 0.89, green: 0.94, blue: 0.95),
-                Color(red: 0.95, green: 0.92, blue: 0.86),
-            ],
-            startPoint: .top,
-            endPoint: .bottom
-        )
-        .overlay(alignment: .topLeading) { cloud.offset(x: 22, y: 12) }
-        .overlay(alignment: .topTrailing) { cloud.scaleEffect(1.15).offset(x: -24, y: 34) }
-        .accessibilityHidden(true)
-    }
-
-    private var cloud: some View {
-        ZStack(alignment: .bottomLeading) {
-            Capsule().frame(width: 46, height: 14)
-            Capsule().frame(width: 22, height: 16).offset(x: 13, y: -7)
-        }
-        .foregroundStyle(.white.opacity(0.85))
-    }
-}
-
-/// A terracotta gable: rows of round tiles, a darker edge and a chimney.
-private struct Roof: View {
-    var body: some View {
-        Canvas { context, size in
-            let w = size.width, h = size.height
-            // The chimney first, behind the slope.
-            let chimney = CGRect(x: w * 0.72, y: h * 0.1, width: 16, height: h * 0.55)
-            context.fill(Path(chimney), with: .color(Color(red: 0.66, green: 0.34, blue: 0.23)))
-            context.fill(
-                Path(roundedRect: CGRect(x: chimney.minX - 3, y: chimney.minY - 3, width: 22, height: 7), cornerRadius: 2),
-                with: .color(Color(red: 0.49, green: 0.24, blue: 0.16))
-            )
-            var gable = Path()
-            gable.move(to: CGPoint(x: 0, y: h))
-            gable.addLine(to: CGPoint(x: w / 2, y: 2))
-            gable.addLine(to: CGPoint(x: w, y: h))
-            gable.closeSubpath()
-            context.fill(gable, with: .linearGradient(
-                Gradient(colors: [Color(red: 0.85, green: 0.45, blue: 0.29), Color(red: 0.72, green: 0.36, blue: 0.22)]),
-                startPoint: CGPoint(x: 0, y: 0),
-                endPoint: CGPoint(x: 0, y: h)
-            ))
-            // The rows of round tiles, clipped to the gable.
-            var tiles = context
-            tiles.clip(to: gable)
-            var rows = Path()
-            for (row, y) in stride(from: CGFloat(12), through: h, by: 11).enumerated() {
-                for x in stride(from: CGFloat(row % 2) * -9, through: w, by: 18) {
-                    rows.move(to: CGPoint(x: x, y: y))
-                    rows.addQuadCurve(to: CGPoint(x: x + 18, y: y), control: CGPoint(x: x + 9, y: y - 8))
+            .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).strokeBorder(Theme.cream, lineWidth: 3))
+            .shadow(color: .black.opacity(0.2), radius: 4, y: 2)
+            // How far up the ladder: a dot a house, lit to here.
+            HStack(spacing: 5) {
+                ForEach(HouseLadder.rungs) { step in
+                    Circle()
+                        .fill(step.number <= rung.number ? Theme.accent : GameHUD.lip.opacity(0.25))
+                        .frame(width: step.number == rung.number ? 12 : 9, height: step.number == rung.number ? 12 : 9)
+                }
+                Spacer(minLength: 0)
+                Text("London").font(.system(size: 10, weight: .heavy, design: .rounded)).foregroundStyle(Theme.inkSoft)
+            }
+            .frame(width: 260)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel("House \(rung.number) of \(HouseLadder.top) on the way to London")
+            // The rooms: open ones to go to, closed ones with their house.
+            LazyVGrid(columns: [GridItem(.fixed(126), spacing: 8), GridItem(.fixed(126), spacing: 8)], alignment: .leading, spacing: 6) {
+                ForEach(rooms) { room in
+                    roomChip(room)
                 }
             }
-            tiles.stroke(rows, with: .color(Color(red: 0.6, green: 0.27, blue: 0.15).opacity(0.85)), lineWidth: 1.8)
-            context.stroke(
-                gable,
-                with: .color(Color(red: 0.49, green: 0.24, blue: 0.16)),
-                style: StrokeStyle(lineWidth: 4, lineJoin: .round)
-            )
+            .frame(width: 260, alignment: .leading)
         }
-        .accessibilityHidden(true)
     }
-}
 
-/// A room as a dollhouse room: its wallpaper on the back wall, its floor going away from you, its name on a plaque;
-/// the room you are in ringed in gold, the cat's marked with its face, a closed one dark with a padlock and what
-/// opening it takes.
-private struct RoomTile: View {
-    let room: RoomMenu.Room
-    let size: CGSize
-    let catName: String
-    let choose: (RoomID) -> Void
-
-    var body: some View {
-        let wallHeight = size.height * 0.6
+    private func roomChip(_ room: RoomMenu.Room) -> some View {
         Button {
-            choose(room.id)
+            if room.lock == nil {
+                choose(room.id)
+            }
         } label: {
-            ZStack(alignment: .top) {
-                picture("rooms/walls/\(room.wall).png")
-                    .frame(width: size.width, height: wallHeight)
-                    .clipped()
-                picture("rooms/floors/\(room.floor).png")
-                    .frame(width: size.width * 1.7, height: size.height * 0.62)
-                    .rotation3DEffect(.degrees(46), axis: (x: 1, y: 0, z: 0), anchor: .top, perspective: 0.85)
-                    .frame(width: size.width, height: size.height - wallHeight, alignment: .top)
-                    .clipped()
-                    .offset(y: wallHeight)
-                // The skirting, and the light from the top left.
-                Rectangle().fill(.white.opacity(0.75)).frame(height: 2.5).offset(y: wallHeight - 2)
-                    .shadow(color: .black.opacity(0.15), radius: 0, y: 1)
-                LinearGradient(
-                    colors: [
-                        Color(red: 1, green: 0.95, blue: 0.8).opacity(0.3),
-                        .clear,
-                        Color(red: 0.16, green: 0.08, blue: 0.04).opacity(0.18),
-                    ],
-                    startPoint: .topLeading,
-                    endPoint: .bottom
-                )
-                if let lock = room.lock {
-                    closed(lock)
-                } else {
-                    plaque
+            HStack(spacing: 4) {
+                Image(systemName: room.lock == nil ? (room.here ? "location.fill" : "door.left.hand.open") : "lock.fill")
+                    .font(.system(size: 10, weight: .heavy))
+                    .foregroundStyle(room.lock == nil ? Theme.accent : Theme.inkSoft)
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(room.title).font(.system(size: 12, weight: .heavy, design: .rounded)).lineLimit(1)
+                    if let lock = room.lock {
+                        Text("with the \(lock.house.lowercased())").font(.system(size: 9, weight: .semibold)).foregroundStyle(Theme.inkSoft)
+                            .lineLimit(1).minimumScaleFactor(0.7)
+                    }
                 }
-            }
-            .frame(width: size.width, height: size.height)
-            .clipped()
-            .overlay {
-                if room.here {
-                    Rectangle().strokeBorder(GameHUD.gold, lineWidth: 3.5)
-                        .shadow(color: GameHUD.gold.opacity(0.8), radius: 4)
-                }
-            }
-            .overlay(alignment: .topTrailing) {
+                Spacer(minLength: 0)
                 if room.catHere {
-                    PaintedIcon("cat_face", size: 21)
-                        .frame(width: 26, height: 26)
-                        .background(Circle().fill(Theme.cream))
-                        .shadow(color: .black.opacity(0.3), radius: 1.5, y: 1)
-                        .padding(4)
+                    Image(systemName: "pawprint.fill").font(.system(size: 10)).foregroundStyle(Theme.accent)
                 }
             }
+            .padding(.horizontal, 7)
+            .padding(.vertical, 5)
+            .frame(width: 126, alignment: .leading)
+            .background(RoundedRectangle(cornerRadius: 9, style: .continuous).fill(room.here ? Theme.cream : Theme.cream.opacity(room.lock == nil ? 0.8 : 0.45)))
+            .overlay(RoundedRectangle(cornerRadius: 9, style: .continuous).strokeBorder(room.here ? Theme.accent : .clear, lineWidth: 2))
         }
         .buttonStyle(PressStyle())
-        .accessibilityLabel(
-            room.title + (room.lock.map { ", closed: level \($0.level), \($0.beans.formatted()) Beans" } ?? "")
-                + (room.here ? ", you're here" : "") + (room.catHere ? ", \(catName) is here" : "")
-        )
+        .disabled(room.lock != nil)
+        .accessibilityLabel(room.lock.map { "\(room.title), closed, comes with the \($0.house)" } ?? room.title)
     }
 
-    private func picture(_ path: String) -> some View {
-        (CatScreens.picture(path) ?? Image(systemName: "square"))
-            .resizable()
-            .interpolation(.high)
-            .scaledToFill()
-            // A closed room's surfaces are greyed under its veil.
-            .saturation(room.lock == nil ? 1 : 0.3)
-    }
-
-    private var plaque: some View {
-        Text(room.title)
-            .font(.system(.caption2, design: .rounded, weight: .heavy))
-            .foregroundStyle(room.here ? Color(red: 0.42, green: 0.26, blue: 0.06) : Theme.ink)
-            .lineLimit(1)
-            .minimumScaleFactor(0.7)
-            .padding(.horizontal, 8)
-            .padding(.vertical, 2)
-            .background(Capsule().fill(room.here
-                    ? AnyShapeStyle(LinearGradient(
-                        colors: [Color(red: 1, green: 0.9, blue: 0.6), Color(red: 0.95, green: 0.75, blue: 0.31)],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    ))
-                    : AnyShapeStyle(Theme.cream.opacity(0.95))))
-            .shadow(color: .black.opacity(0.25), radius: 1.5, y: 1)
-            .padding(.horizontal, 4)
-            .frame(maxHeight: .infinity, alignment: .bottom)
-            .padding(.bottom, 4)
-    }
-
-    /// Dark, with the padlock, its name and what opening it takes: the level and the Beans.
-    private func closed(_ lock: RoomMenu.Lock) -> some View {
-        ZStack(alignment: .top) {
-            Color(red: 0.16, green: 0.11, blue: 0.2).opacity(0.5)
-            VStack(spacing: 0) {
-                PaintedIcon("padlock", size: 22).padding(.top, 3)
-                Text(room.title)
-                    .font(.system(.caption2, design: .rounded, weight: .heavy))
-                    .foregroundStyle(.white)
-                    .shadow(color: .black.opacity(0.6), radius: 1.5, y: 1)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.7)
-                Spacer(minLength: 0)
-                HStack(spacing: 2) {
-                    PaintedIcon("xp_star", size: 12)
-                    Text("\(lock.level)")
-                    PaintedIcon("bean_coin", size: 12).padding(.leading, 3)
-                    Text(lock.beans.formatted())
-                }
-                .font(.system(size: 10, weight: .heavy, design: .rounded).monospacedDigit())
-                .foregroundStyle(.white)
-                .lineLimit(1)
-                .minimumScaleFactor(0.7)
-                .padding(.horizontal, 6)
-                .padding(.vertical, 2)
-                .background(Capsule().fill(.black.opacity(0.55)))
-                .padding(.bottom, 4)
+    /// The house's painting: the first house's run-down one, the others their small built-in previews, the sky
+    /// painted in behind.
+    private func housePicture(_ rung: Rung) -> some View {
+        let path = rung.number == 1
+            ? "world/scenes/\(Tuning.Cutscene.firstHouseScene)_city_autumn"
+            : "world/previews/\(rung.style.rawValue)_\(rung.place.biome.rawValue)"
+        return ZStack {
+            LinearGradient(colors: [Color(red: 0.62, green: 0.78, blue: 0.93), Color(red: 0.95, green: 0.9, blue: 0.82)],
+                           startPoint: .top, endPoint: .bottom)
+            if let picture = CatScreens.picture(path + ".jpg") {
+                picture.resizable().scaledToFill()
+                    .mask {
+                        if let land = CatScreens.picture(path + "_land.png") {
+                            land.resizable().scaledToFill().luminanceToAlpha()
+                        } else {
+                            Rectangle()
+                        }
+                    }
             }
-            .padding(.horizontal, 3)
         }
     }
 }

@@ -277,6 +277,12 @@ extension GameSession {
         var paused: (from: GameDay, until: GameDay)?
         var pauseDaysLeft: Int
         var graceUsed: Bool
+        /// This week Monday to Sunday: whether each day kept the streak (visited, or forgiven), and which is today.
+        var week: [(day: GameDay, kept: Bool, forgiven: Bool, today: Bool)] = []
+        /// Visited today already.
+        var visitedToday = false
+        /// The next milestone and its Beans, if any is left.
+        var nextMilestone: (days: Int, beans: Int)?
     }
 
     var streakInfo: StreakInfo {
@@ -297,7 +303,19 @@ extension GameSession {
             repairUntil: StreakRepair.lastDay(state),
             paused: paused,
             pauseDaysLeft: state.pause.remaining(in: day.quarter),
-            graceUsed: state.streak.graceDays.contains { $0 >= window }
+            graceUsed: state.streak.graceDays.contains { $0 >= window },
+            week: (0 ..< 7).map { offset in
+                let d = day.weekStart.advanced(by: offset)
+                let forgiven = state.streak.graceDays.contains(d)
+                // The run's days: from its first to the last visit, the forgiven ones among them.
+                let kept = state.streak.lastVisitDay.map { last in
+                    state.streak.current > 0 && d <= last && d >= last.advanced(by: -(state.streak.current - 1 + state.streak.graceDays.filter { $0 <= last }.count))
+                } ?? false
+                return (d, kept, forgiven, d == day)
+            },
+            visitedToday: state.streak.lastVisitDay == day,
+            nextMilestone: zip(Tuning.Streak.milestoneDays, Tuning.Streak.milestoneBeans).first { $0.0 > state.streak.current }
+                .map { (days: $0.0, beans: $0.1) }
         )
     }
 

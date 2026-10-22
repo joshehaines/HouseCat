@@ -45,26 +45,14 @@ struct GoalsView: View {
     @Environment(\.controlFeedback) private var feedback
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10 * scale) {
-            HStack(alignment: .firstTextBaseline) {
-                Text("Goals").font(Theme.title(22 * scale)).foregroundStyle(Theme.ink)
-                Text("\(board.achievementsDone) of \(board.achievementsTotal) milestones")
-                    .font(.system(size: 12 * scale, weight: .bold, design: .rounded))
-                    .foregroundStyle(Theme.inkSoft)
-                Spacer()
-                Button {
-                    feedback.tap()
-                    close()
-                } label: {
-                    Image(systemName: "xmark")
-                        .font(.system(size: 13 * scale, weight: .heavy))
-                        .foregroundStyle(Theme.inkSoft)
-                        .frame(width: 30 * scale, height: 30 * scale)
-                        .background(Circle().fill(Theme.ink.opacity(0.07)))
-                }
-                .buttonStyle(PressStyle())
-                .accessibilityLabel("Close")
-            }
+        PaintedPanel(corner: 24 * scale) {
+            PanelHeader(
+                "Goals",
+                subtitle: "\(board.achievementsDone) of \(board.achievementsTotal) milestones",
+                icon: "objectives_clipboard_with_a_tick",
+                close: close
+            )
+        } content: {
             // The page scrolls under its title when it is taller than the screen (a phone on its side).
             ScrollView {
                 VStack(alignment: .leading, spacing: 10 * scale) {
@@ -100,11 +88,10 @@ struct GoalsView: View {
             .scrollIndicators(.hidden)
             .scrollBounceBehavior(.basedOnSize)
             .frame(width: (270 + 14 + 290) * scale)
+            .padding(14 * scale)
         }
-        .frame(width: (270 + 14 + 290) * scale)
-        .padding(16 * scale)
+        .frame(width: (270 + 14 + 290 + 28) * scale)
         .containerRelativeFrame(.vertical) { height, _ in min(height - 64, 560 * scale) }
-        .paper(RoundedRectangle(cornerRadius: 24 * scale, style: .continuous))
     }
 
     /// What the game is about: the cat's trust, the home, the level, each with what is next.
@@ -114,16 +101,20 @@ struct GoalsView: View {
             let next = TrustTier(rawValue: pillars.trust.rawValue + 1).map(ProfileText.trust) ?? ""
             return days == 1 ? "1 more day of care to \(next)" : "\(days) more days of care to \(next)"
         } ?? "As close as a cat gets"
-        let level: String = if let room = pillars.nextRoom {
-            pillars.level >= room.requiredLevel
-                ? "The \(roomTitle(room).lowercased()) can open now"
-                : "The \(roomTitle(room).lowercased()) opens at level \(room.requiredLevel)"
+        // The house ladder (docs/LADDER.md): the home pillar is the house you live in, the level what the next needs.
+        let state = GameSession.shared.state(at: GameSession.shared.now())
+        let level: String = if let next = state.nextRung {
+            pillars.level >= next.level
+                ? "Enough for the \(next.name.lowercased())"
+                : "The \(next.name.lowercased()) needs level \(next.level)"
         } else {
-            "Every room is open"
+            "London, the top of the ladder"
         }
+        let home = "Your home: house \(state.rung) of \(HouseLadder.top)"
+        let homeDetail = "\(state.currentRung.name), \(state.homePlace.name)"
         return HStack(spacing: 8 * scale) {
             pillar("trust_heart_with_a_paw_print", "\(catName)'s trust: \(ProfileText.trust(pillars.trust))", trust)
-            pillar("house", "Your home: \(pillars.roomsOpen) of \(pillars.rooms) rooms", pillars.pieces == 1 ? "1 piece out" : "\(pillars.pieces) pieces out")
+            pillar("house", home, homeDetail)
             pillar("xp_star", "Level \(pillars.level)", level)
         }
     }

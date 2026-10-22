@@ -139,3 +139,63 @@ public struct WaitingMark: View {
             .accessibilityHidden(true)
     }
 }
+
+/// A panel's title on its warm band, as the room menu has it: a painted icon, the title in white, a line under it,
+/// and the round paper close button (Josh, 22 Oct: the popups "look very poor and need some work": every popup now
+/// wears the menu's panel).
+public struct PanelHeader: View {
+    @Environment(\.hudScale) private var scale
+    @Environment(\.controlFeedback) private var feedback
+    private let title: String
+    private let subtitle: String?
+    private let icon: String?
+    private let close: (() -> Void)?
+
+    public init(_ title: String, subtitle: String? = nil, icon: String? = nil, close: (() -> Void)? = nil) {
+        self.title = title
+        self.subtitle = subtitle
+        self.icon = icon
+        self.close = close
+    }
+
+    public var body: some View {
+        HStack(spacing: 8 * scale) {
+            if let icon {
+                PaintedIcon(icon, size: 32 * scale).shadow(color: .black.opacity(0.2), radius: 1.5, y: 1.5)
+            }
+            VStack(alignment: .leading, spacing: 0) {
+                Text(title)
+                    .font(Theme.title(20 * scale))
+                    .foregroundStyle(.white)
+                    .shadow(color: Color(red: 0.47, green: 0.24, blue: 0.04).opacity(0.35), radius: 0, y: 2)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
+                    .accessibilityAddTraits(.isHeader)
+                if let subtitle {
+                    Text(subtitle)
+                        .font(.system(size: 11 * scale, weight: .heavy, design: .rounded))
+                        .foregroundStyle(.white.opacity(0.88))
+                        .lineLimit(1)
+                }
+            }
+            Spacer(minLength: 12)
+            if let close {
+                Button {
+                    feedback.tap()
+                    close()
+                } label: {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 13 * scale, weight: .heavy))
+                        .foregroundStyle(Theme.ink)
+                        .frame(width: 30 * scale, height: 30 * scale)
+                        .paper(Circle())
+                }
+                .buttonStyle(PressStyle())
+                .accessibilityLabel("Close")
+            }
+        }
+        .padding(.leading, 12 * scale)
+        .padding(.trailing, 9 * scale)
+        .frame(minHeight: 46 * scale)
+    }
+}

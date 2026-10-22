@@ -370,6 +370,9 @@ struct RoomScreen: View {
     /// The profile's Reminders button: the settings open once the profile has gone.
     @State private var settingsNext = false
     @State private var showBook = false
+    /// The day's streak being cheered (`StreakCelebration`), and the day it last was.
+    @State private var celebratingStreak = false
+    @AppStorage("streakCelebratedDay") private var streakCelebrated = ""
     /// The house ladder: where you live and the next house up (docs/LADDER.md).
     @State private var showHomes = false
     /// The profile's Next home: the homes open once the profile has gone.
@@ -450,6 +453,25 @@ struct RoomScreen: View {
 
     var body: some View {
         screens(progressCards(cards(sheets(hud))))
+            .overlay {
+                if celebratingStreak {
+                    StreakCelebration(catName: visit.catName ?? "Your cat") {
+                        withAnimation(.easeOut(duration: 0.25)) { celebratingStreak = false }
+                    }
+                    .transition(.opacity)
+                }
+            }
+            // The day's streak, cheered on the first visit of the day (not the very first day: the tour has it).
+            .task(id: visit.ready) {
+                guard visit.ready, visit.scene is RoomScene else { return }
+                try? await Task.sleep(for: .seconds(2))
+                let info = GameSession.shared.streakInfo
+                let today = GameSession.shared.state(at: GameSession.shared.now()).clock.day(of: GameSession.shared.now())
+                let key = "\(today.index)"
+                guard info.visitedToday, info.current >= 2, streakCelebrated != key, !tour.isRunning else { return }
+                streakCelebrated = key
+                withAnimation(.easeOut(duration: 0.3)) { celebratingStreak = true }
+            }
     }
 
     /// The room and its controls.
@@ -1261,7 +1283,7 @@ struct RoomScreen: View {
                 storey: room.storey,
                 title: Visit.title(of: room.id, upstairs: room.storey > 0),
                 lock: room.lockLabel.map { _ in
-                    RoomMenu.Lock(level: room.id.requiredLevel, beans: RoomRules.cost(of: room.id, clubActive: false))
+                    RoomMenu.Lock(house: HouseLadder.rung(HouseLadder.rung(opening: room.id)).name)
                 },
                 wall: room.model.wall,
                 floor: room.model.floor,
@@ -1524,6 +1546,7 @@ struct RoomScreen: View {
                 // The world map over the room, as the menu's Map opens it.
                 case "goals": showGoals = true
                 case "homes": showHomes = true
+                case "book": showBook = true
                 case "profile": showProfile = true
                 case "editlook": editing = CatScreens.builder(mode: .edit)
                 // HOUSECAT_TRY=<outfit id> opens the catalogue on that outfit.

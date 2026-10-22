@@ -561,65 +561,131 @@ public struct GiftBookView: View {
     }
 
     public var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                PaintedIcon("collection_book", size: 40)
-                Text("The book").font(Theme.title(34))
-                Text("\(entries.filter { $0.count > 0 }.count) of \(entries.count) found").foregroundStyle(Theme.inkSoft)
-                Spacer()
-                CloseButton(action: close)
-            }
-            if let entry = entries.first(where: { $0.id == chosen }), entry.count > 0 {
-                HStack {
-                    Text(entry.name).font(.headline)
-                    Text(entry.description).font(.subheadline).foregroundStyle(Theme.inkSoft)
-                }
-            }
+        // Josh, 22 Oct ("improve the book UI and progress motivation there, maybe explain what it is"): what the book
+        // is, how far through it you are by rarity, then the presents, the ones not found yet as silhouettes.
+        let found = entries.filter { $0.count > 0 }.count
+        VStack(spacing: 0) {
+            PanelHeader("The book", subtitle: "\(found) of \(entries.count) presents found", icon: "collection_book", close: close)
+                .background(PanelBand())
             ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 84), spacing: 10)], spacing: 10) {
-                    ForEach(entries) { entry in
-                        Button {
-                            chosen = entry.id
-                        } label: {
-                            VStack(spacing: 2) {
-                                Group {
-                                    if let image = entry.image {
-                                        Image(decorative: image, scale: 1).resizable().scaledToFit()
-                                    } else {
-                                        Image(systemName: "gift").resizable().scaledToFit().padding(14)
-                                    }
-                                }
-                                .frame(width: 64, height: 64)
-                                .saturation(entry.count > 0 ? 1 : 0)
-                                .brightness(entry.count > 0 ? 0 : -0.6)
-                                .opacity(entry.count > 0 ? 1 : 0.35)
-                                Text(entry.count > 0 ? entry.name : "?").font(.caption2).lineLimit(1)
-                                if entry.count > 1 {
-                                    Text("×\(entry.count)").font(.caption2.weight(.bold)).foregroundStyle(Theme.inkSoft)
-                                }
-                            }
-                            .frame(width: 84, height: 100)
-                            .background(
-                                rarityColour(entry.rarity).opacity(entry.count > 0 ? 0.18 : 0.06),
-                                in: RoundedRectangle(cornerRadius: 12)
-                            )
+                VStack(alignment: .leading, spacing: 14) {
+                    explainer(found: found)
+                    rarityProgress
+                    if let entry = entries.first(where: { $0.id == chosen }) {
+                        detail(entry)
+                    }
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 92), spacing: 10)], spacing: 10) {
+                        ForEach(entries) { entry in
+                            tile(entry)
                         }
-                        .buttonStyle(.plain)
                     }
                 }
+                .padding(18)
             }
         }
-        .padding(24)
         .foregroundStyle(Theme.ink)
-        .background(Theme.paper.ignoresSafeArea())
+        .background(PanelPaper().ignoresSafeArea())
+    }
+
+    private func explainer(found: Int) -> some View {
+        HStack(alignment: .top, spacing: 12) {
+            PaintedIcon("collection_book", size: 52)
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Every present your cat brings you").font(Theme.title(18))
+                Text("Each day your cat leaves you a present somewhere in the home. Every new one is kept here. The rarer ones turn up when your cat trusts you more, so the longer you care, the more you find.")
+                    .font(.system(size: 13, weight: .medium))
+                    .foregroundStyle(Theme.inkSoft)
+                    .fixedSize(horizontal: false, vertical: true)
+                ProgressView(value: Double(found), total: Double(max(1, entries.count)))
+                    .tint(Theme.accent)
+                    .padding(.top, 4)
+                Text(found == entries.count ? "The whole book. Every present found." : "\(entries.count - found) still to find")
+                    .font(.system(size: 12, weight: .heavy, design: .rounded))
+                    .foregroundStyle(Theme.accent)
+            }
+        }
+        .padding(14)
+        .background(RoundedRectangle(cornerRadius: 16, style: .continuous).fill(Theme.cream))
+    }
+
+    /// How many of each rarity are found.
+    private var rarityProgress: some View {
+        HStack(spacing: 8) {
+            ForEach(GiftRarity.allCases, id: \.self) { rarity in
+                let all = entries.filter { $0.rarity == rarity }
+                let got = all.filter { $0.count > 0 }.count
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(rarity.rawValue.capitalized).font(.system(size: 12, weight: .heavy, design: .rounded))
+                        .foregroundStyle(rarityColour(rarity))
+                    Text("\(got) of \(all.count)").font(.system(size: 14, weight: .black, design: .rounded))
+                    ProgressView(value: Double(got), total: Double(max(1, all.count))).tint(rarityColour(rarity))
+                }
+                .padding(10)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(RoundedRectangle(cornerRadius: 12, style: .continuous).fill(rarityColour(rarity).opacity(0.1)))
+            }
+        }
+    }
+
+    private func detail(_ entry: Entry) -> some View {
+        HStack(spacing: 12) {
+            picture(entry).frame(width: 56, height: 56)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(entry.count > 0 ? entry.name : "Not found yet").font(.headline)
+                Text(entry.count > 0 ? entry.description : "A \(entry.rarity.rawValue) present. Keep caring and it will turn up.")
+                    .font(.subheadline).foregroundStyle(Theme.inkSoft)
+            }
+            Spacer(minLength: 0)
+            if entry.count > 1 {
+                Text("×\(entry.count)").font(.system(size: 15, weight: .heavy, design: .rounded))
+            }
+        }
+        .padding(12)
+        .background(RoundedRectangle(cornerRadius: 14, style: .continuous).fill(Theme.cream))
+    }
+
+    private func tile(_ entry: Entry) -> some View {
+        Button {
+            chosen = entry.id
+        } label: {
+            VStack(spacing: 3) {
+                picture(entry).frame(width: 64, height: 64)
+                Text(entry.count > 0 ? entry.name : "?").font(.caption2.weight(.semibold)).lineLimit(1)
+                if entry.count > 1 {
+                    Text("×\(entry.count)").font(.caption2.weight(.bold)).foregroundStyle(Theme.inkSoft)
+                }
+            }
+            .frame(width: 92, height: 106)
+            .background(rarityColour(entry.rarity).opacity(entry.count > 0 ? 0.18 : 0.06), in: RoundedRectangle(cornerRadius: 14))
+            .overlay(RoundedRectangle(cornerRadius: 14).strokeBorder(
+                entry.id == chosen ? Theme.accent : rarityColour(entry.rarity).opacity(entry.count > 0 ? 0.5 : 0.15),
+                lineWidth: entry.id == chosen ? 3 : 1.5
+            ))
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(entry.count > 0 ? "\(entry.name), \(entry.rarity.rawValue)" : "Not found yet, \(entry.rarity.rawValue)")
+    }
+
+    /// The present, or its dark silhouette while it is not found.
+    private func picture(_ entry: Entry) -> some View {
+        Group {
+            if let image = entry.image {
+                Image(decorative: image, scale: 1).resizable().scaledToFit()
+            } else {
+                Image(systemName: "gift").resizable().scaledToFit().padding(14)
+            }
+        }
+        .saturation(entry.count > 0 ? 1 : 0)
+        .brightness(entry.count > 0 ? 0 : -0.6)
+        .opacity(entry.count > 0 ? 1 : 0.35)
     }
 
     private func rarityColour(_ rarity: GiftRarity) -> Color {
         switch rarity {
-        case .common: .gray
-        case .uncommon: .green
-        case .rare: .blue
-        case .legendary: .orange
+        case .common: Color(red: 0.5, green: 0.45, blue: 0.42)
+        case .uncommon: Color(red: 0.3, green: 0.6, blue: 0.35)
+        case .rare: Color(red: 0.25, green: 0.45, blue: 0.8)
+        case .legendary: Color(red: 0.88, green: 0.5, blue: 0.1)
         }
     }
 }

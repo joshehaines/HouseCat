@@ -105,7 +105,7 @@ public final class CatArt: @unchecked Sendable {
     /// the film's tail beside a bobtail).
     public func filmFrame(_ path: String, look: CatLook, cutting parts: [String] = [], garment: CGImage? = nil) -> CGImage? {
         guard var output = render(CatBuilder.Sprite(path: path, takesWhite: true), look: look) else { return nil }
-        if let garment, let layer = filmGarment(path, garment: garment, size: (output.width, output.height)) {
+        if let garment, let layer = filmGarment(path, garment: garment, size: (output.width, output.height), within: output.alpha) {
             // The garment over the fur (straight alpha, as the frame's planes are).
             for index in output.alpha.indices where layer.alpha[index] > 0 {
                 let ga = Float(layer.alpha[index]) / 255, oa = Float(output.alpha[index]) / 255
@@ -169,13 +169,18 @@ public final class CatArt: @unchecked Sendable {
 
     /// A body garment's picture laid on a film frame where the frame's map of the torso puts it (masks/uv: red and
     /// green where each pixel is in the torso's own picture, blue where a garment may be drawn), as the puppet carries
-    /// the same picture on its torso, `Tuning.Outfits.torsoPad` wider than the torso each way; straight-alpha planes
+    /// the same picture on its torso, `Tuning.Outfits.torsoPad` wider than the torso each way, and cut to the fur's
+    /// own outline (`within`, the frame's alpha plane at `size`: the map's reach round the torso runs past the
+    /// silhouette, so a garment stood off a cat seen small, far down the front film; 22 Oct); straight-alpha planes
     /// at `size`, or nil where the frame has no map. The picture is sampled between its pixels.
-    func filmGarment(_ path: String, garment: CGImage, size: (Int, Int)) -> (r: [UInt8], g: [UInt8], b: [UInt8], alpha: [UInt8])? {
+    func filmGarment(
+        _ path: String, garment: CGImage, size: (Int, Int), within fur: [UInt8]? = nil
+    ) -> (r: [UInt8], g: [UInt8], b: [UInt8], alpha: [UInt8])? {
         guard let entry = entries[path], entry.masks.contains("uv"),
               let map = Raster.read(root.appendingPathComponent("masks/uv/\(path)")), map.planes.count >= 3,
               let picture = Raster(garment), picture.planes.count == 4, picture.width > 1, picture.height > 1 else { return nil }
         let (w, h) = size
+        let fur = fur?.count == w * h ? fur : nil
         let planes = map.planes.prefix(3).map { plane in
             map.width == w && map.height == h ? plane : Raster.scaled(plane, from: (map.width, map.height), to: (w, h))
         }
@@ -199,7 +204,10 @@ public final class CatArt: @unchecked Sendable {
         for y in 0 ..< h {
             for x in 0 ..< w {
                 let index = y * w + x
-                let allowed = Float(planes[2][index]) / 255
+                var allowed = Float(planes[2][index]) / 255
+                if let fur {
+                    allowed *= Float(fur[index]) / 255
+                }
                 guard allowed > 0.004 else { continue }
                 let u = Float(planes[0][index]) / 255 * span + low
                 let v = Float(planes[1][index]) / 255 * span + low
@@ -329,7 +337,7 @@ public final class CatArt: @unchecked Sendable {
         if let cached = lock.withLock({ faces[key] }) {
             return cached
         }
-        guard let entry = entries[path], let alpha = Raster.read(root.appendingPathComponent("alpha/\(path)")) else { return nil }
+        guard let entry = entries[path], let alpha = alphaRaster(path) else { return nil }
         let size = (alpha.width, alpha.height)
         var features: [[UInt8]] = []
         if entry.masks.contains("features"), let raster = Raster.read(root.appendingPathComponent("masks/features/\(path)")),
@@ -388,8 +396,13 @@ public final class CatArt: @unchecked Sendable {
 
     // MARK: Loading
 
-    /// The white painting: its colour (JPEG) and alpha (PNG).
+    /// The white painting: its colour (JPEG) and alpha (PNG), or both in one WebP with alpha (the films' frames,
+    /// packed by tools/app-assets/install_films.py; not HEIC, whose decoding deadlocked the simulator's HEVC decoder
+    /// against the main thread's).
     func painting(_ path: String) -> CoatRecipe.Planes? {
+        if let packed = packedPainting(path) {
+            return packed
+        }
         guard let colour = Raster.read(root.appendingPathComponent("base/\(path).jpg")),
               let alpha = Raster.read(root.appendingPathComponent("alpha/\(path)")),
               colour.width == alpha.width, colour.height == alpha.height, colour.planes.count >= 3 else { return nil }
@@ -401,6 +414,34 @@ public final class CatArt: @unchecked Sendable {
             b: Raster.floats(colour.planes[2]),
             alpha: alpha.planes[0]
         )
+    }
+
+    /// A painting kept as one WebP with alpha (straight alpha as ImageIO decodes it; made straight if not).
+    private func packedPainting(_ path: String) -> CoatRecipe.Planes? {
+        let url = root.appendingPathComponent("base/\(path).webp")
+        guard FileManager.default.fileExists(atPath: url.path), let source = CGImageSourceCreateWithURL(url as CFURL, nil),
+              let image = CGImageSourceCreateImageAtIndex(source, 0, nil), let raster = Raster(image), raster.planes.count == 4
+        else { return nil }
+        var r = Raster.floats(raster.planes[0]), g = Raster.floats(raster.planes[1]), b = Raster.floats(raster.planes[2])
+        let alpha = raster.planes[3]
+        if [.premultipliedFirst, .premultipliedLast].contains(image.alphaInfo) {
+            for i in alpha.indices where alpha[i] > 0 && alpha[i] < 255 {
+                let k = 255 / Float(alpha[i])
+                r[i] = min(255, r[i] * k)
+                g[i] = min(255, g[i] * k)
+                b[i] = min(255, b[i] * k)
+            }
+        }
+        return CoatRecipe.Planes(width: raster.width, height: raster.height, r: r, g: g, b: b, alpha: alpha)
+    }
+
+    /// A sprite's alpha: its PNG, or the alpha of its packed WebP.
+    public func alphaRaster(_ path: String) -> Raster? {
+        if let own = Raster.read(root.appendingPathComponent("alpha/\(path)")) {
+            return own
+        }
+        guard let packed = Raster.read(root.appendingPathComponent("base/\(path).webp")), packed.planes.count == 4 else { return nil }
+        return Raster(width: packed.width, height: packed.height, planes: [packed.planes[3]])
     }
 
     func masks(_ path: String, entry: Entry, pattern: String?, white: String?, size: (Int, Int)) -> CoatRecipe.Masks {

@@ -206,11 +206,65 @@ func everyBodyWalksAndRunsAsAFilm(preset: String) throws {
     let director = CatDirector(cat: cat, grid: IsoGrid())
     let grid = IsoGrid()
     director.place(at: grid.floor(5, 5))
-    #expect(director.heading(to: grid.floor(8, 8), gait: .walk).view == .tqback)
-    #expect(director.heading(to: grid.floor(8, 8), gait: .run).view == .side)
-    #expect(director.heading(to: grid.floor(2, 2), gait: .walk).view == .tqfront)
+    // (The floor's origin is the back corner: a smaller u and v is further from you.)
+    #expect(director.heading(to: grid.floor(2, 2), gait: .walk).view == .tqback)
+    #expect(director.heading(to: grid.floor(2, 2), gait: .run).view == .side)
+    #expect(director.heading(to: grid.floor(8, 8), gait: .walk).view == .front)
+    #expect(director.heading(to: grid.floor(8, 6), gait: .walk).view == .tqfront)
     // Swapped ears the film from behind cannot follow: the side view.
     let folded = CatNode(art: art, rig: rig, catArt: catArt, look: catArt.builder.normalized(CatLook(body: "short_slim", ears: "folded")), height: 150)
     folded.loadFilmsNow()
     #expect(!folded.filmReady(.tqback, .walk))
+}
+
+/// Sitting down mid-stride plays the sit-down film once the stride has finished on its standing picture (22 Oct: the
+/// stride's ending hid the film and the painting popped in over the sit-down film), and a cat that walked away, seen
+/// from behind on the film, sits down side-on at its own size (the painting was drawn at its master size, five times
+/// the cat, there being no rig set for the view seen from behind).
+@MainActor
+@Test func sittingDownMidStrideAndFromBehindAreFilms() throws {
+    let art = try ArtLibrary(root: repo.appendingPathComponent("App/Art"))
+    let catArt = try CatArt(art: art)
+    let rig = try art.data("cat/rig.json", as: PuppetRig.self)
+    let look = catArt.builder.normalized(CatLook(body: "short_slim"))
+    let height: CGFloat = 150
+    let cat = CatNode(art: art, rig: rig, catArt: catArt, look: look, height: height)
+    let scene = SKScene(size: CGSize(width: 800, height: 600))
+    scene.addChild(cat)
+    cat.loadFilmsNow()
+    cat.show(.side, facingRight: false)
+    cat.walk()
+    for _ in 0 ..< 8 {
+        cat.step(1.0 / 30)
+    }
+    #expect(cat.isFilming, "walking on the film")
+    let sits = cat.settle(into: .sitSide)
+    #expect(sits >= Tuning.Puppet.filmSitSeconds, "the stride finishes, then the sit-down film plays")
+    for _ in 0 ..< Int(sits * 30) - 2 {
+        cat.step(1.0 / 30)
+        #expect(cat.drawingsOnShow == 1)
+        #expect(cat.isFilming, "the film all the way to the painting")
+    }
+    for _ in 0 ..< 6 {
+        cat.step(1.0 / 30)
+    }
+    #expect(cat.pose == .sitSide)
+    #expect(!cat.isFilming, "sat: the painting")
+    #expect(abs(cat.bodyFrame.height - height) < height * 0.6, "the painting about the cat's height")
+    // Walking away, then sitting down.
+    cat.rise(to: .tqback, facingRight: true, duration: 0)
+    cat.walk()
+    for _ in 0 ..< 8 {
+        cat.step(1.0 / 30)
+    }
+    #expect(cat.isFilming, "walking away on the film")
+    let sitsAgain = cat.settle(into: .sitSide)
+    #expect(sitsAgain >= Tuning.Puppet.filmSitSeconds, "sits down side-on on the sit-down film")
+    for _ in 0 ..< Int(sitsAgain * 30) + 6 {
+        cat.step(1.0 / 30)
+        #expect(cat.drawingsOnShow == 1)
+    }
+    #expect(cat.pose == .sitSide)
+    #expect(cat.view == .side, "sat side-on")
+    #expect(abs(cat.bodyFrame.height - height) < height * 0.6, "the painting at the cat's size, not its master's")
 }

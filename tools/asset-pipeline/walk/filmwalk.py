@@ -442,7 +442,8 @@ def main():
     if clip is None:
         # A stride is looked for from the first `SETTLE + 20` pictures, so no more are tracked than its longest end needs.
         low, high = (round(s * 24) for s in PERIOD[gait])
-        settle = SETTLE_BY_VIEW.get(view, SETTLE)
+        # (A film with few pictures, a cat that hardly moves between frames, keeps a window to search in.)
+        settle = max(SETTLE, min(SETTLE_BY_VIEW.get(view, SETTLE), len(shown) - 30))
         last = shown[min(len(shown) - 1, settle + 20)] + high
         small = [picture for picture, t in zip(small, shown) if t <= last]
     count = len(small)

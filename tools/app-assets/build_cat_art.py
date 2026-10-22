@@ -247,7 +247,10 @@ def main(features_only=None, only=None):
         json.dump(builder_json(), f, indent=1)
         f.write('\n')
     if os.path.isdir(FILMS):
-        shutil.copytree(FILMS, OUT, dirs_exist_ok=True)
+        # The films' frames, packed for the app (HEIC with alpha, the smooth masks at a quarter): install_films.py.
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import install_films
+        install_films.main()
     total = sum(os.path.getsize(os.path.join(dp, n)) for dp, _, ns in os.walk(OUT) for n in ns)
     print(f'{len(index)} sprites into App/Art/cat/custom ({total / 1e6:.1f} MB)')
 

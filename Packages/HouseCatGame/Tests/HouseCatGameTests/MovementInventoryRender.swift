@@ -78,6 +78,7 @@ private let repo = URL(fileURLWithPath: #filePath)
         Tile(name: "walk coming at you", how: was("PUPPET", "film"), look: midnight, setUp: walking(.front, .walk, speed: CGFloat(p.walkSpeed))),
         Tile(name: "run coming at you", how: was("PUPPET", "film"), look: midnight, setUp: walking(.front, .run, speed: CGFloat(p.runSpeed))),
         Tile(name: "walk away", how: "film (side view)", look: midnight, setUp: walking(.side, .walk, right: true, speed: CGFloat(p.walkSpeed))),
+        Tile(name: "walk away from behind", how: was("no view from behind", "film"), look: midnight, setUp: walking(.tqback, .walk, right: true, speed: CGFloat(p.walkSpeed))),
         Tile(name: "turning round", how: was("film, puppet in the turn", "film, held picture in the turn"), look: midnight, setUp: { cat, director, grid in
             director.place(at: grid.floor(5, 5))
             cat.rise(to: .side, facingRight: false, duration: 0)
@@ -136,7 +137,7 @@ private let repo = URL(fileURLWithPath: #filePath)
             cat.show(.tqfront, facingRight: false)
             cat.settle(into: .sitFront, duration: 0)
         }),
-        Tile(name: "game: laser pounce", how: "film, PUPPET in the air", look: midnight, setUp: walking(.side, .run, right: true, speed: CGFloat(p.runSpeed)), drive: { cat, t in
+        Tile(name: "game: laser pounce", how: was("film, PUPPET in the air", "film, held picture in the air"), look: midnight, setUp: walking(.side, .run, right: true, speed: CGFloat(p.runSpeed)), drive: { cat, t in
             // As MiniGameScene: a crouch, a leap with the standing puppet leaning, a landing.
             if t > 1.0, t < 1.0 + 1.0 / 30 { cat.stopCycle(); cat.squash(0.12) }
             if t >= 1.25, t < 1.85 {
@@ -156,10 +157,10 @@ private let repo = URL(fileURLWithPath: #filePath)
             let peek = (t.truncatingRemainder(dividingBy: 1.4)) < 0.7
             cat.position.y = 110 + (peek ? 40 : 0)
         }),
-        Tile(name: "Maine Coon three-quarters stand", how: "PUPPET (no ears?)", look: mainecoon, setUp: { cat, _, _ in
+        Tile(name: "Maine Coon three-quarters stand", how: was("PUPPET (no ears?)", "film standing picture (puppet until tinted)"), look: mainecoon, setUp: { cat, _, _ in
             cat.show(.tqfront, facingRight: false)
         }),
-        Tile(name: "short chunky side stand", how: "PUPPET (rabbit ears?)", look: chunky, setUp: { cat, _, _ in
+        Tile(name: "short chunky side stand", how: was("PUPPET (rabbit ears?)", "film standing picture (puppet until tinted, ears scaled)"), look: chunky, setUp: { cat, _, _ in
             cat.show(.side, facingRight: false)
         }),
     ]
@@ -216,7 +217,7 @@ private let repo = URL(fileURLWithPath: #filePath)
         let name = String(format: "%02d_logo_run_in", tiles.count)
         let tileOut = out.appendingPathComponent(name)
         try FileManager.default.createDirectory(at: tileOut, withIntermediateDirectories: true)
-        index.append(["folder": name, "name": "logo run-in", "how": "PUPPET (plain set)"])
+        index.append(["folder": name, "name": "logo run-in", "how": was("PUPPET (plain set)", "films (Midnight, tinted black)")])
         let logo = Tuning.Logo.self
         let scene = LogoScene(size: CGSize(width: 1, height: 1), art: art, rig: rig, ink: .light, act: .intro)
         let box = CGSize(width: 480, height: 480 * logo.boxSize[1] / logo.boxSize[0])

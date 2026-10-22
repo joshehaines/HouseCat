@@ -479,8 +479,8 @@ struct OutfitMatrixTests {
                     for gait in ["walk", "run", "scratch", "sit"] {
                         guard let film = catArt.film(body: body.id, view: view.rawValue, gait: gait), catArt.filmTakesGarments(film) else { continue }
                         for (k, frameName) in film.frames.enumerated() where k % 3 == 0 {
-                            guard let alpha = Raster.read(catArt.root.appendingPathComponent("alpha/\(frameName)")),
-                                  let layer = catArt.filmGarment(frameName, garment: picture, size: (alpha.width, alpha.height)) else { continue }
+                            guard let alpha = catArt.alphaRaster(frameName),
+                                  let layer = catArt.filmGarment(frameName, garment: picture, size: (alpha.width, alpha.height), within: alpha.planes[0]) else { continue }
                             let cat = Self.outline(alpha, widen: 0.012)
                             let drawn = Self.outline(Raster(width: alpha.width, height: alpha.height, planes: [layer.alpha]), widen: 0)
                             var cells = 0, off = 0, covered = 0
@@ -515,7 +515,7 @@ struct OutfitMatrixTests {
         var found: [String] = []
         for f in fits {
             let torso = f.name.hasSuffix("torso"), film = f.name.contains(" film ")
-            // On a film frame the garment is cut to the map's reach round the torso, so it is never far off the cat.
+            // On a film frame the garment is cut to the fur's outline, so it is never far off the cat.
             let mostOff = torso ? 0.08 : film ? 0.06 : f.variant ? 0.1 : 0.12
             if f.off > mostOff {
                 found.append("\(f.name): \(Int(f.off * 100))% off the cat")

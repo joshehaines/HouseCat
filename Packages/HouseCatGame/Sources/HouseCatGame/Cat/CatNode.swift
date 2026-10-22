@@ -139,6 +139,9 @@ public final class CatNode: SKNode {
         var loop: (Int, Int)?
         var loopSeconds: TimeInterval = 1
         var scratch = false
+        /// A stride playing on to its standing picture: with another clip queued behind it, it needs no ending of
+        /// its own.
+        var finishing = false
         var then: (@MainActor () -> Void)?
 
         var remaining: TimeInterval {
@@ -593,7 +596,9 @@ public final class CatNode: SKNode {
 
     /// The common scale: the painted standing reference is `height` tall.
     private func wholeScale(_ view: View) -> CGFloat {
-        guard let spec = rig.sets[body]?[view.rawValue], spec.whole.count == 2 else { return 1 }
+        // A film-only view (seen from behind) has no rig set: the side view's scale stands in (22 Oct: a painting
+        // was drawn at its master size, five times the cat, after a walk away).
+        guard let spec = rig.sets[body]?[view.rawValue] ?? rig.sets[body]?[View.side.rawValue], spec.whole.count == 2 else { return 1 }
         return height / CGFloat(spec.whole[1])
     }
 
@@ -1053,6 +1058,11 @@ public final class CatNode: SKNode {
         filmSettling = false
         let filming = filmOnShow != nil
         stopCycle()
+        if rig.sets[body]?[view.rawValue] == nil {
+            // Seen from behind (a film-only view) there is no sit-down film and no painting is scaled for it: it
+            // sits down side-on, from the side view's standing picture (22 Oct).
+            show(.side, facingRight: facingRight)
+        }
         if crossFade, let was, was != pose, duration > 0, let old = poseNode.copy() as? SKSpriteNode {
             old.removeAllActions()
             old.zPosition = poseNode.zPosition + 0.01
@@ -1139,7 +1149,9 @@ public final class CatNode: SKNode {
     /// Plays a clip after the one on the go (a stride finishing), or now; returns how long until it is done.
     private func queue(_ next: Clip) -> TimeInterval {
         if var playing = clip, !playing.scratch {
-            let after = playing.then
+            // A stride finishing needs no ending of its own: its standing picture would hide the film and undo the
+            // settle, and the painting popped in over the sit-down film (22 Oct). Any other clip's ending runs first.
+            let after = playing.finishing ? nil : playing.then
             playing.then = { [weak self] in
                 after?()
                 self?.clip = next
@@ -1215,9 +1227,11 @@ public final class CatNode: SKNode {
             return
         }
         let seconds = min(Tuning.Puppet.filmFinishSeconds, Double(steps) / Double(count) * max(0.1, film.seconds))
-        clip = Clip(key: key, film: film, frames: frames, from: filmFrame, to: filmFrame + steps, seconds: seconds, then: { [weak self] in
+        var finish = Clip(key: key, film: film, frames: frames, from: filmFrame, to: filmFrame + steps, seconds: seconds, then: { [weak self] in
             self?.standFilm()
         })
+        finish.finishing = true
+        clip = finish
     }
 
     /// A jump onto furniture (up) or down off it as the body's jump film (21 Oct), played over the jump's whole time

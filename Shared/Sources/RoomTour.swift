@@ -81,8 +81,12 @@ final class RoomTour {
         }
     }
 
+    /// The tour was skipped rather than played through (the homes then wait for the menu).
+    private(set) var skipped = false
+
     func skip() {
         Analytics.track(.tourSkipped)
+        skipped = true
         finish()
     }
 

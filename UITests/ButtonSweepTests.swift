@@ -65,6 +65,10 @@ final class ButtonSweepTests: XCTestCase {
         XCTAssertTrue(thanks.shows(within: 5), "the tour's welcome Beans")
         snap("tour done")
         thanks.tapInFront()
+        // The tutorial ends on the homes, the houseboat for sale (docs/LADDER.md): closed here to try the room.
+        XCTAssertTrue(app.buttons["buyNextHouse"].shows(within: 10), "the homes after the tour")
+        snap("homes after the tour")
+        app.buttons["Close"].firstMatch.tapInFront()
         sleep(2)
         dismissCards()
         snap("after the tour")

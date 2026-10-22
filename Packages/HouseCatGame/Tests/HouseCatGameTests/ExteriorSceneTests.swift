@@ -109,8 +109,10 @@ func theViewIsFramedOnTheHouse(size: CGSize) throws {
         .deletingLastPathComponent().deletingLastPathComponent()
     let intro = try JSONDecoder().decode(IntroFile.self, from: Data(contentsOf: repo.appendingPathComponent("Content/intro.json")))
     let introScenes = Set(intro.stops.compactMap { $0.scene.split(separator: "/").last.map(String.init) })
-    #expect(Set(index.houses.keys) == homes.union(introScenes), "a box for every home's painting and every intro scene")
-    for name in introScenes {
+    // The ladder's first house, painted run down for itself (docs/LADDER.md).
+    let firstHouse: Set = ["\(Tuning.Cutscene.firstHouseScene)_city_autumn"]
+    #expect(Set(index.houses.keys) == homes.union(introScenes).union(firstHouse), "a box for every home's painting and every intro scene")
+    for name in introScenes.union(firstHouse) {
         #expect(index.doors[name] != nil, "\(name): door")
     }
     for (name, box) in index.houses {

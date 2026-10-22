@@ -876,7 +876,7 @@ struct RoomScreen: View {
                     // The tutorial ends by moving out of the first house (Josh, 22 Oct: "the tutorial should get you
                     // out of the first house"): the tour's welcome Beans buy the houseboat. The reminders wait.
                     let state = GameSession.shared.state(at: GameSession.shared.now())
-                    if state.rung == 1, HouseLadder.block(above: 1, level: state.level, tasksDone: state.houseTasksDone, beans: state.beans) == nil {
+                    if !tour.skipped, state.rung == 1, HouseLadder.block(above: 1, level: state.level, tasksDone: state.houseTasksDone, beans: state.beans) == nil {
                         showHomes = true
                     } else if !Reminders.asked {
                         visit.askReminders = true

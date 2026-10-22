@@ -24,7 +24,6 @@ final class FirstRunTests: XCTestCase {
         }
         try playTheIntro(begin)
         try makeTheCat()
-        try pinTheHome()
         try goInside()
         try takeTheTour()
         try playAGame()
@@ -102,32 +101,6 @@ final class FirstRunTests: XCTestCase {
         XCTAssertTrue(bringHome.waitForExistence(timeout: 5), "the name is taken")
         snap("4 named")
         bringHome.tap()
-    }
-
-    private func pinTheHome() throws {
-        let liveHere = app.buttons["Live here"]
-        XCTAssertTrue(liveHere.waitForExistence(timeout: 30), "the map")
-        sleep(3)
-        snap("5 map")
-        // A tap on the globe drops the pin wherever it has turned to; once the place is named, Live here is on.
-        var pinned = false
-        for spot in [CGVector(dx: 0.5, dy: 0.45), CGVector(dx: 0.45, dy: 0.55), CGVector(dx: 0.55, dy: 0.4)] where !pinned {
-            app.coordinate(withNormalizedOffset: spot).tap()
-            pinned = waitUntil(timeout: 20) { liveHere.isEnabled }
-        }
-        XCTAssertTrue(pinned, "a pin on the globe")
-        snap("6 pinned")
-        liveHere.tap()
-        let makeItHome = app.buttons["Make it home"]
-        XCTAssertTrue(makeItHome.waitForExistence(timeout: 30), "the house step")
-        sleep(2)
-        snap("7 homes")
-        makeItHome.tap()
-        // On a phone the choice is confirmed on a "Before you move in" card (an iPad shows the warning under the homes).
-        let confirm = app.buttons["confirmHome"]
-        if confirm.waitForExistence(timeout: 3) {
-            confirm.tap()
-        }
     }
 
     private func goInside() throws {

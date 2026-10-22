@@ -44,6 +44,7 @@ struct SettingsView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(16)
                     .paper(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                SeasonCard()
                 weather
             }
             .padding(24)
@@ -313,5 +314,38 @@ struct NotificationPreview: View {
         .shadow(color: .black.opacity(0.12), radius: 8, y: 3)
         .accessibilityElement(children: .combine)
         .accessibilityLabel("A sample reminder from \(title): \(message)")
+    }
+}
+
+/// The season the home is painted in: Auto (the real one, with the city's real weather) or one kept all year. It
+/// lived on the world map's home card until the map went (Josh, 22 Oct).
+struct SeasonCard: View {
+    @State private var setting = GameSession.shared.state(at: GameSession.shared.now()).home.season
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(spacing: 8) {
+                Image(systemName: "leaf").font(.system(size: 20, weight: .semibold)).foregroundStyle(Theme.accent)
+                Text("Season").font(Theme.title(21))
+            }
+            Text("Auto follows the real season and weather where your home is.")
+                .font(.system(size: 15))
+                .foregroundStyle(Theme.inkSoft)
+                .fixedSize(horizontal: false, vertical: true)
+            Picker("Season", selection: $setting) {
+                Text("Auto").tag(SeasonSetting.auto)
+                ForEach(NatureSeason.allCases, id: \.self) { season in
+                    Text(season.rawValue.capitalized).tag(SeasonSetting.fixed(season))
+                }
+            }
+            .pickerStyle(.segmented)
+            .accessibilityIdentifier("seasonPicker")
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(16)
+        .paper(RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .onChange(of: setting) { _, setting in
+            GameSession.shared.setSeason(setting)
+        }
     }
 }

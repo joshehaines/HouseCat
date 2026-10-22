@@ -307,7 +307,7 @@ struct GamesMenu: View {
     }
 
     private func catapultStatus(_ arcade: ArcadeState) -> (line: String, chip: String, icon: String) {
-        let home = GameSession.shared.state(at: GameSession.shared.now()).home.place?.biome ?? .city
+        let home = GameSession.shared.state(at: GameSession.shared.now()).homePlace.biome
         let place = GameSession.arcadeContent?.file.places[home.rawValue] ?? home.rawValue.capitalized
         let perPlace = Tuning.Arcade.Catapult.levelsPerPlace
         let base = (Biome.allCases.firstIndex(of: home) ?? 0) * perPlace

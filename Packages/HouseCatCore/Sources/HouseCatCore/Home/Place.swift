@@ -221,7 +221,7 @@ public extension HouseholdState {
     /// `context` brings the events: while the Christmas one runs, snow falls past the windows whatever the
     /// weather (SPEC "Sky, season, weather and windows").
     func homeNow(at date: Date, weather tables: WeatherFile, report: WeatherReport? = nil, context: RulesContext = .empty) -> HomeNow {
-        let place = home.place ?? .london
+        let place = homePlace
         let zone = place.timeZone
         let season = home.season.season(at: date, timeZone: zone, southernHemisphere: place.southernHemisphere)
         var calendar = Calendar(identifier: .gregorian)
@@ -235,7 +235,7 @@ public extension HouseholdState {
             household: seed,
             tables: tables
         )
-        let real = WeatherRules.weather(at: date, home: home, report: report, simulated: simulated)
+        let real = WeatherRules.weather(at: date, home: ladderHome, report: report, simulated: simulated)
         let eventSnow = EventRules.snowing(on: clock.day(of: date), context: context)
         return HomeNow(
             place: place,
@@ -244,7 +244,7 @@ public extension HouseholdState {
             sky: .at(localMinutes: minutes),
             weather: eventSnow ? .snow : real,
             localMinutes: minutes,
-            weatherIsReal: !eventSnow && WeatherRules.isReal(at: date, home: home, report: report)
+            weatherIsReal: !eventSnow && WeatherRules.isReal(at: date, home: ladderHome, report: report)
         )
     }
 }

@@ -65,7 +65,7 @@ struct WeatherMark: View {
     /// The home's weather now in a word, with the temperature when it is Apple's ("Raining · 9°").
     @MainActor
     static func caption(_ now: HomeNow, at date: Date) -> String {
-        let name = WorldMapView.weatherName(now.weather, sky: now.sky)
+        let name = PlaceLabels.weatherName(now.weather, sky: now.sky)
         guard now.weatherIsReal, let hour = RealWeather.report?.hour(at: date) else { return name }
         return "\(name) · \(Int(hour.temperatureC.rounded()))°"
     }

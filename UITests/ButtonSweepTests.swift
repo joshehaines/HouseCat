@@ -484,24 +484,22 @@ final class ButtonSweepTests: XCTestCase {
         XCTContext.runActivity(named: "Menu and each item") { _ in
             openMenu()
             snap("menu")
-            let items = ["Outside", "Goals", "Map", "Book", "Pass", "Gifts", "Together"].filter { title in
+            let items = ["Outside", "Goals", "Book", "Pass", "Gifts", "Together"].filter { title in
                 app.buttons.matching(NSPredicate(format: "label == %@ OR label BEGINSWITH %@", title, title + ",")).firstMatch.exists
             }
             XCTContext.runActivity(named: "Menu items: \(items.joined(separator: ", "))") { _ in }
-            XCTAssertTrue(items.contains("Goals") && items.contains("Map") && items.contains("Book"), "Goals, Map and Book are in the menu")
+            XCTAssertTrue(items.contains("Goals") && items.contains("Book"), "Goals and Book are in the menu")
             XCTAssertTrue(backToRoom(), "Close closes the menu")
             for item in items {
                 openMenu()
                 app.buttons.matching(NSPredicate(format: "label == %@ OR label BEGINSWITH %@", item, item + ",")).firstMatch.tapInFront()
                 let opened = switch item {
-                case "Map": app.buttons.matching(NSPredicate(format: "label == 'Move house' OR label BEGINSWITH 'Move here' OR label BEGINSWITH 'Live here'"))
-                    .firstMatch.shows(within: 15) || app.textFields.firstMatch.exists
                 // Out of the front door to look at the house (Josh, 20 Oct): Go in takes you back.
                 case "Outside": app.buttons["Go in"].firstMatch.shows(within: 8)
                 default: app.buttons["Close"].firstMatch.shows(within: 8)
                 }
                 XCTAssertTrue(opened, "\(item) opened")
-                sleep(item == "Map" || item == "Outside" ? 3 : 1)
+                sleep(item == "Outside" ? 3 : 1)
                 snap("menu \(item.lowercased())")
                 if item == "Outside" {
                     app.buttons["Go in"].firstMatch.tapInFront()

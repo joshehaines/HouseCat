@@ -211,7 +211,7 @@ public extension WidgetRules {
         return WidgetScene(
             state: state,
             catPose: state.pose.catPose,
-            frame: (save.home.style ?? .londonTerrace).widgetFrame,
+            frame: save.homeStyle.widgetFrame,
             biome: home.biome,
             season: home.season,
             sky: home.sky,

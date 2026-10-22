@@ -60,7 +60,7 @@ enum WidgetBridge {
 
     private static func kitKey(_ state: HouseholdState) -> String {
         let look = state.cats.first.flatMap { try? JSONEncoder().encode($0.look) }.map { String(decoding: $0, as: UTF8.self) } ?? ""
-        let place = state.home.place ?? .london
+        let place = state.homePlace
         let outfit = state.cats.first?.outfitID ?? ""
         return [Tuning.Widget.kitVersion, GameWorld.style(state).rawValue, place.biome.rawValue, look, outfit].joined(separator: "|")
     }
@@ -71,7 +71,7 @@ enum WidgetBridge {
               let art = GameWorld.art, let catArt = GameWorld.catArt, let cat = state.cats.first, let kit = WidgetFiles.kit
         else { return }
         let frame = GameWorld.style(state).widgetFrame
-        let biome = (state.home.place ?? .london).biome
+        let biome = state.homePlace.biome
         // What to copy as it is, by its file in the app's art.
         var copies: [String: URL] = [
             "frame.png": art.url("widget/widget_\(frame).png"),

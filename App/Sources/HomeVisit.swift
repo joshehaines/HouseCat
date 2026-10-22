@@ -76,11 +76,11 @@ struct HomeVisitView: View {
 
     private var caption: some View {
         VStack(alignment: .leading, spacing: 2) {
-            Text("\(stop.cat.name)'s \(WorldMapView.homeWord(stop.home)) in \(stop.place)").font(Theme.title(22))
+            Text("\(stop.cat.name)'s \(PlaceLabels.homeWord(stop.home)) in \(stop.place)").font(Theme.title(22))
             HStack(spacing: 10) {
                 Label(stop.country, systemImage: "mappin.and.ellipse")
                 let sky = stop.sky(at: Date())
-                Label(WorldMapView.weatherName(stop.weather, sky: sky), systemImage: WorldMapView.weatherIcon(stop.weather, sky: sky))
+                Label(PlaceLabels.weatherName(stop.weather, sky: sky), systemImage: PlaceLabels.weatherIcon(stop.weather, sky: sky))
                 if let zone = TimeZone(identifier: stop.timeZone) {
                     Label("\(Date().formatted(Date.FormatStyle(date: .omitted, time: .shortened, timeZone: zone))) there", systemImage: "clock")
                 }

@@ -24,7 +24,7 @@ enum GameWorld {
                 return style
             }
         #endif
-        return state.home.style ?? .londonTerrace
+        return state.homeStyle
     }
 
     /// The home right now: its pin, season, sky at its local time and today's weather. Debug builds can

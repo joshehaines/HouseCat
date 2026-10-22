@@ -18,7 +18,7 @@ enum RealWeather {
 
     static func refreshIfNeeded(state: HouseholdState) {
         guard state.home.season == .auto, !asking else { return }
-        let place = state.home.place ?? .london
+        let place = state.homePlace
         #if DEBUG
             // HOUSECAT_WEATHER_REPORT=1 stands in for Apple: a report of HOUSECAT_WEATHER's weather (rain if unset)
             // for the home, written where the widget reads it too, so the Apple Weather mark can be seen in a

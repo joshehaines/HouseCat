@@ -613,39 +613,11 @@ final class GameSession {
 
     // MARK: Home
 
-    /// The pin from the world map, and the season setting: the first pin free, later ones a move (free once,
-    /// then Beans).
-    func placeHome(_ place: HomePlace, season: SeasonSetting, style: HouseStyle? = nil) {
-        let date = now()
-        let state = state(at: date)
-        if state.home.place != nil {
-            append(.homeMoved(beans: state.moveCost), at: date)
-        }
-        // Moving house can come with a different home (at the same moment, before the new pin, while the move is
-        // under way).
-        if let style {
-            Analytics.track(.homeChosen, detail: style.rawValue)
-            append(.homeStyleChosen(style), at: date)
-            HomePacks.prepare(style)
-        }
-        append(.homePlaced(place), at: date)
-        if season != state.home.season {
-            append(.seasonSet(season), at: date)
-        }
-    }
-
-    /// The home's season changed on the world map: saved at once, with no move.
+    /// The home's season changed in Settings: saved at once.
     func setSeason(_ season: SeasonSetting) {
         let date = now()
         guard season != state(at: date).home.season else { return }
         append(.seasonSet(season), at: date)
-    }
-
-    /// The house step: which home it is. Its exteriors are fetched if they are not in the app.
-    func chooseHome(_ style: HouseStyle) {
-        Analytics.track(.homeChosen, detail: style.rawValue)
-        append(.homeStyleChosen(style), at: now())
-        HomePacks.prepare(style)
     }
 
     // MARK: Gifts

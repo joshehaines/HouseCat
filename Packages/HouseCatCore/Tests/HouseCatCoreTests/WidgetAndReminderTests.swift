@@ -4,6 +4,8 @@ import Testing
 
 @Suite("Real weather")
 struct RealWeatherTests {
+    /// The home is the house ladder's bottom rung until another house is bought.
+    let home = HouseLadder.rung(1).place
     let tables = WeatherFile(tables: [:])
 
     func report(at place: HomePlace, from start: Date, _ weather: Weather) -> WeatherReport {
@@ -29,9 +31,8 @@ struct RealWeatherTests {
 
     @Test func onAutoTheReportForThePlaceDrivesTheHome() {
         var f = Fixture()
-        f.add(.homePlaced(.london), day: 0)
         let noon = f.at(1, 12)
-        let snow = report(at: .london, from: f.at(1, 6), .snow)
+        let snow = report(at: home, from: f.at(1, 6), .snow)
         #expect(f.state.homeNow(at: noon, weather: tables, report: snow).weather == .snow)
         // Beyond the report, or with no report, the simulation is back.
         let simulated = f.state.homeNow(at: noon, weather: tables).weather
@@ -44,9 +45,8 @@ struct RealWeatherTests {
     /// Auto, not the simulation, not a fixed season's weather, not another town's report.
     @Test func theHomeKnowsWhenItsWeatherIsApplesForTheMark() {
         var f = Fixture()
-        f.add(.homePlaced(.london), day: 0)
         let noon = f.at(1, 12)
-        let rain = report(at: .london, from: f.at(1, 6), .rain)
+        let rain = report(at: home, from: f.at(1, 6), .rain)
         #expect(f.state.homeNow(at: noon, weather: tables, report: rain).weatherIsReal)
         #expect(!f.state.homeNow(at: noon, weather: tables, report: nil).weatherIsReal)
         // Past the report's hours: the simulation, so no mark.
@@ -61,9 +61,8 @@ struct RealWeatherTests {
 
     @Test func theWidgetSceneCarriesWhetherItsWeatherIsApples() {
         var f = Fixture()
-        f.add(.homePlaced(.london), day: 0)
         let noon = f.at(1, 12)
-        let rain = report(at: .london, from: f.at(1, 6), .rain)
+        let rain = report(at: home, from: f.at(1, 6), .rain)
         let state = WidgetRules.state(at: noon, save: f.state, context: .empty)
         #expect(WidgetRules.scene(for: state, save: f.state, weather: tables, report: rain).weatherIsReal)
         #expect(!WidgetRules.scene(for: state, save: f.state, weather: tables, report: nil).weatherIsReal)
@@ -71,7 +70,6 @@ struct RealWeatherTests {
 
     @Test func aFixedSeasonOrAnotherPlaceKeepsTheSimulation() {
         var f = Fixture()
-        f.add(.homePlaced(.london), day: 0)
         let noon = f.at(1, 12)
         let simulated = f.state.homeNow(at: noon, weather: tables).weather
         let elsewhere = HomePlace(name: "Lisbon", latitude: 38.72, longitude: -9.14, timeZoneID: "Europe/Lisbon", biome: .coast)
@@ -79,7 +77,7 @@ struct RealWeatherTests {
         #expect(f.state.homeNow(at: noon, weather: tables, report: farAway).weather == simulated)
         f.add(.seasonSet(.fixed(.winter)), day: 0, hour: 10)
         let fixed = f.state.homeNow(at: noon, weather: tables).weather
-        let here = report(at: .london, from: f.at(1, 6), .heat)
+        let here = report(at: home, from: f.at(1, 6), .heat)
         #expect(f.state.homeNow(at: noon, weather: tables, report: here).weather == fixed)
     }
 
@@ -112,18 +110,16 @@ struct WidgetSceneTests {
 
     @Test func aSceneShowsTheHomesWindowAndWhatIsOutside() {
         var f = Fixture()
-        f.add(.homePlaced(.london), day: 0)
-        f.add(.homeStyleChosen(.cottage), day: 0)
         f.visit(days: [0])
         let state = WidgetRules.state(at: f.at(1, 21), save: f.state, context: f.context)
         let scene = WidgetRules.scene(for: state, save: f.state, weather: tables, report: nil)
-        #expect(scene.frame == "casement")
+        #expect(scene.frame == "sash", "the bottom rung, painted as the London terrace")
         #expect(scene.sky == .night)
         #expect(scene.catPose == .sitFront)
         #expect(scene.temperatureC == nil)
         let report = WeatherReport(
-            latitude: HomePlace.london.latitude,
-            longitude: HomePlace.london.longitude,
+            latitude: HouseLadder.rung(1).place.latitude,
+            longitude: HouseLadder.rung(1).place.longitude,
             fetchedAt: f.at(1, 6),
             hours: (0 ..< 24).map { .init(start: f.at(1, 6).addingTimeInterval(Double($0) * 3600), weather: .rain, temperatureC: 7) }
         )

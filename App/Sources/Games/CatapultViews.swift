@@ -17,7 +17,7 @@ struct CatapultScreen: View {
     @State private var tick = 0
 
     private var home: Biome {
-        GameSession.shared.state(at: GameSession.shared.now()).home.place?.biome ?? .city
+        GameSession.shared.state(at: GameSession.shared.now()).homePlace.biome
     }
 
     var body: some View {

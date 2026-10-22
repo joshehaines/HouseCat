@@ -82,6 +82,24 @@ public extension HouseholdState {
         HouseLadder.rung(rung)
     }
 
+    /// Where the home is: the current house's city (the world map's pin is gone; Josh, 22 Oct).
+    var homePlace: HomePlace {
+        currentRung.place
+    }
+
+    /// Which house it is: the current rung's.
+    var homeStyle: HouseStyle {
+        currentRung.style
+    }
+
+    /// The home settings with the place and house the ladder gives (an old save's pin and style are ignored).
+    var ladderHome: HomeSettings {
+        var settings = home
+        settings.place = homePlace
+        settings.style = homeStyle
+        return settings
+    }
+
     /// The current house's tasks done. The tasks arrive in step 6 of docs/LADDER.md; until then they count as
     /// done, so the ladder is gated by level and Beans alone.
     var houseTasksDone: Int {

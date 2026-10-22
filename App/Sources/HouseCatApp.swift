@@ -11,11 +11,8 @@ struct HouseCatApp: App {
     @State private var invites = Invites.shared
     @State private var store = Self.makeStore()
     @State private var visit: Visit?
-    /// Adoption (onboarding's cat creation) when the save has no cat yet, then where you live.
+    /// Adoption (onboarding's cat creation) when the save has no cat yet.
     @State private var adopting: CatBuilderModel?
-    @State private var placing: WorldMapModel?
-    /// The house step, after the map: where it is, to paint the choices there.
-    @State private var choosingHome: HomePlace?
     /// Debug: the widget gallery instead of the game.
     @State private var gallery = false
     /// A new player sees the intro before the builder.
@@ -45,25 +42,6 @@ struct HouseCatApp: App {
                     }
                     // A new visit is a new screen: SpriteView keeps showing its first scene otherwise.
                     .id(ObjectIdentifier(visit))
-                } else if let choosingHome {
-                    HomePicker(biome: choosingHome.biome, place: choosingHome.name) { style in
-                        GameSession.shared.chooseHome(style)
-                        self.choosingHome = nil
-                        visit = Visit(size: CGSize(width: 1024, height: 768), lastActive: nil)
-                    }
-                    .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
-                } else if let placing {
-                    WorldMapView(model: placing, cost: 0, canAfford: true, cancel: nil) { place, season, _ in
-                        GameSession.shared.placeHome(place, season: season)
-                        self.placing = nil
-                        choosingHome = place
-                    }
-                    .ignoresSafeArea(.keyboard, edges: .bottom)
-                    .overlay(alignment: .topTrailing) {
-                        if placing.mode == .first {
-                            HostHint(\.map, width: 330).padding(.top, 16).padding(.trailing, 20)
-                        }
-                    }
                 } else if let adopting {
                     // The host's line sits over the cat, clear of the drawers.
                     CatBuilderView(model: adopting) {
@@ -74,9 +52,8 @@ struct HouseCatApp: App {
                         guard let name = model.checkedName else { return }
                         GameSession.shared.adopt(name: name, personality: model.personality, look: model.look)
                         self.adopting = nil
-                        // Then where you live (SPEC onboarding: cat, geography, house, first arrival).
-                        let session = GameSession.shared
-                        placing = WorldMapModel(mode: .first, current: session.state(at: session.now()))
+                        // Then home: the bottom rung of the house ladder (docs/LADDER.md; the world map is gone).
+                        visit = Visit(size: CGSize(width: 1024, height: 768), lastActive: nil)
                     }
                     .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
                 } else if introducing, let intro = GameWorld.content?.intro {
@@ -99,8 +76,6 @@ struct HouseCatApp: App {
             .onReceive(NotificationCenter.default.publisher(for: .houseCatErased)) { _ in
                 visit = nil
                 adopting = nil
-                placing = nil
-                choosingHome = nil
                 introducing = true
             }
             // The household on this phone changed (it joined someone's cat, left it, or sharing ended): the first
@@ -109,8 +84,6 @@ struct HouseCatApp: App {
                 invites.notice = note.userInfo?["notice"] as? String
                 visit = nil
                 adopting = nil
-                placing = nil
-                choosingHome = nil
                 introducing = GameSession.shared.cat == nil
                 if !introducing {
                     visit = Visit(size: CGSize(width: 1024, height: 768), lastActive: nil)
@@ -199,40 +172,6 @@ struct HouseCatApp: App {
             if ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"] == "widgets" {
                 WidgetBridge.publish()
                 gallery = true
-                return
-            }
-            // Screenshot runs: HOUSECAT_SCREEN=homes opens the house step, painted for HOUSECAT_BIOME.
-            let environment = ProcessInfo.processInfo.environment
-            // HOUSECAT_SCREEN=map opens the globe (HOUSECAT_SEARCH=<place> searches and flies there); =world opens it
-            // as the menu does, with the home, Move house and the other cats' homes.
-            if environment["HOUSECAT_SCREEN"] == "map" || environment["HOUSECAT_SCREEN"] == "world" {
-                let session = GameSession.shared
-                let mode: WorldMapModel.Mode = environment["HOUSECAT_SCREEN"] == "world" ? .world : .first
-                let model = WorldMapModel(mode: mode, current: session.state(at: session.now()))
-                placing = model
-                if let wanted = environment["HOUSECAT_SEARCH"] {
-                    model.query = wanted
-                    Task {
-                        for _ in 0 ..< 40 where model.search.results.isEmpty {
-                            try? await Task.sleep(for: .seconds(0.25))
-                        }
-                        try? await Task.sleep(for: .seconds(3))
-                        if let first = model.search.results.first {
-                            model.choose(first)
-                        }
-                    }
-                }
-                return
-            }
-            if environment["HOUSECAT_SCREEN"] == "homes" {
-                let biome = environment["HOUSECAT_BIOME"].flatMap(Biome.init(rawValue:)) ?? .countryside
-                choosingHome = HomePlace(
-                    name: "Debug, \(biome.rawValue)",
-                    latitude: 0,
-                    longitude: 0,
-                    timeZoneID: "Europe/London",
-                    biome: biome
-                )
                 return
             }
         #endif
@@ -416,14 +355,11 @@ struct RoomScreen: View {
     let store: (any EntitlementService)?
     /// Starts a new visit (after moving home).
     let restart: () -> Void
-    @State private var moving: WorldMapModel?
     @State private var showShop = false
     @State private var showProfile = false
     @State private var showSettings = false
     /// The profile's Reminders button: the settings open once the profile has gone.
     @State private var settingsNext = false
-    /// The profile's Move house: the map opens, choosing a new place, once the profile has gone.
-    @State private var moveNext = false
     @State private var showBook = false
     @State private var choosingGame = false
     @State private var playing: PlayRound?
@@ -501,36 +437,6 @@ struct RoomScreen: View {
 
     var body: some View {
         screens(progressCards(cards(sheets(hud))))
-            // Under the map, the room takes no touch and VoiceOver skips it.
-            .allowsHitTesting(moving == nil)
-            .accessibilityHidden(moving != nil)
-            // The world map over everything, drawn here rather than presented: as a full-screen cover on the iPad
-            // none of its buttons took a UI test's tap (19 Oct).
-            .overlay {
-                if let model = moving {
-                    worldMap(model)
-                        .transition(.opacity)
-                }
-            }
-            .animation(.spring(duration: 0.4), value: moving == nil)
-    }
-
-    /// The world map from the menu or the profile: Move house, the season, the other cats' homes.
-    private func worldMap(_ model: WorldMapModel) -> some View {
-        let state = GameSession.shared.state(at: GameSession.shared.now())
-        return WorldMapView(
-            model: model,
-            cost: state.moveCost,
-            canAfford: state.beans >= state.moveCost,
-            cancel: { moving = nil },
-            seasonChanged: { GameSession.shared.setSeason($0) },
-            onVisit: { GameSession.shared.saw("home.\($0)") }
-        ) { place, season, style in
-            GameSession.shared.placeHome(place, season: season, style: style)
-            moving = nil
-            restart()
-        }
-        .statusBarHidden()
     }
 
     /// The room and its controls.
@@ -727,11 +633,6 @@ struct RoomScreen: View {
                     settingsNext = false
                     showSettings = true
                 }
-                if moveNext {
-                    moveNext = false
-                    let session = GameSession.shared
-                    moving = WorldMapModel(mode: .move, current: session.state(at: session.now()))
-                }
             }) {
                 if let info = CatScreens.profile() {
                     CatProfileView(
@@ -762,10 +663,6 @@ struct RoomScreen: View {
                             WidgetBridge.publish()
                         },
                         home: CatScreens.homeLine(),
-                        moveHouse: {
-                            moveNext = true
-                            showProfile = false
-                        },
                         settings: {
                             settingsNext = true
                             showProfile = false
@@ -1234,7 +1131,7 @@ struct RoomScreen: View {
     private var outsideControls: some View {
         let edge = CGFloat(Tuning.Stage.hudEdge), top = CGFloat(Tuning.Stage.hudTop), bottom = CGFloat(Tuning.Stage.hudBottom)
         let session = GameSession.shared
-        let town = WorldMapView.town((session.state(at: session.now()).home.place ?? .london).name)
+        let town = PlaceLabels.town(session.state(at: session.now()).homePlace.name)
         return ZStack {
             VStack(alignment: .leading, spacing: 6 * hudScale) {
                 HStack(spacing: 6 * hudScale) {
@@ -1360,11 +1257,6 @@ struct RoomScreen: View {
                 showMenu = false
                 GoalsSeen.count = CatScreens.goalsMet().count
                 showGoals = true
-            },
-            RoomMenu.Item(id: "map", title: "Map", icon: "map_pin") {
-                showMenu = false
-                GameSession.shared.saw("map")
-                moving = WorldMapModel(mode: .world, current: session.state(at: session.now()))
             },
             RoomMenu.Item(id: "book", title: "Book", icon: "collection_book") {
                 showMenu = false
@@ -1503,7 +1395,7 @@ struct RoomScreen: View {
     /// A screen, sheet or card is over the room: the Games menu or a game, the shop, the pass, the map, the Goals page,
     /// the book, the profile and its wardrobe, the streak, the road, the settings, or Together.
     private var roomCovered: Bool {
-        showGames || playing != nil || showShop || showPass || moving != nil || showGoals || showBook || showProfile
+        showGames || playing != nil || showShop || showPass || showGoals || showBook || showProfile
             || tryingOn != nil || editing != nil || showStreak || showRoad || showSettings || showTogether
     }
 
@@ -1588,7 +1480,6 @@ struct RoomScreen: View {
                 case "together": showTogether = true
                 case "menu": showMenu = true
                 // The world map over the room, as the menu's Map opens it.
-                case "roommap": moving = WorldMapModel(mode: .world, current: GameSession.shared.state(at: GameSession.shared.now()))
                 case "goals": showGoals = true
                 case "profile": showProfile = true
                 case "editlook": editing = CatScreens.builder(mode: .edit)

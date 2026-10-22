@@ -1100,7 +1100,7 @@ struct RoomScreen: View {
                         HStack(alignment: .bottom, spacing: 12 * hudScale) {
                             CareButton("Feed", icon: "feed_bowl", badge: fed ? "✓" : nil, lit: !fed) { visit.feed() }
                                 .tourTarget("feed")
-                            CareButton("Play", icon: "play_laser_dot", badge: plays > 0 ? "\(plays)" : nil) {
+                            CareButton("Play", icon: "play_feather", badge: plays > 0 ? "\(plays)" : nil) {
                                 tour.heard(.opened("play"))
                                 // Always the Games menu: after the day's five quick plays its quick games say "Just for
                                 // fun today", and the rest have their own rules (Josh's iPad, 19 Oct: Play seemed dead,
@@ -1108,7 +1108,7 @@ struct RoomScreen: View {
                                 showGames = true
                             }
                             .tourTarget("play")
-                            CareButton(naps.isNapping ? "Wake" : "Nap", icon: "nap_moon", lit: naps.isNapping) {
+                            CareButton(naps.isNapping ? "Wake" : "Nap", icon: "nap_cat", lit: naps.isNapping) {
                                 tour.heard(.opened("nap"))
                                 if naps.isNapping {
                                     visit.wakeFromNap()
@@ -1119,6 +1119,7 @@ struct RoomScreen: View {
                             .tourTarget("nap")
                         }
                         .id(visit.stats)
+                        .hudTray()
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
                         .padding(.leading, edge)
                         .padding(.bottom, bottom)
@@ -1137,6 +1138,7 @@ struct RoomScreen: View {
                         }
                         .tourTarget("shop")
                     }
+                    .hudTray()
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
                     .padding(.trailing, edge)
                     .padding(.bottom, bottom)

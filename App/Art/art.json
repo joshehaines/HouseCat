@@ -14728,6 +14728,13 @@
    ],
    "scale": 0.4
   },
+  "ui/icon_nap_cat.png": {
+   "master": [
+    440,
+    440
+   ],
+   "scale": 0.4
+  },
   "ui/icon_nap_moon.png": {
    "master": [
     436,
@@ -14753,6 +14760,13 @@
    "master": [
     983,
     887
+   ],
+   "scale": 0.4
+  },
+  "ui/icon_play_feather.png": {
+   "master": [
+    440,
+    440
    ],
    "scale": 0.4
   },

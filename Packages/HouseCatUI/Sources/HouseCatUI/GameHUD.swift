@@ -528,3 +528,35 @@ private struct SheetSize: PresentationSizing {
         }
     }
 #endif
+
+/// A warm tray behind a cluster of HUD buttons, so they stand out from whatever room is behind them (Josh, 22 Oct:
+/// "the bottom corner UI buttons can they have a background so they stand out a bit more").
+public struct HUDTray: ViewModifier {
+    @Environment(\.hudScale) private var scale
+
+    public func body(content: Content) -> some View {
+        content
+            .padding(.horizontal, 12 * scale)
+            .padding(.top, 10 * scale)
+            .padding(.bottom, 6 * scale)
+            .background(
+                RoundedRectangle(cornerRadius: 26 * scale, style: .continuous)
+                    .fill(LinearGradient(
+                        colors: [GameHUD.lip.mix(with: .white, by: 0.12).opacity(0.92), GameHUD.lip.mix(with: .black, by: 0.18).opacity(0.92)],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    ))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 26 * scale, style: .continuous)
+                            .strokeBorder(Theme.cream.opacity(0.55), lineWidth: 2 * scale)
+                    )
+                    .shadow(color: .black.opacity(0.3), radius: 8 * scale, y: 4 * scale)
+            )
+    }
+}
+
+public extension View {
+    func hudTray() -> some View {
+        modifier(HUDTray())
+    }
+}

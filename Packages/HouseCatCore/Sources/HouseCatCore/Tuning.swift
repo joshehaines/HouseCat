@@ -433,6 +433,11 @@ public enum Tuning {
         public static let tops: [[Double]] = [[20, 300, 292], [310, 1040, 221], [1060, 1290, 300], [1300, 1470, 222], [1480, 1630, 270]]
         /// The cat standing; the curl it ends in is drawn this much bigger, to be about a letter's size.
         public static let catHeight = 560.0
+        /// Where it sits, beside the wordmark's H (box pixels from the box's left), how fast it walks there (cat
+        /// heights a second) and how much the sitting painting is grown to match the walking cat.
+        public static let beside = -330.0
+        public static let walkSpeed = 0.55
+        public static let sitScale = 1.25
         public static let curlScale = 1.3
         /// Where it leans and grows about, up from its feet (cat heights); how far out of sight it starts.
         public static let pivotHeight = 0.35

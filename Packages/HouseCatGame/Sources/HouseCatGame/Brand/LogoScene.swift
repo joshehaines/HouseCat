@@ -177,71 +177,29 @@ public final class LogoScene: SKScene {
         started = true
         let h = CGFloat(Logo.catHeight)
         // Just out of sight on the left, whatever the screen.
-        feet.x = visibleLeft - h * CGFloat(act == .launch ? Logo.launchOffscreen : Logo.offscreen)
-        var story: [Beat] = []
-        if act == .launch {
-            // The launch has a moment while the home is built: one pounce from off the edge onto its spot, as the
-            // little dog in Josh's reel leaps onto its letters.
-            story.append(.leap(
-                to: CGPoint(x: Logo.bed, y: Logo.valleyTop),
-                seconds: Logo.launchLeapSeconds,
-                top: Logo.launchLeapTop,
-                crouch: 0
-            ))
-        } else {
-            // With the curl film it lands straight on its spot, where the film takes over at once; without, it trots
-            // the last step.
-            let film = !curlFrames.isEmpty
-            story += [
-                .wait(Logo.introHold),
-                .run(to: CGFloat(Logo.takeOff), speed: CGFloat(Logo.runSpeed) * h, gait: .run, stopping: false),
-                .leap(
-                    to: CGPoint(x: film ? Logo.bed : Logo.landing, y: Logo.valleyTop),
-                    seconds: Logo.leapSeconds,
-                    top: Logo.leapTop,
-                    crouch: Logo.crouchSeconds
-                ),
-            ]
-            if !film {
-                story.append(.run(to: CGFloat(Logo.bed), speed: CGFloat(Logo.trotSpeed) * h, gait: .trot, stopping: true))
-            }
-        }
-        if !curlFrames.isEmpty {
-            // The film takes over from the cat standing side on, facing the way it came (it sniffs the letters, turns
-            // and sits looking at you, and curls up).
-            story += [.film, .call { [weak self] in self?.asleep = true }]
-            beats = story
-            next()
-            return
-        }
-        if act == .intro {
-            // A look round at you first.
-            story += [.face(.front, right: false), .wait(Logo.lookSeconds)]
-        }
-        // It sits and curls up (on the intro it turns away first): the paintings are small beside the puppet, so it
-        // fluffs up a little as it sits, to end about a letter's size; sitting first, the cross-fade into the curl is
-        // painting to painting.
-        let grown = CGFloat(Logo.curlScale)
-        if act == .intro {
-            story.append(.face(.side, right: false))
-        }
-        story += [
-            .settle(.sitSide, scale: grown),
-            .wait(act == .intro ? Logo.sitSeconds : Logo.launchSitSeconds),
-            .settle(.sleepCurl, scale: grown),
+        feet.x = visibleLeft - h * CGFloat(Logo.offscreen)
+        feet.y = CGFloat(Logo.baseline)
+        // Josh, 22 Oct ("the opening animation is glitchy ... have the cat walking into the frame and then sitting next
+        // to the house cat, like the main profile picture"): Midnight walks in along the ground on its films, stops
+        // beside the wordmark, turns to you and sits, as the horizontal logo has it. No leap and no curl.
+        beats = [
+            .wait(act == .intro ? Logo.introHold : 0),
+            .run(to: CGFloat(Logo.beside), speed: CGFloat(Logo.walkSpeed) * h, gait: .walk, stopping: true),
+            .face(.front, right: true),
+            .settle(.sitFront, scale: CGFloat(Logo.sitScale)),
+            .wait(Logo.sitSeconds),
             .call { [weak self] in self?.asleep = true },
         ]
-        beats = story
         next()
     }
 
     /// Asleep where the story ends, from the start (Reduce Motion).
     private func curlUp() {
         started = true
-        feet = CGPoint(x: Logo.bed, y: Logo.valleyTop)
-        cat.show(.side, facingRight: false)
-        cat.settle(into: .sleepCurl, duration: 0)
-        pivot.setScale(CGFloat(Logo.curlScale))
+        feet = CGPoint(x: Logo.beside, y: Logo.baseline)
+        cat.show(.front, facingRight: true)
+        cat.settle(into: .sitFront, duration: 0)
+        pivot.setScale(CGFloat(Logo.sitScale))
         asleep = true
     }
 

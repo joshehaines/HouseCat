@@ -28,7 +28,8 @@ struct GameSessionTests {
         // Only the bowl and the moving box (Josh, 19 Oct: the player should want to decorate).
         #expect(Set(state.placed.map(\.itemID)) == Tuning.Room.firstHome)
         #expect(state.placed.allSatisfy { $0.room == .living })
-        #expect(session.inventory().map(\.id) == Tuning.Room.starterPieces)
+        // The tour's sofa, rug and coffee table, to put out (inventory order is the catalogue's).
+        #expect(Set(session.inventory().map(\.id)) == Set(Tuning.Room.starterPieces))
     }
 
     @Test func adoptionRecordsTheNameThePersonalityAndTheLook() throws {
@@ -93,11 +94,11 @@ struct GameSessionTests {
         let starter = try #require(Tuning.Room.starterPieces.first)
         let placement = try #require(session.placeFromInventory(starter, among: []))
         let id = try #require(placement.placementID)
-        #expect(session.inventory().isEmpty)
+        #expect(!session.inventory().map(\.id).contains(starter))
         session.record(.moved(placementID: id, x: 1, y: 1, facing: .left))
         let moved = session.state(at: session.now()).placed.first { $0.placementID == id }
         #expect(moved?.x == 1 && moved?.facing == .left)
         session.record(.stored(placementID: id))
-        #expect(session.inventory().map(\.id) == [starter])
+        #expect(session.inventory().map(\.id).contains(starter))
     }
 }

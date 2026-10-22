@@ -1465,12 +1465,12 @@ public enum Tuning {
         /// Along the axis shared with the room you are in, the badge sits this many cells from the back.
         public static let labelBack = 2.0
         /// …and this high over the floor, in room units.
-        public static let labelLift = 40.0
+        public static let labelLift = 0.0
         /// A badge keeps at least this far (points) from the sides of the view.
         public static let badgeMargin = 12.0
-        /// A badge's text is this size on screen (points) at any zoom, and the badge keeps out of the controls'
-        /// bands this deep along the top and bottom of the view.
-        public static let badgePoints = 15.0
+        /// A badge's text is this size on screen (points) at any zoom (Josh, 22 Oct: "still much smaller"), and the
+        /// badge keeps out of the controls' bands this deep along the top and bottom of the view.
+        public static let badgePoints = 8.5
         public static let badgeClearTop = 110.0
         public static let badgeClearBottom = 120.0
         /// A closed room's price label leans this many cells from its middle towards the room you are in.

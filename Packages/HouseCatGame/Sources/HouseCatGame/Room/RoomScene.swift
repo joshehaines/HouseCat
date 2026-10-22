@@ -495,30 +495,19 @@ public final class RoomScene: SKScene {
         look(at: focus ?? restingPoint)
     }
 
-    /// Keeps each closed room's badge readable: the same size on screen however close the camera is (it grew with
-    /// the zoom and ran under the controls), slid along the sides when its room runs off the view, and kept out of
-    /// the bands along the top and bottom where the controls are.
+    /// Keeps each closed room's badge small and readable, the same size on screen however close the camera is, and
+    /// pinned to the middle of its own room (Josh, 22 Oct: "middle of the room that it purchases not middle of the
+    /// screen"); a room off the view hides its badge.
     private func keepBadgesInView() {
-        let margin = CGFloat(Tuning.House.badgeMargin)
         let scale = max(world.xScale, 0.0001)
         let own = CGFloat(Tuning.House.badgePoints / Tuning.House.lockFontSize) / scale
         for room in rooms.values where isShown(room) {
             guard let badge = room.childNode(withName: "lock"),
-                  let hx = badge.userData?["homeX"] as? CGFloat, let hy = badge.userData?["homeY"] as? CGFloat,
-                  let half = badge.userData?["halfWidth"] as? CGFloat else { continue }
+                  let hx = badge.userData?["homeX"] as? CGFloat, let hy = badge.userData?["homeY"] as? CGFloat else { continue }
             badge.setScale(own)
             let home = CGPoint(x: hx, y: hy)
-            let onScreen = convert(home, from: room)
-            // A room out of the view keeps its badge out too (the menu lists every closed room and its price).
-            let inView = CGRect(origin: .zero, size: size).contains(onScreen)
-            badge.alpha = inView ? 1 : 0
-            let halfOnScreen = half * own * scale
-            let low = margin + halfOnScreen, high = size.width - margin - halfOnScreen
-            let x = low <= high ? min(max(onScreen.x, low), high) : size.width / 2
-            let floor = bottomInset + CGFloat(Tuning.House.badgeClearBottom)
-            let ceiling = size.height - CGFloat(Tuning.House.badgeClearTop)
-            let y = floor <= ceiling ? min(max(onScreen.y, floor), ceiling) : size.height / 2
-            badge.position = CGPoint(x: home.x + (x - onScreen.x) / scale, y: home.y + (y - onScreen.y) / scale)
+            badge.position = home
+            badge.alpha = CGRect(origin: .zero, size: size).contains(convert(home, from: room)) ? 1 : 0
         }
     }
 

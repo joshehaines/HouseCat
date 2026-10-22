@@ -68,3 +68,11 @@ struct GreetingStyleTests {
         #expect(BehaviourTable.options(for: context(.gremlin, time: .midday)).contains { $0.0 == .explore })
     }
 }
+
+@Test func pastBedtimeTheCatStaysInBedAndOnlyLooksUp() {
+    for personality in Personality.allCases {
+        #expect(!GreetingStyle.style(personality: personality, trust: .devoted, mood: .content, asleep: true, lateNight: true).comesToYou)
+        #expect(GreetingStyle.style(personality: personality, trust: .devoted, mood: .content, asleep: true, lateNight: true) == .dozes)
+        #expect(GreetingStyle.style(personality: personality, trust: .devoted, mood: .content, asleep: false, lateNight: true) == .glances)
+    }
+}

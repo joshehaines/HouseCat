@@ -244,7 +244,8 @@ final class GameSession {
             personality: personality,
             trust: trust,
             mood: mood,
-            asleep: start.activity == .sleep
+            asleep: start.activity == .sleep,
+            lateNight: time == .night
         )
         // One that comes to greet you is often waiting on the sofa (always the first time, for the tour), and jumps
         // down to come to you.

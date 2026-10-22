@@ -257,6 +257,10 @@ public enum BehaviourTable {
     /// this time of day: sofa, box, windowsill, or asleep in the bedroom"): the day's schedule and the cat's
     /// favourites, only the things it settles into (no wandering, no zoomies, nothing that needs you there).
     public static func resting(_ context: BehaviourContext, rng: inout DaySeed) -> BehaviourChoice {
+        // Past bedtime it is in bed (Josh, 22 Oct: "night time ... past 11pm ... stays in bed").
+        if context.timeOfDay == .night, context.available.contains(.sleep) {
+            return BehaviourChoice(activity: .sleep)
+        }
         let settles: Set<Activity> = [.windowWatch, .sunbeamLoaf, .sit, .sleep, .perch, .hide]
         let favourites = context.personality.favourites
         let weighted = options(for: context).filter { settles.contains($0.0) }.map { activity, weight in
@@ -346,7 +350,10 @@ public enum GreetingStyle: String, CaseIterable, Sendable {
         [.runs, .walks, .ambush].contains(self)
     }
 
-    public static func style(personality: Personality, trust: TrustTier, mood: Mood, asleep: Bool) -> GreetingStyle {
+    /// `lateNight`: you came home past bedtime (the household's clock), and the cat is surprised you are up: it
+    /// lifts its head from its bed, or looks up, and stays where it is (Josh, 22 Oct: "night time the cat is
+    /// surprised you are here - past 11pm etc, doesn't come towards you, stays in bed").
+    public static func style(personality: Personality, trust: TrustTier, mood: Mood, asleep: Bool, lateNight: Bool = false) -> GreetingStyle {
         switch mood {
         case .sulky:
             return .ignores
@@ -354,6 +361,9 @@ public enum GreetingStyle: String, CaseIterable, Sendable {
             return personality == .velcro ? .walks : asleep ? .dozes : .glances
         default:
             break
+        }
+        if lateNight {
+            return asleep ? .dozes : .glances
         }
         switch personality {
         case .velcro:

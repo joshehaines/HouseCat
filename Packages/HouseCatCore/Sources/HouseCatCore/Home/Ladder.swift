@@ -26,6 +26,20 @@ public struct Rung: Equatable, Sendable, Identifiable {
     }
 }
 
+/// Something a house asks before the next one is for sale, counted from moving in (`Tuning.Ladder.houseTasks`).
+public struct HouseTask: Sendable, Equatable {
+    public var metric: ObjectiveMetric
+    public var target: Int
+    /// "{cat}" is the cat's name.
+    public var title: String
+
+    public init(_ metric: ObjectiveMetric, _ target: Int, _ title: String) {
+        self.metric = metric
+        self.target = target
+        self.title = title
+    }
+}
+
 /// The eight houses bottom to top. No skipping and no going back down; each costs more and takes longer, like
 /// a builder game's town halls.
 public enum HouseLadder {
@@ -105,10 +119,18 @@ public extension HouseholdState {
         return settings
     }
 
-    /// The current house's tasks done. The tasks arrive in step 6 of docs/LADDER.md; until then they count as
-    /// done, so the ladder is gated by level and Beans alone.
+    /// The current house's tasks with how far each has got since moving in.
+    func houseTaskProgress(on day: GameDay) -> [(task: HouseTask, done: Int)] {
+        (Tuning.Ladder.houseTasks[rung] ?? []).map { task in
+            let start = home.movedIn?[task.metric.rawValue] ?? 0
+            return (task, min(task.target, max(0, lifetimeValue(task.metric, on: day) - start)))
+        }
+    }
+
+    /// The current house's tasks done (what the next house asks for).
     var houseTasksDone: Int {
-        nextRung?.tasks ?? 0
+        let day = lastEventAt.map { clock.day(of: $0) } ?? GameDay(year: 2026, month: 1, day: 1)
+        return houseTaskProgress(on: day).filter { $0.done >= $0.task.target }.count
     }
 
     /// The next house up, or nil at the top.

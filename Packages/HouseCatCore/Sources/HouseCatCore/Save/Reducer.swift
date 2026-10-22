@@ -288,6 +288,11 @@ extension HouseholdState {
             let bought = HouseLadder.rung(number)
             beansSpent += price
             home.rung = number
+            // The new house's tasks count from today.
+            home.movedIn = Dictionary(
+                (Tuning.Ladder.houseTasks[number] ?? []).map { ($0.metric.rawValue, lifetimeValue($0.metric, on: event.day)) },
+                uniquingKeysWith: { first, _ in first }
+            )
             home.style = bought.style
             home.place = bought.place
             home.moving = false

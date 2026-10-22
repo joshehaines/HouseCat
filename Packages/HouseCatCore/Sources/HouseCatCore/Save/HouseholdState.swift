@@ -437,6 +437,8 @@ public struct HouseholdState: Codable, Equatable, Sendable {
         case .roomsFurnished: furnishedRooms
         case .catUsedItems: lifetime.usedItems.count
         case .homesVisited: lifetime.screensSeen.filter { $0.hasPrefix("home.") }.count
+        case .houseRung: rung
+        case .houseTasks: houseTasksDone
         default: 0
         }
     }

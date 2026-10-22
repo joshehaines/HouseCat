@@ -46,6 +46,26 @@ struct LadderTests {
         #expect(f.state.rung == 2 && f.state.openedRooms.contains(.bedroom))
     }
 
+    /// Each house asks as many tasks as the next one needs, and they count from moving in.
+    @Test func everyHouseHasItsTasksCountedFromMovingIn() {
+        for rung in HouseLadder.rungs.dropFirst() {
+            #expect((Tuning.Ladder.houseTasks[rung.number - 1] ?? []).count == rung.tasks, "house \(rung.number - 1)")
+        }
+        #expect(Tuning.Ladder.houseTasks[HouseLadder.top] == nil, "London is the top")
+        var f = Fixture()
+        for day in 0 ..< 3 {
+            f.add(.arrived, day: day, hour: 8)
+            f.add(.fed(catID: f.cat), day: day, hour: 8, minute: 1)
+        }
+        f.add(.tourFinished, day: 2, hour: 9)
+        f.add(.houseBought(rung: 2, beans: HouseLadder.rung(2).price), day: 2, hour: 9, minute: 1)
+        // The three meals before the houseboat don't count towards its "Feed 10 times".
+        let feeds = f.state.houseTaskProgress(on: f.day(2)).first { $0.task.metric == .totalFeeds }
+        #expect(feeds?.done == 0)
+        f.add(.fed(catID: f.cat), day: 3, hour: 8)
+        #expect(f.state.houseTaskProgress(on: f.day(3)).first { $0.task.metric == .totalFeeds }?.done == 1)
+    }
+
     @Test func aSaveFromBeforeTheLadderKeepsItsRooms() {
         var state = HouseholdState()
         state.openedRooms = [.living, .bedroom, .kitchen]
@@ -72,6 +92,16 @@ struct LadderTests {
             day += 1
         }
         #expect(f.state.level >= HouseLadder.rung(3).level)
+        // Level and Beans are not enough: the houseboat's tasks come first.
+        f.add(.houseBought(rung: 3, beans: HouseLadder.rung(3).price), day: day)
+        #expect(f.state.rung == 2 && f.state.houseTasksDone < HouseLadder.rung(3).tasks)
+        for game in 0 ..< 5 {
+            f.add(.miniGamePlayed(game: "laser_pointer", stars: 1), day: day, hour: 10, minute: game)
+        }
+        for piece in 0 ..< 5 {
+            f.add(.itemGranted(itemID: "living_plant_\(piece)"), day: day, hour: 10, minute: 10 + piece)
+        }
+        #expect(f.state.houseTasksDone == HouseLadder.rung(3).tasks)
         let price = HouseLadder.rung(3).price
         f.add(.houseBought(rung: 4, beans: HouseLadder.rung(4).price), day: day) // a skip: refused
         f.add(.houseBought(rung: 3, beans: 100), day: day) // underpaid: refused

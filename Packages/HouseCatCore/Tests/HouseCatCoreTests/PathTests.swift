@@ -69,14 +69,14 @@ struct PathTests {
         var f = Fixture(context: context)
         f.add(.arrived, day: 0, hour: 8)
         var walker = Walker(f: f, content: content)
-        walker.finishMovingIn(day: 0, skipping: "path_map")
+        walker.finishMovingIn(day: 0, skipping: "path_dress")
         let before = walker.f.state
         #expect(!before.pathDone.contains("path_moving_in"))
-        walker.f.add(.screenSeen("map"), day: 0, hour: 10)
+        walker.f.add(.outfitWorn(catID: walker.f.cat, outfitID: "nightcap"), day: 0, hour: 10)
         let after = walker.f.state
-        let map = try step("path_map")
+        let map = try step("path_dress")
         let movingIn = try chapter("path_moving_in")
-        #expect(after.pathDone.isSuperset(of: ["path_map", "path_moving_in"]))
+        #expect(after.pathDone.isSuperset(of: ["path_dress", "path_moving_in"]))
         #expect(after.beans - before.beans >= map.beans + movingIn.beans)
         #expect(after.xp - before.xp == map.xp + movingIn.xp)
     }
@@ -93,20 +93,11 @@ struct PathTests {
         #expect(state.owned["living_rug", default: 0] == before + 1, "Make it cosy gives the rug")
     }
 
-    @Test func otherCatsHomesCountFromTheMapAndTheirStepWaitsForTheLevel() throws {
-        var f = Fixture(context: context)
-        f.add(.arrived, day: 0, hour: 8)
-        f.add(.screenSeen("map"), day: 0, hour: 9)
-        f.add(.screenSeen("home.london"), day: 0, hour: 9, minute: 1)
-        f.add(.screenSeen("home.lisbon"), day: 0, hour: 9, minute: 2)
-        f.add(.screenSeen("home.london"), day: 0, hour: 9, minute: 3)
-        #expect(f.state.lifetimeValue(.homesVisited, on: f.day(0)) == 2, "two homes, the map itself not one")
+    @Test func movingUpTheLadderIsTheLastChaptersOptionalStep() throws {
         let homes = try step("path_homes")
-        #expect(homes.optional)
-        #expect(!PathRules.canAttempt(homes, in: f.state, context: context, on: f.day(0)), "not before level \(Tuning.Goals.homesLevel)")
-        var high = f.state
-        high.xp = LevelCurve.threshold(for: Tuning.Goals.homesLevel)
-        #expect(PathRules.canAttempt(homes, in: high, context: context, on: f.day(0)))
+        #expect(homes.optional && homes.metric == .houseRung && homes.target == 3)
+        let houseboat = try step("path_bedroom")
+        #expect(!houseboat.optional && houseboat.metric == .houseRung && houseboat.target == 2)
     }
 
     @Test func seeingAScreenCountsOnceAndPaysNothingByItself() {
@@ -121,7 +112,7 @@ struct PathTests {
         let last = try chapter("path_making_home")
         let optional = last.steps.filter(\.optional)
         #expect(!optional.isEmpty)
-        #expect(optional.allSatisfy { [.passTiersClaimed, .homesVisited].contains($0.metric) }, "a season or the map's homes may not be open yet")
+        #expect(optional.allSatisfy { [.passTiersClaimed, .houseRung].contains($0.metric) }, "a season may not be on, a house may be far off")
         let required = Set(last.steps.filter { !$0.optional }.map(\.id))
         #expect(PathRules.isComplete(last, done: required))
         #expect(!PathRules.isComplete(last, done: required.subtracting([required.first!])))
@@ -196,36 +187,37 @@ struct PathTests {
         #expect(tracker.entries.contains { $0.kind == .room } || state.openedRooms.count == RoomID.allCases.count)
     }
 
-    @Test func withEveryRoomOpenTheTrackerShowsTheNearestMilestone() {
+    @Test func atTheTopTheTrackerShowsTheNearestMilestone() {
         var walker = Walker(f: Fixture(context: context), content: content)
         walker.f.add(.arrived, day: 0, hour: 8)
         walker.walkWholePath()
         var state = walker.f.state
-        state.openedRooms = Set(RoomID.allCases)
+        state.home.rung = HouseLadder.top
         let day = walker.f.clock.day(of: walker.f.log.events.last!.at)
         let tracker = GoalTracker.make(state, objectives: content.objectives, context: context, catName: "Pip", on: day)
         #expect(tracker.entries.last?.kind == .milestone)
         #expect(tracker.entries.allSatisfy { !($0.kind == .room) })
     }
 
-    @Test func theRoomGoalAsksForTheLevelFirstThenTheBeans() {
+    /// The next house's goal asks for what it still waits for: the Beans for the houseboat, then the level for the
+    /// cabin, then the houseboat's tasks one at a time.
+    @Test func theHouseGoalAsksForWhatTheNextHouseWaitsFor() {
         var f = Fixture(context: .empty)
         f.add(.arrived, day: 0, hour: 8)
-        let state = f.state
         let objectives = ObjectivesFile(version: 1, daily: [], weekly: [], achievements: [], path: nil)
-        var tracker = GoalTracker.make(state, objectives: objectives, context: .empty, catName: "Pip", on: f.day(0))
-        #expect(tracker.entries.map(\.id) == ["room.bedroom.level"])
-        #expect(tracker.entries.first?.name == "Level \(Tuning.Rooms.bedroomLevel)")
-        f.add(.healthGoalMet(.steps), day: 0, hour: 9)
-        for day in 1 ... 6 {
-            f.visit(days: [day])
-            f.add(.napCompleted, day: day, hour: 20)
-            f.add(.miniGamePlayed(game: "laser", stars: 0), day: day, hour: 20, minute: 5)
-        }
-        #expect(f.state.level >= Tuning.Rooms.bedroomLevel)
-        tracker = GoalTracker.make(f.state, objectives: objectives, context: .empty, catName: "Pip", on: f.day(6))
-        #expect(tracker.entries.map(\.id) == ["room.bedroom.open"])
-        #expect(tracker.entries.first?.target == Tuning.Rooms.bedroomBeans)
+        var tracker = GoalTracker.make(f.state, objectives: objectives, context: .empty, catName: "Pip", on: f.day(0))
+        #expect(tracker.entries.map(\.id) == ["house.2.move"])
+        #expect(tracker.entries.first?.target == HouseLadder.rung(2).price)
+        f.add(.tourFinished, day: 0, hour: 9)
+        f.add(.houseBought(rung: 2, beans: HouseLadder.rung(2).price), day: 0, hour: 9, minute: 1)
+        tracker = GoalTracker.make(f.state, objectives: objectives, context: .empty, catName: "Pip", on: f.day(0))
+        #expect(tracker.entries.map(\.id) == ["house.3.level"])
+        f.add(.purchaseBeansGranted(transactionID: "t", beans: 1), day: 0, hour: 9, minute: 2)
+        var state = f.state
+        state.xp = LevelCurve.threshold(for: HouseLadder.rung(3).level)
+        tracker = GoalTracker.make(state, objectives: objectives, context: .empty, catName: "Pip", on: f.day(0))
+        #expect(tracker.entries.first?.id == "house.2.total_feeds")
+        #expect(tracker.entries.first?.name == "Feed Pip 7 times")
     }
 
     @Test func aMetGoalSaysWhatItPaid() throws {
@@ -337,14 +329,29 @@ struct Walker {
         return false
     }
 
-    /// Opens the next room if the level and the Beans allow.
+    /// Moves up to the next house if nothing stands in the way (rooms come with houses: docs/LADDER.md).
     mutating func openNextRoom(day: Int, hour: Int) {
+        // A house task asking for new pieces: a piece or two bought for the rooms there are, as a player would.
+        let unfinished = Set(state.houseTaskProgress(on: f.day(day)).filter { $0.done < $0.task.target }.map(\.task.metric))
+        if unfinished.contains(.itemsOwned) {
+            for room in RoomID.allCases where state.openedRooms.contains(room) {
+                furnish(room, pieces: state.pieces(in: room) + 1, day: day, hour: hour)
+            }
+        }
+        // A new wallpaper now and then, from the free ones.
+        if unfinished.contains(.surfacesChanged) {
+            let free = content.catalogue.surfaces.filter { $0.room == RoomID.living.rawValue && $0.pool == .free }
+            if let surface = free.randomElement() {
+                let (h, m) = tick(day, hour)
+                f.add(.surfaceChanged(room: .living, surfaceID: surface.id), day: day, hour: h, minute: m)
+            }
+        }
         let state = self.state
-        guard let room = GoalTracker.nextRoom(state), state.level >= room.requiredLevel else { return }
-        let cost = RoomRules.cost(of: room, clubActive: false)
-        guard state.beans >= cost else { return }
+        guard let next = state.nextRung,
+              HouseLadder.block(above: state.rung, level: state.level, tasksDone: state.houseTasksDone, beans: state.beans) == nil
+        else { return }
         let (h, m) = tick(day, hour)
-        f.add(.roomOpened(room, beans: cost), day: day, hour: h, minute: m)
+        f.add(.houseBought(rung: next.number, beans: next.price), day: day, hour: h, minute: m)
     }
 
     /// Does what the open chapter's steps ask that costs no more than a tap or what the Beans allow.
@@ -407,9 +414,8 @@ struct Walker {
         f.add(.napCompleted, day: day, hour: 8, minute: 36)
         minute = 37
         openNextRoom(day: day, hour: 8)
-        f.add(.outfitWorn(catID: f.cat, outfitID: "nightcap"), day: day, hour: 8, minute: 39)
-        if skipping != "path_map" {
-            f.add(.screenSeen("map"), day: day, hour: 8, minute: 41)
+        if skipping != "path_dress" {
+            f.add(.outfitWorn(catID: f.cat, outfitID: "nightcap"), day: day, hour: 8, minute: 39)
         }
     }
 

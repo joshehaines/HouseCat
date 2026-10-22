@@ -605,7 +605,8 @@ LIFETIME = {'total_feeds', 'total_pets', 'total_gifts', 'distinct_gifts', 'legen
             'paw_prints_sent', 'groups_joined', 'sitting_days', 'gifts_sent', 'outfits_worn', 'surfaces_changed',
             'cats_adopted', 'sunday_cards', 'together_days',
             # the path's and the newer ladders' (19 Oct)
-            'games_played', 'days_visited', 'care_days', 'rooms_furnished', 'cat_used_items', 'homes_visited'}
+            'games_played', 'days_visited', 'care_days', 'rooms_furnished', 'cat_used_items', 'homes_visited',
+            'house_rung', 'house_tasks'}
 # Lifetime too, but they count in the room or the screen a path step names: never an achievement's.
 PATH_ONLY = {'room_pieces', 'screen_seen'}
 SCREENS = {'map'}   # what the app records as seen (GameSession.saw)

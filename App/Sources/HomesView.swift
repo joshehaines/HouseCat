@@ -13,6 +13,9 @@ struct HomesView: View {
 
     @Environment(\.controlFeedback) private var feedback
     @State private var state = GameSession.shared.state(at: GameSession.shared.now())
+    private var today: GameDay {
+        state.clock.day(of: GameSession.shared.now())
+    }
 
     var body: some View {
         ScrollView {
@@ -65,6 +68,20 @@ struct HomesView: View {
                 }
                 if next.tasks > 0 {
                     need("\(next.tasks) house tasks", met: state.houseTasksDone >= next.tasks, have: "\(state.houseTasksDone) done")
+                    // The tasks themselves, counted since moving in here.
+                    ForEach(Array(state.houseTaskProgress(on: today).enumerated()), id: \.offset) { _, entry in
+                        HStack(spacing: 8) {
+                            Image(systemName: entry.done >= entry.task.target ? "checkmark.square.fill" : "square")
+                                .foregroundStyle(entry.done >= entry.task.target ? GameHUD.green : Theme.inkSoft)
+                            Text(entry.task.title.replacingOccurrences(of: "{cat}", with: catName))
+                                .font(.system(size: 14, weight: .semibold, design: .rounded))
+                            Spacer(minLength: 0)
+                            Text("\(entry.done)/\(entry.task.target)").font(.system(size: 13, weight: .bold, design: .rounded))
+                                .monospacedDigit().foregroundStyle(Theme.inkSoft)
+                        }
+                        .padding(.leading, 28)
+                        .accessibilityElement(children: .combine)
+                    }
                 }
                 need("\(next.price.formatted()) Beans", met: state.beans >= next.price, have: "you have \(state.beans.formatted())")
             }

@@ -178,6 +178,9 @@ public struct HomeSettings: Codable, Equatable, Sendable {
     /// The house ladder's rung (docs/LADDER.md); nil until the first house is bought, and in saves from before
     /// the ladder (`HouseholdState.rung` works it out from the rooms).
     public var rung: Int?
+    /// The house tasks' counts when the household moved in (metric raw value to lifetime value): a task counts what
+    /// was done since.
+    public var movedIn: [String: Int]?
 
     public init() {}
 }

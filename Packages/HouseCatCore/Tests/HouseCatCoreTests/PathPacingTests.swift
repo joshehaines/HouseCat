@@ -24,6 +24,8 @@ struct PathPacingTests {
         /// Every goal met that day: the path's, today's, this week's, milestones.
         var goals: Int
         var tracker: Int
+        /// The house ladder's rung (docs/LADDER.md).
+        var rung: Int
     }
 
     let content: ContentBundle
@@ -77,7 +79,8 @@ struct PathPacingTests {
             let nowMet = GoalTracker.met(state)
             out.append(Day(
                 level: state.level, beans: state.beans, rooms: state.openedRooms.count, chapter: chapterIndex(state),
-                steps: state.pathDone.subtracting(path).count, goals: nowMet.subtracting(met).count, tracker: tracker.entries.count
+                steps: state.pathDone.subtracting(path).count, goals: nowMet.subtracting(met).count, tracker: tracker.entries.count,
+                rung: state.rung
             ))
             met = nowMet
             path = state.pathDone
@@ -100,6 +103,25 @@ struct PathPacingTests {
         #expect(times.count == movingIn.steps.count)
         let gaps = zip(times, times.dropFirst()).map { $1 - $0 }
         #expect(gaps.allSatisfy { $0 <= Tuning.Nap.minutes + 5 }, "gaps \(gaps)")
+    }
+
+    /// The ladder's climb (Josh, 22 Oct: "progression slows down the bigger the house, like clash of clans town halls"):
+    /// the houseboat on the first day, then each house taking longer than the one before. HOUSECAT_LADDER=1 prints when
+    /// each house is reached.
+    @Test func theLadderSlowsAsItClimbs() {
+        let print = ProcessInfo.processInfo.environment["HOUSECAT_LADDER"] != nil
+        for player in print ? Player.allCases : [.regular] {
+            let days = days(player, count: print ? 200 : 60)
+            let reached = (1 ... HouseLadder.top).map { rung in days.firstIndex { $0.rung >= rung } }
+            if print {
+                Swift.print("== \(player.rawValue): " + reached.enumerated().map { "house \($0 + 1) day \($1.map { String($0 + 1) } ?? "-")" }
+                    .joined(separator: ", ") + "; Beans then: \(days.last!.beans)")
+            }
+            #expect(reached[1] == 0, "\(player): the houseboat on the first day")
+            let known = reached.compactMap { $0 }
+            let gaps = zip(known, known.dropFirst()).map { $1 - $0 }
+            #expect(zip(gaps.dropFirst(), gaps.dropFirst(2)).allSatisfy { $0 <= $1 }, "\(player): the climb slows (\(gaps))")
+        }
     }
 
     @Test func theFirstWeekAndMonthKeepARhythm() {

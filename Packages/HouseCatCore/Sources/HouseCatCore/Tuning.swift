@@ -152,18 +152,42 @@ public enum Tuning {
             public var room: RoomID?
         }
 
+        /// What each house asks before the next one is for sale (Josh, 22 Oct: "certain objectives per house/tasks ...
+        /// progression slows down the bigger the house"), counted from moving in. Keyed by house number; the first
+        /// house has none (the tutorial moves you out). Each list is as long as the next house's `tasks`.
+        public static let houseTasks: [Int: [HouseTask]] = [
+            2: [.init(.totalFeeds, 7, "Feed {cat} 7 times"), .init(.gamesPlayed, 5, "Play 5 games"),
+                .init(.itemsOwned, 3, "Get 3 new pieces"), .init(.daysVisited, 4, "Visit on 4 days")],
+            3: [.init(.totalFeeds, 14, "Feed {cat} 14 times"), .init(.gamesPlayed, 10, "Play 10 games"),
+                .init(.daysVisited, 7, "Visit on 7 days"), .init(.minigameWins, 5, "Earn a star in 5 games"),
+                .init(.itemsOwned, 4, "Get 4 new pieces")],
+            4: [.init(.totalFeeds, 21, "Feed {cat} 21 times"), .init(.gamesPlayed, 15, "Play 15 games"),
+                .init(.daysVisited, 10, "Visit on 10 days"), .init(.totalGifts, 5, "Collect 5 presents"),
+                .init(.itemsOwned, 5, "Get 5 new pieces")],
+            5: [.init(.totalFeeds, 30, "Feed {cat} 30 times"), .init(.gamesPlayed, 20, "Play 20 games"),
+                .init(.daysVisited, 14, "Visit on 14 days"), .init(.threeStarGames, 5, "Earn three stars 5 times"),
+                .init(.totalPets, 60, "Stroke {cat} 60 times"), .init(.itemsOwned, 6, "Get 6 new pieces")],
+            6: [.init(.totalFeeds, 40, "Feed {cat} 40 times"), .init(.gamesPlayed, 30, "Play 30 games"),
+                .init(.daysVisited, 21, "Visit on 21 days"), .init(.totalGifts, 10, "Collect 10 presents"),
+                .init(.surfacesChanged, 2, "Change 2 wallpapers or floors"), .init(.itemsOwned, 8, "Get 8 new pieces")],
+            7: [.init(.totalFeeds, 50, "Feed {cat} 50 times"), .init(.gamesPlayed, 40, "Play 40 games"),
+                .init(.daysVisited, 30, "Visit on 30 days"), .init(.minigameWins, 25, "Earn a star in 25 games"),
+                .init(.totalPets, 120, "Stroke {cat} 120 times"), .init(.totalGifts, 15, "Collect 15 presents"),
+                .init(.itemsOwned, 10, "Get 10 new pieces")],
+        ]
+
         /// The second house is the tutorial's last step: the tour's welcome and the housewarming allowance buy it
         /// (Josh, 22 Oct: "the tutorial should get you out of the first house").
         public static let rungs: [Spec] = [
             // A made-up town, so no real place is the bottom (Josh, 22 Oct: "too offensive to have a place as the worst").
             Spec(style: .londonTerrace, place: HomePlace(name: "Puddlebury", latitude: 52.2, longitude: -1.5, timeZoneID: "Europe/London", biome: .city), price: 0, level: 1, tasks: 0, room: .living),
             Spec(style: .houseboat, place: HomePlace(name: "Amsterdam", latitude: 52.3676, longitude: 4.9041, timeZoneID: "Europe/Amsterdam", biome: .city), price: 200, level: 1, tasks: 0, room: .bedroom),
-            Spec(style: .woodlandCabin, place: HomePlace(name: "Vancouver", latitude: 49.2827, longitude: -123.1207, timeZoneID: "America/Vancouver", biome: .forest), price: 4000, level: 5, tasks: 4, room: .kitchen),
-            Spec(style: .cottage, place: HomePlace(name: "Queenstown", latitude: -45.0312, longitude: 168.6626, timeZoneID: "Pacific/Auckland", biome: .countryside), price: 9000, level: 8, tasks: 5, room: .garden),
-            Spec(style: .newbuildBalcony, place: HomePlace(name: "Tokyo", latitude: 35.6762, longitude: 139.6503, timeZoneID: "Asia/Tokyo", biome: .city), price: 18000, level: 11, tasks: 5, room: .study),
-            Spec(style: .mediterraneanRooftop, place: HomePlace(name: "Santorini", latitude: 36.3932, longitude: 25.4615, timeZoneID: "Europe/Athens", biome: .coast), price: 32000, level: 14, tasks: 6, room: .attic),
-            Spec(style: .georgianTownhouse, place: HomePlace(name: "New York", latitude: 40.7128, longitude: -74.0060, timeZoneID: "America/New_York", biome: .city), price: 55000, level: 17, tasks: 6, room: nil),
-            Spec(style: .mansionFlat, place: .london, price: 90000, level: 20, tasks: 7, room: nil),
+            Spec(style: .woodlandCabin, place: HomePlace(name: "Vancouver", latitude: 49.2827, longitude: -123.1207, timeZoneID: "America/Vancouver", biome: .forest), price: 700, level: 5, tasks: 4, room: .kitchen),
+            Spec(style: .cottage, place: HomePlace(name: "Queenstown", latitude: -45.0312, longitude: 168.6626, timeZoneID: "Pacific/Auckland", biome: .countryside), price: 1500, level: 7, tasks: 5, room: .garden),
+            Spec(style: .newbuildBalcony, place: HomePlace(name: "Tokyo", latitude: 35.6762, longitude: 139.6503, timeZoneID: "Asia/Tokyo", biome: .city), price: 2500, level: 9, tasks: 5, room: .study),
+            Spec(style: .mediterraneanRooftop, place: HomePlace(name: "Santorini", latitude: 36.3932, longitude: 25.4615, timeZoneID: "Europe/Athens", biome: .coast), price: 3800, level: 12, tasks: 6, room: .attic),
+            Spec(style: .georgianTownhouse, place: HomePlace(name: "New York", latitude: 40.7128, longitude: -74.0060, timeZoneID: "America/New_York", biome: .city), price: 5200, level: 15, tasks: 6, room: nil),
+            Spec(style: .mansionFlat, place: .london, price: 7000, level: 18, tasks: 7, room: nil),
         ]
     }
 

@@ -14,15 +14,17 @@ run-down terrace. Climb the ladder one house at a time with Beans, never skippin
 |---|---|---|---|---|---|---|
 | 1 | Run-down terrace (new art) | Puddlebury (made up) | start | — | Living room | day 1 |
 | 2 | Houseboat | Amsterdam | 200 | the tutorial | Bedroom | day 1 (end of the tutorial) |
-| 3 | Woodland cabin | Vancouver | 4,000 | level 5 + 4 tasks | Kitchen | week 2 |
-| 4 | Cottage | Queenstown, NZ | 9,000 | level 8 + 5 tasks | Garden | week 3–4 |
-| 5 | New-build balcony flat | Tokyo | 18,000 | level 11 + 5 tasks | Study | week 6 |
-| 6 | Mediterranean rooftop | Santorini | 32,000 | level 14 + 6 tasks | Attic | month 2–3 |
-| 7 | Georgian townhouse | New York | 55,000 | level 17 + 6 tasks | — | month 4 |
-| 8 | Mansion flat | London | 90,000 | level 20 + 7 tasks | — | month 6 |
+| 3 | Woodland cabin | Vancouver | 700 | level 5 + 4 house tasks | Kitchen | day 8 |
+| 4 | Cottage | Queenstown, NZ | 1,500 | level 7 + 5 tasks | Garden | day 22 |
+| 5 | New-build balcony flat | Tokyo | 2,500 | level 9 + 5 tasks | Study | day 43 |
+| 6 | Mediterranean rooftop | Santorini | 3,800 | level 12 + 6 tasks | Attic | day 75 |
+| 7 | Georgian townhouse | New York | 5,200 | level 15 + 6 tasks | — | day 120 |
+| 8 | Mansion flat | London | 7,000 | level 18 + 7 tasks | — | day 170 |
 
-\*For a player who plays daily without buying Beans. These prices are placeholders, to be tuned against
-real Bean income in `PathPacingTests` before they're locked in.
+\*A regular player who plays daily without buying Beans, as `PathPacingTests.theLadderSlowsAsItClimbs` simulates
+it (HOUSECAT_LADDER=1 prints it: a light player reaches New York around day 160, a keen one London around day 163).
+House tasks count feeds, games, days, stars, presents, strokes, new pieces and wallpapers since moving in
+(`Tuning.Ladder.houseTasks`); feeding once a day sets the pace, so buying Beans can't skip the climb.
 
 ## Rules
 - Rooms now open with the house, not with the player's level. Furniture and rooms carry up the ladder.

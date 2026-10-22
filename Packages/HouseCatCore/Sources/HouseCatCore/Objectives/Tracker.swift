@@ -94,22 +94,29 @@ public struct GoalTracker: Equatable, Sendable {
         } else if let goal = nearest(board.week) {
             entries.append(entry(goal, kind: .week, objectives: objectives, fill: fill))
         }
-        if let room = nextRoom(state) {
-            let title = roomTitle(room).lowercased()
-            if state.level < room.requiredLevel {
+        // The next house up the ladder (docs/LADDER.md): whatever it still waits for, level, a house task or Beans.
+        if let next = state.nextRung {
+            let house = next.name.lowercased()
+            let tasks = state.houseTaskProgress(on: day)
+            if state.level < next.level {
                 let into = state.xp - LevelCurve.threshold(for: state.level)
-                let span = LevelCurve.threshold(for: room.requiredLevel) - LevelCurve.threshold(for: state.level)
+                let span = LevelCurve.threshold(for: next.level) - LevelCurve.threshold(for: state.level)
                 entries.append(Entry(
-                    id: "room.\(room.rawValue).level", kind: .room, name: "Level \(room.requiredLevel)",
-                    text: "Reach level \(room.requiredLevel) to open the \(title)",
-                    progress: max(0, into), target: max(1, span), beans: 0, xp: 0, room: room
+                    id: "house.\(next.number).level", kind: .room, name: "Level \(next.level)",
+                    text: "Reach level \(next.level) for the \(house)",
+                    progress: max(0, into), target: max(1, span), beans: 0, xp: 0, room: next.room
+                ))
+            } else if let task = tasks.first(where: { $0.done < $0.task.target }) {
+                entries.append(Entry(
+                    id: "house.\(state.rung).\(task.task.metric.rawValue)", kind: .room, name: fill(task.task.title),
+                    text: "A task before the \(house) in \(next.place.name)",
+                    progress: task.done, target: task.task.target, beans: 0, xp: 0, room: next.room
                 ))
             } else {
-                let cost = RoomRules.cost(of: room, clubActive: state.today?.clubDay == true)
                 entries.append(Entry(
-                    id: "room.\(room.rawValue).open", kind: .room, name: "Open the \(title)",
-                    text: "\(cost.formatted()) Beans to open it", progress: min(state.beans, cost), target: cost,
-                    beans: 0, xp: 0, room: room
+                    id: "house.\(next.number).move", kind: .room, name: "Move into the \(house)",
+                    text: "\(next.price.formatted()) Beans, in \(next.place.name)", progress: min(state.beans, next.price),
+                    target: next.price, beans: 0, xp: 0, room: next.room
                 ))
             }
         }

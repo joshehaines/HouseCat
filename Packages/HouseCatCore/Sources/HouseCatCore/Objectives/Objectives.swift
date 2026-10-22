@@ -67,6 +67,10 @@ public enum ObjectiveMetric: String, CaseIterable, Codable, Sendable {
     case screenSeen = "screen_seen"
     /// Other cats' homes visited on the world map (`screenSeen` "home.<id>").
     case homesVisited = "homes_visited"
+    /// The house ladder's rung the household lives on (docs/LADDER.md).
+    case houseRung = "house_rung"
+    /// The current house's tasks done (`HouseholdState.houseTasksDone`).
+    case houseTasks = "house_tasks"
 
     /// What only sharing a cat counts (paw prints, groups, cat-sitting, presents for the other owner): the app leaves
     /// the goals on these off the Goals page while sharing is off (`GoalBoard.make(hiding:)`).

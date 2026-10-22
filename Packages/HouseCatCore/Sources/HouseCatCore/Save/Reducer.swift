@@ -32,7 +32,7 @@ extension HouseholdState {
             applyCare(event, context: context)
         case .itemBought, .itemGranted, .purchaseBeansGranted, .itemPlaced, .itemMoved, .itemStored, .catUsedNewItem, .roomOpened,
              .roomVisited,
-             .surfaceChanged, .outfitWorn, .outfitTakenOff, .homeMoved, .seasonModeChanged, .homePlaced, .seasonSet, .homeStyleChosen, .tourFinished,
+             .surfaceChanged, .outfitWorn, .outfitTakenOff, .homeMoved, .seasonModeChanged, .homePlaced, .seasonSet, .homeStyleChosen, .houseBought, .tourFinished,
              .bundleGranted, .outfitBought, .screenSeen:
             applyHome(event, context: context)
         case .pauseStarted, .pauseEnded, .passPurchased, .passTierClaimed, .clubDayRecorded, .eventRewardClaimed, .streakRepaired,
@@ -280,6 +280,21 @@ extension HouseholdState {
             guard setting != home.season else { break }
             home.season = setting
             lifetime.seasonChanges += 1
+        case let .houseBought(number, price):
+            let current = rung
+            guard number == current + 1, price >= HouseLadder.rung(number).price,
+                  HouseLadder.block(above: current, level: level, tasksDone: houseTasksDone, beans: beans) == nil
+            else { break }
+            let bought = HouseLadder.rung(number)
+            beansSpent += price
+            home.rung = number
+            home.style = bought.style
+            home.place = bought.place
+            home.moving = false
+            // Every room up to this rung, so a pre-ladder save that skipped one doesn't lose it.
+            for room in HouseLadder.rungs.prefix(number).compactMap(\.room) {
+                openedRooms.insert(room)
+            }
         default:
             break
         }

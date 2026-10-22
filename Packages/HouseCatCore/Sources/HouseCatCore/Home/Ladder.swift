@@ -1,0 +1,95 @@
+import Foundation
+
+/// One rung of the house ladder (docs/LADDER.md; Josh, 22 Oct: "rags to riches with your best friend"): a house in a
+/// fixed city, what it costs in Beans, the level it needs, how many of the current house's tasks must be done
+/// first, and the room it opens.
+public struct Rung: Equatable, Sendable, Identifiable {
+    /// 1 is the run-down terrace the player starts in; `HouseLadder.rungs.count` is the top.
+    public var number: Int
+    public var style: HouseStyle
+    public var place: HomePlace
+    /// Beans to buy it; 0 for the first rung.
+    public var price: Int
+    public var level: Int
+    /// Tasks of the house below that must be done before this one is for sale.
+    public var tasks: Int
+    /// The room that opens with it (furniture and rooms carry up the ladder).
+    public var room: RoomID?
+
+    public var id: Int {
+        number
+    }
+}
+
+/// The eight houses bottom to top. No skipping and no going back down; each costs more and takes longer, like
+/// a builder game's town halls.
+public enum HouseLadder {
+    public static let rungs: [Rung] = zip(Tuning.Ladder.rungs.indices, Tuning.Ladder.rungs).map { index, spec in
+        Rung(
+            number: index + 1,
+            style: spec.style,
+            place: spec.place,
+            price: spec.price,
+            level: spec.level,
+            tasks: spec.tasks,
+            room: spec.room
+        )
+    }
+
+    public static var top: Int {
+        rungs.count
+    }
+
+    /// The rung by its number, clamped to the ladder.
+    public static func rung(_ number: Int) -> Rung {
+        rungs[min(max(number, 1), top) - 1]
+    }
+
+    /// The rung a room opens on (the living room is there from the start).
+    public static func rung(opening room: RoomID) -> Int {
+        rungs.first { $0.room == room }?.number ?? 1
+    }
+
+    /// Why the next house can't be bought yet, or nil when it can.
+    public enum Block: Equatable, Sendable {
+        case atTheTop
+        case needsLevel(Int)
+        case needsTasks(done: Int, of: Int)
+        case needsBeans(Int)
+    }
+
+    /// Whether the house above `current` can be bought now. Level and tasks come before Beans, so Beans alone
+    /// never skip the climb.
+    public static func block(above current: Int, level: Int, tasksDone: Int, beans: Int) -> Block? {
+        guard current < top else { return .atTheTop }
+        let next = rung(current + 1)
+        if level < next.level { return .needsLevel(next.level) }
+        if tasksDone < next.tasks { return .needsTasks(done: tasksDone, of: next.tasks) }
+        if beans < next.price { return .needsBeans(next.price) }
+        return nil
+    }
+}
+
+public extension HouseholdState {
+    /// The house the household lives in now. A save from before the ladder is put on the rung its rooms have
+    /// reached, so nobody loses a room.
+    var rung: Int {
+        if let rung = home.rung { return rung }
+        return openedRooms.map { HouseLadder.rung(opening: $0) }.max() ?? 1
+    }
+
+    var currentRung: Rung {
+        HouseLadder.rung(rung)
+    }
+
+    /// The current house's tasks done. The tasks arrive in step 6 of docs/LADDER.md; until then they count as
+    /// done, so the ladder is gated by level and Beans alone.
+    var houseTasksDone: Int {
+        nextRung?.tasks ?? 0
+    }
+
+    /// The next house up, or nil at the top.
+    var nextRung: Rung? {
+        rung < HouseLadder.top ? HouseLadder.rung(rung + 1) : nil
+    }
+}

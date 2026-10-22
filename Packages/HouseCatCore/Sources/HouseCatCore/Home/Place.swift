@@ -175,6 +175,9 @@ public struct HomeSettings: Codable, Equatable, Sendable {
     public var style: HouseStyle?
     /// A paid or free move was recorded and the next pin may land.
     public var moving = false
+    /// The house ladder's rung (docs/LADDER.md); nil until the first house is bought, and in saves from before
+    /// the ladder (`HouseholdState.rung` works it out from the rooms).
+    public var rung: Int?
 
     public init() {}
 }

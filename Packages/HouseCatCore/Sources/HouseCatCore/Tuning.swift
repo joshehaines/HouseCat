@@ -139,6 +139,31 @@ public enum Tuning {
         public static let tourReward = 100
     }
 
+    /// The house ladder bottom to top (docs/LADDER.md, approved by Josh 22 Oct). Prices are placeholders until
+    /// `LadderTests` holds them against real Bean income. The first rung is the run-down terrace, drawn as the
+    /// London terrace until its own painting exists.
+    public enum Ladder {
+        public struct Spec: Sendable {
+            public var style: HouseStyle
+            public var place: HomePlace
+            public var price: Int
+            public var level: Int
+            public var tasks: Int
+            public var room: RoomID?
+        }
+
+        public static let rungs: [Spec] = [
+            Spec(style: .londonTerrace, place: HomePlace(name: "Manchester", latitude: 53.4808, longitude: -2.2426, timeZoneID: "Europe/London", biome: .city), price: 0, level: 1, tasks: 0, room: .living),
+            Spec(style: .houseboat, place: HomePlace(name: "Amsterdam", latitude: 52.3676, longitude: 4.9041, timeZoneID: "Europe/Amsterdam", biome: .city), price: 1500, level: 3, tasks: 3, room: .bedroom),
+            Spec(style: .woodlandCabin, place: HomePlace(name: "Oslo", latitude: 59.9139, longitude: 10.7522, timeZoneID: "Europe/Oslo", biome: .forest), price: 4000, level: 5, tasks: 4, room: .kitchen),
+            Spec(style: .cottage, place: HomePlace(name: "The Cotswolds", latitude: 51.8850, longitude: -1.7590, timeZoneID: "Europe/London", biome: .countryside), price: 9000, level: 8, tasks: 5, room: .garden),
+            Spec(style: .newbuildBalcony, place: HomePlace(name: "Toronto", latitude: 43.6532, longitude: -79.3832, timeZoneID: "America/Toronto", biome: .city), price: 18000, level: 11, tasks: 5, room: .study),
+            Spec(style: .mediterraneanRooftop, place: HomePlace(name: "Barcelona", latitude: 41.3874, longitude: 2.1686, timeZoneID: "Europe/Madrid", biome: .coast), price: 32000, level: 14, tasks: 6, room: .attic),
+            Spec(style: .georgianTownhouse, place: HomePlace(name: "Bath", latitude: 51.3811, longitude: -2.3590, timeZoneID: "Europe/London", biome: .city), price: 55000, level: 17, tasks: 6, room: nil),
+            Spec(style: .mansionFlat, place: .london, price: 90000, level: 20, tasks: 7, room: nil),
+        ]
+    }
+
     /// Room gating: a level AND Beans above the allowance (CLAUDE.md "First arrival").
     public enum Rooms {
         public static let bedroomLevel = 2

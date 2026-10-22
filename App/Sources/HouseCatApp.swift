@@ -15,8 +15,6 @@ struct HouseCatApp: App {
     @State private var adopting: CatBuilderModel?
     /// Debug: the widget gallery instead of the game.
     @State private var gallery = false
-    /// A new player sees the intro before the builder.
-    @State private var introducing = false
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
@@ -56,12 +54,6 @@ struct HouseCatApp: App {
                         visit = Visit(size: CGSize(width: 1024, height: 768), lastActive: nil)
                     }
                     .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
-                } else if introducing, let intro = GameWorld.content?.intro {
-                    // A new player: the intro, then the builder (SPEC onboarding: cat, geography, house, arrival).
-                    IntroView(intro: intro) {
-                        introducing = false
-                        adopting = CatScreens.builder(mode: .adopt)
-                    }
                 } else {
                     // The first frame, before anything is built: the launch screen's own look, so it hands over
                     // without a flash, and the cat pounces onto the letters while the home is built.
@@ -75,8 +67,8 @@ struct HouseCatApp: App {
             .dynamicTypeSize(...DynamicTypeSize.accessibility2)
             .onReceive(NotificationCenter.default.publisher(for: .houseCatErased)) { _ in
                 visit = nil
-                adopting = nil
-                introducing = true
+                // A new player designs their cat first (Josh, 22 Oct: "cat design and then into a cut scene").
+                adopting = CatScreens.builder(mode: .adopt)
             }
             // The household on this phone changed (it joined someone's cat, left it, or sharing ended): the first
             // screen again, for the cat now in the save.
@@ -84,8 +76,9 @@ struct HouseCatApp: App {
                 invites.notice = note.userInfo?["notice"] as? String
                 visit = nil
                 adopting = nil
-                introducing = GameSession.shared.cat == nil
-                if !introducing {
+                if GameSession.shared.cat == nil {
+                    adopting = CatScreens.builder(mode: .adopt)
+                } else {
                     visit = Visit(size: CGSize(width: 1024, height: 768), lastActive: nil)
                 }
             }
@@ -176,11 +169,7 @@ struct HouseCatApp: App {
             }
         #endif
         #if DEBUG
-            if ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"] == "intro" {
-                introducing = true
-                return
-            }
-            // HOUSECAT_SCREEN=creator: the cat creator as a new player meets it, without the intro before it
+            // HOUSECAT_SCREEN=creator: the cat creator as a new player meets it
             // (HOUSECAT_CREATOR=<drawer> opens a drawer: looks, body, coat, pattern, white, eyes, nose, earsTail, age, name).
             if ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"] == "creator" {
                 adopting = CatScreens.builder(mode: .adopt)
@@ -188,7 +177,8 @@ struct HouseCatApp: App {
             }
         #endif
         if GameSession.shared.cat == nil {
-            introducing = true
+            // A new player designs their cat first, then the cutscene, then home (docs/LADDER.md).
+            adopting = CatScreens.builder(mode: .adopt)
         } else {
             // The whole logo animation plays every launch (Josh, 19 Oct): the home is built under it near its end, so
             // it is ready as the curtain lifts (a tap on the curtain skips to it).

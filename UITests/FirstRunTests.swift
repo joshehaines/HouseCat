@@ -18,11 +18,10 @@ final class FirstRunTests: XCTestCase {
 
     func testAFreshInstallPlaysThroughTheFirstRun() throws {
         app.launch()
-        let begin = app.buttons["Begin"]
-        guard begin.waitForExistence(timeout: 60) else {
+        // A new player starts in the cat builder (Josh, 22 Oct: the cat design comes first).
+        guard builderNext.waitForExistence(timeout: 60) else {
             throw XCTSkip("Needs a fresh install: the save already has a cat.")
         }
-        try playTheIntro(begin)
         try makeTheCat()
         try goInside()
         try takeTheTour()
@@ -36,7 +35,7 @@ final class FirstRunTests: XCTestCase {
     /// the curtain lifts onto the room.
     func testARelaunchLiftsTheCurtain() throws {
         app.launch()
-        if app.buttons["Begin"].waitForExistence(timeout: 15) {
+        if builderNext.waitForExistence(timeout: 15) {
             throw XCTSkip("Needs a save with a cat: run testAFreshInstallPlaysThroughTheFirstRun first.")
         }
         XCTAssertTrue(curtainLifts(within: 40), "the curtain lifts onto the room")
@@ -47,28 +46,9 @@ final class FirstRunTests: XCTestCase {
 
     // MARK: Onboarding
 
-    private func playTheIntro(_ begin: XCUIElement) throws {
-        sleep(2)
-        snap("1 intro")
-        begin.tap()
-        // The host's hello, then the flight round the homes, each with its Next.
-        let makeMyCat = app.buttons["Make my cat"]
-        var stops = 0
-        let deadline = Date().addingTimeInterval(150)
-        while !makeMyCat.exists, Date() < deadline {
-            if tapIfThere("Next home") {
-                stops += 1
-                if stops == 1 {
-                    snap("2 intro home")
-                }
-            } else {
-                _ = tapIfThere("Next")
-            }
-            sleep(1)
-        }
-        XCTAssertGreaterThan(stops, 0, "the intro visited its homes")
-        XCTAssertTrue(makeMyCat.waitForExistence(timeout: 10), "the intro's end")
-        makeMyCat.tap()
+    /// The cat builder's first "Next: <drawer>" button: there only for a new player.
+    private var builderNext: XCUIElement {
+        app.buttons.matching(NSPredicate(format: "label BEGINSWITH 'Next: '")).firstMatch
     }
 
     private func makeTheCat() throws {

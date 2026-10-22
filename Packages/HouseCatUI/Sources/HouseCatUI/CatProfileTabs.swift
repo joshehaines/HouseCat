@@ -34,7 +34,7 @@ extension CatProfileView {
                 .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).strokeBorder(GameHUD.green.opacity(0.3), lineWidth: 1))
                 .accessibilityElement(children: .combine)
             }
-            // Where home is, and moving it (Josh, 19 Oct: "no option for the user to move house").
+            // Where home is, and the next house up the ladder (docs/LADDER.md).
             if let home, let moveHouse {
                 HStack(spacing: 10) {
                     PaintedIcon("house", size: 30)
@@ -46,7 +46,7 @@ extension CatProfileView {
                         feedback.tap()
                         moveHouse()
                     } label: {
-                        Text("Move house")
+                        Text("Next home")
                             .font(.system(.footnote, design: .rounded, weight: .heavy))
                             .foregroundStyle(.white)
                             .padding(.horizontal, 12)

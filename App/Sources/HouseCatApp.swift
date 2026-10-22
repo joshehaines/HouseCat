@@ -364,6 +364,10 @@ struct RoomScreen: View {
     /// The profile's Reminders button: the settings open once the profile has gone.
     @State private var settingsNext = false
     @State private var showBook = false
+    /// The house ladder: where you live and the next house up (docs/LADDER.md).
+    @State private var showHomes = false
+    /// The profile's Next home: the homes open once the profile has gone.
+    @State private var homesNext = false
     @State private var choosingGame = false
     @State private var playing: PlayRound?
     /// The Games menu (Play opens it; CLAUDE.md "The Games menu").
@@ -636,6 +640,10 @@ struct RoomScreen: View {
                     settingsNext = false
                     showSettings = true
                 }
+                if homesNext {
+                    homesNext = false
+                    showHomes = true
+                }
             }) {
                 if let info = CatScreens.profile() {
                     CatProfileView(
@@ -666,6 +674,10 @@ struct RoomScreen: View {
                             WidgetBridge.publish()
                         },
                         home: CatScreens.homeLine(),
+                        moveHouse: {
+                            homesNext = true
+                            showProfile = false
+                        },
                         settings: {
                             settingsNext = true
                             showProfile = false
@@ -861,7 +873,12 @@ struct RoomScreen: View {
                 // The reminders card waited for the tour.
                 if was, !running {
                     visit.refreshStats()
-                    if !Reminders.asked {
+                    // The tutorial ends by moving out of the first house (Josh, 22 Oct: "the tutorial should get you
+                    // out of the first house"): the tour's welcome Beans buy the houseboat. The reminders wait.
+                    let state = GameSession.shared.state(at: GameSession.shared.now())
+                    if state.rung == 1, HouseLadder.block(above: 1, level: state.level, tasksDone: state.houseTasksDone, beans: state.beans) == nil {
+                        showHomes = true
+                    } else if !Reminders.asked {
                         visit.askReminders = true
                     }
                 }
@@ -947,6 +964,16 @@ struct RoomScreen: View {
                         visit.played(reward)
                     }
                 }
+            }
+            .sheet(isPresented: $showHomes) {
+                HomesView(catName: visit.catName ?? "Your cat") {
+                    showHomes = false
+                    // Moved in: the cold open at the new house.
+                    restart()
+                } close: {
+                    showHomes = false
+                }
+                .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
             }
             .sheet(isPresented: $showBook) {
                 GiftBookView(entries: CatScreens.book()) { showBook = false }
@@ -1261,6 +1288,10 @@ struct RoomScreen: View {
                 GoalsSeen.count = CatScreens.goalsMet().count
                 showGoals = true
             },
+            RoomMenu.Item(id: "homes", title: "Homes", icon: "house") {
+                showMenu = false
+                showHomes = true
+            },
             RoomMenu.Item(id: "book", title: "Book", icon: "collection_book") {
                 showMenu = false
                 showBook = true
@@ -1398,7 +1429,7 @@ struct RoomScreen: View {
     /// A screen, sheet or card is over the room: the Games menu or a game, the shop, the pass, the map, the Goals page,
     /// the book, the profile and its wardrobe, the streak, the road, the settings, or Together.
     private var roomCovered: Bool {
-        showGames || playing != nil || showShop || showPass || showGoals || showBook || showProfile
+        showGames || playing != nil || showShop || showPass || showGoals || showBook || showHomes || showProfile
             || tryingOn != nil || editing != nil || showStreak || showRoad || showSettings || showTogether
     }
 
@@ -1647,32 +1678,19 @@ struct RoomScreen: View {
     }
 
     /// Opening a room (SPEC "Home and furniture": every room needs a level and Beans).
+    /// A closed room: it comes with a house up the ladder (docs/LADDER.md), so the homes open from here.
     private func roomAlert(_ offer: Visit.RoomOffer) -> Alert {
-        let name = offer.room.rawValue.capitalized
-        switch offer.availability {
-        case let .unlockable(cost):
-            return Alert(
-                title: Text("Open the \(name)?"),
-                message: Text("\(cost) Beans. You have \(offer.beans)."),
-                primaryButton: .default(Text("Open for \(cost) Beans")) { visit.openOfferedRoom() },
-                secondaryButton: .cancel()
-            )
-        case let .locked(level, cost, needsLevel, needsBeans):
-            var needs: [String] = []
-            if needsLevel {
-                needs.append("level \(level) (you are level \(offer.level))")
-            }
-            if needsBeans {
-                needs.append("\(cost) Beans (you have \(offer.beans))")
-            }
-            return Alert(
-                title: Text("The \(name)"),
-                message: Text("Opens at " + needs.joined(separator: " and ") + "."),
-                dismissButton: .default(Text("OK"))
-            )
-        case .open:
-            return Alert(title: Text("The \(name) is open"))
+        let name = Visit.title(of: offer.room, upstairs: false)
+        if case .open = offer.availability {
+            return Alert(title: Text("The \(name.lowercased()) is open"))
         }
+        let rung = HouseLadder.rung(HouseLadder.rung(opening: offer.room))
+        return Alert(
+            title: Text("The \(name.lowercased())"),
+            message: Text("It comes with the \(rung.name.lowercased()) in \(rung.place.name), house \(rung.number) of \(HouseLadder.top)."),
+            primaryButton: .default(Text("See your homes")) { showHomes = true },
+            secondaryButton: .cancel()
+        )
     }
 }
 

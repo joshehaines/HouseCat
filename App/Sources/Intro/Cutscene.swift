@@ -191,7 +191,7 @@ struct Cutscene: View {
                     .font(.system(size: 13, weight: .heavy, design: .rounded))
                     .tracking(0.6)
                     .foregroundStyle(Theme.cream.opacity(0.8))
-                Text("\(rung.style.name) · \(rung.place.name)")
+                Text("\(rung.name) · \(rung.place.name)")
                     .font(Theme.title(20))
                     .foregroundStyle(Theme.cream)
             }

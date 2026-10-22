@@ -484,7 +484,7 @@ final class ButtonSweepTests: XCTestCase {
         XCTContext.runActivity(named: "Menu and each item") { _ in
             openMenu()
             snap("menu")
-            let items = ["Outside", "Goals", "Book", "Pass", "Gifts", "Together"].filter { title in
+            let items = ["Outside", "Goals", "Homes", "Book", "Pass", "Gifts", "Together"].filter { title in
                 app.buttons.matching(NSPredicate(format: "label == %@ OR label BEGINSWITH %@", title, title + ",")).firstMatch.exists
             }
             XCTContext.runActivity(named: "Menu items: \(items.joined(separator: ", "))") { _ in }

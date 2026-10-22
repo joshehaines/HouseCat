@@ -19,6 +19,11 @@ public struct Rung: Equatable, Sendable, Identifiable {
     public var id: Int {
         number
     }
+
+    /// As the ladder names it: the first house is the run-down one, whatever its painting borrows.
+    public var name: String {
+        number == 1 ? "Run-down terrace" : style.name
+    }
 }
 
 /// The eight houses bottom to top. No skipping and no going back down; each costs more and takes longer, like

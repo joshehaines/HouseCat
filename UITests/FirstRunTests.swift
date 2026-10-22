@@ -26,6 +26,7 @@ final class FirstRunTests: XCTestCase {
         try watchTheCutscene()
         try goInside()
         try takeTheTour()
+        try moveToTheHouseboat()
         try playAGame()
         try decorate()
         try visitTheShop()
@@ -92,6 +93,20 @@ final class FirstRunTests: XCTestCase {
         XCTAssertTrue(done.waitForExistence(timeout: 45), "the cutscene climbs the ladder")
         snap("6 cutscene ladder")
         done.tap()
+    }
+
+    /// The tutorial ends by buying the second house with the tour's Beans; the game carries on there.
+    private func moveToTheHouseboat() throws {
+        let buy = app.buttons["buyNextHouse"]
+        XCTAssertTrue(buy.waitForExistence(timeout: 20), "the homes open at the end of the tour")
+        snap("12 next home")
+        buy.tap()
+        // The houseboat's cold open (if its pack is here), then its room.
+        sleep(4)
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+        XCTAssertTrue(app.buttons["Decorate"].waitForExistence(timeout: 40), "moved into the houseboat")
+        snap("13 houseboat")
+        dismissCards()
     }
 
     private func goInside() throws {

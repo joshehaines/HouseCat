@@ -613,6 +613,21 @@ final class GameSession {
 
     // MARK: Home
 
+    /// Buys the next house up the ladder (docs/LADDER.md) if nothing stands in the way, and fetches its exteriors.
+    /// True when it was bought.
+    @discardableResult
+    func buyNextHouse() -> Bool {
+        let date = now()
+        let state = state(at: date)
+        guard let next = state.nextRung,
+              HouseLadder.block(above: state.rung, level: state.level, tasksDone: state.houseTasksDone, beans: state.beans) == nil
+        else { return false }
+        Analytics.track(.homeChosen, detail: next.style.rawValue)
+        append(.houseBought(rung: next.number, beans: next.price), at: date)
+        HomePacks.prepare(next.style)
+        return self.state(at: date).rung == next.number
+    }
+
     /// The home's season changed in Settings: saved at once.
     func setSeason(_ season: SeasonSetting) {
         let date = now()

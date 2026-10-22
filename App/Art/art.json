@@ -14518,6 +14518,14 @@
    ],
    "scale": 1.0
   },
+  "ui/homes/homes_room.jpg": {
+   "file": "ui/homes/homes_room.heic",
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 0.5
+  },
   "ui/icon_bean_coin.png": {
    "master": [
     340,

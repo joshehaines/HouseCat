@@ -10,7 +10,7 @@ enum GoalAction: Equatable {
     case point(String)
     /// A paw on the cat: a stroke, or a present waiting.
     case cat
-    case play, nap, wardrobe, map, book, pass, streak, road, goals
+    case play, nap, wardrobe, homes, book, pass, streak, road, goals
     /// Decorate, in this room when it is open.
     case decorate(RoomID?)
     /// Go to the room, or offer to open it.
@@ -18,8 +18,9 @@ enum GoalAction: Equatable {
 
     /// Where `entry` is done.
     @MainActor static func of(_ entry: GoalTracker.Entry) -> GoalAction {
-        if entry.kind == .room, let room = entry.room {
-            return entry.id.hasSuffix(".level") ? .road : .room(room)
+        // The next house's goals (docs/LADDER.md): its level on the road, the rest on the homes' ladder.
+        if entry.kind == .room {
+            return entry.id.hasSuffix(".level") ? .road : .homes
         }
         guard let metric = entry.metric else { return .goals }
         switch metric {
@@ -32,7 +33,7 @@ enum GoalAction: Equatable {
         case .openRoom, .roomsOpened: return GameSession.shared.nextRoom.map { .room($0) } ?? .goals
         case .level: return .road
         case .wearOutfit, .outfitsWorn: return .wardrobe
-        case .screenSeen, .seasonChanged, .homeMoved, .homesVisited: return entry.screen == "map" || entry.screen == nil ? .map : .goals
+        case .screenSeen, .seasonChanged, .homeMoved, .homesVisited, .houseRung, .houseTasks: return .homes
         case .findGift, .totalGifts: return GameSession.shared.giftWaiting ? .cat : .book
         case .distinctGifts, .legendaryGifts: return .book
         case .passTiersClaimed, .seasonsCompleted: return .pass

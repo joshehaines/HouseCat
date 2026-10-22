@@ -283,6 +283,12 @@ enum CatScreens {
         GameWorld.art?.makeThumbnails(paths, pixels: Tuning.Stage.cardPicturePixels, batch: Tuning.Stage.cardPictureBatch, ready: ready)
     }
 
+    /// The cat sitting with its back to you, looking at what you look at (the homes' ladder), in its look; no outfit.
+    static func backView(_ look: CatLook) -> CGImage? {
+        guard let catArt = GameWorld.catArt else { return nil }
+        return catArt.image(catArt.builder.pose(CatPose.sitBack.rawValue, look: look), look: look)
+    }
+
     /// The cat sitting three-quarter front in its look, wearing what it has on.
     static func portrait(_ look: CatLook, outfit: OutfitsFile.Outfit? = GameSession.shared.wornOutfit) -> CGImage? {
         guard let catArt = GameWorld.catArt else { return nil }
@@ -965,7 +971,7 @@ struct RoomScreen: View {
                     }
                 }
             }
-            .sheet(isPresented: $showHomes) {
+            .fullScreenCover(isPresented: $showHomes) {
                 HomesView(catName: visit.catName ?? "Your cat") {
                     showHomes = false
                     // Moved in: the cold open at the new house.
@@ -1403,9 +1409,9 @@ struct RoomScreen: View {
             } else {
                 visit.offer(room)
             }
-        case .map, .book, .pass, .goals:
+        case .homes, .book, .pass, .goals:
             let id = switch action {
-            case .map: "map"
+            case .homes: "homes"
             case .book: "book"
             case .pass: "pass"
             default: "goals"
@@ -1517,6 +1523,7 @@ struct RoomScreen: View {
                 case "menu": showMenu = true
                 // The world map over the room, as the menu's Map opens it.
                 case "goals": showGoals = true
+                case "homes": showHomes = true
                 case "profile": showProfile = true
                 case "editlook": editing = CatScreens.builder(mode: .edit)
                 // HOUSECAT_TRY=<outfit id> opens the catalogue on that outfit.

@@ -62,6 +62,8 @@ SETS = [
     ('world/scenes/london_terrace_*', 0.75),
     # The ladder's first house, run down in Puddlebury, for its cold open and the opening cutscene (docs/LADDER.md).
     ('world/scenes/rundown_terrace_*', 0.75),
+    # The homes' room (the house ladder's screen, App/Sources/HomesView.swift).
+    ('ui/homes/homes_room.jpg', 0.5),
     ('world/terrain/terr_*.png', 0.25),
     # The ground around the house, per biome.
     ('world/ground/ground_*.png', 0.25),
@@ -104,7 +106,7 @@ DATA = ['cat/rig.json', 'rooms/layout_living_demo.json', 'rooms/houses.json', 'f
 
 # Opaque pictures are written as HEIC (half the size of JPEG for the same look); the index maps the master's path
 # to the file, so the data and the game keep using the masters' names.
-HEIC = ('world/scenes/', 'rooms/walls/', 'rooms/floors/', 'world/ground/', 'world/map/map_painted', 'ui/creator/creator_room',
+HEIC = ('world/scenes/', 'rooms/walls/', 'rooms/floors/', 'world/ground/', 'world/map/map_painted', 'ui/creator/creator_room', 'ui/homes/homes_room',
         'ui/profile/profile_corner', 'arcade/run/bg_', 'arcade/pounce/place_')
 HEIC_QUALITY = '70'
 # Cut-outs go in as HEIC with their transparency too (four to seven times smaller than PNG; keeps the app's

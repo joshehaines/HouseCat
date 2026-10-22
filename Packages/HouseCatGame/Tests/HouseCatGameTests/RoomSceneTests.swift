@@ -278,7 +278,7 @@ func eachGreetingComesToYouOrNotAndSettles(style: GreetingStyle) throws {
 // MARK: The camera
 
 @MainActor
-@Test func theCameraStartsCloseLeansInOnTheCatEasesBackAndShowsTheWholeRoomToDecorate() throws {
+@Test func theCameraStartsWideLeansInOnTheCatEasesBackAndShowsTheWholeRoomToDecorate() throws {
     let world = try World()
     let room = world.room()
     _ = room.addCat(rig: world.rig, at: 5, 5, pose: .sitSide)
@@ -296,9 +296,10 @@ func eachGreetingComesToYouOrNotAndSettles(style: GreetingStyle) throws {
     #expect(room.world.xScale > home * 1.3, "leaning in on the cat")
     tick(4)
     #expect(abs(room.world.xScale - home) < home * 0.03, "back where it was")
+    // A visit starts as far out as the zoom goes (Josh, 22 Oct); decorating frames the room itself, closer in.
     room.setDecorating(true)
     tick(4)
-    #expect(room.world.xScale < home * 0.9, "the whole room to decorate")
+    #expect(room.world.xScale > home, "the room to decorate")
     room.setDecorating(false)
     room.zoom = 10
     #expect(room.zoom == CGFloat(Tuning.Camera.maxZoom))

@@ -482,6 +482,8 @@ final class RoomNode: SKNode {
         let text = SKLabelNode(text: label)
         text.fontName = "AvenirNext-Bold"
         text.fontSize = size
+        // The house on one line, its price under it: narrow, so neighbouring rooms' badges don't meet.
+        text.numberOfLines = 2
         let ink = Tuning.House.lockInk
         text.fontColor = SKColor(red: ink[0], green: ink[1], blue: ink[2], alpha: 1)
         text.verticalAlignmentMode = .center
@@ -491,7 +493,7 @@ final class RoomNode: SKNode {
         icon.size = CGSize(width: iconSize * icon.texture!.size().width / max(1, icon.texture!.size().height), height: iconSize)
         let pad = size * 0.5, gap = size * 0.3
         let width = pad + icon.size.width + gap + text.frame.width + pad * 1.4
-        let height = iconSize + pad
+        let height = max(iconSize, text.frame.height) + pad
         let badge = SKShapeNode(rect: CGRect(x: -width / 2, y: -height / 2, width: width, height: height), cornerRadius: height / 2)
         let c = Tuning.House.lockPaper
         badge.fillColor = SKColor(red: c[0], green: c[1], blue: c[2], alpha: 0.95)

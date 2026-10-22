@@ -184,10 +184,10 @@ public enum Tuning {
         /// (Josh, 22 Oct: "the tutorial should get you out of the first house").
         public static let rungs: [Spec] = [
             // A made-up town, so no real place is the bottom (Josh, 22 Oct: "too offensive to have a place as the worst").
-            Spec(style: .londonTerrace, place: HomePlace(name: "Puddlebury", latitude: 52.2, longitude: -1.5, timeZoneID: "Europe/London", biome: .city), price: 0, level: 1, tasks: 0, room: .living),
+            Spec(style: .londonTerrace, place: HomePlace(name: "Puddlebury", latitude: 52.2, longitude: -1.5, timeZoneID: "Europe/London", biome: .city, setting: "puddlebury"), price: 0, level: 1, tasks: 0, room: .living),
             Spec(style: .houseboat, place: HomePlace(name: "Amsterdam", latitude: 52.3676, longitude: 4.9041, timeZoneID: "Europe/Amsterdam", biome: .city, setting: "amsterdam"), price: 200, level: 1, tasks: 0, room: .bedroom),
-            Spec(style: .woodlandCabin, place: HomePlace(name: "Vancouver", latitude: 49.2827, longitude: -123.1207, timeZoneID: "America/Vancouver", biome: .forest), price: 700, level: 5, tasks: 4, room: .kitchen),
-            Spec(style: .cottage, place: HomePlace(name: "Queenstown", latitude: -45.0312, longitude: 168.6626, timeZoneID: "Pacific/Auckland", biome: .countryside), price: 1500, level: 7, tasks: 5, room: .garden),
+            Spec(style: .woodlandCabin, place: HomePlace(name: "Vancouver", latitude: 49.2827, longitude: -123.1207, timeZoneID: "America/Vancouver", biome: .forest, setting: "vancouver"), price: 700, level: 5, tasks: 4, room: .kitchen),
+            Spec(style: .cottage, place: HomePlace(name: "Queenstown", latitude: -45.0312, longitude: 168.6626, timeZoneID: "Pacific/Auckland", biome: .countryside, setting: "queenstown"), price: 1500, level: 7, tasks: 5, room: .garden),
             Spec(style: .newbuildBalcony, place: HomePlace(name: "Tokyo", latitude: 35.6762, longitude: 139.6503, timeZoneID: "Asia/Tokyo", biome: .city, setting: "tokyo"), price: 2500, level: 9, tasks: 5, room: .study),
             Spec(style: .mediterraneanRooftop, place: HomePlace(name: "Santorini", latitude: 36.3932, longitude: 25.4615, timeZoneID: "Europe/Athens", biome: .coast, setting: "santorini"), price: 3800, level: 12, tasks: 6, room: .attic),
             Spec(style: .georgianTownhouse, place: HomePlace(name: "New York", latitude: 40.7128, longitude: -74.0060, timeZoneID: "America/New_York", biome: .city, setting: "newyork"), price: 5200, level: 15, tasks: 6, room: nil),
@@ -440,7 +440,7 @@ public enum Tuning {
         /// Where it sits, beside the wordmark's H (box pixels from the box's left), how fast it walks there (cat
         /// heights a second) and how much the sitting painting is grown to match the walking cat.
         public static let beside = -330.0
-        public static let walkSpeed = 0.55
+        public static let walkSpeed = 1.1
         public static let sitScale = 1.25
         public static let curlScale = 1.3
         /// Where it leans and grows about, up from its feet (cat heights); how far out of sight it starts.
@@ -515,7 +515,10 @@ public enum Tuning {
         /// The whole film plays every launch (Josh, 19 Oct): the home is built this long before it ends (seconds), and
         /// the launch goes on after this long whatever the film is doing.
         public static let launchBuildLead = 1.5
-        public static let launchHoldMost = 14.0
+        public static let launchHoldMost = 6.0
+        /// The launch's windowsill film plays this much faster than painted, and the window springs in this quickly.
+        public static let launchRate = 1.25
+        public static let launchArriveSeconds = 0.45
     }
 
     /// The nap (SPEC "Care"): a wind-down timer as a Live Activity.
@@ -1261,6 +1264,15 @@ public enum Tuning {
     /// piece's size varies.
     public enum Outdoors {
         public static let reach = 14.0
+        /// The neighbours' lots: square, this many cells across, this far beyond the house's own rooms.
+        public static let plotCells = 12.0
+        public static let plotGap = 13.5
+        /// How much of its square a lot's picture fills.
+        public static let plotFill = 0.9
+        /// The roads round the block: their middle this far out from the rooms, this wide, with a pavement either side.
+        public static let roadOffset = 10.5
+        public static let roadWidth = 3.0
+        public static let pavementWidth = 0.9
         public static let margin = 1.5
         public static let sizeVariation = 0.12
         /// The garden's plan (OutdoorPlan, Josh 19 Oct: not at random): the tree lines this far behind the house
@@ -1446,14 +1458,14 @@ public enum Tuning {
         public static let bareWall = "wall_attic_rough_plaster"
         public static let bareFloor = "floor_attic_dusty_boards"
         /// A closed room's price label.
-        public static let lockFontSize = 34.0
+        public static let lockFontSize = 15.0
         /// The lock badge's paper and ink (the controls' cream and plum).
         public static let lockPaper = [0.995, 0.97, 0.925]
         public static let lockInk = [0.24, 0.18, 0.22]
         /// Along the axis shared with the room you are in, the badge sits this many cells from the back.
         public static let labelBack = 2.0
         /// …and this high over the floor, in room units.
-        public static let labelLift = 170.0
+        public static let labelLift = 40.0
         /// A badge keeps at least this far (points) from the sides of the view.
         public static let badgeMargin = 12.0
         /// A badge's text is this size on screen (points) at any zoom, and the badge keeps out of the controls'
@@ -1553,10 +1565,12 @@ public enum Tuning {
     public enum Stage {
         /// On an iPad the room's controls and its cards are drawn larger, as a whole, by how much bigger the window is
         /// than this (points; the widest cards need the width), in steps of 0.05 to `hudLargestScale` (the shop's):
-        /// 1.6 on a 13-inch iPad on its side, 1.4 held upright. A phone keeps scale 1.
+        /// 1.6 on a 13-inch iPad on its side, 1.4 held upright. A phone draws them at `phoneHudScale`.
         public static let hudDesignWidth = 720.0
         public static let hudDesignHeight = 500.0
         public static let hudLargestScale = 1.6
+        /// A phone's controls and cards, a little smaller than drawn (Josh, 22 Oct).
+        public static let phoneHudScale = 0.82
         /// A card's picture in a list (the decorate tray's 60-point pictures): at most this many pixels on its longer
         /// side, enough for a phone's 3x and an iPad's 1.6 at 2x.
         public static let cardPicturePixels = 240

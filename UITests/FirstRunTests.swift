@@ -137,11 +137,17 @@ final class FirstRunTests: XCTestCase {
         let decorate = app.buttons["Decorate"]
         XCTAssertTrue(decorate.waitForExistence(timeout: 10), "Decorate")
         decorate.tap()
-        let piece = app.buttons.matching(NSPredicate(format: "label BEGINSWITH 'Place '")).firstMatch
-        XCTAssertTrue(piece.waitForExistence(timeout: 10), "the tray")
-        piece.tap()
-        sleep(2)
+        // The tour's furnishing: the sofa against a wall, the rug, the coffee table on the rug (placed from the tray,
+        // the table goes onto the rug by itself).
+        for (name, step) in [("Sagging sofa", "the sofa"), ("Wool rug", "the rug"), ("Coffee table", "the coffee table")] {
+            let piece = app.buttons["Place \(name)"].firstMatch
+            XCTAssertTrue(piece.waitForExistence(timeout: 10), "\(step) in the tray")
+            piece.tap()
+            sleep(2)
+        }
         snap("12 placed")
+        XCTAssertTrue(app.staticTexts.matching(NSPredicate(format: "label CONTAINS 'Tap Done'")).firstMatch.waitForExistence(timeout: 10),
+                      "the furnishing steps passed")
         let done = app.buttons["Done"]
         XCTAssertTrue(done.waitForExistence(timeout: 10), "Done")
         done.tap()

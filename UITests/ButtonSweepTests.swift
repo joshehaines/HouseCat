@@ -90,8 +90,15 @@ final class ButtonSweepTests: XCTestCase {
             XCTAssertTrue(strokeTheCat(), "a tap on the cat strokes it")
         case let text where text.contains("Tap Decorate"):
             app.buttons["Decorate"].tapInFront()
-        case let text where text.contains("Tap a piece"):
-            let piece = app.buttons.matching(NSPredicate(format: "label BEGINSWITH 'Place '")).firstMatch
+        // The tour's furnishing: each piece from the tray (the sofa lands by a wall, the table on the rug).
+        case let text where text.contains("Drag the sofa"):
+            app.buttons["Place Sagging sofa"].firstMatch.tapInFront()
+        case let text where text.contains("Now the rug"):
+            app.buttons["Place Wool rug"].firstMatch.tapInFront()
+        case let text where text.contains("And the coffee table"):
+            app.buttons["Place Coffee table"].firstMatch.tapInFront()
+        case let text where text.contains("Tap the sofa"):
+            let piece = app.buttons["Place Sagging sofa"].firstMatch
             if piece.shows(within: 3) {
                 piece.tapInFront()
                 sleep(2)

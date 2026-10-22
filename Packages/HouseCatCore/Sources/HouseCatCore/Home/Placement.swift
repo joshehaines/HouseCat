@@ -172,8 +172,8 @@ public enum TourLayout {
         }
         switch wait {
         case .sofaAgainstWall:
-            // Against one of the back walls (the room's cells start at them).
-            return living.contains { $0.itemID == Tuning.Room.tourSofa && ($0.x == 0 || $0.y == 0) }
+            // In the room (the tray puts it against a back wall; a step that waited for a drag stuck players and tests).
+            return living.contains { $0.itemID == Tuning.Room.tourSofa }
         case .rugDown:
             return living.contains { $0.itemID == Tuning.Room.tourRug }
         case .tableOnRug:

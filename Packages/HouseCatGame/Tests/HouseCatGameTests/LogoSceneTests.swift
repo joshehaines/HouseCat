@@ -28,34 +28,35 @@ private func feet(_ scene: LogoScene) -> CGPoint {
     return CGPoint(x: (point.x - scene.box.minX) / scale, y: (point.y - scene.box.minY) / scale)
 }
 
-/// The logo's whole story plays out: the cat comes in, and ends curled up asleep on the letters where it should.
+/// The logo's whole story plays out (Josh, 22 Oct: the cat walks in and sits beside the wordmark, like the horizontal
+/// logo): it comes in from the left and ends sitting facing you on its spot.
 @MainActor
 @Test(arguments: [LogoScene.Act.launch, .intro])
-func theCatEndsCurledUpOnTheLetters(act: LogoScene.Act) throws {
+func theCatWalksInAndSitsBesideTheWordmark(act: LogoScene.Act) throws {
     let scene = try logo(act)
     #expect(!scene.asleep)
     #expect(feet(scene).x < 0, "it starts off to the left")
     var time = 0.0
-    while time < 15, !scene.asleep {
+    while time < 20, !scene.asleep {
         scene.update(time)
         time += 1.0 / 30
     }
-    #expect(scene.asleep)
-    #expect(scene.cat.pose == .sleepCurl)
-    #expect(time < (act == .intro ? 7 : 5), "asleep in good time (\(time) s)")
+    #expect(scene.asleep, "settled")
+    #expect(scene.cat.pose == .sitFront)
+    #expect(time < 9, "sitting in good time (\(time) s)")
     let end = feet(scene)
-    #expect(abs(end.x - Tuning.Logo.bed) < 1 && abs(end.y - Tuning.Logo.valleyTop) < 1, "on its spot: \(end)")
+    #expect(abs(end.x - Tuning.Logo.beside) < 1 && abs(end.y - Tuning.Logo.baseline) < 1, "on its spot: \(end)")
 }
 
-/// Reduce Motion: asleep on its spot from the first frame.
+/// Reduce Motion: sitting on its spot from the first frame.
 @MainActor
-@Test func reduceMotionStartsAsleep() throws {
+@Test func reduceMotionStartsSitting() throws {
     let scene = try logo(.still)
     scene.update(0)
     #expect(scene.asleep)
-    #expect(scene.cat.pose == .sleepCurl)
+    #expect(scene.cat.pose == .sitFront)
     let end = feet(scene)
-    #expect(abs(end.x - Tuning.Logo.bed) < 1 && abs(end.y - Tuning.Logo.valleyTop) < 1)
+    #expect(abs(end.x - Tuning.Logo.beside) < 1 && abs(end.y - Tuning.Logo.baseline) < 1)
 }
 
 /// The letters' tops the cat lands on and casts its shadow on are where the wordmark's ink is: a re-cut wordmark
@@ -83,27 +84,4 @@ func theCatEndsCurledUpOnTheLetters(act: LogoScene.Act) throws {
     let lowest = (0 ..< width).compactMap { x in (0 ..< height).last { alpha[$0 * width + x] > 128 }.map { height - $0 } }
     let baseline = lowest.sorted()[lowest.count / 2]
     #expect(abs(Double(baseline) - Tuning.Logo.baseline) < 6, "baseline at \(baseline)")
-}
-
-/// With the curl film's frames, they play in the cat's place from the landing, and it ends asleep on its spot.
-@MainActor
-@Test(arguments: [LogoScene.Act.launch, .intro])
-func theCurlFilmTakesOverFromTheLanding(act: LogoScene.Act) throws {
-    let scene = try logo(act)
-    let frame = SKTexture(image: .init(size: CGSize(width: 4, height: 4)))
-    scene.curlFrames = Array(repeating: frame, count: 12)
-    scene.curlFrameRate = 24
-    var time = 0.0
-    while time < 15, !scene.asleep {
-        scene.update(time)
-        time += 1.0 / 30
-    }
-    #expect(scene.asleep)
-    #expect(scene.cat.isHidden, "the film stands in for the puppet")
-    #expect(scene.cat.pose == nil, "the puppet never sat down")
-    let film = try #require(scene.children.first?.children.first { $0 is SKSpriteNode && ($0 as? SKSpriteNode)?.texture === frame })
-    let feet = scene.convert(film.position, from: film.parent ?? scene)
-    let scale = scene.box.width / Tuning.Logo.boxSize[0]
-    #expect(abs((feet.x - scene.box.minX) / scale - Tuning.Logo.bed) < 1)
-    #expect(abs((feet.y - scene.box.minY) / scale - Tuning.Logo.valleyTop) < 1)
 }

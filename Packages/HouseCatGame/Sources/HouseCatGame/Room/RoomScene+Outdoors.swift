@@ -102,6 +102,7 @@ extension RoomScene {
         world.childNode(withName: "cloudShadows")?.removeFromParent()
         removeAction(forKey: "birds")
         buildStreet()
+        buildRoads()
         let (weather, _) = outside
         let fine = [Weather.sun, .heat, .wind].contains(weather)
         if fine, house.sky == .day {
@@ -130,6 +131,40 @@ extension RoomScene {
 
     /// A city's road behind the house (Josh, 19 Oct: a city should look like a city): asphalt between stone kerbs
     /// with a dashed line down the middle, on the ground under everything, and cars driving along it now and then.
+    /// The roads round the block: pavement, kerb-to-kerb tarmac and a dashed middle line, under the scenery.
+    private func buildRoads() {
+        world.childNode(withName: "roads")?.removeFromParent()
+        guard !house.roads.isEmpty else { return }
+        let t = Tuning.Outdoors.self
+        let layer = SKNode()
+        layer.name = "roads"
+        layer.zPosition = -CGFloat(Tuning.House.storeyBand) + 4
+        world.addChild(layer)
+        for road in house.roads {
+            // A quad across the road from `a` to `b` (cells either side of its middle), from `from` to `to` along it.
+            func strip(_ a: Double, _ b: Double, from: Double, to: Double, color: SKColor) {
+                func point(_ along: Double, _ across: Double) -> CGPoint {
+                    road.alongU ? grid.floor(CGFloat(along), CGFloat(road.at + across)) : grid.floor(CGFloat(road.at + across), CGFloat(along))
+                }
+                let path = CGMutablePath()
+                path.addLines(between: [point(from, a), point(to, a), point(to, b), point(from, b)])
+                path.closeSubpath()
+                let shape = SKShapeNode(path: path)
+                shape.fillColor = color
+                shape.strokeColor = .clear
+                layer.addChild(shape)
+            }
+            let half = road.width / 2
+            strip(-half - t.pavementWidth, half + t.pavementWidth, from: road.from, to: road.to, color: graded(t.kerbColor))
+            strip(-half, half, from: road.from, to: road.to, color: graded(t.roadColor))
+            var s = road.from
+            while s < road.to {
+                strip(-0.06, 0.06, from: s, to: s + 1, color: graded(t.lineColor, alpha: 0.8))
+                s += 2.2
+            }
+        }
+    }
+
     private func buildStreet() {
         world.childNode(withName: "street")?.removeFromParent()
         removeAction(forKey: "traffic")

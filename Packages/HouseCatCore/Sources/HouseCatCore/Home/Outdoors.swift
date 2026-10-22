@@ -70,6 +70,16 @@ public struct OutdoorStreet: Equatable, Sendable {
     }
 }
 
+/// A road of the neighbourhood round the house's block (Josh, 22 Oct: the outside "still looks very unnatural": a
+/// suburb's streets between the gardens): along u at `at` (or along v), `width` cells of tarmac, from `from` to `to`.
+public struct OutdoorRoad: Equatable, Sendable {
+    public var alongU: Bool
+    public var at: Double
+    public var width: Double
+    public var from: Double
+    public var to: Double
+}
+
 /// One piece of scenery on the ground, where it stands and how it is drawn.
 public struct OutdoorPiece: Equatable, Sendable {
     public var prop: String
@@ -112,6 +122,28 @@ public enum OutdoorRules {
         let minU = rooms.map(\.u).min() ?? 0, maxU = (rooms.map(\.u).max() ?? 0) + cells
         let minV = rooms.map(\.v).min() ?? 0
         return OutdoorStreet(v: minV - street.offset, width: street.width, from: minU - reach * 1.5, to: maxU + reach * 1.5)
+    }
+
+    /// The roads round the house's block, between its garden and the houses next door: in front, at both sides, and
+    /// behind where no street runs (a place with next-door plots only).
+    public static func roads(rooms: [(u: Double, v: Double)], street: OutdoorStreet?, setting: String?, file: OutdoorsFile) -> [OutdoorRoad] {
+        guard !rooms.isEmpty, let setting, file.places?[setting]?.contains(where: { $0.place == "plot" }) == true else { return [] }
+        let t = Tuning.Outdoors.self
+        let cells = Double(Tuning.Room.gridWidth)
+        let minU = rooms.map(\.u).min() ?? 0, maxU = (rooms.map(\.u).max() ?? 0) + cells
+        let minV = rooms.map(\.v).min() ?? 0, maxV = (rooms.map(\.v).max() ?? 0) + cells
+        let off = t.roadOffset, w = t.roadWidth
+        let far = t.plotGap + t.plotCells * 2
+        let back = street.map { $0.v } ?? minV - far
+        var roads = [
+            OutdoorRoad(alongU: true, at: maxV + off, width: w, from: minU - far, to: maxU + far),
+            OutdoorRoad(alongU: false, at: minU - off, width: w, from: back, to: maxV + far),
+            OutdoorRoad(alongU: false, at: maxU + off, width: w, from: back, to: maxV + far),
+        ]
+        if street == nil {
+            roads.append(OutdoorRoad(alongU: true, at: minV - off, width: w, from: minU - far, to: maxU + far))
+        }
+        return roads
     }
 
     /// Where the scenery stands round a plot of rooms (each a square of `Tuning.Room.gridWidth` cells from its
@@ -183,8 +215,65 @@ public enum OutdoorRules {
                 sheds: sheds
             ))
         }
+        pieces += neighbours(props: props, minU: minU, maxU: maxU, minV: minV, maxV: maxV, street: street != nil,
+                             biome: biome, setting: setting, season: season, snowy: snowy, unit: unit)
         // A garden piece is laid out all year, so everything else keeps its place, and put away under snow.
         return snowy ? pieces.filter { piece in props.first { $0.id == piece.prop }?.sprite == nil } : pieces
+    }
+
+    /// The houses next door (Josh, 22 Oct: "houses and gardens next door, trees etc", like a city builder's suburb):
+    /// the town's neighbour plots (`place` "plot", each a square lot `Tuning.Outdoors.plotCells` across with its house
+    /// and garden) in a ring round the garden, left, right and in front, and behind where no street runs.
+    private static func neighbours( // swiftlint:disable:this function_parameter_count
+        props: [OutdoorsFile.Prop],
+        minU: Double, maxU: Double, minV: Double, maxV: Double,
+        street: Bool,
+        biome: Biome,
+        setting: String?,
+        season: NatureSeason,
+        snowy: Bool,
+        unit: () -> Double
+    ) -> [OutdoorPiece] {
+        let lots = props.filter { $0.place == "plot" }
+        guard !lots.isEmpty else { return [] }
+        let t = Tuning.Outdoors.self
+        let size = t.plotCells, gap = t.plotGap
+        var corners: [(u: Double, v: Double)] = []
+        // The lot's back corner (its square runs from there to +size along u and v).
+        let us = stride(from: minU - gap - size, through: maxU + gap, by: size).map { $0 }
+        let vs = stride(from: minV - size, through: maxV, by: size).map { $0 }
+        for v in vs {
+            corners.append((minU - gap - size, v))
+            corners.append((maxU + gap, v))
+        }
+        for u in us {
+            corners.append((u, maxV + gap))
+            if !street {
+                corners.append((u, minV - gap - size))
+            }
+        }
+        var last = -1
+        return corners.map { corner in
+            var pick = Int(unit() * Double(lots.count)) % lots.count
+            if pick == last {
+                pick = (pick + 1) % lots.count
+            }
+            last = pick
+            let lot = lots[pick]
+            // Drawn from its front corner, the bottom of its diamond, a little inside its square so a strip of the
+            // ground shows between neighbours.
+            let inset = size * (1 - t.plotFill) / 2
+            let u = corner.u + size - inset, v = corner.v + size - inset
+            return OutdoorPiece(
+                prop: lot.id,
+                sprite: sprite(lot, biome: biome, setting: setting, season: season, snowy: snowy),
+                u: u,
+                v: v,
+                width: size * t.plotFill,
+                tall: false,
+                behind: u < minU || v < minV
+            )
+        }
     }
 
     /// The street's own pieces: the buildings in a row across the road, cars parked here and there along its far kerb,

@@ -124,8 +124,9 @@ enum OutdoorPlan {
                     s += spacing
                 }
             }
-            border(along: minV ... maxV + edge) { (maxU + edge, $0) }
-            border(along: minU ... maxU + edge - spacing) { ($0, maxV + edge) }
+            // No rows of planters along the front any more (Josh, 22 Oct: they looked placed, not grown): the garden
+            // runs to the pavement of the road round the block.
+            _ = border
             add(.rock, maxU + edge + 0.6, maxV + edge + 0.6)
             add(.rock, maxU + edge + 0.4, minV - 1.2)
             add(.rock, minU - 1.2, maxV + edge + 0.4)

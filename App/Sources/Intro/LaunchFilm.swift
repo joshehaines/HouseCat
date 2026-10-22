@@ -21,17 +21,19 @@ enum LaunchFilm {
     private static var waiting: [CheckedContinuation<Void, Never>] = []
 
     /// The film's player, started the first time it is asked for (nil when the film is not in the app).
-    static func player(dark: Bool) -> AVPlayer? {
+    static func player(dark _: Bool) -> AVPlayer? {
         if let player {
             return player
         }
-        guard let url = Bundle.main.url(forResource: dark ? "launch_logo_dark" : "launch_logo_light", withExtension: "mov") else {
+        // Midnight jumping up onto the sunny windowsill, as the website's hero does (Josh, 22 Oct: the launch
+        // "looks awful ... look at the website animation ... with the housecat text next to it, nice and quick").
+        guard let url = Bundle.main.url(forResource: "launch_window", withExtension: "mp4") else {
             return nil
         }
         let made = AVPlayer(url: url)
         made.isMuted = true
         made.preventsDisplaySleepDuringVideoPlayback = false
-        made.play()
+        made.playImmediately(atRate: Float(Tuning.Logo.launchRate))
         player = made
         state.holding = true
         Music.hush(.launchFilm, true)

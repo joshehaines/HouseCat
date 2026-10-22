@@ -16374,6 +16374,30 @@
    ],
    "scale": 0.3
   },
+  "world/props/amsterdam_plot1.png": {
+   "file": "world/props/amsterdam_plot1.heic",
+   "master": [
+    1688,
+    2106
+   ],
+   "scale": 0.3
+  },
+  "world/props/amsterdam_plot2.png": {
+   "file": "world/props/amsterdam_plot2.heic",
+   "master": [
+    1630,
+    2066
+   ],
+   "scale": 0.3
+  },
+  "world/props/amsterdam_plot3.png": {
+   "file": "world/props/amsterdam_plot3.heic",
+   "master": [
+    1716,
+    2110
+   ],
+   "scale": 0.3
+  },
   "world/props/amsterdam_terraces.png": {
    "file": "world/props/amsterdam_terraces.heic",
    "master": [
@@ -16694,6 +16718,30 @@
    ],
    "scale": 0.3
   },
+  "world/props/london_plot1.png": {
+   "file": "world/props/london_plot1.heic",
+   "master": [
+    1754,
+    2064
+   ],
+   "scale": 0.3
+  },
+  "world/props/london_plot2.png": {
+   "file": "world/props/london_plot2.heic",
+   "master": [
+    1792,
+    2242
+   ],
+   "scale": 0.3
+  },
+  "world/props/london_plot3.png": {
+   "file": "world/props/london_plot3.heic",
+   "master": [
+    1722,
+    2374
+   ],
+   "scale": 0.3
+  },
   "world/props/london_taxi.png": {
    "file": "world/props/london_taxi.heic",
    "master": [
@@ -16782,6 +16830,30 @@
    ],
    "scale": 0.3
   },
+  "world/props/newyork_plot1.png": {
+   "file": "world/props/newyork_plot1.heic",
+   "master": [
+    1754,
+    1916
+   ],
+   "scale": 0.3
+  },
+  "world/props/newyork_plot2.png": {
+   "file": "world/props/newyork_plot2.heic",
+   "master": [
+    1762,
+    1960
+   ],
+   "scale": 0.3
+  },
+  "world/props/newyork_plot3.png": {
+   "file": "world/props/newyork_plot3.heic",
+   "master": [
+    1748,
+    2100
+   ],
+   "scale": 0.3
+  },
   "world/props/newyork_taxi.png": {
    "file": "world/props/newyork_taxi.heic",
    "master": [
@@ -16806,6 +16878,54 @@
    ],
    "scale": 0.3
   },
+  "world/props/puddlebury_plot1.png": {
+   "file": "world/props/puddlebury_plot1.heic",
+   "master": [
+    1694,
+    1536
+   ],
+   "scale": 0.3
+  },
+  "world/props/puddlebury_plot2.png": {
+   "file": "world/props/puddlebury_plot2.heic",
+   "master": [
+    1770,
+    1582
+   ],
+   "scale": 0.3
+  },
+  "world/props/puddlebury_plot3.png": {
+   "file": "world/props/puddlebury_plot3.heic",
+   "master": [
+    1760,
+    1720
+   ],
+   "scale": 0.3
+  },
+  "world/props/queenstown_plot1.png": {
+   "file": "world/props/queenstown_plot1.heic",
+   "master": [
+    1716,
+    1440
+   ],
+   "scale": 0.3
+  },
+  "world/props/queenstown_plot2.png": {
+   "file": "world/props/queenstown_plot2.heic",
+   "master": [
+    1772,
+    1606
+   ],
+   "scale": 0.3
+  },
+  "world/props/queenstown_plot3.png": {
+   "file": "world/props/queenstown_plot3.heic",
+   "master": [
+    1750,
+    1658
+   ],
+   "scale": 0.3
+  },
   "world/props/santorini_bench.png": {
    "file": "world/props/santorini_bench.heic",
    "master": [
@@ -16827,6 +16947,30 @@
    "master": [
     1428,
     2222
+   ],
+   "scale": 0.3
+  },
+  "world/props/santorini_plot1.png": {
+   "file": "world/props/santorini_plot1.heic",
+   "master": [
+    1688,
+    1604
+   ],
+   "scale": 0.3
+  },
+  "world/props/santorini_plot2.png": {
+   "file": "world/props/santorini_plot2.heic",
+   "master": [
+    1632,
+    1620
+   ],
+   "scale": 0.3
+  },
+  "world/props/santorini_plot3.png": {
+   "file": "world/props/santorini_plot3.heic",
+   "master": [
+    1774,
+    1820
    ],
    "scale": 0.3
   },
@@ -16875,6 +17019,30 @@
    "master": [
     1376,
     1390
+   ],
+   "scale": 0.3
+  },
+  "world/props/tokyo_plot1.png": {
+   "file": "world/props/tokyo_plot1.heic",
+   "master": [
+    1712,
+    1650
+   ],
+   "scale": 0.3
+  },
+  "world/props/tokyo_plot2.png": {
+   "file": "world/props/tokyo_plot2.heic",
+   "master": [
+    1656,
+    1774
+   ],
+   "scale": 0.3
+  },
+  "world/props/tokyo_plot3.png": {
+   "file": "world/props/tokyo_plot3.heic",
+   "master": [
+    1762,
+    1714
    ],
    "scale": 0.3
   },
@@ -16931,6 +17099,30 @@
    "master": [
     1494,
     2124
+   ],
+   "scale": 0.3
+  },
+  "world/props/vancouver_plot1.png": {
+   "file": "world/props/vancouver_plot1.heic",
+   "master": [
+    1642,
+    2148
+   ],
+   "scale": 0.3
+  },
+  "world/props/vancouver_plot2.png": {
+   "file": "world/props/vancouver_plot2.heic",
+   "master": [
+    1792,
+    1892
+   ],
+   "scale": 0.3
+  },
+  "world/props/vancouver_plot3.png": {
+   "file": "world/props/vancouver_plot3.heic",
+   "master": [
+    1734,
+    2264
    ],
    "scale": 0.3
   },

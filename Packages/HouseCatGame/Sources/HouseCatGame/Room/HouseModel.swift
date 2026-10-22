@@ -15,7 +15,7 @@ public struct HouseModel: Sendable {
         /// A garden, balcony or terrace: low walls, outdoor light.
         public var outdoor: Bool
         public var model: RoomModel
-        /// What opening it takes, when it is closed ("With the cottage").
+        /// What opening it takes, when it is closed: the house it comes with and its price ("Cottage", then "1,500 Beans" under it).
         public var lockLabel: String?
 
         public init(id: RoomID, storey: Int, u: Double, v: Double, outdoor: Bool, model: RoomModel, lockLabel: String?) {
@@ -41,6 +41,8 @@ public struct HouseModel: Sendable {
     public var scenery: [OutdoorPiece]
     /// A city's street behind the house, with its traffic (OutdoorRules.street).
     public var street: OutdoorStreet?
+    /// The neighbourhood's roads round the block (OutdoorRules.roads).
+    public var roads: [OutdoorRoad] = []
 
     public init(
         rooms: [Room],

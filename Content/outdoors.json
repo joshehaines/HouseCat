@@ -68,7 +68,10 @@
       { "id": "boat", "tall": false, "weight": 2, "width": 2.0, "seasons": [], "place": "kerb" },
       { "id": "cargobike", "tall": false, "weight": 2, "width": 1.4, "seasons": [], "place": "kerb" },
       { "id": "bicycle", "tall": false, "weight": 2, "width": 1.0, "seasons": [], "place": "pavement" },
-      { "id": "flowerstall", "tall": true, "weight": 1, "width": 1.4, "seasons": [], "place": "pavement" }
+      { "id": "flowerstall", "tall": true, "weight": 1, "width": 1.4, "seasons": [], "place": "pavement" },
+      { "id": "plot1", "tall": false, "weight": 1, "width": 12.0, "seasons": [], "place": "plot" },
+      { "id": "plot2", "tall": false, "weight": 1, "width": 12.0, "seasons": [], "place": "plot" },
+      { "id": "plot3", "tall": false, "weight": 1, "width": 12.0, "seasons": [], "place": "plot" }
     ],
     "tokyo": [
       { "id": "plane", "tall": true, "weight": 4, "width": 2.8, "seasons": ["autumn", "winter"], "sway": 0.7, "role": "tree", "from": "city" },
@@ -79,7 +82,10 @@
       { "id": "keicar", "tall": false, "weight": 2, "width": 1.6, "seasons": [], "place": "kerb" },
       { "id": "taxi", "tall": false, "weight": 2, "width": 2.0, "seasons": [], "place": "kerb" },
       { "id": "vending", "tall": true, "weight": 2, "width": 0.9, "seasons": [], "place": "pavement" },
-      { "id": "pole", "tall": true, "weight": 1, "width": 0.5, "seasons": [], "place": "pavement" }
+      { "id": "pole", "tall": true, "weight": 1, "width": 0.5, "seasons": [], "place": "pavement" },
+      { "id": "plot1", "tall": false, "weight": 1, "width": 12.0, "seasons": [], "place": "plot" },
+      { "id": "plot2", "tall": false, "weight": 1, "width": 12.0, "seasons": [], "place": "plot" },
+      { "id": "plot3", "tall": false, "weight": 1, "width": 12.0, "seasons": [], "place": "plot" }
     ],
     "newyork": [
       { "id": "plane", "tall": true, "weight": 4, "width": 2.8, "seasons": ["autumn", "winter"], "sway": 0.7, "role": "tree", "from": "city" },
@@ -90,7 +96,10 @@
       { "id": "taxi", "tall": false, "weight": 3, "width": 1.9, "seasons": [], "place": "kerb" },
       { "id": "wagon", "tall": false, "weight": 1, "width": 2.1, "seasons": [], "place": "kerb" },
       { "id": "hydrant", "tall": false, "weight": 2, "width": 0.5, "seasons": [], "place": "pavement" },
-      { "id": "mailbox", "tall": false, "weight": 1, "width": 0.7, "seasons": [], "place": "pavement" }
+      { "id": "mailbox", "tall": false, "weight": 1, "width": 0.7, "seasons": [], "place": "pavement" },
+      { "id": "plot1", "tall": false, "weight": 1, "width": 12.0, "seasons": [], "place": "plot" },
+      { "id": "plot2", "tall": false, "weight": 1, "width": 12.0, "seasons": [], "place": "plot" },
+      { "id": "plot3", "tall": false, "weight": 1, "width": 12.0, "seasons": [], "place": "plot" }
     ],
     "london": [
       { "id": "plane", "tall": true, "weight": 4, "width": 2.8, "seasons": ["autumn", "winter"], "sway": 0.7, "role": "tree", "from": "city" },
@@ -102,7 +111,10 @@
       { "id": "car_red", "tall": false, "weight": 1, "width": 1.8, "seasons": [], "place": "kerb", "from": "city" },
       { "id": "postbox", "tall": false, "weight": 2, "width": 0.6, "seasons": [], "place": "pavement", "from": "city" },
       { "id": "phonebox", "tall": true, "weight": 1, "width": 0.9, "seasons": [], "place": "pavement", "from": "city" },
-      { "id": "busstop", "tall": true, "weight": 1, "width": 2.0, "seasons": [], "place": "pavement", "from": "city" }
+      { "id": "busstop", "tall": true, "weight": 1, "width": 2.0, "seasons": [], "place": "pavement", "from": "city" },
+      { "id": "plot1", "tall": false, "weight": 1, "width": 12.0, "seasons": [], "place": "plot" },
+      { "id": "plot2", "tall": false, "weight": 1, "width": 12.0, "seasons": [], "place": "plot" },
+      { "id": "plot3", "tall": false, "weight": 1, "width": 12.0, "seasons": [], "place": "plot" }
     ],
     "santorini": [
       { "id": "olive", "tall": true, "weight": 4, "width": 2.6, "seasons": [], "role": "tree", "sway": 0.4 },
@@ -110,7 +122,45 @@
       { "id": "pots", "tall": false, "weight": 2, "width": 1.0, "seasons": [], "role": "pots" },
       { "id": "bench", "tall": false, "weight": 1, "width": 1.6, "seasons": [], "role": "feature" },
       { "id": "rocks", "tall": false, "weight": 2, "width": 1.3, "seasons": ["winter"], "role": "rock", "from": "coast" },
-      { "id": "washingline", "tall": true, "weight": 1, "width": 2.2, "seasons": [], "sprite": "furniture/garden/furn_garden_washingline_R.png", "sway": 0.5, "role": "line", "from": "coast" }
+      { "id": "washingline", "tall": true, "weight": 1, "width": 2.2, "seasons": [], "sprite": "furniture/garden/furn_garden_washingline_R.png", "sway": 0.5, "role": "line", "from": "coast" },
+      { "id": "plot1", "tall": false, "weight": 1, "width": 12.0, "seasons": [], "place": "plot" },
+      { "id": "plot2", "tall": false, "weight": 1, "width": 12.0, "seasons": [], "place": "plot" },
+      { "id": "plot3", "tall": false, "weight": 1, "width": 12.0, "seasons": [], "place": "plot" }
+    ],
+    "puddlebury": [
+      { "id": "plane", "tall": true, "weight": 4, "width": 2.8, "seasons": ["autumn", "winter"], "sway": 0.7, "role": "tree", "from": "city" },
+      { "id": "lamp", "tall": true, "weight": 1, "width": 0.8, "seasons": ["winter"], "role": "lamp", "from": "city" },
+      { "id": "planter", "tall": false, "weight": 3, "width": 1.2, "seasons": ["winter"], "sway": 0.3, "role": "hedge", "from": "city" },
+      { "id": "terraces", "tall": true, "weight": 3, "width": 6.0, "seasons": [], "place": "row", "from": "city" },
+      { "id": "cafe", "tall": true, "weight": 1, "width": 3.0, "seasons": [], "place": "row", "from": "city" },
+      { "id": "car_red", "tall": false, "weight": 2, "width": 1.8, "seasons": [], "place": "kerb", "from": "city" },
+      { "id": "car_blue", "tall": false, "weight": 1, "width": 2.0, "seasons": [], "place": "kerb", "from": "city" },
+      { "id": "car_cream", "tall": false, "weight": 2, "width": 1.7, "seasons": [], "place": "kerb", "from": "city" },
+      { "id": "busstop", "tall": true, "weight": 1, "width": 2.0, "seasons": [], "place": "pavement", "from": "city" },
+      { "id": "postbox", "tall": false, "weight": 2, "width": 0.6, "seasons": [], "place": "pavement", "from": "city" },
+      { "id": "phonebox", "tall": true, "weight": 1, "width": 0.9, "seasons": [], "place": "pavement", "from": "city" },
+      { "id": "plot1", "tall": false, "weight": 1, "width": 12.0, "seasons": [], "place": "plot" },
+      { "id": "plot2", "tall": false, "weight": 1, "width": 12.0, "seasons": [], "place": "plot" },
+      { "id": "plot3", "tall": false, "weight": 1, "width": 12.0, "seasons": [], "place": "plot" }
+    ],
+    "vancouver": [
+      { "id": "fir", "tall": true, "weight": 4, "width": 2.6, "seasons": ["winter"], "sway": 0.5, "role": "tree", "from": "forest" },
+      { "id": "birch", "tall": true, "weight": 3, "width": 2.2, "seasons": ["autumn", "winter"], "sway": 0.8, "role": "tree", "from": "forest" },
+      { "id": "stump", "tall": false, "weight": 3, "width": 1.2, "seasons": ["winter"], "role": "rock", "from": "forest" },
+      { "id": "shed", "tall": true, "weight": 2, "width": 2.0, "seasons": [], "sprite": "furniture/garden/furn_garden_shed_R.png", "role": "shed" },
+      { "id": "plot1", "tall": false, "weight": 1, "width": 12.0, "seasons": [], "place": "plot" },
+      { "id": "plot2", "tall": false, "weight": 1, "width": 12.0, "seasons": [], "place": "plot" },
+      { "id": "plot3", "tall": false, "weight": 1, "width": 12.0, "seasons": [], "place": "plot" }
+    ],
+    "queenstown": [
+      { "id": "oak", "tall": true, "weight": 4, "width": 3.2, "seasons": ["autumn", "winter"], "sway": 0.7, "role": "tree", "from": "countryside" },
+      { "id": "hawthorn", "tall": false, "weight": 3, "width": 1.5, "seasons": ["winter"], "sway": 0.5, "blossom": true, "role": "hedge", "from": "countryside" },
+      { "id": "stone", "tall": false, "weight": 2, "width": 1.1, "seasons": ["winter"], "role": "rock", "from": "countryside" },
+      { "id": "shed", "tall": true, "weight": 1, "width": 2.0, "seasons": [], "sprite": "furniture/garden/furn_garden_shed_R.png", "role": "shed" },
+      { "id": "washingline", "tall": true, "weight": 1, "width": 2.2, "seasons": [], "sprite": "furniture/garden/furn_garden_washingline_R.png", "sway": 0.4, "role": "line" },
+      { "id": "plot1", "tall": false, "weight": 1, "width": 12.0, "seasons": [], "place": "plot" },
+      { "id": "plot2", "tall": false, "weight": 1, "width": 12.0, "seasons": [], "place": "plot" },
+      { "id": "plot3", "tall": false, "weight": 1, "width": 12.0, "seasons": [], "place": "plot" }
     ]
   }
 }

@@ -430,7 +430,8 @@ struct RoomScreen: View {
     /// Larger controls and cards on an iPad, by the window's size as the shop scales (`Tuning.Stage.hudDesignWidth`);
     /// never on a phone (a big iPhone on its side also says its width is regular).
     private var hudScale: CGFloat {
-        guard UIDevice.current.userInterfaceIdiom == .pad else { return 1 }
+        // A phone's controls a little smaller than drawn (Josh, 22 Oct: on an iPhone the UI "takes up most of the screen").
+        guard UIDevice.current.userInterfaceIdiom == .pad else { return CGFloat(Tuning.Stage.phoneHudScale) }
         let fit = min(window.width / Tuning.Stage.hudDesignWidth, window.height / Tuning.Stage.hudDesignHeight)
         return (min(Tuning.Stage.hudLargestScale, max(1, fit)) * 20).rounded(.down) / 20
     }
@@ -1147,7 +1148,6 @@ struct RoomScreen: View {
                             .tourTarget("nap")
                         }
                         .id(visit.stats)
-                        .hudTray()
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
                         .padding(.leading, edge)
                         .padding(.bottom, bottom)
@@ -1166,7 +1166,6 @@ struct RoomScreen: View {
                         }
                         .tourTarget("shop")
                     }
-                    .hudTray()
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
                     .padding(.trailing, edge)
                     .padding(.bottom, bottom)
@@ -1731,16 +1730,36 @@ struct RoomScreen: View {
 /// 19 Oct: the whole animation every launch) and the first scene is drawn. A tap skips to the home.
 struct LaunchCurtain: View {
     @Environment(\.colorScheme) private var scheme
+    /// The window has come in beside the wordmark (it starts as the launch screen: the wordmark alone, centred).
+    @State private var arrived = false
 
     var body: some View {
-        ZStack {
-            Color("LaunchBackground")
-            AnimatedLogo(act: .launch, ink: scheme == .dark ? .dark : .light) {
-                Image("LaunchLogo")
+        GeometryReader { proxy in
+            let side = min(proxy.size.height * 0.42, proxy.size.width * 0.3)
+            ZStack {
+                Color("LaunchBackground")
+                HStack(spacing: side * 0.16) {
+                    if arrived, let player = LaunchFilm.player(dark: scheme == .dark) {
+                        // The website's window: Midnight jumps up onto the sill, in the app icon's rounded square.
+                        LaunchFilmView(player: player)
+                            .frame(width: side, height: side)
+                            .clipShape(RoundedRectangle(cornerRadius: side * 0.22, style: .continuous))
+                            .shadow(color: .black.opacity(0.18), radius: 14, y: 8)
+                            .transition(.scale(scale: 0.6).combined(with: .opacity))
+                    }
+                    Image("LaunchLogo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: min(proxy.size.width * 0.42, 420))
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
         .ignoresSafeArea()
-        // A tap skips the rest of the animation.
+        .onAppear {
+            withAnimation(.spring(duration: Tuning.Logo.launchArriveSeconds, bounce: 0.25)) { arrived = true }
+        }
+        // A tap skips the rest of the film.
         .contentShape(Rectangle())
         .onTapGesture { LaunchFilm.release() }
         .accessibilityElement(children: .ignore)

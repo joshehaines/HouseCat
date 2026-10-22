@@ -190,15 +190,8 @@ public final class RoomScene: SKScene {
                 node.addStairs(at: CGFloat(stairs.at[0]), CGFloat(stairs.at[1]), facing: stairs.facing)
             }
             if let label = room.lockLabel {
-                // The badge sits towards the room you are in, near the back of the closed room, so it stays
-                // in view and clear of the controls along the bottom of the screen.
-                let active = house.rooms.first { $0.id == house.active && $0.storey == room.storey }
-                let lean = CGFloat(Tuning.House.labelLean), back = CGFloat(Tuning.House.labelBack)
-                func toward(_ delta: Double) -> CGFloat {
-                    delta == 0 ? back : delta < 0 ? cells / 2 - lean : cells / 2 + lean
-                }
-                let cell = active.map { (u: toward($0.u - room.u), v: toward($0.v - room.v)) }
-                node.veil(label: label, at: cell)
+                // In the middle of the closed room (Josh, 22 Oct: "fixed into the middle of the room itself").
+                node.veil(label: label)
             }
             rooms[room.id] = node
         }

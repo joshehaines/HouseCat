@@ -82,7 +82,7 @@ public enum HouseBuilder {
             }
             // Rooms come with houses up the ladder (docs/LADDER.md): the closed one names its house.
             let rung = HouseLadder.rung(HouseLadder.rung(opening: spot.room))
-            let label = "With the \(rung.name.lowercased())"
+            let label = "\(rung.name)\n\(rung.price.formatted()) Beans"
             return HouseModel.Room(
                 id: spot.room,
                 storey: spot.storey,
@@ -106,14 +106,17 @@ public enum HouseBuilder {
                 file: $0
             )
         } ?? []
-        return HouseModel(
+        let street = outdoors.flatMap { OutdoorRules.street(biome: now.biome, setting: now.place.setting, rooms: plot, file: $0) }
+        var model = HouseModel(
             rooms: rooms,
             active: .living,
             sky: now.sky,
             ground: ground(now.biome, season: now.season, weather: now.weather),
             stairs: plan.stairs,
             scenery: scenery,
-            street: outdoors.flatMap { OutdoorRules.street(biome: now.biome, setting: now.place.setting, rooms: plot, file: $0) }
+            street: street
         )
+        model.roads = outdoors.map { OutdoorRules.roads(rooms: plot, street: street, setting: now.place.setting, file: $0) } ?? []
+        return model
     }
 }

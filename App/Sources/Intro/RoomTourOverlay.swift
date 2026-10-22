@@ -33,20 +33,13 @@ struct RoomTourOverlay: View {
                         .allowsHitTesting(false)
                     }
                     VStack(spacing: 8) {
-                        // Away from what it points at; at the top when the player must touch the room (the cat
-                        // eats at the front of it), under the player's plaque rather than over it (the host's head
-                        // stands about 32 points above the card).
-                        if frame.map({ $0.midY > proxy.size.height / 2 }) ?? (step.waitFor != nil) {
-                            bubble(step)
-                                .padding(.top, targets["plaque"].map { max(0, proxy[$0].maxY + 26 * scale) } ?? 0)
-                            Spacer()
-                        } else {
-                            Spacer()
-                            bubble(step)
-                        }
+                        // Small, at the top of the screen between the plaque and the Beans, whatever it points at
+                        // (Josh, 22 Oct: "pats chat notification to be smaller and up the top of the screen").
+                        bubble(step)
+                        Spacer()
                     }
                     .padding(.horizontal, 24)
-                    .padding(.vertical, 16)
+                    .padding(.top, 6)
                     .frame(maxWidth: .infinity)
                 }
                 .animation(.easeOut(duration: 0.3), value: step.id)
@@ -136,7 +129,7 @@ struct RoomTourOverlay: View {
 
     private func bubble(_ step: IntroFile.RoomStep) -> some View {
         VStack(alignment: .trailing, spacing: 6) {
-            HostBubble(name: host, text: text(step), button: button(step)) {
+            HostBubble(name: host, text: text(step), button: button(step), compact: true) {
                 Sound.tap()
                 tour.next()
             }
@@ -149,7 +142,7 @@ struct RoomTourOverlay: View {
                     .shadow(color: .black.opacity(0.6), radius: 2)
             }
         }
-        .frame(maxWidth: 640)
+        .frame(maxWidth: 420)
         // Larger on an iPad, with the controls.
         .zoomed(scale)
     }

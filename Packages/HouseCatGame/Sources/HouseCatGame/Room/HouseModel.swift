@@ -43,6 +43,8 @@ public struct HouseModel: Sendable {
     public var street: OutdoorStreet?
     /// The neighbourhood's roads round the block (OutdoorRules.roads).
     public var roads: [OutdoorRoad] = []
+    /// The town's painted neighbourhood, its plot under the ground floor (in place of the scenery, street and roads).
+    public var backdrop: OutdoorsFile.Backdrop?
 
     public init(
         rooms: [Room],

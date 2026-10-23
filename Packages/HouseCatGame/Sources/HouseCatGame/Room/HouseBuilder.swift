@@ -95,7 +95,8 @@ public enum HouseBuilder {
         }
         // The scenery stands round the ground floor's rooms, the plot the house is built on.
         let plot = plan.rooms.filter { $0.storey == 0 }.map { (u: $0.at[0], v: $0.at[1]) }
-        let scenery = outdoors.map {
+        let backdrop = now.place.setting.flatMap { outdoors?.backdrops?[$0] }
+        let scenery = backdrop != nil ? [] : outdoors.map {
             OutdoorRules.layout(
                 biome: now.biome,
                 setting: now.place.setting,
@@ -106,7 +107,7 @@ public enum HouseBuilder {
                 file: $0
             )
         } ?? []
-        let street = outdoors.flatMap { OutdoorRules.street(biome: now.biome, setting: now.place.setting, rooms: plot, file: $0) }
+        let street = backdrop != nil ? nil : outdoors.flatMap { OutdoorRules.street(biome: now.biome, setting: now.place.setting, rooms: plot, file: $0) }
         var model = HouseModel(
             rooms: rooms,
             active: .living,
@@ -116,7 +117,8 @@ public enum HouseBuilder {
             scenery: scenery,
             street: street
         )
-        model.roads = outdoors.map { OutdoorRules.roads(rooms: plot, street: street, setting: now.place.setting, file: $0) } ?? []
+        model.roads = backdrop != nil ? [] : outdoors.map { OutdoorRules.roads(rooms: plot, street: street, setting: now.place.setting, file: $0) } ?? []
+        model.backdrop = backdrop
         return model
     }
 }

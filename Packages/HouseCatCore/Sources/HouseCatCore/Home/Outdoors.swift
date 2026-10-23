@@ -48,6 +48,24 @@ public struct OutdoorsFile: Codable, Sendable {
     /// `HomePlace.setting`; a place without a list has its biome's.
     public var places: [String: [Prop]]?
 
+    /// One painted neighbourhood round a ladder house (Josh, 23 Oct: "something from Higgs that is perfectly
+    /// natural"): `image` (assets/world/backdrops), `size` its master pixels, `plot` the empty plot's diamond in them
+    /// (left, top, right, bottom), which the house's ground-floor rooms cover.
+    public struct Backdrop: Codable, Sendable, Hashable {
+        public var image: String
+        public var size: [Double]
+        public var plot: [Double]
+
+        public init(image: String, size: [Double], plot: [Double]) {
+            self.image = image
+            self.size = size
+            self.plot = plot
+        }
+    }
+
+    /// By `HomePlace.setting`; a place with one has no assembled scenery, street or roads.
+    public var backdrops: [String: Backdrop]?
+
     public func props(_ biome: Biome, setting: String? = nil) -> [Prop] {
         setting.flatMap { places?[$0] } ?? biomes[biome.rawValue] ?? []
     }

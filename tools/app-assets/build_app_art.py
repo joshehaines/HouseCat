@@ -67,6 +67,8 @@ SETS = [
     ('world/terrain/terr_*.png', 0.25),
     # The ground around the house, per biome.
     ('world/ground/ground_*.png', 0.25),
+    # Each ladder town's painted neighbourhood round the house's plot (Josh, 23 Oct), at its full size.
+    ('world/backdrops/*.jpg', 1.0),
     # The scenery round the house (Content/outdoors.json), painted on magenta and keyed like the shop pictures.
     ('world/props/*.png', 0.3),
     # The painted weather particles (rain, snow, fog, clouds, leaves, blossom).
@@ -106,7 +108,7 @@ DATA = ['cat/rig.json', 'rooms/layout_living_demo.json', 'rooms/houses.json', 'f
 
 # Opaque pictures are written as HEIC (half the size of JPEG for the same look); the index maps the master's path
 # to the file, so the data and the game keep using the masters' names.
-HEIC = ('world/scenes/', 'rooms/walls/', 'rooms/floors/', 'world/ground/', 'world/map/map_painted', 'ui/creator/creator_room', 'ui/homes/homes_room',
+HEIC = ('world/scenes/', 'world/backdrops/', 'rooms/walls/', 'rooms/floors/', 'world/ground/', 'world/map/map_painted', 'ui/creator/creator_room', 'ui/homes/homes_room',
         'ui/profile/profile_corner', 'arcade/run/bg_', 'arcade/pounce/place_')
 HEIC_QUALITY = '70'
 # Cut-outs go in as HEIC with their transparency too (four to seven times smaller than PNG; keeps the app's

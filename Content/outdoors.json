@@ -58,6 +58,16 @@
     ]
   },
   "streets": {"city": { "offset": 5.0, "width": 3.2 }},
+  "backdrops": {
+    "puddlebury": { "image": "world/backdrops/puddlebury.jpg", "size": [2688, 1520], "plot": [1047, 536, 1638, 862] },
+    "amsterdam": { "image": "world/backdrops/amsterdam.jpg", "size": [2688, 1520], "plot": [883, 527, 1796, 988] },
+    "vancouver": { "image": "world/backdrops/vancouver.jpg", "size": [2688, 1520], "plot": [1002, 570, 1689, 929] },
+    "queenstown": { "image": "world/backdrops/queenstown.jpg", "size": [2688, 1520], "plot": [977, 569, 1710, 945] },
+    "tokyo": { "image": "world/backdrops/tokyo.jpg", "size": [2688, 1520], "plot": [878, 460, 1754, 907] },
+    "santorini": { "image": "world/backdrops/santorini.jpg", "size": [2688, 1520], "plot": [996, 566, 1714, 940] },
+    "newyork": { "image": "world/backdrops/newyork.jpg", "size": [2688, 1520], "plot": [1060, 577, 1624, 906] },
+    "london": { "image": "world/backdrops/london.jpg", "size": [2688, 1520], "plot": [861, 541, 1807, 1036] }
+  },
   "places": {
     "amsterdam": [
       { "id": "plane", "tall": true, "weight": 4, "width": 2.8, "seasons": ["autumn", "winter"], "sway": 0.7, "role": "tree", "from": "city" },

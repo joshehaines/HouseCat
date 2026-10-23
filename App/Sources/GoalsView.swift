@@ -53,45 +53,41 @@ struct GoalsView: View {
                 close: close
             )
         } content: {
-            // The page scrolls under its title when it is taller than the screen (a phone on its side).
-            ScrollView {
-                VStack(alignment: .leading, spacing: 10 * scale) {
-                    pillars
-                    HStack(alignment: .top, spacing: 14 * scale) {
-                        VStack(alignment: .leading, spacing: 6 * scale) {
-                            if let chapter = board.chapter {
-                                HStack(alignment: .firstTextBaseline, spacing: 6 * scale) {
-                                    Text(chapter.name).font(Theme.title(15 * scale)).foregroundStyle(Theme.ink)
-                                    Text("\(chapter.when) · \(chapter.done) of \(chapter.of)")
-                                        .font(.system(size: 11 * scale, weight: .heavy, design: .rounded))
-                                        .foregroundStyle(Theme.inkSoft)
-                                }
-                                ForEach(board.path) { row($0) }
-                                Spacer().frame(height: 4 * scale)
+            // Taller than the screen (a phone on its side, an iPad's larger scale), the card scrolls it whole: a scroll
+            // view of its own inside the card's had no height and the page opened as its band alone (Josh's iPad, 23 Oct).
+            VStack(alignment: .leading, spacing: 10 * scale) {
+                pillars
+                HStack(alignment: .top, spacing: 14 * scale) {
+                    VStack(alignment: .leading, spacing: 6 * scale) {
+                        if let chapter = board.chapter {
+                            HStack(alignment: .firstTextBaseline, spacing: 6 * scale) {
+                                Text(chapter.name).font(Theme.title(15 * scale)).foregroundStyle(Theme.ink)
+                                Text("\(chapter.when) · \(chapter.done) of \(chapter.of)")
+                                    .font(.system(size: 11 * scale, weight: .heavy, design: .rounded))
+                                    .foregroundStyle(Theme.inkSoft)
                             }
-                            heading("Today")
-                            ForEach(board.today) { row($0) }
-                            heading("This week").padding(.top, 4 * scale)
-                            ForEach(board.week) { row($0) }
+                            ForEach(board.path) { row($0) }
+                            Spacer().frame(height: 4 * scale)
                         }
-                        .frame(width: 270 * scale)
-                        VStack(alignment: .leading, spacing: 6 * scale) {
-                            heading("Milestones")
-                            ForEach(board.milestones) { milestone in
-                                row(milestone.next, steps: (milestone.stepsDone, milestone.steps))
-                            }
-                        }
-                        .frame(width: 290 * scale)
+                        heading("Today")
+                        ForEach(board.today) { row($0) }
+                        heading("This week").padding(.top, 4 * scale)
+                        ForEach(board.week) { row($0) }
                     }
+                    .frame(width: 270 * scale)
+                    VStack(alignment: .leading, spacing: 6 * scale) {
+                        heading("Milestones")
+                        ForEach(board.milestones) { milestone in
+                            row(milestone.next, steps: (milestone.stepsDone, milestone.steps))
+                        }
+                    }
+                    .frame(width: 290 * scale)
                 }
             }
-            .scrollIndicators(.hidden)
-            .scrollBounceBehavior(.basedOnSize)
             .frame(width: (270 + 14 + 290) * scale)
             .padding(14 * scale)
         }
         .frame(width: (270 + 14 + 290 + 28) * scale)
-        .containerRelativeFrame(.vertical) { height, _ in min(height - 64, 560 * scale) }
     }
 
     /// What the game is about: the cat's trust, the home, the level, each with what is next.

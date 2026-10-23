@@ -276,3 +276,25 @@ private struct World {
     ))
     #expect(farm.street == nil)
 }
+
+/// Every ladder town has its painted neighbourhood (Josh, 23 Oct: "perfectly natural and generated per house"), bundled,
+/// with its plot under the house's ground floor, and none of the assembled scenery, street or roads.
+@MainActor
+@Test func everyLadderTownHasItsPaintedNeighbourhood() throws {
+    let world = try World()
+    for rung in HouseLadder.rungs {
+        let now = HomeNow(place: rung.place, biome: rung.place.biome, season: .summer, sky: .day, weather: .sun, localMinutes: 720)
+        let house = try #require(HouseBuilder.house(
+            style: rung.style, plans: world.plans, layout: world.layout, state: world.state(),
+            catalogue: world.content.catalogue, now: now, outdoors: world.content.outdoors
+        ))
+        let backdrop = try #require(house.backdrop, "\(rung.place.name)")
+        #expect(world.art.has(backdrop.image), "\(backdrop.image) is bundled")
+        #expect(house.scenery.isEmpty && house.street == nil && house.roads.isEmpty)
+        let scene = RoomScene(size: CGSize(width: 1366, height: 1024), art: world.art, content: world.content, house: house)
+        let node = try #require(scene.world.childNode(withName: "backdrop") as? SKSpriteNode)
+        let rooms = scene.world.children.filter { $0 is RoomNode }.map { $0.calculateAccumulatedFrame() }
+        let box = rooms.dropFirst().reduce(rooms.first ?? .zero) { $0.union($1) }
+        #expect(node.frame.contains(CGPoint(x: box.midX, y: box.midY)), "the house stands on its plot in \(rung.place.name)")
+    }
+}

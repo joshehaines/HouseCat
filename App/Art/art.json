@@ -15287,6 +15287,70 @@
    ],
    "scale": 0.32
   },
+  "world/backdrops/amsterdam.jpg": {
+   "file": "world/backdrops/amsterdam.heic",
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 1.0
+  },
+  "world/backdrops/london.jpg": {
+   "file": "world/backdrops/london.heic",
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 1.0
+  },
+  "world/backdrops/newyork.jpg": {
+   "file": "world/backdrops/newyork.heic",
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 1.0
+  },
+  "world/backdrops/puddlebury.jpg": {
+   "file": "world/backdrops/puddlebury.heic",
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 1.0
+  },
+  "world/backdrops/queenstown.jpg": {
+   "file": "world/backdrops/queenstown.heic",
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 1.0
+  },
+  "world/backdrops/santorini.jpg": {
+   "file": "world/backdrops/santorini.heic",
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 1.0
+  },
+  "world/backdrops/tokyo.jpg": {
+   "file": "world/backdrops/tokyo.heic",
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 1.0
+  },
+  "world/backdrops/vancouver.jpg": {
+   "file": "world/backdrops/vancouver.heic",
+   "master": [
+    2688,
+    1520
+   ],
+   "scale": 1.0
+  },
   "world/ground/ground_autumn.png": {
    "file": "world/ground/ground_autumn.heic",
    "master": [

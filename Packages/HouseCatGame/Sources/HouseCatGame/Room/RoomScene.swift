@@ -230,6 +230,7 @@ public final class RoomScene: SKScene {
     /// every storey, with the scenery of the home's place round it.
     private func buildGround() {
         buildScenery()
+        buildBackdrop()
         guard let tile = house.ground else { return }
         let reach = CGFloat(Tuning.House.groundReach), cells = CGFloat(Tuning.Room.gridWidth)
         let maxU = house.rooms.map { CGFloat($0.u) }.max() ?? 0, maxV = house.rooms.map { CGFloat($0.v) }.max() ?? 0
@@ -265,6 +266,31 @@ public final class RoomScene: SKScene {
         node.shader = shader
         node.zPosition = -CGFloat(Tuning.House.storeyBand)
         node.name = "ground"
+        world.addChild(node)
+    }
+
+    /// The town's painted neighbourhood (OutdoorsFile.Backdrop), its empty plot stretched over the box the ground
+    /// floor's rooms make, in the sky's light, over the ground tile (which still shows past its edges).
+    private func buildBackdrop() {
+        guard let backdrop = house.backdrop, backdrop.size.count == 2, backdrop.plot.count == 4 else { return }
+        let cells = CGFloat(Tuning.Room.gridWidth)
+        let ground = house.rooms.filter { $0.storey == 0 }
+        guard !ground.isEmpty else { return }
+        let minU = ground.map { CGFloat($0.u) }.min() ?? 0, maxU = (ground.map { CGFloat($0.u) }.max() ?? 0) + cells
+        let minV = ground.map { CGFloat($0.v) }.min() ?? 0, maxV = (ground.map { CGFloat($0.v) }.max() ?? 0) + cells
+        // The plot's corners on screen: left (minU, maxV), right (maxU, minV), top (minU, minV), bottom (maxU, maxV).
+        let left = grid.floor(minU, maxV).x, right = grid.floor(maxU, minV).x
+        let top = grid.floor(minU, minV).y, bottom = grid.floor(maxU, maxV).y
+        let plot = backdrop.plot.map { CGFloat($0) }, size = CGSize(width: backdrop.size[0], height: backdrop.size[1])
+        // Points per master pixel, across and down (the painting's angle is near enough the grid's, not exact).
+        let sx = (right - left) / (plot[2] - plot[0]), sy = (top - bottom) / (plot[3] - plot[1])
+        let node = SKSpriteNode(texture: art.texture(backdrop.image), size: CGSize(width: size.width * sx, height: size.height * sy))
+        node.position = CGPoint(x: left + (size.width / 2 - plot[0]) * sx, y: top - (size.height / 2 - plot[1]) * sy)
+        let rgb = Tuning.Sky.grade[house.sky] ?? [1, 1, 1]
+        node.color = SKColor(red: rgb[0], green: rgb[1], blue: rgb[2], alpha: 1)
+        node.colorBlendFactor = 1
+        node.zPosition = -CGFloat(Tuning.House.storeyBand) + 1
+        node.name = "backdrop"
         world.addChild(node)
     }
 

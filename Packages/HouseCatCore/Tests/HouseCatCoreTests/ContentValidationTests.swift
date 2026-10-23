@@ -238,9 +238,9 @@ struct ContentValidationTests {
         let outfits = content.outfits.outfits
         #expect(outfits.count == 37)
         let pools = Dictionary(grouping: outfits, by: \.pool).mapValues(\.count)
-        // The pass's fourteen outfits are its own (Josh, 20 Oct: off sale for Beans), Black Cat's toadstool hat and bat
-        // wings among them.
-        #expect(pools == [.paid: 19, .earned: 4, .passPaid: 9, .passFree: 5])
+        // Premium keeps one outfit a season (Josh, 23 Oct: "too much items in the premium pass"); the ones that left it
+        // are sold in the shop, a seasonal one in its months.
+        #expect(pools == [.paid: 24, .earned: 4, .passPaid: 4, .passFree: 5])
         for outfit in outfits {
             for sprite in outfit.sprites.values {
                 #expect(manifest[sprite] != nil, "\(outfit.id): sprite \(sprite) not in manifest")

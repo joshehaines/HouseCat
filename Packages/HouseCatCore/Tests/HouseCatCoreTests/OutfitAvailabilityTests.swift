@@ -45,10 +45,12 @@ struct OutfitAvailabilityTests {
         #expect(try availability("buckethat") == .earned(source: "referral"))
         #expect(try availability("bandana") == .pass(premium: false))
         #expect(try availability("crown") == .pass(premium: true))
-        // The pass is the only way to the pass's outfits (Josh, 20 Oct), the pumpkin hat even in October.
+        // The season's own outfit stays on its pass; the ones premium no longer gives are sold (Josh, 23 Oct), the
+        // pumpkin hat in October.
         #expect(try availability("bellcollar") == .pass(premium: false))
-        #expect(try availability("pumpkinhat", month: 10) == .pass(premium: true))
-        #expect(try availability("flatcap") == .pass(premium: true))
+        #expect(try availability("pumpkinhat", month: 10) == .forSale(beans: Tuning.Beans.outfit))
+        #expect(try availability("pumpkinhat", month: 3) == .outOfSeason(months: [10]))
+        #expect(try availability("flatcap") == .forSale(beans: Tuning.Beans.outfit))
     }
 
     /// Nothing is shown that cannot be had yet: the bucket hat (inviting a friend) and the party hat (the launch

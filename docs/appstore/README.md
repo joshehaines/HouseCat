@@ -74,10 +74,10 @@ The shop is not in the marketing set: a simulator launch from the command line h
 | housecat.room.cosy_study | Non-consumable | £4.99 | Cosy study | Map walls, a globe, a desk lamp and a mug of tea. |
 | housecat.room.cabin_attic | Non-consumable | £3.99 | Cabin attic | Pine walls, a skylight, an oil lamp and a wireless. |
 | housecat.room.starlit_attic | Non-consumable | £2.99 | Starlit attic | A telescope, a rocking horse and a dressmaker's dummy. |
-| housecat.pass.blackcat | Non-consumable | £2.99 | Black Cat Premium Pass | The Black Cat season's 30 premium rewards. |
-| housecat.pass.housewarming | Non-consumable | £2.99 | Housewarming Premium Pass | The Housewarming season's 30 premium rewards. |
-| housecat.pass.midwinter | Non-consumable | £2.99 | Midwinter Premium Pass | The Midwinter season's 30 premium rewards. |
-| housecat.pass.firstlight | Non-consumable | £2.99 | First Light Premium Pass | The First Light season's 30 premium rewards. |
+| housecat.pass.blackcat | Non-consumable | £4.99 | Black Cat Premium Pass | The Black Cat season's 30 premium rewards. |
+| housecat.pass.housewarming | Non-consumable | £4.99 | Housewarming Premium Pass | The Housewarming season's 30 premium rewards. |
+| housecat.pass.midwinter | Non-consumable | £4.99 | Midwinter Premium Pass | The Midwinter season's 30 premium rewards. |
+| housecat.pass.firstlight | Non-consumable | £4.99 | First Light Premium Pass | The First Light season's 30 premium rewards. |
 | housecat.club.monthly | Auto-renewable (group "Cat Club", level 1) | £2.99 / month | Cat Club Monthly | +20% Beans, rooms for half the Beans and free moves. |
 | housecat.club.yearly | Auto-renewable (group "Cat Club", level 1) | £19.99 / year, 1-week free trial | Cat Club Yearly | +20% Beans, rooms for half the Beans and free moves. |
 
@@ -173,7 +173,7 @@ Nothing is hidden or dormant (Guideline 2.5.19): co-owning a cat with another pe
 
 - **RevenueCat and PostHog**: both in 1.0 (Josh, 21 Oct: "ok lets implement both"). Each comes alive the moment its key is set in `project.yml` (`RevenueCatAPIKey`, `PostHogAPIKey`) and the project is regenerated; empty, the app uses StoreKit 2 directly and shows no analytics card or switch. The App Privacy answers above assume both keys are set. The steps are under "RevenueCat and PostHog" in the checklist.
 - **Season dates**: seasons run back to back on `SeasonCalendar` and the pass is always on: Black Cat 5 Oct to 1 Nov 2026 (so TestFlight and App Review see the pass), Housewarming 2 Nov to 30 Nov (the launch season; the launch events still count from 2 Nov, `launchAt` in `Content/seasons.json`), Midwinter every December, First Light to 25 Jan 2027. After that, seasons run again until the 2027 seasons (CONTENT.md §7) are painted.
-- **Premium pass price**: £2.99 a season (Josh approved it on 20 Oct), the same as a month of Cat Club, which includes it.
+- **Premium pass price**: £4.99 a season (Josh, 23 Oct; was £2.99), set the four pass IAPs to that tier in App Store Connect. Cat Club (£2.99 a month) still includes it.
 - **Mac menu-bar cat**: leave it out of 1.0. It has no App Sandbox and can't reach the iPhone's cat, so review would reject it under minimum functionality. To ship it later, it needs the sandbox, the App Group and a privacy manifest.
 - **Co-owning**: left out of 1.0 and planned for 1.1. Leave, Stop sharing, Hide and Report are built (19 Oct). Co-owner names go through the name filter. To ship it, it needs the iCloud container on the App ID, `HouseCatCloudKit` set to true and two-phone testing (CLAUDE.md, "To switch sharing on"). The website and App Store Connect lines it needs are in `sharing-1.1.md`.
 

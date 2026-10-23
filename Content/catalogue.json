@@ -2846,9 +2846,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 250,
       "sku": null,
       "description": "A wooden tea chest with stencilled letters. Smells faintly of tea.",
       "catPose": "sit_side",
@@ -2908,9 +2908,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 150,
       "sku": null,
       "description": "A wooden step ladder, for pictures, shelves and surveillance.",
       "catPose": "sit_side",
@@ -2944,9 +2944,9 @@
         ],
         "period": 5.0
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 250,
       "sku": null,
       "description": "Tiny warm lights draped in two swags along the wall.",
       "catPose": null,
@@ -2975,9 +2975,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 250,
       "sku": null,
       "description": "A checked blanket on the floor of a house with no table yet.",
       "catPose": "stretch_side",
@@ -3040,9 +3040,9 @@
         "frames": 8,
         "period": 0.8
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 150,
       "sku": null,
       "description": "A scented candle in amber glass. Smells like a new home.",
       "catPose": null,
@@ -3462,9 +3462,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 250,
       "sku": null,
       "description": "Brand new. The plastic is still on one arm.",
       "catPose": "sleep_curl",
@@ -3525,9 +3525,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 400,
       "sku": null,
       "description": "A quilt over two chairs, and fairy lights.",
       "catPose": "sleep_curl",
@@ -3556,9 +3556,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 250,
       "sku": null,
       "description": "Four fruit crates and a sheet of glass.",
       "catPose": "sit_tqfront",
@@ -3592,9 +3592,9 @@
         ],
         "period": 5.0
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 250,
       "sku": null,
       "description": "A brass arc with a glowing dome.",
       "catPose": null,
@@ -3623,9 +3623,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 150,
       "sku": null,
       "description": "Coral cord, squashed into a perfect dip.",
       "catPose": "sleep_curl",
@@ -3654,9 +3654,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 250,
       "sku": null,
       "description": "Six little frames, hung close together.",
       "catPose": null,
@@ -3685,9 +3685,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 250,
       "sku": null,
       "description": "A tall arched mirror. Someone in it looks familiar.",
       "catPose": "sit_back",
@@ -3717,9 +3717,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 150,
       "sku": null,
       "description": "Ivy, a fern and a cactus on three tiers.",
       "catPose": null,
@@ -3749,9 +3749,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 150,
       "sku": null,
       "description": "A wicker trunk of blankets, its lid half open.",
       "catPose": "sleep_curl",
@@ -3780,9 +3780,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 250,
       "sku": null,
       "description": "A cottage to scratch, with a roof on top.",
       "catPose": "stretch_side",
@@ -3811,9 +3811,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 250,
       "sku": null,
       "description": "Sage green, with a basket of flowers.",
       "catPose": null,
@@ -3842,9 +3842,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 150,
       "sku": null,
       "description": "Which colour for the hall? Still deciding.",
       "catPose": null,
@@ -3873,9 +3873,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 150,
       "sku": null,
       "description": "Iced, with a tiny house on top.",
       "catPose": null,
@@ -3904,9 +3904,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 100,
       "sku": null,
       "description": "The old housewarming gift, so a home never goes without.",
       "catPose": null,
@@ -3935,9 +3935,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 250,
       "sku": null,
       "description": "A crate of records and a suitcase record player.",
       "catPose": null,
@@ -3966,9 +3966,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 150,
       "sku": null,
       "description": "Silver eucalyptus and a linen bow.",
       "catPose": null,
@@ -3997,9 +3997,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 150,
       "sku": null,
       "description": "Waiting to be hung. Being batted instead.",
       "catPose": null,
@@ -4028,9 +4028,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 150,
       "sku": null,
       "description": "A tower of books, a lamp on top. Unpacking can wait.",
       "catPose": null,
@@ -4059,9 +4059,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 250,
       "sku": null,
       "description": "A chunky cream knit, folded once. It won't stay folded.",
       "catPose": "sleep_curl",
@@ -4152,9 +4152,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 150,
       "sku": null,
       "description": "A tiny cottage under glass. Shake it and it snows indoors.",
       "catPose": null,
@@ -4313,9 +4313,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 250,
       "sku": null,
       "description": "A small wooden bird box. The cat has applied to be a tenant.",
       "catPose": "sit_back",
@@ -4450,9 +4450,9 @@
         "frames": 8,
         "period": 0.8
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 150,
       "sku": null,
       "description": "A glass jar with a blue butterfly resting on the rim.",
       "catPose": "sit_side",
@@ -4518,9 +4518,9 @@
         ],
         "period": 5.0
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 150,
       "sku": null,
       "description": "A blue enamel jug of daffodils. Cheerful, and best admired.",
       "catPose": null,
@@ -5011,9 +5011,9 @@
         ],
         "period": 5.0
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 250,
       "sku": null,
       "description": "Carved with a cat's face. It looks a bit like someone.",
       "catPose": "sit_tqfront",
@@ -5044,9 +5044,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 250,
       "sku": null,
       "description": "Plum velvet, brass studs and a knitted throw.",
       "catPose": "sleep_curl",
@@ -5075,9 +5075,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 250,
       "sku": null,
       "description": "A very distinguished ancestor, in oils.",
       "catPose": null,
@@ -5111,9 +5111,9 @@
         ],
         "period": 5.0
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 250,
       "sku": null,
       "description": "A paper full moon on a brass stand.",
       "catPose": null,
@@ -5176,9 +5176,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 400,
       "sku": null,
       "description": "A gnarled cat tree with felt bats in its branches.",
       "catPose": "sit_tqfront",
@@ -5207,9 +5207,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 250,
       "sku": null,
       "description": "A crocheted cobweb to nap in. The spider is felt.",
       "catPose": "sleep_curl",
@@ -5238,9 +5238,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 150,
       "sku": null,
       "description": "A wooden owl that keeps the time.",
       "catPose": null,
@@ -5269,9 +5269,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 250,
       "sku": null,
       "description": "A woven rug with a sleeping cat in the middle. Now two.",
       "catPose": "sleep_curl",
@@ -5300,9 +5300,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 250,
       "sku": null,
       "description": "For long clear nights and passing owls.",
       "catPose": "sit_back",
@@ -5332,9 +5332,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 250,
       "sku": null,
       "description": "A grandfather clock with a smiling moon on its face.",
       "catPose": null,
@@ -5363,9 +5363,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 150,
       "sku": null,
       "description": "Apples bobbing in a tub. Watched, never bobbed for.",
       "catPose": "sit_side",
@@ -5395,9 +5395,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 250,
       "sku": null,
       "description": "A wind-up gramophone with a big brass horn.",
       "catPose": null,
@@ -5431,9 +5431,9 @@
         ],
         "period": 5.0
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 150,
       "sku": null,
       "description": "A little sheet ghost glowing on a side table.",
       "catPose": null,
@@ -5462,9 +5462,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 150,
       "sku": null,
       "description": "A velvet bat with its wings spread, for napping on.",
       "catPose": "sleep_curl",
@@ -5494,9 +5494,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 250,
       "sku": null,
       "description": "Honey oak and a granny-square blanket.",
       "catPose": "sleep_curl",
@@ -5526,9 +5526,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 150,
       "sku": null,
       "description": "A young horse chestnut in a pot, turning gold.",
       "catPose": null,
@@ -5557,9 +5557,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 100,
       "sku": null,
       "description": "Humbugs and toffees in a tall glass jar.",
       "catPose": null,
@@ -5588,9 +5588,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 150,
       "sku": null,
       "description": "A cast-iron cat that holds the door. Never moves.",
       "catPose": null,
@@ -5619,9 +5619,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 250,
       "sku": null,
       "description": "Pumpkins and gourds in a long planter.",
       "catPose": null,
@@ -5652,9 +5652,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 150,
       "sku": null,
       "description": "A hay bale with a tartan blanket and a small pumpkin.",
       "catPose": "sleep_curl",
@@ -5688,9 +5688,9 @@
         ],
         "period": 5.0
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 150,
       "sku": null,
       "description": "Paper pumpkin lanterns on a string.",
       "catPose": null,
@@ -5720,9 +5720,9 @@
       "motion": {
         "type": "static"
       },
-      "pool": "pass-paid",
+      "pool": "beans",
       "level": 1,
-      "beans": null,
+      "beans": 250,
       "sku": null,
       "description": "Old storybooks and a gap on the bottom shelf, cat-sized.",
       "catPose": "sleep_curl",

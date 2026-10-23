@@ -54,7 +54,7 @@ public struct StoreCatalog: Sendable {
     /// The 7-day trial is an introductory offer on the yearly plan.
     public static let yearlyTrialDays = 7
     /// A season's premium pass, the same price every season (Josh, 19 Oct; StoreKit's `displayPrice` is shown).
-    public static let passPriceGBP = "2.99"
+    public static let passPriceGBP = "4.99"
 
     /// The premium pass product of a season, by the season's pass id.
     public static func passProductID(season passID: String) -> String {

@@ -355,24 +355,21 @@ struct PassContentTests {
         #expect(content.seasons.launchDay == GameDay(year: 2026, month: 11, day: 2))
     }
 
-    /// Josh, 20 Oct: "less beans and more items". On both tracks the boxes of Beans alone are a few (a fifth of the
-    /// premium track's, under a third of the free one's), items outnumber them several times over, the free track is
-    /// still worth doing (a dozen pieces and its outfit), premium holds about twice the items, a wallpaper, a floor and
-    /// at least two outfits besides, and the Beans are well under what the pass paid before (565 free, 1,525 premium)
-    /// while premium still pays more. Every top prize is legendary.
-    @Test func moreItemsThanBeansAndPremiumClearlyBetter() throws {
+    /// The free track (Josh, 20 Oct: "less beans and more items") is mostly items: a dozen pieces and its outfit. The
+    /// premium track is the Clash of Clans Gold Pass's shape (Josh, 23 Oct: "we dont want to hand out too much premium
+    /// items"): five cosmetics (the signature piece, a showpiece, the wallpaper, the floor and the season's outfit) and
+    /// Beans on every other tier, 1,500 in all. Every top prize is legendary.
+    @Test func freeIsItemsAndPremiumIsAFewCosmeticsAndBeans() throws {
         for season in content.seasons.seasons {
             let definition = try season.definition()
             let free = PassRules.contents(of: definition.freeTrack)
             let premium = PassRules.contents(of: definition.paidTrack)
             #expect(free.boxes == Tuning.Pass.freeTiers && premium.boxes == Tuning.Pass.tiers, "\(season.id)")
-            #expect(free.beanBoxes * 3 <= free.boxes && premium.beanBoxes * 5 <= premium.boxes, "\(season.id): \(free.beanBoxes) and \(premium.beanBoxes) boxes of Beans")
-            #expect(free.items >= 2 * free.beanBoxes && premium.items >= 5 * premium.beanBoxes, "\(season.id)")
+            #expect(free.beanBoxes * 3 <= free.boxes && free.items >= 2 * free.beanBoxes, "\(season.id)")
             #expect(free.pieces >= 12 && free.outfits >= 1, "\(season.id): the free track is worth doing")
-            #expect(premium.items >= free.items + 12, "\(season.id): \(premium.items) items against \(free.items)")
-            #expect(premium.wallpapers >= 1 && premium.floors >= 1 && premium.outfits >= 2, "\(season.id)")
-            #expect(premium.beans > free.beans, "\(season.id)")
-            #expect(free.beans <= 350 && premium.beans <= 650, "\(season.id): \(free.beans) and \(premium.beans) Beans")
+            #expect(premium.pieces == 2 && premium.wallpapers == 1 && premium.floors == 1 && premium.outfits == 1, "\(season.id)")
+            #expect(premium.beanBoxes == Tuning.Pass.tiers - 5 && premium.beans == 1500, "\(season.id): \(premium.beans) Beans")
+            #expect(free.beans <= 350, "\(season.id): \(free.beans) Beans")
             #expect(definition.reward(track: .free, tier: Tuning.Pass.freeTiers)?.grade == .legendary, "\(season.id)")
             #expect(definition.reward(track: .paid, tier: Tuning.Pass.tiers)?.grade == .legendary, "\(season.id)")
             #expect(definition.reward(track: .paid, tier: 1)?.kind == .item, "\(season.id): the signature piece on premium tier 1")
@@ -393,8 +390,10 @@ struct PassContentTests {
         }
         let pieces = (season.freeTrack + season.paidTrack).filter { $0.kind == .item }.compactMap(\.id)
         #expect(Set(pieces).count == pieces.count, "a piece twice")
-        let own = content.catalogue.items.filter { $0.room == "pass_\(id)" }.map(\.id)
-        #expect(Set(own) == Set(pieces), "every one of its pieces is on a track")
+        // The rest of its pieces left the premium track (Josh, 23 Oct) and are sold for Beans, by rarity.
+        let own = content.catalogue.items.filter { $0.room == "pass_\(id)" }
+        #expect(Set(own.filter { $0.pool != .beans }.map(\.id)) == Set(pieces), "every one not sold is on a track")
+        #expect(own.filter { $0.pool == .beans }.allSatisfy { [100, 150, 250, 400].contains($0.beans ?? 0) })
         let surfaces = season.paidTrack.filter { $0.kind == .surface }.compactMap(\.id)
         #expect(surfaces.allSatisfy { sid in content.catalogue.surfaces.first { $0.id == sid }?.room == "pass_\(id)" })
     }

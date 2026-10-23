@@ -45,13 +45,23 @@ private struct Fixture {
                 lockLabel: spot.room == .living ? nil : "Level \(spot.room.requiredLevel)"
             )
         }
-        return HouseModel(
+        var house = HouseModel(
             rooms: rooms,
             active: .living,
             sky: .day,
             ground: "rooms/floors/floor_garden_brick_paving.png",
             stairs: plan.stairs
         )
+        house.roomSize = Tuning.Room.sizes[.londonTerrace] ?? .standard
+        // The demo layout is for a standard room: pieces past the terrace's 8 cells come in to its last cell.
+        let last = Double(house.roomSize.u - 1)
+        for index in house.rooms.indices {
+            for item in house.rooms[index].model.items.indices {
+                house.rooms[index].model.items[item].u = min(house.rooms[index].model.items[item].u, last)
+                house.rooms[index].model.items[item].v = min(house.rooms[index].model.items[item].v, last)
+            }
+        }
+        return house
     }
 
     func scene() throws -> RoomScene {
@@ -116,7 +126,7 @@ private struct Fixture {
     #expect(Set(scene.shownRooms) == [.living, .kitchen, .garden])
     #expect(Set(scene.rooms.keys) == Set(RoomID.allCases), "every room is built, for the cat to go to")
     let living = try #require(scene.rooms[.living]), kitchen = try #require(scene.rooms[.kitchen])
-    #expect(kitchen.position == scene.grid.floor(10, 0))
+    #expect(kitchen.position == scene.grid.floor(8, 0), "the terrace's rooms are 8 cells")
     #expect(living.childNode(withName: "veil") == nil)
     #expect(kitchen.childNode(withName: "veil") != nil)
     #expect(scene.furniture["living_sofa"] != nil)

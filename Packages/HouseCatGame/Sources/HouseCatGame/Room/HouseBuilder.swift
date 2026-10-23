@@ -37,6 +37,15 @@ public enum HouseBuilder {
         "world/scenes/\(house.rawValue)_\(biome.rawValue)_\(season.rawValue)"
     }
 
+    /// A window or door laid out for a standard room, the same way along a wall of another length and inside it.
+    static func fit(_ opening: RoomModel.Opening, _ size: RoomSize) -> RoomModel.Opening {
+        var fitted = opening
+        let length = Double(opening.wall == "L" ? size.v : size.u)
+        let standard = Double(opening.wall == "L" ? Tuning.Room.gridDepth : Tuning.Room.gridWidth)
+        fitted.start = max(0.3, min(opening.start * length / standard, length - opening.along - 0.3))
+        return fitted
+    }
+
     public static func house(
         style: HouseStyle,
         plans: HousePlans,
@@ -47,7 +56,11 @@ public enum HouseBuilder {
         outdoors: OutdoorsFile? = nil
     ) -> HouseModel? {
         guard let plan = plans.houses[style.rawValue] else { return nil }
-        let rooms = plan.rooms.map { spot -> HouseModel.Room in
+        // The house is the rooms it has (Josh, 23 Oct: "the boat cannot be a big 3 room space"): those the ladder has
+        // opened so far, laid out as that home is; the next house's rooms come with the next house (Homes).
+        let owned = plan.rooms.filter { $0.room == .living || state.openedRooms.contains($0.room) }
+        let size = Tuning.Room.sizes[style] ?? .standard
+        let rooms = owned.map { spot -> HouseModel.Room in
             var model = layout
             model.sky = now.sky
             model.light = now.sky.lightMap(weather: now.weather)
@@ -61,7 +74,10 @@ public enum HouseBuilder {
                 model.window = plans.roomStyles[spot.room.rawValue]?.window
                 model.door = nil
             }
-            model.items = state.placed.filter { $0.room == spot.room }.map {
+            model.window = model.window.map { fit($0, size) }
+            model.door = model.door.map { fit($0, size) }
+            // Only what is in the room (a save's pieces are moved in when the household moves house).
+            model.items = state.placed.filter { $0.room == spot.room && size.contains($0.x, $0.y) }.map {
                 RoomModel.Placement(
                     id: $0.itemID,
                     u: Double($0.x),
@@ -70,19 +86,6 @@ public enum HouseBuilder {
                     placementID: $0.placementID
                 )
             }
-            let open = state.openedRooms.contains(spot.room)
-            if !open {
-                // A closed room is bare until it is opened (Josh, 19 Oct: blank, nothing in it): no furniture, and
-                // indoors plain plaster and boards, so it reads as a room still to do up.
-                model.items = []
-                if spot.outdoor != true {
-                    model.wall = Tuning.House.bareWall
-                    model.floor = Tuning.House.bareFloor
-                }
-            }
-            // Rooms come with houses up the ladder (docs/LADDER.md): the closed one names its house.
-            let rung = HouseLadder.rung(HouseLadder.rung(opening: spot.room))
-            let label = "\(rung.name)\n\(rung.price.formatted()) Beans"
             return HouseModel.Room(
                 id: spot.room,
                 storey: spot.storey,
@@ -90,11 +93,11 @@ public enum HouseBuilder {
                 v: spot.at[1],
                 outdoor: spot.outdoor ?? false,
                 model: model,
-                lockLabel: open ? nil : label
+                lockLabel: nil
             )
         }
         // The scenery stands round the ground floor's rooms, the plot the house is built on.
-        let plot = plan.rooms.filter { $0.storey == 0 }.map { (u: $0.at[0], v: $0.at[1]) }
+        let plot = owned.filter { $0.storey == 0 }.map { (u: $0.at[0], v: $0.at[1]) }
         let backdrop = now.place.setting.flatMap { outdoors?.backdrops?[$0] }
         let scenery = backdrop != nil ? [] : outdoors.map {
             OutdoorRules.layout(
@@ -113,10 +116,12 @@ public enum HouseBuilder {
             active: .living,
             sky: now.sky,
             ground: ground(now.biome, season: now.season, weather: now.weather),
-            stairs: plan.stairs,
+            // Up only when a room upstairs is the household's.
+            stairs: owned.contains { $0.storey > 0 } ? plan.stairs : nil,
             scenery: scenery,
             street: street
         )
+        model.roomSize = size
         model.roads = backdrop != nil ? [] : outdoors.map { OutdoorRules.roads(rooms: plot, street: street, setting: now.place.setting, file: $0) } ?? []
         model.backdrop = backdrop
         return model

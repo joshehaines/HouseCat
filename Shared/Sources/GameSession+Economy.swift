@@ -112,7 +112,7 @@ extension GameSession {
         let order = bundle.items.compactMap { items[$0] }.sorted { $0.footprint.w * $0.footprint.d > $1.footprint.w * $1.footprint.d }
         for item in order where unplaced[item.id, default: 0] > 0 {
             let fresh = PlacementRules.Piece(item, x: 0, y: 0, facing: .right)
-            guard let spot = PlacementRules.firstFit(fresh, among: pieces) else { continue }
+            guard let spot = PlacementRules.firstFit(fresh, among: pieces, room: state.roomSize) else { continue }
             let event = append(.itemPlaced(itemID: item.id, room: bundle.room, x: spot.x, y: spot.y, facing: spot.facing), at: now())
             var placedPiece = spot
             placedPiece.placementID = event.id
@@ -133,10 +133,11 @@ extension GameSession {
         let items = Dictionary(uniqueKeysWithValues: catalogue.items.map { ($0.id, $0) })
         var pieces = existing
         var out: [RoomModel.Placement] = []
+        let size = state(at: now()).roomSize
         let order = bundle.items.compactMap { items[$0] }.sorted { $0.footprint.w * $0.footprint.d > $1.footprint.w * $1.footprint.d }
         for item in order {
             let fresh = PlacementRules.Piece(item, x: 0, y: 0, facing: .right)
-            guard let spot = PlacementRules.firstFit(fresh, among: pieces) else { continue }
+            guard let spot = PlacementRules.firstFit(fresh, among: pieces, room: size) else { continue }
             pieces.append(spot)
             out.append(RoomModel.Placement(id: item.id, u: Double(spot.x), v: Double(spot.y), facing: spot.facing.rawValue, placementID: UUID()))
         }

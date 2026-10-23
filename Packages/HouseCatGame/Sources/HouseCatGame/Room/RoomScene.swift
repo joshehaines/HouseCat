@@ -9,7 +9,8 @@ import SpriteKit
 /// The view settles on the active room, follows the cat and pans on a drag.
 @MainActor
 public final class RoomScene: SKScene {
-    public let grid = IsoGrid()
+    /// A room's floor grid (every room of the house is one size).
+    public private(set) var grid = IsoGrid()
     /// Holds the house in room units; scaled and moved to frame the view.
     public let world = SKNode()
     public let art: ArtLibrary
@@ -51,6 +52,7 @@ public final class RoomScene: SKScene {
         items = Dictionary(uniqueKeysWithValues: content.catalogue.items.map { ($0.id, $0) })
         surfaces = Dictionary(uniqueKeysWithValues: content.catalogue.surfaces.map { ($0.id, $0) })
         self.house = house
+        grid = IsoGrid(house.roomSize)
         storey = house.storey
         catRoom = house.active
         super.init(size: size)
@@ -176,11 +178,11 @@ public final class RoomScene: SKScene {
             node.removeFromParent()
         }
         rooms = [:]
-        let cells = CGFloat(Tuning.Room.gridWidth)
+        let cells = (grid.cellsU + grid.cellsV) / 2
         for room in house.rooms {
             let node = RoomNode(
                 id: room.id, model: room.model, art: art, items: items, surfaces: surfaces,
-                walls: house.walls(of: room), outdoor: room.outdoor, doorways: house.doorways(of: room)
+                walls: house.walls(of: room), outdoor: room.outdoor, doorways: house.doorways(of: room), size: house.roomSize
             )
             let origin = grid.floor(CGFloat(room.u), CGFloat(room.v))
             node.position = origin
@@ -232,9 +234,9 @@ public final class RoomScene: SKScene {
         buildScenery()
         buildBackdrop()
         guard let tile = house.ground else { return }
-        let reach = CGFloat(Tuning.House.groundReach), cells = CGFloat(Tuning.Room.gridWidth)
+        let reach = CGFloat(Tuning.House.groundReach)
         let maxU = house.rooms.map { CGFloat($0.u) }.max() ?? 0, maxV = house.rooms.map { CGFloat($0.v) }.max() ?? 0
-        let low = -reach, highU = maxU + cells + reach, highV = maxV + cells + reach
+        let low = -reach, highU = maxU + grid.cellsU + reach, highV = maxV + grid.cellsV + reach
         let corners = [grid.floor(low, highV), grid.floor(highU, highV), grid.floor(low, low), grid.floor(highU, low)]
         let left = corners.map(\.x).min() ?? 0, right = corners.map(\.x).max() ?? 0
         let bottom = corners.map(\.y).min() ?? 0, top = corners.map(\.y).max() ?? 0
@@ -273,11 +275,10 @@ public final class RoomScene: SKScene {
     /// floor's rooms make, in the sky's light, over the ground tile (which still shows past its edges).
     private func buildBackdrop() {
         guard let backdrop = house.backdrop, backdrop.size.count == 2, backdrop.plot.count == 4 else { return }
-        let cells = CGFloat(Tuning.Room.gridWidth)
         let ground = house.rooms.filter { $0.storey == 0 }
         guard !ground.isEmpty else { return }
-        let minU = ground.map { CGFloat($0.u) }.min() ?? 0, maxU = (ground.map { CGFloat($0.u) }.max() ?? 0) + cells
-        let minV = ground.map { CGFloat($0.v) }.min() ?? 0, maxV = (ground.map { CGFloat($0.v) }.max() ?? 0) + cells
+        let minU = ground.map { CGFloat($0.u) }.min() ?? 0, maxU = (ground.map { CGFloat($0.u) }.max() ?? 0) + grid.cellsU
+        let minV = ground.map { CGFloat($0.v) }.min() ?? 0, maxV = (ground.map { CGFloat($0.v) }.max() ?? 0) + grid.cellsV
         // The plot's corners on screen: left (minU, maxV), right (maxU, minV), top (minU, minV), bottom (maxU, maxV).
         let left = grid.floor(minU, maxV).x, right = grid.floor(maxU, minV).x
         let top = grid.floor(minU, minV).y, bottom = grid.floor(maxU, maxV).y
@@ -750,7 +751,7 @@ public final class RoomScene: SKScene {
         for room in house.rooms where room.storey == storey && room.lockLabel == nil {
             guard let node = rooms[room.id], isShown(node) else { continue }
             let cell = grid.cell(at: convert(point, to: node))
-            if (0 ..< grid.cells).contains(cell.u), (0 ..< grid.cells).contains(cell.v) {
+            if (0 ..< grid.cellsU).contains(cell.u), (0 ..< grid.cellsV).contains(cell.v) {
                 return room.id
             }
         }
@@ -765,6 +766,7 @@ public final class RoomScene: SKScene {
             house.active = self.house.active
         }
         self.house = house
+        grid = IsoGrid(house.roomSize)
         setDecorating(false)
         build()
     }

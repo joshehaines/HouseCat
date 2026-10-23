@@ -72,7 +72,7 @@ private struct World {
             let terrain = HouseBuilder.terrain(biome, season)
             #expect(world.art.has(terrain), "\(terrain) is bundled")
             let windows = house.rooms.filter { $0.model.window != nil }
-            #expect(windows.count >= 5, "every room but the garden has a window")
+            #expect(windows.count == house.rooms.filter { !$0.outdoor }.count, "every room but the garden has a window")
             #expect(windows.allSatisfy { $0.model.terrain == terrain }, "\(name) in \(season)")
             // The exterior of the home is painted there too.
             #expect(world.art.has(HouseBuilder.scene(.londonTerrace, biome, season) + ".jpg"))
@@ -188,31 +188,54 @@ private struct World {
     #expect(world.art.has("world/ground/ground_autumn.png") && world.art.has("world/ground/ground_snow.png"))
 }
 
-/// A closed room is bare (Josh, 19 Oct): nothing in it, plain plaster and boards indoors, its veil drawn clear (no
-/// dark shading between the rooms) but still there to be tapped; the open living room keeps its furniture.
+/// A house is the rooms it has (Josh, 23 Oct: "the boat cannot be a big 3 room space, just 2 long rooms"): the
+/// houseboat, bought with the bedroom, is the lounge and the bedroom end to end, nothing upstairs and no closed rooms
+/// of the next house.
 @MainActor
-@Test func closedRoomsAreBareAndUnshaded() throws {
+@Test func aHouseIsOnlyItsOwnRooms() throws {
     let world = try World()
-    let place = HomePlace(name: "Elephant and Castle", latitude: 51.4946, longitude: -0.1003, timeZoneID: "Europe/London", biome: .city)
-    let now = HomeNow(place: place, biome: .city, season: .summer, sky: .day, weather: .sun, localMinutes: 720)
-    let house = try #require(HouseBuilder.house(
-        style: .londonTerrace, plans: world.plans, layout: world.layout, state: world.state(),
-        catalogue: world.content.catalogue, now: now
-    ))
-    let closed = house.rooms.filter { $0.lockLabel != nil }
-    #expect(!closed.isEmpty)
-    for room in closed {
-        #expect(room.model.items.isEmpty, "\(room.id) is bare")
-        if !room.outdoor {
-            #expect(room.model.wall == Tuning.House.bareWall && room.model.floor == Tuning.House.bareFloor, "\(room.id)")
-        }
+    var log = SaveLog()
+    let clock = DayClock(wakeMinutes: 360, bedtimeMinutes: 1380, timeZoneID: "Europe/London")
+    let day = GameDay(year: 2026, month: 11, day: 2)
+    func at(_ minute: Int) -> Date {
+        clock.date(on: day, atLocalMinutes: 480 + minute)
     }
-    #expect(world.art.has("rooms/walls/\(Tuning.House.bareWall).png") && world.art.has("rooms/floors/\(Tuning.House.bareFloor).png"))
-    let scene = RoomScene(size: CGSize(width: 1366, height: 1024), art: world.art, content: world.content, house: house)
-    for room in closed {
-        let veil = try #require(scene.rooms[room.id]?.childNode(withName: "veil") as? SKShapeNode)
-        #expect(veil.fillColor.cgColor.alpha == 0, "\(room.id) is not shaded")
-        #expect(veil.path != nil, "\(room.id) can still be tapped")
+    log.append(GameEvent(at: at(0), day: day, kind: .householdCreated(seed: 1, clock: clock)))
+    log.append(GameEvent(at: at(1), day: day, kind: .purchaseBeansGranted(transactionID: "t1", beans: 5000)))
+    log.append(GameEvent(at: at(2), day: day, kind: .houseBought(rung: 2, beans: HouseLadder.rung(2).price)))
+    let state = log.derive(context: .empty)
+    #expect(state.rung == 2 && state.roomSize == RoomSize(u: 10, v: 6))
+    let place = HouseLadder.rung(2).place
+    let now = HomeNow(place: place, biome: place.biome, season: .summer, sky: .day, weather: .sun, localMinutes: 720)
+    let house = try #require(HouseBuilder.house(
+        style: .houseboat, plans: world.plans, layout: world.layout, state: state,
+        catalogue: world.content.catalogue, now: now, outdoors: world.content.outdoors
+    ))
+    #expect(Set(house.rooms.map(\.id)) == [.living, .bedroom])
+    #expect(house.rooms.allSatisfy { $0.lockLabel == nil && $0.storey == 0 && $0.v == 0 }, "one long boat")
+    #expect(house.rooms.map(\.u).sorted() == [0, 10] && house.stairs == nil)
+    #expect(house.roomSize == RoomSize(u: 10, v: 6))
+}
+
+/// The homes get bigger up the ladder (Josh, 23 Oct: "the final house cant be the same room size as the second"): each
+/// house's rooms are at least as big as the one before, London's the biggest, and the plans tile by their size.
+@MainActor
+@Test func theHomesGetBiggerUpTheLadder() throws {
+    let world = try World()
+    let areas = HouseLadder.rungs.map { (Tuning.Room.sizes[$0.style] ?? .standard).u * (Tuning.Room.sizes[$0.style] ?? .standard).v }
+    #expect(zip(areas.dropFirst(2), areas.dropFirst(3)).allSatisfy { $0 < $1 }, "\(areas)")
+    #expect(areas.last == areas.max() && areas[0] < areas[2])
+    for rung in HouseLadder.rungs {
+        let size = try #require(Tuning.Room.sizes[rung.style])
+        let plan = try #require(world.plans.houses[rung.style.rawValue])
+        for room in plan.rooms {
+            let u = room.at[0].truncatingRemainder(dividingBy: Double(size.u)), v = room.at[1].truncatingRemainder(dividingBy: Double(size.v))
+            #expect(u == 0 && v == 0, "\(rung.style) \(room.room)")
+        }
+        if let stairs = plan.stairs {
+            let along = stairs.facing == "L" ? stairs.at[1] : stairs.at[0]
+            #expect(along + Tuning.House.stairsLength <= Double(stairs.facing == "L" ? size.v : size.u), "\(rung.style)'s stairs")
+        }
     }
 }
 

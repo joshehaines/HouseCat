@@ -36,7 +36,13 @@ private struct FullHouse {
                 outdoor: spot.outdoor ?? false, model: model, lockLabel: nil
             )
         }
-        house = HouseModel(rooms: rooms, active: .living, sky: .day, ground: nil, stairs: plan.stairs)
+        var house = HouseModel(rooms: rooms, active: .living, sky: .day, ground: nil, stairs: plan.stairs)
+        // The home's own room size (the terrace's are 8 cells): the demo pieces that fit it.
+        house.roomSize = HouseStyle(rawValue: home).flatMap { Tuning.Room.sizes[$0] } ?? .standard
+        for index in house.rooms.indices {
+            house.rooms[index].model.items.removeAll { $0.u >= Double(house.roomSize.u) || $0.v >= Double(house.roomSize.v) }
+        }
+        self.house = house
     }
 
     func scene() -> RoomScene {
@@ -109,7 +115,7 @@ private func settle(_ director: CatDirector, within seconds: Double = 120) {
 @MainActor
 @Test func roomsSideBySideJoinThroughDoorwaysInTheirPartitions() throws {
     let home = try FullHouse()
-    // The terrace: living [0,0], kitchen [10,0] and garden [0,10] downstairs; bedroom [0,0] and study [10,0] up.
+    // The terrace: living [0,0], kitchen [8,0] and garden [0,8] downstairs; bedroom [0,0] and study [8,0] up.
     let links = home.house.links(from: .living).map(\.to)
     #expect(Set(links) == [.kitchen, .garden])
     #expect(home.house.links(from: .bedroom).map(\.to) == [.study])
@@ -118,7 +124,7 @@ private func settle(_ director: CatDirector, within seconds: Double = 120) {
     #expect(home.house.route(from: .living, to: .bedroom) == nil, "another storey: by the stairs")
     // The kitchen's left wall is the partition with the living room, cut by a doorway.
     let kitchen = try #require(home.house.room(.kitchen))
-    #expect(home.house.doorways(of: kitchen) == ["L": CGFloat(Tuning.House.doorwayAlong)])
+    #expect(home.house.doorways(of: kitchen) == ["L": CGFloat(home.house.roomSize.v) / 2], "halfway along")
     // A closed room is never walked through.
     var closed = home.house
     closed.rooms = closed.rooms.map { room in

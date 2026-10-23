@@ -8,6 +8,19 @@ public enum Tuning {
     public enum Room {
         public static let gridWidth = 10
         public static let gridDepth = 10
+        /// Each home's rooms in cells (u along the right wall, v along the left): bigger up the ladder (Josh, 23 Oct:
+        /// "the houses should get progressively bigger, the final house cant be the same room size as the second"),
+        /// the houseboat's long and narrow, end to end ("just 2 long rooms").
+        public static let sizes: [HouseStyle: RoomSize] = [
+            .londonTerrace: RoomSize(u: 8, v: 8),
+            .houseboat: RoomSize(u: 10, v: 6),
+            .woodlandCabin: RoomSize(u: 9, v: 9),
+            .cottage: RoomSize(u: 10, v: 10),
+            .newbuildBalcony: RoomSize(u: 11, v: 11),
+            .mediterraneanRooftop: RoomSize(u: 12, v: 12),
+            .georgianTownhouse: RoomSize(u: 13, v: 13),
+            .mansionFlat: RoomSize(u: 14, v: 14),
+        ]
         public static let wallHeightCells = 5
         /// Furniture is drawn this much smaller than it was painted in the grey reference room, so it sits right
         /// beside the cat (Josh, 19 Oct: "the couches look huge as well as the scratching post"). Footprints stay
@@ -1439,7 +1452,6 @@ public enum Tuning {
 
     public enum House {
         /// Doorways in the partitions between rooms: halfway along the wall, this many cells wide.
-        public static let doorwayAlong = 5.0
         public static let doorwayWidth = 1.8
         /// After the player picks a room, the view stays on it this long before following the cat again.
         public static let roomHoldSeconds = 30.0

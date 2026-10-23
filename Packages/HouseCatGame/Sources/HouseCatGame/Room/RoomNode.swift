@@ -16,7 +16,7 @@ final class RoomNode: SKNode {
     }
 
     let id: RoomID
-    let grid = IsoGrid()
+    let grid: IsoGrid
     private(set) var model: RoomModel
     let outdoor: Bool
     let walls: (left: Wall, right: Wall)
@@ -52,9 +52,11 @@ final class RoomNode: SKNode {
         surfaces: [String: CatalogueFile.Surface],
         walls: (left: Wall, right: Wall),
         outdoor: Bool,
-        doorways: [String: CGFloat] = [:]
+        doorways: [String: CGFloat] = [:],
+        size: RoomSize = .standard
     ) {
         self.id = id
+        grid = IsoGrid(size)
         self.model = model
         self.art = art
         self.items = items
@@ -103,12 +105,12 @@ final class RoomNode: SKNode {
     }
 
     private func buildPlanes() {
-        let n = grid.cells
+        let nu = grid.cellsU, nv = grid.cellsV
         let wallTile = surfaces[model.wall]?.sprite ?? "rooms/walls/\(model.wall).png"
         let floorTile = surfaces[model.floor]?.sprite ?? "rooms/floors/\(model.floor).png"
         // One painted tile covers two cells.
-        let floorRepeat = SIMD2<Float>(Float(n / 2), Float(n / 2))
-        let floor = Quad(bl: grid.floor(0, n), br: grid.floor(n, n), tl: grid.floor(0, 0), tr: grid.floor(n, 0))
+        let floorRepeat = SIMD2<Float>(Float(nu / 2), Float(nv / 2))
+        let floor = Quad(bl: grid.floor(0, nv), br: grid.floor(nu, nv), tl: grid.floor(0, 0), tr: grid.floor(nu, 0))
         addChild(plane(light: "floor", tile: floorTile, repeats: floorRepeat, corners: floor))
         let right = height(of: walls.right), left = height(of: walls.left)
         if right > 0 {
@@ -122,9 +124,9 @@ final class RoomNode: SKNode {
                 addChild(plane(
                     light: "right",
                     tile: wallTile,
-                    repeats: SIMD2(Float(n / 2), Float(right / 2)),
+                    repeats: SIMD2(Float(nu / 2), Float(right / 2)),
                     corners: quad,
-                    span: (a / n, b / n)
+                    span: (a / nu, b / nu)
                 ))
                 if walls.right == .stub {
                     addCap(from: grid.rightWall(a, up: right), to: grid.rightWall(b, up: right))
@@ -137,9 +139,9 @@ final class RoomNode: SKNode {
                 addChild(plane(
                     light: "left",
                     tile: wallTile,
-                    repeats: SIMD2(Float(n / 2), Float(left / 2)),
+                    repeats: SIMD2(Float(nv / 2), Float(left / 2)),
                     corners: quad,
-                    span: (a / n, b / n)
+                    span: (a / nv, b / nv)
                 ))
                 if walls.left == .stub {
                     addCap(from: grid.leftWall(a, up: left), to: grid.leftWall(b, up: left))
@@ -150,7 +152,7 @@ final class RoomNode: SKNode {
 
     /// The stretches of a wall that stand: all of it, or either side of a doorway in a partition.
     private func pieces(of side: String) -> [(CGFloat, CGFloat)] {
-        let n = grid.cells
+        let n = side == "R" ? grid.cellsU : grid.cellsV
         guard wall(side) == .stub, let middle = doorways[side] else { return [(0, n)] }
         let half = CGFloat(Tuning.House.doorwayWidth) / 2
         return [(0, max(0, middle - half)), (min(n, middle + half), n)].filter { $0.1 - $0.0 > 0.01 }
@@ -455,15 +457,15 @@ final class RoomNode: SKNode {
     /// A closed room shows bare, with what it takes to open it (SPEC "Home and furniture"). Its veil is no longer
     /// drawn (Josh, 19 Oct: no dark see-through areas between the rooms); it is kept, clear, as the room's tap area.
     func veil(label: String, at cell: (u: CGFloat, v: CGFloat)? = nil) {
-        let n = grid.cells
+        let nu = grid.cellsU, nv = grid.cellsV
         let left = height(of: walls.left), right = height(of: walls.right), back = max(left, right)
         let path = CGMutablePath()
-        path.move(to: grid.floor(0, n))
-        path.addLine(to: grid.leftWall(n, up: left))
+        path.move(to: grid.floor(0, nv))
+        path.addLine(to: grid.leftWall(nv, up: left))
         path.addLine(to: grid.leftWall(0, up: back))
-        path.addLine(to: grid.rightWall(n, up: right))
-        path.addLine(to: grid.floor(n, 0))
-        path.addLine(to: grid.floor(n, n))
+        path.addLine(to: grid.rightWall(nu, up: right))
+        path.addLine(to: grid.floor(nu, 0))
+        path.addLine(to: grid.floor(nu, nv))
         path.closeSubpath()
         let veil = SKShapeNode(path: path)
         veil.fillColor = .clear
@@ -472,7 +474,7 @@ final class RoomNode: SKNode {
         veil.name = "veil"
         addChild(veil)
         // Held up at eye height over the floor, like a sign, so it clears the controls along the bottom.
-        let floor = grid.floor(cell?.u ?? n / 2, cell?.v ?? n / 2)
+        let floor = grid.floor(cell?.u ?? nu / 2, cell?.v ?? nv / 2)
         addChild(lockBadge(label, at: CGPoint(x: floor.x, y: floor.y + CGFloat(Tuning.House.labelLift))))
     }
 

@@ -45,6 +45,8 @@ public struct HouseModel: Sendable {
     public var roads: [OutdoorRoad] = []
     /// The town's painted neighbourhood, its plot under the ground floor (in place of the scenery, street and roads).
     public var backdrop: OutdoorsFile.Backdrop?
+    /// Every room's floor in cells (Tuning.Room.sizes: bigger up the ladder); `at` in the plans steps by it.
+    public var roomSize: RoomSize = .standard
 
     public init(
         rooms: [Room],
@@ -77,9 +79,9 @@ public struct HouseModel: Sendable {
     /// The walls a room shows: full on the house's back edge, a stub where another room of the same
     /// storey stands behind it (the view looks over the partition), never on the camera side.
     func walls(of room: Room) -> (left: RoomNode.Wall, right: RoomNode.Wall) {
-        let cells = Double(Tuning.Room.gridWidth)
-        let behindLeft = rooms.contains { $0.storey == room.storey && $0.u + cells == room.u && $0.v == room.v }
-        let behindRight = rooms.contains { $0.storey == room.storey && $0.v + cells == room.v && $0.u == room.u }
+        let cu = Double(roomSize.u), cv = Double(roomSize.v)
+        let behindLeft = rooms.contains { $0.storey == room.storey && $0.u + cu == room.u && $0.v == room.v }
+        let behindRight = rooms.contains { $0.storey == room.storey && $0.v + cv == room.v && $0.u == room.u }
         return (behindLeft ? .stub : .full, behindRight ? .stub : .full)
     }
 
@@ -99,17 +101,18 @@ public struct HouseModel: Sendable {
     /// The doorways out of a room to the rooms beside it on its storey.
     public func links(from id: RoomID) -> [Link] {
         guard let room = room(id) else { return [] }
-        let cells = Double(Tuning.Room.gridWidth), along = Tuning.House.doorwayAlong
+        // Halfway along the partition they share.
+        let cu = Double(roomSize.u), cv = Double(roomSize.v), alongU = cu / 2, alongV = cv / 2
         var links: [Link] = []
         for other in rooms where other.storey == room.storey && other.id != id {
-            if other.v == room.v, other.u == room.u + cells {
-                links.append(Link(from: id, to: other.id, exit: CGPoint(x: cells, y: along), entry: CGPoint(x: 0, y: along)))
-            } else if other.v == room.v, other.u + cells == room.u {
-                links.append(Link(from: id, to: other.id, exit: CGPoint(x: 0, y: along), entry: CGPoint(x: cells, y: along)))
-            } else if other.u == room.u, other.v == room.v + cells {
-                links.append(Link(from: id, to: other.id, exit: CGPoint(x: along, y: cells), entry: CGPoint(x: along, y: 0)))
-            } else if other.u == room.u, other.v + cells == room.v {
-                links.append(Link(from: id, to: other.id, exit: CGPoint(x: along, y: 0), entry: CGPoint(x: along, y: cells)))
+            if other.v == room.v, other.u == room.u + cu {
+                links.append(Link(from: id, to: other.id, exit: CGPoint(x: cu, y: alongV), entry: CGPoint(x: 0, y: alongV)))
+            } else if other.v == room.v, other.u + cu == room.u {
+                links.append(Link(from: id, to: other.id, exit: CGPoint(x: 0, y: alongV), entry: CGPoint(x: cu, y: alongV)))
+            } else if other.u == room.u, other.v == room.v + cv {
+                links.append(Link(from: id, to: other.id, exit: CGPoint(x: alongU, y: cv), entry: CGPoint(x: alongU, y: 0)))
+            } else if other.u == room.u, other.v + cv == room.v {
+                links.append(Link(from: id, to: other.id, exit: CGPoint(x: alongU, y: 0), entry: CGPoint(x: alongU, y: cv)))
             }
         }
         return links

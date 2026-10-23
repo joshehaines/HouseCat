@@ -66,9 +66,9 @@ public enum PlacementRules {
     }
 
     /// Whether a piece can stand where it is, among the others in the room (its own old self excluded).
-    public static func fits(_ piece: Piece, among others: [Piece], roomCells: Int = Tuning.Room.gridWidth) -> Bool {
+    public static func fits(_ piece: Piece, among others: [Piece], room: RoomSize = .standard) -> Bool {
         let (eu, ev) = piece.extent
-        guard piece.x >= 0, piece.y >= 0, piece.x + eu <= roomCells, piece.y + ev <= roomCells else { return false }
+        guard piece.x >= 0, piece.y >= 0, piece.x + eu <= room.u, piece.y + ev <= room.v else { return false }
         if piece.onWall {
             // Against its wall: the right wall is v = 0, the left wall u = 0.
             guard piece.facing == .right ? piece.y == 0 : piece.x == 0 else { return false }
@@ -89,11 +89,11 @@ public enum PlacementRules {
 
     /// The cell a piece snaps to when its footprint's centre is dragged to a floor point (in cells); wall
     /// items slide along their wall.
-    public static func snap(_ piece: Piece, centreU: Double, centreV: Double, roomCells: Int = Tuning.Room.gridWidth) -> Piece {
+    public static func snap(_ piece: Piece, centreU: Double, centreV: Double, room: RoomSize = .standard) -> Piece {
         var snapped = piece
         let (eu, ev) = piece.extent
-        snapped.x = min(max(Int((centreU - Double(eu) / 2).rounded()), 0), roomCells - eu)
-        snapped.y = min(max(Int((centreV - Double(ev) / 2).rounded()), 0), roomCells - ev)
+        snapped.x = min(max(Int((centreU - Double(eu) / 2).rounded()), 0), room.u - eu)
+        snapped.y = min(max(Int((centreV - Double(ev) / 2).rounded()), 0), room.v - ev)
         if piece.onWall {
             if piece.facing == .right {
                 snapped.y = 0
@@ -106,14 +106,13 @@ public enum PlacementRules {
 
     /// The first spot a piece fits, searching outwards from the middle of the room (a new piece from
     /// the inventory lands where the player can see it), facing as given, else turned.
-    public static func firstFit(_ piece: Piece, among others: [Piece], roomCells: Int = Tuning.Room.gridWidth) -> Piece? {
-        let centre = Double(roomCells) / 2
+    public static func firstFit(_ piece: Piece, among others: [Piece], room: RoomSize = .standard) -> Piece? {
         func distance(_ cell: (x: Int, y: Int)) -> Double {
-            hypot(Double(cell.x) - centre, Double(cell.y) - centre)
+            hypot(Double(cell.x) - Double(room.u) / 2, Double(cell.y) - Double(room.v) / 2)
         }
         var cells: [(x: Int, y: Int)] = []
-        for x in 0 ..< roomCells {
-            for y in 0 ..< roomCells {
+        for x in 0 ..< room.u {
+            for y in 0 ..< room.v {
                 cells.append((x, y))
             }
         }
@@ -123,7 +122,7 @@ public enum PlacementRules {
                 var placed = candidate
                 placed.x = x
                 placed.y = y
-                if fits(placed, among: others, roomCells: roomCells) {
+                if fits(placed, among: others, room: room) {
                     return placed
                 }
             }
@@ -158,6 +157,24 @@ public extension HouseholdState {
         catalogue.surfaces
             .filter { $0.room == room.rawValue && $0.kind == kind && ($0.pool == .free || ownedSurfaces.contains($0.id)) }
             .sorted { $0.id < $1.id }
+    }
+}
+
+/// A room's floor in cells: `u` along the right wall, `v` along the left (Tuning.Room.sizes).
+public struct RoomSize: Hashable, Sendable {
+    public var u: Int
+    public var v: Int
+
+    public init(u: Int, v: Int) {
+        self.u = u
+        self.v = v
+    }
+
+    /// The rooms before the ladder sized them.
+    public static let standard = RoomSize(u: Tuning.Room.gridWidth, v: Tuning.Room.gridDepth)
+
+    public func contains(_ x: Int, _ y: Int) -> Bool {
+        (0 ..< u).contains(x) && (0 ..< v).contains(y)
     }
 }
 

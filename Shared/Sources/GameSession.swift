@@ -560,23 +560,23 @@ final class GameSession {
     func placeFromInventory(_ itemID: String, among pieces: [PlacementRules.Piece], room: RoomID = .living) -> RoomModel.Placement? {
         guard let item = content?.catalogue.items.first(where: { $0.id == itemID }) else { return nil }
         let fresh = PlacementRules.Piece(item, x: 0, y: 0, facing: .right)
+        let size = state(at: now()).roomSize
         // In the tour's furnishing, the coffee table goes straight onto the rug (Josh, 22 Oct: "table on top").
         var onRug: PlacementRules.Piece?
         if itemID == Tuning.Room.tourTable, room == .living,
            let rug = state(at: now()).placed.first(where: { $0.room == .living && $0.itemID == Tuning.Room.tourRug })
         {
             let candidate = PlacementRules.Piece(item, x: rug.x, y: rug.y, facing: rug.facing)
-            onRug = PlacementRules.fits(candidate, among: pieces) ? candidate : nil
+            onRug = PlacementRules.fits(candidate, among: pieces, room: size) ? candidate : nil
         }
         // And the sofa against a back wall, facing the room (the tour waits for it there).
         var byWall: PlacementRules.Piece?
         if itemID == Tuning.Room.tourSofa, room == .living {
-            let cells = Tuning.Room.gridWidth
-            let along = (0 ..< cells).map { PlacementRules.Piece(item, x: $0, y: 0, facing: .right) }
-                + (0 ..< cells).map { PlacementRules.Piece(item, x: 0, y: $0, facing: .left) }
-            byWall = along.first { PlacementRules.fits($0, among: pieces) }
+            let along = (0 ..< size.u).map { PlacementRules.Piece(item, x: $0, y: 0, facing: .right) }
+                + (0 ..< size.v).map { PlacementRules.Piece(item, x: 0, y: $0, facing: .left) }
+            byWall = along.first { PlacementRules.fits($0, among: pieces, room: size) }
         }
-        guard let spot = onRug ?? byWall ?? PlacementRules.firstFit(fresh, among: pieces) else { return nil }
+        guard let spot = onRug ?? byWall ?? PlacementRules.firstFit(fresh, among: pieces, room: size) else { return nil }
         let event = append(.itemPlaced(itemID: itemID, room: room, x: spot.x, y: spot.y, facing: spot.facing), at: now())
         Sound.play("ui_place_item", volume: Tuning.Sound.place)
         return RoomModel.Placement(id: itemID, u: Double(spot.x), v: Double(spot.y), facing: spot.facing.rawValue, placementID: event.id)

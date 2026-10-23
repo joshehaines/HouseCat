@@ -106,7 +106,7 @@ struct CatalogueSectionTests {
     @Test func anyItemGoesInAnyOpenRoom() {
         var f = Fixture()
         f.add(.itemGranted(itemID: "kitchen_bowl"), day: 0)
-        f.add(.itemPlaced(itemID: "kitchen_bowl", room: .living, x: 2, y: 8, facing: .right), day: 0)
+        f.add(.itemPlaced(itemID: "kitchen_bowl", room: .living, x: 2, y: 6, facing: .right), day: 0)
         #expect(f.state.placed.map(\.room) == [.living])
     }
 }

@@ -7,10 +7,19 @@ import HouseCatCore
 /// origin; y points up (SpriteKit). `u` runs down the right wall, `v` down the left.
 public struct IsoGrid: Sendable {
     public var cellHalfWidth: CGFloat = 72
-    public var cells = CGFloat(Tuning.Room.gridWidth)
+    /// The room's floor in cells: along the right wall (u) and the left (v).
+    public var cellsU = CGFloat(Tuning.Room.gridWidth)
+    public var cellsV = CGFloat(Tuning.Room.gridDepth)
     public var wallCells = CGFloat(Tuning.Room.wallHeightCells)
 
-    public init() {}
+    public init(_ size: RoomSize = .standard) {
+        cellsU = CGFloat(size.u)
+        cellsV = CGFloat(size.v)
+    }
+
+    public var size: RoomSize {
+        RoomSize(u: Int(cellsU), v: Int(cellsV))
+    }
 
     /// One cell of height on a wall.
     public var unit: CGFloat {
@@ -43,8 +52,8 @@ public struct IsoGrid: Sendable {
 
     /// The whole room's bounds: walls and floor.
     public var bounds: CGRect {
-        let left = floor(0, cells).x, right = floor(cells, 0).x
-        let bottom = floor(cells, cells).y, top = wallCells * unit
+        let left = floor(0, cellsV).x, right = floor(cellsU, 0).x
+        let bottom = floor(cellsU, cellsV).y, top = wallCells * unit
         return CGRect(x: left, y: bottom, width: right - left, height: top - bottom)
     }
 

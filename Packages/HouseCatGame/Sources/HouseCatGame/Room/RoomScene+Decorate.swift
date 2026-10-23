@@ -37,9 +37,9 @@ public extension RoomScene {
         var piece = selection.piece.turned()
         if piece.onWall {
             // Keep its place along the wall it moves to.
-            piece = PlacementRules.snap(piece, centreU: Double(selection.piece.y), centreV: Double(selection.piece.x))
+            piece = PlacementRules.snap(piece, centreU: Double(selection.piece.y), centreV: Double(selection.piece.x), room: house.roomSize)
         }
-        guard PlacementRules.fits(piece, among: others(than: selection.placementID, in: room)) else {
+        guard PlacementRules.fits(piece, among: others(than: selection.placementID, in: room), room: house.roomSize) else {
             flash(fits: false, piece: piece, item: item, in: room)
             return
         }
@@ -134,13 +134,13 @@ public extension RoomScene {
     internal func dragDecorating(to point: CGPoint) {
         guard var current = selection, let room = activeRoom, let item = items[current.placement.id] else { return }
         let cell = grid.cell(at: convert(point, to: room))
-        let piece = PlacementRules.snap(current.piece, centreU: cell.u + grabOffset.dx, centreV: cell.v + grabOffset.dy)
+        let piece = PlacementRules.snap(current.piece, centreU: cell.u + grabOffset.dx, centreV: cell.v + grabOffset.dy, room: house.roomSize)
         guard piece != current.piece else { return }
         current.piece = piece
         selection = current
         room.position(current.sprite, item: item, placement: placement(current.placement, at: piece))
         current.sprite.zPosition += CGFloat(Tuning.Decorate.liftZ)
-        showFootprint(piece, fits: PlacementRules.fits(piece, among: others(than: current.placementID, in: room)), item: item, in: room)
+        showFootprint(piece, fits: PlacementRules.fits(piece, among: others(than: current.placementID, in: room), room: house.roomSize), item: item, in: room)
     }
 
     internal func endDecorating(at _: CGPoint) {
@@ -150,7 +150,7 @@ public extension RoomScene {
             room.position(current.sprite, item: item, placement: current.placement)
             return
         }
-        if PlacementRules.fits(current.piece, among: others(than: current.placementID, in: room)) {
+        if PlacementRules.fits(current.piece, among: others(than: current.placementID, in: room), room: house.roomSize) {
             commit(current.piece, for: current, in: room)
         } else {
             cancelDrag()
@@ -317,13 +317,16 @@ public extension RoomScene {
 
     /// The floor grid, shown while decorating.
     private func gridLines(in _: RoomNode) -> SKShapeNode {
-        let n = Int(grid.cells), path = CGMutablePath()
-        for i in 0 ... n {
+        let path = CGMutablePath()
+        for i in 0 ... Int(grid.cellsU) {
             let k = CGFloat(i)
             path.move(to: grid.floor(k, 0))
-            path.addLine(to: grid.floor(k, grid.cells))
+            path.addLine(to: grid.floor(k, grid.cellsV))
+        }
+        for i in 0 ... Int(grid.cellsV) {
+            let k = CGFloat(i)
             path.move(to: grid.floor(0, k))
-            path.addLine(to: grid.floor(grid.cells, k))
+            path.addLine(to: grid.floor(grid.cellsU, k))
         }
         let lines = SKShapeNode(path: path)
         lines.strokeColor = SKColor(white: 1, alpha: CGFloat(Tuning.Decorate.gridAlpha))

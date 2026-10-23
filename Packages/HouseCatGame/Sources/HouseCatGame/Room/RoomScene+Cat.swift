@@ -53,7 +53,7 @@ public extension RoomScene {
     /// The spot for an activity in the cat's room.
     func spot(for choice: BehaviourChoice) -> CatSpot {
         guard let room = rooms[choice.room ?? catRoom] ?? activeRoom else {
-            return CatSpot(point: grid.floor(grid.cells / 2, grid.cells / 2), lift: 0, pose: choice.pose ?? .sitSide)
+            return CatSpot(point: grid.floor(grid.cellsU / 2, grid.cellsV / 2), lift: 0, pose: choice.pose ?? .sitSide)
         }
         return spot(for: choice, in: room)
     }
@@ -114,8 +114,10 @@ public extension RoomScene {
         }
         // No furniture for it: the room's own spots (layout data), or the middle of the floor.
         func floorSpot(_ key: String, _ pose: CatPose) -> CatSpot {
-            let cell = model.spots[key] ?? [grid.cells / 2, grid.cells / 2].map(Double.init)
-            return CatSpot(point: grid.floor(CGFloat(cell[0]), CGFloat(cell[1])), lift: 0, pose: pose)
+            // The layout's spots are in a standard room's cells: the same place in a room of another size.
+            let cell = model.spots[key].map { [CGFloat($0[0]) * room.grid.cellsU / 10, CGFloat($0[1]) * room.grid.cellsV / 10] }
+                ?? [room.grid.cellsU / 2, room.grid.cellsV / 2]
+            return CatSpot(point: grid.floor(cell[0], cell[1]), lift: 0, pose: pose)
         }
         switch choice.activity {
         case .nearPlayer: return floorSpot("nearPlayer", .sitFront)
@@ -129,7 +131,7 @@ public extension RoomScene {
     /// in front of it (inside the room, clear of other furniture), the nearer one to the cat if both do.
     internal func approach(toFootprint u: CGFloat, _ v: CGFloat, _ w: CGFloat, _ d: CGFloat, in room: RoomNode) -> CGPoint {
         let gap = CGFloat(Tuning.Puppet.jumpFrom)
-        let n = grid.cells, edge: CGFloat = 0.4
+        let nu = grid.cellsU, nv = grid.cellsV, edge: CGFloat = 0.4
         let candidates = [CGPoint(x: u + w / 2, y: v + d + gap), CGPoint(x: u + w + gap, y: v + d / 2)]
         let open = candidates.filter { floorIsClear($0, in: room) }
         let cat = director.map { grid.cell(at: $0.floorPoint) }.map { CGPoint(x: $0.u, y: $0.v) }
@@ -137,13 +139,12 @@ public extension RoomScene {
             guard let cat else { return false }
             return hypot(a.x - cat.x, a.y - cat.y) < hypot(b.x - cat.x, b.y - cat.y)
         } ?? candidates[0]
-        return grid.floor(min(max(best.x, edge), n - edge), min(max(best.y, edge), n - edge))
+        return grid.floor(min(max(best.x, edge), nu - edge), min(max(best.y, edge), nv - edge))
     }
 
     /// Whether a floor cell is inside the room and clear of the furniture standing on the floor (rugs are fine).
     internal func floorIsClear(_ c: CGPoint, in room: RoomNode, edge: CGFloat = 0.4) -> Bool {
-        let n = grid.cells
-        guard c.x > edge, c.y > edge, c.x < n - edge, c.y < n - edge else { return false }
+        guard c.x > edge, c.y > edge, c.x < grid.cellsU - edge, c.y < grid.cellsV - edge else { return false }
         return !room.model.items.contains { placement in
             guard let item = items[placement.id], item.layer != .wall, !item.decal else { return false }
             let (pw, pd) = room.footprint(item, facing: placement.facing)
@@ -354,8 +355,8 @@ public extension RoomScene {
 
     /// The floor just in front of where the cat is (to jump down to).
     internal func groundInFront(of point: CGPoint) -> CGPoint {
-        let cell = grid.cell(at: point), n = grid.cells, step = CGFloat(Tuning.Puppet.jumpFrom)
-        return grid.floor(min(cell.u + step, n - 0.4), min(cell.v + step, n - 0.4))
+        let cell = grid.cell(at: point), step = CGFloat(Tuning.Puppet.jumpFrom)
+        return grid.floor(min(cell.u + step, grid.cellsU - 0.4), min(cell.v + step, grid.cellsV - 0.4))
     }
 
     /// Steps that take the cat from where it is to a spot (in its room, or another) and settle it there: awake
@@ -403,15 +404,15 @@ public extension RoomScene {
         func walk(_ cell: CGPoint) -> CatDirector.Step {
             .move(to: grid.floor(cell.x, cell.y), pace: pace)
         }
-        let step = CGFloat(Tuning.House.doorwayStep), n = grid.cells
+        let step = CGFloat(Tuning.House.doorwayStep), nu = grid.cellsU, nv = grid.cellsV
         if let path = house.route(from: catRoom, to: target) {
             var steps: [CatDirector.Step] = []
             for link in path {
                 guard let node = rooms[link.to] else { continue }
                 // Up to the doorway, through it, and a step into the room beyond.
                 let inward = CGPoint(
-                    x: link.entry.x == 0 ? step : link.entry.x == n ? -step : 0,
-                    y: link.entry.y == 0 ? step : link.entry.y == n ? -step : 0
+                    x: link.entry.x == 0 ? step : link.entry.x == nu ? -step : 0,
+                    y: link.entry.y == 0 ? step : link.entry.y == nv ? -step : 0
                 )
                 steps.append(walk(CGPoint(x: link.exit.x - inward.x, y: link.exit.y - inward.y)))
                 steps.append(walk(link.exit))
@@ -423,7 +424,7 @@ public extension RoomScene {
         }
         // Up or down the stairs where the stairs stand; otherwise the cat slips out of sight in the room.
         let stairs = house.stairs.flatMap { $0.at.count == 2 ? CGPoint(x: $0.at[0] + 0.5, y: $0.at[1] + 1) : nil }
-        let middle = CGPoint(x: n / 2, y: n / 2)
+        let middle = CGPoint(x: nu / 2, y: nv / 2)
         let out = house.stairs?.room == catRoom ? stairs ?? middle : middle
         let into = house.stairs?.room == target ? stairs ?? middle : middle
         return [
@@ -575,11 +576,11 @@ public extension RoomScene {
         steps.append(.rise(director.cat.view))
         steps += getDown()
         steps += route(to: target, pace: .stroll)
-        let n = grid.cells, stops = Int.random(in: Tuning.Puppet.exploreStops[0] ... Tuning.Puppet.exploreStops[1])
+        let nu = grid.cellsU, nv = grid.cellsV, stops = Int.random(in: Tuning.Puppet.exploreStops[0] ... Tuning.Puppet.exploreStops[1])
         for i in 0 ..< stops {
-            var cell = CGPoint(x: CGFloat.random(in: 1.2 ... n - 1.2), y: CGFloat.random(in: 1.2 ... n - 1.2))
+            var cell = CGPoint(x: CGFloat.random(in: 1.2 ... nu - 1.2), y: CGFloat.random(in: 1.2 ... nv - 1.2))
             for _ in 0 ..< 10 where !floorIsClear(cell, in: room, edge: 1) {
-                cell = CGPoint(x: CGFloat.random(in: 1.2 ... n - 1.2), y: CGFloat.random(in: 1.2 ... n - 1.2))
+                cell = CGPoint(x: CGFloat.random(in: 1.2 ... nu - 1.2), y: CGFloat.random(in: 1.2 ... nv - 1.2))
             }
             steps.append(.move(to: grid.floor(cell.x, cell.y), pace: .stroll))
             steps.append(.wait(TimeInterval.random(in: Tuning.Puppet.explorePause[0] ... Tuning.Puppet.explorePause[1])))
@@ -649,15 +650,15 @@ public extension RoomScene {
     /// Zoomies: a burst of dashes about the room, a skid, and a flop down to catch its breath.
     internal func zoomies() -> [CatDirector.Step] {
         guard let director else { return [] }
-        let n = grid.cells
+        let nu = grid.cellsU, nv = grid.cellsV
         var steps: [CatDirector.Step] = [.rise(director.cat.view)] + getDown()
         let dashes = Int.random(in: 4 ... 6)
         var last = grid.cell(at: director.floorPoint)
         for i in 0 ..< dashes {
             // Somewhere well across the room each time.
-            var cell = (u: CGFloat.random(in: 1.2 ... n - 1.2), v: CGFloat.random(in: 1.2 ... n - 1.2))
-            for _ in 0 ..< 6 where hypot(cell.u - last.u, cell.v - last.v) < n * 0.35 {
-                cell = (u: CGFloat.random(in: 1.2 ... n - 1.2), v: CGFloat.random(in: 1.2 ... n - 1.2))
+            var cell = (u: CGFloat.random(in: 1.2 ... nu - 1.2), v: CGFloat.random(in: 1.2 ... nv - 1.2))
+            for _ in 0 ..< 6 where hypot(cell.u - last.u, cell.v - last.v) < min(nu, nv) * 0.35 {
+                cell = (u: CGFloat.random(in: 1.2 ... nu - 1.2), v: CGFloat.random(in: 1.2 ... nv - 1.2))
             }
             steps.append(.move(to: grid.floor(cell.u, cell.v), pace: .dash))
             if i == dashes / 2 {

@@ -208,7 +208,7 @@ extension HouseholdState {
         case let .itemPlaced(itemID, room, x, y, facing):
             placeItem(itemID, room: room, x: x, y: y, facing: facing, event: event, context: context)
         case let .itemMoved(placementID, room, x, y, facing):
-            guard openedRooms.contains(room), Self.inBounds(x, y),
+            guard openedRooms.contains(room), roomSize.contains(x, y),
                   let index = placed.firstIndex(where: { $0.placementID == placementID }),
                   fits(placed[index].itemID, placementID: placementID, room: room, x: x, y: y, facing: facing, context: context)
             else { break }
@@ -300,6 +300,7 @@ extension HouseholdState {
             for room in HouseLadder.rungs.prefix(number).compactMap(\.room) {
                 openedRooms.insert(room)
             }
+            refitPlacements(context: context)
         default:
             break
         }
@@ -514,9 +515,6 @@ extension HouseholdState {
         surfaceID.hasPrefix("floor_")
     }
 
-    static func inBounds(_ x: Int, _ y: Int) -> Bool {
-        (0 ..< Tuning.Room.gridWidth).contains(x) && (0 ..< Tuning.Room.gridDepth).contains(y)
-    }
 
     /// Whether a piece fits where an event puts it, among the room's other pieces (the co-owning merge rule:
     /// whoever placed second, in the log's order, finds the cells taken and the piece stays in the inventory).
@@ -531,7 +529,31 @@ extension HouseholdState {
     ) -> Bool {
         guard let piece = context.piece(itemID, placementID: placementID, x: x, y: y, facing: facing) else { return true }
         let others = placed.filter { $0.room == room && $0.placementID != placementID }.compactMap(context.piece)
-        return PlacementRules.fits(piece, among: others)
+        return PlacementRules.fits(piece, among: others, room: roomSize)
+    }
+
+    /// After a move, what no longer fits the new home's rooms (smaller, or a narrow boat) goes to the nearest spot
+    /// that does, else back to the inventory.
+    private mutating func refitPlacements(context: RulesContext) {
+        let room = roomSize
+        var kept: [PlacedItem] = []
+        for item in placed {
+            guard let piece = context.piece(item) else {
+                kept.append(item)
+                continue
+            }
+            let others = kept.filter { $0.room == item.room }.compactMap(context.piece)
+            if PlacementRules.fits(piece, among: others, room: room) {
+                kept.append(item)
+            } else if let spot = PlacementRules.firstFit(piece, among: others, room: room) {
+                var moved = item
+                moved.x = spot.x
+                moved.y = spot.y
+                moved.facing = spot.facing
+                kept.append(moved)
+            }
+        }
+        placed = kept
     }
 
     private mutating func placeItem(
@@ -544,7 +566,7 @@ extension HouseholdState {
         context: RulesContext
     ) {
         let available = owned[itemID, default: 0] + (context.paidItems.contains(itemID) ? 1 : 0)
-        guard openedRooms.contains(room), Self.inBounds(x, y), available > placedCount(of: itemID),
+        guard openedRooms.contains(room), roomSize.contains(x, y), available > placedCount(of: itemID),
               fits(itemID, placementID: event.id, room: room, x: x, y: y, facing: facing, context: context)
         else { return }
         placed.append(PlacedItem(placementID: event.id, itemID: itemID, room: room, x: x, y: y, facing: facing))

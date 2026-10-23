@@ -98,8 +98,9 @@ struct EconomyTests {
         f.add(.itemPlaced(itemID: "living_sofa", room: .living, x: 1, y: 1, facing: .right), day: 0) // not owned
         f.add(.itemGranted(itemID: "living_sofa"), day: 0)
         f.add(.itemPlaced(itemID: "living_sofa", room: .bedroom, x: 1, y: 1, facing: .right), day: 0) // locked room
-        f.add(.itemPlaced(itemID: "living_sofa", room: .living, x: 10, y: 1, facing: .right), day: 0) // off the grid
-        let placed = f.add(.itemPlaced(itemID: "living_sofa", room: .living, x: 9, y: 9, facing: .right), day: 0)
+        // The first home's rooms are 8 cells square (Tuning.Room.sizes).
+        f.add(.itemPlaced(itemID: "living_sofa", room: .living, x: 8, y: 1, facing: .right), day: 0) // off the grid
+        let placed = f.add(.itemPlaced(itemID: "living_sofa", room: .living, x: 7, y: 7, facing: .right), day: 0)
         f.add(.itemPlaced(itemID: "living_sofa", room: .living, x: 2, y: 2, facing: .right), day: 0) // only one owned
         #expect(f.state.placed.count == 1)
         f.add(.itemMoved(placementID: placed.id, room: .living, x: 0, y: 0, facing: .left), day: 0)

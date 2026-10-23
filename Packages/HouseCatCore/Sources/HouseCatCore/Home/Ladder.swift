@@ -111,6 +111,11 @@ public extension HouseholdState {
         currentRung.style
     }
 
+    /// The size of every room in the home now.
+    var roomSize: RoomSize {
+        Tuning.Room.sizes[homeStyle] ?? .standard
+    }
+
     /// The home settings with the place and house the ladder gives (an old save's pin and style are ignored).
     var ladderHome: HomeSettings {
         var settings = home

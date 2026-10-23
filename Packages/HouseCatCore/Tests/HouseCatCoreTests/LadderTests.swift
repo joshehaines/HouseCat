@@ -116,4 +116,21 @@ struct LadderTests {
         f.add(.houseBought(rung: 3, beans: price), day: day) // the same house twice: refused
         #expect(f.state.beans == before - price)
     }
+
+    /// The houseboat's rooms are long and narrow (6 cells deep): a piece further back than that in the terrace is
+    /// moved in to where it fits when the household moves, and stays owned.
+    @Test func piecesMoveInWhenTheRoomsAreSmaller() {
+        let shapes = ["living_sofa": RulesContext.Shape(width: 3, depth: 1, onWall: false, decal: false)]
+        var f = Fixture(context: RulesContext(shapes: shapes))
+        #expect(f.state.roomSize == RoomSize(u: 8, v: 8))
+        f.add(.itemGranted(itemID: "living_sofa"), day: 0)
+        f.add(.itemPlaced(itemID: "living_sofa", room: .living, x: 0, y: 7, facing: .right), day: 0)
+        #expect(f.state.placed.first?.y == 7)
+        f.add(.purchaseBeansGranted(transactionID: "t1", beans: 5000), day: 0)
+        f.add(.houseBought(rung: 2, beans: HouseLadder.rung(2).price), day: 0)
+        let state = f.state
+        #expect(state.roomSize == RoomSize(u: 10, v: 6))
+        let sofa = state.placed.first
+        #expect(sofa != nil && (sofa?.y ?? 9) + 1 <= 6, "inside the boat's room")
+    }
 }

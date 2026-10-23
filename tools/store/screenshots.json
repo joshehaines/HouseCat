@@ -1,0 +1,62 @@
+[
+ {
+  "raw": "home1",
+  "title": "Your cat. Your home.",
+  "sub": "Feed, stroke and play together every day",
+  "theme": "paper"
+ },
+ {
+  "raw": "creator3",
+  "title": "Make a cat that’s all yours",
+  "sub": "Pick a look, then change every coat, pattern and eye",
+  "theme": "amber"
+ },
+ {
+  "raw": "cutscene",
+  "title": "It starts with a run-down terrace",
+  "sub": "A cat who needs a home, and you",
+  "theme": "dusk"
+ },
+ {
+  "raw": "homes",
+  "title": "Climb the ladder, home by home",
+  "sub": "From Puddlebury to Amsterdam, Tokyo and London",
+  "theme": "paper"
+ },
+ {
+  "raw": "boat",
+  "title": "Every home has its own world",
+  "sub": "A houseboat on a canal, a cabin in the pines",
+  "theme": "sage"
+ },
+ {
+  "raw": "decorate",
+  "title": "Make every room cosy",
+  "sub": "Furniture, wallpaper and floors, placed your way",
+  "theme": "paper"
+ },
+ {
+  "raw": "game",
+  "title": "Games your cat loves",
+  "sub": "Short, sweet and full of pounces",
+  "theme": "amber"
+ },
+ {
+  "raw": "pass2",
+  "title": "A new season every four weeks",
+  "sub": "Rewards to claim as you care and play",
+  "theme": "dusk"
+ },
+ {
+  "raw": "profile",
+  "title": "Get to know their ways",
+  "sub": "Trust grows a little with every visit",
+  "theme": "paper"
+ },
+ {
+  "raw": "goals",
+  "title": "Always something to look forward to",
+  "sub": "Daily goals, weekly goals and milestones",
+  "theme": "sage"
+ }
+]

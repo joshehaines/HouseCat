@@ -58,7 +58,11 @@ public enum HouseBuilder {
         guard let plan = plans.houses[style.rawValue] else { return nil }
         // The house is the rooms it has (Josh, 23 Oct: "the boat cannot be a big 3 room space"): those the ladder has
         // opened so far, laid out as that home is; the next house's rooms come with the next house (Homes).
-        let owned = plan.rooms.filter { $0.room == .living || state.openedRooms.contains($0.room) }
+        // Only rooms this home comes with by its own rung, so its outline is the one its town is painted round.
+        let homeRung = HouseLadder.rungs.first { $0.style == style }?.number ?? HouseLadder.top
+        let owned = plan.rooms.filter {
+            ($0.room == .living || state.openedRooms.contains($0.room)) && HouseLadder.rung(opening: $0.room) <= homeRung
+        }
         let size = Tuning.Room.sizes[style] ?? .standard
         let rooms = owned.map { spot -> HouseModel.Room in
             var model = layout

@@ -45,11 +45,14 @@ Your cat lives on your Home Screen and your Apple Watch too: in your own window 
 
 ## Screenshots
 
+Ten a device, in story order (23 Oct, after Apple's "App Store asset best practices"): your cat at home, making the cat, the opening's run-down terrace, the house ladder, a home in its town, decorating, a game, the season pass, the profile, the goals. Each is a real screen from the current build with a short caption above it in the website's fonts (Young Serif, Figtree) on a brand background; no prices, URLs or awards (the pass is shown owned, so no price shows).
+
 - **iPhone 6.9"** (landscape, 2868 × 1320): `iphone-6.9/`
-- **iPad 13"** (landscape, 2752 × 2064): `ipad-13/`
+- **iPhone 6.3"** (landscape, 2622 × 1206; the required size): `iphone-6.3/`
+- **iPad 13"** (portrait, 2064 × 2752): `ipad-13/`
 - **Apple Watch** (46 mm, 416 × 496): `watch/`. App Store Connect asks for these because the Watch app ships inside the iPhone app.
 
-Both sets were taken on 19 Oct from the current build, each screen from a fresh launch with the debug switches in `CLAUDE.md` ("Debug"): a seeded home (`HOUSECAT_HOUSE=full HOUSECAT_CAT=midnight` on a fresh install, `HOUSECAT_SKIP_STORE=1`), with any `HOUSECAT_SCREEN` value so the day-3 cards stay away. The simulator draws the Dynamic Island into iPhone screenshots, which a phone's own screenshots never include, so it is painted out from the picture round it (OpenCV inpainting). The order and captions are in the table below the checklist. On iPad the room's controls and cards are drawn 1.6× on the 13-inch (`Tuning.Stage.hudDesignWidth`), so the iPad set was retaken the same way after that change.
+Made from a debug build on the iPhone 18 Pro Max and iPad Pro 13-inch simulators with the seeded home (`HOUSECAT_HOUSE=full HOUSECAT_CAT=midnight HOUSECAT_SKIP_STORE=1`, a `HOUSECAT_SCREEN` value so the day-3 cards stay away), `HOUSECAT_RUNG`, `HOUSECAT_ROOM=living`, `HOUSECAT_TIME` and `HOUSECAT_ZOOM` (the camera's starting zoom), and the pass with `HOUSECAT_PASS_OWNED=1`; the creator's tip tapped away. The simulator's Dynamic Island is painted out of the iPhone frames. The compositing script (captions, background, rounded screen) is `tools/store/compose_screenshots.py` with `tools/store/screenshots.json`.
 
 The Watch set was taken on 20 Oct on the Apple Watch Series 12 (46mm) simulator paired with the iPhone 18 Pro, from a debug build: the iPhone app first, with the seeded home (`HOUSECAT_HOUSE=full HOUSECAT_CAT=midnight HOUSECAT_SKIP_STORE=1` on a fresh install), so the Watch has its snapshot; then the Watch app, freshly installed so no older snapshot is left on it, with `HOUSECAT_WATCH_TAPS=pet` and `=feed` for the cat's replies and `HOUSECAT_SCREEN=complications` for every complication family.
 

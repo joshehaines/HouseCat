@@ -18,12 +18,10 @@ import SwiftUI
 /// alone), its picture large, a second item or bonus Beans when it holds them, and whether it is not reached yet, ready
 /// (glowing, with Claim), claimed (ticked) or Premium's (padlocked). Get Premium opens a panel with every premium box,
 /// what opens at once, the last day and the price before anything is bought (App Review 3.1.1); it is paid once, for
-/// the season, and comes with Cat Club. Nothing is random. Drawn for a landscape phone and scaled to the screen; on a
+/// the season (not part of Cat Club; Josh, 23 Oct). Nothing is random. Drawn for a landscape phone and scaled to the screen; on a
 /// taller screen the boxes grow and the season's whole set shows on a shelf under them.
 struct PassView: View {
     let store: (any EntitlementService)?
-    /// Cat Club's page in the shop.
-    let openClub: () -> Void
     /// A claimed piece put out now: the pass closes and the decorate tray opens on it.
     let placePiece: (String) -> Void
     let close: () -> Void
@@ -311,16 +309,6 @@ struct PassView: View {
                         feedback.tap()
                         showPremium = true
                     }
-                    Button {
-                        feedback.tap()
-                        openClub()
-                    } label: {
-                        (Text("or ") + Text("included with Cat Club").underline())
-                            .font(.system(size: 10.5 * s, weight: .bold, design: .rounded)).foregroundStyle(GameHUD.gold)
-                            .lineLimit(1).minimumScaleFactor(0.7)
-                            .frame(maxWidth: .infinity)
-                    }
-                    .buttonStyle(PressStyle())
                 }
             }
             .padding(.horizontal, 9 * s)
@@ -829,15 +817,6 @@ struct PassView: View {
                     Spacer(minLength: 2 * s)
                     goldButton(buying ? "Buying…" : premiumButtonTitle(info), s: s) { buy(info) }
                         .disabled(buying)
-                    Button {
-                        feedback.tap()
-                        showPremium = false
-                        openClub()
-                    } label: {
-                        (Text("or ") + Text("included with Cat Club").underline())
-                            .font(.system(size: 11.5 * s, weight: .bold, design: .rounded)).foregroundStyle(GameHUD.gold).frame(maxWidth: .infinity)
-                    }
-                    .buttonStyle(PressStyle())
                     if let message {
                         Text(message).font(.system(size: 10 * s, weight: .semibold, design: .rounded)).foregroundStyle(Theme.cream).fixedSize(horizontal: false, vertical: true)
                     }

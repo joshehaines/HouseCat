@@ -277,11 +277,15 @@ public final class RoomScene: SKScene {
         guard let backdrop = house.backdrop, backdrop.size.count == 2, backdrop.plot.count == 4 else { return }
         let ground = house.rooms.filter { $0.storey == 0 }
         guard !ground.isEmpty else { return }
-        let minU = ground.map { CGFloat($0.u) }.min() ?? 0, maxU = (ground.map { CGFloat($0.u) }.max() ?? 0) + grid.cellsU
-        let minV = ground.map { CGFloat($0.v) }.min() ?? 0, maxV = (ground.map { CGFloat($0.v) }.max() ?? 0) + grid.cellsV
-        // The plot's corners on screen: left (minU, maxV), right (maxU, minV), top (minU, minV), bottom (maxU, maxV).
-        let left = grid.floor(minU, maxV).x, right = grid.floor(maxU, minV).x
-        let top = grid.floor(minU, minV).y, bottom = grid.floor(maxU, maxV).y
+        // The ground floor's outline as the painting leaves it blank (an L or a row, not only a rectangle): its
+        // furthest corners left, right, up and down on screen.
+        let corners = ground.flatMap { room in
+            [(0, 0), (1, 0), (0, 1), (1, 1)].map { du, dv in
+                grid.floor(CGFloat(room.u) + CGFloat(du) * grid.cellsU, CGFloat(room.v) + CGFloat(dv) * grid.cellsV)
+            }
+        }
+        let left = corners.map(\.x).min() ?? 0, right = corners.map(\.x).max() ?? 0
+        let top = corners.map(\.y).max() ?? 0, bottom = corners.map(\.y).min() ?? 0
         let plot = backdrop.plot.map { CGFloat($0) }, size = CGSize(width: backdrop.size[0], height: backdrop.size[1])
         // Points per master pixel, across and down (the painting's angle is near enough the grid's, not exact).
         let sx = (right - left) / (plot[2] - plot[0]), sy = (top - bottom) / (plot[3] - plot[1])
@@ -468,10 +472,16 @@ public final class RoomScene: SKScene {
 
     /// Where the camera starts: a phone's screen is small, so closer than an iPad's (Tuning.Camera).
     var homeZoom: CGFloat {
+        #if DEBUG
+            // HOUSECAT_ZOOM=1.4: the camera starts that close (screenshot runs).
+            if let zoom = ProcessInfo.processInfo.environment["HOUSECAT_ZOOM"].flatMap(Double.init) {
+                return CGFloat(zoom)
+            }
+        #endif
         #if os(iOS)
-            CGFloat(UIDevice.current.userInterfaceIdiom == .pad ? Tuning.Camera.homeZoomPad : Tuning.Camera.homeZoomPhone)
+            return CGFloat(UIDevice.current.userInterfaceIdiom == .pad ? Tuning.Camera.homeZoomPad : Tuning.Camera.homeZoomPhone)
         #else
-            CGFloat(Tuning.Camera.homeZoomPhone)
+            return CGFloat(Tuning.Camera.homeZoomPhone)
         #endif
     }
 

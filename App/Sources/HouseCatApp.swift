@@ -1646,10 +1646,7 @@ struct RoomScreen: View {
                 // The season pass, the whole screen (App/Sources/PassView.swift).
                 ZStack {
                     if showPass {
-                        PassView(store: store) {
-                            showPass = false
-                            openShop(.club)
-                        } placePiece: { item in
+                        PassView(store: store) { item in
                             showPass = false
                             visit.refreshStats()
                             visit.openTray(on: item)

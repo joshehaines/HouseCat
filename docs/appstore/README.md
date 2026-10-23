@@ -36,7 +36,7 @@ Make the house a home, room by room. Open the bedroom, the kitchen, the garden, 
 
 Your cat lives on your Home Screen and your Apple Watch too: in your own window with your own weather, waiting by the door until you visit, with your streak. Miss a day and it sulks a little; it never leaves, and nothing is ever lost.
 
-- Beans are earned every day in play and also sold in packs. Room looks are kept for good. Cat Club is an optional subscription: +20% Beans, rooms for half the Beans and moving home for free (and each season's paid track while a season is on); yearly with a 7-day free trial, or monthly. It renews automatically unless cancelled at least 24 hours before the end of the period, in your Apple Account settings.
+- Beans are earned every day in play and also sold in packs. Room looks are kept for good. Cat Club is an optional subscription: +20% Beans, rooms for half the Beans and moving home for free; yearly with a 7-day free trial, or monthly. It renews automatically unless cancelled at least 24 hours before the end of the period, in your Apple Account settings.
 - Nothing is random for money, no ads, no account.
 - Optional: Apple Health. With your permission HouseCat reads your steps, sleep and workouts to give extra XP. It never writes to Health, and the data stays on your device.
 - Terms of Use: https://housecatgame.com/terms/
@@ -84,7 +84,7 @@ The shop is not in the marketing set: a simulator launch from the command line h
 - The Housewarming look's product ID keeps its earlier name, because IDs can never be renamed once live.
 - Apple's limits are 30 characters for a display name and 45 for a description (App Store Connect's in-app purchase reference, checked 21 Oct); some descriptions above run longer, so check each saved one in App Store Connect ends on a whole word.
 - Family Sharing is on for Cat Club only, as the StoreKit configuration has it. A room look's pieces go into one household's save. Turning Family Sharing on in App Store Connect cannot be undone.
-- Each season sells its own premium pass (Josh, 19 Oct: the pass is the main thing sold): `housecat.pass.<season>`, non-consumable, paid once, brought back by Restore Purchases, the same price every season. Cat Club includes every season's premium track as well. Create one for each season in `Content/seasons.json` (four now) and add each new season's before it starts. A season that has no pass of its own runs an earlier one again (`SeasonSchedule`) and sells that one's pass, so no product is ever missing.
+- Each season sells its own premium pass (Josh, 19 Oct: the pass is the main thing sold): `housecat.pass.<season>`, non-consumable, paid once, brought back by Restore Purchases, the same price every season. Create one for each season in `Content/seasons.json` (four now) and add each new season's before it starts. A season that has no pass of its own runs an earlier one again (`SeasonSchedule`) and sells that one's pass, so no product is ever missing.
 - Each product needs a review screenshot (see Screenshots) and, for the subscription group, a display name ("Cat Club").
 
 ## App Privacy (the App Store Connect questionnaire)
@@ -173,7 +173,7 @@ Nothing is hidden or dormant (Guideline 2.5.19): co-owning a cat with another pe
 
 - **RevenueCat and PostHog**: both in 1.0 (Josh, 21 Oct: "ok lets implement both"). Each comes alive the moment its key is set in `project.yml` (`RevenueCatAPIKey`, `PostHogAPIKey`) and the project is regenerated; empty, the app uses StoreKit 2 directly and shows no analytics card or switch. The App Privacy answers above assume both keys are set. The steps are under "RevenueCat and PostHog" in the checklist.
 - **Season dates**: seasons run back to back on `SeasonCalendar` and the pass is always on: Black Cat 5 Oct to 1 Nov 2026 (so TestFlight and App Review see the pass), Housewarming 2 Nov to 30 Nov (the launch season; the launch events still count from 2 Nov, `launchAt` in `Content/seasons.json`), Midwinter every December, First Light to 25 Jan 2027. After that, seasons run again until the 2027 seasons (CONTENT.md §7) are painted.
-- **Premium pass price**: £4.99 a season (Josh, 23 Oct; was £2.99), set the four pass IAPs to that tier in App Store Connect. Cat Club (£2.99 a month) still includes it.
+- **Premium pass price**: £4.99 a season (Josh, 23 Oct; was £2.99), set the four pass IAPs to that tier in App Store Connect. Cat Club does not include it (Josh, 23 Oct).
 - **Mac menu-bar cat**: leave it out of 1.0. It has no App Sandbox and can't reach the iPhone's cat, so review would reject it under minimum functionality. To ship it later, it needs the sandbox, the App Group and a privacy manifest.
 - **Co-owning**: left out of 1.0 and planned for 1.1. Leave, Stop sharing, Hide and Report are built (19 Oct). Co-owner names go through the name filter. To ship it, it needs the iCloud container on the App ID, `HouseCatCloudKit` set to true and two-phone testing (CLAUDE.md, "To switch sharing on"). The website and App Store Connect lines it needs are in `sharing-1.1.md`.
 

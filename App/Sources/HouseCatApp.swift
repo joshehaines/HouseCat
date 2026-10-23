@@ -112,7 +112,7 @@ struct HouseCatApp: App {
                 // Siri learns the cat's name for its phrases ("Feed Pip in HouseCat").
                 HouseCatShortcuts.updateAppShortcutParameters()
                 await store?.refresh()
-                // While Cat Club is on, today is a club day (its Beans, half-price rooms and the paid track).
+                // While Cat Club is on, today is a club day (its Beans, half-price rooms and free moves).
                 GameSession.shared.recordClubDay(active: store?.entitlements.hasClub == true)
                 await StorePrices.shared.load(store: store, content: GameWorld.content)
             }
@@ -1296,7 +1296,7 @@ struct RoomScreen: View {
     /// The menu's other places: the map, the book, the pass, the gift track while it runs, the together quest.
     private var menuItems: [RoomMenu.Item] {
         let session = GameSession.shared
-        let pass = session.passInfo(club: store?.entitlements.hasClub == true)
+        let pass = session.passInfo(passes: store?.entitlements.passes ?? [])
         var items: [RoomMenu.Item] = []
         // Out of the front door to look at the house, the cat at a window (Josh, 20 Oct); only once the home's outside
         // paintings are on the device (a home's pack may still be on its way).
@@ -1369,7 +1369,7 @@ struct RoomScreen: View {
     private var passBadgeInfo: GameSession.PassInfo? {
         _ = visit.stats
         let owned = store?.entitlements ?? .none
-        return GameSession.shared.passInfo(club: owned.hasClub, passes: owned.passes)
+        return GameSession.shared.passInfo(passes: owned.passes)
     }
 
     /// Something in the menu waits (a pass reward, a present, the quest's Beans): a dot on its button.

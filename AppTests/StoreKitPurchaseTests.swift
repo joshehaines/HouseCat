@@ -123,13 +123,13 @@ struct StoreKitPurchaseTests {
         #expect(relaunched.entitlements.bundles == [bundleID])
     }
 
-    @Test func catClubIncludesThePaidTrack() async throws {
+    @Test func catClubDoesNotIncludeThePaidTrack() async throws {
         let service = StoreKitEntitlementService(catalog: catalog, cache: InMemoryEntitlementCache())
         defer { service.stopListening() }
         #expect(!service.entitlements.hasClub)
         try await buy(StoreCatalog.clubYearly, into: service)
         #expect(service.entitlements.hasClub)
-        #expect(service.entitlements.ownsPaidTrack(season: "midwinter"))
+        #expect(!service.entitlements.ownsPaidTrack(season: "midwinter"), "the pass is sold on its own (Josh, 23 Oct)")
     }
 
     @Test func aRefundStripsTheLookOnTheNextRefresh() async throws {

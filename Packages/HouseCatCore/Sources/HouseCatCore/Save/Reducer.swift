@@ -584,7 +584,8 @@ extension HouseholdState {
     private mutating func claimTier(seasonID: String, track: PassTrack, tier: Int, day: GameDay, context: RulesContext) {
         guard let season = context.season(id: seasonID) else { return }
         var progress = passes[seasonID] ?? SeasonProgress()
-        let ownsPaid = progress.purchased || today?.clubDay == true
+        // The season's own pass only (Josh, 23 Oct: not in Cat Club).
+        let ownsPaid = progress.purchased
         guard PassRules.canClaim(track: track, tier: tier, progress: progress, season: season, day: day, ownsPaidTrack: ownsPaid)
         else { return }
         switch track {

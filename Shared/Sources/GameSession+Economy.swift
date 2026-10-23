@@ -7,7 +7,7 @@ import HouseCatGame
 extension GameSession {
     // MARK: Purchases
 
-    /// While Cat Club is on, today is a club day (its +20% Beans, half-price rooms and the paid track), once a day.
+    /// While Cat Club is on, today is a club day (its +20% Beans, half-price rooms and free moves), once a day.
     func recordClubDay(active: Bool) {
         let state = state(at: now())
         guard active, state.today?.clubDay == false else { return }
@@ -205,14 +205,15 @@ extension GameSession {
         }
     }
 
-    /// `club` is a live Cat Club; `passes` the season passes StoreKit says were bought (by pass id).
-    func passInfo(club: Bool, passes: Set<String> = []) -> PassInfo? {
+    /// `passes` the season passes StoreKit says were bought (by pass id): the premium track is the season's own pass
+    /// only (Josh, 23 Oct: "take the premium pass out of Cat Club").
+    func passInfo(passes: Set<String> = []) -> PassInfo? {
         let date = now()
         let state = state(at: date)
         let day = state.clock.day(of: date)
         guard let season = rules.season(on: day) else { return nil }
         let progress = state.passes[season.id] ?? SeasonProgress()
-        let ownsPaid = club || passes.contains(season.passID) || progress.purchased || state.today?.clubDay == true
+        let ownsPaid = passes.contains(season.passID) || progress.purchased
         let named = content?.seasons.seasons.first { $0.id == season.passID }
         return PassInfo(
             season: season,
@@ -240,10 +241,10 @@ extension GameSession {
         append(.passPurchased(seasonID: season.id), at: date)
     }
 
-    /// Before a premium claim: the pass or today's Cat Club day in the save, if StoreKit says so (the app may have
-    /// been open since before midnight, or the purchase heard on another device).
+    /// Before a premium claim: the pass in the save, if StoreKit says so (the purchase heard on another device), and
+    /// today's Cat Club day for its other perks.
     func recordPremium(club: Bool, passes: Set<String>) {
-        guard let info = passInfo(club: false) else { return }
+        guard let info = passInfo() else { return }
         if passes.contains(info.season.passID) {
             recordPass(info.season.passID)
         }

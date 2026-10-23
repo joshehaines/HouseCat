@@ -50,7 +50,7 @@ struct PassStoreTests {
         }
     }
 
-    @Test func aBoughtPassOpensItsSeasonsPremiumTrackAndClubOpensEverySeasons() {
+    @Test func aBoughtPassOpensItsSeasonsPremiumTrackAndClubOpensNone() {
         let pass = PurchaseRecord(productID: "housecat.pass.housewarming", transactionID: "t1", isVerified: true)
         let owned = EntitlementMapper.entitlements(from: [pass], catalog: catalog, now: now)
         #expect(owned.passes == ["housewarming"])
@@ -60,7 +60,8 @@ struct PassStoreTests {
 
         let club = PurchaseRecord(productID: StoreCatalog.clubMonthly, transactionID: "t2", isVerified: true, expiresAt: now.addingTimeInterval(86_400))
         let member = EntitlementMapper.entitlements(from: [club], catalog: catalog, now: now)
-        #expect(member.ownsPaidTrack(season: "midwinter") && member.ownsPaidTrack(season: "firstlight"))
+        // Cat Club no longer includes the pass (Josh, 23 Oct).
+        #expect(member.hasClub && !member.ownsPaidTrack(season: "midwinter") && !member.ownsPaidTrack(season: "firstlight"))
     }
 
     @Test func anUnverifiedOrRefundedPassOpensNothing() {

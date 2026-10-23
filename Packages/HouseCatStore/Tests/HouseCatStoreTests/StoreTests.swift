@@ -41,7 +41,7 @@ struct EntitlementTests {
         let active = EntitlementMapper.entitlements(
             from: [record("housecat.club.yearly", expires: now.addingTimeInterval(86400))], catalog: catalog, now: now
         )
-        #expect(active.hasClub && active.ownsPaidTrack(season: "anything"))
+        #expect(active.hasClub && !active.ownsPaidTrack(season: "anything"), "the pass is sold on its own")
     }
 
     @Test func beanPacksUnlockNothingButCarryTheirBeans() {

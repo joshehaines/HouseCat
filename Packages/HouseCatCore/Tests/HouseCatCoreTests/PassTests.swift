@@ -189,11 +189,15 @@ struct PassRulesTests {
         #expect(PassRarity.common < PassRarity.legendary)
     }
 
-    @Test func catClubIncludesThePremiumTrack() {
+    /// The premium track is the season's own pass only (Josh, 23 Oct: "take the premium pass out of Cat Club").
+    @Test func catClubDoesNotOpenThePremiumTrack() {
         var f = fixture()
         busyDay(&f, 0)
         f.add(.clubDayRecorded, day: 0, hour: 12, minute: 30)
         f.add(.passTierClaimed(seasonID: "housewarming", track: .paid, tier: 1), day: 0, hour: 13)
+        #expect(f.state.passes["housewarming"]?.claimedPaid.isEmpty != false)
+        f.add(.passPurchased(seasonID: "housewarming"), day: 0, hour: 14)
+        f.add(.passTierClaimed(seasonID: "housewarming", track: .paid, tier: 1), day: 0, hour: 15)
         #expect(f.state.passes["housewarming"]?.claimedPaid == [1])
     }
 

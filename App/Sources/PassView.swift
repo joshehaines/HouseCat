@@ -143,7 +143,7 @@ struct PassView: View {
 
     private func reload() {
         let owned = store?.entitlements ?? .none
-        info = GameSession.shared.passInfo(club: owned.hasClub, passes: owned.passes)
+        info = GameSession.shared.passInfo(passes: owned.passes)
     }
 
     private var owned: Entitlements {
@@ -300,7 +300,7 @@ struct PassView: View {
                 Spacer(minLength: 2 * s)
                 showcaseAction(info, box: box, s: s)
                 if info.ownsPaid {
-                    Label(owned.hasClub && !owned.passes.contains(info.season.passID) ? "Premium with Cat Club" : "Premium is yours", systemImage: "checkmark.seal.fill")
+                    Label("Premium is yours", systemImage: "checkmark.seal.fill")
                         .font(.system(size: 12.5 * s, weight: .heavy, design: .rounded))
                         .foregroundStyle(.white)
                         .lineLimit(1).minimumScaleFactor(0.7)
@@ -922,7 +922,7 @@ struct PassView: View {
             defer { buying = false }
             switch await ShopPurchase.buy(info.season.sku, store: store) {
             case .bought:
-                // The grant has recorded the pass in the save; Cat Club or not, the premium track is open.
+                // The grant has recorded the pass in the save: the premium track is open.
                 GameSession.shared.recordPass(info.season.passID)
                 reload()
                 showPremium = false

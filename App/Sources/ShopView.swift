@@ -232,7 +232,7 @@ struct ShopView: View {
     private func refresh() {
         owned = store?.entitlements ?? .none
         beans = session.beans
-        pass = session.passInfo(club: owned.hasClub, passes: owned.passes)
+        pass = session.passInfo(passes: owned.passes)
     }
 
     /// Restore Purchases, from the foot of every page or the Cat Club page: the notice says what came back, or why not.
@@ -580,7 +580,7 @@ struct ShopView: View {
             contents: [
                 .init(icon: "bean_coin", text: "+20% Beans"),
                 .init(icon: "house", text: "Rooms for half"),
-                .init(icon: "season_pass_ticket", text: "Every premium track"),
+                .init(icon: "map_pin", text: "Free moves"),
             ],
             tint: Color(red: 0.42, green: 0.62, blue: 0.66),
             isClub: true
@@ -916,7 +916,7 @@ struct ShopView: View {
                             PaintedIcon("crown", size: 20 * s)
                         }
                         Text(owned.hasClub ? "You're a member: every perk is on."
-                            : narrow ? "+20% Beans and every premium track." : clubSummary)
+                            : narrow ? "+20% Beans and rooms for half." : clubSummary)
                             .font(font(11.5)).foregroundStyle(Theme.inkSoft)
                             .lineLimit(3)
                             .minimumScaleFactor(0.85)
@@ -939,11 +939,9 @@ struct ShopView: View {
         .accessibilityLabel(owned.hasClub ? "Cat Club, you're a member" : "Cat Club, see what it gives")
     }
 
-    /// What Cat Club gives, in a line: the season's paid track only while a season is on.
+    /// What Cat Club gives, in a line (the season pass is sold on its own; Josh, 23 Oct).
     private var clubSummary: String {
-        pass == nil
-            ? "+20% Beans, rooms for half the Beans and moving home for free."
-            : "+20% Beans, rooms for half the Beans, moving home for free and every season's premium track."
+        "+20% Beans, rooms for half the Beans and moving home for free."
     }
 
     /// The Season pass page: the season big, how far you are, the rewards on its paid track, and the pass itself.
@@ -989,15 +987,15 @@ struct ShopView: View {
         }
     }
 
-    /// How the paid track is had: the season's own pass at StoreKit's price where it is sold, and Cat Club.
+    /// How the paid track is had: the season's own pass at StoreKit's price (not Cat Club; Josh, 23 Oct).
     private func paidTrackLine(_ pass: GameSession.PassInfo) -> String {
         if pass.ownsPaid {
             return "Both tracks are yours this season."
         }
         if let sku = content?.seasons.seasons.first(where: { $0.id == pass.season.id })?.sku, let price = price(sku) {
-            return "Premium: this season's pass for \(price), paid once, or with Cat Club. Every tier you have reached opens at once."
+            return "Premium: this season's pass for \(price), paid once. Every tier you have reached opens at once."
         }
-        return "Premium comes with Cat Club; every tier you have reached opens at once."
+        return "Premium: this season's pass, paid once. Every tier you have reached opens at once."
     }
 
     private func tierBar(_ pass: GameSession.PassInfo) -> some View {
@@ -1255,12 +1253,6 @@ struct ShopView: View {
                 Text(owned.hasClub ? "You're a member. Thank you." : "A membership, renewed until you cancel")
                     .font(font(11, .bold)).foregroundStyle(GameHUD.gold)
                     .multilineTextAlignment(.center)
-                if let pass {
-                    Text("This season's premium track: \(pass.season.paidTrack.count) rewards in \(pass.name).")
-                        .font(font(10.5, .semibold)).foregroundStyle(.white.opacity(0.85))
-                        .multilineTextAlignment(.center)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
             }
             .padding(.vertical, 12 * s)
             .frame(width: 240 * s)
@@ -1273,12 +1265,7 @@ struct ShopView: View {
                     }
                     GridRow {
                         perk("Free", "moving home", icon: "map_pin")
-                        // The pass perk only while a season is on (nothing to show before the first one).
-                        if pass != nil {
-                            perk("Every", "season's premium track", icon: "season_pass_ticket")
-                        } else {
-                            perk("Cancel", "any time, in Settings", icon: "clock")
-                        }
+                        perk("Cancel", "any time, in Settings", icon: "clock")
                     }
                 }
                 if owned.hasClub {

@@ -24,9 +24,9 @@ public struct Entitlements: Codable, Equatable, Sendable {
         clubSubscription
     }
 
-    /// The premium track of a season (by its pass id): its own pass, or Cat Club, which includes every season's.
+    /// The premium track of a season (by its pass id): its own pass only (Josh, 23 Oct: not in Cat Club).
     public func ownsPaidTrack(season passID: String) -> Bool {
-        hasClub || passes.contains(passID)
+        passes.contains(passID)
     }
 
     private enum CodingKeys: String, CodingKey {

@@ -14,7 +14,7 @@ extension StoreKitPurchaseTests {
     @MainActor
     func todaysPass() throws -> (season: SeasonDefinition, product: ShopProduct) {
         let game = try GameSession(store: EventStore(inMemory: true))
-        let info = try #require(game.passInfo(club: false))
+        let info = try #require(game.passInfo())
         let product = try #require(catalog.product(pass: info.season.passID))
         return (info.season, product)
     }
@@ -57,7 +57,7 @@ extension StoreKitPurchaseTests {
 
     @Test func theGrantRecordsThePassInTheSaveAndOpensThePremiumTrack() async throws {
         let game = try GameSession(store: EventStore(inMemory: true))
-        let info = try #require(game.passInfo(club: false))
+        let info = try #require(game.passInfo())
         #expect(!info.ownsPaid)
         let product = try #require(catalog.product(pass: info.season.passID))
         let transaction = try await session.buyProduct(identifier: product.id)
@@ -66,7 +66,7 @@ extension StoreKitPurchaseTests {
         game.grant(StoreGrant(productID: product.id, transactionID: String(transaction.id)), catalog: catalog)
         let state = game.state(at: game.now())
         #expect(state.passes[info.season.id]?.purchased == true)
-        #expect(game.passInfo(club: false)?.ownsPaid == true)
+        #expect(game.passInfo()?.ownsPaid == true)
         #expect(game.log.events.filter { if case .passPurchased = $0.kind { true } else { false } }.count == 1)
     }
 

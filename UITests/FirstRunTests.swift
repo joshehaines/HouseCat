@@ -123,6 +123,8 @@ final class FirstRunTests: XCTestCase {
         let next = app.buttons["Next"]
         XCTAssertTrue(next.waitForExistence(timeout: 60), "the tour's welcome")
         sleep(2)
+        // How far along, under the host's line (25 Oct).
+        XCTAssertTrue(app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH 'Step 1 of '")).firstMatch.exists, "the tour's step count")
         snap("9 room")
         // The steps that only ask to be read are passed with Next, until the tour asks for Feed.
         XCTAssertTrue(readOn(until: "Tap Feed"), "the tour asks for Feed")
@@ -151,7 +153,7 @@ final class FirstRunTests: XCTestCase {
         let done = app.buttons["Done"]
         XCTAssertTrue(done.waitForExistence(timeout: 10), "Done")
         done.tap()
-        // Play, the nap, the menu and the shop are read and passed with Next; the Beans come last.
+        // Any step that is only read is passed with Next; the Beans come last.
         let thanks = app.buttons["Thank you"]
         let deadline = Date().addingTimeInterval(40)
         while !thanks.exists, Date() < deadline {
@@ -161,6 +163,10 @@ final class FirstRunTests: XCTestCase {
         XCTAssertTrue(thanks.waitForExistence(timeout: 5), "the tour's welcome Beans")
         snap("13 tour done")
         thanks.tap()
+        // Day 1, and when you'll visit (25 Oct): Not now asks nothing of iOS.
+        XCTAssertTrue(app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH 'Day 1 with'")).firstMatch.waitForExistence(timeout: 10),
+                      "the Day 1 card")
+        snap("13b day one")
         dismissCards()
     }
 

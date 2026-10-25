@@ -19,22 +19,25 @@ public struct CameraClearance: Equatable {
 
     /// `edge`: how far in from the side of `geometry`'s frame the controls already sit.
     public init(_ geometry: GeometryProxy, edge: CGFloat) {
-        guard #available(iOS 27.1, macOS 27.1, watchOS 27.1, *) else { return }
-        let size = geometry.size
-        let band = size.height * Tuning.Stage.cameraCornerBand
-        let gap = CGFloat(Tuning.Stage.cameraGap)
-        for region in geometry.reservedRegions(kind: .occlusion) where region.isActive {
-            let frame = region.frame
-            let top = frame.minY < band, bottom = frame.maxY > size.height - band
-            if frame.midX < size.width / 2 {
-                let inset = max(0, frame.maxX + gap - edge)
-                if top { topLeading = max(topLeading, inset) }
-                if bottom { bottomLeading = max(bottomLeading, inset) }
-            } else {
-                let inset = max(0, size.width - frame.minX + gap - edge)
-                if top { topTrailing = max(topTrailing, inset) }
-                if bottom { bottomTrailing = max(bottomTrailing, inset) }
+        // Only iOS has the reserved regions (the package's Mac tests and the Mac app build it too).
+        #if os(iOS)
+            guard #available(iOS 27.1, *) else { return }
+            let size = geometry.size
+            let band = size.height * Tuning.Stage.cameraCornerBand
+            let gap = CGFloat(Tuning.Stage.cameraGap)
+            for region in geometry.reservedRegions(kind: .occlusion) where region.isActive {
+                let frame = region.frame
+                let top = frame.minY < band, bottom = frame.maxY > size.height - band
+                if frame.midX < size.width / 2 {
+                    let inset = max(0, frame.maxX + gap - edge)
+                    if top { topLeading = max(topLeading, inset) }
+                    if bottom { bottomLeading = max(bottomLeading, inset) }
+                } else {
+                    let inset = max(0, size.width - frame.minX + gap - edge)
+                    if top { topTrailing = max(topTrailing, inset) }
+                    if bottom { bottomTrailing = max(bottomTrailing, inset) }
+                }
             }
-        }
+        #endif
     }
 }

@@ -1607,6 +1607,11 @@ public enum Tuning {
         public static let hudEdge = 22.0
         public static let hudTop = 10.0
         public static let hudBottom = 8.0
+        /// A camera in the screen (an occlusion region, iOS 27.1) within this share of the height from the top or the
+        /// bottom is in a corner, so that corner's controls move in to keep this far (points) beside it. iPhone Duo's
+        /// outer screen has its camera in a corner; an iPhone's island is halfway down a side and moves nothing.
+        public static let cameraCornerBand = 0.3
+        public static let cameraGap = 8.0
         /// The room slides up over this long when the decorate tray opens.
         public static let insetSeconds = 0.25
         /// The share of the view the room may fill.

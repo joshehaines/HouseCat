@@ -109,7 +109,9 @@ public struct DressingRoomLayout<Top: View, Bottom: View, Panel: View, Hint: Vie
                 let fit = screen.height > screen.width
                     ? min(screen.width / Tuning.Builder.designUprightWidth, screen.height / (Tuning.Builder.designHeight * 2.2))
                     : min(screen.height / Tuning.Builder.designHeight, screen.width / Tuning.Builder.designWidth)
-                s = (min(Tuning.Builder.largestScale, max(1, fit)) * 20).rounded(.down) / 20
+                let narrow = screen.height > screen.width ? 1 : screen.width / Tuning.Builder.designWidth
+                let smallest = min(1, max(Tuning.Builder.smallestScale, narrow))
+                s = (min(Tuning.Builder.largestScale, max(smallest, fit)) * 20).rounded(.down) / 20
             }
         }
         .background(Self.page.ignoresSafeArea())

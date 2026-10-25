@@ -221,7 +221,10 @@ struct MiniGameView: View {
 
     private var hud: some View {
         HStack(spacing: 14) {
+            // The name on one line; on a narrow screen (iPhone Duo folded) the star track gives up the room instead.
             Text(game.name).font(Theme.title(20))
+                .lineLimit(1)
+                .fixedSize()
             Text("\(left)")
                 .font(.system(size: 24, weight: .heavy, design: .rounded))
                 .monospacedDigit()
@@ -241,7 +244,8 @@ struct MiniGameView: View {
             }
             .frame(minWidth: 110, alignment: .leading)
             StarTrack(score: progress.score, thresholds: game.stars)
-                .frame(width: 210, height: 28)
+                .frame(minWidth: 120, maxWidth: 210)
+                .frame(height: 28)
             Spacer()
             CloseButton {
                 // Leaving early records nothing (no play is used).

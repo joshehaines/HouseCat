@@ -36,6 +36,29 @@ def clean_island(img):
     a[mask] = fill[mask]
     return Image.fromarray(a.clip(0, 255).astype(np.uint8))
 
+def clean_camera(img):
+    """iPhone Duo's outer screen: the simulator draws the camera, a black dot, into a corner. Paint it out the same way."""
+    a = np.asarray(img).astype(np.float32)
+    h, w = a.shape[:2]
+    cw, ch = int(w * 0.14), int(h * 0.2)
+    mask = np.zeros((h, w), bool)
+    for y0, x0 in ((0, 0), (0, w - cw), (h - ch, 0), (h - ch, w - cw)):
+        m = a[y0:y0 + ch, x0:x0 + cw].max(axis=2) < 6
+        lab, n = ndimage.label(m)
+        for k, box in enumerate(ndimage.find_objects(lab), 1):
+            bh, bw = box[0].stop - box[0].start, box[1].stop - box[1].start
+            area = (lab[box] == k).sum()
+            # Round (it fills about pi/4 of its box) and the size of a camera, not a black cat or a dark corner.
+            if 60 < bh < 200 and abs(bh - bw) < 12 and area > 0.7 * bh * bw:
+                mask[y0:y0 + ch, x0:x0 + cw] |= lab == k
+    if not mask.any():
+        return img
+    mask = ndimage.binary_dilation(mask, iterations=4)
+    _, (iy, ix) = ndimage.distance_transform_edt(mask, return_indices=True)
+    fill = ndimage.gaussian_filter(a[iy, ix], sigma=(6, 6, 0))
+    a[mask] = fill[mask]
+    return Image.fromarray(a.clip(0, 255).astype(np.uint8))
+
 def gradient(top, bottom):
     t = np.linspace(0, 1, H)[:, None, None]
     g = np.array(top)[None, None, :] * (1 - t) + np.array(bottom)[None, None, :] * t
@@ -55,8 +78,10 @@ for i, shot in enumerate(json.load(open(spec)), 1):
     top, bottom, ink, sub = THEMES[shot.get("theme", "paper")]
     canvas = gradient(top, bottom)
     src = Image.open(f"{raw}/{shot['raw']}.png").convert("RGB")
-    if device.startswith(("iphone", "duo")):
+    if device.startswith("iphone"):
         src = clean_island(src)
+    elif device.startswith("duo"):
+        src = clean_camera(src)
     # Caption band, then the screen as large as fits beneath it.
     band = int(H * {"ipad13": 0.135, "duoinner": 0.17, "duoouter": 0.17}.get(device, 0.215))
     margin = int(H * 0.045)

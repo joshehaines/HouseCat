@@ -110,7 +110,8 @@ public struct HUDButton: View {
     private let prominent: Bool
     private let action: () -> Void
 
-    /// `icon` is a painted icon's name; `symbol` an SF Symbol for the actions with no painting (Turn, Done).
+    /// `icon` is a painted icon's name; `symbol` an SF Symbol for the actions with no painting (Turn, Done). An empty
+    /// `title` draws the picture alone (give it an accessibility label).
     public init(_ title: String, icon: String? = nil, symbol: String? = nil, prominent: Bool = false, action: @escaping () -> Void) {
         self.title = title
         self.icon = icon
@@ -132,13 +133,15 @@ public struct HUDButton: View {
                         .font(.system(size: 17 * scale, weight: .bold))
                         .frame(width: 24 * scale, height: 30 * scale)
                 }
-                Text(title)
-                    .font(.system(size: 16 * scale, weight: .semibold))
-                    .lineLimit(1)
+                if !title.isEmpty {
+                    Text(title)
+                        .font(.system(size: 16 * scale, weight: .semibold))
+                        .lineLimit(1)
+                }
             }
             .foregroundStyle(prominent ? Color.white : Theme.ink)
             .padding(.leading, (icon == nil ? 14 : 8) * scale)
-            .padding(.trailing, 16 * scale)
+            .padding(.trailing, (title.isEmpty ? 8 : 16) * scale)
             .padding(.vertical, 5 * scale)
             .paper(Capsule(), fill: prominent ? Theme.accent : Theme.cream)
         }

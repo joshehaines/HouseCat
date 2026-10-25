@@ -883,6 +883,9 @@ public enum Tuning {
         public static let designHeight = 402.0
         public static let designUprightWidth = 620.0
         public static let largestScale = 1.6
+        /// A landscape screen narrower than `designWidth` (iPhone Duo folded, 678 points) draws it all smaller, down to
+        /// this; any other phone keeps 1.
+        public static let smallestScale = 0.8
     }
 
     /// Personality sliders: affection, energy, mischief, independence (0–1).

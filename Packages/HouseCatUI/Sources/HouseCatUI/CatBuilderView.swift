@@ -53,11 +53,10 @@ public struct CatBuilderView<Hint: View>: View {
                 }
             },
             bottom: { m in
-                HStack(spacing: 8 * m.s) {
-                    HUDButton("Undo", symbol: "arrow.uturn.backward") { model.undo() }
-                        .disabled(!model.canUndo)
-                        .opacity(model.canUndo ? 1 : 0.45)
-                    HUDButton("Surprise me", icon: "creator_dice") { model.surprise() }
+                // Under a narrow stage (iPhone Duo folded) Surprise me is its dice alone rather than cut off.
+                ViewThatFits(in: .horizontal) {
+                    undoAndSurprise(m, surprise: "Surprise me")
+                    undoAndSurprise(m, surprise: "")
                 }
             },
             panel: { m in
@@ -75,6 +74,16 @@ public struct CatBuilderView<Hint: View>: View {
             },
             hint: { hint }
         )
+    }
+
+    private func undoAndSurprise(_ m: WardrobeMetrics, surprise: String) -> some View {
+        HStack(spacing: 8 * m.s) {
+            HUDButton("Undo", symbol: "arrow.uturn.backward") { model.undo() }
+                .disabled(!model.canUndo)
+                .opacity(model.canUndo ? 1 : 0.45)
+            HUDButton(surprise, icon: "creator_dice") { model.surprise() }
+                .accessibilityLabel("Surprise me")
+        }
     }
 
     /// The look's name on a little paper plaque: the preset it is, or the player's own (and, adopting, the cat's name).

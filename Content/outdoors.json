@@ -66,7 +66,7 @@
     "tokyo": { "image": "world/backdrops/tokyo.jpg", "size": [2688, 1520], "plot": [843, 458, 1843, 927] },
     "santorini": { "image": "world/backdrops/santorini.jpg", "size": [2688, 1520], "plot": [876, 580, 1820, 943] },
     "newyork": { "image": "world/backdrops/newyork.jpg", "size": [2688, 1520], "plot": [786, 506, 1786, 957] },
-    "london": { "image": "world/backdrops/london.jpg", "size": [2688, 1520], "plot": [871, 552, 1830, 953] }
+    "london": { "image": "world/backdrops/london.jpg", "size": [2688, 1520], "plot": [876, 582, 1838, 966] }
   },
   "places": {
     "amsterdam": [

@@ -2,12 +2,11 @@ import HouseCatCore
 import HouseCatUI
 import SwiftUI
 
-/// The house ladder as a place (Josh, 22 Oct: "the Pip's homes section needs some serious work, please do a full
-/// rebuild ... user should be able to see the progress tree of the houses ... buy from there. Have a view of the
-/// ladder and then your cat looking at the ladder with you"): a cosy room at golden hour (ui/homes/homes_room), the
-/// cat on its cushion with its back to you, and on the corkboard the eight houses climbing from Puddlebury to London.
-/// Where you live is marked, the next house opens out with what it still needs and Move in, and the houses above
-/// wait, locked.
+/// The house ladder as a journey (Josh, 23 Oct: "redo the UI for the ladder 'home' menu, looks poor right now"): the
+/// eight homes left to right along a dotted road from Puddlebury to London, each a painted tile (lived in, home, next,
+/// or still to come with its level), and under them the chosen home opened out: its picture, what it comes with, the
+/// level, the house tasks and the Beans it needs as three chips, the tasks themselves, and Move in. The next home is
+/// chosen to begin with; tapping any other shows it.
 struct HomesView: View {
     let catName: String
     /// Called after a house is bought (the app moves in: the cold open at the new house).
@@ -15,238 +14,382 @@ struct HomesView: View {
     let close: () -> Void
 
     @State private var state = GameSession.shared.state(at: GameSession.shared.now())
+    @State private var chosen: Int?
 
     private var today: GameDay {
         state.clock.day(of: GameSession.shared.now())
     }
 
-    var body: some View {
-        GeometryReader { proxy in
-            let size = proxy.size
-            ZStack(alignment: .topLeading) {
-                backdrop(size)
-                // The cat on its cushion under the window, looking up at the board.
-                if let look = GameSession.shared.cat?.look, let back = CatScreens.backView(look) {
-                    Image(decorative: back, scale: 1)
-                        .resizable()
-                        .interpolation(.high)
-                        .scaledToFit()
-                        .frame(height: size.height * 0.34)
-                        .shadow(color: .black.opacity(0.25), radius: 6, y: 4)
-                        .position(x: size.width * 0.3, y: size.height * 0.64)
-                        .accessibilityLabel("\(catName), looking at the ladder")
-                }
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("\(catName)'s homes").font(Theme.title(26)).foregroundStyle(Theme.cream)
-                    Text("House \(state.rung) of \(HouseLadder.top) · \(state.homePlace.name)")
-                        .font(.system(size: 14, weight: .bold, design: .rounded))
-                        .foregroundStyle(Theme.cream.opacity(0.9))
-                }
-                .shadow(color: .black.opacity(0.6), radius: 5)
-                .padding(.leading, max(24, proxy.safeAreaInsets.leading + 8))
-                .padding(.top, 18)
-                board(size)
-            }
-        }
-        .ignoresSafeArea()
-        .background(Color(red: 0.3, green: 0.22, blue: 0.18).ignoresSafeArea())
-        .overlay(alignment: .topTrailing) { CloseButton(action: close).padding(16) }
+    /// The home shown in the panel: the one tapped, else the next one up (or the top, once there).
+    private var shown: Rung {
+        HouseLadder.rung(chosen ?? min(state.rung + 1, HouseLadder.top))
     }
 
-    private func backdrop(_ size: CGSize) -> some View {
-        Group {
-            if let room = CatScreens.picture("ui/homes/homes_room.jpg") {
-                room.resizable().scaledToFill()
-            } else {
-                LinearGradient(colors: [Color(red: 0.96, green: 0.86, blue: 0.7), Color(red: 0.8, green: 0.6, blue: 0.42)],
-                               startPoint: .top, endPoint: .bottom)
+    var body: some View {
+        ZStack {
+            GeometryReader { proxy in backdrop(proxy.size) }.ignoresSafeArea()
+            GeometryReader { proxy in
+                // Drawn for a landscape phone (956 × 440 points) and scaled up on a bigger screen; held upright (an
+                // iPad), by the width, with the cat under the homes looking up at them.
+                let upright = proxy.size.height > proxy.size.width
+                let s = upright
+                    ? min(max(proxy.size.width / 740, 1), 1.75)
+                    : min(max(min(proxy.size.height / 440, proxy.size.width / 956), 1), 1.75)
+                VStack(alignment: .leading, spacing: 10 * s) {
+                    header(s)
+                    journey(s)
+                    panel(shown, s: s, upright: upright)
+                    if upright {
+                        cat(height: proxy.size.height * 0.3)
+                    }
+                    Spacer(minLength: 0)
+                }
+                .padding(.top, 8 * s)
+                .padding(.horizontal, 14 * s)
             }
+        }
+        .background(Color(red: 0.3, green: 0.22, blue: 0.18).ignoresSafeArea())
+    }
+
+    /// The cat on its cushion with its back to you, looking up at the homes.
+    @ViewBuilder
+    private func cat(height: CGFloat) -> some View {
+        if let look = GameSession.shared.cat?.look, let back = CatScreens.backView(look) {
+            Image(decorative: back, scale: 1)
+                .resizable()
+                .interpolation(.high)
+                .scaledToFit()
+                .frame(height: height)
+                .shadow(color: .black.opacity(0.35), radius: 8, y: 4)
+                .frame(maxWidth: .infinity)
+                .accessibilityLabel("\(catName), looking at the homes")
+        }
+    }
+
+    /// The cosy room at golden hour, softened so the homes stand out.
+    private func backdrop(_ size: CGSize) -> some View {
+        ZStack {
+            if let room = CatScreens.picture("ui/homes/homes_room.jpg") {
+                room.resizable().scaledToFill().blur(radius: 6).scaleEffect(1.08)
+            }
+            LinearGradient(
+                colors: [Color(red: 0.2, green: 0.13, blue: 0.1).opacity(0.55), Color(red: 0.28, green: 0.18, blue: 0.12).opacity(0.8)],
+                startPoint: .top, endPoint: .bottom
+            )
         }
         .frame(width: size.width, height: size.height)
         .clipped()
         .accessibilityHidden(true)
     }
 
-    // MARK: The board
+    // MARK: Header
 
-    /// The ladder on the corkboard, bottom to top, opening on the next house up.
-    private func board(_ size: CGSize) -> some View {
+    private func header(_ s: CGFloat) -> some View {
+        HStack(alignment: .center, spacing: 12 * s) {
+            VStack(alignment: .leading, spacing: 2 * s) {
+                Text("\(catName)'s homes").font(Theme.title(24 * s)).foregroundStyle(Theme.cream)
+                Text("Home \(state.rung) of \(HouseLadder.top) · \(state.homePlace.name)")
+                    .font(.system(size: 13 * s, weight: .bold, design: .rounded))
+                    .foregroundStyle(GameHUD.gold)
+            }
+            Spacer(minLength: 0)
+            progressPips(s)
+            CloseButton(action: close)
+        }
+    }
+
+    /// One pip a home: gold up to where you live.
+    private func progressPips(_ s: CGFloat) -> some View {
+        HStack(spacing: 4 * s) {
+            ForEach(HouseLadder.rungs) { rung in
+                Capsule()
+                    .fill(rung.number <= state.rung ? GameHUD.gold : Theme.cream.opacity(0.25))
+                    .frame(width: 18 * s, height: 6 * s)
+            }
+        }
+        .accessibilityElement()
+        .accessibilityLabel("Home \(state.rung) of \(HouseLadder.top)")
+    }
+
+    // MARK: The journey
+
+    /// The eight homes along a dotted road, scrolled so the next one is in view.
+    private func journey(_ s: CGFloat) -> some View {
         ScrollViewReader { reader in
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack(spacing: 0) {
-                    ForEach(HouseLadder.rungs.reversed()) { rung in
-                        row(rung).id(rung.number)
-                        if rung.number > 1 {
-                            ladderStep(lit: rung.number <= state.rung)
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 0) {
+                    ForEach(HouseLadder.rungs) { rung in
+                        tile(rung, s: s).id(rung.number)
+                        if rung.number < HouseLadder.top {
+                            road(lit: rung.number < state.rung, s: s)
                         }
                     }
                 }
-                .padding(.vertical, 14)
-                .padding(.horizontal, 12)
+                .padding(.vertical, 6 * s)
+                .padding(.horizontal, 4 * s)
             }
-            .frame(width: min(size.width * 0.5, 520), height: size.height * 0.84)
-            .background(
-                RoundedRectangle(cornerRadius: 20, style: .continuous)
-                    .fill(Theme.paper.opacity(0.88))
-                    .shadow(color: .black.opacity(0.28), radius: 10, y: 5)
-            )
-            .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-            .position(x: size.width * 0.66, y: size.height * 0.5)
             .onAppear { reader.scrollTo(min(state.rung + 1, HouseLadder.top), anchor: .center) }
         }
+        .frame(height: 128 * s)
     }
 
-    /// A rung of the ladder between two houses: lit once climbed.
-    private func ladderStep(lit: Bool) -> some View {
-        HStack(spacing: 0) {
-            Capsule().fill(lit ? GameHUD.green : GameHUD.lip.opacity(0.45)).frame(width: 4, height: 18)
-            Capsule().fill(lit ? GameHUD.green : GameHUD.lip.opacity(0.45)).frame(width: 18, height: 4)
-            Capsule().fill(lit ? GameHUD.green : GameHUD.lip.opacity(0.45)).frame(width: 4, height: 18)
+    /// The road between two homes: gold dashes once travelled.
+    private func road(lit: Bool, s: CGFloat) -> some View {
+        HStack(spacing: 4 * s) {
+            ForEach(0 ..< 3, id: \.self) { _ in
+                Capsule().fill(lit ? GameHUD.gold : Theme.cream.opacity(0.35)).frame(width: 7 * s, height: 4 * s)
+            }
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.leading, 13)
+        .padding(.horizontal, 5 * s)
+        .offset(y: -14 * s)
         .accessibilityHidden(true)
     }
 
+    private enum Stage {
+        case lived, home, next, ahead
+    }
+
+    private func stage(_ rung: Rung) -> Stage {
+        if rung.number < state.rung { return .lived }
+        if rung.number == state.rung { return .home }
+        return rung.number == state.rung + 1 ? .next : .ahead
+    }
+
+    /// A home on the road: its picture, number, name and town, and where it stands.
+    private func tile(_ rung: Rung, s: CGFloat) -> some View {
+        let stage = stage(rung)
+        let selected = rung.number == shown.number
+        return Button {
+            Sound.tap()
+            withAnimation(.easeOut(duration: 0.2)) { chosen = rung.number }
+        } label: {
+            VStack(spacing: 5 * s) {
+                ZStack(alignment: .topLeading) {
+                    picture(rung)
+                        .frame(width: 112 * s, height: 72 * s)
+                        .clipShape(RoundedRectangle(cornerRadius: 14 * s, style: .continuous))
+                        .saturation(stage == .ahead ? 0.25 : 1)
+                        .brightness(stage == .ahead ? -0.08 : 0)
+                    Text("\(rung.number)")
+                        .font(.system(size: 12 * s, weight: .black, design: .rounded))
+                        .foregroundStyle(stage == .ahead ? Theme.ink : .white)
+                        .frame(width: 22 * s, height: 22 * s)
+                        .background(Circle().fill(badgeColour(stage)))
+                        .overlay(Circle().strokeBorder(.white.opacity(0.8), lineWidth: 1.5 * s))
+                        .padding(5 * s)
+                }
+                .overlay(alignment: .bottomTrailing) { corner(rung, stage: stage, s: s) }
+                .overlay(
+                    RoundedRectangle(cornerRadius: 14 * s, style: .continuous)
+                        .strokeBorder(selected ? GameHUD.gold : stage == .home ? Theme.accent : .white.opacity(0.35),
+                                      lineWidth: (selected ? 3.5 : 2) * s)
+                )
+                .shadow(color: selected ? GameHUD.gold.opacity(0.6) : .black.opacity(0.35), radius: selected ? 10 * s : 5 * s, y: 3 * s)
+                VStack(spacing: 0) {
+                    Text(rung.place.name).font(.system(size: 13 * s, weight: .heavy, design: .rounded)).foregroundStyle(Theme.cream)
+                    Text(caption(rung, stage: stage))
+                        .font(.system(size: 10.5 * s, weight: .bold, design: .rounded))
+                        .foregroundStyle(stage == .next ? GameHUD.gold : Theme.cream.opacity(0.7))
+                }
+                .lineLimit(1)
+            }
+            .frame(width: 116 * s)
+            .scaleEffect(selected ? 1.04 : 1)
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("\(rung.name) in \(rung.place.name), \(caption(rung, stage: stage))")
+        .accessibilityAddTraits(selected ? .isSelected : [])
+    }
+
+    private func badgeColour(_ stage: Stage) -> Color {
+        switch stage {
+        case .lived: GameHUD.green
+        case .home: Theme.accent
+        case .next: GameHUD.deepGold
+        case .ahead: Theme.cream
+        }
+    }
+
+    private func caption(_ rung: Rung, stage: Stage) -> String {
+        switch stage {
+        case .lived: "Lived here"
+        case .home: "Home"
+        case .next: "Next"
+        case .ahead: "Level \(rung.level)"
+        }
+    }
+
+    /// The tile's corner: a tick once lived in, the cat at home, a padlock further up.
     @ViewBuilder
-    private func row(_ rung: Rung) -> some View {
-        if rung.number == state.rung + 1 {
-            nextCard(rung)
-        } else {
-            compactRow(rung)
+    private func corner(_ rung: Rung, stage: Stage, s: CGFloat) -> some View {
+        switch stage {
+        case .lived:
+            Image(systemName: "checkmark.circle.fill").font(.system(size: 20 * s)).foregroundStyle(.white, GameHUD.green).padding(5 * s)
+        case .home:
+            if let look = GameSession.shared.cat?.look, let face = CatScreens.portrait(look) {
+                Image(decorative: face, scale: 1).resizable().interpolation(.high).scaledToFit()
+                    .frame(width: 44 * s, height: 44 * s)
+                    .offset(x: 8 * s, y: 10 * s)
+                    .shadow(color: .black.opacity(0.4), radius: 3 * s)
+            }
+        case .next:
+            Image(systemName: "sparkles").font(.system(size: 16 * s, weight: .bold)).foregroundStyle(GameHUD.gold).padding(6 * s)
+        case .ahead:
+            Image(systemName: "lock.fill").font(.system(size: 13 * s, weight: .bold)).foregroundStyle(Theme.cream)
+                .padding(6 * s).background(Circle().fill(.black.opacity(0.45))).padding(5 * s)
         }
     }
 
-    /// A house lived in already, the one you live in, or one further up.
-    private func compactRow(_ rung: Rung) -> some View {
-        let here = rung.number == state.rung
-        let behind = rung.number < state.rung
-        return HStack(spacing: 10) {
-            marker(rung, here: here, behind: behind)
-            picture(rung)
-                .frame(width: 88, height: 50)
-                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                .saturation(behind || here ? 1 : 0.3)
-            VStack(alignment: .leading, spacing: 2) {
-                Text(rung.name).font(.system(size: 15, weight: .heavy, design: .rounded)).lineLimit(1)
-                Text(rung.place.name).font(.system(size: 13, weight: .semibold)).foregroundStyle(Theme.inkSoft)
+    // MARK: The panel
+
+    /// The chosen home opened out.
+    private func panel(_ rung: Rung, s: CGFloat, upright: Bool) -> some View {
+        let stage = stage(rung)
+        // Held upright the picture goes across the top of the panel; on its side, down its left.
+        let layout = upright ? AnyLayout(VStackLayout(alignment: .leading, spacing: 12 * s)) : AnyLayout(HStackLayout(alignment: .top, spacing: 14 * s))
+        return layout {
+            VStack(alignment: .leading, spacing: 8 * s) {
+                picture(rung)
+                    .frame(width: upright ? nil : 180 * s, height: (upright ? 150 : 108) * s)
+                    .frame(maxWidth: upright ? .infinity : nil)
+                    .clipShape(RoundedRectangle(cornerRadius: 16 * s, style: .continuous))
+                    .overlay(RoundedRectangle(cornerRadius: 16 * s, style: .continuous).strokeBorder(.white.opacity(0.7), lineWidth: 2 * s))
+                if let room = rung.room {
+                    Label("Comes with a \(Visit.title(of: room, upstairs: false).lowercased())", systemImage: "door.left.hand.open")
+                        .font(.system(size: 12 * s, weight: .bold, design: .rounded)).foregroundStyle(Theme.ink)
+                } else if rung.number == HouseLadder.top {
+                    Label("The top of the ladder", systemImage: "crown.fill")
+                        .font(.system(size: 12 * s, weight: .bold, design: .rounded)).foregroundStyle(Theme.ink)
+                }
             }
-            Spacer(minLength: 0)
-            if here {
-                Text("You live here")
-                    .font(.system(size: 12, weight: .heavy, design: .rounded))
-                    .foregroundStyle(.white)
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 5)
-                    .background(Capsule().fill(Theme.accent))
-            } else if behind {
-                Image(systemName: "checkmark.seal.fill").foregroundStyle(GameHUD.green).font(.system(size: 20))
+            .frame(width: upright ? nil : 180 * s)
+            VStack(alignment: .leading, spacing: 8 * s) {
+                VStack(alignment: .leading, spacing: 2 * s) {
+                    Text(kicker(stage)).font(.system(size: 10.5 * s, weight: .black, design: .rounded)).tracking(0.9)
+                        .foregroundStyle(stage == .next ? Theme.accent : Theme.inkSoft)
+                    Text("The \(rung.name.lowercased()) in \(rung.place.name)").font(Theme.title(19 * s)).foregroundStyle(Theme.ink)
+                        .lineLimit(1).minimumScaleFactor(0.75)
+                    Text(rung.style.blurb).font(.system(size: 12 * s)).foregroundStyle(Theme.inkSoft).lineLimit(2)
+                }
+                switch stage {
+                case .lived:
+                    note("You lived here. Your furniture came with you.", icon: "heart.fill", s: s)
+                case .home:
+                    note("\(catName) lives here now. Every home's furniture moves with you.", icon: "house.fill", s: s)
+                case .next, .ahead:
+                    needs(rung, s: s)
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .padding(14 * s)
+        .background(RoundedRectangle(cornerRadius: 22 * s, style: .continuous).fill(Theme.cream))
+        .overlay(RoundedRectangle(cornerRadius: 22 * s, style: .continuous).strokeBorder(stage == .next ? GameHUD.deepGold : GameHUD.lip.opacity(0.35), lineWidth: 2.5 * s))
+        .shadow(color: .black.opacity(0.35), radius: 12 * s, y: 6 * s)
+    }
+
+    private func kicker(_ stage: Stage) -> String {
+        switch stage {
+        case .lived: "LIVED HERE"
+        case .home: "YOUR HOME"
+        case .next: "NEXT HOME"
+        case .ahead: "STILL TO COME"
+        }
+    }
+
+    private func note(_ text: String, icon: String, s: CGFloat) -> some View {
+        Label(text, systemImage: icon)
+            .font(.system(size: 13 * s, weight: .semibold, design: .rounded))
+            .foregroundStyle(Theme.ink)
+            .padding(10 * s)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(RoundedRectangle(cornerRadius: 12 * s, style: .continuous).fill(Theme.paper))
+    }
+
+    /// What a home up the ladder needs: three chips, the house tasks (for the next one), and Move in.
+    private func needs(_ rung: Rung, s: CGFloat) -> some View {
+        let isNext = rung.number == state.rung + 1
+        let block = isNext ? HouseLadder.block(above: state.rung, level: state.level, tasksDone: state.houseTasksDone, beans: state.beans) : nil
+        let tasksDone = isNext ? state.houseTasksDone : 0
+        return VStack(alignment: .leading, spacing: 8 * s) {
+            HStack(spacing: 8 * s) {
+                chip("Level \(rung.level)", detail: "You're \(state.level)", progress: Double(state.level) / Double(max(1, rung.level)), icon: "star.fill", s: s)
+                if rung.tasks > 0 {
+                    chip("House tasks", detail: isNext ? "\(tasksDone) of \(rung.tasks)" : "\(rung.tasks) to do there",
+                         progress: isNext ? Double(tasksDone) / Double(rung.tasks) : 0, icon: "checklist", s: s)
+                }
+                chip("\(rung.price.formatted()) Beans", detail: "You have \(state.beans.formatted())",
+                     progress: Double(state.beans) / Double(max(1, rung.price)), painted: "bean_coin", s: s)
+            }
+            if isNext {
+                HStack(alignment: .bottom, spacing: 12 * s) {
+                    if rung.tasks > 0 {
+                        LazyVGrid(columns: [GridItem(.flexible(), spacing: 10 * s), GridItem(.flexible())], alignment: .leading, spacing: 4 * s) {
+                            ForEach(Array(state.houseTaskProgress(on: today).enumerated()), id: \.offset) { _, entry in
+                                task(entry.task, done: entry.done, s: s)
+                            }
+                        }
+                    } else {
+                        Spacer(minLength: 0)
+                    }
+                    moveIn(rung, block: block, s: s)
+                }
             } else {
-                VStack(alignment: .trailing, spacing: 2) {
-                    HStack(spacing: 3) {
-                        PaintedIcon("bean_coin", size: 14)
-                        Text(rung.price.formatted()).font(.system(size: 13, weight: .heavy, design: .rounded))
-                    }
-                    Text("Level \(rung.level)").font(.system(size: 11, weight: .bold)).foregroundStyle(Theme.inkSoft)
-                }
-                Image(systemName: "lock.fill").foregroundStyle(Theme.inkSoft)
+                note("Move into the home before it first.", icon: "lock.fill", s: s)
             }
         }
-        .padding(8)
-        .background(RoundedRectangle(cornerRadius: 14, style: .continuous).fill(here ? Theme.cream : Theme.cream.opacity(0.65)))
-        .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).strokeBorder(here ? Theme.accent : .clear, lineWidth: 2.5))
-        .accessibilityElement(children: .combine)
     }
 
-    /// The house's number on the ladder: orange where you live, green once lived in.
-    private func marker(_ rung: Rung, here: Bool, behind: Bool) -> some View {
-        Text("\(rung.number)")
-            .font(.system(size: 14, weight: .black, design: .rounded))
-            .foregroundStyle(here || behind ? .white : Theme.ink)
-            .frame(width: 30, height: 30)
-            .background(Circle().fill(here ? Theme.accent : behind ? GameHUD.green : Theme.cream))
-            .overlay(Circle().strokeBorder(GameHUD.lip.opacity(0.5), lineWidth: 2))
-    }
-
-    /// The next house up: what it still needs, ticked off, and Move in.
-    private func nextCard(_ next: Rung) -> some View {
-        let block = HouseLadder.block(above: state.rung, level: state.level, tasksDone: state.houseTasksDone, beans: state.beans)
-        return VStack(alignment: .leading, spacing: 10) {
-            HStack(spacing: 10) {
-                marker(next, here: false, behind: false)
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("NEXT HOME").font(.system(size: 11, weight: .black, design: .rounded)).tracking(0.8)
-                        .foregroundStyle(Theme.accent)
-                    Text("The \(next.name.lowercased()) in \(next.place.name)").font(Theme.title(20)).lineLimit(2)
-                }
-            }
-            HStack(alignment: .top, spacing: 10) {
-                picture(next)
-                    .frame(width: 150, height: 84)
-                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(next.style.blurb).font(.system(size: 13)).foregroundStyle(Theme.inkSoft)
-                        .fixedSize(horizontal: false, vertical: true)
-                    if let room = next.room {
-                        Label("Comes with a \(Visit.title(of: room, upstairs: false).lowercased())", systemImage: "door.left.hand.open")
-                            .font(.system(size: 13, weight: .semibold, design: .rounded))
-                    }
-                }
-            }
-            VStack(alignment: .leading, spacing: 6) {
-                if next.level > 1 {
-                    need("Level \(next.level)", met: state.level >= next.level, have: "you are level \(state.level)")
-                }
-                if next.tasks > 0 {
-                    need("House tasks", met: state.houseTasksDone >= next.tasks, have: "\(state.houseTasksDone) of \(next.tasks)")
-                    ForEach(Array(state.houseTaskProgress(on: today).enumerated()), id: \.offset) { _, entry in
-                        task(entry.task, done: entry.done)
-                    }
-                }
-                need("\(next.price.formatted()) Beans", met: state.beans >= next.price, have: "you have \(state.beans.formatted())")
-            }
-            ChunkyButton(block == nil ? "Move in for \(next.price.formatted()) Beans" : reason(block)) {
-                guard block == nil, GameSession.shared.buyNextHouse() else { return }
-                Sound.play("door_open", volume: Tuning.Sound.door)
-                movedIn()
-            }
-            .disabled(block != nil)
-            .opacity(block == nil ? 1 : 0.6)
-            .accessibilityIdentifier("buyNextHouse")
+    private func moveIn(_ rung: Rung, block: HouseLadder.Block?, s: CGFloat) -> some View {
+        ChunkyButton(block == nil ? "Move in for \(rung.price.formatted()) Beans" : reason(block), colour: block == nil ? GameHUD.green : Theme.accent) {
+            guard block == nil, GameSession.shared.buyNextHouse() else { return }
+            Sound.play("door_open", volume: Tuning.Sound.door)
+            movedIn()
         }
-        .padding(12)
-        .background(RoundedRectangle(cornerRadius: 16, style: .continuous).fill(Theme.cream))
-        .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous).strokeBorder(GameHUD.deepGold, lineWidth: 3))
-        .shadow(color: GameHUD.deepGold.opacity(0.35), radius: 8)
+        .disabled(block != nil)
+        .opacity(block == nil ? 1 : 0.65)
+        .accessibilityIdentifier("buyNextHouse")
+        .frame(width: 170 * s)
     }
 
-    /// One of the house's tasks with its bar.
-    private func task(_ task: HouseTask, done: Int) -> some View {
-        let finished = done >= task.target
-        return VStack(alignment: .leading, spacing: 3) {
-            HStack(spacing: 8) {
-                Image(systemName: finished ? "checkmark.square.fill" : "square")
-                    .foregroundStyle(finished ? GameHUD.green : Theme.inkSoft)
-                Text(task.title.replacingOccurrences(of: "{cat}", with: catName))
-                    .font(.system(size: 13, weight: .semibold, design: .rounded))
+    /// One thing a home needs, with how far along you are.
+    private func chip(_ title: String, detail: String, progress: Double, icon: String? = nil, painted: String? = nil, s: CGFloat) -> some View {
+        let met = progress >= 1
+        return VStack(alignment: .leading, spacing: 4 * s) {
+            HStack(spacing: 5 * s) {
+                if let painted {
+                    PaintedIcon(painted, size: 15 * s)
+                } else if let icon {
+                    Image(systemName: icon).font(.system(size: 12 * s, weight: .bold)).foregroundStyle(met ? GameHUD.green : Theme.accent)
+                }
+                Text(title).font(.system(size: 13 * s, weight: .heavy, design: .rounded)).foregroundStyle(Theme.ink).lineLimit(1)
+                    .minimumScaleFactor(0.8)
                 Spacer(minLength: 0)
-                Text("\(done)/\(task.target)").font(.system(size: 12, weight: .bold, design: .rounded)).monospacedDigit()
-                    .foregroundStyle(Theme.inkSoft)
+                if met {
+                    Image(systemName: "checkmark.circle.fill").font(.system(size: 14 * s)).foregroundStyle(GameHUD.green)
+                }
             }
-            ProgressView(value: Double(done), total: Double(max(1, task.target)))
-                .tint(finished ? GameHUD.green : Theme.accent)
-                .padding(.leading, 26)
+            ProgressView(value: min(1, max(0, progress))).tint(met ? GameHUD.green : Theme.accent)
+            Text(detail).font(.system(size: 11 * s, weight: .semibold, design: .rounded)).foregroundStyle(Theme.inkSoft).lineLimit(1)
         }
-        .padding(.leading, 26)
+        .padding(8 * s)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(RoundedRectangle(cornerRadius: 12 * s, style: .continuous).fill(met ? GameHUD.green.opacity(0.12) : Theme.paper))
         .accessibilityElement(children: .combine)
     }
 
-    private func need(_ what: String, met: Bool, have: String) -> some View {
-        HStack(spacing: 8) {
-            Image(systemName: met ? "checkmark.circle.fill" : "circle")
-                .foregroundStyle(met ? GameHUD.green : Theme.inkSoft)
-            Text(what).font(.system(size: 15, weight: .bold, design: .rounded))
-            Text(have).font(.system(size: 13)).foregroundStyle(Theme.inkSoft)
+    /// One of the house's tasks.
+    private func task(_ task: HouseTask, done: Int, s: CGFloat) -> some View {
+        let finished = done >= task.target
+        return HStack(spacing: 6 * s) {
+            Image(systemName: finished ? "checkmark.square.fill" : "square")
+                .font(.system(size: 13 * s)).foregroundStyle(finished ? GameHUD.green : Theme.inkSoft)
+            Text(task.title.replacingOccurrences(of: "{cat}", with: catName))
+                .font(.system(size: 12 * s, weight: .semibold, design: .rounded)).foregroundStyle(Theme.ink)
+                .lineLimit(1).minimumScaleFactor(0.6)
+            Spacer(minLength: 0)
+            Text("\(min(done, task.target))/\(task.target)").font(.system(size: 11 * s, weight: .bold, design: .rounded)).monospacedDigit()
+                .foregroundStyle(Theme.inkSoft)
         }
         .accessibilityElement(children: .combine)
     }

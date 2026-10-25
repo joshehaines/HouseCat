@@ -140,23 +140,23 @@
     },
     {
      "room": "study",
-     "storey": 0,
-     "at": [14, 14]
+     "storey": 1,
+     "at": [0, 0]
     },
     {
      "room": "garden",
-     "storey": 0,
-     "at": [28, 0],
+     "storey": 1,
+     "at": [14, 0],
      "outdoor": true
     },
     {
      "room": "attic",
      "storey": 1,
-     "at": [0, 0]
+     "at": [0, 14]
     }
    ],
    "stairs": {
-    "room": "study",
+    "room": "kitchen",
     "at": [8.4, 0],
     "facing": "R"
    }

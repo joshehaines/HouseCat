@@ -434,12 +434,12 @@ public enum Tuning {
         public static let askOnCareDay = 2
     }
 
-    /// The intro (Content/intro.json): how close the globe comes to each home, and the pause before it opens.
+    /// The first minutes (Content/intro.json): when the room tour and the first-use tips come up.
     public enum Intro {
-        public static let stopZoom = 2.4
-        public static let pauseOnArrival = 0.5
         /// The room tour begins this long after the first arrival's room is up (the greeting first).
         public static let tourDelay = 4.0
+        /// A visit's first-use tip waits this long after the room is up, for the greeting and the day's cards.
+        public static let tipDelay = 20.0
         /// The globe slides between the landing page's place and the middle in this long.
         public static let globeSlideSeconds = 0.9
     }

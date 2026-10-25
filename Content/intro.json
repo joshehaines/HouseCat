@@ -111,8 +111,8 @@
   "map": "Your home's sky, seasons and weather will follow the place you choose.",
   "homes": "Each home is painted for where you live.",
   "room": [
-    { "id": "welcome", "text": "This is your living room. {cat} has just moved in." },
-    { "id": "point", "text": "Here's the idea: care for {cat} every day to win their trust, and make this home yours." },
+    { "id": "welcome", "text": "Welcome home, {you}! {cat} has just moved in. Let's settle {cat} in." },
+    { "id": "point", "text": "Care for {cat} every day to win their trust, and make this home yours." },
     { "id": "feed", "target": "feed", "waitFor": "fed", "text": "First things first: breakfast. Tap Feed." },
     { "id": "pet", "waitFor": "petted", "text": "Now say hello. Tap {cat} for a stroke." },
     { "id": "decorate", "target": "decorate", "waitFor": "decorating", "text": "Let's make it yours. Tap Decorate." },
@@ -121,12 +121,14 @@
     { "id": "rug", "target": "tray.first", "waitFor": "rugDown", "text": "Now the rug: tap it to lay it out." },
     { "id": "table", "target": "tray.first", "waitFor": "tableOnRug", "text": "And the coffee table: tap it to stand it on the rug." },
     { "id": "done", "target": "done", "waitFor": "decorated", "text": "That's a proper living room. Tap Done when it looks right." },
-    { "id": "play", "target": "play", "text": "Play opens the games, and a new puzzle from Pat every day." },
-    { "id": "nap", "target": "nap", "text": "The moon starts a twenty-minute nap, on your Lock Screen too." },
-    { "id": "menu", "target": "menu", "text": "Your rooms, your homes up the ladder and the book of {cat}'s presents: all in the menu." },
-    { "id": "shop", "target": "shop", "text": "The shop has room looks, outfits and Cat Club. Nothing in it is needed to play." },
-    { "id": "level", "target": "plaque", "text": "Everything you do earns XP. Levels, Beans and house tasks move you up to the next house." },
-    { "id": "goals", "target": "goals", "text": "Your next goals are always up here. Each one pays Beans and XP, and leads to the next." },
     { "id": "reward", "reward": true, "text": "Welcome home! Here are some Beans to get you started." }
+  ],
+  "tips": [
+    { "id": "goals", "target": "goals", "text": "Your next goals are always up here. Each one pays Beans and XP." },
+    { "id": "play", "target": "play", "text": "Play has the games, and a new puzzle every day. Five quick plays pay Beans." },
+    { "id": "nap", "target": "nap", "text": "Nap gives {cat} twenty quiet minutes, on your Lock Screen too." },
+    { "id": "level", "target": "plaque", "text": "Everything you do earns XP. Levels and house tasks take you up to the next home." },
+    { "id": "menu", "target": "menu", "text": "Your rooms, your homes up the ladder and {cat}'s book of presents are in the menu." },
+    { "id": "shop", "target": "shop", "text": "The shop has room looks, outfits and Cat Club. Nothing in it is needed to play." }
   ]
 }

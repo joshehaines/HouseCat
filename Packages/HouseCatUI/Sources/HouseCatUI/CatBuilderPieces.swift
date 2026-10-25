@@ -478,7 +478,9 @@ struct FlowLayout: Layout {
             row = max(row, size.height)
             widest = max(widest, x - spacing)
         }
-        return CGSize(width: min(width, widest), height: y + row)
+        // As wide as offered, so the rows are placed in the width they were measured in (a narrower box wrapped the
+        // last chip onto a line the height did not count, under the next heading).
+        return CGSize(width: proposal.width ?? widest, height: y + row)
     }
 
     func placeSubviews(in bounds: CGRect, proposal _: ProposedViewSize, subviews: Subviews, cache _: inout ()) {

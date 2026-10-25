@@ -112,6 +112,8 @@ public final class CatBuilderModel: Identifiable {
     }
 
     public var name = ""
+    /// What the cat calls the player (adopting; optional).
+    public var ownerName = ""
     public var personality: Personality = .velcro
     /// The preset the look came from, until a field is changed.
     public private(set) var presetID: String?
@@ -394,6 +396,14 @@ public final class CatBuilderModel: Identifiable {
 
     public var checkedName: String? {
         if case let .ok(name) = nameCheck {
+            return name
+        }
+        return nil
+    }
+
+    /// The player's name, if they gave one that passes the same checks as a cat's.
+    public var checkedOwnerName: String? {
+        if case let .ok(name) = CatNames.check(ownerName, filter: filter) {
             return name
         }
         return nil

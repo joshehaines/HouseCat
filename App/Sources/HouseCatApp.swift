@@ -57,6 +57,7 @@ struct HouseCatApp: App {
                         }
                     } done: { model in
                         guard let name = model.checkedName else { return }
+                        PlayerName.current = model.checkedOwnerName
                         GameSession.shared.adopt(name: name, personality: model.personality, look: model.look)
                         self.adopting = nil
                         // Then the cutscene, then home: the bottom rung of the house ladder (docs/LADDER.md).
@@ -385,6 +386,11 @@ struct RoomScreen: View {
     @State private var offeringNap = false
     @State private var naps = Naps.shared
     @State private var tour = RoomTour.shared
+    @State private var tips = FirstTips.shared
+    /// A first-use tip came up at this visit (one a visit, `FirstTips`).
+    @State private var tipped = false
+    /// The Day 1 card, as the first tour ends (`DayOneCard`).
+    @State private var dayOne = false
     @State private var offering = false
     @State private var track: EventDefinition?
     @State private var askingHealth = false
@@ -424,6 +430,43 @@ struct RoomScreen: View {
             try? await Task.sleep(for: .seconds(seconds))
             ReviewPrompt.markAsked()
             requestReview()
+        }
+    }
+
+    /// After the tour (and its Day 1 card): the tutorial ends by moving out of the first house (Josh, 22 Oct: "the
+    /// tutorial should get you out of the first house"): the tour's welcome Beans buy the houseboat. The reminders wait.
+    private func afterTour() {
+        let state = GameSession.shared.state(at: GameSession.shared.now())
+        if !tour.skipped, state.rung == 1, HouseLadder.block(above: 1, level: state.level, tasksDone: state.houseTasksDone, beans: state.beans) == nil {
+            showHomes = true
+        } else if !Reminders.asked {
+            visit.askReminders = true
+        }
+    }
+
+    /// Nothing over the room and nothing being asked: a first-use tip may come up.
+    private var quiet: Bool {
+        visit.ready && visit.scene is RoomScene && !visit.decorating && visit.previewing == nil && !roomCovered && !showMenu
+            && !choosingGame && !offeringNap && !visit.askReminders && !askingHealth && !askingAnalytics && !askingWidget
+            && !offering && !dayOne && visit.levelReached == nil && topUp == nil
+    }
+
+    /// One first-use tip a visit, once the tour is done and the room has been quiet a while (`FirstTips`).
+    private func offerTip() async {
+        guard visit.ready, visit.scene is RoomScene, tour.isDone, !tipped, !Self.debugScreenRun else { return }
+        try? await Task.sleep(for: .seconds(Tuning.Intro.tipDelay))
+        for _ in 0 ..< 12 {
+            guard !Task.isCancelled, !tipped else { return }
+            if quiet, !tour.isRunning {
+                var screen: Set<String> = ["goals", "plaque", "menu", "shop"]
+                if visit.canDecorate {
+                    screen.formUnion(["play", "nap"])
+                }
+                tips.showNext(on: screen)
+                tipped = true
+                return
+            }
+            try? await Task.sleep(for: .seconds(5))
         }
     }
 
@@ -735,7 +778,13 @@ struct RoomScreen: View {
                 }
             }
             .sheet(isPresented: $showSettings) {
-                SettingsView(catName: visit.catName ?? "Your cat", store: store) { showSettings = false }
+                SettingsView(catName: visit.catName ?? "Your cat", store: store, replayTour: {
+                    showSettings = false
+                    Task { @MainActor in
+                        try? await Task.sleep(for: .seconds(0.6))
+                        tour.replay()
+                    }
+                }) { showSettings = false }
                     .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
                     .zoomedSheet(hudScale, size: sheetSize)
             }
@@ -777,6 +826,22 @@ struct RoomScreen: View {
                 }
             }
             .animation(.easeOut(duration: 0.25), value: visit.askReminders)
+            .overlay {
+                if dayOne {
+                    ZStack {
+                        Color.black.opacity(0.5).ignoresSafeArea()
+                        DayOneCard(catName: visit.catName ?? "Your cat") {
+                            dayOne = false
+                            afterTour()
+                        }
+                        .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
+                        .padding(24)
+                        .zoomed(hudScale)
+                    }
+                    .transition(.opacity)
+                }
+            }
+            .animation(.easeOut(duration: 0.25), value: dayOne)
             // The room tour, over everything in the room (Content/intro.json "room").
             .overlayPreferenceValue(TourTargets.self) { targets in
                 // Out of the way while what its control opened is up (the games, the nap card, the menu, the shop).
@@ -790,10 +855,18 @@ struct RoomScreen: View {
                     )
                     .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
                     .environment(\.hudScale, hudScale)
+                } else if let tip = tips.current, !tour.isRunning, quiet {
+                    FirstTipOverlay(tip: tip, catName: visit.catName ?? "Your cat", host: GameWorld.content?.intro.host ?? "Pat", targets: targets)
+                        .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
+                        .environment(\.hudScale, hudScale)
                 }
             }
+            .animation(.easeOut(duration: 0.25), value: tips.current?.id)
             // Once the room itself is up (the cold open comes first on a first arrival).
-            .task(id: visit.ready && visit.scene is RoomScene) { await startTour() }
+            .task(id: visit.ready && visit.scene is RoomScene) {
+                await startTour()
+                await offerTip()
+            }
             // The once-only offer, a moment after the trust toast, never during the tour.
             .onChange(of: visit.trustRose) { _, tier in
                 var due = tier.map { Offers.due(tier: $0, owned: store?.entitlements ?? .none) } ?? false
@@ -919,13 +992,13 @@ struct RoomScreen: View {
                 // The reminders card waited for the tour.
                 if was, !running {
                     visit.refreshStats()
-                    // The tutorial ends by moving out of the first house (Josh, 22 Oct: "the tutorial should get you
-                    // out of the first house"): the tour's welcome Beans buy the houseboat. The reminders wait.
-                    let state = GameSession.shared.state(at: GameSession.shared.now())
-                    if !tour.skipped, state.rung == 1, HouseLadder.block(above: 1, level: state.level, tasksDone: state.houseTasksDone, beans: state.beans) == nil {
-                        showHomes = true
-                    } else if !Reminders.asked {
-                        visit.askReminders = true
+                    // Replayed from Settings: nothing follows.
+                    guard !tour.replaying else { return }
+                    // Played through: Day 1, and tomorrow (Josh, 25 Oct: the onboarding research), then the move.
+                    if !tour.skipped, !DayOneCard.shown {
+                        dayOne = true
+                    } else {
+                        afterTour()
                     }
                 }
             }
@@ -1071,6 +1144,7 @@ struct RoomScreen: View {
         let calm = !visit.decorating && visit.previewing == nil
         return GeometryReader { geometry in
             let tall = geometry.size.height > geometry.size.width
+            let camera = CameraClearance(geometry, edge: edge)
             ZStack {
                 // Top left: the plaque (or Turn, Store and Done while decorating), the map and the book under it.
                 VStack(alignment: .leading, spacing: 12 * hudScale) {
@@ -1103,6 +1177,7 @@ struct RoomScreen: View {
                             // One menu for the rooms, the map, the book, the pass and the rest (Josh, 19 Oct: calmer).
                             GameButton("Menu", icon: "house", size: 50, dot: menuWaiting) {
                                 tour.heard(.opened("menu"))
+                                tips.used("menu")
                                 showMenu = true
                             }
                             .tourTarget("menu")
@@ -1111,7 +1186,7 @@ struct RoomScreen: View {
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                .padding(.leading, edge)
+                .padding(.leading, edge + camera.topLeading)
                 .padding(.top, top)
 
                 // Top right: the Beans and the streak (the season's tiles are in the menu).
@@ -1135,7 +1210,7 @@ struct RoomScreen: View {
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
-                .padding(.trailing, edge)
+                .padding(.trailing, edge + camera.topTrailing)
                 .padding(.top, top)
 
                 if calm {
@@ -1149,6 +1224,7 @@ struct RoomScreen: View {
                                 .tourTarget("feed")
                             CareButton("Play", icon: "play_feather", badge: plays > 0 ? "\(plays)" : nil) {
                                 tour.heard(.opened("play"))
+                                tips.used("play")
                                 // Always the Games menu: after the day's five quick plays its quick games say "Just for
                                 // fun today", and the rest have their own rules (Josh's iPad, 19 Oct: Play seemed dead,
                                 // only a line from the cat once the five were used).
@@ -1157,6 +1233,7 @@ struct RoomScreen: View {
                             .tourTarget("play")
                             CareButton(naps.isNapping ? "Wake" : "Nap", icon: "nap_cat", lit: naps.isNapping) {
                                 tour.heard(.opened("nap"))
+                                tips.used("nap")
                                 if naps.isNapping {
                                     visit.wakeFromNap()
                                 } else {
@@ -1167,7 +1244,7 @@ struct RoomScreen: View {
                         }
                         .id(visit.stats)
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
-                        .padding(.leading, edge)
+                        .padding(.leading, edge + camera.bottomLeading)
                         .padding(.bottom, bottom)
                         .transition(.opacity)
                     }
@@ -1180,12 +1257,13 @@ struct RoomScreen: View {
                         }
                         GameButton("Shop", icon: "shop_bag", style: .gold, size: 72) {
                             tour.heard(.opened("shop"))
+                            tips.used("shop")
                             openShop(nil)
                         }
                         .tourTarget("shop")
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-                    .padding(.trailing, edge)
+                    .padding(.trailing, edge + camera.bottomTrailing)
                     .padding(.bottom, bottom)
                     .transition(.opacity)
                 }
@@ -1470,7 +1548,7 @@ struct RoomScreen: View {
     /// the room is back, where the player sees it (20 Oct: the map's goal ticked and chimed under the globe).
     private var trackerHidden: Bool {
         visit.decorating || visit.previewing != nil || showMenu || roomCovered
-            || (tour.isRunning && !["goals", "reward"].contains(tour.step?.id ?? ""))
+            || (tour.isRunning && tour.step?.reward != true)
     }
 
     /// A screen, sheet or card is over the room: the Games menu or a game, the shop, the pass, the map, the Goals page,
@@ -1580,6 +1658,15 @@ struct RoomScreen: View {
                         visit.preview(look)
                     }
                 case "reminders": visit.askReminders = true
+                // As a new player meets it: reminders not yet asked for.
+                case "dayone":
+                    Reminders.asked = false
+                    dayOne = true
+                // HOUSECAT_TIP=<id>: that first-use tip.
+                case "tip":
+                    tips.reset()
+                    let id = ProcessInfo.processInfo.environment["HOUSECAT_TIP"] ?? "goals"
+                    tips.showNext(on: [GameWorld.content?.intro.tips?.first { $0.id == id }?.target ?? "goals"])
                 case "health": askingHealth = true
                 default: break
                 }

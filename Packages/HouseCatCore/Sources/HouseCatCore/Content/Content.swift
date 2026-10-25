@@ -486,10 +486,30 @@ public struct IntroFile: Codable, Sendable {
         public var reward: Bool?
         public var text: String
 
-        /// The text with the cat's name in it.
-        public func text(cat: String) -> String {
-            text.replacingOccurrences(of: "{cat}", with: cat)
+        /// The text with the cat's name in it, and the player's (", {you}" falls away when the player gave none).
+        public func text(cat: String, you: String? = nil) -> String {
+            IntroFile.fill(text, cat: cat, you: you)
         }
+    }
+
+    /// A first-use tip (`tips`): after the tour, the host points at one control a visit until each has been seen or
+    /// used, rather than all of them in the tour (Josh, 25 Oct: the onboarding research).
+    public struct Tip: Codable, Sendable, Identifiable {
+        public var id: String
+        public var target: String
+        public var text: String
+
+        public func text(cat: String, you: String? = nil) -> String {
+            IntroFile.fill(text, cat: cat, you: you)
+        }
+    }
+
+    static func fill(_ text: String, cat: String, you: String?) -> String {
+        let named = text.replacingOccurrences(of: "{cat}", with: cat)
+        guard let you, !you.isEmpty else {
+            return named.replacingOccurrences(of: ", {you}", with: "").replacingOccurrences(of: "{you}", with: "you")
+        }
+        return named.replacingOccurrences(of: "{you}", with: you)
     }
 
     public var version: Int
@@ -505,6 +525,7 @@ public struct IntroFile: Codable, Sendable {
     public var map: String
     public var homes: String
     public var room: [RoomStep]
+    public var tips: [Tip]?
 
     /// The homes the intro flies to, in order.
     public var tourStops: [Stop] {

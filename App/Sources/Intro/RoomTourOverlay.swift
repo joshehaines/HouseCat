@@ -23,7 +23,7 @@ struct RoomTourOverlay: View {
                     if let frame {
                         ring(frame.insetBy(dx: -8, dy: -8))
                         paw(at: frame, in: proxy.size)
-                    } else if step.waitFor == .petted {
+                    } else if step.waitFor == .petted, !tour.replaying {
                         // The cat moves: the paw follows it.
                         TimelineView(.animation) { _ in
                             if let point = catPoint() {
@@ -56,7 +56,7 @@ struct RoomTourOverlay: View {
     /// first step (Josh's iPad, 19 Oct: "Tap Feed" did nothing and no touch reached the room).
     private func shade(step: IntroFile.RoomStep, hole: CGRect?, in size: CGSize) -> some View {
         let full = CGRect(origin: .zero, size: size)
-        let blocked: [CGRect] = if step.waitFor == nil, hole == nil {
+        let blocked: [CGRect] = if reads(step), hole == nil || tour.replaying {
             [full]
         } else if let hole, step.waitFor != .decorated {
             Self.around(hole, in: full)
@@ -67,7 +67,7 @@ struct RoomTourOverlay: View {
             if let hole {
                 p.addRect(full)
                 p.addRoundedRect(in: hole, cornerSize: CGSize(width: 16, height: 16))
-            } else if step.waitFor == nil {
+            } else if reads(step) {
                 p.addRect(full)
             }
         }
@@ -136,10 +136,18 @@ struct RoomTourOverlay: View {
             .id(step.id)
             .transition(.move(edge: .bottom).combined(with: .opacity))
             if step.reward != true {
-                Button("Skip the tour") { tour.skip() }
-                    .font(.footnote.weight(.semibold))
-                    .foregroundStyle(Theme.cream)
-                    .shadow(color: .black.opacity(0.6), radius: 2)
+                // How far along, so the end is in sight (the Mobbin research: "2 of 3" on every good tour).
+                HStack(spacing: 10) {
+                    if let progress = tour.progress {
+                        Text("\(progress.step) of \(progress.of)")
+                            .font(.footnote.weight(.heavy).monospacedDigit())
+                            .accessibilityLabel("Step \(progress.step) of \(progress.of)")
+                    }
+                    Button(tour.replaying ? "End the tour" : "Skip the tour") { tour.skip() }
+                        .font(.footnote.weight(.semibold))
+                }
+                .foregroundStyle(Theme.cream)
+                .shadow(color: .black.opacity(0.6), radius: 2)
             }
         }
         .frame(maxWidth: 420)
@@ -148,7 +156,10 @@ struct RoomTourOverlay: View {
     }
 
     private func text(_ step: IntroFile.RoomStep) -> String {
-        let text = step.text(cat: catName)
+        if step.reward == true, tour.replaying {
+            return "That's the tour. \(host) will point things out as you go, too."
+        }
+        let text = step.text(cat: catName, you: PlayerName.current)
         if step.reward == true, let beans = tour.rewarded, beans > 0 {
             return text + " +\(beans) Beans."
         }
@@ -156,7 +167,15 @@ struct RoomTourOverlay: View {
     }
 
     private func button(_ step: IntroFile.RoomStep) -> String? {
-        guard step.waitFor == nil else { return nil }
-        return step.reward == true ? "Thank you" : "Next"
+        guard reads(step) else { return nil }
+        if step.reward == true {
+            return tour.replaying ? "Done" : "Thank you"
+        }
+        return "Next"
+    }
+
+    /// A step that is only read and goes on with Next (every step, replayed from Settings).
+    private func reads(_ step: IntroFile.RoomStep) -> Bool {
+        step.waitFor == nil || tour.replaying
     }
 }

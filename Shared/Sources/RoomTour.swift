@@ -41,11 +41,22 @@ final class RoomTour {
         defaults.bool(forKey: "tour.done")
     }
 
+    /// Replayed from Settings: every step goes on with Next (the cat may be fed already, the room furnished), and
+    /// nothing follows its end.
+    private(set) var replaying = false
+
+    /// Where it is, as "3 of 10" (the welcome Beans are not a step).
+    var progress: (step: Int, of: Int)? {
+        guard let index, step?.reward != true else { return nil }
+        return (index + 1, steps.filter { $0.reward != true }.count)
+    }
+
     private init() {}
 
     /// From the start, or where it was left.
     func start() {
         guard !isDone, !steps.isEmpty else { return }
+        replaying = false
         let saved = defaults.integer(forKey: "tour.step")
         index = steps.indices.contains(saved) ? saved : 0
     }
@@ -96,16 +107,29 @@ final class RoomTour {
     private(set) var skipped = false
 
     func skip() {
+        if replaying {
+            finish()
+            return
+        }
         Analytics.track(.tourSkipped)
         skipped = true
         finish()
     }
 
+    /// Again from the top, from Settings (Josh, 25 Oct: "Replay the tour"). The welcome Beans were paid once already.
+    func replay() {
+        guard !steps.isEmpty, !isRunning else { return }
+        replaying = true
+        index = 0
+    }
+
     private func move(to next: Int) {
         if steps.indices.contains(next) {
             index = next
-            defaults.set(next, forKey: "tour.step")
-            if steps[next].reward == true {
+            if !replaying {
+                defaults.set(next, forKey: "tour.step")
+            }
+            if steps[next].reward == true, !replaying {
                 reward()
             }
         } else {
@@ -123,7 +147,7 @@ final class RoomTour {
     }
 
     private func finish() {
-        if rewarded == nil {
+        if rewarded == nil, !replaying {
             reward()
         }
         index = nil

@@ -402,11 +402,20 @@ struct ContentValidationTests {
             #expect(abs(stop.latitude) <= 90 && abs(stop.longitude) <= 180)
             #expect(Self.problems(in: stop.line, limit: 90).isEmpty, "\(stop.id): \(Self.problems(in: stop.line, limit: 90))")
         }
-        for text in intro.hello + [intro.outro, intro.builder, intro.map, intro.homes, intro.tagline] + intro.room.map(\.text) {
+        let tips = intro.tips ?? []
+        for text in intro.hello + [intro.outro, intro.builder, intro.map, intro.homes, intro.tagline] + intro.room.map(\.text) + tips.map(\.text) {
             #expect(Self.problems(in: text, limit: 90).isEmpty, "\(text): \(Self.problems(in: text, limit: 90))")
         }
         #expect(intro.room.filter { $0.reward == true }.count == 1)
         #expect(intro.room.last?.reward == true)
+        // The tour is the doing (Josh, 25 Oct): the controls it used to read out one by one are first-use tips now.
+        #expect(intro.room.count <= 12)
+        #expect(Set(tips.map(\.id)).count == tips.count)
+        #expect(Set(tips.map(\.id)) == ["goals", "play", "nap", "level", "menu", "shop"])
+        // The player's name where there is one, and a sentence that still reads where there is none.
+        let welcome = try #require(intro.room.first)
+        #expect(welcome.text(cat: "Pip", you: "Sam").hasPrefix("Welcome home, Sam! Pip"))
+        #expect(welcome.text(cat: "Pip").hasPrefix("Welcome home! Pip"))
     }
 
     /// Step 9's content bar (SPEC "Build phases": 600 lines loaded, reading right in all four personalities).

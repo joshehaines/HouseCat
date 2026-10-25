@@ -131,6 +131,13 @@ public struct CatBuilderView<Hint: View>: View {
                 }
             }
             Spacer(minLength: 0)
+            // Adopting, the name is never ten drawers away: a look and a name will do (Josh, 25 Oct: the onboarding
+            // research, Finch has your pet home in two screens).
+            if model.mode == .adopt, model.section != .name {
+                HUDButton("Skip to name", symbol: "forward.end") {
+                    withAnimation(.spring(duration: 0.3)) { model.section = .name }
+                }
+            }
             if let next = model.nextSection {
                 HUDButton("Next: \(next.title)", symbol: "chevron.right") {
                     withAnimation(.spring(duration: 0.3)) { model.section = next }

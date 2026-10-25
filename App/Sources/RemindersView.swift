@@ -12,8 +12,12 @@ import UserNotifications
 struct SettingsView: View {
     let catName: String
     var store: (any EntitlementService)?
+    /// Replay the room tour (Settings closes first, so the tour is over the room).
+    var replayTour: (() -> Void)?
     let close: () -> Void
     @State private var settings = Reminders.settings
+    @State private var playerName = PlayerName.current ?? ""
+    @State private var tipsReset = false
     @State private var status: UNAuthorizationStatus?
     @State private var attribution = RealWeather.attribution
     @Environment(\.openURL) private var openURL
@@ -26,6 +30,7 @@ struct SettingsView: View {
                     Text("Settings").font(Theme.title(28))
                 }
                 reminders
+                help
                 MusicCard()
                 if HealthLayer.isAvailable {
                     HealthSettingsCard()
@@ -90,6 +95,53 @@ struct SettingsView: View {
             row("Breakfast", detail: "When the bowl is still empty", on: $settings.breakfast, minutes: $settings.breakfastMinutes)
             row("Presents", detail: "When \(catName) brings you something", on: $settings.gifts, minutes: nil)
             row("Evening", detail: "If you haven't visited yet", on: $settings.evening, minutes: $settings.eveningMinutes)
+        }
+        .padding(16)
+        .paper(RoundedRectangle(cornerRadius: 20, style: .continuous))
+    }
+
+    /// What the cat calls you, and the tour and the tips again (Josh, 25 Oct: the onboarding research, "there's no
+    /// way to see the tutorial again").
+    private var help: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 12) {
+                VStack(alignment: .leading, spacing: 1) {
+                    Text("Your name").font(.headline)
+                    Text("What \(catName) and Pat call you").font(.caption).foregroundStyle(Theme.inkSoft)
+                }
+                Spacer()
+                TextField("Optional", text: $playerName)
+                    .textInputAutocapitalization(.words)
+                    .autocorrectionDisabled()
+                    .submitLabel(.done)
+                    .multilineTextAlignment(.trailing)
+                    .frame(maxWidth: 200)
+                    .onChange(of: playerName) { _, name in
+                        PlayerName.current = String(name.prefix(Tuning.Cat.nameMaxLength))
+                    }
+            }
+            if let replayTour {
+                HStack(spacing: 12) {
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text("The tour").font(.headline)
+                        Text("Pat shows you round the room again").font(.caption).foregroundStyle(Theme.inkSoft)
+                    }
+                    Spacer()
+                    HUDButton("Replay", symbol: "arrow.counterclockwise", action: replayTour)
+                }
+            }
+            HStack(spacing: 12) {
+                VStack(alignment: .leading, spacing: 1) {
+                    Text("Tips").font(.headline)
+                    Text(tipsReset ? "Pat will point things out again" : "Pat's word on each control, one a visit").font(.caption).foregroundStyle(Theme.inkSoft)
+                }
+                Spacer()
+                HUDButton("Show again", symbol: "lightbulb") {
+                    FirstTips.shared.reset()
+                    tipsReset = true
+                }
+                .disabled(tipsReset)
+            }
         }
         .padding(16)
         .paper(RoundedRectangle(cornerRadius: 20, style: .continuous))

@@ -358,6 +358,24 @@ struct CatBuilderDrawer: View {
                 .buttonStyle(PressStyle())
                 .accessibilityLabel("More names")
             }
+            if model.mode == .adopt {
+                // And the player's own name (Josh, 25 Oct: the onboarding research, "the cat never learns your name").
+                subheading("What should \(model.checkedName ?? "they") call you?", icon: "cat_face")
+                TextField("Your name (optional)", text: $model.ownerName)
+                    .font(.system(size: 17 * t, weight: .semibold, design: .rounded))
+                #if os(iOS)
+                    .textInputAutocapitalization(.words)
+                #endif
+                    .autocorrectionDisabled()
+                    .submitLabel(.done)
+                    .padding(.horizontal, 12 * s)
+                    .padding(.vertical, 8 * s)
+                    .background(RoundedRectangle(cornerRadius: 12 * s, style: .continuous).fill(.white.opacity(0.7)))
+                    .overlay(RoundedRectangle(cornerRadius: 12 * s, style: .continuous).strokeBorder(
+                        Theme.rim,
+                        lineWidth: 1
+                    ))
+            }
             subheading("Personality", icon: "trust_heart_with_a_paw_print")
             grid(minimum: 150) {
                 ForEach(Personality.allCases, id: \.self) { personality in

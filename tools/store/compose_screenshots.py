@@ -1,11 +1,12 @@
-"""compose.py <spec.json> <raw dir> <out dir> <device: iphone69|iphone63|ipad13>"""
+"""compose.py <spec.json> <raw dir> <out dir> <device: iphone69|iphone63|ipad13|duoinner|duoouter>"""
 import json, sys, os
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 from scipy import ndimage
 spec, raw, out, device = sys.argv[1:5]
 F = os.path.dirname(os.path.abspath(__file__)) + "/fonts/"
-SIZES = {"iphone69": (2868, 1320), "iphone63": (2622, 1206), "ipad13": (2064, 2752)}
+SIZES = {"iphone69": (2868, 1320), "iphone63": (2622, 1206), "ipad13": (2064, 2752),
+         "duoinner": (2853, 2007), "duoouter": (2034, 1398)}  # iPhone Duo, unfolded and folded
 W, H = SIZES[device]
 THEMES = {  # background top, bottom, headline, subline
     "paper": ((254, 248, 236), (246, 230, 206), (61, 46, 56), (139, 84, 40)),
@@ -54,16 +55,18 @@ for i, shot in enumerate(json.load(open(spec)), 1):
     top, bottom, ink, sub = THEMES[shot.get("theme", "paper")]
     canvas = gradient(top, bottom)
     src = Image.open(f"{raw}/{shot['raw']}.png").convert("RGB")
-    if device.startswith("iphone"):
+    if device.startswith(("iphone", "duo")):
         src = clean_island(src)
     # Caption band, then the screen as large as fits beneath it.
-    band = int(H * (0.215 if device != "ipad13" else 0.135))
+    band = int(H * {"ipad13": 0.135, "duoinner": 0.17, "duoouter": 0.17}.get(device, 0.215))
     margin = int(H * 0.045)
     avail_h, avail_w = H - band - margin, W - 2 * margin
     scale = min(avail_h / src.height, avail_w / src.width)
     sw, sh = int(src.width * scale), int(src.height * scale)
     screen = src.resize((sw, sh), Image.LANCZOS)
     x, y = (W - sw) // 2, band
+    if device.startswith("duo"):  # a wider screen than the canvas sits in the middle of the space under the caption
+        y += (avail_h - sh) // 2
     r = int(min(sw, sh) * 0.035)
     mask = Image.new("L", (sw, sh), 0)
     ImageDraw.Draw(mask).rounded_rectangle((0, 0, sw - 1, sh - 1), r, fill=255)

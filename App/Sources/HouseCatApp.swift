@@ -3,6 +3,7 @@ import HouseCatGame
 import HouseCatStore
 import HouseCatUI
 import SpriteKit
+import StoreKit
 import SwiftUI
 
 @main
@@ -112,7 +113,7 @@ struct HouseCatApp: App {
                 // Siri learns the cat's name for its phrases ("Feed Pip in HouseCat").
                 HouseCatShortcuts.updateAppShortcutParameters()
                 await store?.refresh()
-                // While Cat Club is on, today is a club day (its Beans, half-price rooms and free moves).
+                // While Cat Club is on, today is a club day (its +20% Beans, the daily treat and the streak shield).
                 GameSession.shared.recordClubDay(active: store?.entitlements.hasClub == true)
                 await StorePrices.shared.load(store: store, content: GameWorld.content)
             }
@@ -410,6 +411,21 @@ struct RoomScreen: View {
     /// The window's size (the room fills it), for the scale of the controls and cards on an iPad.
     @State private var window = CGSize.zero
     @Environment(\.horizontalSizeClass) private var sizeClass
+    @Environment(\.requestReview) private var requestReview
+
+    /// A rating asked for at a happy moment, if one is due (`ReviewPrompt`).
+    private func askForReview(after seconds: Double) {
+        let session = GameSession.shared
+        let state = session.state(at: session.now())
+        let today = state.clock.day(of: session.now())
+        let together = state.cats.map { $0.togetherDays(on: today) }.max() ?? 0
+        guard ReviewPrompt.isDue(daysTogether: together) else { return }
+        Task { @MainActor in
+            try? await Task.sleep(for: .seconds(seconds))
+            ReviewPrompt.markAsked()
+            requestReview()
+        }
+    }
 
     /// The room tour, once, a moment after the first arrival (or from the top on a debug run).
     private func startTour() async {
@@ -458,6 +474,7 @@ struct RoomScreen: View {
                 if celebratingStreak {
                     StreakCelebration(catName: visit.catName ?? "Your cat") {
                         withAnimation(.easeOut(duration: 0.25)) { celebratingStreak = false }
+                        askForReview(after: 1.2)
                     }
                     .transition(.opacity)
                 }
@@ -999,6 +1016,7 @@ struct RoomScreen: View {
                     showHomes = false
                     // Moved in: the cold open at the new house.
                     restart()
+                    askForReview(after: 8)
                 } close: {
                     showHomes = false
                 }

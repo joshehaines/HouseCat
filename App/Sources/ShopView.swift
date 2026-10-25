@@ -579,8 +579,8 @@ struct ShopView: View {
             art: ["ui/shop/shop_club.png"],
             contents: [
                 .init(icon: "bean_coin", text: "+20% Beans"),
-                .init(icon: "house", text: "Rooms for half"),
-                .init(icon: "map_pin", text: "Free moves"),
+                .init(icon: "gift_box_with_a_ribbon", text: "A daily treat"),
+                .init(icon: "streak_paw_print_with_a_small_flame", text: "Streak shield"),
             ],
             tint: Color(red: 0.42, green: 0.62, blue: 0.66),
             isClub: true
@@ -916,7 +916,7 @@ struct ShopView: View {
                             PaintedIcon("crown", size: 20 * s)
                         }
                         Text(owned.hasClub ? "You're a member: every perk is on."
-                            : narrow ? "+20% Beans and rooms for half." : clubSummary)
+                            : narrow ? "+20% Beans and a daily treat." : clubSummary)
                             .font(font(11.5)).foregroundStyle(Theme.inkSoft)
                             .lineLimit(3)
                             .minimumScaleFactor(0.85)
@@ -941,7 +941,7 @@ struct ShopView: View {
 
     /// What Cat Club gives, in a line (the season pass is sold on its own; Josh, 23 Oct).
     private var clubSummary: String {
-        "+20% Beans, rooms for half the Beans and moving home for free."
+        "+20% Beans, a daily treat of Beans and pass XP, and a streak shield every month."
     }
 
     /// The Season pass page: the season big, how far you are, the rewards on its paid track, and the pass itself.
@@ -1261,10 +1261,10 @@ struct ShopView: View {
                 Grid(horizontalSpacing: 9 * s, verticalSpacing: 9 * s) {
                     GridRow {
                         perk("+20%", "Beans on all you earn", icon: "bean_coin")
-                        perk("½", "the Beans to open rooms", icon: "house")
+                        perk("Daily", "treat: Beans and pass XP", icon: "gift_box_with_a_ribbon")
                     }
                     GridRow {
-                        perk("Free", "moving home", icon: "map_pin")
+                        perk("Shield", "a missed day each month", icon: "streak_paw_print_with_a_small_flame")
                         perk("Cancel", "any time, in Settings", icon: "clock")
                     }
                 }

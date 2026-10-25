@@ -348,7 +348,12 @@ extension HouseholdState {
                 owned[item, default: 0] += 1
             }
         case .clubDayRecorded:
+            guard let tally = today, !tally.clubDay else { break }
             today?.clubDay = true
+            lastClubDay = tally.day
+            // The members' daily treat (Josh, 25 Oct): Beans and pass XP, not a present (those are earned only).
+            beansGranted += Tuning.Beans.clubTreat
+            addPassPoints(Tuning.Beans.clubTreatPassPoints, capped: false, context: context)
         default:
             break
         }
@@ -406,7 +411,8 @@ extension HouseholdState {
         if let createdOn, tally.day >= createdOn, !tally.visited {
             if !pause.consume(tally.day) {
                 missed = true
-                _ = streak.miss(on: tally.day)
+                let member = lastClubDay.map { $0.advanced(by: Tuning.Beans.clubShieldWithinDays) >= tally.day } ?? false
+                _ = streak.miss(on: tally.day, member: member)
                 warmUpArrivals = 0
             }
         }

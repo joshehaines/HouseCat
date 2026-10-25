@@ -101,7 +101,6 @@ struct PassRulesTests {
 
     @Test func theFreeTrackEndsAtTwentyAndPremiumRunsToThirty() throws {
         var f = fixture()
-        f.add(.clubDayRecorded, day: 0, hour: 7, minute: 30)
         climb(&f, to: 25)
         let progress = try #require(f.state.passes["housewarming"])
         let season = testSeason(f)

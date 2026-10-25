@@ -7,7 +7,7 @@ import HouseCatGame
 extension GameSession {
     // MARK: Purchases
 
-    /// While Cat Club is on, today is a club day (its +20% Beans, half-price rooms and free moves), once a day.
+    /// While Cat Club is on, today is a club day (its +20% Beans, the daily treat and the streak shield), once a day.
     func recordClubDay(active: Bool) {
         let state = state(at: now())
         guard active, state.today?.clubDay == false else { return }

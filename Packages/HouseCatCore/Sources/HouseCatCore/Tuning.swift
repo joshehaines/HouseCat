@@ -150,6 +150,12 @@ public enum Tuning {
         public static let levelUp = 100
         /// Cat Club: +20% on everything earned that day.
         public static let clubBonusPercent = 20
+        /// Cat Club's daily treat on the first visit of a club day (Josh, 25 Oct): Beans and pass XP, never a present
+        /// from the gift book (those are earned only).
+        public static let clubTreat = 30
+        public static let clubTreatPassPoints = 40
+        /// A member's streak shield needs Cat Club on within this many days of the miss.
+        public static let clubShieldWithinDays = 35
         public static let moveHome = 500
         public static let freeHomeMoves = 1
         /// The welcome at the end of the intro's tour of the room, once.

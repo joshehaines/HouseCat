@@ -279,6 +279,8 @@ public struct HouseholdState: Codable, Equatable, Sendable {
 
     public internal(set) var cats: [CatState] = []
     public internal(set) var streak = StreakState()
+    /// The last day Cat Club was on (its streak shield needs it lately).
+    public internal(set) var lastClubDay: GameDay?
     public internal(set) var pause = PauseState()
     /// Arrivals since the last missed day, capped (sulky → thawing → fine).
     public internal(set) var warmUpArrivals = Tuning.Streak.warmUpArrivals

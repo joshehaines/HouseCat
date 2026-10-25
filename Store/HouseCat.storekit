@@ -310,7 +310,7 @@
           "introductoryOffer": null,
           "localizations": [
             {
-              "description": "+20% Beans, rooms for half the Beans and free moves.",
+              "description": "+20% Beans, a daily treat and a streak shield.",
               "displayName": "Cat Club Monthly",
               "locale": "en_GB"
             }
@@ -337,7 +337,7 @@
           },
           "localizations": [
             {
-              "description": "+20% Beans, rooms for half the Beans and free moves.",
+              "description": "+20% Beans, a daily treat and a streak shield.",
               "displayName": "Cat Club Yearly",
               "locale": "en_GB"
             }

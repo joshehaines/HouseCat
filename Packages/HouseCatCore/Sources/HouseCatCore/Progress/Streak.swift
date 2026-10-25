@@ -13,6 +13,8 @@ public struct StreakState: Codable, Equatable, Sendable {
     /// The run the last miss ended, and the missed day, while it can still be mended (StreakRepair).
     public private(set) var brokenLength = 0
     public private(set) var brokenOn: GameDay?
+    /// Days a Cat Club member's streak shield saved (one a calendar month; Josh, 25 Oct).
+    public private(set) var shieldDays: [GameDay] = []
 
     public init() {}
 
@@ -21,6 +23,8 @@ public struct StreakState: Codable, Equatable, Sendable {
         case none
         /// The free miss for this rolling week was used; the streak holds.
         case graced
+        /// The week's free miss was gone, but a Cat Club member's monthly streak shield held it.
+        case shielded
         /// The streak ended; the next visit restarts it at 1.
         case lost
     }
@@ -41,7 +45,8 @@ public struct StreakState: Codable, Equatable, Sendable {
     }
 
     /// Records a missed day that was not paused.
-    public mutating func miss(on day: GameDay) -> MissOutcome {
+    /// `member`: Cat Club was on lately, so this month's streak shield can hold a miss the free one can't.
+    public mutating func miss(on day: GameDay, member: Bool = false) -> MissOutcome {
         guard current > 0 else { return .none }
         let windowStart = day.advanced(by: -(Tuning.Streak.graceWindowDays - 1))
         let gracesInWindow = graceDays.filter { $0 >= windowStart && $0 < day }.count
@@ -49,6 +54,11 @@ public struct StreakState: Codable, Equatable, Sendable {
             graceDays.append(day)
             graceDays.removeAll { $0 < windowStart }
             return .graced
+        }
+        if member, !shieldDays.contains(where: { $0.date.year == day.date.year && $0.date.month == day.date.month }) {
+            shieldDays.append(day)
+            shieldDays.removeAll { $0 < day.advanced(by: -366) }
+            return .shielded
         }
         brokenLength = current
         brokenOn = day

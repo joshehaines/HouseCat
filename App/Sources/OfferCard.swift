@@ -53,7 +53,7 @@ struct OfferCard: View {
                 offer(
                     art: "ui/shop/shop_club.png",
                     title: "Cat Club",
-                    detail: "+20% Beans, rooms for half the Beans and moving home for free.",
+                    detail: "+20% Beans, a daily treat and a streak shield every month.",
                     // The trial only for a player StoreKit says may take it (ProductInfo.trialDays).
                     price: products[StoreCatalog.clubYearly]
                         .map { ClubWording.offerLine(yearPrice: $0.displayPrice, trialDays: $0.trialDays) }

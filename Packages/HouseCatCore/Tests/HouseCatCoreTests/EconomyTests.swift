@@ -118,8 +118,8 @@ struct EconomyTests {
         f.add(.clubDayRecorded, day: 1, hour: 11) // recorded after the earning, still counts for the day
         f.add(.arrived, day: 2, hour: 8)
         let state = f.state(through: 3)
-        // Day 1: (10 + 6 + 6) × 1.2 = 26 (rounded down); day 2: 10, no Club.
-        #expect(state.beans == 150 + 26 + 10)
+        // Day 1: (10 + 6 + 6) × 1.2 = 26 (rounded down) and the members' treat; day 2: 10, no Club.
+        #expect(state.beans == 150 + 26 + Tuning.Beans.clubTreat + 10)
     }
 
     @Test func movingHomeIsFreeOnceThenCostsBeansUnlessClub() {
@@ -355,7 +355,7 @@ struct PurchaseRulesTests {
         f.add(.clubDayRecorded, day: 0, hour: 8)
         f.add(.purchaseBeansGranted(transactionID: "2000000123", beans: 300), day: 0, hour: 9)
         f.add(.purchaseBeansGranted(transactionID: "2000000123", beans: 300), day: 0, hour: 9, source: .mac) // another device
-        #expect(f.state(through: 1).beans == 150 + 300)
+        #expect(f.state(through: 1).beans == 150 + Tuning.Beans.clubTreat + 300, "no +20% on bought Beans; the members' treat only")
     }
 
     @Test func paidSetItemsCanBePlacedOnceWithoutABeanPurchase() {

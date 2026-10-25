@@ -36,7 +36,7 @@ Make the house a home, room by room. Open the bedroom, the kitchen, the garden, 
 
 Your cat lives on your Home Screen and your Apple Watch too: in your own window with your own weather, waiting by the door until you visit, with your streak. Miss a day and it sulks a little; it never leaves, and nothing is ever lost.
 
-- Beans are earned every day in play and also sold in packs. Room looks are kept for good. Cat Club is an optional subscription: +20% Beans, rooms for half the Beans and moving home for free; yearly with a 7-day free trial, or monthly. It renews automatically unless cancelled at least 24 hours before the end of the period, in your Apple Account settings.
+- Beans are earned every day in play and also sold in packs. Room looks are kept for good. Cat Club is an optional subscription: +20% Beans, a daily treat of Beans and pass XP, and a streak shield that saves a missed day each month; yearly with a 7-day free trial, or monthly. It renews automatically unless cancelled at least 24 hours before the end of the period, in your Apple Account settings.
 - Nothing is random for money, no ads, no account.
 - Optional: Apple Health. With your permission HouseCat reads your steps, sleep and workouts to give extra XP. It never writes to Health, and the data stays on your device.
 - Terms of Use: https://housecatgame.com/terms/
@@ -81,8 +81,8 @@ The shop is not in the marketing set: a simulator launch from the command line h
 | housecat.pass.housewarming | Non-consumable | £4.99 | Housewarming Premium Pass | The Housewarming season's 30 premium rewards. |
 | housecat.pass.midwinter | Non-consumable | £4.99 | Midwinter Premium Pass | The Midwinter season's 30 premium rewards. |
 | housecat.pass.firstlight | Non-consumable | £4.99 | First Light Premium Pass | The First Light season's 30 premium rewards. |
-| housecat.club.monthly | Auto-renewable (group "Cat Club", level 1) | £2.99 / month | Cat Club Monthly | +20% Beans, rooms for half the Beans and free moves. |
-| housecat.club.yearly | Auto-renewable (group "Cat Club", level 1) | £19.99 / year, 1-week free trial | Cat Club Yearly | +20% Beans, rooms for half the Beans and free moves. |
+| housecat.club.monthly | Auto-renewable (group "Cat Club", level 1) | £2.99 / month | Cat Club Monthly | +20% Beans, a daily treat and a streak shield. |
+| housecat.club.yearly | Auto-renewable (group "Cat Club", level 1) | £19.99 / year, 1-week free trial | Cat Club Yearly | +20% Beans, a daily treat and a streak shield. |
 
 - The Housewarming look's product ID keeps its earlier name, because IDs can never be renamed once live.
 - Apple's limits are 30 characters for a display name and 45 for a description (App Store Connect's in-app purchase reference, checked 21 Oct); some descriptions above run longer, so check each saved one in App Store Connect ends on a whole word.

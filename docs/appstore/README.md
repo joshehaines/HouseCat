@@ -124,10 +124,18 @@ The shop is not in the marketing set: a simulator launch from the command line h
 - **Sign-in required**: No. There is no account and no demo login.
 - **Version**: 1.0, build 1. `project.yml` sets these once for every target (`MARKETING_VERSION`, `CURRENT_PROJECT_VERSION`; the Info.plists read them): raise `CURRENT_PROJECT_VERSION` for each upload and run `xcodegen generate`.
 
+## Header and search results (creative assets)
+
+Two looping videos, no text, redone 25 Oct from the launch reels' look (Josh: "take new inspiration on those please, using the higgsfield videos"): Midnight on a rainy London window seat by the fire, a still painted with GPT Image 2.5 from two reel frames, animated with Kling 3.0 (4K, start and end on the same frame), cropped and crossfaded into a seamless 30 fps loop.
+
+- **Header** (21:9, 3840 × 1646, 9.5 s): `creative/product_page_header_21x9.mp4`, still `…_still.jpg`. Midnight sits right of centre; the bottom third is plain floor for the title and Get button.
+- **Search results** (3:2, 1920 × 1280, 7.5 s): `creative/search_results_3x2.mp4`, still `…_still.jpg`. Midnight close and centred, so she reads small.
+- **Where**: version 1.0 → Product Page Information → Header and Search Results; drag each in (or add them to the Asset Library first).
+
 ## Notes for App Review (in App Store Connect since 25 Oct, by the API)
 
 ```
-No account or sign-in. The game opens with a short story (skippable), then the cat creator; after that you are in the cat's first home. The tour shows Feed, stroking and furnishing.
+No account or sign-in. The game opens with the cat creator (Skip to name gets a cat home in two taps), then a short story (skippable); after that you are in the cat's first home. A ten-step tour shows Feed, stroking and furnishing, and Settings can replay it.
 
 Where things are (landscape on iPhone, any way up on iPad):
 - Shop: the gold Shop button, bottom right of the room. Tabs along the top: Offers (the Starter Pack, a room look, the way into Cat Club), Season pass, Beans (five packs), Room looks, Outfits and Cat Club. Every product can be bought there; bought Beans appear at once in the balance at the top right.

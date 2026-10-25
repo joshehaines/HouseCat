@@ -1,13 +1,13 @@
-# HouseCat: App Store listing, review notes and launch checklist (19 Oct 2026)
+# HouseCat: App Store listing, review notes and launch checklist (updated 25 Oct 2026)
 
 This file holds everything App Store Connect asks for, ready to paste. It is written against version 1.0 as built at commit aaa050f3 and after. Prices are UK tiers; StoreKit shows each player their own. The website's corrections are in `website_fixes.md`.
 
 ## Listing
 
 - **Name** (30): HouseCat
-- **Subtitle** (30): Your cat, your home, every day
-- **Promotional text** (170): Pick a home anywhere on the globe, build your cat, and visit each day. Feed, stroke, play and decorate room by room while your cat waits for you in the widget.
-- **Keywords** (100): cat,cosy,cozy,pet,kitten,decorate,room,home,widget,streak,virtual pet,isometric,calm,daily,care
+- **Subtitle** (30): Cosy cat game & virtual pet
+- **Promotional text** (170): Start in a run-down terrace with a cat who needs a home, and work your way up to a mansion flat in London. Feed, play and decorate every day.
+- **Keywords** (100): kitten,cozy,kitty,decorate,home,house,interior,cute,widget,daily,care,collect,dress up,relaxing,sim (Josh, 25 Oct, the ASO playbook: no word repeated from the name or subtitle, no trademarks)
 - **Category**: Games / Simulation (secondary: Casual)
 - **Support URL**: https://housecatgame.com/support/
 - **Marketing URL**: https://housecatgame.com/
@@ -26,22 +26,26 @@ This file holds everything App Store Connect asks for, ready to paste. It is wri
 
 ### Description
 
-Your own cat, in your own home, somewhere in the world.
+A cat who needs a home, and a home that grows with you.
 
-Pin your home anywhere on a turning painted globe and the sky, the seasons and the real weather follow: rain on the glass in Lisbon, snow on the sill in Chamonix. Build your cat in the cat builder (any coat, pattern, eyes and ears) and give it a name.
+HouseCat starts in a run-down terrace in the little town of Puddlebury, with a cat waiting at the door. Make the cat your own in the cat creator: start from one of 23 looks, then change the coat, pattern, eyes, ears and tail, and give it a name.
 
-Every visit, your cat notices you, hops off the sofa and comes over to say hello, then gets on with its day: a nap in the sun, a loaf on the sofa, a scratch at the post, zoomies at dusk. Feed it, stroke it, play laser pointer, knock-it-off and string chase, and it brings you a gift for its book.
+Every visit, your cat notices you, hops down and comes over to say hello, then gets on with its day: a nap in the sun, a loaf on the sofa, a scratch at the post, zoomies at dusk. Feed it, stroke it and play with it, and most days it brings you a present for its book.
 
-Make the house a home, room by room. Open the bedroom, the kitchen, the garden, the study and the attic as you level up, and place every piece where you like. Outside, the garden or the street moves with the wind and the seasons. Daily and weekly goals and sixty milestones give you something to work towards. Earn Beans every day, or top up with a pack.
+Care for your cat, finish each home's tasks and save your Beans, and you move up the ladder: a houseboat on an Amsterdam canal, a cabin outside Vancouver, a cottage in Queenstown, a new-build in Tokyo, a rooftop in Santorini, a townhouse in New York and, at the top, a mansion flat in London. Every home is bigger than the last, comes with another room, and sits in its own painted street, with that town's sky, seasons and weather. Your furniture moves with you.
 
-Your cat lives on your Home Screen and your Apple Watch too: in your own window with your own weather, waiting by the door until you visit, with your streak. Miss a day and it sulks a little; it never leaves, and nothing is ever lost.
+Make every room cosy: pick a piece up, drag it, turn it and put it down, with wallpapers and floors to change. Goals for today and this week, each home's tasks and milestones always give you something to look forward to, and a new season every four weeks fills a free track with furniture and an outfit.
 
-- Beans are earned every day in play and also sold in packs. Room looks are kept for good. Cat Club is an optional subscription: +20% Beans, a daily treat of Beans and pass XP, and a streak shield that saves a missed day each month; yearly with a 7-day free trial, or monthly. It renews automatically unless cancelled at least 24 hours before the end of the period, in your Apple Account settings.
-- Nothing is random for money, no ads, no account.
+Your cat lives on your Home Screen and your Apple Watch too, waiting in the window until you visit, with your streak. Miss a day and it sulks a little; it never leaves, and nothing is ever lost.
+
+- Beans are earned every day in play and also sold in packs. Room looks are kept for good. The season's premium pass is an optional one-off purchase for that season.
+- Cat Club is an optional subscription: +20% Beans, a daily treat of Beans and pass XP, and a streak shield that saves a missed day each month. Yearly with a 7-day free trial, or monthly. It renews automatically unless cancelled at least 24 hours before the end of the period, in your Apple Account settings.
+- Nothing is random for money. No ads, no account.
 - Optional: Apple Health. With your permission HouseCat reads your steps, sleep and workouts to give extra XP. It never writes to Health, and the data stays on your device.
-- Terms of Use: https://housecatgame.com/terms/
-- Privacy Policy: https://housecatgame.com/privacy/
-- Weather: Apple Weather. Place search: Apple Maps. The cat's voice: recordings from Wikimedia Commons.
+
+Terms of Use: https://housecatgame.com/terms/
+Privacy Policy: https://housecatgame.com/privacy/
+Weather: Apple Weather.
 
 ## Screenshots
 
@@ -108,33 +112,30 @@ The shop is not in the marketing set: a simulator launch from the command line h
 - **Sign-in required**: No. There is no account and no demo login.
 - **Version**: 1.0, build 1. `project.yml` sets these once for every target (`MARKETING_VERSION`, `CURRENT_PROJECT_VERSION`; the Info.plists read them): raise `CURRENT_PROJECT_VERSION` for each upload and run `xcodegen generate`.
 
-## Notes for App Review (paste into "Notes")
+## Notes for App Review (in App Store Connect since 25 Oct, by the API)
 
 ```
-No account or sign-in. The game opens with a short intro (skippable) and the cat builder; after that you are in the cat's home.
+No account or sign-in. The game opens with a short story (skippable), then the cat creator; after that you are in the cat's first home. The tour shows Feed, stroking and furnishing.
 
-Where things are (landscape):
-- Shop: the gold Shop button, bottom right of the room. Its pages are tabs along the top: Offers (the Starter Pack, a room look, the way into Cat Club), Beans (the five packs), Room looks, Outfits and Cat Club; a Season pass tab joins them while a season is on. Every product can be bought there. Bought Beans appear at once in the balance at the top right.
-- Cat Club page (the last tab): Restore Purchases, Terms of Use and Privacy Policy are at the foot of the page; the price that will be charged is on the button.
-- Restore Purchases, Request a refund, Manage subscription, Terms of Use, Privacy Policy and Help also run along the foot of every shop page, and are in Settings (tap the cat's portrait at the top left, then Settings, then "Purchases and help").
-- Menu (top left, under the portrait): Goals, Map, Book, the Pass, and the Gift track while one runs.
-- Season pass: always on (a season is running now, Black Cat until 1 November). The badge at the top right of the room, under the Beans and the streak, opens it, as does the menu's Pass. Get Premium shows all 30 premium rewards, the ones that open at once, the season's last day and the price before anything is bought; Restore Purchases, Terms and Privacy are on that panel. The premium pass is paid once for its season; Cat Club also includes it. Nothing on either track is random.
+Where things are (landscape on iPhone, any way up on iPad):
+- Shop: the gold Shop button, bottom right of the room. Tabs along the top: Offers (the Starter Pack, a room look, the way into Cat Club), Season pass, Beans (five packs), Room looks, Outfits and Cat Club. Every product can be bought there; bought Beans appear at once in the balance at the top right.
+- Cat Club page (the last tab): its perks, both plans with their prices, Restore Purchases, Terms of Use and Privacy Policy. Restore Purchases, Request a refund, Manage subscription, Terms, Privacy and Help also run along the foot of every shop page, and are in Settings (tap the cat's portrait at the top left, then Settings).
+- Menu (top left): Goals, Homes (the ladder of eight homes; the next one is bought with Beans once its level and tasks are done), Book, Pass, Outside (the house from outside).
+- Season pass: a season is always running (Black Cat until 1 November, then Housewarming). The badge at the top right opens it. Get Premium shows every premium reward, what opens at once, the season's last day and the price before anything is bought. It is paid once for its season and is not part of Cat Club. Nothing on either track is random.
 
-Beans are the one currency: earned every day by playing and sold in fixed packs. Nothing bought is random. A room look puts a whole room's furniture, wallpaper and floor in at once, and can be tried in the room before buying.
+Cat Club (auto-renewable, monthly or yearly with a 7-day free trial): +20% on the Beans earned that day, a daily treat (30 Beans and pass XP on the first visit of the day) and a streak shield that holds one missed day a month beyond the free weekly one.
 
-Optional Apple Health (steps, sleep, workouts; read only) is offered on the third day of play and is in Settings. It only gives extra XP. Nothing is written to Health or leaves the device.
+Beans are the one currency, earned every day by playing and sold in fixed packs. Nothing bought is random; the daily present is earned only and no purchase changes it.
 
-Notifications are local, at times the player chooses, offered after the first feed.
+Homes 2 to 8 download their outside paintings as Apple-hosted asset packs (Background Assets) when you move in; the game works fully while they arrive.
 
-Weather comes from WeatherKit for the home's pinned place (no device location is used). The Apple Weather mark and link are shown wherever that weather is on screen: under the room, top left outside the house, on the world map's home card, in Settings and in Licences; the widget carries the Apple Weather mark in words. The weather of the intro's example homes is part of the story, not WeatherKit's.
+Optional Apple Health (steps, sleep, workouts; read only) is offered on the third day and in Settings. It only gives extra XP; nothing is written to Health or leaves the device. Notifications are local, at times the player chooses.
 
-Anonymous usage counts (PostHog, EU) are off until the player says yes to "Help improve HouseCat?", a card on the second day of play, or switches them on in Settings; no account, no names, nothing typed.
+Weather comes from WeatherKit for the town of the home (no device location is used). The Apple Weather mark and link are shown wherever that weather is on screen.
 
-Your data, in Settings: Export my data shares the whole save as a file; Delete all my data (two confirmations) deletes the save, the widget's files, preferences and reminders, and starts again from the intro. There is no account to delete.
+Your data, in Settings: Export my data shares the save as a file; Delete all my data deletes the save, the widget's files, preferences and reminders and starts again. There is no account to delete.
 
-The Apple Watch app and widgets show the cat, its mood and the streak; the Watch can feed and stroke.
-
-Nothing is hidden or dormant (Guideline 2.5.19): co-owning a cat with another person is built but switched off for 1.0 (no control reaches it; it ships in a later version with iCloud sharing). Seasons change by the calendar (the Black Cat season until 1 November, then Housewarming), so the pass's rewards you see depend on the date. Debug switches are compiled out of this build. The Mac menu-bar app is not part of this submission.
+The Apple Watch app and widgets show the cat, its mood and the streak; the Watch can feed and stroke. Nothing is hidden or dormant: co-owning a cat is built but switched off for 1.0 (no control reaches it). Debug switches are compiled out of this build.
 ```
 
 ## Launch checklist: what Josh does

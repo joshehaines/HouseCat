@@ -3,18 +3,23 @@ import SwiftUI
 
 /// How far in from the screen's side each corner's controls go to clear a camera in that corner
 /// (`Tuning.Stage.cameraCornerBand`): the controls stay out at the edges, as Josh wants, but never under iPhone Duo's
-/// outer camera. Read from a GeometryReader that ignores the safe area, so its frame is the whole screen; a fold or
-/// a turn of the phone lays the view out again, and the regions with it.
-struct CameraClearance: Equatable {
-    var topLeading: CGFloat = 0
-    var topTrailing: CGFloat = 0
-    var bottomLeading: CGFloat = 0
-    var bottomTrailing: CGFloat = 0
+/// outer camera. The regions are in `geometry`'s own frame, whether or not it ignores the safe area; a fold or a turn
+/// of the phone lays the view out again, and the regions with it.
+public struct CameraClearance: Equatable {
+    public var topLeading: CGFloat = 0
+    public var topTrailing: CGFloat = 0
+    public var bottomLeading: CGFloat = 0
+    public var bottomTrailing: CGFloat = 0
 
-    init() {}
+    /// A column the height of the screen clears a camera at either end of its side.
+    public var leading: CGFloat { max(topLeading, bottomLeading) }
+    public var trailing: CGFloat { max(topTrailing, bottomTrailing) }
 
-    init(_ geometry: GeometryProxy, edge: CGFloat) {
-        guard #available(iOS 27.1, *) else { return }
+    public init() {}
+
+    /// `edge`: how far in from the side of `geometry`'s frame the controls already sit.
+    public init(_ geometry: GeometryProxy, edge: CGFloat) {
+        guard #available(iOS 27.1, macOS 27.1, watchOS 27.1, *) else { return }
         let size = geometry.size
         let band = size.height * Tuning.Stage.cameraCornerBand
         let gap = CGFloat(Tuning.Stage.cameraGap)

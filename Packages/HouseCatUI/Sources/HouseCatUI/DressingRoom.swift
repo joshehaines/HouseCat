@@ -101,7 +101,7 @@ public struct DressingRoomLayout<Top: View, Bottom: View, Panel: View, Hint: Vie
                 if screen.height > screen.width {
                     uprightLayout(proxy.size)
                 } else {
-                    landscapeLayout
+                    landscapeLayout(CameraClearance(proxy, edge: 10 * s))
                 }
             }
             .frame(width: proxy.size.width, height: proxy.size.height)
@@ -139,7 +139,9 @@ public struct DressingRoomLayout<Top: View, Bottom: View, Panel: View, Hint: Vie
     // MARK: Layouts
 
     /// Side by side: the drawers, the cat, the open drawer; the room fills the whole screen behind them.
-    private var landscapeLayout: some View {
+    /// The drawers and the open drawer run the screen's height, so either moves in past a camera at its side (iPhone
+    /// Duo's outer screen).
+    private func landscapeLayout(_ camera: CameraClearance) -> some View {
         ZStack {
             room.ignoresSafeArea()
             HStack(alignment: .top, spacing: 10 * s) {
@@ -149,7 +151,8 @@ public struct DressingRoomLayout<Top: View, Bottom: View, Panel: View, Hint: Vie
                 panel(metrics)
                     .frame(width: 368 * s)
             }
-            .padding(.horizontal, 10 * s)
+            .padding(.leading, 10 * s + camera.leading)
+            .padding(.trailing, 10 * s + camera.trailing)
             .padding(.vertical, 8 * s)
         }
         // The host's line floats over the top, across the cat and the open drawer, until it is dismissed.

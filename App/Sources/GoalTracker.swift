@@ -389,11 +389,14 @@ struct GoalTrackerCard: View {
                             .font(.system(size: 11, weight: .heavy, design: .rounded).monospacedDigit())
                             .foregroundStyle(Theme.inkSoft)
                             .contentTransition(.numericText())
+                            .fixedSize()
                     }
                     Spacer(minLength: 4)
+                    // On one line however narrow the card (the Duo's outer screen): the chapter's name gives way.
                     Text("All goals")
                         .font(.system(size: 11, weight: .heavy, design: .rounded))
                         .foregroundStyle(GameHUD.deepGold)
+                        .fixedSize()
                     Image(systemName: "chevron.right")
                         .font(.system(size: 9, weight: .black))
                         .foregroundStyle(GameHUD.deepGold)

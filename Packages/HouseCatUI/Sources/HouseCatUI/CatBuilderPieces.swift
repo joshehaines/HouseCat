@@ -166,7 +166,8 @@ struct CatPicture: View {
     }
 }
 
-/// A palette of fur swatches in the coat colours, and any other colour from the picker.
+/// A palette of fur swatches in the coat colours: real cats' colours only (Josh, 26 Oct: "keep it to traditional
+/// colours"; the system colour picker's "Any colour" went). A look saved with a picked colour still draws it.
 struct FurPalette: View {
     let model: CatBuilderModel
     let selected: LookColour?
@@ -189,52 +190,7 @@ struct FurPalette: View {
                 }
                 .accessibilityLabel(swatch.label)
             }
-            anyColour
         }
-    }
-
-    /// The system colour picker, under a fur swatch of the picked colour (a paintbrush until one is picked).
-    private var anyColour: some View {
-        let picked: RGB? = if case let .picked(rgb) = selected {
-            rgb
-        } else {
-            nil
-        }
-        return VStack(spacing: 3 * s) {
-            ZStack {
-                Group {
-                    if let picked {
-                        FurSwatch(colour: Color(rgb: picked), size: 46 * s)
-                    } else {
-                        Circle().fill(Theme.cream).overlay(Circle().strokeBorder(Theme.rim, lineWidth: 1))
-                            .frame(width: 40 * s, height: 40 * s)
-                    }
-                }
-                .overlay(alignment: picked == nil ? .center : .bottomTrailing) {
-                    PaintedIcon("decorate_paintbrush", size: (picked == nil ? 30 : 20) * s)
-                }
-                .overlay(Circle().strokeBorder(Theme.accent, lineWidth: picked == nil ? 0 : 3 * s).padding(-3 * s))
-                .allowsHitTesting(false)
-                ColorPicker("Any colour", selection: Binding(
-                    get: { Color(rgb: picked ?? selected.map { model.rgb($0, in: model.builder.data.coats) } ?? RGB(128, 128, 128)) },
-                    set: { colour in
-                        if let rgb = colour.rgb {
-                            choose(.picked(CatBuilder.pickerClamped(rgb)))
-                        }
-                    }
-                ), supportsOpacity: false)
-                    .labelsHidden()
-                    .scaleEffect(1.7 * s)
-                    .opacity(0.02)
-            }
-            .frame(width: 50 * s, height: 50 * s)
-            Text("Any colour")
-                .font(.system(size: 10.5 * t, weight: .semibold))
-                .foregroundStyle(Theme.inkSoft)
-                .lineLimit(1)
-                .minimumScaleFactor(0.7)
-        }
-        .accessibilityElement(children: .contain)
     }
 }
 

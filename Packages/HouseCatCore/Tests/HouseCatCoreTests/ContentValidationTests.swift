@@ -390,13 +390,8 @@ struct ContentValidationTests {
         #expect(!intro.tour.isEmpty)
         #expect(Set(intro.tour).count == intro.tour.count)
         #expect(intro.tourStops.map(\.id) == intro.tour, "every tour id is a stop")
-        // Every home's painting is in the app (art.json maps each master path to its file).
-        let artData = try Data(contentsOf: Self.repo.appendingPathComponent("App/Art/art.json"))
-        let art = try #require((try JSONSerialization.jsonObject(with: artData) as? [String: Any])?["files"] as? [String: Any])
+        // The stops' paintings are no longer bundled: the globe intro and the world map that showed them went (26 Oct).
         for stop in intro.stops {
-            for suffix in [".jpg", "_land.png", "_glass.png"] {
-                #expect(art[stop.scene + suffix] != nil, "\(stop.id): \(stop.scene + suffix) not in App/Art")
-            }
             #expect(builder.preset(stop.cat.preset) != nil, "\(stop.id): no preset \(stop.cat.preset)")
             #expect(TimeZone(identifier: stop.timeZone) != nil, "\(stop.id): time zone")
             #expect(abs(stop.latitude) <= 90 && abs(stop.longitude) <= 180)

@@ -129,6 +129,15 @@ targets:
         TARGETED_DEVICE_FAMILY: "1,2"
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        # The mask-packing step below rewrites the copied Art folder inside the bundle, which a sandboxed script
+        # may not do.
+        ENABLE_USER_SCRIPT_SANDBOXING: NO
+    postBuildScripts:
+      # The cat's 40,000 small mask files into one file a kind, the same PNG bytes (Josh, 26 Oct: the app was 600 MB,
+      # some 100 MB of it the space small files take on a phone). CatArt reads the packs; App/Art keeps the loose files.
+      - name: Pack the cat's masks
+        script: /usr/bin/python3 -I "$SRCROOT/tools/app-assets/pack_cat_masks.py" "$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/Art/cat/custom/masks"
+        basedOnDependencyAnalysis: false
 
   # StoreKit tests, hosted in the app so they run in the simulator.
   HouseCatTests:

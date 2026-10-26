@@ -53,11 +53,10 @@ public struct CatBuilderView<Hint: View>: View {
                 }
             },
             bottom: { m in
-                // Under a narrow stage (iPhone Duo folded) Surprise me is its dice alone rather than cut off.
-                ViewThatFits(in: .horizontal) {
-                    undoAndSurprise(m, surprise: "Surprise me")
-                    undoAndSurprise(m, surprise: "")
-                }
+                // On a screen narrow enough to draw the builder smaller (iPhone Duo folded) Surprise me is its dice alone
+                // rather than cut off. Not ViewThatFits: it measured the label unshrunk and took the dice on every
+                // iPhone, where the label fits by shrinking a little (26 Oct).
+                undoAndSurprise(m, surprise: m.s < 1 ? "" : "Surprise me")
             },
             panel: { m in
                 DrawerPanel(

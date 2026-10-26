@@ -19,7 +19,7 @@ public extension CatArt {
 
     /// The two irises' planes (R and G of the features mask) at the sprite's size, top row first.
     private func irisPlanes(_ path: String, width: Int, height: Int) -> [[UInt8]]? {
-        guard let raster = Raster.read(root.appendingPathComponent("masks/features/\(path)")), raster.planes.count >= 2 else {
+        guard let raster = maskRaster("features", path), raster.planes.count >= 2 else {
             return nil
         }
         return raster.planes.prefix(2).map { plane in

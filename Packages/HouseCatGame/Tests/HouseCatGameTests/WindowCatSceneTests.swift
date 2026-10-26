@@ -71,8 +71,9 @@ func theCatSitsOnTheSillInsideItsWindow(size: CGSize) throws {
 @Test func everyTerraceWindowIsCutToItsGlass() throws {
     let art = try #require(art)
     let index = try art.data("world/scenes/scenes.json", as: Index.self)
-    let names = index.windows.keys.filter { $0.hasPrefix("london_terrace_") && !$0.contains("decorated") }
-    #expect(names.count == 32)
+    // The terrace is bundled in its own town's biome only (the city, every season; 26 Oct).
+    let names = index.windows.keys.filter { $0.hasPrefix("london_terrace_city_") && art.has("world/scenes/\($0)_glass.png") }
+    #expect(names.count == 4)
     for name in names {
         for numbers in index.windows[name] ?? [] {
             let window = try #require(SceneWindow(numbers))

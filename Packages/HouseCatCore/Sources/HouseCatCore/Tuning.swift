@@ -440,8 +440,6 @@ public enum Tuning {
         public static let tourDelay = 4.0
         /// A visit's first-use tip waits this long after the room is up, for the greeting and the day's cards.
         public static let tipDelay = 20.0
-        /// The globe slides between the landing page's place and the middle in this long.
-        public static let globeSlideSeconds = 0.9
     }
 
     /// The animated logo (HouseCatGame `LogoScene`): Midnight runs in, leaps onto the wordmark and curls up asleep on

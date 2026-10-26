@@ -74,8 +74,8 @@ private struct World {
             let windows = house.rooms.filter { $0.model.window != nil }
             #expect(windows.count == house.rooms.filter { !$0.outdoor }.count, "every room but the garden has a window")
             #expect(windows.allSatisfy { $0.model.terrain == terrain }, "\(name) in \(season)")
-            // The exterior of the home is painted there too.
-            #expect(world.art.has(HouseBuilder.scene(.londonTerrace, biome, season) + ".jpg"))
+            // The terrace's exterior is painted in its own town's biome only, the city (26 Oct: the ladder fixes the town).
+            #expect(world.art.has(HouseBuilder.scene(.londonTerrace, biome, season) + ".jpg") == (biome == .city))
         }
     }
     // The windows are drawn: a room with its window up shows a view behind the frame.
@@ -287,9 +287,8 @@ private struct World {
     for piece in house.scenery where places[piece.prop] == nil {
         #expect(abs(piece.v - street.v) > street.width / 2, "\(piece.prop) keeps off the road")
     }
-    for piece in house.scenery {
-        #expect(world.art.has(piece.sprite), "\(piece.sprite) is bundled")
-    }
+    // The props' pictures are not bundled since every ladder town has its backdrop (26 Oct); this place has none, so
+    // the plan is laid out but not painted.
     let scene = RoomScene(size: CGSize(width: 1366, height: 1024), art: world.art, content: world.content, house: house)
     #expect(scene.world.childNode(withName: "street") != nil)
     let country = HomeNow(place: place, biome: .countryside, season: .summer, sky: .day, weather: .sun, localMinutes: 720)

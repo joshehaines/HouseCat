@@ -67,6 +67,10 @@ public final class CatArt: @unchecked Sendable {
     private var textures: [Key: SKTexture] = [:]
     private var faces: [String: CatFace] = [:]
     private var blinks: [Key: BlinkEntry] = [:]
+    /// Each kind's masks in one file in a built app (tools/app-assets/pack_cat_masks.py), opened on first use; nil
+    /// where there is no pack (App/Art itself, the tools and the tests have the loose files).
+    private let packLock = NSLock()
+    private var packs: [String: MaskPack?] = [:]
 
     private struct Key: Hashable {
         var path: String
@@ -90,6 +94,23 @@ public final class CatArt: @unchecked Sendable {
     @MainActor
     public convenience init(art: ArtLibrary) throws {
         try self.init(root: art.root.appendingPathComponent("cat/custom"))
+    }
+
+    /// A sprite's mask of a kind (masks/<kind>/<path>): from the kind's pack in a built app, else the loose file.
+    /// The same PNG bytes either way (Josh, 26 Oct: the 40,000 small files took some 100 MB more than their pictures).
+    func maskRaster(_ kind: String, _ path: String) -> Raster? {
+        let pack = packLock.withLock {
+            if let opened = packs[kind] {
+                return opened
+            }
+            let opened = MaskPack(url: root.appendingPathComponent("masks/\(kind).pack"))
+            packs[kind] = opened
+            return opened
+        }
+        if let pack {
+            return pack.raster(path)
+        }
+        return Raster.read(root.appendingPathComponent("masks/\(kind)/\(path)"))
     }
 
     /// The film of a body walking or running in a view, if there is one.
@@ -123,7 +144,7 @@ public final class CatArt: @unchecked Sendable {
         if !parts.isEmpty, let entry = entries[path] {
             let size = (output.width, output.height)
             func plane(_ name: String, widen: Int = 0) -> [Float]? {
-                guard entry.masks.contains(name), let raster = Raster.read(root.appendingPathComponent("masks/\(name)/\(path)")) else {
+                guard entry.masks.contains(name), let raster = maskRaster(name, path) else {
                     return nil
                 }
                 var bytes = raster.width == size.0 && raster.height == size.1
@@ -177,7 +198,7 @@ public final class CatArt: @unchecked Sendable {
         _ path: String, garment: CGImage, size: (Int, Int), within fur: [UInt8]? = nil
     ) -> (r: [UInt8], g: [UInt8], b: [UInt8], alpha: [UInt8])? {
         guard let entry = entries[path], entry.masks.contains("uv"),
-              let map = Raster.read(root.appendingPathComponent("masks/uv/\(path)")), map.planes.count >= 3,
+              let map = maskRaster("uv", path), map.planes.count >= 3,
               let picture = Raster(garment), picture.planes.count == 4, picture.width > 1, picture.height > 1 else { return nil }
         let (w, h) = size
         let fur = fur?.count == w * h ? fur : nil
@@ -340,7 +361,7 @@ public final class CatArt: @unchecked Sendable {
         guard let entry = entries[path], let alpha = alphaRaster(path) else { return nil }
         let size = (alpha.width, alpha.height)
         var features: [[UInt8]] = []
-        if entry.masks.contains("features"), let raster = Raster.read(root.appendingPathComponent("masks/features/\(path)")),
+        if entry.masks.contains("features"), let raster = maskRaster("features", path),
            raster.planes.count >= 3
         {
             features = raster.planes.prefix(3).map { plane in
@@ -447,14 +468,14 @@ public final class CatArt: @unchecked Sendable {
     func masks(_ path: String, entry: Entry, pattern: String?, white: String?, size: (Int, Int)) -> CoatRecipe.Masks {
         func grey(_ mask: String?) -> [Float]? {
             guard let mask, entry.masks.contains(mask),
-                  let raster = Raster.read(root.appendingPathComponent("masks/\(mask)/\(path)")) else { return nil }
+                  let raster = maskRaster(mask, path) else { return nil }
             let plane = raster.width == size.0 && raster.height == size.1
                 ? raster.planes[0]
                 : Raster.scaled(raster.planes[0], from: (raster.width, raster.height), to: size)
             return Raster.floats(plane, scale: 1 / 255)
         }
         var masks = CoatRecipe.Masks(fur: grey("fur"), pattern: grey(pattern), white: grey(white), whiskers: grey("whiskers"))
-        if entry.masks.contains("features"), let raster = Raster.read(root.appendingPathComponent("masks/features/\(path)")),
+        if entry.masks.contains("features"), let raster = maskRaster("features", path),
            raster.planes.count >= 3
         {
             let planes = raster.planes.prefix(3).map { plane in
@@ -484,6 +505,13 @@ public struct Raster: Sendable {
 
     public static func read(_ url: URL) -> Raster? {
         guard let source = CGImageSourceCreateWithURL(url as CFURL, nil),
+              let image = CGImageSourceCreateImageAtIndex(source, 0, nil) else { return nil }
+        return Raster(image)
+    }
+
+    /// An image file's bytes already in memory (a mask out of its pack).
+    public static func read(_ data: Data) -> Raster? {
+        guard let source = CGImageSourceCreateWithData(data as CFData, nil),
               let image = CGImageSourceCreateImageAtIndex(source, 0, nil) else { return nil }
         return Raster(image)
     }
@@ -635,5 +663,30 @@ public struct Raster: Sendable {
             }
         }
         return output
+    }
+}
+
+/// One kind of the cat's masks in a single file: the PNGs as they were, back to back after an index
+/// (tools/app-assets/pack_cat_masks.py: b"HCMP", the index's length, the index as JSON of [offset, length] by path).
+final class MaskPack: Sendable {
+    private let data: Data
+    private let start: Int
+    private let index: [String: [Int]]
+
+    init?(url: URL) {
+        guard let data = try? Data(contentsOf: url, options: .alwaysMapped), data.count >= 8,
+              data.prefix(4) == Data("HCMP".utf8) else { return nil }
+        let length = Int(data[4]) | Int(data[5]) << 8 | Int(data[6]) << 16 | Int(data[7]) << 24
+        guard data.count >= 8 + length,
+              let index = try? JSONDecoder().decode([String: [Int]].self, from: data.subdata(in: 8 ..< 8 + length)) else { return nil }
+        self.data = data
+        start = 8 + length
+        self.index = index
+    }
+
+    func raster(_ path: String) -> Raster? {
+        guard let entry = index[path], entry.count == 2, entry[0] >= 0, entry[1] > 0,
+              start + entry[0] + entry[1] <= data.count else { return nil }
+        return Raster.read(data.subdata(in: start + entry[0] ..< start + entry[0] + entry[1]))
     }
 }

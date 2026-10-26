@@ -57,9 +57,10 @@ SETS = [
     ('ui/profile/panel_paper.jpg', 0.5),
     # The gifts the cat brings, for the room and the book.
     ('gifts/gift_*.png', 0.3),
-    # The exterior: the demo home's painted scenes in every biome and season (door closed and open), and every
-    # terrain seen through the rooms' windows.
-    ('world/scenes/london_terrace_*', 0.75),
+    # The exterior: the London terrace's painted scenes in its own town's city, every season (door closed and open),
+    # and every terrain seen through the rooms' windows. The other seven biomes went (Josh, 26 Oct: "remove assets that
+    # are old/unused"): the ladder puts the terrace in Puddlebury, a city, and the run-down terrace is its painting.
+    ('world/scenes/london_terrace_city_*', 0.75),
     # The ladder's first house, run down in Puddlebury, for its cold open and the opening cutscene (docs/LADDER.md).
     ('world/scenes/rundown_terrace_*', 0.75),
     # The homes' room (the house ladder's screen, App/Sources/HomesView.swift).
@@ -69,8 +70,8 @@ SETS = [
     ('world/ground/ground_*.png', 0.25),
     # Each ladder town's painted neighbourhood round the house's plot (Josh, 23 Oct), at its full size.
     ('world/backdrops/*.jpg', 1.0),
-    # The scenery round the house (Content/outdoors.json), painted on magenta and keyed like the shop pictures.
-    ('world/props/*.png', 0.3),
+    # The scenery round the house (world/props, Content/outdoors.json) is not bundled: every ladder town has its
+    # painted backdrop, which stands in for the props, the street and the roads (HouseBuilder; Josh, 26 Oct).
     # The painted weather particles (rain, snow, fog, clouds, leaves, blossom).
     ('world/weather/*.png', 0.5),
     # The widget's window frames, square and wide, one pair per home (their glass is transparent; the masks
@@ -95,13 +96,6 @@ SETS = [
     ('arcade/pounce/piece_*.png', 0.6),
     ('arcade/pounce/ledge_*.png', 0.6),
 ]
-# The intro's example homes (see above) and their size.
-# The two the intro flies to (Josh, 20 Oct: the London terrace fully decorated in the rain, a beach house in Bali) are
-# painted for it alone and kept in world/intro, out of the homes' own sets.
-INTRO_SCENES = ['woodland_cabin_snow_winter', 'mediterranean_rooftop_coast_summer', 'houseboat_city_spring',
-                'cottage_countryside_spring', 'mansion_flat_desert_summer', 'london_terrace_decorated_city_autumn',
-                'beach_house_tropical_summer']
-INTRO_SCALE = 0.75
 DATA = ['cat/rig.json', 'rooms/layout_living_demo.json', 'rooms/houses.json', 'fx/anchors.json', 'fx/fx.json', 'world/scenes/scenes.json',
         'world/map/cities.json', 'world/map/map_biome_legend.json', 'outfits/body/variants.json', 'outfits/poses.json']
 
@@ -120,6 +114,16 @@ HEIC_ALPHA_QUALITY = '82'
 # large, about 430 points wide on a phone (720 wide looked soft there). 960 adds 6 MB; where the app has the home's full
 # summer scene (the London terrace, a home whose pack has arrived) the step draws that instead, sharp on an iPad too.
 PREVIEW_WIDTH = 960
+
+
+def ladder_previews():
+    """<style>_<biome> for every rung of the house ladder, read from Tuning.Ladder in HouseCatCore."""
+    import re
+    tuning = open(os.path.join(ROOT, 'Packages', 'HouseCatCore', 'Sources', 'HouseCatCore', 'Tuning.swift')).read()
+    pairs = re.findall(r'Spec\(style: \.(\w+), place: HomePlace\(.*?biome: \.(\w+)', tuning)
+    snake = lambda camel: re.sub(r'(?<!^)([A-Z])', r'_\1', camel).lower()
+    assert len(pairs) >= 8, pairs
+    return {f'{snake(style)}_{biome}' for style, biome in pairs}
 # The iPad's sharper copies (Josh, 19 Oct: "The iPad quality seems poor"). A 13-inch iPad draws the room with about
 # 1.3 times a phone's pixels at the home zoom (and pinches in to 2.5 times), so furniture from its 0.6 copy was
 # magnified 1.3-2.4 times and looked soft. These get a second, larger copy as iPad-only data sets in
@@ -239,11 +243,13 @@ def main():
             ref = manifest.get(rel, {}).get('ref_room')
             if ref:  # the reference room a piece of furniture was painted in sets its scale
                 index[rel]["ref"] = ref
-    # A small summer picture of every home in every biome, for the house step (the full exteriors of the
-    # homes other than the London terrace come as download packs: tools/app-assets/build_home_packs.py).
+    # A small summer picture of each ladder home in its own town's biome, for the Homes screen, the room menu and
+    # the cutscene (the full exteriors of the homes other than the London terrace come as download packs:
+    # tools/app-assets/build_home_packs.py). Only the ladder's pairs (Josh, 26 Oct: the other biomes were unused).
     scenes = os.path.join(ASSETS, 'world', 'scenes')
+    rungs = ladder_previews()
     for name in sorted(os.listdir(scenes)):
-        if not name.endswith('_summer.jpg') or '_dooropen' in name:
+        if not name.endswith('_summer.jpg') or '_dooropen' in name or name[:-len('_summer.jpg')] not in rungs:
             continue
         rel = 'world/previews/' + name.replace('_summer.jpg', '.jpg')
         file = os.path.splitext(rel)[0] + '.heic'
@@ -257,23 +263,6 @@ def main():
         subprocess.run(['sips', '-Z', str(PREVIEW_WIDTH), os.path.join(scenes, name.replace('.jpg', '_land.png')), '--out',
                         os.path.join(OUT, land)], capture_output=True, check=True)
         index[land] = {"master": [w, h], "scale": PREVIEW_WIDTH / w}
-    # The intro's tour of homes round the world: a few other homes painted in their places, kept apart under intro/
-    # so they never stand in for a player's own home; with their sky masks and window glass.
-    for name in INTRO_SCENES:
-        for suffix, opaque in (('.jpg', True), ('_land.png', False), ('_glass.png', False)):
-            src = os.path.join(scenes, name + suffix)
-            if not os.path.exists(src):
-                src = os.path.join(ASSETS, 'world', 'intro', name + suffix)
-            rel = 'intro/scenes/' + name + suffix
-            w, h = size(src)
-            dst = os.path.join(OUT, os.path.splitext(rel)[0] + ('.heic' if opaque else '.png'))
-            os.makedirs(os.path.dirname(dst), exist_ok=True)
-            fmt = ['-s', 'format', 'heic', '-s', 'formatOptions', HEIC_QUALITY] if opaque else ['-s', 'format', 'png']
-            subprocess.run(['sips', *fmt, '-z', str(round(h * INTRO_SCALE)), str(round(w * INTRO_SCALE)), src, '--out', dst],
-                           capture_output=True, check=True)
-            index[rel] = {"master": [w, h], "scale": INTRO_SCALE}
-            if opaque:
-                index[rel]["file"] = os.path.relpath(dst, OUT)
     for rel in DATA:
         dst = os.path.join(OUT, rel)
         os.makedirs(os.path.dirname(dst), exist_ok=True)

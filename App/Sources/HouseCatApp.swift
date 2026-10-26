@@ -486,12 +486,13 @@ struct RoomScreen: View {
         }
     }
 
-    /// Larger controls and cards on an iPad, by the window's size as the shop scales (`Tuning.Stage.hudDesignWidth`);
-    /// never on a phone (a big iPhone on its side also says its width is regular).
+    /// Larger controls and cards on an iPad, by the window's size as the shop scales (`Tuning.Stage.hudDesignWidth`),
+    /// and on a phone whose screen is at least that big: iPhone Duo unfolded (951 x 669 points, about 1.3), which
+    /// changes back as it folds. Never on any other phone (a big iPhone on its side also says its width is regular).
     private var hudScale: CGFloat {
-        // A phone's controls a little smaller than drawn (Josh, 22 Oct: on an iPhone the UI "takes up most of the screen").
-        guard UIDevice.current.userInterfaceIdiom == .pad else { return CGFloat(Tuning.Stage.phoneHudScale) }
         let fit = min(window.width / Tuning.Stage.hudDesignWidth, window.height / Tuning.Stage.hudDesignHeight)
+        // A phone's controls a little smaller than drawn (Josh, 22 Oct: on an iPhone the UI "takes up most of the screen").
+        guard UIDevice.current.userInterfaceIdiom == .pad || fit >= 1 else { return CGFloat(Tuning.Stage.phoneHudScale) }
         return (min(Tuning.Stage.hudLargestScale, max(1, fit)) * 20).rounded(.down) / 20
     }
 

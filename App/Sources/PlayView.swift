@@ -192,6 +192,9 @@ struct MiniGameView: View {
                 Sound.play("ui_tap", volume: Tuning.Sound.levelUp)
             }
         }
+        // As in the room: an iPhone on its side hides the clock itself, iPhone Duo's inner screen does not.
+        .statusBarHidden()
+        .persistentSystemOverlays(.hidden)
     }
 
     private var countIn: some View {

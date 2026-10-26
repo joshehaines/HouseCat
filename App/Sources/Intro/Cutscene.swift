@@ -42,6 +42,9 @@ struct Cutscene: View {
                     .padding(20)
             }
         }
+        // As in the room: an iPhone on its side hides the clock itself, iPhone Duo's inner screen does not.
+        .statusBarHidden()
+        .persistentSystemOverlays(.hidden)
     }
 
     // MARK: The door

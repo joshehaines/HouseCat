@@ -49,6 +49,9 @@ struct HomesView: View {
             }
         }
         .background(Color(red: 0.3, green: 0.22, blue: 0.18).ignoresSafeArea())
+        // As in the room: an iPhone on its side hides the clock itself, iPhone Duo's inner screen does not.
+        .statusBarHidden()
+        .persistentSystemOverlays(.hidden)
     }
 
     /// The cat on its cushion with its back to you, looking up at the homes.

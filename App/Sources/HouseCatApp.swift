@@ -128,7 +128,6 @@ struct HouseCatApp: App {
                 }
                 if new == .active {
                     let session = GameSession.shared
-                    RealWeather.refreshIfNeeded(state: session.state(at: session.now()))
                     // A nap that ended while the app was away is recorded now.
                     visit?.checkNap()
                 }
@@ -393,7 +392,6 @@ struct RoomScreen: View {
     @State private var dayOne = false
     @State private var offering = false
     @State private var track: EventDefinition?
-    @State private var askingHealth = false
     /// "Help improve HouseCat?" (AnalyticsPromptCard), on the second day of care.
     @State private var askingAnalytics = false
     @State private var askingWidget = false
@@ -447,7 +445,7 @@ struct RoomScreen: View {
     /// Nothing over the room and nothing being asked: a first-use tip may come up.
     private var quiet: Bool {
         visit.ready && visit.scene is RoomScene && !visit.decorating && visit.previewing == nil && !roomCovered && !showMenu
-            && !choosingGame && !offeringNap && !visit.askReminders && !askingHealth && !askingAnalytics && !askingWidget
+            && !choosingGame && !offeringNap && !visit.askReminders && !askingAnalytics && !askingWidget
             && !offering && !dayOne && visit.levelReached == nil && topUp == nil
     }
 
@@ -598,24 +596,6 @@ struct RoomScreen: View {
                 }
             }
             .animation(.easeOut(duration: 0.3), value: visit.outside)
-            // Apple Weather's mark wherever its weather is on screen (its attribution rule): under the room's bottom
-            // edge, where nothing else sits, while the weather in the windows is Apple's; and on the cold open,
-            // top left with the weather, where the town goes once you are outside to look.
-            .overlay(alignment: .bottom) {
-                if visit.ready, visit.scene is RoomScene, !visit.decorating, visit.previewing == nil, let now = appleWeatherNow {
-                    WeatherMark(caption: WeatherMark.caption(now, at: GameSession.shared.now()))
-                        .padding(.bottom, Tuning.Stage.hudBottom)
-                        .transition(.opacity)
-                }
-            }
-            .overlay(alignment: .topLeading) {
-                if visit.ready, visit.scene is ExteriorScene, !visit.outside, let now = appleWeatherNow {
-                    WeatherMark(caption: WeatherMark.caption(now, at: GameSession.shared.now()))
-                        .padding(.leading, Tuning.Stage.hudEdge)
-                        .padding(.top, Tuning.Stage.hudTop)
-                        .transition(.opacity)
-                }
-            }
             // The goals: the next one or two always on screen, top middle (Josh, 19 Oct: "dont know what to do";
             // App/Sources/GoalTracker.swift). It celebrates every goal met, so the note that did is gone.
             .overlayPreferenceValue(TourTargets.self) { targets in
@@ -915,35 +895,20 @@ struct RoomScreen: View {
                 }
             }
             .animation(.easeOut(duration: 0.25), value: track?.id)
-            // Day 3: may the cat notice your steps, sleep and workouts? Then any goal met today.
+            // Day 2: may the app count what gets used? (Its own day, apart from the reminders.) Apple Health went
+            // (App Review, 2 Nov 2026, guideline 2.5.1: not a core feature).
             .task(id: visit.ready) {
                 guard visit.ready, !tour.isRunning else { return }
                 let session = GameSession.shared
-                var healthDue = HealthLayer.isAvailable && HealthRules.shouldAsk(session.state(at: session.now()), asked: HealthLayer.asked)
-                    && !Self.debugScreenRun
+                var analyticsDue = Analytics.shouldAsk(session.state(at: session.now())) && !Self.debugScreenRun
                 #if DEBUG
-                    // HOUSECAT_SCREEN=analytics shows the analytics card even on a save the Health card would take.
-                    healthDue = healthDue && ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"] != "analytics"
+                    analyticsDue = analyticsDue || ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"] == "analytics"
                 #endif
-                if healthDue {
+                if analyticsDue {
                     try? await Task.sleep(for: .seconds(Tuning.Care.lineSeconds + 2))
-                    askingHealth = true
+                    askingAnalytics = true
                 } else {
-                    for goal in await HealthLayer.check() {
-                        visit.say(session.line(HealthRules.line(goal)))
-                        visit.refreshStats()
-                    }
-                    // Day 2: may the app count what gets used? (Its own day, apart from the reminders and Health.)
-                    var analyticsDue = Analytics.shouldAsk(session.state(at: session.now())) && !Self.debugScreenRun
-                    #if DEBUG
-                        analyticsDue = analyticsDue || ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"] == "analytics"
-                    #endif
-                    if analyticsDue {
-                        try? await Task.sleep(for: .seconds(Tuning.Care.lineSeconds + 2))
-                        askingAnalytics = true
-                    } else {
-                        await askForWidget()
-                    }
+                    await askForWidget()
                 }
             }
             .overlay {
@@ -962,22 +927,6 @@ struct RoomScreen: View {
                 }
             }
             .animation(.easeOut(duration: 0.25), value: askingAnalytics)
-            .overlay {
-                if askingHealth {
-                    ZStack {
-                        Color.black.opacity(0.35).ignoresSafeArea()
-                        HealthCard(catName: visit.catName ?? "Your cat") {
-                            askingHealth = false
-                            Task { await askForWidget() }
-                        }
-                        .environment(\.controlFeedback, ControlFeedback { Sound.tap() })
-                        .padding(24)
-                        .zoomed(hudScale)
-                    }
-                    .transition(.opacity)
-                }
-            }
-            .animation(.easeOut(duration: 0.25), value: askingHealth)
             .onChange(of: tour.step?.id) { _, id in
                 if id == "pet" {
                     visit.callCatForTour()
@@ -1122,7 +1071,7 @@ struct RoomScreen: View {
     private static var debugScreenRun: Bool {
         #if DEBUG
             let screen = ProcessInfo.processInfo.environment["HOUSECAT_SCREEN"]
-            return screen != nil && screen != "health" && screen != "addwidget" && screen != "analytics"
+            return screen != nil && screen != "addwidget" && screen != "analytics"
         #else
             return false
         #endif
@@ -1131,7 +1080,7 @@ struct RoomScreen: View {
     /// The add-widget card, when it is due and nothing else is on screen (after the first feed, on day 3).
     private func askForWidget() async {
         try? await Task.sleep(for: .seconds(1.2))
-        guard !Self.debugScreenRun, visit.ready, visit.scene is RoomScene, !tour.isRunning, !visit.askReminders, !askingHealth,
+        guard !Self.debugScreenRun, visit.ready, visit.scene is RoomScene, !tour.isRunning, !visit.askReminders,
               !askingAnalytics, !offering, visit.levelReached == nil, !askingWidget else { return }
         let session = GameSession.shared
         if await WidgetPrompt.take(session.state(at: session.now())) != nil {
@@ -1273,14 +1222,6 @@ struct RoomScreen: View {
         .ignoresSafeArea()
     }
 
-    /// The home now, when the weather on screen is Apple Weather's (so its mark is due); nil while it is the game's
-    /// own (a fixed season, no report yet, the Christmas snow).
-    private var appleWeatherNow: HomeNow? {
-        let session = GameSession.shared
-        let now = GameWorld.now(state: session.state(at: session.now()), at: session.now())
-        return now.weatherIsReal ? now : nil
-    }
-
     /// Outside to look at the house (Visit.stepOutside): the home's town top left with the weather under it, Go in
     /// bottom right where the Shop is in the room. A tap on the door goes in too, and one on the cat in its window
     /// gets a slow blink.
@@ -1303,10 +1244,6 @@ struct RoomScreen: View {
                 .paper(Capsule())
                 .accessibilityElement(children: .combine)
                 .accessibilityLabel("Your home in \(town)")
-                // The weather you are standing in, with Apple's mark when it is Apple's.
-                if let now = appleWeatherNow {
-                    WeatherMark(caption: WeatherMark.caption(now, at: session.now()))
-                }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             .padding(.leading, edge)
@@ -1668,7 +1605,6 @@ struct RoomScreen: View {
                     tips.reset()
                     let id = ProcessInfo.processInfo.environment["HOUSECAT_TIP"] ?? "goals"
                     tips.showNext(on: [GameWorld.content?.intro.tips?.first { $0.id == id }?.target ?? "goals"])
-                case "health": askingHealth = true
                 default: break
                 }
             }

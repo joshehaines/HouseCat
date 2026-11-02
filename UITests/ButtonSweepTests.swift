@@ -401,23 +401,6 @@ final class ButtonSweepTests: XCTestCase {
         XCTAssertTrue(backToRoom(), "back in the room")
     }
 
-    func testTheHealthCard() throws {
-        launchIntoTheRoom(screen: "health")
-        // A debug launch can bring the add-widget card up over it (it was due anyway): that one goes first.
-        if app.buttons["Add to Home Screen"].shows(within: 3) {
-            app.buttons["widgetNotNow"].tapInFront()
-            sleep(1)
-        }
-        let notNow = app.buttons["Not now"].firstMatch
-        guard notNow.shows(within: 20) else {
-            throw XCTSkip("No Health on this device")
-        }
-        XCTAssertTrue(app.buttons["Connect Health"].exists, "its Connect Health")
-        snap("health")
-        notNow.tapInFront()
-        XCTAssertTrue(waitGone(app.buttons["Connect Health"]), "Not now closes it")
-    }
-
     func testThePassAndGoals() throws {
         launchIntoTheRoom()
         for (item, check) in [("Goals", "Close"), ("Pass", "Close"), ("Gifts", "Close")] {

@@ -291,22 +291,6 @@ struct WidgetStreak: View {
     }
 }
 
-/// Apple Weather's mark in words, beside the streak while the weather behind the glass is Apple's (WeatherKit's
-/// attribution rule; a widget cannot open its legal page, which the app's own mark does).
-struct WidgetWeatherMark: View {
-    var body: some View {
-        Text("\u{F8FF} Weather")
-            .font(.system(size: 9, weight: .semibold))
-            .foregroundStyle(Theme.ink)
-            .lineLimit(1)
-            .padding(.horizontal, 6)
-            .padding(.vertical, 3)
-            .background(Capsule().fill(Theme.cream.opacity(0.94)))
-            .shadow(color: .black.opacity(0.15), radius: 2, y: 1)
-            .accessibilityLabel("Weather from Apple Weather")
-    }
-}
-
 /// A short note on cream ("Waiting for you", "3 hours left today").
 struct WidgetNote: View {
     let text: String
@@ -375,9 +359,6 @@ struct HouseCatWidgetView: View {
             VStack(alignment: .leading) {
                 HStack(spacing: 4) {
                     WidgetStreak(streak: streak, size: showsBackground ? 15 : 12)
-                    if entry.scene?.weatherIsReal == true {
-                        WidgetWeatherMark()
-                    }
                 }
                 Spacer(minLength: 0)
                 if showsBackground, let note = entry.moodNote {
@@ -399,9 +380,6 @@ struct HouseCatWidgetView: View {
                 WidgetStreak(streak: streak)
                 if let hours = entry.scene?.state.hoursLeft {
                     WidgetNote(text: hours == 1 ? "An hour left today" : "\(hours) hours left today")
-                }
-                if entry.scene?.weatherIsReal == true {
-                    WidgetWeatherMark()
                 }
             }
             .padding(10)

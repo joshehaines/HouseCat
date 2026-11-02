@@ -226,11 +226,7 @@ struct CreditsView: View {
                 Section("Music") {
                     Text("“Windowsill” by day and “Lullaby” at night, composed for HouseCat.").font(.subheadline)
                 }
-                Section("Weather and places") {
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text("Weather: \u{F8FF} Weather").font(.subheadline)
-                        Link("Data sources", destination: RealWeather.attribution?.legal ?? Tuning.Store.weatherLegalURL).font(.caption)
-                    }
+                Section("Places") {
                     Text("Place search: Apple Maps").font(.subheadline)
                 }
                 Section("Software") {

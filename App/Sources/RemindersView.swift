@@ -7,8 +7,8 @@ import UserNotifications
     import UIKit
 #endif
 
-/// Reminders, the widget and the weather's source, from the cat's profile (SPEC "Notifications": local only,
-/// at the player's own times; WeatherKit's attribution goes wherever its weather is credited).
+/// Reminders, the widget and the rest, from the cat's profile (SPEC "Notifications": local only, at the player's own
+/// times).
 struct SettingsView: View {
     let catName: String
     var store: (any EntitlementService)?
@@ -19,7 +19,6 @@ struct SettingsView: View {
     @State private var playerName = PlayerName.current ?? ""
     @State private var tipsReset = false
     @State private var status: UNAuthorizationStatus?
-    @State private var attribution = RealWeather.attribution
     @Environment(\.openURL) private var openURL
 
     var body: some View {
@@ -32,9 +31,6 @@ struct SettingsView: View {
                 reminders
                 help
                 MusicCard()
-                if HealthLayer.isAvailable {
-                    HealthSettingsCard()
-                }
                 if Analytics.isAvailable {
                     AnalyticsCard()
                 }
@@ -50,7 +46,6 @@ struct SettingsView: View {
                     .padding(16)
                     .paper(RoundedRectangle(cornerRadius: 20, style: .continuous))
                 SeasonCard()
-                weather
             }
             .padding(24)
         }
@@ -59,8 +54,6 @@ struct SettingsView: View {
         .overlay(alignment: .topTrailing) { CloseButton(action: close).padding(16) }
         .task {
             status = await Reminders.status()
-            await RealWeather.loadAttribution()
-            attribution = RealWeather.attribution
         }
         .onChange(of: settings) { _, settings in
             Reminders.settings = settings
@@ -176,26 +169,6 @@ struct SettingsView: View {
                 minutes.wrappedValue = (parts.hour ?? 0) * 60 + (parts.minute ?? 0)
             }
         )
-    }
-
-    /// WeatherKit's attribution: Apple's mark and the legal page.
-    private var weather: some View {
-        HStack(spacing: 10) {
-            Text("The weather outside comes from").font(.caption).foregroundStyle(Theme.inkSoft)
-            if let attribution {
-                AsyncImage(url: attribution.mark) { image in
-                    image.resizable().scaledToFit()
-                } placeholder: {
-                    Text("\u{F8FF} Weather").font(.caption.weight(.semibold))
-                }
-                .frame(height: 14)
-                Link("Sources", destination: attribution.legal).font(.caption.weight(.semibold)).tint(Theme.accent)
-            } else {
-                Text("\u{F8FF} Weather").font(.caption.weight(.semibold))
-                Link("Sources", destination: Tuning.Store.weatherLegalURL).font(.caption.weight(.semibold)).tint(Theme.accent)
-            }
-        }
-        .padding(.horizontal, 4)
     }
 }
 
@@ -369,7 +342,7 @@ struct NotificationPreview: View {
     }
 }
 
-/// The season the home is painted in: Auto (the real one, with the city's real weather) or one kept all year. It
+/// The season the home is painted in: Auto (the real one where the home is) or one kept all year. It
 /// lived on the world map's home card until the map went (Josh, 22 Oct).
 struct SeasonCard: View {
     @State private var setting = GameSession.shared.state(at: GameSession.shared.now()).home.season
@@ -380,7 +353,7 @@ struct SeasonCard: View {
                 Image(systemName: "leaf").font(.system(size: 20, weight: .semibold)).foregroundStyle(Theme.accent)
                 Text("Season").font(Theme.title(21))
             }
-            Text("Auto follows the real season and weather where your home is.")
+            Text("Auto follows the real season where your home is.")
                 .font(.system(size: 15))
                 .foregroundStyle(Theme.inkSoft)
                 .fixedSize(horizontal: false, vertical: true)

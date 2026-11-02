@@ -124,6 +124,10 @@ The shop is not in the marketing set: a simulator launch from the command line h
 - **Sign-in required**: No. There is no account and no demo login.
 - **Version**: 1.0, build 1. `project.yml` sets these once for every target (`MARKETING_VERSION`, `CURRENT_PROJECT_VERSION`; the Info.plists read them): raise `CURRENT_PROJECT_VERSION` for each upload and run `xcodegen generate`.
 
+## First review (2 Nov 2026): rejected, then fixed in build 6
+
+App Review rejected 1.0 (build 5) on 2 Nov 2026; the seven home packs were accepted. **2.5.1**: the binary referenced HealthKit, which is not a core feature, so HealthKit went entirely (the day-3 card, the Settings switch, the entitlement, both NSHealth usage strings; `HealthRules` and the saved `healthGoalMet` events stay in HouseCatCore so old saves load). **5.2.5**: Apple asked for a screen recording proving the Apple Weather attribution, so WeatherKit went too (Josh: "lets drop and focus on getting the app out to players"): the entitlement, `RealWeather`, the Apple Weather mark in the room, outside and the widget, and the credits; the game's own weather (`Content/weather.json`) now always plays. Real weather can come back in a later version with the device recording App Review asks for in the review notes. The listing's Health bullet and "Weather: Apple Weather" line, the review notes, and the website's privacy policy, terms, support and credits pages were changed to match.
+
 ## Header and search results (creative assets)
 
 Two looping videos, no text, redone 25 Oct from the launch reels' look (Josh: "take new inspiration on those please, using the higgsfield videos"): Midnight on a rainy London window seat by the fire, a still painted with GPT Image 2.5 from two reel frames, animated with Kling 3.0 (4K, start and end on the same frame), cropped and crossfaded into a seamless 30 fps loop.
@@ -149,9 +153,9 @@ Beans are the one currency, earned every day by playing and sold in fixed packs.
 
 Homes 2 to 8 download their outside paintings as Apple-hosted asset packs (Background Assets) when you move in; the game works fully while they arrive.
 
-Optional Apple Health (steps, sleep, workouts; read only) is offered on the third day and in Settings. It only gives extra XP; nothing is written to Health or leaves the device. Notifications are local, at times the player chooses.
+Notifications are local, at times the player chooses. Since the last review, HealthKit has been removed from the app entirely (guideline 2.5.1).
 
-Weather comes from WeatherKit for the town of the home (no device location is used). The Apple Weather mark and link are shown wherever that weather is on screen.
+The app no longer uses WeatherKit (guideline 5.2.5): each home shows the game's own weather for its town and season, picked on the device. No weather service and no device location are used.
 
 Your data, in Settings: Export my data shares the save as a file; Delete all my data deletes the save, the widget's files, preferences and reminders and starts again. There is no account to delete.
 

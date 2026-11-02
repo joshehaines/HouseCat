@@ -181,7 +181,7 @@ struct WidgetPromptCard: View {
             preview
             VStack(alignment: .leading, spacing: 12) {
                 VStack(alignment: .leading, spacing: 9) {
-                    reason("house", "\(catName) in your own window, with your real weather")
+                    reason("house", "\(catName) in your own window, with the time and season where your home is")
                     reason("feed_bowl", "Feed and stroke without opening the app")
                     reason("streak_paw_print_with_a_small_flame", "Your streak, always in sight")
                 }

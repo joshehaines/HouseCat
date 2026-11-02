@@ -36,7 +36,9 @@ enum GameWorld {
         var now = state.homeNow(
             at: date,
             weather: content?.weather ?? WeatherFile(tables: [:]),
-            report: RealWeather.report,
+            // The game's own weather for the town and season: Apple Weather (WeatherKit) went with App Review's
+            // attribution question (2 Nov 2026), to be back in a later version with the screen recording it asks for.
+            report: nil,
             context: GameSession.shared.rules
         )
         #if DEBUG

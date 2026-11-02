@@ -18,7 +18,7 @@ settings:
     # CFBundleVersion below), so a build bump is one edit here, then `xcodegen generate`. App Store Connect wants
     # the build number raised for each upload.
     MARKETING_VERSION: "1.0"
-    CURRENT_PROJECT_VERSION: "5"
+    CURRENT_PROJECT_VERSION: "6"
     CODE_SIGN_STYLE: Automatic
     # Josh's Apple Developer Program team (joined 20 Oct 2026).
     DEVELOPMENT_TEAM: "3UDHUPMKDF"
@@ -72,12 +72,10 @@ targets:
     entitlements:
       path: App/HouseCat.entitlements
       # xcodegen writes the file from these. The App Group is the widget's shared save (it works in the
-      # simulator now; a device build needs the team and the group on the App ID), WeatherKit the real weather.
+      # simulator now; a device build needs the team and the group on the App ID). HealthKit and WeatherKit went on
+      # 2 Nov 2026 (App Review: Health was not a core feature; Apple Weather needs a recorded attribution check).
       properties:
         com.apple.security.application-groups: [group.com.housecatgame.housecat]
-        com.apple.developer.weatherkit: true
-        com.apple.developer.healthkit: true
-        com.apple.developer.healthkit.access: []
     info:
       path: App/Info.plist
       properties:
@@ -89,9 +87,6 @@ targets:
         HouseCatCloudKit: false
         # Empty until the PostHog project exists: analytics stay off (Shared/Sources/Analytics.swift).
         PostHogAPIKey: ""
-        NSHealthShareUsageDescription: "Your cat notices your steps, sleep and workouts and gives you extra XP when you meet a goal. HouseCat only reads them, and they stay on this device."
-        # Apple requires this string too for any app that calls HealthKit's requestAuthorization, even with nothing to write (App Store Connect refused the first upload without it, 21 Oct).
-        NSHealthUpdateUsageDescription: "HouseCat never writes anything to Health. Apple asks every app that can read Health data to carry this notice."
         # An invite link opens in the app.
         CKSharingSupported: true
         # The nap timer on the Lock Screen and in the Dynamic Island.

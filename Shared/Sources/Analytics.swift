@@ -50,9 +50,9 @@ enum Analytics {
     }
 
     /// Whether the card is due this visit (`AnalyticsRules`): a key is set, it has not been answered, it is the
-    /// second day of care, and the Health card is not asking today.
+    /// second day of care (Apple Health, which once took that day, went on 2 Nov 2026).
     static func shouldAsk(_ state: HouseholdState) -> Bool {
-        isAvailable && AnalyticsRules.shouldAsk(state, asked: asked, healthAsked: HealthLayer.asked)
+        isAvailable && AnalyticsRules.shouldAsk(state, asked: asked, healthAsked: true)
     }
 
     /// Counts one thing. `detail` is a fixed word (a game's id, a product id), never anything typed.
